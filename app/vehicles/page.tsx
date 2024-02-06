@@ -8,45 +8,32 @@ import Vehicles from './vehicles';
 
 const Page = ({ searchParams }) => {
     console.log(searchParams);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchPayload, setSearchPayload] = useState({});
-    const [paramas, setParamas] = useState(searchParams);
 
-    useEffect(() => {
-        setParamas(searchParams);
-        console.log('searchParams updated:', searchParams);
-        // This block will only run on the client side
-        const userId = localStorage.getItem('userId') || '';
+    const city = searchParams.city ? searchParams.city : 'Austin, Texas, United States';
+    const latitude = searchParams.latitude ? searchParams.latitude : '-97.7437';
+    const longitude = searchParams.longitude ? searchParams.longitude : '30.271129';
+    const startDate = searchParams.startDate ? searchParams.startDate : format(new Date(), 'yyyy-MM-dd');
+    const endDate = searchParams.endDate ? searchParams.endDate : format(addDays(new Date(), 3), 'yyyy-MM-dd');
+    const startTime = searchParams.startTime ? searchParams.startTime : '10:00:00';
+    const endTime = searchParams.endTime ? searchParams.endTime : '20:00:00';
+    const isAirport = false;
 
-        const {
-            city = 'Austin, Texas, United States',
-            latitude = '-97.7437',
-            longitude = '30.271129',
-            startDate = format(new Date(), 'yyyy-MM-dd'),
-            endDate = format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-            startTime = '11:00:00',
-            endTime = '20:00:00',
-            isAirport = false,
-        } = searchParams;
+    const userId = localStorage.getItem('userId');
+    const searchPayload = {
+        lat: longitude,
+        lng: latitude,
+        startTs: new Date(startDate + 'T' + startTime).toISOString(),
+        endTS: new Date(endDate + 'T' + endTime).toISOString(),
+        pickupTime: startTime,
+        dropTime: endTime,
+        isAirport,
+        userId: userId || '',
+    };
 
-        const searchPayload = {
-            lat: longitude,
-            lng: latitude,
-            startTs: new Date(startDate + 'T' + startTime).toISOString(),
-            endTS: new Date(endDate + 'T' + endTime).toISOString(),
-            pickupTime: startTime,
-            dropTime: endTime,
-            isAirport,
-            userId: userId || '',
-        };
+    // console.log(searchPayload);
 
-        setSearchPayload(searchPayload);
-
-        const searchQuery = `city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}`;
-
-        setSearchQuery(searchQuery);
-        console.log(searchQuery);
-    }, [searchParams]);
+    const searchQuery = `city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}`;
+    // console.log(searchQuery);
 
     return (
         <>

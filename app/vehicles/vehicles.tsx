@@ -9,6 +9,7 @@ import { VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
 import { getVehicleAllDetails } from '../_actions/saerch_available_vehicle';
 
 const Vehicles = ({ searchPayload, searchQuery }: any) => {
+    console.log(searchPayload)
     const {
         data: carDetails,
         isLoading,
@@ -23,9 +24,8 @@ const Vehicles = ({ searchPayload, searchQuery }: any) => {
             const data = await getVehicleAllDetails(searchPayload, token);
             return data;
         },
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60,
-        retry: 2,
+        staleTime:0,
+        gcTime:0,
     });
 
     if (isLoading) return <VehiclesCardsSkeleton />;
