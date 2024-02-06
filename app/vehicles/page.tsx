@@ -30,7 +30,7 @@ const Page = ({ searchParams }) => {
         userId: userId || '',
     };
 
-    // console.log(searchPayload);
+    console.log(searchPayload);
 
     const searchQuery = `city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}`;
     // console.log(searchQuery);
