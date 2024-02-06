@@ -1,38 +1,24 @@
 'use client';
 import ErrorComponent from '@/components/custom/ErrorComponent';
+import { VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
+import useVehicleSearch from '@/hooks/useVehicleSearch';
 import { toTitleCase } from '@/lib/utils';
-import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
 import NoCarsFound from './NoCarsFound';
-import { VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
-import { getVehicleAllDetails } from '../_actions/saerch_available_vehicle';
 
-const Vehicles = ({ searchPayload, searchQuery }: any) => {
-    console.log(searchPayload)
-    const {
-        data: carDetails,
-        isLoading,
-        isError,
-        error,
-        isFetched,
-        isFetching,
-    } = useQuery({
-        queryKey: ['vehicles', searchPayload],
-        queryFn: async () => {
-            const token = localStorage.getItem('auth_token_login') || '';
-            const data = await getVehicleAllDetails(searchPayload, token);
-            return data;
-        },
-        staleTime:0,
-        gcTime:0,
-    });
+const Vehicles = ({ searchParams }: any) => {
+    const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
 
-    if (isLoading) return <VehiclesCardsSkeleton />;
-    if (isError) return <ErrorComponent />;
-    if (isFetching) return <VehiclesCardsSkeleton />;
-    if (isFetched && carDetails.length === 0) return <NoCarsFound />;
-    if (!carDetails) return <div>Something went wrong</div>;
+    useEffect(() => {
+        const token = localStorage.getItem('bundee_auth_token');
+        searchVehicles(searchParams, token);
+    }, [searchParams]);
+
+    if (loading) return <VehiclesCardsSkeleton />;
+    if (error) return <ErrorComponent />;
+    if (!loading && carDetails.length == 0) return <NoCarsFound />;
 
     return (
         <div className='my-6'>
