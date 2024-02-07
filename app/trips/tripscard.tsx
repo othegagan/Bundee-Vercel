@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
 import Link from 'next/link';
 import { extractTimeIn12HourFormat } from '@/lib/createDateTime';
 import { VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
@@ -38,6 +38,7 @@ const TripsList = ({ tripsData }) => {
                                             <p>Start Date</p>
                                             <p>End Date</p>
                                             <p>Pickup</p>
+                                            <p>Trip Duration </p>
                                         </div>
                                         <div className='w-2/3 space-y-2 font-medium'>
                                             <p>
@@ -54,6 +55,11 @@ const TripsList = ({ tripsData }) => {
                                                     {trip?.vehcityname ? ', ' + trip?.vehcityname : null}
                                                     {trip?.vehstate ? ', ' + trip.vehstate : null}
                                                 </>
+                                            </p>
+                                            <p>
+                                                {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24))}
+                                                {'  '}
+                                                {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24)) == 1 ? 'Day' : 'Days'}
                                             </p>
                                         </div>
                                     </div>

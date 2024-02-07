@@ -12,7 +12,7 @@ export const calculatePrice = async (body: any, bundee_auth_token: string) => {
     };
 
     try {
-        // console.log('Price cal body', body);
+        console.log('Price cal body', body);
         const response = await fetch(url, {
             method: 'POST',
             headers: headersList,
@@ -25,7 +25,7 @@ export const calculatePrice = async (body: any, bundee_auth_token: string) => {
         }
 
         const responseData = await response.json();
-        // console.log(responseData);
+        console.log(responseData);
         if (responseData.errorCode == 0) {
             return responseData;
         }else{

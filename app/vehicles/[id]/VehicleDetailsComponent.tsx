@@ -71,24 +71,35 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         {/* Mileage constraints*/}
                         {mileageConstraints.length > 0 && (
                             <div className='space-y-3'>
-                                <p className='font-bold'>Mileage Limit</p>
-                                <div className='flex gap-4 flex-wrap'>
-                                    {mileageConstraints.map((mileageConstraint, index) => {
-                                        const mileageConstraintData = JSON.parse(mileageConstraint.constraintValue);
-                                        return (
-                                            <React.Fragment key={index}>
-                                                <div className='p-4 bg-neutral-100 rounded-md'>
-                                                    <p className='font-medium text-sm mb-2'>Daily Millage limit</p>
-                                                    <p className='font-bold text-sm'>{mileageConstraintData.mileageLimit} miles</p>
-                                                </div>
-                                                <div className='p-4 bg-neutral-100 rounded-md'>
-                                                    <p className='font-medium text-sm mb-2'>Additional Cost / Mile</p>
-                                                    <p className='font-bold text-sm'>$ {mileageConstraintData.extraMileageCost}</p>
-                                                </div>
-                                            </React.Fragment>
-                                        );
-                                    })}
-                                </div>
+                                {mileageConstraints.some(mileageConstraint => {
+                                    const mileageConstraintData = JSON.parse(mileageConstraint.constraintValue);
+                                    return mileageConstraintData.extraMileageCost > 0;
+                                }) && (
+                                    <React.Fragment>
+                                        <p className='font-bold'>Mileage Limit</p>
+                                        <div className='flex gap-4 flex-wrap'>
+                                            {mileageConstraints.map((mileageConstraint, index) => {
+                                                const mileageConstraintData = JSON.parse(mileageConstraint.constraintValue);
+                                                if (mileageConstraintData.extraMileageCost > 0) {
+                                                    return (
+                                                        <React.Fragment key={index}>
+                                                            <div className='p-4 bg-neutral-100 rounded-md'>
+                                                                <p className='font-medium text-sm mb-2'>Daily Mileage Limit</p>
+                                                                <p className='font-bold text-sm'>{mileageConstraintData.mileageLimit} miles</p>
+                                                            </div>
+                                                            <div className='p-4 bg-neutral-100 rounded-md'>
+                                                                <p className='font-medium text-sm mb-2'>Additional Cost / Mile</p>
+                                                                <p className='font-bold text-sm'>$ {mileageConstraintData.extraMileageCost}</p>
+                                                            </div>
+                                                        </React.Fragment>
+                                                    );
+                                                } else {
+                                                    return null;
+                                                }
+                                            })}
+                                        </div>
+                                    </React.Fragment>
+                                )}
                             </div>
                         )}
                     </div>

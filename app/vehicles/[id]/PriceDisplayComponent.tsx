@@ -23,7 +23,7 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                                     <div className='text-sm font-medium'>$ {pricelist?.charges}</div>
                                 </div>
                             )}
-                            {pricelist?.numberOfDaysDiscount > 0 && (
+                            {pricelist?.numberOfDaysDiscount > 0 && pricelist?.discountAmount > 0 && (
                                 <div className='flex justify-between items-center'>
                                     <div className='text-sm'>
                                         {pricelist?.numberOfDaysDiscount} Day Discount of {pricelist?.discountPercentage} % applied

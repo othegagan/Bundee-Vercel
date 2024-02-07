@@ -6,15 +6,11 @@ import { FaChevronDown, FaLocationDot } from 'react-icons/fa6';
 const DeliveryDetailsComponent = ({
     vehicleBusinessConstraints,
     vehicleDetails,
-    isAirport,
-    setIsAirport,
     isCustoumDelivery,
     setIsCustoumDelivery,
     city,
     setCustomDeliveryLocation,
-    customDeliveryLocation,
 }) => {
-    const [airportCheckbox, setAirportCheckbox] = useState(isAirport);
     const [customCheckbox, setCustomCheckbox] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
 
@@ -22,7 +18,6 @@ const DeliveryDetailsComponent = ({
 
     function extractFirstDeliveryDetails(constraintsArray) {
         const firstDeliveryDetails = constraintsArray.find(constraint => constraint.constraintName === 'DeliveryDetails');
-
         if (firstDeliveryDetails) {
             const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
 
@@ -36,10 +31,6 @@ const DeliveryDetailsComponent = ({
         }
     }
 
-    const handleCheckboxToggle1 = () => {
-        setAirportCheckbox(!airportCheckbox);
-        setIsAirport(!isAirport);
-    };
 
     const handleCheckboxToggle2 = () => {
         setCustomCheckbox(!customCheckbox);
@@ -91,7 +82,7 @@ const DeliveryDetailsComponent = ({
                                     <>
                                         <div className='px-3 py-2 border rounded-md flex flex-col gap-3 my-4'>
                                             <div className='flex gap-3'>
-                                                <input type='checkbox' className='h-5 w-5' checked={isAirport} readOnly />
+                                                <input type='checkbox' className='h-5 w-5' checked={deliveryDetails?.deliveryToAirport} readOnly />
                                                 <p className='text-sm text-neutral-500'>
                                                     <span className='font-bold'> $ {deliveryDetails?.airportDeliveryCost}</span> as be applied for airport delivery
                                                 </p>

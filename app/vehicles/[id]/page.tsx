@@ -52,7 +52,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: '11:00:00', history: 'replace' });
     const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: '08:00:00', history: 'replace' });
 
-    const [isAirport, setIsAirport] = useState(false);
+    const [isAirportDelivery, setIsAirportDelivery] = useState(false);
     const [isCustoumDelivery, setIsCustoumDelivery] = useState(false);
     const [customDeliveryLocation, setCustomDeliveryLocation] = useState(null);
 
@@ -71,13 +71,16 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 setVehicleImages(data.vehicleAllDetails?.[0]?.imageresponse || null);
                 setVehicleHostDetails(data.vehicleHostDetails?.[0] || null);
                 setVehicleBusinessConstraints(data.vehicleBusinessConstraints || null);
-                await getPriceCalculation();
 
                 if (vehicleDetails && vehicleImages.length > 0) {
                     localSessionStorageHandler(vehicleDetails, vehicleImages);
                 }
 
+                const deliveryDetails = extractFirstDeliveryDetails(data.vehicleBusinessConstraints || null);
+                setIsAirportDelivery(deliveryDetails?.deliveryToAirport);
+
                 const user = localStorage.getItem('userId');
+                await getPriceCalculation();
                 if (user) {
                     await addToRecentlyViewedHistory(user, params.id, token);
                 }
@@ -103,29 +106,31 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         };
 
         fetchData();
-    }, [startDate, endDate, startTime, endTime, isAirport, isCustoumDelivery, searchParams, searchParams?.isAirport]);
+    }, [startDate, endDate, startTime, endTime, isCustoumDelivery, searchParams, isAirportDelivery]);
 
     async function getPriceCalculation() {
         try {
             setIsPriceError(false);
             setPriceLoading(true);
-            const payload = {
+            const payload: any = {
                 vehicleid: Number(params.id),
                 startTime: new Date(startDate + 'T' + startTime).toISOString(),
                 endTime: new Date(endDate + 'T' + endTime).toISOString(),
-                airportDelivery: searchParams?.isAirport == 'true' ? true : false,
-                customDelivery: isCustoumDelivery,
+                airportDelivery: false,
+                customDelivery: false,
                 hostid: vehicleHostDetails?.hostID,
             };
 
             // Modify payload based on conditions
-            if (searchParams?.isAirport == 'true' ? true : false) {
+            if (isAirportDelivery) {
                 payload.airportDelivery = true;
                 payload.customDelivery = false;
             } else if (isCustoumDelivery) {
                 payload.airportDelivery = false;
                 payload.customDelivery = true;
             }
+
+            // console.log(payload, 'payload');
 
             const authToken = localStorage.getItem('bundee_auth_token');
             const responseData: any = await calculatePrice(payload, authToken);
@@ -138,6 +143,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 setPriceErrorMessage(responseData.errormessage);
             }
         } catch (error) {
+            console.log(error);
             setPriceErrorMessage(error.message);
             setIsPriceError(true);
         } finally {
@@ -243,18 +249,22 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     }
 
     function extractFirstDeliveryDetails(constraintsArray) {
-        const firstDeliveryDetails = constraintsArray.find(constraint => constraint.constraintName === 'DeliveryDetails');
+        try {
+            const firstDeliveryDetails = constraintsArray.find(constraint => constraint.constraintName === 'DeliveryDetails');
 
-        if (firstDeliveryDetails) {
-            const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
+            if (firstDeliveryDetails) {
+                const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
 
-            return {
-                deliveryToAirport,
-                airportDeliveryCost,
-                nonAirportDeliveryCost,
-            };
-        } else {
-            return null;
+                return {
+                    deliveryToAirport,
+                    airportDeliveryCost,
+                    nonAirportDeliveryCost,
+                };
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -342,13 +352,10 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         <DeliveryDetailsComponent
                                             vehicleBusinessConstraints={vehicleBusinessConstraints}
                                             vehicleDetails={vehicleDetails}
-                                            isAirport={searchParams?.isAirport == 'true' ? true : false}
-                                            setIsAirport={setIsAirport}
                                             isCustoumDelivery={isCustoumDelivery}
                                             setIsCustoumDelivery={setIsCustoumDelivery}
                                             city={searchParams.city}
                                             setCustomDeliveryLocation={setCustomDeliveryLocation}
-                                            customDeliveryLocation={customDeliveryLocation}
                                         />
                                     </div>
 
@@ -358,8 +365,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                             setError={setError}
                                             setStartDate={setStartDate}
                                             setEndDate={setEndDate}
-                                            startDate={format(new Date(startDate+'T00:00:00'), 'yyyy-MM-dd')}
-                                            endDate={format(new Date(endDate+'T00:00:00'), 'yyyy-MM-dd')}
+                                            startDate={format(new Date(startDate + 'T00:00:00'), 'yyyy-MM-dd')}
+                                            endDate={format(new Date(endDate + 'T00:00:00'), 'yyyy-MM-dd')}
                                         />
                                     </div>
 
@@ -395,8 +402,12 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         )}
                                     </div>
 
-                                    <p className='font-semibold'>Available Discounts</p>
-                                    <p className='text-sm text-green-500'>The discount will be automatically applied to your total pricing after selecting the dates.</p>
+                                    {priceCalculatedList?.numberOfDaysDiscount > 0 && priceCalculatedList?.discountAmount > 0 ? (
+                                        <>
+                                            <p className='font-semibold'>Available Discounts</p>
+                                            <p className='text-sm text-green-500'>The discount will be automatically applied to your total pricing after selecting the dates.</p>
+                                        </>
+                                    ) : null}
 
                                     <Button
                                         type='button'
