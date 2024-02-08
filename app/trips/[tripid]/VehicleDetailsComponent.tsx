@@ -2,11 +2,24 @@ import Carousel from '@/components/ui/carousel/carousel';
 import React from 'react';
 
 const VehicleDetailsComponent = ({ car }: any) => {
+
+    const images: any = [...car.imageresponse].sort((a, b) => {
+        // Sort records with isPrimary true first
+        if (a.isPrimary && !b.isPrimary) {
+            return -1;
+        } else if (!a.isPrimary && b.isPrimary) {
+            return 1;
+        } else {
+            // For records with the same isPrimary value, maintain their original order
+            return a.orderNumber - b.orderNumber;
+        }
+    });
+
     return (
         <>
             <div className='sm:overflow-hidden rounded-lg '>
                 <Carousel autoSlide={true}>
-                    {car?.imageresponse.map((s, i) => (
+                    {images.map((s, i) => (
                         <img key={i} src={s.imagename} className='max-h-fit min-w-full' alt={`vehicle image ${i}`} />
                     ))}
                 </Carousel>

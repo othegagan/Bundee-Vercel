@@ -2,15 +2,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { toTitleCase } from '@/lib/utils';
 import { useState } from 'react';
 import { FaChevronDown, FaLocationDot } from 'react-icons/fa6';
+import AddressSearchBox from './AddressSearchBox';
 
-const DeliveryDetailsComponent = ({
-    vehicleBusinessConstraints,
-    vehicleDetails,
-    isCustoumDelivery,
-    setIsCustoumDelivery,
-    city,
-    setCustomDeliveryLocation,
-}) => {
+const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, isCustoumDelivery, setIsCustoumDelivery, city, setCustomDeliveryLocation }) => {
     const [customCheckbox, setCustomCheckbox] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
 
@@ -31,10 +25,10 @@ const DeliveryDetailsComponent = ({
         }
     }
 
-
     const handleCheckboxToggle2 = () => {
         setCustomCheckbox(!customCheckbox);
         setIsCustoumDelivery(!isCustoumDelivery);
+        setCustomDeliveryLocation('');
         setCustomDeliveryLocation('');
     };
 
@@ -55,9 +49,9 @@ const DeliveryDetailsComponent = ({
             </div>
 
             {deliveryDetails ? (
-                <>
+                <div className='border border-gray-200 w-full px-3 py-2 rounded-md cursor-pointer'>
                     <div
-                        className='flex justify-between border border-gray-200 w-full px-3 py-2 rounded-md cursor-pointer'
+                        className='flex select-none justify-between '
                         onClick={() => {
                             setShowDetails(!showDetails);
                         }}>
@@ -80,7 +74,7 @@ const DeliveryDetailsComponent = ({
                             <>
                                 {deliveryDetails?.deliveryToAirport ? (
                                     <>
-                                        <div className='px-3 py-2 border rounded-md flex flex-col gap-3 my-4'>
+                                        <div className=' py-2  flex flex-col gap-3 my-4'>
                                             <div className='flex gap-3'>
                                                 <input type='checkbox' className='h-5 w-5' checked={deliveryDetails?.deliveryToAirport} readOnly />
                                                 <p className='text-sm text-neutral-500'>
@@ -89,7 +83,8 @@ const DeliveryDetailsComponent = ({
                                             </div>
                                             <>
                                                 <p className='text-xs my-1 font-bold '>Delivery Location</p>
-                                                <Textarea rows={3} placeholder='Enter Location' value={city} onChange={e => setCustomDeliveryLocation(e.target.value)} />
+                                                <p className='text-xs'>{city}</p>
+                                                {/* <Textarea rows={} placeholder='Enter Location' value={city} onChange={e => setCustomDeliveryLocation(e.target.value)} /> */}
                                             </>
                                         </div>
                                     </>
@@ -98,23 +93,25 @@ const DeliveryDetailsComponent = ({
 
                             <>
                                 {!deliveryDetails?.deliveryToAirport ? (
-                                    <div className='px-3 py-2 border rounded-md flex flex-col gap-3 my-4'>
-                                        <div className='flex gap-3'>
-                                            <input type='checkbox' className='h-5 w-5' checked={customCheckbox} onChange={handleCheckboxToggle2} />
-                                            <p className='text-sm text-neutral-500'>
-                                                <span className='font-bold'>$ {deliveryDetails?.nonAirportDeliveryCost}</span> will be applied for custom delivery
-                                            </p>
+                                    <div className=' py-2 flex flex-col gap-3 my-4'>
+                                        <div className='flex gap-3 select-none'>
+                                            <label htmlFor='custom' className='flex items-center gap-2'>
+                                                <input id='custom' type='checkbox' className='h-5 w-5' checked={customCheckbox} onChange={handleCheckboxToggle2} />
+                                                <div className='text-sm text-neutral-500 flex items-center gap-2'>
+                                                    <span className='font-bold'>$ {deliveryDetails?.nonAirportDeliveryCost}</span> will be applied for custom delivery
+                                                </div>
+                                            </label>
                                         </div>
                                         <div className={`${customCheckbox ? 'block' : 'hidden'}`}>
                                             <p className='text-xs my-2 font-bold '>Delivery Location</p>
-                                            <Textarea rows={3} placeholder='Enter Location' value={city} onChange={e => setCustomDeliveryLocation(e.target.value)} />
+                                            <AddressSearchBox setCustomDeliveryLocation={setCustomDeliveryLocation} />
                                         </div>
                                     </div>
                                 ) : null}
                             </>
                         </>
                     )}
-                </>
+                </div>
             ) : null}
         </div>
     );

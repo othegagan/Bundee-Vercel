@@ -9,7 +9,7 @@ import { fetchDataFromMapboxWithForwardGeocoding } from '@/app/_actions/mapbox_g
 const DEBOUNCE_TIME = 300;
 
 // Custom hook for fetching data from Mapbox
-const useMapboxData = () => {
+export const useMapboxData = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -123,7 +123,7 @@ const LocationSearchBox = () => {
 };
 
 // Debounce function
-const debounce = (func: Function, delay: number) => {
+export const debounce = (func: Function, delay: number) => {
     let timeoutId: any;
     return (...args: any) => {
         clearTimeout(timeoutId);

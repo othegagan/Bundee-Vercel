@@ -68,7 +68,20 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
                 const data = await getVehicleAllDetailsByVechicleId(body, token);
                 setVehicleDetails(data.vehicleAllDetails?.[0] || null);
-                setVehicleImages(data.vehicleAllDetails?.[0]?.imageresponse || null);
+
+                let images = [...data.vehicleAllDetails?.[0]?.imageresponse].sort((a, b) => {
+                    // Sort records with isPrimary true first
+                    if (a.isPrimary && !b.isPrimary) {
+                        return -1;
+                    } else if (!a.isPrimary && b.isPrimary) {
+                        return 1;
+                    } else {
+                        // For records with the same isPrimary value, maintain their original order
+                        return a.orderNumber - b.orderNumber;
+                    }
+                });
+
+                setVehicleImages(images || null);
                 setVehicleHostDetails(data.vehicleHostDetails?.[0] || null);
                 setVehicleBusinessConstraints(data.vehicleBusinessConstraints || null);
 
@@ -213,7 +226,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 dropTime: endTime,
 
                 comments: 'Request to book',
-                address1: searchParams.city,
+                address1: customDeliveryLocation ? customDeliveryLocation : vehicleDetails?.address1,
                 address2: '',
                 cityName: '',
                 country: '',
@@ -381,9 +394,9 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                                 <p className='text-red-500 text-sm'>You have chosen wrong date format</p>
                                             ) : priceErrorMessage === 'Error: Reservation not allowed for previous dates' ? (
                                                 <p className='text-red-500 text-sm'>Booking not allowed for previous dates</p>
-                                            ) : priceErrorMessage === '' ? (
+                                            ) : (
                                                 <p className='text-red-500 text-sm'>Something went wrong in price calculation</p>
-                                            ) : null}
+                                            )}
                                         </>
                                     )}
 

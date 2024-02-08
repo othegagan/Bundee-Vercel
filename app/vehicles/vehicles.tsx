@@ -39,13 +39,22 @@ const Vehicles = ({ searchParams }: any) => {
 export default Vehicles;
 
 export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
+    const images: any = [...car.imageresponse].sort((a, b) => {
+        if (a.isPrimary && !b.isPrimary) {
+            return -1;
+        } else if (!a.isPrimary && b.isPrimary) {
+            return 1;
+        } else {
+            return a.orderNumber - b.orderNumber;
+        }
+    });
     return (
         <Link href={`/vehicles/${car.id}?${searchQuery}`} className='custom-shadow group cursor-pointer rounded-lg bg-white hover:shadow-md '>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>
                 <div className='aspect-video w-full overflow-hidden rounded-t-md bg-neutral-200 group-hover:opacity-[0.9] lg:aspect-video lg:h-44'>
-                    {car.imageresponse[0]?.imagename ? (
+                    {images[0]?.imagename ? (
                         <img
-                            src={car.imageresponse[0].imagename}
+                            src={images[0].imagename}
                             alt={car.make}
                             className='h-full w-full object-cover object-center transition-all ease-in-out group-hover:scale-105 lg:h-full lg:w-full'
                         />

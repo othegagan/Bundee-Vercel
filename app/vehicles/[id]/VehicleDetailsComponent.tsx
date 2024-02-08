@@ -8,13 +8,23 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
 
     return (
         <div>
-            <div className='sm:overflow-hidden rounded-lg '>
-                <Carousel autoSlide={false}>
-                    {vehicleImages.map((s, i) => (
-                        <img key={i} src={s.imagename} className='max-h-fit min-w-full' alt={`vehicle image ${i}`} />
-                    ))}
-                </Carousel>
-            </div>
+            {vehicleImages.length > 0 ? (
+                <div className='sm:overflow-hidden rounded-lg '>
+                    <Carousel autoSlide={false}>
+                        {vehicleImages.map((s, i) => (
+                            <img key={i} src={s.imagename} className='max-h-fit min-w-full' alt={`vehicle image ${i}`} />
+                        ))}
+                    </Carousel>
+                </div>
+            ) : (
+                <div className='sm:overflow-hidden rounded-lg lg:aspect-video lg:h-44 mx-auto'>
+                    <img
+                        src='../image_not_available.png'
+                        alt='image_not_found'
+                        className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
+                    />
+                </div>
+            )}
 
             <div className='space-y-4 mt-10'>
                 <div className='flex gap-4 flex-wrap'>

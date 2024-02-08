@@ -1,7 +1,5 @@
-import { differenceInDays, format } from 'date-fns';
-import Link from 'next/link';
-import { extractTimeIn12HourFormat } from '@/lib/createDateTime';
 import { VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
+import { format } from 'date-fns';
 
 const TripsList = ({ tripsData }) => {
     // Check if tripsData is an array and has elements
@@ -22,7 +20,7 @@ const TripsList = ({ tripsData }) => {
                             onClick={() => handleNavigateToDetails(trip.tripid)}
                             key={trip.tripid}
                             className='flex flex-col gap-4 md:flex-row group cursor-pointer p-3  rounded-md shadow'>
-                            <div className=' w-full overflow-hidden rounded-md bg-neutral-200  group-hover:opacity-75 h-44 md:h-40 md:w-64'>
+                            <div className=' w-full overflow-hidden rounded-md bg-neutral-200  group-hover:opacity-75 h-44 md:h-full md:w-64'>
                                 <img
                                     src={trip.vehicleImages[0]?.imagename}
                                     alt={`${trip.vehmake} ${trip.vehmodel}`}
@@ -33,34 +31,54 @@ const TripsList = ({ tripsData }) => {
                             <div className='flex flex-auto flex-col'>
                                 <div>
                                     <h4 className='font-semibold text-gray-900'>{`${trip.vehmake} ${trip.vehmodel} (${trip.vehyear})`}</h4>
-                                    <div className='mt-2 text-xs  text-gray-600 w-full flex'>
-                                        <div className='w-1/3 space-y-2'>
-                                            <p>Start Date</p>
-                                            <p>End Date</p>
-                                            <p>Pickup</p>
-                                            <p>Trip Duration </p>
+                                    <div className='mt-2 text-xs  text-gray-600 w-full flex flex-col gap-2'>
+                                        <div className='flex w-full'>
+                                            <div className='w-1/3 space-y-2'>
+                                                <p>Start Date</p>
+                                            </div>
+                                            <div className='w-2/3 space-y-2 font-medium'>
+                                                <p>
+                                                    {format(new Date(trip.starttime), 'LLL dd, y')} | {format(new Date(trip.starttime), 'h:mm a')}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className='w-2/3 space-y-2 font-medium'>
-                                            <p>
-                                                {format(new Date(trip.starttime), 'LLL dd, y')} | {format(new Date(trip.starttime), 'h:mm a')}
-                                            </p>
-                                            <p>
-                                                {format(new Date(trip.endtime), 'LLL dd, y')} | {format(new Date(trip.endtime), 'h:mm a')}
-                                            </p>
-                                            <p>
-                                                <>
-                                                    {trip?.vehaddress1}
-                                                    {trip?.vehaddress2 ? ', ' + trip?.vechaddress2 : null}
-                                                    {trip?.vehzipcode ? ', ' + trip?.vehzipcode : null}
-                                                    {trip?.vehcityname ? ', ' + trip?.vehcityname : null}
-                                                    {trip?.vehstate ? ', ' + trip.vehstate : null}
-                                                </>
-                                            </p>
-                                            <p>
-                                                {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24))}
-                                                {'  '}
-                                                {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24)) == 1 ? 'Day' : 'Days'}
-                                            </p>
+                                        <div className='flex w-full'>
+                                            <div className='w-1/3 space-y-2'>
+                                                <p>End Date</p>
+                                            </div>
+                                            <div className='w-2/3 space-y-2 font-medium'>
+                                                <p>
+                                                    {format(new Date(trip.endtime), 'LLL dd, y')} | {format(new Date(trip.endtime), 'h:mm a')}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className='flex w-full'>
+                                            <div className='w-1/3 space-y-2'>
+                                                <p>Pickup</p>
+                                            </div>
+                                            <div className='w-2/3 space-y-2 font-medium'>
+                                                <p>
+                                                    <>
+                                                        {trip?.vehaddress1}
+                                                        {trip?.vehaddress2 ? ', ' + trip?.vechaddress2 : null}
+                                                        {trip?.vehzipcode ? ', ' + trip?.vehzipcode : null}
+                                                        {trip?.vehcityname ? ', ' + trip?.vehcityname : null}
+                                                        {trip?.vehstate ? ', ' + trip.vehstate : null}
+                                                    </>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className='flex w-full'>
+                                            <div className='w-1/3 space-y-2'>
+                                                <p>Trip Duration</p>
+                                            </div>
+                                            <div className='w-2/3 space-y-2 font-medium'>
+                                                <p>
+                                                    {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24))}
+                                                    {'  '}
+                                                    {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24)) == 1 ? 'Day' : 'Days'}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
