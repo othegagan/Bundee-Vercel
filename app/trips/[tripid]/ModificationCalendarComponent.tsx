@@ -1,35 +1,52 @@
-'use client';
-
-import ClientOnly from '@/components/ClientOnly';
-import { Button } from '@/components/custom/button';
-import { CalendarCell, CalendarGrid, CalendarGridBody, CalendarGridHeader, CalendarHeaderCell, CalendarHeading, RangeCalendar } from '@/components/custom/calendar';
-import { DatePickerContent, DateRangePicker } from '@/components/custom/date-picker';
-import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import { cn } from '@/lib/utils';
-import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { format } from 'date-fns';
-import { useState } from 'react';
-import { DateValue, Group } from 'react-aria-components';
-import { useMediaQuery } from 'react-responsive';
-import { IoInformationCircleOutline } from 'react-icons/io5';
+import { useEffect, useState } from 'react';
+import { RangeCalendar, CalendarHeading, CalendarGrid, CalendarGridHeader, CalendarGridBody, CalendarHeaderCell, CalendarCell } from '@/components/custom/calendar';
 import { DateSelectSkeleton } from '@/components/skeletons/skeletons';
+import useAvailabilityDates from '@/hooks/useAvailabilityDates';
+import { DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
+import { format, isAfter, isBefore } from 'date-fns';
+import { IoInformationCircleOutline } from 'react-icons/io5';
+import ClientOnly from '@/components/ClientOnly';
 
-const ModificationCalendarComponent = ({ vehicleid, setNewStartDate, setNewEndDate, newStartDate, newEndDate, originalStartDate, originalEndDate, setError }: any) => {
+const ModificationCalendarComponent = ({
+    vehicleid,
+    setNewStartDate,
+    setNewEndDate,
+    originalStartDate,
+    originalEndDate,
+    newStartDate,
+    newEndDate,
+    setError,
+    setIsExtensionNeeded,
+    handleReductionCase,
+    handleExtensionCase,
+}: any) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(originalStartDate),
         end: parseDate(originalEndDate),
     });
 
-    const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid);
-    const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
+    useEffect(() => {
+        if (newStartDate && newEndDate) {
+            if (isAfter(new Date(newStartDate), new Date(originalStartDate)) || isBefore(new Date(newEndDate), new Date(originalEndDate))) {
+                handleReductionCase();
+                setIsExtensionNeeded(false);
+                console.log('Prices For Reduction');
+            } else if (isBefore(new Date(newStartDate), new Date(originalStartDate)) || isAfter(new Date(newEndDate), new Date(originalEndDate))) {
+                handleExtensionCase();
+                setIsExtensionNeeded(true);
+                console.log('Prices For Extension');
+            }
+        }
+    }, [newStartDate, newEndDate]);
+
+    const { isLoading: datesLoading, isError: datesError, unavailableDates } = useAvailabilityDates(vehicleid);
 
     if (datesLoading) {
         return <DateSelectSkeleton />;
     }
 
-    datesError ? setError(true) : null;
     if (datesError) {
+        setError(true);
         return <div>Something went wrong</div>;
     }
 
@@ -45,73 +62,76 @@ const ModificationCalendarComponent = ({ vehicleid, setNewStartDate, setNewEndDa
         isDateUnavailableEnd = isDateUnavailable(dates.end);
     }
 
-    let isInvalid = isDateUnavailableStart || isDateUnavailableEnd;
-
-    isInvalid ? setError(true) : setError(false);
-
-    const currentDate = today(getLocalTimeZone());
+    let isInvalid =
+        isDateUnavailableStart ||
+        isDateUnavailableEnd ||
+        (newStartDate < originalStartDate && newEndDate < originalStartDate) ||
+        (newStartDate > originalEndDate && newEndDate > originalEndDate) ||
+        (newStartDate == originalStartDate && newEndDate == originalEndDate);
 
     let errorMessage = '';
 
-    // Check if start date is unavailable
     if (isDateUnavailableStart) {
         errorMessage = 'Start date is unavailable.';
     } else if (isDateUnavailableEnd) {
-        // Check if end date is unavailable
         errorMessage = 'End date is unavailable.';
-    } else if (dates.start.toDate(getLocalTimeZone()) < currentDate) {
-        // Check if start date is earlier than today
-        errorMessage = 'Selected start date cannot be earlier than today.';
+    } else if ((newStartDate < originalStartDate && newEndDate < originalStartDate) || (newStartDate > originalEndDate && newEndDate > originalEndDate)) {
+        errorMessage = 'Invalid Date Range';
+        setError('Invalid Date Range');
+    } else if (newStartDate == originalStartDate && newEndDate == originalEndDate) {
+        errorMessage = 'Please provide alternative dates';
+        setError('Please provide alternative dates');
     }
+
+    isInvalid ? setError(true) : setError(false);
 
     function onDateSelect(item: any) {
         setDates(item);
-        setNewStartDate(format(item.start.toDate(getLocalTimeZone()), 'yyyy-MM-dd'));
-        setNewEndDate(format(item.end.toDate(getLocalTimeZone()), 'yyyy-MM-dd'));
+
+        const startDateFormatted = format(item.start.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
+        const endDateFormatted = format(item.end.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
+        setNewStartDate(startDateFormatted);
+        setNewEndDate(endDateFormatted);
+
+        // if (newStartDate && newEndDate) {
+        //     if (isAfter(new Date(newStartDate), new Date(originalStartDate)) || isBefore(new Date(newEndDate), new Date(originalEndDate))) {
+        //         handleReductionCase();
+        //         // console.log('Prices For Reduction');
+        //     } else if (isBefore(new Date(newStartDate), new Date(originalStartDate)) || isAfter(new Date(newEndDate), new Date(originalEndDate))) {
+        //         handleExtensionCase();
+        //         // console.log('Prices For Extension');
+        //     }
+        // }
     }
 
     return (
-        <div>
-            <div>
-                <ClientOnly>
-                    <RangeCalendar
-                        className={'w-fit select-none border border-gray-200 mt-2 rounded-md overflow-hidden shadow-sm bg-white p-2'}
-                        aria-label='Date range (uncontrolled)'
-                        value={dates}
-                        onChange={value => onDateSelect(value)}
-                        visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
-                        pageBehavior='visible'
-                        minValue={today(getLocalTimeZone())}
-                        isDateUnavailable={isDateUnavailable}
-                        isInvalid={isInvalid}>
-                        <CalendarHeading />
-                        <div className='hidden gap-6 overflow-auto md:flex'>
-                            <CalendarGrid>
-                                <CalendarGridHeader>{(day: any) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
-                                <CalendarGridBody>{(date: any) => <CalendarCell date={date} />}</CalendarGridBody>
-                            </CalendarGrid>
-                            <CalendarGrid offset={{ months: 1 }}>
-                                <CalendarGridHeader>{(day: any) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
-                                <CalendarGridBody>{(date: any) => <CalendarCell date={date} />}</CalendarGridBody>
-                            </CalendarGrid>
-                        </div>
-                        <div className='flex gap-6 overflow-auto md:hidden'>
-                            <CalendarGrid>
-                                <CalendarGridHeader>{(day: any) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
-                                <CalendarGridBody>{(date: any) => <CalendarCell date={date} />}</CalendarGridBody>
-                            </CalendarGrid>
-                        </div>
-                    </RangeCalendar>
+        <ClientOnly>
+            <RangeCalendar
+                className={'w-fit select-none border border-gray-200 mt-2 rounded-md overflow-hidden shadow-sm bg-white p-2'}
+                aria-label='Date range (uncontrolled)'
+                value={dates}
+                onChange={value => onDateSelect(value)}
+                visibleDuration={{ months: 1 }}
+                pageBehavior='visible'
+                minValue={today(getLocalTimeZone())}
+                isDateUnavailable={isDateUnavailable}
+                isInvalid={isInvalid}>
+                <CalendarHeading />
+                <div className='hidden gap-6 overflow-auto md:flex'>
+                    <CalendarGrid>
+                        <CalendarGridHeader>{(day: any) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
+                        <CalendarGridBody>{(date: any) => <CalendarCell date={date} />}</CalendarGridBody>
+                    </CalendarGrid>
+                </div>
+            </RangeCalendar>
 
-                    {errorMessage ? (
-                        <div className='flex gap-2 mt-2'>
-                            <IoInformationCircleOutline className='text-destructive' />
-                            <p className='text-xs font-normal text-destructive'>{errorMessage}</p>
-                        </div>
-                    ) : null}
-                </ClientOnly>
-            </div>
-        </div>
+            {errorMessage ? (
+                <div className='flex gap-2 mt-2'>
+                    <IoInformationCircleOutline className='text-destructive' />
+                    <p className='text-xs font-normal text-destructive'>{errorMessage}</p>
+                </div>
+            ) : null}
+        </ClientOnly>
     );
 };
 

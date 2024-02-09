@@ -74,7 +74,7 @@ const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, 
                             <>
                                 {deliveryDetails?.deliveryToAirport ? (
                                     <>
-                                        <div className=' py-2  flex flex-col gap-3 my-4'>
+                                        <div className=' py-2  flex flex-col gap-3 '>
                                             <div className='flex gap-3'>
                                                 <input type='checkbox' className='h-5 w-5' checked={deliveryDetails?.deliveryToAirport} readOnly />
                                                 <p className='text-sm text-neutral-500'>
@@ -93,7 +93,7 @@ const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, 
 
                             <>
                                 {!deliveryDetails?.deliveryToAirport ? (
-                                    <div className=' py-2 flex flex-col gap-3 my-4'>
+                                    <div className=' py-2 flex flex-col gap-3 '>
                                         <div className='flex gap-3 select-none'>
                                             <label htmlFor='custom' className='flex items-center gap-2'>
                                                 <input id='custom' type='checkbox' className='h-5 w-5' checked={customCheckbox} onChange={handleCheckboxToggle2} />

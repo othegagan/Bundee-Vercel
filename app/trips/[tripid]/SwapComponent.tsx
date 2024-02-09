@@ -8,7 +8,7 @@ import { CalendarIcon } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-const SwapComponent = ({ swapRequestDetails, sm }: any) => {
+const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate }: any) => {
     const [swapRequestedModalOpen, setSwapRequestedModalOpen] = useState(false);
     const [swapDataLoading, setSwaopDataLoading] = useState(false);
     const [vehicleDetails, setvehicleDetails] = useState(null);
@@ -183,7 +183,7 @@ const SwapComponent = ({ swapRequestDetails, sm }: any) => {
                                                         <span className='text-red-500'>{error}</span>
                                                     ) : (
                                                         <span>
-                                                            {format(sm.from, 'LLL dd, y')} - {format(sm.to, 'LLL dd, y')}
+                                                            {format(originalStartDate, 'LLL dd, y')} - {format(originalEndDate, 'LLL dd, y')}
                                                         </span>
                                                     )}
                                                 </div>

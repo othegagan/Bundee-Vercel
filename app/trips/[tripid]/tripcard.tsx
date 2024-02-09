@@ -10,208 +10,109 @@ import secureLocalStorage from 'react-secure-storage';
 import CancelTripComponent from './CancelTripComponent';
 import SwapComponent from './SwapComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
+import ModificationCalendarComponent from './ModificationCalendarComponent';
 
 const TripsDetails = ({ tripsData }) => {
     const [modifyCalenderOpen, setModifyCalenderOpen] = useState(false);
 
     const [swapRequestDetails, setSwapRequestDetails] = useState(null);
 
-    const [comments, setComments] = useState('');
-    const [vehicleId, setVehicleId] = useState(0);
-
-    const [vehicleUnavailableDates, setVehicleUnavailableDates] = useState([]);
     const [error, setError] = useState('');
-
-    const [reductionNoDays, setReductionNodays] = useState(0);
-    const [extensionNoDays, setExtensionNoDays] = useState(0);
 
     const [priceLoading, setPriceLoading] = useState(false);
     const [priceCalculatedList, setPriceCalculatedList] = useState(null);
     const [deductionConfigData, setDeductionConfigData] = useState(null);
     const [disableCheckout, setDisableCheckout] = useState(false);
 
-    const [modifiedReductionDate, setModifiedReductionDate] = useState({
-        from: undefined,
-        to: undefined,
-    });
+    const [newStartDate, setNewStartDate] = useState(null);
+    const [newEndDate, setNewEndDate] = useState(null);
 
-    const [startdate, setStartDate] = useState();
-
-    const [sm, setsm] = useState({
-        from: undefined,
-        to: undefined,
-    });
+    const [isExtensionNeeded, setIsExtensionNeeded] = useState(null);
 
     const [pickupTime, setPickupTime] = useState('11:00:00');
     const [dropTime, setDropTime] = useState('20:00:00');
 
     useEffect(() => {
-        console.log('tripdata', tripsData);
+        // console.log('tripdata', tripsData);
 
-        const originalStartDate = new Date(tripsData[0].starttime);
-        const originalEndDate = new Date(tripsData[0].endtime);
-
-        setPickupTime(format(originalStartDate, 'HH:mm:ss'));
-        setDropTime(format(originalEndDate, 'HH:mm:ss'));
-
-        const originalDiff = differenceInCalendarDays(originalEndDate, originalStartDate) + 1;
+        setPickupTime(format(new Date(tripsData[0].starttime), 'HH:mm:ss'));
+        setDropTime(format(new Date(tripsData[0].endtime), 'HH:mm:ss'));
 
         setSwapRequestDetails(tripsData[0].swapDetails[0]);
-
-        const st = tripsData[0].starttime;
-        const et = tripsData[0].endtime;
-        setStartDate(st);
-        setsm({ from: new Date(st), to: new Date(et) });
     }, []);
 
     if (!Array.isArray(tripsData) || tripsData.length === 0) {
         return <div>No trips available.</div>;
     }
 
-    const handleAvailabilityCalender = vehicleId => {
-        setVehicleId(vehicleId);
+    const handleExtensionCase = async () => {
+        const authToken = localStorage.getItem('bundee_auth_token');
+        setPriceLoading(true);
+        setDisableCheckout(true);
+        console.log(newStartDate, newEndDate);
 
-        setError('Please pick a Start day.');
+        try {
+            const body = {
+                vehicleid: tripsData[0].vehicleId,
+                tripid: tripsData[0].tripid,
+                extendedStartTime: new Date(format(new Date(newStartDate), 'yyyy-MM-dd') + 'T' + pickupTime).toISOString(),
+                extendedEndTime: new Date(format(new Date(newEndDate), 'yyyy-MM-dd') + 'T' + dropTime).toISOString(),
+            };
+            // console.log(body);
 
-        const fetchData = async () => {
-            try {
-                const token = localStorage.getItem('auth_token_login') || '';
-                const data = await getAvailabilityDatesByVehicleId({ vehicleid: vehicleId }, token);
-                setVehicleUnavailableDates(convertDates(data.unAvailabilityDate));
-            } catch (error) {
-                console.error('Error fetching Availability dates', error);
-                setError('Error fetching Availability dates');
+            const data = await calculatePriceForTripExtension(body, authToken);
+
+            if (data.errorcode == 0) {
+                setDisableCheckout(false);
+                setPriceCalculatedList(data?.priceCalculatedList[0]);
+                setDeductionConfigData(data?.deductionDetails[0]);
+                // console.log(data?.priceCalculatedList[0]);
             }
-        };
-
-        const VehicleId = tripsData[0].vehicleDetails[0].id;
-        setVehicleId(VehicleId);
-
-        fetchData();
-        const st = tripsData[0].starttime;
-        const et = tripsData[0].endtime;
-        setStartDate(st);
-        setsm({ from: new Date(st), to: new Date(et) });
-        const body = document.querySelector('body');
-        body.style.overflow = 'hidden';
-        setModifyCalenderOpen(true);
+        } catch (error) {
+            console.error('Error in calculating the price', error);
+        } finally {
+            setPriceLoading(false);
+        }
     };
 
-    const handleDateSelect = async newDate => {
-        let newError = '';
-        const originalStartDate = new Date(tripsData[0].starttime);
-        const originalEndDate = new Date(tripsData[0].endtime);
+    const handleReductionCase = async () => {
+        setDisableCheckout(true);
+        setPriceLoading(true);
+        console.log(newStartDate, newEndDate);
+        const payload = {
+            vehicleid: tripsData[0].vehicleId,
+            startTime: new Date(format(new Date(newStartDate), 'yyyy-MM-dd') + 'T' + pickupTime).toISOString(),
+            endTime: new Date(format(new Date(newEndDate), 'yyyy-MM-dd') + 'T' + dropTime).toISOString(),
+            airportDelivery: false,
+            customDelivery: false,
+            hostid: tripsData[0].hostid,
+        };
 
-        setsm(newDate);
+        const authToken = localStorage.getItem('bundee_auth_token');
 
-        if (newDate?.from) {
-            if (!newDate.to) {
-                newError = 'Please pick an End day.';
-            } else if (newDate.to) {
-                const fromDate = newDate.from.toISOString() || '';
-                const toDate = newDate.to.toISOString() || '';
+        // console.log(payload);
+        try {
+            const responseData = await calculatePriceForTripReduction(payload, authToken);
 
-                if (fromDate === toDate) {
-                    newError = 'Start date and End date cannot be the same.';
-                } else {
-                    const newStartDate = new Date(newDate.from);
-                    const newEndDate = new Date(newDate.to);
-                    if (
-                        !(
-                            (originalStartDate >= newStartDate && originalStartDate <= newEndDate) ||
-                            (originalEndDate >= newStartDate && originalEndDate <= newEndDate) ||
-                            (newStartDate >= originalStartDate && newEndDate <= originalEndDate)
-                        )
-                    ) {
-                        newError = 'Invalid date range. Please ensure that at least one of the original start or end dates is within the new date range.';
-                    } else {
-                        // Check if the selected date range overlaps with unavailable dates
-                        if (isDateRangeUnavailable(fromDate, toDate, vehicleUnavailableDates)) {
-                            newError = 'Selected date range overlaps with unavailable dates.';
-                        } else {
-                            const newDiff = differenceInCalendarDays(newDate.to, newDate.from) + 1;
-                            const originalDiff = differenceInCalendarDays(originalEndDate, originalStartDate) + 1;
-                            const modifiedDiff = newDiff - originalDiff;
-
-                            setModifiedReductionDate({ from: newDate.from, to: newDate.to });
-                            if (modifiedDiff == 0) {
-                                newError = 'Please select different dates';
-                            } else {
-                                if (modifiedDiff > 0) {
-                                    setExtensionNoDays(modifiedDiff);
-                                    try {
-                                        setPriceLoading(true);
-                                        setReductionNodays(0);
-                                        const body = {
-                                            vehicleid: tripsData[0].vehicleId,
-                                            tripid: tripsData[0].tripid,
-                                            extendedStartTime: new Date(format(newDate.from, 'yyyy-MM-dd') + 'T' + pickupTime).toISOString(),
-                                            extendedEndTime: new Date(format(newDate.to, 'yyyy-MM-dd') + 'T' + dropTime).toISOString(),
-                                        };
-
-                                        const authToken = localStorage.getItem('bundee_auth_token');
-                                        const data = await calculatePriceForTripExtension(body, authToken);
-                                        // console.log('price calculated', data);
-                                        if (data.errorcode == 0) {
-                                            setDisableCheckout(false);
-                                            setPriceCalculatedList(data?.priceCalculatedList[0]);
-                                            setDeductionConfigData(data?.deductionDetails[0]);
-                                        }
-                                    } catch (error) {
-                                        console.error('Error in calculating the price', error);
-                                    } finally {
-                                        setPriceLoading(false);
-                                    }
-                                } else {
-                                    setExtensionNoDays(0);
-
-                                    try {
-                                        setPriceLoading(true);
-                                        setDisableCheckout(true);
-                                        setReductionNodays(newDiff);
-                                        const payload = {
-                                            vehicleid: tripsData[0].vehicleId,
-                                            startTime: new Date(format(newDate.from, 'yyyy-MM-dd') + 'T' + pickupTime).toISOString(),
-                                            endTime: new Date(format(newDate.to, 'yyyy-MM-dd') + 'T' + dropTime).toISOString(),
-                                            airportDelivery: false,
-                                            customDelivery: false,
-                                            hostid: tripsData[0].hostid,
-                                        };
-
-                                        console.log(payload);
-
-                                        const authToken = localStorage.getItem('bundee_auth_token');
-
-                                        const responseData: any = await calculatePriceForTripReduction(payload, authToken);
-
-                                        if (responseData.errorCode == 0) {
-                                            setPriceCalculatedList(responseData.priceCalculatedList?.[0]);
-                                            setDeductionConfigData(responseData.deductionDetails?.[0]);
-                                        }
-                                    } catch (error) {
-                                        console.error('Error in calculating the price', error);
-                                    } finally {
-                                        setPriceLoading(false);
-                                        setDisableCheckout(false);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            if (responseData.errorCode == 0) {
+                setPriceCalculatedList(responseData.priceCalculatedList?.[0]);
+                setDeductionConfigData(responseData.deductionDetails?.[0]);
+                // console.log(responseData?.priceCalculatedList[0]);
             }
-        } else {
-            newError = 'Please pick a Start day.';
+        } catch (error) {
+            console.error('Error in calculating the price', error);
+        } finally {
+            setDisableCheckout(false);
+            setPriceLoading(false);
         }
-        setError(newError);
     };
 
     const closeModifyDialog = () => {
-        setsm(sm);
         setModifyCalenderOpen(false);
         const body = document.querySelector('body');
         body.style.overflow = 'auto';
-        setComments('');
+        setPriceCalculatedList(null);
+        setIsExtensionNeeded(null);
     };
 
     const handleReduction = async () => {
@@ -220,14 +121,14 @@ const TripsDetails = ({ tripsData }) => {
         const userId = localStorage.getItem('userId') || '';
 
         try {
-            const newStartDate = new Date(format(modifiedReductionDate.from, 'yyyy-MM-dd') + 'T' + pickupTime);
-            const newEndDate = new Date(format(modifiedReductionDate.to, 'yyyy-MM-dd') + 'T' + dropTime);
+            const newStart = new Date(format(new Date(newStartDate), 'yyyy-MM-dd') + 'T' + pickupTime);
+            const newEnd = new Date(format(new Date(newEndDate), 'yyyy-MM-dd') + 'T' + dropTime);
 
             const reductionDetails = {
                 tripid: tripsData[0].tripid,
                 userId: Number(userId),
-                startTime: newStartDate.toISOString(),
-                endTime: newEndDate.toISOString(),
+                startTime: newStart.toISOString(),
+                endTime: newEnd.toISOString(),
                 paymentauthorizationconfigid: deductionConfigData.authorizationConfigId || 1,
                 authorizationamount: priceCalculatedList.authAmount,
                 authorizationpercentage: priceCalculatedList.authPercentage,
@@ -255,9 +156,9 @@ const TripsDetails = ({ tripsData }) => {
             delete reductionDetails.totalAmount;
             delete reductionDetails.upcharges;
 
-            console.log('reductionDetails', reductionDetails);
+            // console.log('reductionDetails', reductionDetails);
             const res = await tripReduction(reductionDetails, token);
-            console.log(res);
+            // console.log(res);
             if (res.errorCode == '1') {
                 alert('something went wrong, please try again');
             } else {
@@ -271,7 +172,6 @@ const TripsDetails = ({ tripsData }) => {
 
     const handleExtension = async () => {
         const hostid = tripsData[0].hostid;
-        const token = localStorage.getItem('auth_token_login') || '';
         const userId = localStorage.getItem('userId') || '';
 
         try {
@@ -279,8 +179,8 @@ const TripsDetails = ({ tripsData }) => {
 
             const vechileImage = tripsData[0].vehicleDetails[0].imageresponse[0].imagename;
             // const data  =
-            const newStartDate = new Date(format(modifiedReductionDate.from, 'yyyy-MM-dd') + 'T' + pickupTime);
-            const newEndDate = new Date(format(modifiedReductionDate.to, 'yyyy-MM-dd') + 'T' + dropTime);
+            const newStart = new Date(format(new Date(newStartDate), 'yyyy-MM-dd') + 'T' + pickupTime);
+            const newEnd = new Date(format(new Date(newEndDate), 'yyyy-MM-dd') + 'T' + dropTime);
 
             const extensionDetails = {
                 tripid: tripsData[0].tripid,
@@ -292,8 +192,8 @@ const TripsDetails = ({ tripsData }) => {
                 authorizationamount: priceCalculatedList.authAmount,
                 perDayAmount: priceCalculatedList.pricePerDay,
 
-                startTime: newStartDate.toISOString(),
-                endTime: newEndDate.toISOString(),
+                startTime: newStart.toISOString(),
+                endTime: newEnd.toISOString(),
                 totalDays: priceCalculatedList.numberOfDays,
                 taxAmount: priceCalculatedList.taxAmount,
                 tripTaxAmount: priceCalculatedList.tripTaxAmount,
@@ -316,7 +216,7 @@ const TripsDetails = ({ tripsData }) => {
 
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(extensionDetails));
 
-            window.location.href = `/checkout/${vehicleId}`;
+            window.location.href = `/checkout/${tripsData[0].vehicleId}`;
         } catch (error) {
             console.log('Error handling extension:', error);
         }
@@ -341,7 +241,7 @@ const TripsDetails = ({ tripsData }) => {
                             <div className='mt-4 lg:row-span-3 lg:mt-0'>
                                 <div className='flex flex-col gap-3'>
                                     <p className='text-3xl font-bold tracking-tight text-neutral-900'>{`$${item.vehicleDetails[0].price_per_hr} / day`}</p>
-                                    <p className='text-base text-gray-900'>${item?.tripPaymentTokens[0]?.tripTaxAmount.toFixed(2)} Total</p>
+                                    <p className='text-base text-gray-900'>Total Rental Charges : <b>${item?.tripPaymentTokens[0]?.tripTaxAmount.toFixed(2)}</b> </p>
                                 </div>
 
                                 <div className='mt-10 flex flex-col gap-4'>
@@ -389,7 +289,13 @@ const TripsDetails = ({ tripsData }) => {
                                         </span>
                                     </div>
 
-                                    {swapRequestDetails && <SwapComponent swapRequestDetails={swapRequestDetails} sm={sm} />}
+                                    {swapRequestDetails && (
+                                        <SwapComponent
+                                            swapRequestDetails={swapRequestDetails}
+                                            originalStartDate={new Date(tripsData[0].starttime)}
+                                            originalEndDate={new Date(tripsData[0].endtime)}
+                                        />
+                                    )}
 
                                     {item.status.toLowerCase() === 'requested' && (
                                         <div className='mt-4 rounded-md bg-red-50 px-2 py-3 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 w-full flex items-center justify-center'>
@@ -403,7 +309,11 @@ const TripsDetails = ({ tripsData }) => {
                                 {item.status.toLowerCase() === 'approved' || item.status.toLowerCase() === 'started' || item.status.toLowerCase() === 'requested' ? (
                                     <div className='mt-10 flex w-full'>
                                         <button
-                                            onClick={() => handleAvailabilityCalender(item.vehicleid)}
+                                            onClick={() => {
+                                                setModifyCalenderOpen(true);
+                                                const body = document.querySelector('body');
+                                                body.style.overflow = 'hidden';
+                                            }}
                                             className='mt-4 flex w-1/2 items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white '>
                                             Modify
                                         </button>
@@ -422,20 +332,12 @@ const TripsDetails = ({ tripsData }) => {
             {modifyCalenderOpen && (
                 <div>
                     <div className='fixed inset-0 z-40 flex items-end bg-black bg-opacity-20 sm:items-center sm:justify-center appear-done enter-done backdrop-blur-[4px]'>
-                        <div className='w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg sm:rounded-lg sm:m-4 md:max-w-3xl md:p-7 appear-done enter-done' role='dialog'>
+                        <div className='w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg sm:rounded-lg sm:m-4 md:w-auto md:p-7 appear-done enter-done' role='dialog'>
                             <div data-focus-lock-disabled='false'>
                                 <header className='flex justify-between gap-2'>
                                     <div>
-                                        {error ? (
-                                            <span className='text-red-500 mt-4'>{error}</span>
-                                        ) : (
-                                            <div className=''>
-                                                <span>
-                                                    <span className='font-bold'>Trip Modification </span>
-                                                    {/* {sm?.from && sm?.to ? `${format(sm?.from, 'LLL dd, y')} - ${format(sm?.to, 'LLL dd, y')}` : 'Dates not selected'} */}
-                                                </span>
-                                            </div>
-                                        )}
+                                        <span className='font-bold'>Trip Modification </span>
+                                        {error ? <span className='text-red-500 mt-4'>{error}</span> : null}
                                     </div>
 
                                     <Button variant='ghost' className='inline-flex items-center justify-center p-2 text-neutral-600' aria-label='close' onClick={closeModifyDialog}>
@@ -448,23 +350,9 @@ const TripsDetails = ({ tripsData }) => {
                                     </Button>
                                 </header>
 
-                                <div className='grid grid-cols-1 lg:grid-cols-2  gap-4 w-full'>
-                                    <Calendar
-                                        className='w-full'
-                                        mode='range'
-                                        defaultMonth={new Date(startdate)}
-                                        selected={sm}
-                                        onSelect={handleDateSelect}
-                                        numberOfMonths={1}
-                                        disabled={date => {
-                                            const yesterdate = new Date();
-                                            yesterdate.setDate(yesterdate.getDate() - 1);
-                                            return vehicleUnavailableDates.includes(date.toISOString().split('T')[0]) || date < yesterdate;
-                                        }}
-                                    />
-
-                                    <div className='flex flex-col gap-4'>
-                                        <div className='flex mt-4'>
+                                <div className={`grid grid-cols-1   gap-4 w-full ${priceCalculatedList ? 'lg:grid-cols-2' : ''}`}>
+                                    <div className='grid-cols-1'>
+                                        <div className='flex mb-4'>
                                             <div className='flex flex-col gap-1 w-full flex-2'>
                                                 <TimeSelect label='Trip Start Time' defaultValue={format(new Date(tripsData[0].starttime), 'HH:mm:ss')} onChange={setPickupTime} />
                                             </div>
@@ -473,128 +361,75 @@ const TripsDetails = ({ tripsData }) => {
                                             </div>
                                         </div>
 
+                                        <ModificationCalendarComponent
+                                            vehicleid={tripsData[0].vehicleId}
+                                            originalStartDate={format(new Date(tripsData[0].starttime), 'yyyy-MM-dd')}
+                                            originalEndDate={format(new Date(tripsData[0].endtime), 'yyyy-MM-dd')}
+                                            setError={setError}
+                                            setNewStartDate={setNewStartDate}
+                                            setNewEndDate={setNewEndDate}
+                                            newStartDate={newStartDate}
+                                            newEndDate={newEndDate}
+                                            setIsExtensionNeeded={setIsExtensionNeeded}
+                                            handleExtensionCase={handleExtensionCase}
+                                            handleReductionCase={handleReductionCase}
+                                        />
+                                    </div>
+
+                                    <div className='flex flex-col gap-4 '>
                                         {!error && (
-                                            <div>
-                                                {extensionNoDays > 0 && reductionNoDays === 0 && (
+                                            <div className='px-3 mt-auto'>
+                                                {priceLoading ? (
+                                                    <div className='text-center mt-4'>Calculating price...</div>
+                                                ) : (
                                                     <>
-                                                        {priceLoading ? (
-                                                            <div className='text-center mt-4'>Calculating price...</div>
-                                                        ) : (
-                                                            <>
-                                                                {priceCalculatedList && (
-                                                                    <div>
-                                                                        <div className='px-3 '>
-                                                                            <hr />
-                                                                            <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                                Vehicle Price/Day : <span className='ml-3 font-semibold'> $ {priceCalculatedList.pricePerDay}</span>
-                                                                            </p>
-                                                                            <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                                Trip Extension in days :{' '}
-                                                                                <span className='ml-2 font-semibold'> + {priceCalculatedList.numberOfDays}</span>
-                                                                            </p>
-                                                                            <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                                Modified Start Date :
-                                                                                <span className='ml-2 font-semibold'>
-                                                                                    {sm?.from
-                                                                                        ? `${format(sm?.from, 'LLL dd, y')} |
-                                                                                        ${format(parse(pickupTime, 'HH:mm:ss', new Date()), 'h:mm a')}`
-                                                                                        : 'Dates not selected'}
-                                                                                </span>
-                                                                            </p>
-                                                                            <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                                Modified End Date :
-                                                                                <span className='ml-2 font-semibold'>
-                                                                                    {sm?.to
-                                                                                        ? `${format(sm?.to, 'LLL dd, y')} |
-                                                                                        ${format(parse(dropTime, 'HH:mm:ss', new Date()), 'h:mm a')}`
-                                                                                        : 'Dates not selected'}
-                                                                                </span>
-                                                                            </p>
-
-                                                                            <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                                Trip Charges : <span className='ml-2 font-semibold'> $ {priceCalculatedList.tripAmount}</span>
-                                                                            </p>
-                                                                            <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                                Taxes : <span className='ml-2 font-semibold'> $ {priceCalculatedList.taxAmount.toFixed(2)}</span>
-                                                                            </p>
-                                                                            <hr />
-                                                                            <p className='text-sm font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                                Total: <span className='ml-2 font-semibold'>$ {priceCalculatedList.tripTaxAmount.toFixed(2)}</span>
-                                                                            </p>
-                                                                        </div>
-
-                                                                        <footer className='flex items-center justify-end   gap-4 select-none'>
-                                                                            <Button type='button' onClick={closeModifyDialog} variant='outline'>
-                                                                                Cancel
-                                                                            </Button>
-                                                                            <Button
-                                                                                type='button'
-                                                                                onClick={handleExtension}
-                                                                                className={`bg-primary ${error ? 'cursor-not-allowed opacity-50' : ''}`}
-                                                                                disabled={!!error || disableCheckout}>
-                                                                                Continue to book
-                                                                            </Button>
-                                                                        </footer>
-                                                                    </div>
-                                                                )}
-                                                            </>
-                                                        )}
-                                                    </>
-                                                )}
-
-                                                {reductionNoDays > 0 && extensionNoDays == 0 && (
-                                                    <>
-                                                        {priceLoading ? (
-                                                            <div className='text-center mt-4'>Calculating price...</div>
-                                                        ) : (
-                                                            <div>
-                                                                <div className='px-3 mt-10'>
-                                                                    <hr />
-                                                                    <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                        Vehicle Price/Day : <span className='ml-3 font-semibold'> $ {priceCalculatedList.pricePerDay}</span>
-                                                                    </p>
-                                                                    <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                        Total trip days : <span className='ml-2 font-semibold'> {priceCalculatedList.numberOfDays}</span>
-                                                                    </p>
-                                                                    <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                        Modified Start Date :
-                                                                        <span className='ml-2 font-semibold'>
-                                                                            {' '}
-                                                                            {sm?.from
-                                                                                ? `${format(sm?.from, 'LLL dd, y')} |
-                                 ${format(parse(pickupTime, 'HH:mm:ss', new Date()), 'h:mm a')}`
-                                                                                : 'Dates not selected'}
-                                                                        </span>
-                                                                    </p>
-                                                                    <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                        Modified End Date :
-                                                                        <span className='ml-2 font-semibold'>
-                                                                            {' '}
-                                                                            {sm?.to
-                                                                                ? `${format(sm?.to, 'LLL dd, y')} |
-                                 ${format(parse(dropTime, 'HH:mm:ss', new Date()), 'h:mm a')}`
-                                                                                : 'Dates not selected'}
-                                                                        </span>
-                                                                    </p>
-                                                                    <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                        Trip Charges : <span className='ml-2 font-semibold'> $ {priceCalculatedList.tripAmount}</span>
-                                                                    </p>
-                                                                    <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                        Taxes : <span className='ml-2 font-semibold'> $ {priceCalculatedList.taxAmount.toFixed(2)}</span>
-                                                                    </p>
-                                                                    <hr />
-                                                                    <p className='text-sm font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                        Total: <span className='ml-2 font-semibold'>$ {priceCalculatedList.tripTaxAmount.toFixed(2)}</span>
-                                                                    </p>
-                                                                </div>
-
-                                                                <footer className='flex items-center justify-end   gap-4 select-none mt-3'>
+                                                        {priceCalculatedList && (
+                                                            <div className=''>
+                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
+                                                                    {isExtensionNeeded ? 'Trip Extension in days' : 'Total Trip in days'} :{' '}
+                                                                    <span className='ml-2 font-semibold'>{priceCalculatedList.numberOfDays}</span>
+                                                                </p>
+                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
+                                                                    Modified Start Date :
+                                                                    <span className='ml-2 font-semibold'>
+                                                                        {newStartDate
+                                                                            ? `${format(new Date(newStartDate), 'LLL dd, y')} | ${format(
+                                                                                  parse(pickupTime, 'HH:mm:ss', new Date()),
+                                                                                  'h:mm a'
+                                                                              )}`
+                                                                            : 'Dates not selected'}
+                                                                    </span>
+                                                                </p>
+                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
+                                                                    Modified End Date :
+                                                                    <span className='ml-2 font-semibold'>
+                                                                        {newEndDate
+                                                                            ? `${format(new Date(newEndDate), 'LLL dd, y')} | ${format(
+                                                                                  parse(dropTime, 'HH:mm:ss', new Date()),
+                                                                                  'h:mm a'
+                                                                              )}`
+                                                                            : 'Dates not selected'}
+                                                                    </span>
+                                                                </p>
+                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
+                                                                    Charges (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays} days)
+                                                                    <span className='ml-2 font-semibold'> $ {priceCalculatedList.tripAmount}</span>
+                                                                </p>
+                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
+                                                                    Taxes (8.25%): <span className='ml-2 font-semibold'> $ {priceCalculatedList.taxAmount.toFixed(2)}</span>
+                                                                </p>
+                                                                <hr />
+                                                                <p className='text-sm font-medium leading-6 text-gray-900 flex justify-between'>
+                                                                    Total Rental Charges:{' '}
+                                                                    <span className='ml-2 font-semibold'>$ {priceCalculatedList.tripTaxAmount.toFixed(2)}</span>
+                                                                </p>
+                                                                <footer className='flex items-center justify-end gap-4 select-none mt-3'>
                                                                     <Button type='button' onClick={closeModifyDialog} variant='outline'>
                                                                         Cancel
                                                                     </Button>
                                                                     <Button
                                                                         type='button'
-                                                                        onClick={handleReduction}
+                                                                        onClick={isExtensionNeeded ? handleExtension : handleReduction}
                                                                         className={`bg-primary ${error ? 'cursor-not-allowed opacity-50' : ''}`}
                                                                         disabled={!!error || disableCheckout}>
                                                                         {priceLoading ? (
@@ -602,7 +437,7 @@ const TripsDetails = ({ tripsData }) => {
                                                                                 <div className='loader'></div>
                                                                             </div>
                                                                         ) : (
-                                                                            'Continue to book'
+                                                                            <>{isExtensionNeeded ? 'Continue to book' : 'Continue'}</>
                                                                         )}
                                                                     </Button>
                                                                 </footer>
@@ -624,30 +459,3 @@ const TripsDetails = ({ tripsData }) => {
 };
 
 export default TripsDetails;
-
-function convertDates(unAvailabilityDate: string[]): string[] {
-    const result: string[] = [];
-
-    for (const dateStr of unAvailabilityDate) {
-        const currentDate = new Date(dateStr);
-        currentDate.setDate(currentDate.getDate()); // Subtract one day
-
-        const formattedDate = currentDate.toISOString().split('T')[0];
-        result.push(formattedDate);
-    }
-
-    return result;
-}
-
-function isDateRangeUnavailable(from: string, to: string, unavailableDates: string[]): boolean {
-    const startDate = new Date(from);
-    const endDate = new Date(to);
-
-    for (const unavailableDateStr of unavailableDates) {
-        const unavailableDate = new Date(unavailableDateStr);
-        if (startDate <= unavailableDate && unavailableDate <= endDate) {
-            return true;
-        }
-    }
-    return false;
-}

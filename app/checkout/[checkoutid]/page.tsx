@@ -395,11 +395,11 @@ export default function SingleVehicleDetails() {
                                                     <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{vehicleName}</h5>
                                                     <div className='flex items-center justify-between'>
                                                         <dt className='text-sm font-bold'>Trip Start Date</dt>
-                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.startTime), 'PPP')}</dd>
+                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.startTime), 'PPP') + "|"+ format(new Date(checkoutDetails.startTime), 'h:mm a')}</dd>
                                                     </div>
                                                     <div className='flex items-center justify-between'>
                                                         <dt className='text-sm font-bold'>Trip End Date</dt>
-                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.endTime), 'PPP')} </dd>
+                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.endTime), 'PPP') + "|"+ format(new Date(checkoutDetails.endTime), 'h:mm a') } </dd>
                                                     </div>
                                                 </dl>
                                                 <dl className='space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6'>
@@ -445,16 +445,16 @@ export default function SingleVehicleDetails() {
                                                     <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{vehicleName}</h5>
                                                     <div className='flex items-center justify-between'>
                                                         <dt className='text-sm font-bold'>Modified Trip Start Date</dt>
-                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.startTime), 'PPP')}</dd>
+                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.startTime), 'PPP') + "|"+ format(new Date(checkoutDetails.startTime), 'h:mm a')}</dd>
                                                     </div>
                                                     <div className='flex items-center justify-between'>
                                                         <dt className='text-sm font-bold'>Modified Trip End Date</dt>
-                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.endTime), 'PPP')}</dd>
+                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.endTime), 'PPP') + "|"+ format(new Date(checkoutDetails.endTime), 'h:mm a')}</dd>
                                                     </div>
                                                 </dl>
                                                 <dl className='space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6'>
                                                     <div className='flex items-center justify-between'>
-                                                        <dt className='text-sm '>Trip Duration</dt>
+                                                        <dt className='text-sm '>Total Modified Days</dt>
                                                         <dd className='text-sm font-medium text-gray-900'>
                                                             {checkoutDetails.totalDays} {checkoutDetails.totalDays == 1 ? 'Day' : 'Days'}
                                                         </dd>

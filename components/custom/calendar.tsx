@@ -79,7 +79,7 @@ const _CalendarCell = ({ className, date, ...props }: CalendarCellProps) => {
             className={values =>
                 cn(
                     'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm transition-colors data-[disabled]:pointer-events-none data-[hovered]:bg-accent data-[hovered]:text-accent-foreground data-[disabled]:opacity-50',
-                    'h-8 w-8 p-0 font-normal data-[selected]:opacity-100 outline-none data-[invalid]:bg-red-500  data-[invalid]:text-red-300   transition-none ',
+                    'h-8 w-8 p-0 font-normal data-[selected]:opacity-100 outline-none data-[invalid]:bg-red-500  data-[invalid]:text-red-300   transition-none data-[unavailable]:line-through data-[unavailable]:cursor-not-allowed  data-[unavailable]:opacity-90',
                     date.compare(today(getLocalTimeZone())) === 0 && 'bg-accent text-accent-foreground',
                     values.isDisabled && 'text-muted-foreground opacity-50',
                     values.isFocusVisible && values.isFocused && 'outline-none ring-2 ring-ring ring-offset-2',

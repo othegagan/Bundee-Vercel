@@ -405,21 +405,27 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                     <div className='flex items-center justify-between'>
                                         {priceLoading ? (
                                             <div className={`h-8 w-full rounded-md bg-neutral-200 ${shimmer}`} />
-                                        ) : isPriceError ? (
-                                            <h3 className='text-lg md:text-xl  font-semibold text-neutral-900'>Trip Total: $ 0</h3>
-                                        ) : (
+                                        ) : isPriceError ? null : ( // <h3 className='text-lg md:text-xl  font-semibold text-neutral-900'>Total Rental Charge: $0</h3>
                                             <div className='flex flex-wrap justify-between gap-4 w-full items-center'>
-                                                <h3 className='text-lg md:text-xl font-semibold text-neutral-900'>Trip Total: $ {priceCalculatedList?.tripTaxAmount} </h3>
+                                                <h3 className='text-lg md:text-xl  text-neutral-900'>
+                                                    Total Rental Charge: <span className='font-semibold'>${parseFloat(priceCalculatedList?.tripTaxAmount).toFixed(2)} </span>
+                                                </h3>
                                                 <PriceDisplayComponent pricelist={priceCalculatedList} />
                                             </div>
                                         )}
                                     </div>
-
+<hr />
                                     {priceCalculatedList?.numberOfDaysDiscount > 0 && priceCalculatedList?.discountAmount > 0 ? (
-                                        <>
-                                            <p className='font-semibold'>Available Discounts</p>
-                                            <p className='text-sm text-green-500'>The discount will be automatically applied to your total pricing after selecting the dates.</p>
-                                        </>
+                                        <div className='space-y-2'>
+                                            <p className='font-semibold'>Discounts</p>
+                                            <p className='text-sm text-neutral-600'>The following discounts have been applied to your booking</p>
+                                            <div className='flex justify-between gap-4 items-center'>
+                                                <p>
+                                                    {priceCalculatedList?.discountPercentage}% discount for {priceCalculatedList?.numberOfDaysDiscount} days or more rental
+                                                </p>
+                                                <div className=' font-medium text-green-500'>$ {parseFloat(priceCalculatedList?.discountAmount).toFixed(2)}</div>
+                                            </div>
+                                        </div>
                                     ) : null}
 
                                     <Button
