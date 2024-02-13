@@ -24,10 +24,10 @@ const LoginPage = () => {
 
     useEffect(() => {
         const sessionUser = localStorage.getItem('session_user');
-        setCallbackUrl(localStorage.getItem('authCallbackSuccessUrl'));
         if (sessionUser) {
-            window.location.href = '/';
+            window.location.replace('/');
         }
+        setCallbackUrl(localStorage.getItem('authCallbackSuccessUrl'));
     }, []);
 
     const handleLogin = async event => {
@@ -55,7 +55,11 @@ const LoginPage = () => {
                 }
 
                 setLoading(false);
-                window.location.href = callbackUrl || '/';
+                if (callbackUrl && callbackUrl.includes('/auth/signup')) {
+                    window.location.replace('/');
+                } else {
+                    window.location.replace(callbackUrl || '/');
+                }
             } else {
                 setAuthError('Please Verify Your Email.');
             }

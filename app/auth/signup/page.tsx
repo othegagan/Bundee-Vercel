@@ -14,6 +14,13 @@ import { createNewUser } from '@/app/_actions/create_new_user';
 import { IoWarning } from 'react-icons/io5';
 
 const Signup = () => {
+    useEffect(() => {
+        const sessionUser = localStorage.getItem('session_user');
+        if (sessionUser) {
+            window.location.replace('/');
+        }
+    }, []);
+
     const [sp, ssp] = useState(true);
     const [scp, sscp] = useState(true);
     const [agree, setAgree] = useState(false);

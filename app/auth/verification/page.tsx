@@ -8,25 +8,12 @@ import { auth } from "../firebase";
 export default function Example() {
 
   const [sessionUserEmail, setSessionUserEmail] = useState("");
-  const [sessionEmailVerifyStatus, setsessionEmailVerifyStatus] = useState("false");
 
   useEffect(() => {
     setSessionUserEmail(localStorage.getItem("session_user"));
-    setsessionEmailVerifyStatus(localStorage.getItem("email_verify_status"));
 
   }, []);
 
-
-  const firebseEmailVerifiedOrNotHandler = async (userEmail) => {
-
-    try {
-      const dataObject = await fetchSignInMethodsForEmail(auth, userEmail);
-      console.log(dataObject);
-
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
 
   return (
     <>
