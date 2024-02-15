@@ -23,7 +23,7 @@ const useVehicleSearch = () => {
             const startDate = searchParams?.startDate ? searchParams?.startDate : format(new Date(), 'yyyy-MM-dd');
             const endDate = searchParams?.endDate ? searchParams?.endDate : format(addDays(new Date(), 3), 'yyyy-MM-dd');
             const startTime = searchParams?.startTime ? searchParams?.startTime : '10:00:00';
-            const endTime = searchParams?.endTime ? searchParams?.endTime : '20:00:00';
+            const endTime = searchParams?.endTime ? searchParams?.endTime : '10:00:00';
             const isAirport = searchParams?.isAirport ? searchParams?.isAirport : false;
 
             const userId = localStorage.getItem('userId');
@@ -38,7 +38,7 @@ const useVehicleSearch = () => {
                 userId: userId || '',
             };
 
-            console.log(searchPayload)
+            console.log(searchPayload);
             const response = await getVehicleAllDetails(searchPayload, token);
             setData(response);
 

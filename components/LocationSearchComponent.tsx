@@ -16,11 +16,11 @@ import LocationSearchBox from './custom/LocationSearchBox';
 const LocationSearchComponent = () => {
     const router = useRouter();
 
-    const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(new Date(), 'yyyy-MM-dd'), history: 'replace' });
-    const [endDateQuery, setEndDateQuery] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 3), 'yyyy-MM-dd'), history: 'replace' });
+    const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(addDays(new Date(), 2), 'yyyy-MM-dd'), history: 'replace' });
+    const [endDateQuery, setEndDateQuery] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 5), 'yyyy-MM-dd'), history: 'replace' });
 
-    const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: '11:00:00', history: 'replace' });
-    const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: '20:00:00', history: 'replace' });
+    const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: '10:00:00', history: 'replace' });
+    const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: '10:00:00', history: 'replace' });
 
     function setUserSelectedPickupDate(date: any, daysToAdd: number = 3) {
         const pickupDate = new Date(date);
@@ -95,7 +95,7 @@ const LocationSearchComponent = () => {
                                         onSelect={date => setUserSelectedPickupDate(date)}
                                         defaultMonth={new Date(startDateQuery + 'T00:00:00')}
                                         initialFocus
-                                        disabled={date => date < new Date(Date.now() - 24 * 60 * 60 * 1000)}
+                                        disabled={date => date < new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
                                     />
                                 </PopoverContent>
                             </Popover>
@@ -124,7 +124,7 @@ const LocationSearchComponent = () => {
                                         defaultMonth={new Date(endDateQuery + 'T00:00:00')}
                                         initialFocus
                                         // @ts-ignore
-                                        disabled={date => date < new Date(new Date((startDateQuery + 'T00:00:00') as string) - 24 * 60 * 60 * 1000)}
+                                        disabled={date => date < new Date(new Date((startDateQuery + 'T00:00:00') as string) +1* 24 * 60 * 60 * 1000)}
                                     />
                                 </PopoverContent>
                             </Popover>

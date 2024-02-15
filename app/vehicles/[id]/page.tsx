@@ -1,7 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-
 import usePersona, { profileVerifiedStatus } from '@/hooks/usePersona';
 
 import { addToRecentlyViewedHistory } from '@/app/_actions/add_to_recently_viewed';
@@ -23,6 +21,7 @@ import DeliveryDetailsComponent from './DeliveryDetailsComponent';
 import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
 import ClientOnly from '@/components/ClientOnly';
+import { CgFormatSlash } from 'react-icons/cg';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const { addToWishlistHandler, removeFromWishlistHandler } = useWishlist();
@@ -49,7 +48,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     const [startDate, setStartDate] = useQueryState('startDate', { defaultValue: format(new Date(), 'yyyy-MM-dd'), history: 'replace' });
     const [endDate, setEndDate] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 3), 'yyyy-MM-dd'), history: 'replace' });
 
-    const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: '11:00:00', history: 'replace' });
+    const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: '10:00:00', history: 'replace' });
     const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: '08:00:00', history: 'replace' });
 
     const [isAirportDelivery, setIsAirportDelivery] = useState(false);
@@ -294,30 +293,22 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     return (
         <>
             <ClientOnly>
-                <div className='px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 py-2'>
+                <div className='px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 py-2 mb-10 md:mb-14'>
                     <div className='pt-6'>
                         <nav aria-label='Breadcrumb' className='w-full lg:min-w-[80rem]'>
-                            <div role='list' className='mr-auto flex items-center'>
-                                <div>
-                                    <div className='flex items-center'>
-                                        <Link href='/' className='mr-2 text-sm font-medium text-neutral-900'>
-                                            Home
-                                        </Link>
-                                        <svg width={16} height={20} viewBox='0 0 16 20' fill='currentColor' aria-hidden='true' className='h-5 w-4 text-neutral-300'>
-                                            <path d='M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z' />
-                                        </svg>
-                                    </div>
+                            <div role='list' className='mr-auto flex items-center whitespace-nowrap'>
+                                <div className='flex items-center'>
+                                    <Link href='/' className=' text-sm font-medium text-neutral-900'>
+                                        Home
+                                    </Link>
+                                    <CgFormatSlash className='h-6 w-6 text-neutral-300' />
                                 </div>
 
-                                <div>
-                                    <div className='flex items-center'>
-                                        <Link href={`/vehicles?`} className='mr-2 text-sm font-medium text-neutral-900'>
-                                            Available Vehicles
-                                        </Link>
-                                        <svg width={16} height={20} viewBox='0 0 16 20' fill='currentColor' aria-hidden='true' className='h-5 w-4 text-neutral-300'>
-                                            <path d='M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z' />
-                                        </svg>
-                                    </div>
+                                <div className='flex items-center'>
+                                    <Link href={`/vehicles?`} className=' text-sm font-medium text-neutral-900'>
+                                        Available Vehicles
+                                    </Link>
+                                    <CgFormatSlash className='h-6 w-6 text-neutral-300' />
                                 </div>
 
                                 {vehicleDetails ? (
@@ -383,7 +374,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         />
                                     </div>
 
-                                    <div className='flex '>
+                                    <div className='flex gap-6'>
                                         <TimeSelect label='Trip Start Time' onChange={setStartTime} defaultValue={startTime} />
                                         <TimeSelect label='Trip End Time' onChange={setEndTime} defaultValue={endTime} />
                                     </div>
@@ -407,14 +398,14 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                             <div className={`h-8 w-full rounded-md bg-neutral-200 ${shimmer}`} />
                                         ) : isPriceError ? null : ( // <h3 className='text-lg md:text-xl  font-semibold text-neutral-900'>Total Rental Charge: $0</h3>
                                             <div className='flex flex-wrap justify-between gap-4 w-full items-center'>
-                                                <h3 className='text-lg md:text-xl  text-neutral-900'>
-                                                    Total Rental Charge: <span className='font-semibold'>${parseFloat(priceCalculatedList?.tripTaxAmount).toFixed(2)} </span>
+                                                <h3 className='text-lg md:text-lg  text-neutral-900'>
+                                                    Total: <span className='font-semibold'>${parseFloat(priceCalculatedList?.tripTaxAmount).toFixed(2)} </span>
                                                 </h3>
                                                 <PriceDisplayComponent pricelist={priceCalculatedList} />
                                             </div>
                                         )}
                                     </div>
-<hr />
+                                    <hr />
                                     {priceCalculatedList?.numberOfDaysDiscount > 0 && priceCalculatedList?.discountAmount > 0 ? (
                                         <div className='space-y-2'>
                                             <p className='font-semibold'>Discounts</p>
@@ -423,7 +414,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                                 <p>
                                                     {priceCalculatedList?.discountPercentage}% discount for {priceCalculatedList?.numberOfDaysDiscount} days or more rental
                                                 </p>
-                                                <div className=' font-medium text-green-500'>$ {parseFloat(priceCalculatedList?.discountAmount).toFixed(2)}</div>
+                                                <div className=' font-medium text-green-500 whitespace-nowrap '>$ {parseFloat(priceCalculatedList?.discountAmount).toFixed(2)}</div>
                                             </div>
                                         </div>
                                     ) : null}

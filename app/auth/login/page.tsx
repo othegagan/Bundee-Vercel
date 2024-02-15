@@ -64,6 +64,7 @@ const LoginPage = () => {
                 setAuthError('Please Verify Your Email.');
             }
         } catch (error) {
+            console.log(error)
             handleAuthError(error);
         } finally {
             setLoading(false);
@@ -78,6 +79,7 @@ const LoginPage = () => {
             'auth/too-many-requests': 'Too many requests. Please try again later.',
             'auth/user-disabled': 'Account has been disabled.',
             'auth/missing-password': 'Please enter your password.',
+            'auth/invalid-credential': 'Invailid Credentials. Please try again.',
             default: 'An error occurred. Please try again.',
         };
 

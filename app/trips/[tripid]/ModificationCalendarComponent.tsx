@@ -117,12 +117,10 @@ const ModificationCalendarComponent = ({
                 isDateUnavailable={isDateUnavailable}
                 isInvalid={isInvalid}>
                 <CalendarHeading />
-                <div className='hidden gap-6 overflow-auto md:flex'>
-                    <CalendarGrid>
+                <CalendarGrid>
                         <CalendarGridHeader>{(day: any) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
                         <CalendarGridBody>{(date: any) => <CalendarCell date={date} />}</CalendarGridBody>
                     </CalendarGrid>
-                </div>
             </RangeCalendar>
 
             {errorMessage ? (

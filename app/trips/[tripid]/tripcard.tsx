@@ -29,8 +29,8 @@ const TripsDetails = ({ tripsData }) => {
 
     const [isExtensionNeeded, setIsExtensionNeeded] = useState(null);
 
-    const [pickupTime, setPickupTime] = useState('11:00:00');
-    const [dropTime, setDropTime] = useState('20:00:00');
+    const [pickupTime, setPickupTime] = useState('10:00:00');
+    const [dropTime, setDropTime] = useState('10:00:00');
 
     useEffect(() => {
         // console.log('tripdata', tripsData);
@@ -49,7 +49,7 @@ const TripsDetails = ({ tripsData }) => {
         const authToken = localStorage.getItem('bundee_auth_token');
         setPriceLoading(true);
         setDisableCheckout(true);
-        console.log(newStartDate, newEndDate);
+        // console.log(newStartDate, newEndDate);
 
         try {
             const body = {
@@ -113,6 +113,8 @@ const TripsDetails = ({ tripsData }) => {
         body.style.overflow = 'auto';
         setPriceCalculatedList(null);
         setIsExtensionNeeded(null);
+        setError('');
+        window.location.reload();
     };
 
     const handleReduction = async () => {
@@ -231,7 +233,7 @@ const TripsDetails = ({ tripsData }) => {
     return (
         <>
             {tripsData ? (
-                <div className='px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 py-2'>
+                <div className='px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 py-2 mb-10 md:mb-14'>
                     {tripsData.map((item, index) => (
                         <div key={index} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mt-3 md:mt-6'>
                             <div className='flex-col flex lg:col-span-2'>
@@ -241,7 +243,9 @@ const TripsDetails = ({ tripsData }) => {
                             <div className='mt-4 lg:row-span-3 lg:mt-0'>
                                 <div className='flex flex-col gap-3'>
                                     <p className='text-3xl font-bold tracking-tight text-neutral-900'>{`$${item.vehicleDetails[0].price_per_hr} / day`}</p>
-                                    <p className='text-base text-gray-900'>Total Rental Charges : <b>${item?.tripPaymentTokens[0]?.tripTaxAmount.toFixed(2)}</b> </p>
+                                    <p className='text-base text-gray-900'>
+                                        Total Rental Charges : <b>${item?.tripPaymentTokens[0]?.tripTaxAmount.toFixed(2)}</b>{' '}
+                                    </p>
                                 </div>
 
                                 <div className='mt-10 flex flex-col gap-4'>
@@ -332,7 +336,7 @@ const TripsDetails = ({ tripsData }) => {
             {modifyCalenderOpen && (
                 <div>
                     <div className='fixed inset-0 z-40 flex items-end bg-black bg-opacity-20 sm:items-center sm:justify-center appear-done enter-done backdrop-blur-[4px]'>
-                        <div className='w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg sm:rounded-lg sm:m-4 md:w-auto md:p-7 appear-done enter-done' role='dialog'>
+                        <div className='w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg sm:rounded-lg sm:m-4 md:w-auto md:p-7 appear-done enter-done ' role='dialog'>
                             <div data-focus-lock-disabled='false'>
                                 <header className='flex justify-between gap-2'>
                                     <div>

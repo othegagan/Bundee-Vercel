@@ -8,7 +8,7 @@ import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { cn } from '@/lib/utils';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { CalendarIcon } from '@radix-ui/react-icons';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import { useState } from 'react';
 import { DateValue, Group } from 'react-aria-components';
 import { useMediaQuery } from 'react-responsive';
@@ -16,12 +16,14 @@ import { DateSelectSkeleton } from '../skeletons/skeletons';
 import { IoInformationCircleOutline } from "react-icons/io5";
 
 
+
+
 const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setError }: any) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(startDate),
         end: parseDate(endDate),
     });
-    console.log(dates)
+    // console.log(dates)
 
     const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid);
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
@@ -116,7 +118,7 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
                             onChange={value => onDateSelect(value)}
                             visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
                             pageBehavior='visible'
-                            minValue={today(getLocalTimeZone())}
+                            minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}
                             isDateUnavailable={isDateUnavailable}
                             isInvalid={isInvalid}>
                             <CalendarHeading />
