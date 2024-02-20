@@ -37,6 +37,7 @@ const LandingPage = () => {
             <Banner />
             <BundeeBranding />
             <FAQ />
+
         </>
     );
 };

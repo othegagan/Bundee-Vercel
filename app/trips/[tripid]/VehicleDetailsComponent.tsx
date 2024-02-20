@@ -1,8 +1,8 @@
+import TripImageVideoCarousel from '@/components/custom/TripImageVideoCarousel';
 import Carousel from '@/components/ui/carousel/carousel';
 import React from 'react';
 
-const VehicleDetailsComponent = ({ car }: any) => {
-
+const VehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedImages }: any) => {
     const images: any = [...car.imageresponse].sort((a, b) => {
         // Sort records with isPrimary true first
         if (a.isPrimary && !b.isPrimary) {
@@ -18,7 +18,7 @@ const VehicleDetailsComponent = ({ car }: any) => {
     return (
         <>
             <div className='sm:overflow-hidden rounded-lg '>
-                <Carousel autoSlide={true}>
+                <Carousel autoSlide={false}>
                     {images.map((s, i) => (
                         <img key={i} src={s.imagename} className='max-h-fit min-w-full' alt={`vehicle image ${i}`} />
                     ))}
@@ -61,6 +61,20 @@ const VehicleDetailsComponent = ({ car }: any) => {
                         <div className='space-y-3'>
                             <p className='font-bold'> Additional GuideLines</p>
                             <p className='text-base text-gray-900'>{car?.guideLines}</p>
+                        </div>
+                    ) : null}
+
+                    {driverUploadedImages.length > 0 ? (
+                        <div className='space-y-3'>
+                            <p className='font-bold'> Driver Uploaded Images</p>
+                            <TripImageVideoCarousel uploadedBy="driver" images={driverUploadedImages} />
+                        </div>
+                    ) : null}
+
+                    {hostUploadedImages.length > 0 ? (
+                        <div className='space-y-3'>
+                            <p className='font-bold'> Host Uploaded Images</p>
+                            <TripImageVideoCarousel  uploadedBy="host" images={hostUploadedImages} />
                         </div>
                     ) : null}
                 </div>

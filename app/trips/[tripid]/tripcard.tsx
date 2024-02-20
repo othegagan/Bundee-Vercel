@@ -237,7 +237,11 @@ const TripsDetails = ({ tripsData }) => {
                     {tripsData.map((item, index) => (
                         <div key={index} className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mt-3 md:mt-6'>
                             <div className='flex-col flex lg:col-span-2'>
-                                <VehicleDetailsComponent car={item.vehicleDetails[0]} />
+                                <VehicleDetailsComponent
+                                    car={item.vehicleDetails[0]}
+                                    driverUploadedImages={item.driverTripStartingBlobs}
+                                    hostUploadedImages={item.hostTripStartingBlobs}
+                                />
                             </div>
 
                             <div className='mt-4 lg:row-span-3 lg:mt-0'>

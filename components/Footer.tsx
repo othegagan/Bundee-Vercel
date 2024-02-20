@@ -1,5 +1,3 @@
-import React from 'react';
-import { Button } from './ui/button';
 import Link from 'next/link';
 import Logo from './landing_page/Logo';
 
@@ -59,8 +57,7 @@ const Footer = () => {
                             <p className='font-semibold text-gray-800 '>Contact Us</p>
 
                             <div className='flex flex-col items-start mt-5 space-y-2'>
-                                {/* <Link href='mailto:support@mybundee.com'>Contact Support</Link> */}
-                                <Link href='mailto:support@mybundee.com'>support@mybundee.com</Link>
+                                <Link href='mailto:support@mybundee.com' target='_blank'>support@mybundee.com</Link>
                             </div>
                         </div>
                     </div>
@@ -68,7 +65,8 @@ const Footer = () => {
                     <div className='flex flex-col items-center justify-between sm:flex-row'>
                         <Logo />
 
-                        <p className='mt-4 text-sm text-gray-500 sm:mt-0 '>© Copyright 2023. MyBundee All Rights Reserved.</p>
+                        <p className='mt-4 text-sm text-gray-500 sm:mt-0 '>© Copyright {new Date().getFullYear()}. MyBundee All Rights Reserved.</p>
+
                     </div>
                 </div>
             </footer>
