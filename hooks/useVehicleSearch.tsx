@@ -38,7 +38,7 @@ const useVehicleSearch = () => {
                 userId: userId || '',
             };
 
-            console.log(searchPayload);
+            // console.log(searchPayload);
             const response = await getVehicleAllDetails(searchPayload, token);
             setData(response);
 

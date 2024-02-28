@@ -58,7 +58,6 @@ const RecentlyViewedComponents = () => {
                 const data = await getAllRecentlyViewedVehicles(id, auth_token);
 
                 setRecentlyViewedData(data.slice(0, 4));
-                console.log('Recently ', recentlyViewedData);
 
                 if (data.length > 0) {
                     SetisDataPresentInAPI(true);

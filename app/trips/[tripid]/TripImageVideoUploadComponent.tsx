@@ -208,7 +208,7 @@ const TripImagesComponent = ({ tripsData }: any) => {
                     <div
                         className='fixed inset-0 -z-10'
                         onClick={() => {
-                            setShowModal(false);
+                            handleCloseModal();
                         }}></div>
                     <div className='w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg sm:rounded-lg sm:m-4 md:max-w-6xl md:p-7'>
                         <div>

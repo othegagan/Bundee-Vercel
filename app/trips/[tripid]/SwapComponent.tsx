@@ -50,7 +50,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
         try {
             const token = localStorage.getItem('auth_token_login') || '';
             const response = await swapRequest(data, token);
-            window.location.replace('/trips');
+            window.location.reload();
         } catch (error) {
             console.error('Error updating the swap Request', error);
             setError(error);
@@ -62,36 +62,32 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
     return (
         <div>
             <div className='mt-4 flex justify-between'>
-                <label className='font-bold'>Swap Status</label>
-                <div>
+                <label className='font-bold whitespace-nowrap'>Swap Status</label>
+                <div className='whitespace-nowrap'>
                     {swapRequestDetails?.statuscode.toLowerCase() === 'swappr' && (
-                        <span className='mx-4 inline-flex items-center rounded-md bg-yellow-50 px-1 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20'>
-                            {' '}
+                        <span className='mx-4 inline-flex items-center rounded-md bg-yellow-50 p-2 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20'>
                             Swap Proposal Requested
                         </span>
                     )}
 
                     {swapRequestDetails?.statuscode.toLowerCase() === 'swaprej' && (
-                        <span className='mx-4 inline-flex items-center rounded-md bg-red-50 px-1 py-1 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20'>
-                            {' '}
+                        <span className='mx-4 inline-flex items-center rounded-md bg-red-50 p-2 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20'>
                             Swap Proposal Requested
                         </span>
                     )}
 
                     {swapRequestDetails?.statuscode.toLowerCase() === 'swapacc' && (
-                        <span className='mx-4 inline-flex items-center rounded-md bg-green-50 px-1 py-1 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20'>
-                            {' '}
+                        <span className='mx-4 inline-flex items-center rounded-md bg-green-50 p-2 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20'>
                             Swap Proposal Approved
                         </span>
                     )}
                 </div>
-                <div className=''>
-                    {swapRequestDetails?.statuscode.toLowerCase() === 'swappr' && (
-                        <Button onClick={handleSwap} variant='outline' className='bg-white p-1 border border-gray-200'>
-                            See Details
-                        </Button>
-                    )}
-                </div>
+
+                {swapRequestDetails?.statuscode.toLowerCase() === 'swappr' && (
+                    <Button onClick={handleSwap} variant='ghost' className='underline underline-offset-4'>
+                        See Details
+                    </Button>
+                )}
             </div>
 
             {swapRequestedModalOpen && (

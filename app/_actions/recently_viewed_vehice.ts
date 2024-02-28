@@ -3,7 +3,7 @@
 "use server"
 
 export const getAllRecentlyViewedVehicles = async (userId: string, bundeeAuthToken: string) => {
-    console.log("Fetching Recently Viewed Vehicles:", { userId, bundeeAuthToken });
+    // console.log("Fetching Recently Viewed Vehicles:", { userId, bundeeAuthToken });
 
     // Convert userId to a number
     const id = parseInt(userId, 10);
@@ -29,7 +29,7 @@ export const getAllRecentlyViewedVehicles = async (userId: string, bundeeAuthTok
         id: id
     };
 
-    console.log(body);
+    // console.log(body);
 
     try {
         const response = await fetch(url, {

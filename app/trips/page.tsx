@@ -10,6 +10,7 @@ import TripsList from './tripscard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
 import ErrorComponent from '@/components/custom/ErrorComponent';
+import { useUserAuth } from '@/lib/authContext';
 
 const UserTrips = () => {
     const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -18,14 +19,10 @@ const UserTrips = () => {
     const [tripsResponse, setTripResponses] = useState({});
     const [error, setError] = useState(false);
 
+    const {user} = useUserAuth();
+
 
     useEffect(() => {
-        const sessionEmail = localStorage.getItem('session_user');
-        const session_id = localStorage.getItem('userId');
-
-        if (sessionEmail && session_id) {
-            setUserLoggedIn(true);
-        }
 
         const fetchData = async () => {
             try {
@@ -61,7 +58,7 @@ const UserTrips = () => {
         fetchData();
     }, [tabSelectedIndex]);
 
-    if (!userLoggedIn) {
+    if (!user) {
         return <NoAuthStatePage />;
     }
 

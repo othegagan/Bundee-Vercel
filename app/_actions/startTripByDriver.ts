@@ -2,23 +2,18 @@
 
 "use server"
 
-export const updateUserNotifications = async (notificationIds: string, bundeeAuthToken: string) => {
-    // console.log("Updating user notifications:", { userId: notificationIds, bundeeAuthToken });
+export const startTripByDriver = async (body: {}, bundeeAuthToken: string) => {
 
 
-    const url = process.env.BUNDEE_UPDATE_NOTIFICATION_URL;
+    const url = process.env.BOOKING_SERVICES_BASEURL + '/api/v1/booking/updateReservationStart';
 
     const headersList = {
         Accept: '*/*',
         'bundee_auth_token': bundeeAuthToken,
         'Content-Type': 'application/json',
-
     };
-    const body = {
-        "fromValue": notificationIds
-    }
 
-    // console.log(body);
+    // console.log("Start Trip request body",body);
 
     try {
         const response = await fetch(url, {
@@ -34,10 +29,10 @@ export const updateUserNotifications = async (notificationIds: string, bundeeAut
 
         const data = await response.json();
 
-        return data.inAppNotifications || [];
+        return data;
 
     } catch (error) {
-        console.error('Error updating user notifications:', error);
-        throw new Error('Error updating user notifications');
+        console.error('Error starting the trip:', error);
+        throw new Error('Error starting the trip');
     }
 };

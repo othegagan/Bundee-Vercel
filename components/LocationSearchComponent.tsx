@@ -13,7 +13,7 @@ import { useCallback } from 'react';
 import TimeSelect from './custom/TimeSelect';
 import LocationSearchBox from './custom/LocationSearchBox';
 
-const LocationSearchComponent = () => {
+const LocationSearchComponent = ({ searchCity }: any) => {
     const router = useRouter();
 
     const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(addDays(new Date(), 2), 'yyyy-MM-dd'), history: 'replace' });

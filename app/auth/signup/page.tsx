@@ -12,8 +12,10 @@ import { LuLoader2 } from 'react-icons/lu';
 import Logo from '@/components/landing_page/Logo';
 import { createNewUser } from '@/app/_actions/create_new_user';
 import { IoWarning } from 'react-icons/io5';
+import { useUserAuth } from '@/lib/authContext';
 
 const Signup = () => {
+    const { googleSignIn } = useUserAuth();
     useEffect(() => {
         const sessionUser = localStorage.getItem('session_user');
         if (sessionUser) {
@@ -434,6 +436,15 @@ const Signup = () => {
                                     </div>
                                 </form>
                                 <hr className='my-4' />
+                                    <Button
+                                        onClick={() => {
+                                            googleSignIn();
+                                        }}
+                                        variant='outline'
+                                        className='w-full py-5 flex  gap-4'>
+                                        <img className='w-5 h-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
+                                        <span>Continue with Google</span>
+                                    </Button>
                                 <p className='mt-4 text-center dark:text-neutral-200'>
                                     Already have an account?
                                     <Link className='text-base font-medium text-primary mx-2  hover:underline' href='/auth/login'>

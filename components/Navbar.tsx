@@ -22,9 +22,11 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { auth } from '@/app/auth/firebase';
 import NotificationPopoverItem from './Notifications';
 import Logo from './landing_page/Logo';
+import { useUserAuth } from '@/lib/authContext';
 
 const Navbar = () => {
-    const [userLoggedin, setuserLoggedin] = useState(false);
+    const { user, logOut } = useUserAuth();
+    // const [userLoggedin, setuserLoggedin] = useState(false);
     const [userEmail, setUserEmail] = useState('');
 
     const currentPathName = usePathname();
@@ -34,10 +36,6 @@ const Navbar = () => {
         const sessionEmail = localStorage.getItem('session_user');
 
         setUserEmail(sessionEmail);
-
-        if (sessionEmail != null) {
-            setuserLoggedin(true);
-        }
     }, []);
 
     function setAuthSuccessURLHandler() {
@@ -67,7 +65,7 @@ const Navbar = () => {
 
         const redirectURI = localStorage.getItem('authCallbackSuccessUrl');
 
-        auth.signOut();
+        logOut();
 
         window.location.href = '/';
     }
@@ -79,7 +77,7 @@ const Navbar = () => {
                     <Logo />
 
                     <div className='flex gap-3'>
-                        {userLoggedin == false && (
+                        {!user && !userEmail && (
                             <div className='fle'>
                                 <Link href='/auth/login'>
                                     <Button onClick={setAuthSuccessURLHandler} variant='outline'>
@@ -92,14 +90,14 @@ const Navbar = () => {
                                 </Link>
                             </div>
                         )}
-                        {userLoggedin == true && userEmail && (
+                        {user && userEmail && (
                             <div className='hidden flex-col justify-center items-end sm:flex'>
                                 {/* <p className='text-xs font-bold'>Sundar Raj Sharma</p> */}
                                 <p className='text-xs'>{userEmail}</p>
                             </div>
                         )}
 
-                        <div className='z-50'>{userLoggedin == true && <NotificationPopoverItem />}</div>
+                        <div className='z-50'>{user && userEmail && <NotificationPopoverItem />}</div>
 
                         {/* {userLoggedin == true && (
                             <img className=" border-spacing-0 shadow-md h-8 w-8 flex-none rounded-full bg-gray-50" src="/neutral_image_avatar.png" alt="" />
@@ -142,7 +140,7 @@ const Navbar = () => {
                                         </Link>
                                     </DropdownMenuItem>
 
-                                    {userLoggedin && (
+                                    {user && userEmail && (
                                         <DropdownMenuItem>
                                             <Link href='/profile' className='flex w-full '>
                                                 <svg
@@ -163,7 +161,7 @@ const Navbar = () => {
                                         </DropdownMenuItem>
                                     )}
 
-                                    {userLoggedin && (
+                                    {user && userEmail && (
                                         <DropdownMenuItem>
                                             <Link href='/trips' className='flex w-full '>
                                                 <svg
@@ -184,7 +182,7 @@ const Navbar = () => {
                                         </DropdownMenuItem>
                                     )}
 
-                                    {userLoggedin && (
+                                    {user && userEmail && (
                                         <DropdownMenuItem>
                                             <Link href='/wishlists' className='flex w-full '>
                                                 <svg
@@ -264,7 +262,7 @@ const Navbar = () => {
 
                                 <DropdownMenuSeparator />
 
-                                {userLoggedin && (
+                                {user && userEmail && (
                                     <DropdownMenuItem>
                                         <button onClick={firebaseLogoutHandler} className='w-full'>
                                             <div className='flex w-full'>

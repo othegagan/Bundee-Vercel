@@ -1,7 +1,7 @@
 "use server"
 
 export const initializeAuthTokensAfterLogin = async (authToken: string) => {
-    console.log(authToken);
+    // console.log(authToken);
 
     let accessToken = authToken || process.env.INITIAL_TOKEN_DUMMY;
 
@@ -10,7 +10,6 @@ export const initializeAuthTokensAfterLogin = async (authToken: string) => {
     };
 
     const url = process.env.USER_MANAGEMENT_BASEURL + "/api/v1/user/login";
-    console.log(url);
 
     try {
         const response = await fetch(url, {
@@ -25,14 +24,9 @@ export const initializeAuthTokensAfterLogin = async (authToken: string) => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        console.log(response.status);
         const data = await response.json();
-        console.log(data);
 
-        // Assuming the response includes a new authToken
-        console.log(data.authToken);
-
-        return data.authToken; 
+        return data.authToken;
 
     } catch (error) {
         console.error('Error fetching data:', error);

@@ -26,14 +26,15 @@ const CancelTripComponent = ({ tripId }: any) => {
     };
 
     return (
-        <div className='w-1/2'>
-            <button
+        <>
+            <Button
                 onClick={() => {
                     setTripCancellationModalOpen(true);
                 }}
-                className='mt-4 ml-4 flex w-full items-center justify-center rounded-md border border-transparent bg-red-400 px-8 py-3 text-base font-medium text-white'>
+                variant='destructive'
+                size='lg'>
                 Cancel
-            </button>
+            </Button>
 
             {tripCancellationModalOpen && (
                 <div>
@@ -83,7 +84,7 @@ const CancelTripComponent = ({ tripId }: any) => {
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 };
 

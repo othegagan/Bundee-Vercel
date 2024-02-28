@@ -11,6 +11,7 @@ import CancelTripComponent from './CancelTripComponent';
 import SwapComponent from './SwapComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
 import ModificationCalendarComponent from './ModificationCalendarComponent';
+import { startTripByDriver } from '@/app/_actions/startTripByDriver';
 
 const TripsDetails = ({ tripsData }) => {
     const [modifyCalenderOpen, setModifyCalenderOpen] = useState(false);
@@ -31,6 +32,8 @@ const TripsDetails = ({ tripsData }) => {
 
     const [pickupTime, setPickupTime] = useState('10:00:00');
     const [dropTime, setDropTime] = useState('10:00:00');
+
+    const [tripStarting, setTripStarting] = useState(false);
 
     useEffect(() => {
         // console.log('tripdata', tripsData);
@@ -230,6 +233,31 @@ const TripsDetails = ({ tripsData }) => {
         return freeCancellationDate;
     };
 
+    const handleStartTrip = async () => {
+        const data = {
+            tripid: tripsData[0].tripid,
+            changedBy: 'USER',
+            comments: 'Trip started from driver',
+        };
+
+        console.log(data);
+
+        try {
+            setTripStarting(true);
+            const token = localStorage.getItem('auth_token_login') || '';
+            const response = await startTripByDriver(data, token);
+            console.log(response);
+            if (response.errorCode == 0) {
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error('Error starting the trip', error);
+            setError(error);
+        } finally {
+            setTripStarting(false);
+        }
+    };
+
     return (
         <>
             {tripsData ? (
@@ -284,7 +312,7 @@ const TripsDetails = ({ tripsData }) => {
                                     <div className=' flex justify-between'>
                                         <label className='font-bold'>Trip Status</label>
                                         <span
-                                            className={`text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:text-red-300 ${
+                                            className={`text-sm font-medium  px-2.5 py-1.5 rounded dark:text-red-300 ${
                                                 item.status === 'Approved'
                                                     ? 'bg-green-100 text-green-800 dark:bg-green-900'
                                                     : item.status === 'Requested'
@@ -314,21 +342,30 @@ const TripsDetails = ({ tripsData }) => {
                                     )}
                                 </div>
 
-                                {item.status.toLowerCase() === 'approved' || item.status.toLowerCase() === 'started' || item.status.toLowerCase() === 'requested' ? (
-                                    <div className='mt-10 flex w-full'>
-                                        <button
+                                <div className='flex gap-3 flex-wrap mt-10  w-full'>
+                                    {item.status.toLowerCase() === 'approved' &&
+                                        swapRequestDetails?.statuscode.toLowerCase() !== 'swappr' &&
+                                        new Date().getTime() < new Date(item.starttime).getTime() - 1000 * 60 * 60 && (
+                                            <Button onClick={handleStartTrip} disabled={tripStarting} className='bg-green-500' size='lg'>
+                                                {tripStarting ? <div className='loader'></div> : 'Start Trip'}
+                                            </Button>
+                                        )}
+
+                                    {item.status.toLowerCase() === 'approved' || item.status.toLowerCase() === 'started' || item.status.toLowerCase() === 'requested' ? (
+                                        <Button
                                             onClick={() => {
                                                 setModifyCalenderOpen(true);
                                                 const body = document.querySelector('body');
                                                 body.style.overflow = 'hidden';
                                             }}
-                                            className='mt-4 flex w-1/2 items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white '>
+                                            variant='black'
+                                            size='lg'>
                                             Modify
-                                        </button>
+                                        </Button>
+                                    ) : null}
 
-                                        {item.status.toLowerCase() !== 'started' && <CancelTripComponent tripId={item.tripid} />}
-                                    </div>
-                                ) : null}
+                                    {item.status.toLowerCase() !== 'started' && <CancelTripComponent tripId={item.tripid} />}
+                                </div>
                             </div>
                         </div>
                     ))}

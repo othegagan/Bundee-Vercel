@@ -52,8 +52,8 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                                     <li className='text-neutral-600'>{vehicleDetails.trim}</li>
                                 )}
 
-                                {vehicleDetails.vehicleType && vehicleDetails.vehicleType !== 'Not Applicable' && vehicleDetails.vehicleType !== 'NA' && (
-                                    <li className='text-neutral-600'>{vehicleDetails.vehicleType}</li>
+                                {vehicleDetails.fueltypeprimary && vehicleDetails.fueltypeprimary !== 'Not Applicable' && vehicleDetails.fueltypeprimary !== 'NA' && (
+                                    <li className='text-neutral-600'>{vehicleDetails.fueltypeprimary}</li>
                                 )}
 
                                 {vehicleDetails.bodyclass && vehicleDetails.bodyclass !== 'Not Applicable' && vehicleDetails.bodyclass !== 'NA' && (

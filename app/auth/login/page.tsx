@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoWarning } from 'react-icons/io5';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { LuLoader2 } from 'react-icons/lu';
 import { auth } from '../firebase';
 import ClientOnly from '@/components/ClientOnly';
+import { useUserAuth } from '@/lib/authContext';
 
 const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(true);
@@ -21,6 +22,8 @@ const LoginPage = () => {
     const [loading, setLoading] = useState(false);
     const [authError, setAuthError] = useState('');
     const [callbackUrl, setCallbackUrl] = useState('/');
+
+    const { googleSignIn } = useUserAuth();
 
     useEffect(() => {
         const sessionUser = localStorage.getItem('session_user');
@@ -64,7 +67,7 @@ const LoginPage = () => {
                 setAuthError('Please Verify Your Email.');
             }
         } catch (error) {
-            console.log(error)
+            // console.log(error);
             handleAuthError(error);
         } finally {
             setLoading(false);
@@ -169,6 +172,18 @@ const LoginPage = () => {
                                             </Button>
                                         </div>
                                     </form>
+
+                                    <hr className='my-4' />
+                                    <Button
+                                        onClick={() => {
+                                            googleSignIn();
+                                        }}
+                                        variant='outline'
+                                        className='w-full py-5 flex  gap-4'>
+                                        <img className='w-5 h-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
+                                        <span>Continue with Google</span>
+                                    </Button>
+
                                     <div className='flex flex-col gap-2 mt-4'>
                                         <Link className='text-sm font-medium text-primary hover:underline w-fit' href='/auth/reset_password'>
                                             Forgot your password?

@@ -3,6 +3,7 @@
 import { auth } from '@/app/auth/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useUserAuth } from '@/lib/authContext';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
@@ -10,9 +11,8 @@ const ChangePassword = () => {
     const [error, setError] = useState('');
     const [errorOccuredInresetMailSent, setErrorOccuredInresetMailSent] = useState(false);
     const [resetMailSent, setResetEmailSent] = useState(false);
-    const [sessionUser, setSessionUser] = useState('');
 
-
+    const { user } = useUserAuth();
 
     const handleResetPassword = async resetemail => {
         try {
@@ -44,8 +44,8 @@ const ChangePassword = () => {
     }
 
     const firebasereestPasswordHandler = async () => {
-        if (isValidEmail(sessionUser)) {
-            await handleResetPassword(sessionUser);
+        if (isValidEmail(user.email)) {
+            await handleResetPassword(user.email);
         }
     };
 
@@ -62,7 +62,7 @@ const ChangePassword = () => {
                         <div className='w-full'>
                             <label className='text-sm font-medium leading-6 text-gray-900'>Email address</label>
                             <div className='mt-2'>
-                                <Input id='email' name='email' type='email' required value={sessionUser} disabled className='' />
+                                <Input id='email' name='email' type='email' required value={user?.email} disabled className='' />
                             </div>
                         </div>
                         {error && <p className='mt-2 text-red-500 text-sm'>{error}</p>}
@@ -97,7 +97,7 @@ const ChangePassword = () => {
                 <div>
                     <div className='flex flex-col justify-start sm:mx-auto sm:w-full sm:max-w-sm'>
                         <p className='mt-4 text-left text-gray-600'>
-                            An Email containing the password reset link has been shared to your email <span className='font-bold'>{sessionUser}</span>
+                            An Email containing the password reset link has been shared to your email <span className='font-bold'>{user?.email}</span>
                         </p>
                     </div>
                 </div>

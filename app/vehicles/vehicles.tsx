@@ -2,36 +2,44 @@
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
 import useVehicleSearch from '@/hooks/useVehicleSearch';
-import { toTitleCase } from '@/lib/utils';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { FaStar } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
 import NoCarsFound from './NoCarsFound';
+import Link from 'next/link';
+import { FaStar } from 'react-icons/fa6';
+import { toTitleCase } from '@/lib/utils';
+import CarFilters from './CarFilters';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
+    const [filteredCars, setFilteredCars] = useState<any[]>([]);
 
     useEffect(() => {
         const token = localStorage.getItem('bundee_auth_token');
         searchVehicles(searchParams, token);
     }, [searchParams]);
 
-    if (loading) return <VehiclesCardsSkeleton />;
-    if (error) return <ErrorComponent />;
-    if (!loading && carDetails.length == 0) return <NoCarsFound />;
-
     return (
         <div className='my-6'>
-            <div className='flex w-full flex-col justify-between gap-3 md:flex-row'>
-                <h2 className='text-xl font-bold tracking-tight text-neutral-900'>Available Cars</h2>
-                <p className='text-sm font-medium'>{carDetails.length} cars available to picked up in this city.</p>
-            </div>
+            <div className='flex md:flex-row md:justify-between md:items-center mt-6 flex-col '>
+                <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>Available Cars</h1>
 
-            <div className='mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-x-6 md:gap-y-8 lg:grid-cols-3  xl:gap-x-8'>
-                {carDetails.map((car: any) => (
-                    <CarCard key={car.id} car={car} searchQuery={searchQuery} />
-                ))}
+                <div className='flex  items-center gap-4 justify-between'>
+                    {!loading && <p className='text-sm text-neutral-600 font-medium'>{filteredCars.length} vehicles found</p>}
+                    <CarFilters carDetails={carDetails} setFilteredCars={setFilteredCars} />
+                </div>
             </div>
+            {loading && <VehiclesCardsSkeleton />}
+            {error && <ErrorComponent />}
+            {!loading && filteredCars.length === 0 && <NoCarsFound />}
+            {!loading && filteredCars.length > 0 && (
+                <>
+                    <div className='mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-x-6 md:gap-y-8 lg:grid-cols-3  xl:gap-x-8'>
+                        {filteredCars.map((car: any) => (
+                            <CarCard key={car.id} car={car} searchQuery={searchQuery} />
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };
