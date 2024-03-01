@@ -26,7 +26,6 @@ export const getUserExistOrNotConfirmation = async (getuserInfoData: any, authTo
 
         const data = await response.json();
 
-        console.log(data)
 
 
         return {
@@ -34,6 +33,7 @@ export const getUserExistOrNotConfirmation = async (getuserInfoData: any, authTo
             isUserExist: data?.userResponse === null ? false : true,
             isPersonaVerified: data?.driverProfiles?.length == 0 ? false : true,
             userId: data?.userResponse?.iduser,
+            personaEnquiryId: data?.driverProfiles?.length == 0 ? null : data?.driverProfiles[0]?.personaEnquiryId,
         };
 
     } catch (error) {

@@ -31,7 +31,7 @@ function Modal({ isOpen, onClose, children, className }: ModalProps) {
     if (!isOpen) return null;
 
     return (
-        <div className='enter enter-active fixed inset-0 z-[999999] flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center' onClick={handleBackdropClick}>
+        <div className='enter enter-active fixed inset-0 z-[48] flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center' onClick={handleBackdropClick}>
             <div
                 className={`w-full  transform overflow-hidden rounded-t-lg bg-white px-6 py-4 transition-all duration-300 dark:bg-neutral-800 sm:m-4 sm:max-w-xl sm:rounded-lg ${className}`}
                 role='dialog'>

@@ -9,6 +9,8 @@ import { usePathname } from 'next/navigation';
 const layout = ({ children }: { children: React.ReactNode }) => {
     const pathName = usePathname();
     const [image, setImage] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,6 +22,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
                 const data: any = await fetchProfileDetails(payload, token);
                 setImage(data.userImage);
+                setName(data.firstName);
+                setEmail(data.email);
             } catch (error) {
                 console.log(error);
             }
@@ -102,8 +106,48 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <div>
-            <div className='min-h-screen  flex'>
-                <div className='container max-w-screen-lg mx-auto'>
+            <div className='min-h-[80vh] flex flex-col sm:hidden'>
+                <div className='  container max-w-screen-lg mx-auto py-4'>
+                    <div className='flex gap-3'>
+                        <div className='flex col-span-1 flex-col gap-1'>
+                            <img
+                                src={image ? `${image}` : '/profile_avatar.png'}
+                                alt=''
+                                className=' border relative inline-block h-[100px] w-[100px] rounded-sm object-cover object-center'
+                            />
+                        </div>
+                        <div className='flex col-span-1 flex-col gap-1'>
+                            {name && <h1 className='font-semibold text-lg'>{name}</h1>}
+                            {email && <p className='text-sm text-gray-600'>{email}</p>}
+                            <label
+                                htmlFor='profilePictureInput'
+                                className='text-center text-xs mt-4 bg-transparent  border border-gray-300 py-1 px-2 rounded-md cursor-pointer w-full whitespace-nowrap'>
+                                Change Profile Picture
+                                <input id='profilePictureInput' type='file' className='hidden' onChange={handleProfilePictureChange} />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className='mt-7 list-none w-full flex gap-3 items-center overflow-y-auto'>
+                        {links.map(link => (
+                            <Link
+                                key={link.id}
+                                href={link.path}
+                                className={`cursor-pointer flex  items-center w-full whitespace-nowrap text-sm sm:text-base ${
+                                    pathName === link.path ? 'bg-primary text-white rounded-md p-2 sm:px-4 sm:h-6 sm:py-6' : 'bg-white rounded-md sm:px-4 sm:h-6 sm:py-6 hover:bg-gray-100 '
+                                }`}>
+                                {link.name}
+                            </Link>
+                        ))}
+                    </div>
+                    <hr />
+
+                    {children}
+                </div>
+            </div>
+
+            <div className='  hidden sm:flex'>
+                <div className='container max-w-screen-lg mx-auto px-2'>
                     <div>
                         <div className='bg-white rounded p-4 px-4 md:p-8 mb-6'>
                             <div className='grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3'>

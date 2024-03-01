@@ -7,7 +7,7 @@ const Page = ({ searchParams }: any) => {
         <>
             <Container>
                 <div className='z-50 md:sticky md:top-[3.5rem]'>
-                    <LocationSearchComponent searchCity={searchParams.city} />
+                    <LocationSearchComponent searchCity={searchParams.city || 'Austin, Texas, United States'} />
                 </div>
                 <Vehicles searchParams={searchParams} />
             </Container>

@@ -13,11 +13,11 @@ function VehicleCardSkeleton() {
 
 export function VehiclesCardsSkeleton() {
     return (
-        <div className='mx-auto max-w-2xl px-4 py-16 sm:px-6 lg:max-w-7xl lg:px-8 sm:py-12'>
-            <div className='my-3 space-y-3'>
+        <div className=''>
+            {/* <div className='my-3 space-y-3'>
                 <div className={`h-8 w-1/3 rounded-lg bg-neutral-200 ${shimmer}`} />
                 <div className={`h-4 w-1/2 rounded-lg bg-neutral-200 ${shimmer}`} />
-            </div>
+            </div> */}
 
             <div className='mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
                 <VehicleCardSkeleton />

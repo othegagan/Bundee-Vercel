@@ -254,7 +254,7 @@ export default function SingleVehicleDetails() {
 
             const raw = JSON.stringify(requestBody);
 
-            console.log(' reservation payload', raw);
+            // console.log(' reservation payload', raw);
 
             const response = await fetch(reservationURL, {
                 method: 'POST',

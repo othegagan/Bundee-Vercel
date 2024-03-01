@@ -24,7 +24,11 @@ const Vehicles = ({ searchParams }: any) => {
                 <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>Available Cars</h1>
 
                 <div className='flex  items-center gap-4 justify-between'>
-                    {!loading && <p className='text-sm text-neutral-600 font-medium'>{filteredCars.length} vehicles found</p>}
+                    {!loading ? (
+                        <p className='text-sm text-neutral-600 font-medium'>{filteredCars.length} vehicles found.</p>
+                    ) : (
+                        <p className='text-sm text-neutral-600 font-medium'>Loading...</p>
+                    )}
                     <CarFilters carDetails={carDetails} setFilteredCars={setFilteredCars} />
                 </div>
             </div>
@@ -59,7 +63,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
     return (
         <Link href={`/vehicles/${car.id}?${searchQuery}`} className='custom-shadow group cursor-pointer rounded-lg bg-white hover:shadow-md '>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>
-                <div className='aspect-video w-full overflow-hidden rounded-t-md bg-neutral-200 group-hover:opacity-[0.9] lg:aspect-video lg:h-44'>
+                <div className='aspect-video w-full overflow-hidden rounded-t-md bg-neutral-200 group-hover:opacity-[0.9] h-44 lg:aspect-video lg:h-44'>
                     {images[0]?.imagename ? (
                         <img
                             src={images[0].imagename}

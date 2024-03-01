@@ -265,7 +265,7 @@ const TripImagesComponent = ({ tripsData }: any) => {
                                                         <div className='overflow-hidden relative'>
                                                             {item.type.startsWith('image/') ? (
                                                                 <img
-                                                                    className='h-full w-32 lg:w-[90%] rounded-md border-1 border-neutral-400'
+                                                                    className='h-full w-36 lg:w-[90%] rounded-md border-1 border-neutral-400'
                                                                     src={URL.createObjectURL(item)}
                                                                     alt={item.name}
                                                                 />

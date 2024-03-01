@@ -5,7 +5,6 @@ import { VscSettings } from 'react-icons/vsc';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { PiGasCan } from 'react-icons/pi';
 import { BsBatteryCharging } from 'react-icons/bs';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from '@/components/custom/modal';
@@ -54,7 +53,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
     useEffect(() => {
         setTimeout(() => {
             filterCars();
-        }, 500);
+        }, 0);
     }, [selectedMakes, minPricePerHr, maxPricePerHr, selectedRatings, selectedFuelTypes, sortOrder, seatingCapacityFilters]);
 
     useEffect(() => {
@@ -99,7 +98,16 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
         filteredCars = filteredCars.filter(car => car.price_per_hr >= minPricePerHr && car.price_per_hr <= maxPricePerHr);
 
         if (selectedRatings.length > 0) {
-            filteredCars = filteredCars.filter(car => selectedRatings.some(rating => car.rating >= rating));
+            filteredCars = filteredCars.filter(car => {
+                return selectedRatings.some(rating => {
+                    if (rating === 5) {
+                        return car.rating >= rating;
+                    }
+                    const ratingFloor = rating;
+                    const ratingCeil = rating + 1;
+                    return car.rating >= ratingFloor && car.rating < ratingCeil;
+                });
+            });
         }
 
         if (sortOrder !== 'relevance') {
@@ -161,9 +169,9 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
                 Filters {appliedFiltersCount > 0 ? <p>({appliedFiltersCount > 0 ? appliedFiltersCount : ''})</p> : null}
             </Button>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal} className='lg:max-w-5xl'>
+            <Modal isOpen={isModalOpen} onClose={closeModal} className='lg:max-w-5xl lg:max-h-auto max-h-[600px]'>
                 <ModalHeader onClose={closeModal}>Filters</ModalHeader>
-                <ModalBody className='overflow-y-auto lg:max-h-[380px]'>
+                <ModalBody className='overflow-y-scroll lg:overflow-y-auto max-h-[380px] lg:max-h-[380px]'>
                     <div className='grid gap-5 grid-cols-1 lg:grid-cols-2'>
                         <div className='  space-y-3 md:space-y-5  select-none md:border-r'>
                             <div className='flex flex-col gap-4 pb-3'>
@@ -186,7 +194,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
 
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Price Range</Label>
-                                <div className='md:w-[18rem] w-[16rem]'>
+                                <div className='md:w-[18rem] w-[19rem]'>
                                     <Slider
                                         // @ts-ignore
                                         defaultValue={[0, 200]}
@@ -203,11 +211,11 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
 
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Vehicle Make</Label>
-                                <div className='flex gap-4 flex-wrap '>
+                                <div className='flex gap-2 md:gap-4 flex-wrap '>
                                     {Array.from(new Set(carDetails.map(car => car.make.toLowerCase()))).map((make, index) => (
                                         <div
                                             key={index}
-                                            className={`flex  items-center rounded-md  cursor-pointer  w-fit text-sm font-medium ${
+                                            className={`flex  items-center rounded-md  cursor-pointer  w-fit text-xs md:text-sm font-medium ${
                                                 selectedMakes.includes(make) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input

@@ -10,8 +10,10 @@ const DrivingLicenceComponent = () => {
     const [isVerified, setIsVerfied] = useState(false);
     const [showPersona, setShowPersona] = useState(false);
     const [isloading, setIsLoading] = useState(false);
-    const { isPersonaClientLoading, createClient, personaUpdated } = usePersona();
+    const { isPersonaClientLoading, createClient, personaUpdated, getDetailsFromPersona } = usePersona();
     const [error, setError] = useState(false);
+    const [personaEnquiryId, setpersonaEnquiryId] = useState('');
+    const [verifiedDetails, setVerifiedDetails] = useState<any>({});
 
     useEffect(() => {
         setIsLoading(true);
@@ -29,9 +31,15 @@ const DrivingLicenceComponent = () => {
                 const confirmationData = await getUserExistOrNotConfirmation(userCheckData, bundee_auth_token);
                 const isPersonaVerified = confirmationData['isPersonaVerified'] == false ? false : true;
 
-                if(confirmationData.errorcode == 1){
+                if (confirmationData.errorcode == 1) {
                     setError(true);
                     throw new Error('Error in fetchUser');
+                }
+
+                if (confirmationData.personaEnquiryId) {
+                    setpersonaEnquiryId(confirmationData.personaEnquiryId);
+
+                    await getVerifiedDetailsFromPersona();
                 }
 
                 setIsVerfied(isPersonaVerified);
@@ -46,6 +54,18 @@ const DrivingLicenceComponent = () => {
         fetchUser();
     }, [personaUpdated]);
 
+    const getVerifiedDetailsFromPersona = async () => {
+        try {
+            // await new Promise(resolve => setTimeout(resolve, 5000));
+
+            const data = await getDetailsFromPersona(personaEnquiryId);
+            console.log(data);
+            setVerifiedDetails(data);
+        } catch (error) {
+            console.error('Error in getVerifiedDetailsFromPersona:', error);
+        }
+    };
+
     if (isloading) {
         return <div className='flex justify-center items-center mt-10'>Loading...</div>;
     }
@@ -57,9 +77,62 @@ const DrivingLicenceComponent = () => {
     return (
         <>
             {isVerified ? (
-                <div className=' flex justify-center'>
-                    <h1 className='text-lg text-center mt-20'>You have already verified your driving license.</h1>
-                </div>
+                <>
+                    {verifiedDetails ? (
+                        <div className='space-y-6 mt-8'>
+                            <p className='text-sm'>Your driving license details are verified. Please make sure that the details are correct. If not, please update them.</p>
+                            <div className='max-w-[350px] w-full space-y-4'>
+                                <div className='flex gap-3 items-center w-full'>
+                                    <p className='block w-[50%] font-medium text-sm'>First Name</p>
+                                    <p className='block text-sm text-primary'>{verifiedDetails['name-first']['value'] || '-'}</p>
+                                </div>
+                                <div className='flex gap-3 items-center w-full'>
+                                    <p className='block w-[50%] font-medium text-sm'> Last Name</p>
+                                    <p className='block text-sm text-primary'>{verifiedDetails['name-last']['value'] || '-'}</p>
+                                </div>
+                                <div className='flex gap-3 items-center w-full'>
+                                    <p className='block w-[50%] font-medium text-sm'> Identification Number</p>
+                                    <p className='block text-sm text-primary'>{verifiedDetails['identification-number']['value'] || ' - '}</p>
+                                </div>
+                                <div className='flex gap-3 items-center w-full'>
+                                    <p className='block w-[50%] font-medium text-sm'>Address 1 </p>
+                                    <p className='block text-sm text-primary'>{verifiedDetails['address-street-1']['value'] || '-'}</p>
+                                </div>
+                                <div className='flex gap-3 items-center w-full'>
+                                    <p className='block w-[50%] font-medium text-sm'> Address 2</p>
+                                    <p className='block text-sm text-primary'>{verifiedDetails['address-street-2']['value'] || '-'}</p>
+                                </div>
+                                <div className='flex gap-3 items-center w-full'>
+                                    <p className='block w-[50%] font-medium text-sm'> City</p>
+                                    <p className='block text-sm text-primary'>
+                                        {verifiedDetails['address-city']['value'] || '-'}, {verifiedDetails['address-country-code']['value'] || '-'}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className='flex justify-end '>
+                                <Button
+                                    type='button'
+                                    variant='black'
+                                    size='sm'
+                                    onClick={() => {
+                                        createClient(setShowPersona);
+                                    }}
+                                    disabled={isPersonaClientLoading}>
+                                    {isPersonaClientLoading ? (
+                                        <div className='flex px-16'>
+                                            <div className='loader'></div>
+                                        </div>
+                                    ) : (
+                                        <p> Update Driving License.</p>
+                                    )}
+                                </Button>
+                            </div>
+                        </div>
+                    ) : (
+                        <p>Something went wrong fetching details.</p>
+                    )}
+                </>
             ) : (
                 <div className=' flex flex-col gap-3 mt-12'>
                     <p className='block font-semibold text-base'>Oops, Your Profile is not verified, Please continue to verify your driving license.</p>

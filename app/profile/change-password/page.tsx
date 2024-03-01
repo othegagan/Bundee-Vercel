@@ -68,7 +68,7 @@ const ChangePassword = () => {
                         {error && <p className='mt-2 text-red-500 text-sm'>{error}</p>}
 
                         <div className='flex justify-end'>
-                            <Button onClick={firebasereestPasswordHandler} variant='outline' className='my-5'>
+                            <Button onClick={firebasereestPasswordHandler} variant='black' className='my-5'>
                                 Get Password Reset link
                             </Button>
                         </div>
