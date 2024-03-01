@@ -39,3 +39,29 @@ export const callApi = async (personaEnquiryId: string, userId: string) => {
         throw new Error('Error In Catch Block');
     }
 };
+
+const BearerToken = 'Bearer persona_sandbox_46fd318d-52c7-45c6-a9db-b25f4102e689';
+
+export const getVerifiedDetailsFromPersona = async (inquiryId: string) => {
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            'Persona-Version': '2023-01-05',
+            authorization: BearerToken,
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+            'Access-Control-Allow-Headers': 'Content-Type',
+        },
+    };
+
+    try {
+        const response = await fetch(`https://withpersona.com/api/v1/inquiries/${inquiryId}`, options);
+        const data = await response.json();
+        const fields = data.data.attributes['fields'];
+        return fields;
+
+    } catch (error) {
+        console.error(error);
+    }
+};

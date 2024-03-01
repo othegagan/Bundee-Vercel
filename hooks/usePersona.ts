@@ -2,9 +2,8 @@
 import { useState, useRef } from 'react';
 import * as PersonaVerification from 'persona';
 
-import { callApi } from '@/app/_actions/personaupdateapi';
+import { callApi, getVerifiedDetailsFromPersona } from '@/app/_actions/personaupdateapi';
 import { getUserExistOrNotConfirmation } from '@/app/_actions/check_user_exist';
-import axios from 'axios';
 
 const usePersona = () => {
     const isDevelopmentOrTest = process.env.NEXT_PUBLIC_APP_ENV === 'development' || process.env.NEXT_PUBLIC_APP_ENV === 'test';
@@ -97,26 +96,11 @@ const usePersona = () => {
     };
 
     const getDetailsFromPersona = async (inquiryId: string) => {
-        const BearerToken = 'Bearer persona_sandbox_46fd318d-52c7-45c6-a9db-b25f4102e689';
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                'Persona-Version': '2023-01-05',
-                authorization: BearerToken,
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-                'Access-Control-Allow-Headers': 'Content-Type',
-            },
-        };
-
         try {
-            const response = await fetch(`https://withpersona.com/api/v1/inquiries/${inquiryId}`, options);
-            const data = await response.json();
-            console.log(data);
-            return data.data.attributes.fields;
-        } catch (error) {
-            console.error(error);
+            const response = await getVerifiedDetailsFromPersona(inquiryId);
+            return response;
+        } catch (error: any) {
+            console.log(error);
         }
     };
 

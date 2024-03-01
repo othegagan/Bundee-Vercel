@@ -59,8 +59,8 @@ const DrivingLicenceComponent = () => {
             // await new Promise(resolve => setTimeout(resolve, 5000));
 
             const data = await getDetailsFromPersona(personaEnquiryId);
-            console.log(data);
-            setVerifiedDetails(data);
+            // console.log(data);
+            setVerifiedDetails(data || null);
         } catch (error) {
             console.error('Error in getVerifiedDetailsFromPersona:', error);
         }
@@ -81,7 +81,7 @@ const DrivingLicenceComponent = () => {
                     {verifiedDetails ? (
                         <div className='space-y-6 mt-8'>
                             <p className='text-sm'>Your driving license details are verified. Please make sure that the details are correct. If not, please update them.</p>
-                            <div className='max-w-[350px] w-full space-y-4'>
+                            <div className='max-w-[400px] w-full space-y-4'>
                                 <div className='flex gap-3 items-center w-full'>
                                     <p className='block w-[50%] font-medium text-sm'>First Name</p>
                                     <p className='block text-sm text-primary'>{verifiedDetails['name-first']['value'] || '-'}</p>
@@ -130,7 +130,7 @@ const DrivingLicenceComponent = () => {
                             </div>
                         </div>
                     ) : (
-                        <p>Something went wrong fetching details.</p>
+                        <p className='mt-10 text-base '>Something went wrong fetching details.</p>
                     )}
                 </>
             ) : (
