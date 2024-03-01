@@ -100,23 +100,24 @@ const usePersona = () => {
         const BearerToken = 'Bearer persona_sandbox_46fd318d-52c7-45c6-a9db-b25f4102e689';
         const options = {
             method: 'GET',
-            url: `https://withpersona.com/api/v1/inquiries/${inquiryId}`,
             headers: {
                 accept: 'application/json',
                 'Persona-Version': '2023-01-05',
                 authorization: BearerToken,
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+                'Access-Control-Allow-Headers': 'Content-Type',
             },
         };
 
-        await axios
-            .request(options)
-            .then(function (response) {
-                console.log(response.data);
-                return response.data.data.attributes.fields;
-            })
-            .catch(function (error) {
-                console.error(error);
-            });
+        try {
+            const response = await fetch(`https://withpersona.com/api/v1/inquiries/${inquiryId}`, options);
+            const data = await response.json();
+            console.log(data);
+            return data.data.attributes.fields;
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return { options, isPersonaClientLoading, createClient, updateDrivingProfile, personaUpdated, embeddedClientRef, getDetailsFromPersona };
