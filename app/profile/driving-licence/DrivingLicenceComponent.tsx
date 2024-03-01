@@ -12,7 +12,6 @@ const DrivingLicenceComponent = () => {
     const [isloading, setIsLoading] = useState(false);
     const { isPersonaClientLoading, createClient, personaUpdated, getDetailsFromPersona } = usePersona();
     const [error, setError] = useState(false);
-    const [personaEnquiryId, setpersonaEnquiryId] = useState('');
     const [verifiedDetails, setVerifiedDetails] = useState<any>({});
 
     useEffect(() => {
@@ -37,9 +36,7 @@ const DrivingLicenceComponent = () => {
                 }
 
                 if (confirmationData.personaEnquiryId) {
-                    setpersonaEnquiryId(confirmationData.personaEnquiryId);
-
-                    await getVerifiedDetailsFromPersona();
+                    await getVerifiedDetailsFromPersona(confirmationData.personaEnquiryId);
                 }
 
                 setIsVerfied(isPersonaVerified);
@@ -50,11 +47,10 @@ const DrivingLicenceComponent = () => {
                 setIsLoading(false);
             }
         };
-
         fetchUser();
     }, [personaUpdated]);
 
-    const getVerifiedDetailsFromPersona = async () => {
+    const getVerifiedDetailsFromPersona = async (personaEnquiryId:any) => {
         try {
             // await new Promise(resolve => setTimeout(resolve, 5000));
 
