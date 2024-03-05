@@ -4,6 +4,7 @@ import * as PersonaVerification from 'persona';
 
 import { callApi, getVerifiedDetailsFromPersona } from '@/app/_actions/personaupdateapi';
 import { getUserExistOrNotConfirmation } from '@/app/_actions/check_user_exist';
+import axios from 'axios';
 
 const usePersona = () => {
     const isDevelopmentOrTest = process.env.NEXT_PUBLIC_APP_ENV === 'development' || process.env.NEXT_PUBLIC_APP_ENV === 'test';

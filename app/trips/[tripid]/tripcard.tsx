@@ -12,6 +12,10 @@ import SwapComponent from './SwapComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
 import ModificationCalendarComponent from './ModificationCalendarComponent';
 import { startTripByDriver } from '@/app/_actions/startTripByDriver';
+import { toast } from '@/components/ui/use-toast';
+import { Toast } from '@/components/ui/toast';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 
 const TripsDetails = ({ tripsData }) => {
     const [modifyCalenderOpen, setModifyCalenderOpen] = useState(false);
@@ -69,7 +73,7 @@ const TripsDetails = ({ tripsData }) => {
                 setDisableCheckout(false);
                 setPriceCalculatedList(data?.priceCalculatedList[0]);
                 setDeductionConfigData(data?.deductionDetails[0]);
-                // console.log(data?.priceCalculatedList[0]);
+                console.log(data?.priceCalculatedList[0]);
             }
         } catch (error) {
             console.error('Error in calculating the price', error);
@@ -89,6 +93,7 @@ const TripsDetails = ({ tripsData }) => {
             airportDelivery: false,
             customDelivery: false,
             hostid: tripsData[0].hostid,
+            upcharges: tripsData[0].tripPaymentTokens[0].upcharges || 0,
         };
 
         const authToken = localStorage.getItem('bundee_auth_token');
@@ -149,7 +154,10 @@ const TripsDetails = ({ tripsData }) => {
                 upCharges: priceCalculatedList.upcharges,
                 tripAuthConfigID: 0,
                 deliveryCost: 0,
+                extreaMilageCost: 0,
                 ...priceCalculatedList,
+                Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
+                Statesurchargetax: priceCalculatedList.stateSurchargeTax,
             };
             delete reductionDetails.hostPriceMap;
             delete reductionDetails.tripAmount;
@@ -160,15 +168,33 @@ const TripsDetails = ({ tripsData }) => {
             delete reductionDetails.pricePerDay;
             delete reductionDetails.totalAmount;
             delete reductionDetails.upcharges;
+            delete reductionDetails.stateSurchargeAmount;
+            delete reductionDetails.stateSurchargeTax;
 
             // console.log('reductionDetails', reductionDetails);
             const res = await tripReduction(reductionDetails, token);
             // console.log(res);
             if (res.errorCode == '1') {
-                alert('something went wrong, please try again');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 400);
+                toast({
+                    duration: 3000,
+                    className: 'bg-red-400 text-white',
+                    title: 'Oops! Something went wrong in trip reduction.',
+                    description: 'Please try again.',
+                });
             } else {
                 closeModifyDialog();
-                window.location.reload();
+                toast({
+                    duration: 3000,
+                    className: 'bg-green-400 text-white',
+                    title: 'Trip reduced successful.',
+                    description: '',
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 400);
             }
         } catch (error) {
             console.log('Error handling reduction:', error);
@@ -217,7 +243,11 @@ const TripsDetails = ({ tripsData }) => {
                 upCharges: priceCalculatedList.upcharges,
                 deliveryCost: 0,
                 comments: 'Need to extend',
+                extreaMilageCost: 0,
+                Statesurchargetax: priceCalculatedList.stateSurchargeTax,
+                Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             };
+            // console.log(extensionDetails)
 
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(extensionDetails));
 
@@ -429,46 +459,196 @@ const TripsDetails = ({ tripsData }) => {
                                                 ) : (
                                                     <>
                                                         {priceCalculatedList && (
-                                                            <div className=''>
-                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                    {isExtensionNeeded ? 'Trip Extension in days' : 'Total Trip in days'} :{' '}
-                                                                    <span className='ml-2 font-semibold'>{priceCalculatedList.numberOfDays}</span>
-                                                                </p>
-                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                    Modified Start Date :
-                                                                    <span className='ml-2 font-semibold'>
-                                                                        {newStartDate
-                                                                            ? `${format(new Date(newStartDate), 'LLL dd, y')} | ${format(
-                                                                                  parse(pickupTime, 'HH:mm:ss', new Date()),
-                                                                                  'h:mm a'
-                                                                              )}`
-                                                                            : 'Dates not selected'}
-                                                                    </span>
-                                                                </p>
-                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                    Modified End Date :
-                                                                    <span className='ml-2 font-semibold'>
-                                                                        {newEndDate
-                                                                            ? `${format(new Date(newEndDate), 'LLL dd, y')} | ${format(
-                                                                                  parse(dropTime, 'HH:mm:ss', new Date()),
-                                                                                  'h:mm a'
-                                                                              )}`
-                                                                            : 'Dates not selected'}
-                                                                    </span>
-                                                                </p>
-                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                    Charges (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays} days)
-                                                                    <span className='ml-2 font-semibold'> $ {priceCalculatedList.tripAmount}</span>
-                                                                </p>
-                                                                <p className='text-xs font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                    Taxes (8.25%): <span className='ml-2 font-semibold'> $ {priceCalculatedList.taxAmount.toFixed(2)}</span>
-                                                                </p>
-                                                                <hr />
-                                                                <p className='text-sm font-medium leading-6 text-gray-900 flex justify-between'>
-                                                                    Total Rental Charges:{' '}
-                                                                    <span className='ml-2 font-semibold'>$ {priceCalculatedList.tripTaxAmount.toFixed(2)}</span>
-                                                                </p>
-                                                                <footer className='flex items-center justify-end gap-4 select-none mt-3'>
+                                                            <div>
+                                                                <div className='space-y-2'>
+                                                                    <p className='text-xs  text-gray-900 flex justify-between'>
+                                                                        Modified Start Date :
+                                                                        <span className='ml-2 '>
+                                                                            {newStartDate
+                                                                                ? `${format(new Date(newStartDate), 'LLL dd, y')} | ${format(
+                                                                                      parse(pickupTime, 'HH:mm:ss', new Date()),
+                                                                                      'h:mm a'
+                                                                                  )}`
+                                                                                : 'Dates not selected'}
+                                                                        </span>
+                                                                    </p>
+                                                                    <p className='text-xs  text-gray-900 flex justify-between'>
+                                                                        Modified End Date :
+                                                                        <span className='ml-2 '>
+                                                                            {newEndDate
+                                                                                ? `${format(new Date(newEndDate), 'LLL dd, y')} | ${format(
+                                                                                      parse(dropTime, 'HH:mm:ss', new Date()),
+                                                                                      'h:mm a'
+                                                                                  )}`
+                                                                                : 'Dates not selected'}
+                                                                        </span>
+                                                                    </p>
+                                                                    {priceCalculatedList?.numberOfDays > 0 && (
+                                                                        <div className='flex justify-between items-center'>
+                                                                            <div className='text-xs'>{isExtensionNeeded ? 'Trip Extension in days' : 'Total Trip in days'} </div>
+                                                                            <div className='text-xs font-medium'>{priceCalculatedList.numberOfDays}</div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {priceCalculatedList?.tripAmount > 0 && (
+                                                                        <div className='flex justify-between items-center'>
+                                                                            <div className='text-xs'>
+                                                                                Rental (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays} days)
+                                                                            </div>
+                                                                            <div className='text-xs font-medium'>
+                                                                                $ {parseFloat(priceCalculatedList?.tripAmount.toString()).toFixed(2)}
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {priceCalculatedList?.numberOfDaysDiscount > 0 && (
+                                                                        <div className='flex justify-between items-center'>
+                                                                            <div className='text-xs flex items-center gap-1'>
+                                                                                Discount
+                                                                                <span>
+                                                                                    <Popover>
+                                                                                        <PopoverTrigger asChild>
+                                                                                            <Button variant='ghost' className=' w-fit p-2' type='button'>
+                                                                                                <IoInformationCircleOutline className='w-5 h-5 text-neutral-600' />
+                                                                                            </Button>
+                                                                                        </PopoverTrigger>
+                                                                                        <PopoverContent className='w-68'>
+                                                                                            <div className='grid gap-4 select-none'>
+                                                                                                <div className='space-y-2'>
+                                                                                                    <h4 className='font-medium leading-none'>Discount</h4>
+                                                                                                </div>
+                                                                                                <div className='space-y-1'>
+                                                                                                    {priceCalculatedList?.discountAmount > 0 && (
+                                                                                                        <div className='flex justify-between items-center'>
+                                                                                                            <div className='text-sm'>
+                                                                                                                {priceCalculatedList?.numberOfDaysDiscount} Day Discount applied -{' '}
+                                                                                                                {parseFloat(
+                                                                                                                    priceCalculatedList?.discountPercentage.toString()
+                                                                                                                ).toFixed(1)}{' '}
+                                                                                                                %
+                                                                                                            </div>
+                                                                                                            {/* <div className='text-sm font-medium'>$ {parseFloat(pricelist?.discountAmount.toString()).toFixed(2)}</div> */}
+                                                                                                        </div>
+                                                                                                    )}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </PopoverContent>
+                                                                                    </Popover>
+                                                                                </span>
+                                                                            </div>
+                                                                            <div className='text-xs font-medium text-green-500'>$ {priceCalculatedList?.discountAmount}</div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {priceCalculatedList?.upcharges > 0 && (
+                                                                        <div className='flex justify-between items-center'>
+                                                                            <div className='text-xs flex items-center gap-1'>Upcharges</div>
+                                                                            <div className='text-xs font-medium text-green-500'>$ {priceCalculatedList?.upcharges}</div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {priceCalculatedList?.tripFee > 0 && (
+                                                                        <div className='flex justify-between items-center'>
+                                                                            <div className='text-xs flex items-center gap-1'>
+                                                                                Trip Fee
+                                                                                <span>
+                                                                                    <Popover>
+                                                                                        <PopoverTrigger asChild>
+                                                                                            <Button variant='ghost' className=' w-fit p-2' type='button'>
+                                                                                                <IoInformationCircleOutline className='w-5 h-5 text-neutral-600' />
+                                                                                            </Button>
+                                                                                        </PopoverTrigger>
+                                                                                        <PopoverContent className='w-80'>
+                                                                                            <div className='grid gap-4 select-none'>
+                                                                                                <div className='space-y-2'>
+                                                                                                    <h4 className='font-medium leading-none'>Trip Fee</h4>
+                                                                                                </div>
+                                                                                                <div className='space-y-1'>
+                                                                                                    {priceCalculatedList?.concessionFee > 0 && (
+                                                                                                        <div className='flex justify-between items-center'>
+                                                                                                            <div className='text-sm'>Airport concession recovery fee</div>
+                                                                                                            <div className='text-sm font-medium'>
+                                                                                                                ${' '}
+                                                                                                                {parseFloat(priceCalculatedList?.concessionFee.toString()).toFixed(
+                                                                                                                    2
+                                                                                                                )}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    )}
+
+                                                                                                    {priceCalculatedList?.stateSurchargeAmount > 0 && (
+                                                                                                        <div className='flex justify-between items-center'>
+                                                                                                            <div className='text-sm'>State Surcharge </div>
+                                                                                                            <div className='text-sm font-medium'>
+                                                                                                                ${' '}
+                                                                                                                {parseFloat(
+                                                                                                                    priceCalculatedList?.stateSurchargeAmount.toString()
+                                                                                                                ).toFixed(2)}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    )}
+
+                                                                                                    {priceCalculatedList?.registrationRecoveryFee > 0 && (
+                                                                                                        <div className='flex justify-between items-center'>
+                                                                                                            <div className='text-sm'>Vehicle licensing recovery fee </div>
+                                                                                                            <div className='text-sm font-medium'>
+                                                                                                                ${' '}
+                                                                                                                {parseFloat(
+                                                                                                                    priceCalculatedList?.registrationRecoveryFee.toString()
+                                                                                                                ).toFixed(2)}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    )}
+
+                                                                                                    {priceCalculatedList?.tripFee > 0 && (
+                                                                                                        <div className='flex justify-between items-center'>
+                                                                                                            <div className='text-sm'>Platform fee </div>
+                                                                                                            <div className='text-sm font-medium'>
+                                                                                                                $ {parseFloat(priceCalculatedList?.tripFee.toString()).toFixed(2)}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    )}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </PopoverContent>
+                                                                                    </Popover>
+                                                                                </span>
+                                                                            </div>
+                                                                            <div className='text-xs font-medium'>
+                                                                                ${' '}
+                                                                                {parseFloat(
+                                                                                    (
+                                                                                        priceCalculatedList?.concessionFee +
+                                                                                        priceCalculatedList?.stateSurchargeAmount +
+                                                                                        priceCalculatedList?.registrationRecoveryFee +
+                                                                                        priceCalculatedList?.tripFee
+                                                                                    ).toString()
+                                                                                ).toFixed(2)}
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {priceCalculatedList?.taxAmount > 0 && (
+                                                                        <div className='flex justify-between items-center'>
+                                                                            <div className='text-xs'>Sales Taxes ({priceCalculatedList?.taxPercentage * 100}%)</div>
+                                                                            <div className='text-xs font-medium'>
+                                                                                $ {parseFloat(priceCalculatedList?.taxAmount.toString()).toFixed(2)}
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                    <hr />
+
+                                                                    {priceCalculatedList?.tripTaxAmount > 0 && (
+                                                                        <div className='flex justify-between items-center mb-6'>
+                                                                            <div className='text-sm font-semibold'>Total Rental Charge</div>
+                                                                            <div className='text-sm  font-semibold'>
+                                                                                $ {parseFloat(priceCalculatedList?.tripTaxAmount.toString()).toFixed(2)}
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+
+                                                                <footer className='flex items-center justify-end gap-4 select-none mt-6'>
                                                                     <Button type='button' onClick={closeModifyDialog} variant='outline'>
                                                                         Cancel
                                                                     </Button>

@@ -50,7 +50,7 @@ const DrivingLicenceComponent = () => {
         fetchUser();
     }, [personaUpdated]);
 
-    const getVerifiedDetailsFromPersona = async (personaEnquiryId:any) => {
+    const getVerifiedDetailsFromPersona = async (personaEnquiryId: any) => {
         try {
             // await new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -100,9 +100,15 @@ const DrivingLicenceComponent = () => {
                                 </div>
                                 <div className='flex gap-3 items-center w-full'>
                                     <p className='block w-[50%] font-medium text-sm'> City</p>
-                                    <p className='block text-sm text-primary'>
-                                        {verifiedDetails['address-city']['value'] || '-'}, {verifiedDetails['address-country-code']['value'] || '-'}
-                                    </p>
+                                    <p className='block text-sm text-primary'>{verifiedDetails['address-city']['value'] || '-'}</p>
+                                </div>
+                                <div className='flex gap-3 items-center w-full'>
+                                    <p className='block w-[50%] font-medium text-sm'> State</p>
+                                    <p className='block text-sm text-primary'>{verifiedDetails['address-subdivision']['value'] || '-'}</p>
+                                </div>
+                                <div className='flex gap-3 items-center w-full'>
+                                    <p className='block w-[50%] font-medium text-sm'> Country</p>
+                                    <p className='block text-sm text-primary'>{verifiedDetails['address-country-code']['value'] || '-'}</p>
                                 </div>
                             </div>
 

@@ -12,7 +12,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                 <div className='sm:overflow-hidden rounded-lg '>
                     <Carousel autoSlide={false}>
                         {vehicleImages.map((s, i) => (
-                            <img key={i} src={s.imagename} className='max-h-fit min-w-full' alt={`vehicle image ${i}`} />
+                            <img key={i} src={s.imagename} className='max-h-fit object-cover min-w-full' alt={`vehicle image ${i}`} />
                         ))}
                     </Carousel>
                 </div>

@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { extractTimeIn12HourFormat } from '@/lib/createDateTime';
 import { format } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
 import secureLocalStorage from 'react-secure-storage';
@@ -251,10 +250,12 @@ export default function SingleVehicleDetails() {
             delete requestBody.totalAmount;
             delete requestBody.tripAmount;
             delete requestBody.upcharges;
+            delete requestBody.stateSurchargeAmount;
+            delete requestBody.stateSurchargeTax;
 
             const raw = JSON.stringify(requestBody);
 
-            // console.log(' reservation payload', raw);
+            console.log(' reservation payload', raw);
 
             const response = await fetch(reservationURL, {
                 method: 'POST',
@@ -264,6 +265,7 @@ export default function SingleVehicleDetails() {
             });
 
             const result = await response.json();
+            // console.log(result)
 
             if (result.errorCode === '0') {
                 toast({
@@ -332,8 +334,11 @@ export default function SingleVehicleDetails() {
         delete requestBody.tripAmount;
         delete requestBody.upcharges;
         delete requestBody.hostid;
+        delete requestBody.stateSurchargeAmount;
+        delete requestBody.stateSurchargeTax;
 
         const payload = JSON.stringify(requestBody);
+        // console.log('Trip Extension payload', payload);
 
         try {
             const response = await fetch(tripModificationURL, {
@@ -344,6 +349,7 @@ export default function SingleVehicleDetails() {
             });
 
             const result = await response.json();
+            // console.log(result);
 
             // Check the result and redirect accordingly
             if (result.errorCode === '0') {
@@ -395,11 +401,15 @@ export default function SingleVehicleDetails() {
                                                     <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{vehicleName}</h5>
                                                     <div className='flex items-center justify-between'>
                                                         <dt className='text-sm font-bold'>Trip Start Date</dt>
-                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.startTime), 'PPP') + "|"+ format(new Date(checkoutDetails.startTime), 'h:mm a')}</dd>
+                                                        <dd className='text-sm font-medium text-gray-900'>
+                                                            {format(new Date(checkoutDetails.startTime), 'PPP') + '|' + format(new Date(checkoutDetails.startTime), 'h:mm a')}
+                                                        </dd>
                                                     </div>
                                                     <div className='flex items-center justify-between'>
                                                         <dt className='text-sm font-bold'>Trip End Date</dt>
-                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.endTime), 'PPP') + "|"+ format(new Date(checkoutDetails.endTime), 'h:mm a') } </dd>
+                                                        <dd className='text-sm font-medium text-gray-900'>
+                                                            {format(new Date(checkoutDetails.endTime), 'PPP') + '|' + format(new Date(checkoutDetails.endTime), 'h:mm a')}{' '}
+                                                        </dd>
                                                     </div>
                                                 </dl>
                                                 <dl className='space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6'>
@@ -445,11 +455,15 @@ export default function SingleVehicleDetails() {
                                                     <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{vehicleName}</h5>
                                                     <div className='flex items-center justify-between'>
                                                         <dt className='text-sm font-bold'>Modified Trip Start Date</dt>
-                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.startTime), 'PPP') + "|"+ format(new Date(checkoutDetails.startTime), 'h:mm a')}</dd>
+                                                        <dd className='text-sm font-medium text-gray-900'>
+                                                            {format(new Date(checkoutDetails.startTime), 'PPP') + '|' + format(new Date(checkoutDetails.startTime), 'h:mm a')}
+                                                        </dd>
                                                     </div>
                                                     <div className='flex items-center justify-between'>
                                                         <dt className='text-sm font-bold'>Modified Trip End Date</dt>
-                                                        <dd className='text-sm font-medium text-gray-900'>{format(new Date(checkoutDetails.endTime), 'PPP') + "|"+ format(new Date(checkoutDetails.endTime), 'h:mm a')}</dd>
+                                                        <dd className='text-sm font-medium text-gray-900'>
+                                                            {format(new Date(checkoutDetails.endTime), 'PPP') + '|' + format(new Date(checkoutDetails.endTime), 'h:mm a')}
+                                                        </dd>
                                                     </div>
                                                 </dl>
                                                 <dl className='space-y-6 border-t border-gray-200 py-6 px-4 sm:px-6'>

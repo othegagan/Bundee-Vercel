@@ -238,6 +238,9 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 delivery: delivery,
                 deliveryCost: delivery ? deliveryCost : 0,
                 upCharges: priceCalculatedList.upcharges,
+                extreaMilageCost: 0,
+                Statesurchargetax: priceCalculatedList.stateSurchargeTax,
+                Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             };
 
             console.log(checkoutDetails);
@@ -305,9 +308,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 </div>
 
                                 <div className='flex items-center'>
-                                    <Link href={`/vehicles?`} className=' text-sm font-medium text-neutral-900'>
-                                        Available Vehicles
-                                    </Link>
+                                    <div className=' text-sm font-medium text-neutral-900 cursor-pointer'>Available Vehicles</div>
                                     <CgFormatSlash className='h-6 w-6 text-neutral-300' />
                                 </div>
 
@@ -393,19 +394,14 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
                                     <p className='text-sm text-neutral-600'>You will not be charged until the host accepts the reservation request.</p>
 
-                                    <div className='flex items-center justify-between'>
+                                    <div className=''>
                                         {priceLoading ? (
                                             <div className={`h-8 w-full rounded-md bg-neutral-200 ${shimmer}`} />
                                         ) : isPriceError ? null : ( // <h3 className='text-lg md:text-xl  font-semibold text-neutral-900'>Total Rental Charge: $0</h3>
-                                            <div className='flex flex-wrap justify-between gap-4 w-full items-center'>
-                                                <h3 className='text-lg md:text-lg  text-neutral-900'>
-                                                    Total: <span className='font-semibold'>${parseFloat(priceCalculatedList?.tripTaxAmount).toFixed(2)} </span>
-                                                </h3>
-                                                <PriceDisplayComponent pricelist={priceCalculatedList} />
-                                            </div>
+                                            <PriceDisplayComponent pricelist={priceCalculatedList} />
                                         )}
                                     </div>
-                                    <hr />
+                                    {/* <hr />
                                     {priceCalculatedList?.numberOfDaysDiscount > 0 && priceCalculatedList?.discountAmount > 0 ? (
                                         <div className='space-y-2'>
                                             <p className='font-semibold'>Discounts</p>
@@ -417,12 +413,12 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                                 <div className=' font-medium text-green-500 whitespace-nowrap '>$ {parseFloat(priceCalculatedList?.discountAmount).toFixed(2)}</div>
                                             </div>
                                         </div>
-                                    ) : null}
+                                    ) : null} */}
 
                                     <Button
                                         type='button'
                                         size='lg'
-                                        className='mt-4 flex w-full'
+                                        className='mt-6 flex w-full'
                                         disabled={!!error || priceLoading || isPriceError}
                                         onClick={() =>
                                             requestToCheckOutHandler(vehicleDetails.make, vehicleDetails.model, vehicleDetails.year, vehicleImages[0]?.imagename, vehicleDetails.id)
