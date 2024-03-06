@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { roundToTwoDecimalPlaces } from '@/lib/utils';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 
-const PriceDisplayComponent = ({ pricelist }: any) => {
+const PriceDisplayComponent = ({ pricelist }: { pricelist: any }) => {
     return (
         <div>
             <div className='space-y-1 w-full '>
@@ -11,7 +12,7 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                         <div className='text-md'>
                             Rental (${pricelist?.pricePerDay} X {pricelist?.numberOfDays} days)
                         </div>
-                        <div className='text-md font-medium'>$ {parseFloat(pricelist?.charges.toString()).toFixed(2)}</div>
+                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.charges)}</div>
                     </div>
                 )}
 
@@ -22,7 +23,7 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                             <span>
                                 <Popover>
                                     <PopoverTrigger asChild>
-                                        <Button variant='ghost' className=' w-fit p-2' type='button'>
+                                        <Button variant='ghost' className=' w-fit p-1 h-fit' type='button'>
                                             <IoInformationCircleOutline className='w-5 h-5 text-neutral-600' />
                                         </Button>
                                     </PopoverTrigger>
@@ -35,10 +36,9 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                                                 {pricelist?.discountAmount > 0 && (
                                                     <div className='flex justify-between items-center'>
                                                         <div className='text-sm'>
-                                                            {pricelist?.numberOfDaysDiscount} Day Discount applied -{' '}
-                                                            {parseFloat(pricelist?.discountPercentage.toString()).toFixed(1)} %
+                                                            {pricelist?.numberOfDaysDiscount} Day Discount applied - {roundToTwoDecimalPlaces(pricelist?.discountPercentage)} %
                                                         </div>
-                                                        {/* <div className='text-sm font-medium'>$ {parseFloat(pricelist?.discountAmount.toString()).toFixed(2)}</div> */}
+                                                        {/* <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div> */}
                                                     </div>
                                                 )}
                                             </div>
@@ -47,7 +47,7 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                                 </Popover>
                             </span>
                         </div>
-                        <div className='text-md font-medium text-green-500'>$ {pricelist?.discountAmount}</div>
+                        <div className='text-md font-medium text-green-500'>$ {roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
                     </div>
                 )}
 
@@ -58,7 +58,7 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                             <span>
                                 <Popover>
                                     <PopoverTrigger asChild>
-                                        <Button variant='ghost' className=' w-fit p-2' type='button'>
+                                        <Button variant='ghost' className=' w-fit p-1 h-fit' type='button'>
                                             <IoInformationCircleOutline className='w-5 h-5 text-neutral-600' />
                                         </Button>
                                     </PopoverTrigger>
@@ -69,7 +69,7 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                                                 {pricelist?.delivery > 0 && (
                                                     <div className='flex justify-between items-center'>
                                                         <div className='text-sm'>Custom Delivery fee</div>
-                                                        <div className='text-sm font-medium'>$ {parseFloat(pricelist?.delivery.toString()).toFixed(2)}</div>
+                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                                                     </div>
                                                 )}
                                             </div>
@@ -78,14 +78,14 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                                 </Popover>
                             </span>
                         </div>
-                        <div className='text-md font-medium'>$ {parseFloat(pricelist?.delivery.toString()).toFixed(2)}</div>
+                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                     </div>
                 )}
 
                 {pricelist?.upcharges > 0 && (
                     <div className='flex justify-between items-center'>
                         <div className='text-md'>Short notice rental fee</div>
-                        <div className='text-md font-medium'>$ {parseFloat(pricelist?.upcharges.toString()).toFixed(2)}</div>
+                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.upcharges)}</div>
                     </div>
                 )}
 
@@ -96,7 +96,7 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                             <span>
                                 <Popover>
                                     <PopoverTrigger asChild>
-                                        <Button variant='ghost' className=' w-fit p-2' type='button'>
+                                        <Button variant='ghost' className=' w-fit p-1 h-fit' type='button'>
                                             <IoInformationCircleOutline className='w-5 h-5 text-neutral-600' />
                                         </Button>
                                     </PopoverTrigger>
@@ -109,28 +109,28 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                                                 {pricelist?.concessionFee > 0 && (
                                                     <div className='flex justify-between items-center'>
                                                         <div className='text-sm'>Airport concession recovery fee</div>
-                                                        <div className='text-sm font-medium'>$ {parseFloat(pricelist?.concessionFee.toString()).toFixed(2)}</div>
+                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.concessionFee)}</div>
                                                     </div>
                                                 )}
 
                                                 {pricelist?.stateSurchargeAmount > 0 && (
                                                     <div className='flex justify-between items-center'>
                                                         <div className='text-sm'>State Surcharge </div>
-                                                        <div className='text-sm font-medium'>$ {parseFloat(pricelist?.stateSurchargeAmount.toString()).toFixed(2)}</div>
+                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.stateSurchargeAmount)}</div>
                                                     </div>
                                                 )}
 
                                                 {pricelist?.registrationRecoveryFee > 0 && (
                                                     <div className='flex justify-between items-center'>
                                                         <div className='text-sm'>Vehicle licensing recovery fee </div>
-                                                        <div className='text-sm font-medium'>$ {parseFloat(pricelist?.registrationRecoveryFee.toString()).toFixed(2)}</div>
+                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.registrationRecoveryFee)}</div>
                                                     </div>
                                                 )}
 
                                                 {pricelist?.tripFee > 0 && (
                                                     <div className='flex justify-between items-center'>
                                                         <div className='text-sm'>Platform fee </div>
-                                                        <div className='text-sm font-medium'>$ {parseFloat(pricelist?.tripFee.toString()).toFixed(2)}</div>
+                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
                                                     </div>
                                                 )}
                                             </div>
@@ -140,22 +140,22 @@ const PriceDisplayComponent = ({ pricelist }: any) => {
                             </span>
                         </div>
                         <div className='text-md font-medium'>
-                            ${' '}
-                            {parseFloat((pricelist.concessionFee + pricelist.stateSurchargeAmount + pricelist.registrationRecoveryFee + pricelist?.tripFee).toString()).toFixed(2)}
+                            $ {roundToTwoDecimalPlaces(pricelist.concessionFee + pricelist.stateSurchargeAmount + pricelist.registrationRecoveryFee + pricelist?.tripFee)}
                         </div>
                     </div>
                 )}
+
                 {pricelist?.taxAmount > 0 && (
                     <div className='flex justify-between items-center'>
-                        <div className='text-md'>Sales Taxes ({pricelist?.taxPercentage * 100}%)</div>
-                        <div className='text-md font-medium'>$ {parseFloat(pricelist?.taxAmount.toString()).toFixed(2)}</div>
+                        <div className='text-md'>Sales Taxes ({roundToTwoDecimalPlaces(pricelist?.taxPercentage * 100)}%)</div>
+                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
                     </div>
                 )}
                 <hr />
                 {pricelist?.tripTaxAmount > 0 && (
                     <div className='flex justify-between items-center'>
                         <div className='text-lg font-bold'>Total Rental Charge</div>
-                        <div className='text-lg  font-bold'>$ {parseFloat(pricelist?.tripTaxAmount.toString()).toFixed(2)}</div>
+                        <div className='text-lg  font-bold'>$ {roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
                     </div>
                 )}
             </div>

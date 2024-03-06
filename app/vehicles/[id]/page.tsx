@@ -51,9 +51,10 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: '10:00:00', history: 'replace' });
     const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: '08:00:00', history: 'replace' });
 
-    const [isAirportDelivery, setIsAirportDelivery] = useState(false);
+    const [isAirportDeliveryChoosen, setIsAirportDeliveryChoosen] = useState(false);
     const [isCustoumDelivery, setIsCustoumDelivery] = useState(false);
     const [customDeliveryLocation, setCustomDeliveryLocation] = useState(null);
+    const [isAirportDeliveryAvailable, setIsAirportDeliveryAvailable] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -89,7 +90,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 }
 
                 const deliveryDetails = extractFirstDeliveryDetails(data.vehicleBusinessConstraints || null);
-                setIsAirportDelivery(deliveryDetails?.deliveryToAirport);
+                setIsAirportDeliveryAvailable(deliveryDetails?.deliveryToAirport);
 
                 const user = localStorage.getItem('userId');
                 await getPriceCalculation();
@@ -118,7 +119,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         };
 
         fetchData();
-    }, [startDate, endDate, startTime, endTime, isCustoumDelivery, searchParams, isAirportDelivery]);
+    }, [startDate, endDate, startTime, endTime, isCustoumDelivery, searchParams, isAirportDeliveryChoosen]);
 
     async function getPriceCalculation() {
         try {
@@ -134,7 +135,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
             };
 
             // Modify payload based on conditions
-            if (isAirportDelivery) {
+            if (isAirportDeliveryChoosen) {
                 payload.airportDelivery = true;
                 payload.customDelivery = false;
             } else if (isCustoumDelivery) {
@@ -146,6 +147,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
             const authToken = localStorage.getItem('bundee_auth_token');
             const responseData: any = await calculatePrice(payload, authToken);
+            // console.log(responseData.priceCalculatedList?.[0])
 
             if (responseData.errorCode == 0) {
                 setPriceCalculatedList(responseData.priceCalculatedList?.[0]);
@@ -234,7 +236,6 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 latitude: '',
                 longitude: '',
                 ...priceCalculatedList,
-                tripDiscountedAmount: priceCalculatedList.discountAmount,
                 delivery: delivery,
                 deliveryCost: delivery ? deliveryCost : 0,
                 upCharges: priceCalculatedList.upcharges,
@@ -243,7 +244,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             };
 
-            console.log(checkoutDetails);
+            // console.log(checkoutDetails);
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
 
             if (!isVerified) {
@@ -361,6 +362,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                             setIsCustoumDelivery={setIsCustoumDelivery}
                                             city={searchParams.city}
                                             setCustomDeliveryLocation={setCustomDeliveryLocation}
+                                            isAirportDeliveryChoosen={isAirportDeliveryChoosen}
+                                            setIsAirportDeliveryChoosen={setIsAirportDeliveryChoosen}
                                         />
                                     </div>
 

@@ -1,21 +1,20 @@
-import { calculatePrice, calculatePriceForTripExtension, calculatePriceForTripReduction } from '@/app/_actions/calculatePrice';
-import { getAvailabilityDatesByVehicleId } from '@/app/_actions/get_availability_dates_by_vehicle_id';
+import { calculatePriceForTripExtension, calculatePriceForTripReduction } from '@/app/_actions/calculatePrice';
+import { startTripByDriver } from '@/app/_actions/startTripByDriver';
 import { tripReduction } from '@/app/_actions/trip_reduction';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { differenceInCalendarDays, format, parse, set } from 'date-fns';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { toast } from '@/components/ui/use-toast';
+import { format, parse } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 import secureLocalStorage from 'react-secure-storage';
 import CancelTripComponent from './CancelTripComponent';
-import SwapComponent from './SwapComponent';
-import VehicleDetailsComponent from './VehicleDetailsComponent';
 import ModificationCalendarComponent from './ModificationCalendarComponent';
-import { startTripByDriver } from '@/app/_actions/startTripByDriver';
-import { toast } from '@/components/ui/use-toast';
-import { Toast } from '@/components/ui/toast';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { IoInformationCircleOutline } from 'react-icons/io5';
+import SwapComponent from './SwapComponent';
+import TripPriceListComponent from './TripPriceListComponent';
+import VehicleDetailsComponent from './VehicleDetailsComponent';
+import { roundToTwoDecimalPlaces } from '@/lib/utils';
 
 const TripsDetails = ({ tripsData }) => {
     const [modifyCalenderOpen, setModifyCalenderOpen] = useState(false);
@@ -73,7 +72,7 @@ const TripsDetails = ({ tripsData }) => {
                 setDisableCheckout(false);
                 setPriceCalculatedList(data?.priceCalculatedList[0]);
                 setDeductionConfigData(data?.deductionDetails[0]);
-                console.log(data?.priceCalculatedList[0]);
+                // console.log(data?.priceCalculatedList[0]);
             }
         } catch (error) {
             console.error('Error in calculating the price', error);
@@ -90,10 +89,10 @@ const TripsDetails = ({ tripsData }) => {
             vehicleid: tripsData[0].vehicleId,
             startTime: new Date(format(new Date(newStartDate), 'yyyy-MM-dd') + 'T' + pickupTime).toISOString(),
             endTime: new Date(format(new Date(newEndDate), 'yyyy-MM-dd') + 'T' + dropTime).toISOString(),
-            airportDelivery: false,
-            customDelivery: false,
             hostid: tripsData[0].hostid,
             upcharges: tripsData[0].tripPaymentTokens[0].upcharges || 0,
+            delivery: tripsData[0].tripPaymentTokens[0].deliveryCost || 0,
+            tripFee: tripsData[0].tripPaymentTokens[0].tripFee || 0,
         };
 
         const authToken = localStorage.getItem('bundee_auth_token');
@@ -303,42 +302,48 @@ const TripsDetails = ({ tripsData }) => {
                             </div>
 
                             <div className='mt-4 lg:row-span-3 lg:mt-0'>
-                                <div className='flex flex-col gap-3'>
+                                {/* <div className='flex flex-col gap-3'>
                                     <p className='text-3xl font-bold tracking-tight text-neutral-900'>{`$${item.vehicleDetails[0].price_per_hr} / day`}</p>
                                     <p className='text-base text-gray-900'>
                                         Total Rental Charges : <b>${item?.tripPaymentTokens[0]?.tripTaxAmount.toFixed(2)}</b>{' '}
                                     </p>
-                                </div>
+
+
+                                </div> */}
 
                                 <div className='mt-10 flex flex-col gap-4'>
-                                    <div className=' flex justify-between'>
-                                        <label className='font-bold'>Total Booking Days</label>
-                                        <p className='text-base text-gray-600'>
+                                    <div className='flex justify-between items-center'>
+                                        <div className='text-md'>Total Booking Days</div>
+                                        <div className='text-md font-medium'>
                                             {item.tripPaymentTokens[0].totaldays} {item?.tripPaymentTokens[0]?.totaldays == 1 ? 'Day' : 'Days'}
-                                        </p>
+                                        </div>
                                     </div>
-                                    <div className=' flex justify-between'>
-                                        <label className='font-bold'>Trip Start Date</label>
-                                        <p className='text-base text-gray-600'>
+                                    <div className='flex justify-between items-center'>
+                                        <div className='text-md'>Trip Start Date</div>
+                                        <div className='text-md font-medium'>
                                             {format(new Date(item.starttime), 'LLL dd, y')} | {format(new Date(item.starttime), 'h:mm a')}
-                                        </p>
+                                        </div>
                                     </div>
-                                    <div className=' flex justify-between'>
-                                        <label className='font-bold'>Trip End Date</label>
-                                        <p className='text-base text-gray-600'>
+                                    <div className='flex justify-between items-center'>
+                                        <div className='text-md'>Trip End Date</div>
+                                        <div className='text-md font-medium'>
                                             {format(new Date(item.endtime), 'LLL dd, y')} | {format(new Date(item.endtime), 'h:mm a')}
-                                        </p>
+                                        </div>
                                     </div>
-                                    <div className=' flex justify-between'>
-                                        <label className='font-bold'>Pickup & Return</label>
-                                        <p className='text-sm text-gray-600'>
+
+                                    <div className='flex justify-between items-center'>
+                                        <div className='text-md'>Pickup & Return</div>
+                                        <div className='text-md font-medium'>
                                             {item?.vehaddress1 ? `${item?.vehaddress1}, ` : null}
                                             {item?.vehaddress2 ? `${item?.vehaddress2}, ` : null}
                                             {item?.vehcity ? `${item?.vehcity}, ` : null}
                                             {item?.vehstate ? `${item?.vehstate}, ` : null}
                                             {item?.vehzipcode ? `${item?.vehzipcode}` : null}
-                                        </p>
+                                        </div>
                                     </div>
+
+                                    <TripPriceListComponent pricelist={item?.tripPaymentTokens[0]} />
+
                                     <div className=' flex justify-between'>
                                         <label className='font-bold'>Trip Status</label>
                                         <span
@@ -426,7 +431,7 @@ const TripsDetails = ({ tripsData }) => {
                                 </header>
 
                                 <div className={`grid grid-cols-1   gap-4 w-full ${priceCalculatedList ? 'lg:grid-cols-2' : ''}`}>
-                                    <div className='grid-cols-1'>
+                                    <div className='col-span-1'>
                                         <div className='flex mb-4'>
                                             <div className='flex flex-col gap-1 w-full flex-2'>
                                                 <TimeSelect label='Trip Start Time' defaultValue={format(new Date(tripsData[0].starttime), 'HH:mm:ss')} onChange={setPickupTime} />
@@ -436,22 +441,24 @@ const TripsDetails = ({ tripsData }) => {
                                             </div>
                                         </div>
 
-                                        <ModificationCalendarComponent
-                                            vehicleid={tripsData[0].vehicleId}
-                                            originalStartDate={format(new Date(tripsData[0].starttime), 'yyyy-MM-dd')}
-                                            originalEndDate={format(new Date(tripsData[0].endtime), 'yyyy-MM-dd')}
-                                            setError={setError}
-                                            setNewStartDate={setNewStartDate}
-                                            setNewEndDate={setNewEndDate}
-                                            newStartDate={newStartDate}
-                                            newEndDate={newEndDate}
-                                            setIsExtensionNeeded={setIsExtensionNeeded}
-                                            handleExtensionCase={handleExtensionCase}
-                                            handleReductionCase={handleReductionCase}
-                                        />
+                                        <div className='flex justify-center'>
+                                            <ModificationCalendarComponent
+                                                vehicleid={tripsData[0].vehicleId}
+                                                originalStartDate={format(new Date(tripsData[0].starttime), 'yyyy-MM-dd')}
+                                                originalEndDate={format(new Date(tripsData[0].endtime), 'yyyy-MM-dd')}
+                                                setError={setError}
+                                                setNewStartDate={setNewStartDate}
+                                                setNewEndDate={setNewEndDate}
+                                                newStartDate={newStartDate}
+                                                newEndDate={newEndDate}
+                                                setIsExtensionNeeded={setIsExtensionNeeded}
+                                                handleExtensionCase={handleExtensionCase}
+                                                handleReductionCase={handleReductionCase}
+                                            />
+                                        </div>
                                     </div>
 
-                                    <div className='flex flex-col gap-4 '>
+                                    <div className='flex flex-col gap-4 col-span-1'>
                                         {!error && (
                                             <div className='px-3 mt-auto'>
                                                 {priceLoading ? (
@@ -461,8 +468,8 @@ const TripsDetails = ({ tripsData }) => {
                                                         {priceCalculatedList && (
                                                             <div>
                                                                 <div className='space-y-2'>
-                                                                    <p className='text-xs  text-gray-900 flex justify-between'>
-                                                                        Modified Start Date :
+                                                                    <p className='text-xs  text-gray-900 flex justify-between pt-1'>
+                                                                        Start Date :
                                                                         <span className='ml-2 '>
                                                                             {newStartDate
                                                                                 ? `${format(new Date(newStartDate), 'LLL dd, y')} | ${format(
@@ -472,8 +479,8 @@ const TripsDetails = ({ tripsData }) => {
                                                                                 : 'Dates not selected'}
                                                                         </span>
                                                                     </p>
-                                                                    <p className='text-xs  text-gray-900 flex justify-between'>
-                                                                        Modified End Date :
+                                                                    <p className='text-xs  text-gray-900 flex justify-between pt-1'>
+                                                                        End Date :
                                                                         <span className='ml-2 '>
                                                                             {newEndDate
                                                                                 ? `${format(new Date(newEndDate), 'LLL dd, y')} | ${format(
@@ -484,32 +491,61 @@ const TripsDetails = ({ tripsData }) => {
                                                                         </span>
                                                                     </p>
                                                                     {priceCalculatedList?.numberOfDays > 0 && (
-                                                                        <div className='flex justify-between items-center'>
+                                                                        <div className='flex justify-between items-center pt-1'>
                                                                             <div className='text-xs'>{isExtensionNeeded ? 'Trip Extension in days' : 'Total Trip in days'} </div>
                                                                             <div className='text-xs font-medium'>{priceCalculatedList.numberOfDays}</div>
                                                                         </div>
                                                                     )}
 
-                                                                    {priceCalculatedList?.tripAmount > 0 && (
-                                                                        <div className='flex justify-between items-center'>
+                                                                    {priceCalculatedList?.charges > 0 && (
+                                                                        <div className='flex justify-between items-center pt-1'>
                                                                             <div className='text-xs'>
                                                                                 Rental (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays} days)
                                                                             </div>
-                                                                            <div className='text-xs font-medium'>
-                                                                                $ {parseFloat(priceCalculatedList?.tripAmount.toString()).toFixed(2)}
+                                                                            <div className='text-xs font-medium'>$ {roundToTwoDecimalPlaces(priceCalculatedList?.charges)}</div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {priceCalculatedList?.delivery > 0 && (
+                                                                        <div className='flex justify-between items-center'>
+                                                                            <div className='text-xs flex items-center gap-1'>
+                                                                                <p>Additional services chosen</p>
+                                                                                <Popover>
+                                                                                    <PopoverTrigger asChild>
+                                                                                        <Button variant='ghost' className=' w-fit p-0 h-fit' type='button'>
+                                                                                            <IoInformationCircleOutline className='w-4 h-4 text-neutral-600' />
+                                                                                        </Button>
+                                                                                    </PopoverTrigger>
+                                                                                    <PopoverContent className='w-80'>
+                                                                                        <div className='grid gap-4 select-none'>
+                                                                                            <h4 className='font-medium leading-none'> Additional services chosen</h4>
+                                                                                            <div className='space-y-1'>
+                                                                                                {priceCalculatedList?.delivery > 0 && (
+                                                                                                    <div className='flex justify-between items-center'>
+                                                                                                        <div className='text-sm'>Custom Delivery fee</div>
+                                                                                                        <div className='text-sm font-medium'>
+                                                                                                            $ {roundToTwoDecimalPlaces(priceCalculatedList?.delivery)}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                )}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </PopoverContent>
+                                                                                </Popover>
                                                                             </div>
+                                                                            <div className='text-xs font-medium'>$ {roundToTwoDecimalPlaces(priceCalculatedList?.delivery)}</div>
                                                                         </div>
                                                                     )}
 
                                                                     {priceCalculatedList?.numberOfDaysDiscount > 0 && (
-                                                                        <div className='flex justify-between items-center'>
+                                                                        <div className='flex justify-between items-centerpt-1'>
                                                                             <div className='text-xs flex items-center gap-1'>
                                                                                 Discount
                                                                                 <span>
                                                                                     <Popover>
                                                                                         <PopoverTrigger asChild>
-                                                                                            <Button variant='ghost' className=' w-fit p-2' type='button'>
-                                                                                                <IoInformationCircleOutline className='w-5 h-5 text-neutral-600' />
+                                                                                            <Button variant='ghost' className=' w-fit p-0 h-fit' type='button'>
+                                                                                                <IoInformationCircleOutline className='w-4 h-4 text-neutral-600' />
                                                                                             </Button>
                                                                                         </PopoverTrigger>
                                                                                         <PopoverContent className='w-68'>
@@ -522,10 +558,7 @@ const TripsDetails = ({ tripsData }) => {
                                                                                                         <div className='flex justify-between items-center'>
                                                                                                             <div className='text-sm'>
                                                                                                                 {priceCalculatedList?.numberOfDaysDiscount} Day Discount applied -{' '}
-                                                                                                                {parseFloat(
-                                                                                                                    priceCalculatedList?.discountPercentage.toString()
-                                                                                                                ).toFixed(1)}{' '}
-                                                                                                                %
+                                                                                                                {roundToTwoDecimalPlaces(priceCalculatedList?.discountPercentage)} %
                                                                                                             </div>
                                                                                                             {/* <div className='text-sm font-medium'>$ {parseFloat(pricelist?.discountAmount.toString()).toFixed(2)}</div> */}
                                                                                                         </div>
@@ -536,26 +569,28 @@ const TripsDetails = ({ tripsData }) => {
                                                                                     </Popover>
                                                                                 </span>
                                                                             </div>
-                                                                            <div className='text-xs font-medium text-green-500'>$ {priceCalculatedList?.discountAmount}</div>
+                                                                            <div className='text-xs font-medium text-green-500'>
+                                                                                $ {roundToTwoDecimalPlaces(priceCalculatedList?.discountAmount)}
+                                                                            </div>
                                                                         </div>
                                                                     )}
 
                                                                     {priceCalculatedList?.upcharges > 0 && (
-                                                                        <div className='flex justify-between items-center'>
+                                                                        <div className='flex justify-between items-center pt-1'>
                                                                             <div className='text-xs flex items-center gap-1'>Upcharges</div>
                                                                             <div className='text-xs font-medium text-green-500'>$ {priceCalculatedList?.upcharges}</div>
                                                                         </div>
                                                                     )}
 
-                                                                    {priceCalculatedList?.tripFee > 0 && (
-                                                                        <div className='flex justify-between items-center'>
+                                                                    {(priceCalculatedList?.tripFee > 0 || priceCalculatedList?.concessionFee > 0 || priceCalculatedList?.statesurchargeamount > 0 || priceCalculatedList?.registrationRecoveryFee > 0) && (
+                                                                        <div className='flex justify-between items-center '>
                                                                             <div className='text-xs flex items-center gap-1'>
                                                                                 Trip Fee
                                                                                 <span>
                                                                                     <Popover>
                                                                                         <PopoverTrigger asChild>
-                                                                                            <Button variant='ghost' className=' w-fit p-2' type='button'>
-                                                                                                <IoInformationCircleOutline className='w-5 h-5 text-neutral-600' />
+                                                                                            <Button variant='ghost' className=' w-fit p-0 h-fit' type='button'>
+                                                                                                <IoInformationCircleOutline className='w-4 h-4 text-neutral-600' />
                                                                                             </Button>
                                                                                         </PopoverTrigger>
                                                                                         <PopoverContent className='w-80'>
@@ -568,10 +603,7 @@ const TripsDetails = ({ tripsData }) => {
                                                                                                         <div className='flex justify-between items-center'>
                                                                                                             <div className='text-sm'>Airport concession recovery fee</div>
                                                                                                             <div className='text-sm font-medium'>
-                                                                                                                ${' '}
-                                                                                                                {parseFloat(priceCalculatedList?.concessionFee.toString()).toFixed(
-                                                                                                                    2
-                                                                                                                )}
+                                                                                                                $ {roundToTwoDecimalPlaces(priceCalculatedList?.concessionFee)}
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     )}
@@ -581,9 +613,7 @@ const TripsDetails = ({ tripsData }) => {
                                                                                                             <div className='text-sm'>State Surcharge </div>
                                                                                                             <div className='text-sm font-medium'>
                                                                                                                 ${' '}
-                                                                                                                {parseFloat(
-                                                                                                                    priceCalculatedList?.stateSurchargeAmount.toString()
-                                                                                                                ).toFixed(2)}
+                                                                                                                {roundToTwoDecimalPlaces(priceCalculatedList?.stateSurchargeAmount)}
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     )}
@@ -593,9 +623,9 @@ const TripsDetails = ({ tripsData }) => {
                                                                                                             <div className='text-sm'>Vehicle licensing recovery fee </div>
                                                                                                             <div className='text-sm font-medium'>
                                                                                                                 ${' '}
-                                                                                                                {parseFloat(
-                                                                                                                    priceCalculatedList?.registrationRecoveryFee.toString()
-                                                                                                                ).toFixed(2)}
+                                                                                                                {roundToTwoDecimalPlaces(
+                                                                                                                    priceCalculatedList?.registrationRecoveryFee
+                                                                                                                )}
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     )}
@@ -604,7 +634,7 @@ const TripsDetails = ({ tripsData }) => {
                                                                                                         <div className='flex justify-between items-center'>
                                                                                                             <div className='text-sm'>Platform fee </div>
                                                                                                             <div className='text-sm font-medium'>
-                                                                                                                $ {parseFloat(priceCalculatedList?.tripFee.toString()).toFixed(2)}
+                                                                                                                $ {roundToTwoDecimalPlaces(priceCalculatedList?.tripFee)}
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     )}
@@ -616,14 +646,12 @@ const TripsDetails = ({ tripsData }) => {
                                                                             </div>
                                                                             <div className='text-xs font-medium'>
                                                                                 ${' '}
-                                                                                {parseFloat(
-                                                                                    (
-                                                                                        priceCalculatedList?.concessionFee +
+                                                                                {roundToTwoDecimalPlaces(
+                                                                                    priceCalculatedList?.concessionFee +
                                                                                         priceCalculatedList?.stateSurchargeAmount +
                                                                                         priceCalculatedList?.registrationRecoveryFee +
                                                                                         priceCalculatedList?.tripFee
-                                                                                    ).toString()
-                                                                                ).toFixed(2)}
+                                                                                )}
                                                                             </div>
                                                                         </div>
                                                                     )}
@@ -631,18 +659,16 @@ const TripsDetails = ({ tripsData }) => {
                                                                     {priceCalculatedList?.taxAmount > 0 && (
                                                                         <div className='flex justify-between items-center'>
                                                                             <div className='text-xs'>Sales Taxes ({priceCalculatedList?.taxPercentage * 100}%)</div>
-                                                                            <div className='text-xs font-medium'>
-                                                                                $ {parseFloat(priceCalculatedList?.taxAmount.toString()).toFixed(2)}
-                                                                            </div>
+                                                                            <div className='text-xs font-medium'>$ {roundToTwoDecimalPlaces(priceCalculatedList?.taxAmount)}</div>
                                                                         </div>
                                                                     )}
                                                                     <hr />
 
                                                                     {priceCalculatedList?.tripTaxAmount > 0 && (
-                                                                        <div className='flex justify-between items-center mb-6'>
-                                                                            <div className='text-sm font-semibold'>Total Rental Charge</div>
+                                                                        <div className='flex justify-between items-center mb-6 '>
+                                                                            <div className='text-sm font-semibold'>Extra Charges</div>
                                                                             <div className='text-sm  font-semibold'>
-                                                                                $ {parseFloat(priceCalculatedList?.tripTaxAmount.toString()).toFixed(2)}
+                                                                                $ {roundToTwoDecimalPlaces(priceCalculatedList?.tripTaxAmount)}
                                                                             </div>
                                                                         </div>
                                                                     )}

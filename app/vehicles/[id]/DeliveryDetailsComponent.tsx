@@ -4,8 +4,16 @@ import { useState } from 'react';
 import { FaChevronDown, FaLocationDot } from 'react-icons/fa6';
 import AddressSearchBox from './AddressSearchBox';
 
-const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, isCustoumDelivery, setIsCustoumDelivery, city, setCustomDeliveryLocation }) => {
-    const [customCheckbox, setCustomCheckbox] = useState(false);
+const DeliveryDetailsComponent = ({
+    vehicleBusinessConstraints,
+    vehicleDetails,
+    isCustoumDelivery,
+    setIsCustoumDelivery,
+    city,
+    setCustomDeliveryLocation,
+    isAirportDeliveryChoosen,
+    setIsAirportDeliveryChoosen,
+}) => {
     const [showDetails, setShowDetails] = useState(false);
 
     const deliveryDetails = extractFirstDeliveryDetails(vehicleBusinessConstraints);
@@ -25,11 +33,13 @@ const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, 
         }
     }
 
-    const handleCheckboxToggle2 = () => {
-        setCustomCheckbox(!customCheckbox);
+    const handleCustomDeliveryCheckbox = () => {
         setIsCustoumDelivery(!isCustoumDelivery);
         setCustomDeliveryLocation('');
-        setCustomDeliveryLocation('');
+    };
+
+    const handleAirportDeliveryCheckbox = () => {
+        setIsAirportDeliveryChoosen(!isAirportDeliveryChoosen);
     };
 
     return (
@@ -49,15 +59,15 @@ const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, 
             </div>
 
             {deliveryDetails ? (
-                <div className='border border-gray-200 w-full px-3 py-2 rounded-md cursor-pointer'>
+                <div className='border border-gray-200 w-full px-3 py-2 rounded-md '>
                     <div
-                        className='flex select-none justify-between '
+                        className='flex select-none justify-between cursor-pointer '
                         onClick={() => {
                             setShowDetails(!showDetails);
                         }}>
                         {!deliveryDetails?.deliveryToAirport ? (
                             <>
-                                {customCheckbox ? (
+                                {isCustoumDelivery ? (
                                     <p className='flex text-green-500 font-medium items-center text-sm   '>Custom delivery Charges applied</p>
                                 ) : (
                                     <p className='flex text-primary font-medium items-center text-sm   '>Do you need Custom delivery?</p>
@@ -65,7 +75,16 @@ const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, 
                             </>
                         ) : null}
 
-                        {deliveryDetails?.deliveryToAirport ? <p className='flex text-green-500 font-medium items-center text-sm   '>Airport delivery Charges applied</p> : null}
+                        {deliveryDetails?.deliveryToAirport ? (
+                            <>
+                                {isAirportDeliveryChoosen ? (
+                                    <p className='flex text-green-500 font-medium items-center text-sm   '>Airport delivery Charges applied</p>
+                                ) : (
+                                    <p className='flex text-primary font-medium items-center text-sm   '>Do you need Airport delivery?</p>
+                                )}
+                            </>
+                        ) : null}
+
                         <FaChevronDown className={`text-neutral-500   ${showDetails ? 'rotate-180' : ' rotate-0'}`} />
                     </div>
 
@@ -75,12 +94,21 @@ const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, 
                                 {deliveryDetails?.deliveryToAirport ? (
                                     <>
                                         <div className=' py-2  flex flex-col gap-3 '>
-                                            <div className='flex gap-3'>
-                                                <input type='checkbox' className='h-5 w-5' checked={deliveryDetails?.deliveryToAirport} readOnly />
-                                                <p className='text-sm text-neutral-500'>
-                                                    <span className='font-bold'> $ {deliveryDetails?.airportDeliveryCost}</span> as be applied for airport delivery
-                                                </p>
+                                            <div className='flex gap-3 select-none h-fit'>
+                                                <label htmlFor='airport' className='flex items-center gap-2 cursor-pointer'>
+                                                    <input
+                                                        id='airport'
+                                                        type='checkbox'
+                                                        className='h-5 w-5'
+                                                        checked={isAirportDeliveryChoosen}
+                                                        onChange={handleAirportDeliveryCheckbox}
+                                                    />
+                                                    <div className='text-sm text-neutral-500 flex items-center gap-2'>
+                                                        <span className='font-bold'> $ {deliveryDetails?.airportDeliveryCost}</span> will be applied for airport delivery
+                                                    </div>
+                                                </label>
                                             </div>
+
                                             <>
                                                 <p className='text-xs my-1 font-bold '>Delivery Location</p>
                                                 <p className='text-xs'>{city}</p>
@@ -95,14 +123,14 @@ const DeliveryDetailsComponent = ({ vehicleBusinessConstraints, vehicleDetails, 
                                 {!deliveryDetails?.deliveryToAirport ? (
                                     <div className=' py-2 flex flex-col gap-3 '>
                                         <div className='flex gap-3 select-none'>
-                                            <label htmlFor='custom' className='flex items-center gap-2'>
-                                                <input id='custom' type='checkbox' className='h-5 w-5' checked={customCheckbox} onChange={handleCheckboxToggle2} />
+                                            <label htmlFor='custom' className='flex items-center gap-2 cursor-pointer'>
+                                                <input id='custom' type='checkbox' className='h-5 w-5' checked={isCustoumDelivery} onChange={handleCustomDeliveryCheckbox} />
                                                 <div className='text-sm text-neutral-500 flex items-center gap-2'>
                                                     <span className='font-bold'>$ {deliveryDetails?.nonAirportDeliveryCost}</span> will be applied for custom delivery
                                                 </div>
                                             </label>
                                         </div>
-                                        <div className={`${customCheckbox ? 'block' : 'hidden'}`}>
+                                        <div className={`${isCustoumDelivery ? 'block' : 'hidden'}`}>
                                             <p className='text-xs my-2 font-bold '>Delivery Location</p>
                                             <AddressSearchBox setCustomDeliveryLocation={setCustomDeliveryLocation} />
                                         </div>

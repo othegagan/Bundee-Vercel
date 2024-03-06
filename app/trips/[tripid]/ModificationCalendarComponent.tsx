@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RangeCalendar, CalendarHeading, CalendarGrid, CalendarGridHeader, CalendarGridBody, CalendarHeaderCell, CalendarCell } from '@/components/custom/calendar';
-import { DateSelectSkeleton } from '@/components/skeletons/skeletons';
+import { CalendarSelectSkeleton, DateSelectSkeleton } from '@/components/skeletons/skeletons';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { format, isAfter, isBefore } from 'date-fns';
@@ -42,7 +42,7 @@ const ModificationCalendarComponent = ({
     const { isLoading: datesLoading, isError: datesError, unavailableDates } = useAvailabilityDates(vehicleid);
 
     if (datesLoading) {
-        return <DateSelectSkeleton />;
+        return <CalendarSelectSkeleton />;
     }
 
     if (datesError) {

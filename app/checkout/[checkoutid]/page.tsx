@@ -57,7 +57,7 @@ export default function SingleVehicleDetails() {
 
             createIntent();
             hasEffectRun.current = true;
-        } else if (!id) {
+        } else if (!id || !data) {
             window.location.href = '/noauth/not-authenticated';
         }
     }, []);

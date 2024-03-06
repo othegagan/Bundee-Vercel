@@ -70,3 +70,11 @@ export function DateSelectSkeleton() {
         </div>
     );
 }
+
+export function CalendarSelectSkeleton() {
+    return (
+        <div className='space-y-2'>
+            <div className={`h-64 w-64 rounded-md bg-neutral-200 ${shimmer}`} />
+        </div>
+    );
+}
