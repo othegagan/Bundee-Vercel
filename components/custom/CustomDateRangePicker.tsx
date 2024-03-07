@@ -25,7 +25,7 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
     });
     // console.log(dates)
 
-    const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid);
+    const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid, null);
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
 
     if (datesLoading) {
