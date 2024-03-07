@@ -22,6 +22,7 @@ import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
 import ClientOnly from '@/components/ClientOnly';
 import { CgFormatSlash } from 'react-icons/cg';
+import { toast } from '@/components/ui/use-toast';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const { addToWishlistHandler, removeFromWishlistHandler } = useWishlist();
@@ -105,13 +106,26 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
             }
         };
 
+        // const handleVisibilityChange = () => {
+        //     if (!document.hidden) {
+        //         fetchData();
+        //     }
+        // };
+
         const user = localStorage.getItem('userId');
         if (user) {
             setUserAuthenticated(true);
         }
 
         fetchData();
+
+        // document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        // return () => {
+        //     document.removeEventListener('visibilitychange', handleVisibilityChange);
+        // };
     }, [params]);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -361,6 +375,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                             isCustoumDelivery={isCustoumDelivery}
                                             setIsCustoumDelivery={setIsCustoumDelivery}
                                             city={searchParams.city}
+                                            customDeliveryLocation={customDeliveryLocation}
                                             setCustomDeliveryLocation={setCustomDeliveryLocation}
                                             isAirportDeliveryChoosen={isAirportDeliveryChoosen}
                                             setIsAirportDeliveryChoosen={setIsAirportDeliveryChoosen}
@@ -401,7 +416,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         {priceLoading ? (
                                             <div className={`h-8 w-full rounded-md bg-neutral-200 ${shimmer}`} />
                                         ) : isPriceError ? null : ( // <h3 className='text-lg md:text-xl  font-semibold text-neutral-900'>Total Rental Charge: $0</h3>
-                                            <PriceDisplayComponent pricelist={priceCalculatedList} />
+                                            <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChoosen={isAirportDeliveryChoosen} />
                                         )}
                                     </div>
                                     {/* <hr />
@@ -423,9 +438,24 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         size='lg'
                                         className='mt-6 flex w-full'
                                         disabled={!!error || priceLoading || isPriceError}
-                                        onClick={() =>
-                                            requestToCheckOutHandler(vehicleDetails.make, vehicleDetails.model, vehicleDetails.year, vehicleImages[0]?.imagename, vehicleDetails.id)
-                                        }>
+                                        onClick={() => {
+                                            if (isCustoumDelivery && !customDeliveryLocation) {
+                                                toast({
+                                                    duration: 4000,
+                                                    className: 'bg-red-400 text-white',
+                                                    title: 'Please enter a custom delivery location.',
+                                                    description: 'The custom delivery location is required for this booking.',
+                                                });
+                                                return;
+                                            }
+                                            requestToCheckOutHandler(
+                                                vehicleDetails.make,
+                                                vehicleDetails.model,
+                                                vehicleDetails.year,
+                                                vehicleImages[0]?.imagename,
+                                                vehicleDetails.id
+                                            );
+                                        }}>
                                         {priceLoading ? <span className='loader'></span> : ' Proceed to book'}
                                     </Button>
                                 </div>

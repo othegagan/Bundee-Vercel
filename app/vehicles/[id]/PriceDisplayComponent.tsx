@@ -3,14 +3,14 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { roundToTwoDecimalPlaces } from '@/lib/utils';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 
-const PriceDisplayComponent = ({ pricelist }: { pricelist: any }) => {
+const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricelist: any; isAirportDeliveryChoosen: boolean }) => {
     return (
         <div>
             <div className='space-y-1 w-full '>
                 {pricelist?.charges > 0 && (
                     <div className='flex justify-between items-center'>
                         <div className='text-md'>
-                            Rental (${pricelist?.pricePerDay} X {pricelist?.numberOfDays} days)
+                            Rental (${pricelist?.pricePerDay} X {pricelist?.numberOfDays} {pricelist?.numberOfDays == 1 ? 'day' : 'days'})
                         </div>
                         <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.charges)}</div>
                     </div>
@@ -50,7 +50,6 @@ const PriceDisplayComponent = ({ pricelist }: { pricelist: any }) => {
                         <div className='text-md font-medium text-green-500'>$ {roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
                     </div>
                 )}
-
                 {pricelist?.delivery > 0 && (
                     <div className='flex justify-between items-center'>
                         <div className='text-md flex items-center gap-1'>
@@ -68,7 +67,7 @@ const PriceDisplayComponent = ({ pricelist }: { pricelist: any }) => {
                                             <div className='space-y-1'>
                                                 {pricelist?.delivery > 0 && (
                                                     <div className='flex justify-between items-center'>
-                                                        <div className='text-sm'>Custom Delivery fee</div>
+                                                        <div className='text-sm'>{isAirportDeliveryChoosen ? 'Airport Delivery Fee' : 'Custom Delivery Fee'}</div>
                                                         <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                                                     </div>
                                                 )}
@@ -81,14 +80,12 @@ const PriceDisplayComponent = ({ pricelist }: { pricelist: any }) => {
                         <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                     </div>
                 )}
-
                 {pricelist?.upcharges > 0 && (
                     <div className='flex justify-between items-center'>
                         <div className='text-md'>Short notice rental fee</div>
                         <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.upcharges)}</div>
                     </div>
                 )}
-
                 {pricelist?.tripFee > 0 && (
                     <div className='flex justify-between items-center'>
                         <div className='text-md flex items-center gap-1'>
@@ -144,7 +141,6 @@ const PriceDisplayComponent = ({ pricelist }: { pricelist: any }) => {
                         </div>
                     </div>
                 )}
-
                 {pricelist?.taxAmount > 0 && (
                     <div className='flex justify-between items-center'>
                         <div className='text-md'>Sales Taxes ({roundToTwoDecimalPlaces(pricelist?.taxPercentage * 100)}%)</div>

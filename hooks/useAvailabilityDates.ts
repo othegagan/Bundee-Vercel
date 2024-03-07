@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAvailabilityDatesByVehicleId } from '@/app/_actions/get_availability_dates_by_vehicle_id';
+import useTabFocusEffect from './useTabFocusEffect';
 
 const useAvailabilityDates = (vehicleId: any, tripid: any) => {
     const [data, setData] = useState(null);
@@ -37,7 +38,9 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
 
     useEffect(() => {
         fetchData();
-    }, [vehicleId,tripid]);
+    }, [vehicleId, tripid]);
+
+    useTabFocusEffect(fetchData, [vehicleId, tripid]);
 
     function convertDates(unAvailabilityDate: string[]): string[] {
         const result: string[] = [];

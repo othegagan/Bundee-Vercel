@@ -6,20 +6,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from './ui/button';
 import { updateUserNotifications } from '@/app/_actions/update_all_notifications';
 import { getAllNotifications } from '@/app/_actions/get_all_notifications';
+import useTabFocusEffect from '@/hooks/useTabFocusEffect';
 
 export default function NotificationPopoverItem() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [notificationsData, setNotificationsData] = useState([]);
     const [notReadMessages, setNotReadMessages] = useState([]);
-
-    useEffect(() => {
-        const getInitialNotifications = async () => {
-            await getNotifications();
-        };
-
-        getInitialNotifications();
-    }, []);
 
     const getNotifications = async () => {
         setLoading(true);
@@ -70,13 +63,27 @@ export default function NotificationPopoverItem() {
         }
     };
 
+    useEffect(() => {
+        const getInitialNotifications = async () => {
+            await getNotifications();
+        };
+
+        getInitialNotifications();
+    }, []);
+
+    useTabFocusEffect(getNotifications, []);
+
     return (
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant='ghost' className='relative px-2' onClick={getNotifications}>
                         <BellIcon className='h-6 w-6 text-gray-600 group-hover:text-neutral-800' aria-hidden='true' />
-                        {notReadMessages.length > 0 ? <div className='absolute inline-flex items-center justify-center w-6 h-6  font-medium text-white bg-primary border-2 border-white rounded-full -top-1 -end-1  text-[9px]'>{notReadMessages.length}</div> : null}
+                        {notReadMessages.length > 0 ? (
+                            <div className='absolute inline-flex items-center justify-center w-6 h-6  font-medium text-white bg-primary border-2 border-white rounded-full -top-1 -end-1  text-[9px]'>
+                                {notReadMessages.length}
+                            </div>
+                        ) : null}
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-[310px] '>
@@ -110,7 +117,11 @@ export default function NotificationPopoverItem() {
                                 <div key={item.id} className=' rounded-md border w-full my-1 px-2 py-1 hover:bg-gray-50 '>
                                     <p className='font-medium text-sm text-foreground '>
                                         {item.branchResponses[0]?.make} {item.branchResponses[0]?.model} {item.branchResponses[0]?.year}
-                                        {item.viewed === false && <span className='  ml-2 -mt-1  bg-green-100 text-green-800 text-[10px] font-normalme-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300'>New</span>}
+                                        {item.viewed === false && (
+                                            <span className='  ml-2 -mt-1  bg-green-100 text-green-800 text-[10px] font-normalme-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300'>
+                                                New
+                                            </span>
+                                        )}
                                     </p>
 
                                     <p className='font-normal text-xs text-muted-foreground '>{item.message}</p>
