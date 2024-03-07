@@ -19,6 +19,7 @@ const ModificationCalendarComponent = ({
     setIsExtensionNeeded,
     handleReductionCase,
     handleExtensionCase,
+    tripid,
 }: any) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(originalStartDate),
@@ -34,12 +35,12 @@ const ModificationCalendarComponent = ({
             } else if (isBefore(new Date(newStartDate), new Date(originalStartDate)) || isAfter(new Date(newEndDate), new Date(originalEndDate))) {
                 handleExtensionCase();
                 setIsExtensionNeeded(true);
-                console.log('Prices For Extension');
+                // console.log('Prices For Extension');
             }
         }
     }, [newStartDate, newEndDate]);
 
-    const { isLoading: datesLoading, isError: datesError, unavailableDates } = useAvailabilityDates(vehicleid);
+    const { isLoading: datesLoading, isError: datesError, unavailableDates } = useAvailabilityDates(vehicleid, tripid);
 
     if (datesLoading) {
         return <CalendarSelectSkeleton />;
@@ -106,29 +107,31 @@ const ModificationCalendarComponent = ({
 
     return (
         <ClientOnly>
-            <RangeCalendar
-                className={'w-fit select-none border border-gray-200 mt-2 rounded-md overflow-hidden shadow-sm bg-white p-2'}
-                aria-label='Date range (uncontrolled)'
-                value={dates}
-                onChange={value => onDateSelect(value)}
-                visibleDuration={{ months: 1 }}
-                pageBehavior='visible'
-                minValue={today(getLocalTimeZone())}
-                isDateUnavailable={isDateUnavailable}
-                isInvalid={isInvalid}>
-                <CalendarHeading />
-                <CalendarGrid>
+            <div className='flex flex-col gap-2'>
+                <RangeCalendar
+                    className={'w-fit select-none border border-gray-200 mt-2 rounded-md overflow-hidden shadow-sm bg-white p-2'}
+                    aria-label='Date range (uncontrolled)'
+                    value={dates}
+                    onChange={value => onDateSelect(value)}
+                    visibleDuration={{ months: 1 }}
+                    pageBehavior='visible'
+                    minValue={today(getLocalTimeZone())}
+                    isDateUnavailable={isDateUnavailable}
+                    isInvalid={isInvalid}>
+                    <CalendarHeading />
+                    <CalendarGrid>
                         <CalendarGridHeader>{(day: any) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
                         <CalendarGridBody>{(date: any) => <CalendarCell date={date} />}</CalendarGridBody>
                     </CalendarGrid>
-            </RangeCalendar>
+                </RangeCalendar>
 
-            {errorMessage ? (
-                <div className='flex gap-2 mt-2'>
-                    <IoInformationCircleOutline className='text-destructive' />
-                    <p className='text-xs font-normal text-destructive'>{errorMessage}</p>
-                </div>
-            ) : null}
+                {errorMessage ? (
+                    <div className='flex gap-2 mt-2'>
+                        <IoInformationCircleOutline className='text-destructive' />
+                        <p className='text-sm font-normal text-destructive'>{errorMessage}</p>
+                    </div>
+                ) : null}
+            </div>
         </ClientOnly>
     );
 };

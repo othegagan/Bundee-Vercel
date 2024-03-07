@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAvailabilityDatesByVehicleId } from '@/app/_actions/get_availability_dates_by_vehicle_id';
 
-const useAvailabilityDates = (vehicleId: any) => {
+const useAvailabilityDates = (vehicleId: any, tripid: any) => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
@@ -14,7 +14,7 @@ const useAvailabilityDates = (vehicleId: any) => {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const result: any = await getAvailabilityDatesByVehicleId({ vehicleid: vehicleId }, token);
+            const result: any = await getAvailabilityDatesByVehicleId(vehicleId, tripid, token);
             setData(result);
             if (result) {
                 const bloackedDates = convertDates(result.unAvailabilityDate);

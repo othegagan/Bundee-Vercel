@@ -1,6 +1,6 @@
 "use server"
 
-export const getAvailabilityDatesByVehicleId = async (vehicleid: any, token: string) => {
+export const getAvailabilityDatesByVehicleId = async (vehicleid: any,tripid:any, token: string) => {
 
     const url = `${process.env.BUNDEE_GET_AVAILABILITY_DATES_BY_VEHICLE_ID}`;
 
@@ -9,11 +9,6 @@ export const getAvailabilityDatesByVehicleId = async (vehicleid: any, token: str
     if (token === 'undefined' || token === null || token === '' || token === undefined) {
         accessToken = process.env.FALLBACK_BUNDEE_AUTH_TOKEN || '';
     }
-    // console.log("Unavaiablitly URL", url)
-
-    // console.log("accessToken", accessToken)
-
-    // console.log('Unavaiablitly body :', vehicleid)
 
     const headersList = {
         Accept: '*/*',
@@ -21,11 +16,16 @@ export const getAvailabilityDatesByVehicleId = async (vehicleid: any, token: str
         'Content-Type': 'application/json',
     };
 
+    const payload = {
+        reservationId: tripid,
+        vehicleId: vehicleid,
+    }
+
     try {
         // console.log("Started fetching Availability Dates ")
         const response = await fetch(url, {
             method: 'POST',
-            body: JSON.stringify(vehicleid),
+            body: JSON.stringify(payload),
             headers: headersList,
             cache: 'no-cache',
         });

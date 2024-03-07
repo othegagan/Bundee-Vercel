@@ -444,6 +444,7 @@ const TripsDetails = ({ tripsData }) => {
                                         <div className='flex justify-center'>
                                             <ModificationCalendarComponent
                                                 vehicleid={tripsData[0].vehicleId}
+                                                tripid={tripsData[0].tripid}
                                                 originalStartDate={format(new Date(tripsData[0].starttime), 'yyyy-MM-dd')}
                                                 originalEndDate={format(new Date(tripsData[0].endtime), 'yyyy-MM-dd')}
                                                 setError={setError}
@@ -577,8 +578,8 @@ const TripsDetails = ({ tripsData }) => {
 
                                                                     {priceCalculatedList?.upcharges > 0 && (
                                                                         <div className='flex justify-between items-center pt-1'>
-                                                                            <div className='text-xs flex items-center gap-1'>Upcharges</div>
-                                                                            <div className='text-xs font-medium text-green-500'>$ {priceCalculatedList?.upcharges}</div>
+                                                                            <div className='text-xs flex items-center gap-1'>Short notice rental fee</div>
+                                                                            <div className='text-xs font-medium '>$ {priceCalculatedList?.upcharges}</div>
                                                                         </div>
                                                                     )}
 
