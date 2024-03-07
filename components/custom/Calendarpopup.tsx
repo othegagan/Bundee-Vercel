@@ -30,7 +30,7 @@ export function DialogDemo({ vehicleid, setParentError, setPickupDate, setDropDa
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem('auth_token_login') || '';
-                const data = await getAvailabilityDatesByVehicleId({ vehicleid: vehicleid }, token);
+                const data = await getAvailabilityDatesByVehicleId( vehicleid,null, token);
                 const { vehicleBusinessConstraints, unAvailabilityDate } = data;
 
                 setVehicleUnavailableDates(convertDates(unAvailabilityDate));
