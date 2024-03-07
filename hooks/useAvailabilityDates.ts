@@ -37,7 +37,7 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
 
     useEffect(() => {
         fetchData();
-    }, [vehicleId]);
+    }, [vehicleId,tripid]);
 
     function convertDates(unAvailabilityDate: string[]): string[] {
         const result: string[] = [];

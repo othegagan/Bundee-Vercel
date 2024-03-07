@@ -18,7 +18,7 @@ export const getAvailabilityDatesByVehicleId = async (vehicleid: any, tripid: an
     const payload = tripid
         ? {
               reservationId: tripid,
-              vehicleId: vehicleid,
+              vehicleid: vehicleid,
           }
         : { vehicleid: vehicleid };
 

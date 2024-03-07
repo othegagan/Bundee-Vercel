@@ -39,7 +39,6 @@ const ModificationCalendarComponent = ({
             }
         }
     }, [newStartDate, newEndDate]);
-
     const { isLoading: datesLoading, isError: datesError, unavailableDates } = useAvailabilityDates(vehicleid, tripid);
 
     if (datesLoading) {
