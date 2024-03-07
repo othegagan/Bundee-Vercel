@@ -1,7 +1,6 @@
-"use server"
+'use server';
 
-export const getAvailabilityDatesByVehicleId = async (vehicleid: any,tripid:any, token: string) => {
-
+export const getAvailabilityDatesByVehicleId = async (vehicleid: any, tripid: any, token: string) => {
     const url = `${process.env.BUNDEE_GET_AVAILABILITY_DATES_BY_VEHICLE_ID}`;
 
     let accessToken = token || process.env.FALLBACK_BUNDEE_AUTH_TOKEN || '';
@@ -16,10 +15,12 @@ export const getAvailabilityDatesByVehicleId = async (vehicleid: any,tripid:any,
         'Content-Type': 'application/json',
     };
 
-    const payload = {
-        reservationId: tripid,
-        vehicleId: vehicleid,
-    }
+    const payload = tripid
+        ? {
+              reservationId: tripid,
+              vehicleId: vehicleid,
+          }
+        : { vehicleid: vehicleid };
 
     try {
         // console.log("Started fetching Availability Dates ")
@@ -39,8 +40,7 @@ export const getAvailabilityDatesByVehicleId = async (vehicleid: any,tripid:any,
     } catch (error) {
         console.error('Error fetching  Availability Dates :', error);
         throw new Error('An error occurred while fetching data.');
-    }
-    finally {
+    } finally {
         // console.log("Finished fetching Availability Dates ")
     }
 };
