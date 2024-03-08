@@ -68,6 +68,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 };
 
                 const data = await getVehicleAllDetailsByVechicleId(body, token);
+
                 setVehicleDetails(data.vehicleAllDetails?.[0] || null);
 
                 let images = [...data.vehicleAllDetails?.[0]?.imageresponse].sort((a, b) => {
@@ -83,7 +84,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 });
 
                 setVehicleImages(images || null);
-                setVehicleHostDetails(data.vehicleHostDetails?.[0] || null);
+                setVehicleHostDetails(data.vehicleHostDetails[0] || null);
                 setVehicleBusinessConstraints(data.vehicleBusinessConstraints || null);
 
                 if (vehicleDetails && vehicleImages.length > 0) {
@@ -94,7 +95,15 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 setIsAirportDeliveryAvailable(deliveryDetails?.deliveryToAirport);
 
                 const user = localStorage.getItem('userId');
-                await getPriceCalculation();
+                if (user) {
+                    setUserAuthenticated(true);
+                }
+
+                setIsPriceError(false); // Reset price error state
+                if (data.vehicleHostDetails[0]) {
+                    await getPriceCalculation();
+                }
+
                 if (user) {
                     await addToRecentlyViewedHistory(user, params.id, token);
                 }
@@ -106,26 +115,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
             }
         };
 
-        // const handleVisibilityChange = () => {
-        //     if (!document.hidden) {
-        //         fetchData();
-        //     }
-        // };
-
-        const user = localStorage.getItem('userId');
-        if (user) {
-            setUserAuthenticated(true);
-        }
-
         fetchData();
-
-        // document.addEventListener('visibilitychange', handleVisibilityChange);
-
-        // return () => {
-        //     document.removeEventListener('visibilitychange', handleVisibilityChange);
-        // };
-    }, [params]);
-
+    }, [params.id]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -133,7 +124,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         };
 
         fetchData();
-    }, [startDate, endDate, startTime, endTime, isCustoumDelivery, searchParams, isAirportDeliveryChoosen]);
+    }, [startDate, endDate, startTime, endTime, vehicleHostDetails, searchParams, isCustoumDelivery, isAirportDeliveryChoosen]);
 
     async function getPriceCalculation() {
         try {
@@ -157,7 +148,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 payload.customDelivery = true;
             }
 
-            // console.log(payload, 'payload');
+            console.log(payload, 'payload');
 
             const authToken = localStorage.getItem('bundee_auth_token');
             const responseData: any = await calculatePrice(payload, authToken);

@@ -399,7 +399,10 @@ const TripsDetails = ({ tripsData }) => {
                                         </Button>
                                     ) : null}
 
-                                    {item.status.toLowerCase() !== 'started' && <CancelTripComponent tripId={item.tripid} />}
+                                    {item.status.toLowerCase() !== 'started' &&
+                                        item.status.toLowerCase() !== 'cancelled' &&
+                                        item.status.toLowerCase() !== 'completed' &&
+                                        item.status.toLowerCase() !== 'cancellation requested' && <CancelTripComponent tripId={item.tripid} />}
                                 </div>
                             </div>
                         </div>
@@ -583,7 +586,10 @@ const TripsDetails = ({ tripsData }) => {
                                                                         </div>
                                                                     )}
 
-                                                                    {(priceCalculatedList?.tripFee > 0 || priceCalculatedList?.concessionFee > 0 || priceCalculatedList?.statesurchargeamount > 0 || priceCalculatedList?.registrationRecoveryFee > 0) && (
+                                                                    {(priceCalculatedList?.tripFee > 0 ||
+                                                                        priceCalculatedList?.concessionFee > 0 ||
+                                                                        priceCalculatedList?.statesurchargeamount > 0 ||
+                                                                        priceCalculatedList?.registrationRecoveryFee > 0) && (
                                                                         <div className='flex justify-between items-center '>
                                                                             <div className='text-xs flex items-center gap-1'>
                                                                                 Trip Fee
