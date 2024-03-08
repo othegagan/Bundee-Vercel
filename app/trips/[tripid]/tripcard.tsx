@@ -476,7 +476,7 @@ const TripsDetails = ({ tripsData }) => {
                                                                         Start Date :
                                                                         <span className='ml-2 '>
                                                                             {newStartDate
-                                                                                ? `${format(new Date(newStartDate), 'LLL dd, y')} | ${format(
+                                                                                ? `${format(new Date(newStartDate+'T00:00:00'), 'LLL dd, y')} | ${format(
                                                                                       parse(pickupTime, 'HH:mm:ss', new Date()),
                                                                                       'h:mm a'
                                                                                   )}`
@@ -487,7 +487,7 @@ const TripsDetails = ({ tripsData }) => {
                                                                         End Date :
                                                                         <span className='ml-2 '>
                                                                             {newEndDate
-                                                                                ? `${format(new Date(newEndDate), 'LLL dd, y')} | ${format(
+                                                                                ? `${format(new Date(newEndDate+'T00:00:00'), 'LLL dd, y')} | ${format(
                                                                                       parse(dropTime, 'HH:mm:ss', new Date()),
                                                                                       'h:mm a'
                                                                                   )}`
