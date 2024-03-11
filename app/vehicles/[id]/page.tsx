@@ -203,11 +203,12 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         try {
             const userId = localStorage.getItem('userId');
 
-            const delivery = searchParams?.isAirport == 'true' ? true : isCustoumDelivery ? true : false;
+            const delivery = isAirportDeliveryChoosen ? true : isCustoumDelivery ? true : false;
+            const airportDelivery = isAirportDeliveryChoosen ? true : false;
 
             const deliveryDetails = extractFirstDeliveryDetails(vehicleBusinessConstraints);
 
-            const deliveryCost = searchParams?.isAirport == 'true' ? deliveryDetails?.airportDeliveryCost : isCustoumDelivery ? deliveryDetails?.nonAirportDeliveryCost : 0;
+            const deliveryCost = isAirportDeliveryChoosen ? deliveryDetails?.airportDeliveryCost : isCustoumDelivery ? deliveryDetails?.nonAirportDeliveryCost : 0;
 
             const checkoutDetails = {
                 userId: userId,
@@ -242,6 +243,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 longitude: '',
                 ...priceCalculatedList,
                 delivery: delivery,
+                airportDelivery: airportDelivery,
                 deliveryCost: delivery ? deliveryCost : 0,
                 upCharges: priceCalculatedList.upcharges,
                 extreaMilageCost: 0,
