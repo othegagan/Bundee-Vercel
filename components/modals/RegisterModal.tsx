@@ -40,12 +40,12 @@ const RegisterModal = () => {
     const [accountUpdateAgreeError, setAccountUpdateAgreeError] = useState(false);
 
     const [formData, setFormData] = useState({
-        email: 'asdf',
-        firstName: 'asdf',
-        lastName: 'asd',
-        phoneNumber: '1234567890',
-        password: '123456',
-        confirmPassword: '2345',
+        email: '',
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        password: '',
+        confirmPassword: '',
     });
     const [authErrors, setAuthErrors] = useState({
         email: '',
