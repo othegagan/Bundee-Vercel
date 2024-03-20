@@ -33,13 +33,19 @@ const RegisterModal = () => {
     const [loading, setLoading] = useState(false);
     const [showSucessfullSignUp, setShowSucessfullSignUp] = useState(false);
 
+    const [marketingAgree, setMarketingAgree] = useState(false);
+    const [marketingAgreeError, setMarketingAgreeError] = useState(false);
+
+    const [accountUpdateAgree, setAccountUpdateAgree] = useState(false);
+    const [accountUpdateAgreeError, setAccountUpdateAgreeError] = useState(false);
+
     const [formData, setFormData] = useState({
-        email: '',
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        password: '',
-        confirmPassword: '',
+        email: 'asdf',
+        firstName: 'asdf',
+        lastName: 'asd',
+        phoneNumber: '1234567890',
+        password: '123456',
+        confirmPassword: '2345',
     });
     const [authErrors, setAuthErrors] = useState({
         email: '',
@@ -53,6 +59,12 @@ const RegisterModal = () => {
     const onToggle = useCallback(() => {
         loginModal.onOpen();
         registerModal.onClose();
+        setAgree(false);
+        setAgreeError(false);
+        setAccountUpdateAgree(false);
+        setAccountUpdateAgreeError(false);
+        setMarketingAgree(false);
+        setMarketingAgreeError(false);
     }, [loginModal, registerModal]);
 
     const firebaseAuthHandler = async (event: any) => {
@@ -67,7 +79,7 @@ const RegisterModal = () => {
         setFirebaseError(null);
         setAgreeError(false);
         event.preventDefault();
-        if (isValidEmailAndPassword() && agree) {
+        if (checkForValidations() && agree) {
             setLoading(true);
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
@@ -163,11 +175,14 @@ const RegisterModal = () => {
         }));
     };
 
-    const isValidEmailAndPassword = () => {
+    const checkForValidations = () => {
         const { email, password, confirmPassword, phoneNumber, firstName, lastName } = formData;
         const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?~\\[\]-]).{8,}$/;
         const phoneNumberPattern = /^\d{10}$/;
         const namePattern = /^[a-zA-Z\s]+$/;
+        setAgreeError(false);
+        setMarketingAgreeError(false);
+        setAccountUpdateAgreeError(false);
 
         // Validate first name
         if (!namePattern.test(firstName)) {
@@ -272,6 +287,16 @@ const RegisterModal = () => {
             return false;
         }
 
+        if (!marketingAgree) {
+            setMarketingAgreeError(true);
+            return false;
+        }
+
+        if (!accountUpdateAgree) {
+            setAccountUpdateAgreeError(true);
+            return false;
+        }
+
         return true;
     };
 
@@ -281,6 +306,13 @@ const RegisterModal = () => {
     function closeModal() {
         registerModal.onClose();
         setShowSucessfullSignUp(false);
+        setAgree(false);
+        setAgreeError(false);
+        setAccountUpdateAgree(false);
+        setAccountUpdateAgreeError(false);
+        setMarketingAgree(false);
+        setMarketingAgreeError(false);
+
         setFormData({
             email: '',
             firstName: '',
@@ -345,7 +377,7 @@ const RegisterModal = () => {
                                             {authErrors.lastName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.lastName}</p>}
                                         </div>
                                     </div>
-                                    {/* <Label>Phone Number</Label>
+                                    <Label>Phone Number</Label>
                                     <div className='mt-2'>
                                         <Input
                                             id='phoneNumber'
@@ -356,7 +388,7 @@ const RegisterModal = () => {
                                             className={`block w-full ${authErrors.phoneNumber ? 'border-destructive' : ''}`}
                                         />
                                         {authErrors.phoneNumber && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.phoneNumber}</p>}
-                                    </div> */}
+                                    </div>
                                     <div className='mt-4'>
                                         <Label>Email address</Label>
                                         <div className='mt-2'>
@@ -426,60 +458,79 @@ const RegisterModal = () => {
                                         )}
                                     </div>
                                     <div className=' relative mt-4 flex gap-x-3'>
-                                        <div className='flex h-6 items-center'>
-                                            <input
-                                                id='candidates'
-                                                name='candidates'
-                                                type='checkbox'
-                                                className='h-4 w-4 rounded border-neutral-300 accent-black'
-                                                checked={agree}
-                                                onChange={() => {
-                                                    setAgree(!agree);
-                                                }}
-                                            />
-                                        </div>
-                                        <div className='text-sm leading-6'>
-                                            <p className='text-neutral-500'>
-                                                I agree the{' '}
-                                                <Link href='/terms' className='text-primary underline underline-offset-4'>
-                                                    terms
-                                                </Link>{' '}
-                                                and{' '}
-                                                <Link href='/privacy' className='text-primary underline underline-offset-4'>
-                                                    conditions
-                                                </Link>{' '}
-                                                of Bundee .
-                                            </p>
-                                        </div>
+                                        <label htmlFor='candidates' className='flex gap-x-3'>
+                                            <div className='flex h-6 items-center'>
+                                                <input
+                                                    id='candidates'
+                                                    name='candidates'
+                                                    type='checkbox'
+                                                    className='h-4 w-4 rounded border-neutral-300 accent-black'
+                                                    checked={agree}
+                                                    onChange={() => {
+                                                        setAgree(!agree);
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className='text-sm leading-6'>
+                                                <p className='text-neutral-500'>
+                                                    I agree the{' '}
+                                                    <Link href='/terms' className='text-primary underline underline-offset-4'>
+                                                        terms
+                                                    </Link>{' '}
+                                                    and{' '}
+                                                    <Link href='/privacy' className='text-primary underline underline-offset-4'>
+                                                        conditions
+                                                    </Link>{' '}
+                                                    of Bundee .
+                                                </p>
+                                            </div>
+                                        </label>
                                     </div>
+                                    {agreeError && <ErrorMessage message='Please Agree the Privacy policy and terms of use and continue.' />}
 
-                                    {agreeError ? (
-                                        <div className='my-3 select-none rounded-md bg-red-50 p-3'>
-                                            <div className='flex'>
-                                                <div className='flex-shrink-0'>
-                                                    <IoWarning className='h-5 w-5 text-red-400' />
-                                                </div>
-                                                <div className='ml-3'>
-                                                    <p className='text-sm font-medium text-red-800'>
-                                                        Please Agree the Privacy policy and terms of use and continue.
-                                                    </p>
-                                                </div>
+                                    <div className=' relative mt-4 flex gap-x-3'>
+                                        <label htmlFor='marketingAgree' className='flex gap-x-3'>
+                                            <div className='flex h-6 items-center'>
+                                                <input
+                                                    id='marketingAgree'
+                                                    name='marketingAgree'
+                                                    type='checkbox'
+                                                    className='h-4 w-4 rounded border-neutral-300 accent-black'
+                                                    checked={marketingAgree}
+                                                    onChange={() => {
+                                                        setMarketingAgree(!marketingAgree);
+                                                    }}
+                                                />
                                             </div>
-                                        </div>
-                                    ) : null}
+                                            <div className='text-sm leading-6'>
+                                                <p className='text-neutral-500'>I agree to receive marketing SMS messages from Bundee.</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    {marketingAgreeError && <ErrorMessage message='Please Agree to receive marketing SMS messages from Bundee.' />}
 
-                                    {firebaseError ? (
-                                        <div className='my-3 select-none rounded-md bg-red-50 p-3'>
-                                            <div className='flex'>
-                                                <div className='flex-shrink-0'>
-                                                    <IoWarning className='h-5 w-5 text-red-400' />
-                                                </div>
-                                                <div className='ml-3'>
-                                                    <p className='text-sm font-medium text-red-800'>{firebaseError}</p>
-                                                </div>
+                                    <div className=' relative mt-4 flex gap-x-3'>
+                                        <label htmlFor='accountUpdateAgree' className='flex gap-x-3'>
+                                            <div className='flex h-6 items-center'>
+                                                <input
+                                                    id='accountUpdateAgree'
+                                                    name='accountUpdateAgree'
+                                                    type='checkbox'
+                                                    className='h-4 w-4 rounded border-neutral-300 accent-black'
+                                                    checked={accountUpdateAgree}
+                                                    onChange={() => {
+                                                        setAccountUpdateAgree(!accountUpdateAgree);
+                                                    }}
+                                                />
                                             </div>
-                                        </div>
-                                    ) : null}
+                                            <div className='text-sm leading-6'>
+                                                <p className='text-neutral-500'>I agree to receive account update SMS messages from Bundee.</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    {accountUpdateAgreeError && <ErrorMessage message='Please Agree to receive account update SMS messages from Bundee.' />}
+
+                                    {firebaseError && <ErrorMessage message={firebaseError} />}
 
                                     <div className='mt-6'>
                                         <Button disabled={loading} className='w-full' type='submit'>
@@ -544,3 +595,16 @@ const RegisterModal = () => {
 };
 
 export default RegisterModal;
+
+const ErrorMessage = ({ message }) => (
+    <div className='my-3 select-none rounded-md bg-red-50 p-3'>
+        <div className='flex'>
+            <div className='flex-shrink-0'>
+                <IoWarning className='h-5 w-5 text-red-400' />
+            </div>
+            <div className='ml-3'>
+                <p className='text-sm font-medium text-red-800'>{message}</p>
+            </div>
+        </div>
+    </div>
+);
