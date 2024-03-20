@@ -1,0 +1,111 @@
+'use client';
+
+import { clearRecentlyViewedVehicles, getRecentlyViewedVehicles } from '@/server/userOperations';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { FaStar } from 'react-icons/fa6';
+import BoxContainer from '../BoxContainer';
+import ClientOnly from '../ClientOnly';
+import { Button } from '../ui/button';
+import { toast } from '../ui/use-toast';
+import { toTitleCase } from '@/lib/utils';
+import useTabFocusEffect from '@/hooks/useTabFocusEffect';
+
+export default function RecentlyViewedVehicles() {
+    const [recentlyViewedData, setRecentlyViewedData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    async function handleClearRecentlyViewedVehicles() {
+        const status = await clearRecentlyViewedVehicles();
+        if (status.success == true) {
+            setRecentlyViewedData([]);
+            toast({
+                duration: 4000,
+                variant: 'success',
+                description: 'Your vehicle viewing history has been cleared.',
+            });
+        } else {
+            toast({
+                duration: 4000,
+                variant: 'destructive',
+                description: 'Oops, Something went wrong and try again.',
+            });
+        }
+    }
+
+    const fetchRecentlyViewed = async () => {
+        try {
+            setLoading(true);
+            const response = await getRecentlyViewedVehicles();
+
+            if (response.success) {
+                const data = response.data.customeractivityresponse || [];
+                setRecentlyViewedData(data.slice(0, 4));
+            }
+        } catch (error) {
+            console.error('Error fetching data', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchRecentlyViewed();
+    }, []);
+
+    if (loading) {
+        return;
+    }
+
+    return (
+        <BoxContainer className={`py-6 ${recentlyViewedData.length > 0 ? '' : 'hidden'}`}>
+            <ClientOnly>
+                <div className='flex w-full justify-between'>
+                    <h4>Recently Viewed</h4>
+                    <Button onClick={handleClearRecentlyViewedVehicles} variant='secondary'>
+                        Clear All
+                    </Button>
+                </div>
+
+                <div className='w-full'>
+                    <div className='mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
+                        {recentlyViewedData.map(car => (
+                            <Link className='rounded-md bg-white shadow ' key={car.id} href={`/vehicles/${car.vehicleid}`}>
+                                <div className='group relative cursor-pointer' key={car.id}>
+                                    <div className='aspect-video w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 lg:aspect-video lg:h-44'>
+                                        <img
+                                            src={car?.imageresponse[0]?.imagename}
+                                            alt=''
+                                            className='h-full w-full object-cover object-center transition-all ease-in-out group-hover:scale-110 lg:h-full lg:w-full'
+                                        />
+                                    </div>
+
+                                    <div className='flex flex-col gap-2 px-3 '>
+                                        <p className='mt-2 text-sm  font-bold text-neutral-900'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
+                                        <div className='flex items-center justify-between gap-3 '>
+                                            <div className='flex gap-2'>
+                                                {car.rating ? <p className='text-xs font-medium text-neutral-900 '>{car.rating}</p> : null}
+                                                {car.tripCount != 0 && (
+                                                    <div className='inline-flex gap-2'>
+                                                        <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
+                                                        <span className='text-xs font-medium text-neutral-900  '>({car.tripCount} Trips)</span>
+                                                    </div>
+                                                )}
+                                                {car.tripCount == 0 && (
+                                                    <span className='mb-2 rounded-md bg-green-50 px-2  py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>
+                                                        New
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <p className='text-xs font-bold text-neutral-900'>${car.vehiclePrice}/ Day</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </ClientOnly>
+        </BoxContainer>
+    );
+}
