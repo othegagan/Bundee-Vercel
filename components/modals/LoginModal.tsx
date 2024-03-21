@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
 import { useCallback, useState } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaPhone } from 'react-icons/fa';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
 import { useRouter } from 'next/navigation';
@@ -20,11 +20,14 @@ import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import Logo from '@/components/landing_page/Logo';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { FaPhoneFlip } from 'react-icons/fa6';
+import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
 
 const LoginModal = () => {
     const router = useRouter();
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
+    const phoneNumberSignInModal = usePhoneNumberSignInModal();
     const [showPassword, setShowPassword] = useState(true);
     const [userEmail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -154,17 +157,21 @@ const LoginModal = () => {
         loginModal.onClose();
     }
 
+    function openPhoneLogin() {
+        closeModal();
+        phoneNumberSignInModal.onOpen();
+    }
     return (
         <Modal isOpen={loginModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
             <ModalHeader onClose={closeModal}>{''}</ModalHeader>
             <ModalBody className={`  transition-all delay-1000 ${!loginModal.isOpen ? ' rotate-90' : ' rotate-0'}`}>
                 <ClientOnly>
-                    <main className='flex items-center justify-center p-6  '>
+                    <main className='flex items-center justify-center p-2 md:p-6 '>
                         <div className='w-full'>
                             <div className='flex flex-col items-center gap-4'>
                                 <Logo className='scale-[1.3]' />
 
-                                <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Login for your account</span>
+                                <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Login with Bundee account</span>
                             </div>
                             <form
                                 onSubmit={event => {
@@ -228,6 +235,7 @@ const LoginModal = () => {
                             </form>
 
                             <hr className='my-4' />
+
                             <Button
                                 onClick={() => {
                                     googleSignIn();
@@ -236,6 +244,11 @@ const LoginModal = () => {
                                 className='flex w-full gap-4  py-5'>
                                 <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
                                 <span>Continue with Google</span>
+                            </Button>
+
+                            <Button onClick={openPhoneLogin} type='button' variant='outline' className='mt-3 flex w-full  gap-4 py-5'>
+                                <FaPhone />
+                                <span>Sign in with Phone number</span>
                             </Button>
 
                             <div className='mt-4 flex flex-col gap-2'>

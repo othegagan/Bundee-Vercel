@@ -169,9 +169,9 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
                 Filters {appliedFiltersCount > 0 ? <p>({appliedFiltersCount > 0 ? appliedFiltersCount : ''})</p> : null}
             </Button>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal} className='lg:max-w-5xl lg:max-h-auto max-h-[600px]'>
+            <Modal isOpen={isModalOpen} onClose={closeModal} className=''>
                 <ModalHeader onClose={closeModal}>Filters</ModalHeader>
-                <ModalBody className='overflow-y-scroll lg:overflow-y-auto max-h-[380px] lg:max-h-[380px]'>
+                <ModalBody className=''>
                     <div className='grid gap-5 grid-cols-1 lg:grid-cols-2'>
                         <div className='  space-y-3 md:space-y-5  select-none md:border-r'>
                             <div className='flex flex-col gap-4 pb-3'>

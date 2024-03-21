@@ -6,8 +6,11 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateInsuranceProfile, updateProfile } from '@/server/userOperations';
+import usePhoneNumberVerificationModal from '@/hooks/usePhoneNumberVerificationModal';
 
 const ProfileUpdatePage = ({}) => {
+    const phoneNumberVerification = usePhoneNumberVerificationModal();
+
     const [isDataSavingInprogreess, setIsDataSavingInProgress] = useState(false);
 
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
@@ -107,6 +110,7 @@ const ProfileUpdatePage = ({}) => {
                     address3: data['address_3'],
                     insuranceCarrierName: insuranceData.insuranceName,
                     insuranceCarrierNumber: insuranceData.insuranceNumber,
+                    isPhoneVerified: data['isPhoneVerified'],
                 };
                 setFormData(initialFormData);
             }
@@ -141,12 +145,11 @@ const ProfileUpdatePage = ({}) => {
         };
 
         const response = await updateInsuranceProfile(body);
-        if(response.success){
+        if (response.success) {
             setIsDataSavingInProgress(false);
             closeAllAccordion();
             setIscurrntlyEditing(false);
         }
-
     }
 
     async function onUploadEvent(event) {
@@ -188,7 +191,7 @@ const ProfileUpdatePage = ({}) => {
             vehicleowner: false,
             userimage: formData.base64Image || '',
             isEmailVerified: true,
-            isPhoneVerified: false,
+            isPhoneVerified: formData.isPhoneVerified,
             fromValue: 'completeProfile',
         };
 
@@ -200,6 +203,7 @@ const ProfileUpdatePage = ({}) => {
                     variant: 'success',
                     description: 'Profile  updated successful.',
                 });
+                fetchData();
             } else {
                 toast({
                     duration: 3000,
@@ -312,76 +316,19 @@ const ProfileUpdatePage = ({}) => {
                                         Cancel
                                     </button>
                                 )}
-                                {!isAccordionOpensecond && (
-                                    <button
-                                        disabled={isCurrentlyEditing}
-                                        onClick={e => phoneNumberAccordionHandler(e)}
-                                        className={`rounded-lg px-3 py-3 font-bold ${isCurrentlyEditing ? 'bg-gray-100 text-gray-400' : 'bg-gray-100 text-black'}`}>
-                                        Edit
-                                    </button>
-                                )}
+                                <button
+                                    onClick={() => {
+                                        phoneNumberVerification.onOpen();
+                                    }}
+                                    type='button'
+                                    className={`rounded-lg px-3 py-3 font-bold ${isCurrentlyEditing ? 'bg-gray-100 text-gray-400' : 'bg-gray-100 text-black'}`}>
+                                    Edit
+                                </button>
                             </div>
 
-                            {/* New accordion */}
                             <div className='grid grid-cols-1 items-center justify-center gap-y-8 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-1'>
                                 <div>
-                                    {isAccordionOpensecond && (
-                                        <div className='mt-5 flex flex-col'>
-                                            <div className='grid gap-4 gap-y-2 pr-5 text-sm  md:grid-cols-1'>
-                                                <div className='md:col-span-2'>
-                                                    <label>Mobile Phone Number</label>
-                                                    {/* <Input type='text' name='phone-number' id='phone-number' value={formData.phoneNumber} onChange={e => handleInputChange('phoneNumber', e)} /> */}
-                                                </div>
-
-                                                <div className='flex items-center'>
-                                                    <button
-                                                        id='dropdown-phone-button'
-                                                        data-dropdown-toggle='dropdown-phone'
-                                                        className='z-10 inline-flex flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700'
-                                                        type='button'>
-                                                        {/* Country code dropdown button content */}
-                                                        +1
-                                                        {/* Dropdown Icon */}
-                                                    </button>
-                                                    {/* Dropdown Menu */}
-                                                    <div
-                                                        id='dropdown-phone'
-                                                        className='z-10 hidden w-52 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700'>
-                                                        {/* Dropdown items for other countries */}
-                                                    </div>
-                                                    <label htmlFor='phone-input' className='sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white'>
-                                                        Phone number:
-                                                    </label>
-                                                    <div className='relative w-full'>
-                                                        <input
-                                                            type='text'
-                                                            id='phone-input'
-                                                            value={formData.phoneNumber}
-                                                            onChange={e => handleInputChange('phoneNumber', e)}
-                                                            className='z-20 block w-full rounded-r-lg border border-l-0 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-l-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500'
-                                                            pattern='(\+01)?\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}'
-                                                            placeholder='(123) 456-7890'
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='mt-4'></div>
-                                            <Button
-                                                disabled={isDataSavingInprogreess}
-                                                className='my-6 w-[100px] bg-black text-white hover:bg-gray-800'
-                                                onClick={e => onUploadEvent(e)}>
-                                                {isDataSavingInprogreess ? (
-                                                    <p>
-                                                        <div className='loader'></div>
-                                                    </p>
-                                                ) : (
-                                                    <>Save</>
-                                                )}
-                                            </Button>
-                                        </div>
-                                    )}
-                                    {!isAccordionOpensecond && <div>{phoneNumbernew}</div>}
+                                    <div>{phoneNumbernew}</div>
                                     <div className='mt-2' style={{ borderTop: '1.5px solid #ccc' }}></div>
                                 </div>
                             </div>
@@ -578,9 +525,7 @@ const ProfileUpdatePage = ({}) => {
                                     Insurance Details<span className='ml-2 text-xs text-primary'>(optional)</span>
                                 </h2>
                                 {isAccordionOpeninsurance && (
-                                    <button
-                                        onClick={e => insuranceNameAccordionHandler(e)}
-                                        className='rounded-lg bg-gray-100 px-3 py-3 font-bold text-black'>
+                                    <button onClick={e => insuranceNameAccordionHandler(e)} className='rounded-lg bg-gray-100 px-3 py-3 font-bold text-black'>
                                         Cancel
                                     </button>
                                 )}

@@ -11,6 +11,7 @@ import ClientOnly from '@/components/ClientOnly';
 import RegisterModal from '@/components/modals/RegisterModal';
 import PhoneNumberModal from '@/components/modals/PhoneNumberVerification';
 import HideInIFrame from '@/components/HideInIFrame';
+import PhoneNumberSignInModal from '@/components/modals/PhoneNumberSignInModal';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,14 +32,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <LoginModal />
                     <RegisterModal />
                     <PhoneNumberModal />
+                    <PhoneNumberSignInModal/>
                 </ClientOnly>
                 <Navbar />
 
                 {children}
                 <Toaster />
-                <HideInIFrame>
-                    <Footer />
-                </HideInIFrame>
+                <div className='mt-auto'>
+                    <HideInIFrame>
+                        <Footer />
+                    </HideInIFrame>
+                </div>
             </body>
         </html>
     );

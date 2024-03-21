@@ -330,17 +330,19 @@ const RegisterModal = () => {
 
     return (
         <Modal isOpen={registerModal.isOpen} onClose={closeModal} className=' md:scale-[0.85] lg:max-w-lg'>
-            <ModalHeader onClose={closeModal}>{''}</ModalHeader>
+            <ModalHeader onClose={closeModal}>
+                <div className='md:px-4'>Sign Up with Bundee account</div>
+            </ModalHeader>
             <ModalBody>
                 <ClientOnly>
-                    <main className='flex items-center justify-center px-4  '>
+                    <main className='flex items-center justify-center  md:px-4'>
                         {!showSucessfullSignUp && (
                             <div className='w-full'>
-                                <div className='flex flex-col items-center gap-4'>
+                                {/* <div className='flex flex-col items-center gap-4 mt-3 md:mt-0'>
                                     <Logo className='scale-[1.3]' />
 
-                                    <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Sign Up for your account</span>
-                                </div>
+                                    <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Sign Up with Bundee account</span>
+                                </div> */}
                                 <form
                                     onSubmit={() => {
                                         firebaseAuthHandler(event);
@@ -488,7 +490,7 @@ const RegisterModal = () => {
                                     </div>
                                     {agreeError && <ErrorMessage message='Please Agree the Privacy policy and terms of use and continue.' />}
 
-                                    <div className=' relative mt-4 flex gap-x-3'>
+                                    <div className=' relative mt-2 flex gap-x-3'>
                                         <label htmlFor='marketingAgree' className='flex gap-x-3'>
                                             <div className='flex h-6 items-center'>
                                                 <input
@@ -509,7 +511,7 @@ const RegisterModal = () => {
                                     </div>
                                     {marketingAgreeError && <ErrorMessage message='Please Agree to receive marketing SMS messages from Bundee.' />}
 
-                                    <div className=' relative mt-4 flex gap-x-3'>
+                                    <div className=' relative mt-2 flex gap-x-3'>
                                         <label htmlFor='accountUpdateAgree' className='flex gap-x-3'>
                                             <div className='flex h-6 items-center'>
                                                 <input

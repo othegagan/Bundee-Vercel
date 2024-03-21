@@ -34,6 +34,22 @@ export async function getUserByEmail(email: string) {
     }
 }
 
+export async function getUserByPhoneNumber(phoneNumber: string) {
+    try {
+        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/getUserByPhoneNumber';
+
+        const payload = {
+            channelName: process.env.CHANNEL_NAME,
+            mobilePhone: phoneNumber,
+        };
+
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 export async function getRecentlyViewedVehicles() {
     try {
         const session = await getSession();
