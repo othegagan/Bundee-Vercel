@@ -11,6 +11,7 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import { addDays, differenceInMinutes, format } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function HostPageSearchBox() {
     const router = useRouter();
@@ -28,6 +29,14 @@ export default function HostPageSearchBox() {
         dropDate.setDate(dropDate.getDate() + daysToAdd);
         setEndDateQuery(format(dropDate, 'yyyy-MM-dd'));
     }
+
+    useEffect(() => {
+        try {
+            window.parent.postMessage({ type: 'revert' }, '*');
+        } catch (error) {
+            console.log(error.message);
+        }
+    }, []);
 
     const redirectToVech = () => {
         const queryParams = new URLSearchParams(window.location.search);
@@ -113,9 +122,9 @@ export default function HostPageSearchBox() {
                                 </Popover>
                             </div>
 
-                            <div className='flex w-[35%] flex-col gap-1 md:w-full '>
+                            {/* <div className='flex w-[35%] flex-col gap-1 md:w-full '>
                                 <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} />
-                            </div>
+                            </div> */}
                         </div>
                         <div className='flex flex-row   gap-4 md:flex-row'>
                             <div className='flex w-[65%] flex-col gap-1 '>
@@ -144,9 +153,9 @@ export default function HostPageSearchBox() {
                                 </Popover>
                             </div>
 
-                            <div className='flex w-[35%] flex-col gap-1 md:w-full'>
+                            {/* <div className='flex w-[35%] flex-col gap-1 md:w-full'>
                                 <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} />
-                            </div>
+                            </div> */}
                         </div>
                         <Button onClick={redirectToVech}>Search</Button>
                     </div>
