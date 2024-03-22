@@ -97,7 +97,7 @@ export default function HostPageSearchBox() {
 
                     <div className='flex w-full flex-col  gap-4 md:flex-row md:items-end'>
                         <div className='flex w-full flex-row justify-between gap-4 md:flex-row'>
-                            <div className='flex w-[65%] flex-col gap-1'>
+                            <div className='flex w-[100%] flex-col gap-1'>
                                 <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -127,7 +127,7 @@ export default function HostPageSearchBox() {
                             </div> */}
                         </div>
                         <div className='flex flex-row   gap-4 md:flex-row'>
-                            <div className='flex w-[65%] flex-col gap-1 '>
+                            <div className='flex w-[100%] flex-col gap-1 '>
                                 <label className='mb-1 text-xs font-semibold'>Drop Date</label>
                                 <Popover>
                                     <PopoverTrigger asChild>
