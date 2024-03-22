@@ -11,7 +11,7 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import { addDays, differenceInMinutes, format } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function HostPageSearchBox() {
     const router = useRouter();
@@ -83,6 +83,8 @@ export default function HostPageSearchBox() {
         }
     }
 
+
+
     return (
         <>
             {/* <form onSubmit={redirectParentWindow}> */}
@@ -99,7 +101,15 @@ export default function HostPageSearchBox() {
                         <div className='flex w-full flex-row justify-between gap-4 md:flex-row'>
                             <div className='flex w-[100%] flex-col gap-1'>
                                 <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
-                                <Popover>
+                                <input
+                                    type='date'
+                                    name='startDate'
+                                    id='startDate'
+                                    onChange={e => {
+                                        setStartDateQuery(e.target.value)
+                                    }}
+                                />
+                                {/* <Popover>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant={'outline'}
@@ -119,7 +129,7 @@ export default function HostPageSearchBox() {
                                             disabled={date => date < new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
                                         />
                                     </PopoverContent>
-                                </Popover>
+                                </Popover> */}
                             </div>
 
                             {/* <div className='flex w-[35%] flex-col gap-1 md:w-full '>
@@ -127,9 +137,18 @@ export default function HostPageSearchBox() {
                             </div> */}
                         </div>
                         <div className='flex flex-row   gap-4 md:flex-row'>
+
                             <div className='flex w-[100%] flex-col gap-1 '>
                                 <label className='mb-1 text-xs font-semibold'>Drop Date</label>
-                                <Popover>
+                                <input
+                                type='date'
+                                name='endDate'
+                                id='endDate'
+                                onChange={e => {
+                                    setEndDateQuery(e.target.value)
+                                }}
+                            />
+                                {/* <Popover>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant={'outline'}
@@ -150,7 +169,7 @@ export default function HostPageSearchBox() {
                                             disabled={date => date < new Date(new Date((startDateQuery + 'T00:00:00') as string) + 1 * 24 * 60 * 60 * 1000)}
                                         />
                                     </PopoverContent>
-                                </Popover>
+                                </Popover> */}
                             </div>
 
                             {/* <div className='flex w-[35%] flex-col gap-1 md:w-full'>
