@@ -61,21 +61,22 @@ export default function HostPageSearchBox() {
 
         const newUrl = `/vehicles?city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}`;
 
-        router.push(newUrl);
+        return newUrl;
     };
     // console.log('parent window link', window.parent.location.href);
 
-    // function redirectParentWindow(event: any) {
-    //     event.preventDefault();
+    function redirectParentWindow() {
+        event.preventDefault();
 
-    //     const url = redirectToVech();
-    //     if (url) {
-    //         // Redirect the parent window to the new URL
-    //         window.parent.postMessage({ type: 'redirectTo', url: '/rent?' + url }, '*');
-    //     } else {
-    //         console.error('Failed to generate URL for redirection');
-    //     }
-    // }
+        const url = redirectToVech();
+        if (url) {
+            // Redirect the parent window to the new URL
+            window.parent.postMessage({ type: 'redirectTo', url: '/rent?' + url }, '*');
+            console.log('Message sent')
+        } else {
+            console.error('Failed to generate URL for redirection');
+        }
+    }
 
     return (
         <>
@@ -151,7 +152,7 @@ export default function HostPageSearchBox() {
                                 <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} />
                             </div>
                         </div>
-                        <Button onClick={redirectToVech}>Search</Button>
+                        <Button onClick={redirectParentWindow}>Search</Button>
                     </div>
                 </div>
             </div>
