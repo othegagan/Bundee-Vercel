@@ -63,7 +63,7 @@ export default function HostPageSearchBox() {
 
         router.push(newUrl);
     };
-    console.log('parent window link', window.parent.location.href);
+    // console.log('parent window link', window.parent.location.href);
 
     // function redirectParentWindow(event: any) {
     //     event.preventDefault();
