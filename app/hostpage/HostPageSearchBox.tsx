@@ -63,6 +63,7 @@ export default function HostPageSearchBox() {
 
         router.push(newUrl);
     };
+    console.log('parent window link', window.parent.location.href);
 
     // function redirectParentWindow(event: any) {
     //     event.preventDefault();
@@ -70,7 +71,6 @@ export default function HostPageSearchBox() {
     //     const url = redirectToVech();
     //     if (url) {
     //         // Redirect the parent window to the new URL
-    //         console.log('parent window link', window.parent.location.href);
     //         window.parent.postMessage({ type: 'redirectTo', url: '/rent?' + url }, '*');
     //     } else {
     //         console.error('Failed to generate URL for redirection');
