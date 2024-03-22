@@ -1,8 +1,10 @@
+
 import Link from 'next/link';
 import Logo from './landing_page/Logo';
 import Container from './BoxContainer';
 
 const Footer = () => {
+
     return (
         <>
             <footer className=' mt-auto hidden bg-black/10 md:block'>
