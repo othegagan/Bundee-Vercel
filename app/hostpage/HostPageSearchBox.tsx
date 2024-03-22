@@ -61,20 +61,16 @@ export default function HostPageSearchBox() {
 
         const newUrl = `/vehicles?city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}`;
 
-        return newUrl;
+        redirectParentWindow();
+        router.push(newUrl);
     };
     // console.log('parent window link', window.parent.location.href);
 
     function redirectParentWindow() {
-        event.preventDefault();
-
-        const url = redirectToVech();
-        if (url) {
-            // Redirect the parent window to the new URL
-            window.parent.postMessage({ type: 'redirectTo', url: '/rent?' + url }, '*');
-            console.log('Message sent')
-        } else {
-            console.error('Failed to generate URL for redirection');
+        try {
+            window.parent.postMessage({ type: 'redirectTo' }, '*');
+        } catch (error) {
+            console.log(error.message);
         }
     }
 
@@ -152,7 +148,7 @@ export default function HostPageSearchBox() {
                                 <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} />
                             </div>
                         </div>
-                        <Button onClick={redirectParentWindow}>Search</Button>
+                        <Button onClick={redirectToVech}>Search</Button>
                     </div>
                 </div>
             </div>
