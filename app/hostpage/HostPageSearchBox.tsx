@@ -68,7 +68,8 @@ export default function HostPageSearchBox() {
         const url = redirectToVech();
         if (url) {
             // Redirect the parent window to the new URL
-            window.parent.location.href = '/rent?' + url;
+            console.log('parent window link', window.parent.location.href);
+            window.parent.postMessage({ type: 'redirectTo', url: '/rent?' + url }, '*');
         } else {
             console.error('Failed to generate URL for redirection');
         }
