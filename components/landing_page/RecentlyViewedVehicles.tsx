@@ -37,7 +37,7 @@ export default function RecentlyViewedVehicles() {
         try {
             setLoading(true);
             const response = await getRecentlyViewedVehicles();
-
+            console.log(response.data.customeractivityresponse)
             if (response.success) {
                 const data = response.data.customeractivityresponse || [];
                 setRecentlyViewedData(data.slice(0, 4));
@@ -58,7 +58,7 @@ export default function RecentlyViewedVehicles() {
     }
 
     return (
-        <BoxContainer className={`py-6 ${recentlyViewedData.length > 0 ? '' : 'hidden'}`}>
+        <BoxContainer className={`py-6 `}>
             <ClientOnly>
                 <div className='flex w-full justify-between'>
                     <h4>Recently Viewed</h4>

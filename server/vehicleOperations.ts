@@ -30,15 +30,18 @@ export async function getVehicleAllDetailsByVechicleId(vechicleId: number) {
     }
 }
 
-export async function addToRecentlyViewedHistory(vechicleId: number) {
+export async function addToRecentlyViewedHistory(vehicleid: number) {
     try {
         const session = await getSession();
         const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/updateCustomerActivity';
         const payload = {
-            vehicleid: vechicleId,
-            userId: session.userId || '',
+            userid: session.userId || '',
+            vehicleid: vehicleid,
+            startdate: "2024-01-01",
+            enddate: "2024-01-01",
+            lattitude: "30.271129",
+            longitude: "-97.7437",
         };
-
         const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {

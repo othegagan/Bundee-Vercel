@@ -571,7 +571,7 @@ const RegisterModal = () => {
 
                         {showSucessfullSignUp && (
                             <div className='flex flex-col items-center justify-center gap-4'>
-                                <img src='./party.svg' alt='party_cone' className='h-40 w-96 object-contain' />
+                                <img src='/party.svg' alt='party_cone' className='h-40 w-96 object-contain' />
                                 <h3>Thanks {formData.firstName} for joining the Bundee</h3>
                                 <p className='text-center'>
                                     A verification email has been sent successfully..! <br /> Please check your inbox and click on the verification link.

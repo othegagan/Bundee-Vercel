@@ -60,7 +60,7 @@ const _CalendarGrid = ({ className, weekdayStyle = 'short', ...props }: Calendar
 
 const _CalendarGridHeader = ({ className, ...props }: CalendarGridHeaderProps) => <CalendarGridHeader className={cn('[&>tr]:flex', className)} {...props} />;
 
-const _CalendarHeaderCell = ({ className, ...props }: CalendarHeaderCellProps) => (
+const _CalendarHeaderCell = ({ className, ...props }: any) => (
     <CalendarHeaderCell className={cn('w-8 rounded-md text-[0.8rem] font-normal text-muted-foreground', className)} {...props} />
 );
 

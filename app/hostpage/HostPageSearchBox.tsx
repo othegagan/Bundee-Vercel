@@ -1,17 +1,16 @@
 'use client';
 
-import TimeSelect from '@/components/custom/TimeSelect';
 import LocationSearchBox from '@/components/search_box/LocationSearchBox';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { toast } from '@/components/ui/use-toast';
-import { cn } from '@/lib/utils';
-import { CalendarIcon } from '@radix-ui/react-icons';
 import { addDays, differenceInMinutes, format } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+
+import { Calendar, CalendarCell, CalendarGrid, CalendarGridBody, CalendarGridHeader, CalendarHeaderCell, CalendarHeading } from '@/components/custom/calendar';
+import { DatePicker, DatePickerButton, DatePickerContent } from '@/components/custom/date-picker';
+import { parseDate } from '@internationalized/date';
 
 export default function HostPageSearchBox() {
     const router = useRouter();
@@ -83,8 +82,6 @@ export default function HostPageSearchBox() {
         }
     }
 
-
-
     return (
         <>
             {/* <form onSubmit={redirectParentWindow}> */}
@@ -98,84 +95,74 @@ export default function HostPageSearchBox() {
                     </div>
 
                     <div className='flex w-full flex-col  gap-4 md:flex-row md:items-end'>
-                        <div className='flex w-full flex-row justify-between gap-4 md:flex-row'>
-                            <div className='flex w-[100%] flex-col gap-1'>
-                                <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
-                                <input
-                                    type='date'
-                                    name='startDate'
-                                    id='startDate'
-                                    onChange={e => {
-                                        setStartDateQuery(e.target.value)
-                                    }}
-                                />
-                                {/* <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={'outline'}
-                                            className={cn('w-full justify-start text-left font-normal', !startDateQuery && 'text-muted-foreground')}>
-                                            <CalendarIcon className='mr-2 h-4 w-4' />
-                                            {startDateQuery ? format(new Date(startDateQuery + 'T00:00:00'), 'PPP') : <span>Pickup date</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className='w-auto p-0'>
-                                        <Calendar
-                                            mode='single'
-                                            required
-                                            selected={new Date(startDateQuery + 'T00:00:00')}
-                                            onSelect={date => setUserSelectedPickupDate(date)}
-                                            defaultMonth={new Date(startDateQuery + 'T00:00:00')}
-                                            initialFocus
-                                            disabled={date => date < new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
-                                        />
-                                    </PopoverContent>
-                                </Popover> */}
-                            </div>
-
-                            {/* <div className='flex w-[35%] flex-col gap-1 md:w-full '>
+                        {/* <div className='flex w-[35%] flex-col gap-1 md:w-full '>
                                 <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} />
                             </div> */}
-                        </div>
-                        <div className='flex flex-row   gap-4 md:flex-row'>
 
-                            <div className='flex w-[100%] flex-col gap-1 '>
-                                <label className='mb-1 text-xs font-semibold'>Drop Date</label>
-                                <input
-                                type='date'
-                                name='endDate'
-                                id='endDate'
-                                onChange={e => {
-                                    setEndDateQuery(e.target.value)
+                        <div className='flex w-[100%] flex-col gap-1'>
+                            <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
+                            <DatePicker
+
+                                aria-label='Select Date'
+                                shouldCloseOnSelect={true}
+                                onChange={date => {
+                                    setUserSelectedPickupDate(date);
                                 }}
-                            />
-                                {/* <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={'outline'}
-                                            className={cn('w-full justify-start text-left font-normal', !endDateQuery && 'text-muted-foreground')}>
-                                            <CalendarIcon className='mr-2 h-4 w-4' />
-                                            {endDateQuery ? format(new Date(endDateQuery + 'T00:00:00'), 'PPP') : <span>Pick an drop date</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className='w-auto p-0'>
-                                        <Calendar
-                                            required
-                                            mode='single'
-                                            selected={new Date(endDateQuery + 'T00:00:00')}
-                                            onSelect={(date: any) => setEndDateQuery(format(date, 'yyyy-MM-dd'))}
-                                            defaultMonth={new Date(endDateQuery + 'T00:00:00')}
-                                            initialFocus
-                                            // @ts-ignore
-                                            disabled={date => date < new Date(new Date((startDateQuery + 'T00:00:00') as string) + 1 * 24 * 60 * 60 * 1000)}
-                                        />
-                                    </PopoverContent>
-                                </Popover> */}
-                            </div>
+                                defaultValue={parseDate(startDateQuery)}
+                                minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}>
+                                <DatePickerButton date={parseDate(startDateQuery)}  />
+                                <DatePickerContent>
+                                    <Calendar>
+                                        <CalendarHeading />
+                                        <CalendarGrid>
+                                            <CalendarGridHeader>{day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
+                                            <CalendarGridBody>
+                                                {date => (
+                                                    <>
+                                                        <CalendarCell date={date} />
+                                                    </>
+                                                )}
+                                            </CalendarGridBody>
+                                        </CalendarGrid>
+                                    </Calendar>
+                                </DatePickerContent>
+                            </DatePicker>
+                        </div>
 
-                            {/* <div className='flex w-[35%] flex-col gap-1 md:w-full'>
+                        {/* <div className='flex w-[35%] flex-col gap-1 md:w-full'>
                                 <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} />
                             </div> */}
+                        <div className='flex w-[100%] flex-col gap-1 '>
+                            <label className='mb-1 text-xs font-semibold'>Drop Date</label>
+
+                            <DatePicker
+                                aria-label='Select Date'
+                                shouldCloseOnSelect={true}
+                                onChange={value => {
+                                    //@ts-ignore
+                                    setEndDateQuery(format(new Date(value), 'yyyy-MM-dd'));
+                                }}
+                                defaultValue={parseDate(endDateQuery)}
+                                minValue={parseDate(startDateQuery)}>
+                                <DatePickerButton date={parseDate(endDateQuery)} />
+                                <DatePickerContent>
+                                    <Calendar>
+                                        <CalendarHeading />
+                                        <CalendarGrid>
+                                            <CalendarGridHeader>{day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
+                                            <CalendarGridBody>
+                                                {date => (
+                                                    <>
+                                                        <CalendarCell date={date} />
+                                                    </>
+                                                )}
+                                            </CalendarGridBody>
+                                        </CalendarGrid>
+                                    </Calendar>
+                                </DatePickerContent>
+                            </DatePicker>
                         </div>
+
                         <Button onClick={redirectToVech}>Search</Button>
                     </div>
                 </div>

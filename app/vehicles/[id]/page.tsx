@@ -27,6 +27,7 @@ import { calculatePrice } from '@/server/priceCalculation';
 import BoxContainer from '@/components/BoxContainer';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
@@ -91,7 +92,6 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                     const deliveryDetails = extractFirstDeliveryDetails(data.vehicleBusinessConstraints || null);
                     setIsAirportDeliveryAvailable(deliveryDetails?.deliveryToAirport);
 
-                    setIsPriceError(false); // Reset price error state
                     if (data.vehicleHostDetails[0]) {
                         await getPriceCalculation();
                     }
@@ -169,7 +169,6 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
     async function requestToCheckOutHandler(make, model, year, image, vehicleId) {
         const session = await getSession();
-
 
         if (!session.isLoggedIn && !session.userId) {
             loginModal.onOpen();
@@ -273,8 +272,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         }
     }
 
-
-    useScrollToTopOnLoad(isLoading)
+    useScrollToTopOnLoad(isLoading);
 
     if (isLoading) {
         return (
@@ -345,6 +343,13 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                     startDate={format(new Date(startDate + 'T00:00:00'), 'yyyy-MM-dd')}
                                     endDate={format(new Date(endDate + 'T00:00:00'), 'yyyy-MM-dd')}
                                 />
+
+                                {!priceLoading && !priceCalculatedList && !isPriceError ? (
+                                    <div className='mt-1 flex gap-2'>
+                                        <IoInformationCircleOutline className='text-destructive' />
+                                        <p className='text-sm font-normal text-destructive'>Invalid Dates. Please select different dates.</p>
+                                    </div>
+                                ) : null}
                             </div>
 
                             <div className='flex gap-6'>
@@ -378,7 +383,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 type='button'
                                 size='lg'
                                 className='mt-6 flex w-full'
-                                disabled={!!error || priceLoading || isPriceError}
+                                disabled={!!error || priceLoading || isPriceError || !priceCalculatedList}
                                 onClick={() => {
                                     if (isCustoumDelivery && !customDeliveryLocation) {
                                         toast({
@@ -408,40 +413,37 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                     onClose={() => {
                         setShowPersona(false);
                     }}
-                    className='lg:max-w-lg'>
+                    className='lg:max-w-2xl'>
                     <ModalHeader
                         onClose={() => {
                             setShowPersona(false);
                         }}>
                         Verify your driving licence
                     </ModalHeader>
-                    <ModalBody>
-                        <ClientOnly>
-                            <p className='text-md font-medium  leading-6'>
-                                Oops, Your Profile is not verified, Please continue to verify your driving license.
-                            </p>
-                            <ModalFooter>
-                                <Button type='button' onClick={() => setShowPersona(false)} variant='outline'>
-                                    Back to Details
-                                </Button>
+                    <ModalBody className=' overflow-hidden'>
+                        <p className='font-medium  leading-6'>Oops, Your Profile is not verified, Please continue to verify your driving license.</p>
+                        <div className=' mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-end'>
+                            <Button type='button' size='sm' onClick={() => setShowPersona(false)} variant='outline' className='w-full md:w-fit'>
+                                Back
+                            </Button>
 
-                                <Button
-                                    type='button'
-                                    onClick={() => {
-                                        createClient(setShowPersona);
-                                    }}
-                                    disabled={isPersonaClientLoading}
-                                    className='bg-primary'>
-                                    {isPersonaClientLoading ? (
-                                        <div className='flex px-16'>
-                                            <div className='loader'></div>
-                                        </div>
-                                    ) : (
-                                        <> Continue Verification</>
-                                    )}
-                                </Button>
-                            </ModalFooter>
-                        </ClientOnly>
+                            <Button
+                                type='button'
+                                size='sm'
+                                onClick={() => {
+                                    createClient(setShowPersona);
+                                }}
+                                disabled={isPersonaClientLoading}
+                                className='w-full bg-primary md:w-fit'>
+                                {isPersonaClientLoading ? (
+                                    <div className='flex px-16'>
+                                        <div className='loader'></div>
+                                    </div>
+                                ) : (
+                                    <> Continue Verification</>
+                                )}
+                            </Button>
+                        </div>
                     </ModalBody>
                 </Modal>
             </ClientOnly>
