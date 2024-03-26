@@ -22,8 +22,8 @@ export const sessionOptions: SessionOptions = {
     password: process.env.SECRET_KEY!,
     cookieName: 'bundee-session',
     cookieOptions: {
-        httpOnly: true,
-        sameSite:'none',
+        httpOnly: process.env.NODE_ENV === 'production',
+        sameSite:process.env.NODE_ENV === 'production' ? 'none': 'lax' ,
         secure: process.env.NODE_ENV === 'production',
     },
 };

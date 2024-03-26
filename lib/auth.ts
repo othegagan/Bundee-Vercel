@@ -31,14 +31,10 @@ export const login = async ({ userData, authToken }: loginSessionProps) => {
 };
 
 export const logout = async () => {
-    try {
-        const session = await getIronSession<SessionData>(cookies(), sessionOptions);
-        //@ts-ignore
-        session.destroy();
-        redirect('/');
-    } catch (error) {
-        console.log(error);
-    }
+    const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+    //@ts-ignore
+    session.destroy();
+    redirect('/');
 };
 
 // export const changeUsername = async (formData: FormData) => {
