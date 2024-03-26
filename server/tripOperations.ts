@@ -149,7 +149,7 @@ export async function deleteImageVideoUploaded(id: number) {
     }
 }
 
-export async function addTripReview(hostId: number, tripId: number, rating: number, comments: number, vehicleId: number) {
+export async function addTripReview(hostId: number, tripId: number, rating: number, comments: string, vehicleId: number) {
     try {
         const session = await getSession();
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createTripReview';

@@ -169,7 +169,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
                 Filters {appliedFiltersCount > 0 ? <p>({appliedFiltersCount > 0 ? appliedFiltersCount : ''})</p> : null}
             </Button>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal} className=''>
+            <Modal isOpen={isModalOpen} onClose={closeModal} className='lg:max-w-5xl'>
                 <ModalHeader onClose={closeModal}>Filters</ModalHeader>
                 <ModalBody className=''>
                     <div className='grid gap-5 grid-cols-1 lg:grid-cols-2'>

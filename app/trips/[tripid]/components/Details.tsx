@@ -17,8 +17,10 @@ import CancelTripComponent from './CancelTripComponent';
 import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import ClientOnly from '@/components/ClientOnly';
 import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
+import useTripReviewModal from '@/hooks/useTripReviewModal';
 
 export default function Details({ tripsData }: any) {
+    const tripReviewModal = useTripReviewModal();
     const [modifyCalenderOpen, setModifyCalenderOpen] = useState(false);
 
     const [swapRequestDetails, setSwapRequestDetails] = useState(null);
@@ -277,13 +279,6 @@ export default function Details({ tripsData }: any) {
                     </div>
 
                     <div className='mt-4 lg:row-span-3 lg:mt-0'>
-                        {/* <div className='flex flex-col gap-3'>
-                            <p className='text-3xl font-bold tracking-tight text-neutral-900'>{`$${tripsData.vehicleDetails[0].price_per_hr} / day`}</p>
-                            <p className='text-base text-gray-900'>
-                                Total Rental Charges : <b>${tripsData?.tripPaymentTokens[0]?.tripTaxAmount.toFixed(2)}</b>{' '}
-                            </p>
-                        </div> */}
-
                         <div className='flex justify-end'>
                             <TripImageVideoUploadComponent tripsData={tripsData} />
                         </div>
@@ -383,6 +378,16 @@ export default function Details({ tripsData }: any) {
                                 tripsData.status.toLowerCase() !== 'completed' &&
                                 tripsData.status.toLowerCase() !== 'cancellation requested' && <CancelTripComponent tripId={tripsData.tripid} />}
                         </div>
+                        {tripsData.status.toLowerCase() == 'completed' && tripsData?.vehicleDetails[0]?.tripreview.length == 0 && (
+                            <div
+                                className='mt-4 w-fit cursor-pointer rounded-md bg-orange-400 px-10 py-2 text-sm font-medium tracking-tight text-white'
+                                onClick={() => {
+                                    tripReviewModal.onOpen();
+                                    tripReviewModal.setTripData(tripsData);
+                                }}>
+                                Add a review
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
