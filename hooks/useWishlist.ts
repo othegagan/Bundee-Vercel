@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
-import { wishlistHandler } from '@/server/userOperations';
+import { getAllUserWishlistedVehicles, wishlistHandler } from '@/server/userOperations';
+import useTabFocusEffect from './useTabFocusEffect';
 
 const useWishlist = () => {
-    const [isItemWishlisted, setIsItemWishlisted] = React.useState(false);
+    const [isItemWishlisted, setIsItemWishlisted] = useState(false);
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [wishlistData, setWishlistData] = useState([]);
 
     const addToWishlistHandler = async vehicleId => {
         setIsItemWishlisted(true);
@@ -38,7 +43,7 @@ const useWishlist = () => {
             if (response.success) {
                 toast({
                     duration: 3000,
-                    variant :'success',
+                    variant: 'success',
                     description: 'Vehicle removed form the wishlist',
                 });
                 window.location.reload();
@@ -54,10 +59,43 @@ const useWishlist = () => {
             console.error('Error removing from wishlist:', error);
         }
     };
+
+    const fetchData = async () => {
+        setLoading(true);
+        setError(false);
+
+        try {
+            const response = await getAllUserWishlistedVehicles();
+
+            if (response.success && response.data.customervehicleresponse) {
+                setWishlistData(response.data.customervehicleresponse);
+            } else {
+                throw new Error(response.message);
+            }
+        } catch (error) {
+            console.error('Error fetching data', error);
+            setError(true);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    useTabFocusEffect(() => {
+        fetchData();
+    }, []);
+
+
     return {
         isItemWishlisted,
         addToWishlistHandler,
         removeFromWishlistHandler,
+        loading,
+        error,
+        wishlistData,
     };
 };
 

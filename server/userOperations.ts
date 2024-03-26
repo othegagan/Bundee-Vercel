@@ -152,3 +152,17 @@ export async function startTripByDriver(tripid: number) {
         throw new Error(error.message);
     }
 }
+
+export async function getAllUserWishlistedVehicles() {
+    try {
+        const session = await getSession();
+        const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/getWishListByUserId';
+        const payload = {
+            userid: session.userId,
+        };
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}

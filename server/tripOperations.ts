@@ -83,14 +83,14 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
         }
 
         const data = await response.json();
-        console.log(data)
+        console.log(data);
 
         const messageData = data.messages.map(item => ({
             author: item.author,
             message: item.body,
             deliveryDate: item.dateUpdated, // Adjust as needed
         }));
-        console.log(messageData)
+        console.log(messageData);
 
         return messageData;
     } catch (error: any) {
@@ -149,4 +149,23 @@ export async function deleteImageVideoUploaded(id: number) {
     }
 }
 
+export async function addTripReview(hostId: number, tripId: number, rating: number, comments: number, vehicleId: number) {
+    try {
+        const session = await getSession();
+        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createTripReview';
+        const payload = {
+            hostID: hostId,
+            tripid: tripId,
+            rating: rating,
+            comments: comments,
+            userId: session.userId,
+            vehicleid: vehicleId,
+            reservationID: tripId,
+        };
 
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
