@@ -291,7 +291,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     return (
         <>
             <ClientOnly>
-                <BoxContainer>
+                <BoxContainer className='py-8'>
                     <div className='mt-3 grid grid-cols-1 gap-6 md:mt-6 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
                         <div className='flex flex-col lg:col-span-2'>
                             <VehicleDetailsComponent
