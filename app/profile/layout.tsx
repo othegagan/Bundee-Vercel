@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getUserByEmail, updateProfile } from '@/server/userOperations';
 import { getSession } from '@/lib/auth';
+import BoxContainer from '@/components/BoxContainer';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
     const pathName = usePathname();
@@ -109,14 +110,14 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <div>
-            <div className='flex min-h-[80vh] flex-col sm:hidden'>
-                <div className='  max-container mx-auto max-w-screen-lg py-4'>
+            <div className='flex min-h-[80vh] flex-col lg:hidden'>
+                <BoxContainer className='py-10'>
                     <div className='flex gap-3'>
                         <div className='col-span-1 flex flex-col gap-1'>
                             <img
-                                src={image ? `${image}` : '/profile_avatar.png'}
+                                src={image ? `${image}` : '/dummy_avatar.png'}
                                 alt=''
-                                className=' relative inline-block h-[100px] w-[100px] rounded-sm border object-cover object-center'
+                                className=' relative inline-block h-[100px] w-[100px] md:h-[200px] md:w-[200px] rounded-md  object-cover object-center'
                             />
                         </div>
                         <div className='col-span-1 flex flex-col gap-1'>
@@ -128,18 +129,19 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                 Change Profile Picture
                                 <input id='profilePictureInput' type='file' className='hidden' onChange={handleProfilePictureChange} />
                             </label>
+                            <p>JPG or PNG. 1MB max.</p>
                         </div>
                     </div>
 
-                    <div className='mt-7 flex w-full list-none items-center gap-3 overflow-y-auto'>
+                    <div className='mt-7 flex  list-none items-center gap-3 overflow-y-auto'>
                         {links.map(link => (
                             <Link
                                 key={link.id}
                                 href={link.path}
-                                className={`flex w-full  cursor-pointer items-center whitespace-nowrap text-sm sm:text-base ${
+                                className={`flex w-fit  cursor-pointer items-center whitespace-nowrap text-sm sm:text-base sm:h-6 sm:px-4 sm:py-6 rounded-md ${
                                     pathName === link.path
-                                        ? 'rounded-md bg-primary p-2 text-white sm:h-6 sm:px-4 sm:py-6'
-                                        : 'rounded-md bg-white hover:bg-gray-100 sm:h-6 sm:px-4 sm:py-6 '
+                                        ? ' bg-primary p-2 text-white '
+                                        : ' bg-white hover:bg-gray-100  '
                                 }`}>
                                 {link.name}
                             </Link>
@@ -148,17 +150,17 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                     <hr />
 
                     {children}
-                </div>
+                </BoxContainer>
             </div>
 
-            <div className='  hidden sm:flex'>
+            <div className='  hidden lg:flex'>
                 <div className='container mx-auto max-w-screen-lg px-2'>
                     <div>
                         <div className='mb-6 rounded bg-white p-4 px-4 md:p-8'>
                             <div className='grid grid-cols-1 gap-4 gap-y-2 text-sm lg:grid-cols-3'>
                                 <div className='flex h-screen flex-col items-center text-gray-600'>
                                     <img
-                                        src={image ? `${image}` : '/profile_avatar.png'}
+                                        src={image ? `${image}` : '/dummy_avatar.png'}
                                         alt=''
                                         className='relative inline-block h-[300px] w-[300px] rounded-sm object-cover object-center'
                                     />
@@ -168,6 +170,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                         Change Profile Picture
                                         <input id='profilePictureInput' type='file' className='hidden' onChange={handleProfilePictureChange} />
                                     </label>
+                                    <p className='text-sm mt-2'>JPG or PNG. 1MB max.</p>
 
                                     <div className='mt-10 w-full space-y-0'>
                                         <div className='w-full list-none space-y-3'>
