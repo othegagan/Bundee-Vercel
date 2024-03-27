@@ -78,9 +78,10 @@ export async function createTripReservation(payload: any) {
 
 export async function createTripExtension(payload: any) {
     try {
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createReservation';
+        const url = process.env.BOOKING_SERVICES_BASEURL + '/v2/booking/createTripModificationExtension';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
         const response = await http.post(url, modifiedPayload);
+        console.log(response.data)
         if (response.data.errorCode == 0) {
             return {
                 success: true,
@@ -101,9 +102,10 @@ export async function createTripExtension(payload: any) {
 
 export async function createTripReduction(payload: any) {
     try {
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createReservation';
+        const url = process.env.BOOKING_SERVICES_BASEURL + '/v2/booking/createTripModificationReduction';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
         const response = await http.post(url, modifiedPayload);
+        console.log(response.data)
         if (response.data.errorCode == 0) {
             return {
                 success: true,

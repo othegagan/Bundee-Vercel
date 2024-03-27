@@ -1,44 +1,35 @@
 import { useEffect, useState } from 'react';
-import { RangeCalendar, CalendarHeading, CalendarGrid, CalendarGridHeader, CalendarGridBody, CalendarHeaderCell, CalendarCell } from '@/components/custom/calendar';
+import {
+    RangeCalendar,
+    CalendarHeading,
+    CalendarGrid,
+    CalendarGridHeader,
+    CalendarGridBody,
+    CalendarHeaderCell,
+    CalendarCell,
+} from '@/components/custom/calendar';
 import { CalendarSelectSkeleton, DateSelectSkeleton } from '@/components/skeletons/skeletons';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
-import { format, isAfter, isBefore } from 'date-fns';
+import { format, isAfter, isBefore, differenceInHours } from 'date-fns';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import ClientOnly from '@/components/ClientOnly';
 
 const ModificationCalendarComponent = ({
     vehicleid,
-    setNewStartDate,
-    setNewEndDate,
+    tripid,
     originalStartDate,
     originalEndDate,
-    newStartDate,
-    newEndDate,
     setError,
-    setIsExtensionNeeded,
-    handleReductionCase,
-    handleExtensionCase,
-    tripid,
+    setNewStartDate,
+    setNewEndDate,
+    setIsInitialLoad,
 }: any) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(originalStartDate),
         end: parseDate(originalEndDate),
     });
 
-    useEffect(() => {
-        if (newStartDate && newEndDate) {
-            if (isAfter(new Date(newStartDate), new Date(originalStartDate)) || isBefore(new Date(newEndDate), new Date(originalEndDate))) {
-                handleReductionCase();
-                setIsExtensionNeeded(false);
-                console.log('Prices For Reduction');
-            } else if (isBefore(new Date(newStartDate), new Date(originalStartDate)) || isAfter(new Date(newEndDate), new Date(originalEndDate))) {
-                handleExtensionCase();
-                setIsExtensionNeeded(true);
-                // console.log('Prices For Extension');
-            }
-        }
-    }, [newStartDate, newEndDate]);
     const { isLoading: datesLoading, isError: datesError, unavailableDates } = useAvailabilityDates(vehicleid, tripid);
 
     if (datesLoading) {
@@ -62,28 +53,24 @@ const ModificationCalendarComponent = ({
         isDateUnavailableEnd = isDateUnavailable(dates.end);
     }
 
-    let isInvalid =
-        isDateUnavailableStart ||
-        isDateUnavailableEnd ||
-        (newStartDate < originalStartDate && newEndDate < originalStartDate) ||
-        (newStartDate > originalEndDate && newEndDate > originalEndDate) ||
-        (newStartDate == originalStartDate && newEndDate == originalEndDate);
+    // let isInvalid =
+    //     isDateUnavailableStart ||
+    //     isDateUnavailableEnd ||
+    //     (newStartDate < originalStartDate && newEndDate < originalStartDate) ||
+    //     (newStartDate > originalEndDate && newEndDate > originalEndDate) ||
+    //     (newStartDate == originalStartDate && newEndDate == originalEndDate);
 
     let errorMessage = '';
 
-    if (isDateUnavailableStart) {
-        errorMessage = 'Start date is unavailable.';
-    } else if (isDateUnavailableEnd) {
-        errorMessage = 'End date is unavailable.';
-    } else if ((newStartDate < originalStartDate && newEndDate < originalStartDate) || (newStartDate > originalEndDate && newEndDate > originalEndDate)) {
-        errorMessage = 'Invalid Date Range';
-        setError('Invalid Date Range');
-    } else if (newStartDate == originalStartDate && newEndDate == originalEndDate) {
-        errorMessage = 'Please provide alternative dates';
-        setError('Please provide alternative dates');
-    }
+    //   if ((newStartDate < originalStartDate && newEndDate < originalStartDate) || (newStartDate > originalEndDate && newEndDate > originalEndDate)) {
+    //         errorMessage = 'Invalid Date Range';
+    //         setError('Invalid Date Range');
+    //     } else if (newStartDate == originalStartDate && newEndDate == originalEndDate) {
+    //         errorMessage = 'Please provide alternative dates';
+    //         setError('Please provide alternative dates');
+    //     }
 
-    isInvalid ? setError(true) : setError(false);
+    // isInvalid ? setError(true) : setError(false);
 
     function onDateSelect(item: any) {
         setDates(item);
@@ -92,23 +79,14 @@ const ModificationCalendarComponent = ({
         const endDateFormatted = format(item.end.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
         setNewStartDate(startDateFormatted);
         setNewEndDate(endDateFormatted);
-
-        // if (newStartDate && newEndDate) {
-        //     if (isAfter(new Date(newStartDate), new Date(originalStartDate)) || isBefore(new Date(newEndDate), new Date(originalEndDate))) {
-        //         handleReductionCase();
-        //         // console.log('Prices For Reduction');
-        //     } else if (isBefore(new Date(newStartDate), new Date(originalStartDate)) || isAfter(new Date(newEndDate), new Date(originalEndDate))) {
-        //         handleExtensionCase();
-        //         // console.log('Prices For Extension');
-        //     }
-        // }
+        setIsInitialLoad(false);
     }
 
     return (
         <ClientOnly>
             <div className='flex flex-col gap-2'>
                 <RangeCalendar
-                    className={'w-fit select-none border border-gray-200 mt-2 rounded-md overflow-hidden shadow-sm bg-white p-2'}
+                    className={'mt-2 w-fit select-none overflow-hidden rounded-md border border-gray-200 bg-white p-2 shadow-sm'}
                     aria-label='Date range (uncontrolled)'
                     value={dates}
                     onChange={value => onDateSelect(value)}
@@ -116,7 +94,8 @@ const ModificationCalendarComponent = ({
                     pageBehavior='visible'
                     minValue={today(getLocalTimeZone())}
                     isDateUnavailable={isDateUnavailable}
-                    isInvalid={isInvalid}>
+                    // isInvalid={isInvalid}
+                >
                     <CalendarHeading />
                     <CalendarGrid>
                         <CalendarGridHeader>{(day: any) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
@@ -125,7 +104,7 @@ const ModificationCalendarComponent = ({
                 </RangeCalendar>
 
                 {errorMessage ? (
-                    <div className='flex gap-2 mt-2'>
+                    <div className='mt-2 flex gap-2'>
                         <IoInformationCircleOutline className='text-destructive' />
                         <p className='text-sm font-normal text-destructive'>{errorMessage}</p>
                     </div>

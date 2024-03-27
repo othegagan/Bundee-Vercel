@@ -6,8 +6,7 @@ import { toast } from '@/components/ui/use-toast';
 import { getSession } from '@/lib/auth';
 import { formatDate } from '@/lib/utils';
 import { cancelPaymentIntent, createPaymentIntentWithAmount, createTripExtension, createTripReduction, createTripReservation } from '@/server/checkout';
-import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
 import secureLocalStorage from 'react-secure-storage';
 
@@ -33,25 +32,29 @@ export default function CheckoutComponent() {
     });
 
     useEffect(() => {
-        const data = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
+        try {
+            const data = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
 
-        const fetchVehicleMetaData = () => {
-            setCheckoutDetails(data);
+            const fetchVehicleMetaData = () => {
+                setCheckoutDetails(data);
 
-            setUserRequestType(data.type);
-            console.log(data.type);
+                setUserRequestType(data.type);
+                console.log(data.type);
 
-            setVehicleName(data.name);
-            setVehicleImage(data.image);
+                setVehicleName(data.name);
+                setVehicleImage(data.image);
 
-            if (data) {
-                createIntent();
-            } else {
-                window.location.href = '/';
-            }
-        };
+                if (data) {
+                    createIntent();
+                } else {
+                    window.location.href = '/';
+                }
+            };
 
-        fetchVehicleMetaData();
+            fetchVehicleMetaData();
+        } catch (error) {
+            console.log(error)
+        }
     }, []);
 
     const createIntent = async () => {
@@ -186,19 +189,10 @@ export default function CheckoutComponent() {
             stripePaymentTransactionDetail: '{ "key1" : "val1" }',
             paymentMethodIDToken: 'NA',
             setupIntentToken: 'NA',
-            isCustomerTokenNew: 'NA',
             delivery: false,
             totalDays: String(checkoutDetails.totalDays),
             tripamount: String(checkoutDetails.tripamount),
             userId: String(checkoutDetails.userId),
-            latitude: '',
-            longitude: '',
-            address1: '',
-            address2: '',
-            cityName: '',
-            state: '',
-            country: '',
-            zipCode: '',
         };
 
         delete payload.image;
@@ -216,9 +210,12 @@ export default function CheckoutComponent() {
         delete payload.hostid;
         delete payload.stateSurchargeAmount;
         delete payload.stateSurchargeTax;
+        delete payload.delivery
+        console.log(payload)
 
         try {
             const response = await createTripExtension(payload);
+            console.log(response)
 
             if (response.success) {
                 toast({
@@ -245,12 +242,15 @@ export default function CheckoutComponent() {
         const payload = {
             ...checkoutDetails,
             stripePaymentToken: params.stripePaymentToken,
+            customerToken: params.customerToken,
             stripePaymentID: 'NA',
             stripePaymentTransactionDetail: '{ "key1" : "val1" }',
             paymentMethodIDToken: 'NA',
-            // customerToken: params.customerToken,
-            // setupIntentToken: 'NA',
-            // isCustomerTokenNew: 'NA',
+            setupIntentToken: 'NA',
+            delivery: false,
+            totalDays: String(checkoutDetails.totalDays),
+            tripamount: String(checkoutDetails.tripamount),
+            userId: String(checkoutDetails.userId),
         };
 
         delete payload.image;
@@ -268,9 +268,9 @@ export default function CheckoutComponent() {
         delete payload.hostid;
         delete payload.stateSurchargeAmount;
         delete payload.stateSurchargeTax;
-        delete payload.delivery;
+        delete payload.delivery
 
-        console.log('Trip reduction payload', payload);
+        // console.log('Trip reduction payload', payload);
 
         try {
             const response = await createTripReduction(payload);
@@ -280,7 +280,7 @@ export default function CheckoutComponent() {
                     duration: 3000,
                     variant: 'success',
                     title: 'Payment made successful.',
-                    description: 'Thank you for your payment. Trip reducution was successful.',
+                    description: 'Thank you for your payment. Trip reduction was successful.',
                 });
                 localStorage.removeItem('checkOutInfo');
                 window.location.href = '/checkout/success';
@@ -316,7 +316,7 @@ export default function CheckoutComponent() {
             tripExtension();
         }
 
-        if (userRequestType == 'reducution') {
+        if (userRequestType == 'reduction') {
             tripReduction();
         }
     };
@@ -346,7 +346,7 @@ export default function CheckoutComponent() {
                             </div>
                         )}
 
-                        {(userRequestType === 'modify' || userRequestType === 'reducution') && (
+                        {(userRequestType === 'modify' || userRequestType === 'reduction') && (
                             <div className='mt-6 lg:mt-0'>
                                 <TripDetail vehicleImage={vehicleImage} vehicleName={vehicleName} checkoutDetails={checkoutDetails} />
                             </div>

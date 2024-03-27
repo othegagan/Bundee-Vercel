@@ -21,26 +21,29 @@ const Vehicles = ({ searchParams }: any) => {
 
     return (
         <div className='my-6'>
-            <div className='mt-6 flex flex-col md:flex-row md:items-center md:justify-between '>
+            <div className='mt-6 flex flex-col md:flex-row md:items-center md:justify-between'>
                 <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>Available Cars</h1>
 
-                <div className='flex  items-center justify-between gap-4'>
+                <div className='flex items-center justify-between gap-4'>
                     {!loading ? <p className='text-sm font-medium text-neutral-600'>{filteredCars.length} vehicles found.</p> : <CarCountSkeleton />}
                     <CarFilters carDetails={carDetails} setFilteredCars={setFilteredCars} />
                 </div>
             </div>
-            {loading && <VehiclesCardsSkeleton />}
-            {error && <ErrorComponent />}
-            {!loading && filteredCars.length === 0 && (
-                <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
-            )}
-            {!loading && filteredCars.length > 0 && (
+            {loading ? (
+                <VehiclesCardsSkeleton />
+            ) : (
                 <>
-                    <div className='mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-x-6 md:gap-y-8 lg:grid-cols-3  xl:gap-x-8'>
-                        {filteredCars.map((car: any) => (
-                            <CarCard key={car.id} car={car} searchQuery={searchQuery} />
-                        ))}
-                    </div>
+                    {error ? (
+                        <ErrorComponent />
+                    ) : filteredCars.length === 0 ? (
+                        <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
+                    ) : (
+                        <div className='mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-x-6 md:gap-y-8 lg:grid-cols-3  xl:gap-x-8'>
+                            {filteredCars.map((car: any) => (
+                                <CarCard key={car.id} car={car} searchQuery={searchQuery} />
+                            ))}
+                        </div>
+                    )}
                 </>
             )}
         </div>

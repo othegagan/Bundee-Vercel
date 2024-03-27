@@ -98,7 +98,7 @@ const LoginModal = () => {
         signInWithPopup(auth, provider)
             .then(async result => {
                 // Handle successful sign-in
-                console.log(result.user);
+                // console.log(result.user);
 
                 const firebaseToken = await result.user.getIdToken();
 

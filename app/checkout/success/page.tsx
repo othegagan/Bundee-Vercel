@@ -15,11 +15,11 @@ export default function CheckoutSuccess() {
         return () => clearInterval(timer);
     }, []);
 
-    // useEffect(() => {
-    //     if (countdown === 0) {
-    //         router.push('/trips');
-    //     }
-    // }, [countdown]);
+    useEffect(() => {
+        if (countdown === 0) {
+            router.push('/trips');
+        }
+    }, [countdown]);
 
     return (
         <>

@@ -42,6 +42,7 @@ export async function addToRecentlyViewedHistory(vehicleid: number) {
             lattitude: "30.271129",
             longitude: "-97.7437",
         };
+        console.log(payload)
         const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {
@@ -51,7 +52,6 @@ export async function addToRecentlyViewedHistory(vehicleid: number) {
 
 export async function getAvailabilityDatesByVehicleId(vehicleid: number, tripid: number) {
     try {
-        const session = await getSession();
         const url = process.env.AVAILABILITY_BASEURL + '/v1/availability/getAvailabilityDatesByVehicleId';
         const payload = tripid
             ? {
