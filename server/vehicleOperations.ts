@@ -8,7 +8,13 @@ export async function searchVehiclesAvailability(searchQuery: any) {
         const url = process.env.AVAILABILITY_BASEURL + '/v1/availability/getByZipCode';
         // console.log('Serach Payload', searchQuery);
         const response = await http.post(url, searchQuery);
-        return handleResponse(response.data);
+        // console.log(response.data)
+        return {
+            data : response.data,
+            success : true,
+            message : ' Search done'
+        }
+        // return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
     }
