@@ -211,11 +211,13 @@ export default function CheckoutComponent() {
         delete payload.stateSurchargeAmount;
         delete payload.stateSurchargeTax;
         delete payload.delivery
-        console.log(payload)
+
+        // console.log('Trip Extension payload', payload);
+
 
         try {
             const response = await createTripExtension(payload);
-            console.log(response)
+            // console.log(response)
 
             if (response.success) {
                 toast({

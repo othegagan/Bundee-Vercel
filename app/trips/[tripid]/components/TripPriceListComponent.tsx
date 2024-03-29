@@ -154,7 +154,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                 <hr />
                 {pricelist?.tripTaxAmount > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-md font-bold'>New Rental Charges</div>
+                        <div className='text-md font-bold'>Total Rental Charge</div>
                         <div className='text-md  font-bold'>$ {roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
                     </div>
                 )}

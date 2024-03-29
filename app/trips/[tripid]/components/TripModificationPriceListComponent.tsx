@@ -20,7 +20,7 @@ export default function TripModificationPriceListComponent({ priceCalculatedList
             </p>
             {priceCalculatedList?.numberOfDays > 0 && (
                 <div className='flex items-center justify-between pt-1'>
-                    <div className='text-xs'>{isExtension ? 'Trip Extension in days' : 'Total Trip in days'} </div>
+                    <div className='text-xs'>Total Trip in days </div>
                     <div className='text-xs font-medium'>{priceCalculatedList.numberOfDays}</div>
                 </div>
             )}
@@ -185,7 +185,7 @@ export default function TripModificationPriceListComponent({ priceCalculatedList
 
             {priceCalculatedList?.tripTaxAmount > 0 && (
                 <div className='mb-6 flex items-center justify-between '>
-                    <div className='text-sm font-semibold'>Extra Charges</div>
+                    <div className='text-sm font-semibold'>New Rental Charges</div>
                     <div className='text-sm  font-semibold'>$ {roundToTwoDecimalPlaces(priceCalculatedList?.tripTaxAmount)}</div>
                 </div>
             )}
