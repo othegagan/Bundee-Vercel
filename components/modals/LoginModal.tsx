@@ -7,7 +7,8 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
 import { useCallback, useState } from 'react';
-import { FaEye, FaEyeSlash, FaPhone } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaPhone } from 'react-icons/fa6';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
 import { useRouter } from 'next/navigation';
@@ -20,7 +21,6 @@ import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import Logo from '@/components/landing_page/Logo';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { FaPhoneFlip } from 'react-icons/fa6';
 import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
 
 const LoginModal = () => {
@@ -154,6 +154,7 @@ const LoginModal = () => {
         setPassword('');
         setUserEmail('');
         setShowPassword(false);
+        setAuthError("")
         loginModal.onClose();
     }
 
@@ -246,8 +247,8 @@ const LoginModal = () => {
                                 <span>Continue with Google</span>
                             </Button>
 
-                            <Button onClick={openPhoneLogin} type='button' variant='outline' className='mt-3 flex w-full  gap-4 py-5'>
-                                <FaPhone />
+                            <Button onClick={openPhoneLogin} type='button' variant='outline' className='mt-3 flex w-full  gap-3 py-5'>
+                                <FaPhone className='size-5 scale-95' />
                                 <span>Sign in with Phone number</span>
                             </Button>
 

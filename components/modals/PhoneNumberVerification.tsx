@@ -82,8 +82,9 @@ const PhoneNumberModal = () => {
             'auth/user-disabled': 'Account has been disabled.',
             'auth/missing-password': 'Please enter your password.',
             'auth/invalid-credential': 'Invailid Credentials. Please try again.',
-            'auth/argument-error': 'Invalid argument. Please check your input and try again.',
             'auth/invalid-phone-number': 'Invalid phone number. Please enter a valid phone number.',
+            'auth/auth/code-expired': 'Invalid OTP. Please enter a valid OTP.',
+            'auth/provider-already-linked': 'Account already linked with phone number',
             default: 'An error occurred. Please try again.',
         };
         setPhoneNumber('');
@@ -149,7 +150,8 @@ const PhoneNumberModal = () => {
                         </div>
                     )}
                     {otpError && <p className='rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
-                    <div id='recaptcha-container'></div>
+
+                    {!otpError && !verificationId && <div id='recaptcha-container'></div>}
                 </div>
             </ModalBody>
         </Modal>

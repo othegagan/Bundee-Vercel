@@ -37,7 +37,7 @@ export default function RecentlyViewedVehicles() {
         try {
             setLoading(true);
             const response = await getRecentlyViewedVehicles();
-            console.log(response.data.customeractivityresponse)
+            // console.log(response.data.customeractivityresponse)
             if (response.success) {
                 const data = response.data.customeractivityresponse || [];
                 setRecentlyViewedData(data.slice(0, 4));

@@ -312,6 +312,7 @@ const RegisterModal = () => {
         setAccountUpdateAgreeError(false);
         setMarketingAgree(false);
         setMarketingAgreeError(false);
+        setFirebaseError("")
 
         setFormData({
             email: '',

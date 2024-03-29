@@ -1,32 +1,23 @@
 'use client';
 
-import { GoogleAuthProvider, signInWithPhoneNumber, signInWithPopup } from 'firebase/auth';
-import useLoginModal from '@/hooks/useLoginModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
+import { signInWithPhoneNumber } from 'firebase/auth';
 
-import { useCallback, useState } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { IoWarning } from 'react-icons/io5';
-import { LuLoader2 } from 'react-icons/lu';
+import Logo from '@/components/landing_page/Logo';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
+import { login } from '@/lib/auth';
+import { getUserByPhoneNumber } from '@/server/userOperations';
+import { RecaptchaVerifier } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { login, logout } from '@/lib/auth';
-import { createNewUser } from '@/server/createNewUser';
-import { getBundeeToken, getUserByEmail, getUserByPhoneNumber } from '@/server/userOperations';
-import Link from 'next/link';
+import { useState } from 'react';
+import { LuLoader2 } from 'react-icons/lu';
 import ClientOnly from '../ClientOnly';
 import { Modal, ModalBody, ModalHeader } from '../custom/modal';
-import Logo from '@/components/landing_page/Logo';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import usePhoneNumberVerificationModal from '@/hooks/usePhoneNumberVerificationModal';
-import { linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, updatePhoneNumber } from 'firebase/auth';
 import { Label } from '../ui/label';
 import { PhoneInput } from '../ui/phone-input';
-import { getSession } from '@/lib/auth';
 import { toast } from '../ui/use-toast';
 
 const PhoneNumberSignInModal = () => {
@@ -65,11 +56,7 @@ const PhoneNumberSignInModal = () => {
     };
 
     const phoneSignIn = () => {
-        const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-            size: 'invisible',
-            callback: response => {},
-            'expired-callback': () => {},
-        });
+        const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
         signInWithPhoneNumber(auth, phoneNumber, appVerifier)
             .then(confirmationResult => {
@@ -91,7 +78,8 @@ const PhoneNumberSignInModal = () => {
         window.confirmationResult
             .confirm(verificationCode)
             .then(async res => {
-                const response: any = await getUserByEmail(phoneNumber);
+                // console.log(res)
+                const response: any = await getUserByPhoneNumber(phoneNumber);
                 if (response.success) {
                     const payload: any = {
                         userData: response.data.userResponse,
@@ -128,6 +116,7 @@ const PhoneNumberSignInModal = () => {
         setOTPError('');
         setVerificationCode('');
         setVerificationId('');
+
         setVerificationSent(false);
         phoneNumberSignInModal.onClose();
     }
