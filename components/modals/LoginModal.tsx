@@ -253,7 +253,7 @@ const LoginModal = () => {
                             </Button>
 
                             <div className='mt-4 flex flex-col gap-2'>
-                                <Link className='w-fit text-sm font-medium text-primary hover:underline' href='/auth/reset_password'>
+                                <Link className='w-fit text-sm font-medium text-primary hover:underline' href='/'>
                                     Forgot your password?
                                 </Link>
 

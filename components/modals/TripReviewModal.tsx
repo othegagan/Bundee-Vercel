@@ -14,11 +14,11 @@ import { toast } from '../ui/use-toast';
 const TripReviewModal = () => {
     const [rating, setRating] = useState(0);
     const [comments, setComments] = useState('');
-
     const tripReviewModal = useTripReviewModal();
-
+    const [loading, setLoading] = useState(false);
     const handleSubmit = async () => {
         try {
+            setLoading(true);
             const hostId = tripReviewModal.tripData.hostid;
             const tripId = tripReviewModal.tripData.tripid;
             const vehicleId = tripReviewModal.tripData.vehicleId;
@@ -41,6 +41,8 @@ const TripReviewModal = () => {
             }
         } catch (error) {
             console.log(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -71,8 +73,8 @@ const TripReviewModal = () => {
                                     setComments(e.target.value);
                                 }}></Textarea>
                         </div>
-                        <Button className='ml-auto' variant='black' disabled={rating == 0} onClick={handleSubmit}>
-                            Submit
+                        <Button className='ml-auto' variant='black' disabled={rating == 0 && loading} onClick={handleSubmit}>
+                            {loading ? 'Submitting...' : 'Submit'}
                         </Button>
                     </main>
                 </ClientOnly>

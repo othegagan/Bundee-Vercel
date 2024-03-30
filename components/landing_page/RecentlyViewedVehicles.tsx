@@ -75,7 +75,7 @@ export default function RecentlyViewedVehicles() {
                                     <div className='aspect-video w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 lg:aspect-video lg:h-44'>
                                         <img
                                             src={car?.imageresponse[0]?.imagename}
-                                            alt=''
+                                            alt={car?.imageresponse[0]?.imagename}
                                             className='h-full w-full object-cover object-center transition-all ease-in-out group-hover:scale-110 lg:h-full lg:w-full'
                                         />
                                     </div>
@@ -84,7 +84,7 @@ export default function RecentlyViewedVehicles() {
                                         <p className='mt-2 text-sm  font-bold text-neutral-900'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
                                         <div className='flex items-center justify-between gap-3 '>
                                             <div className='flex gap-2'>
-                                                {car.rating ? <p className='text-xs font-medium text-neutral-900 '>{car.rating}</p> : null}
+                                                {car.rating ? <p className='text-xs font-medium text-neutral-900 '>{car.rating}</p> : <>{car.rating}</>}
                                                 {car.tripCount != 0 && (
                                                     <div className='inline-flex gap-2'>
                                                         <FaStar className='mr-2 h-4 w-4 text-yellow-400' />

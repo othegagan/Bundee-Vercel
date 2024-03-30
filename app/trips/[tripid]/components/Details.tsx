@@ -18,6 +18,7 @@ import TripModificationPriceListComponent from './TripModificationPriceListCompo
 import TripPriceListComponent from './TripPriceListComponent';
 import TripVehicleDetailsComponent from './TripVehicleDetailsComponent';
 import { getSession } from '@/lib/auth';
+import { convertToCarTimeZoneISO, formatDateAndTime, formatTime, toTitleCase } from '@/lib/utils';
 
 export default function Details({ tripsData }: any) {
     const tripReviewModal = useTripReviewModal();
@@ -45,8 +46,8 @@ export default function Details({ tripsData }: any) {
     useEffect(() => {
         setNewStartDate(format(new Date(tripsData.starttime), 'yyyy-MM-dd'));
         setNewEndDate(format(new Date(tripsData.endtime), 'yyyy-MM-dd'));
-        setNewStartTime(format(new Date(tripsData.starttime), 'HH:mm:ss'));
-        setNewEndTime(format(new Date(tripsData.endtime), 'HH:mm:ss'));
+        setNewStartTime(formatTime(tripsData.starttime, tripsData?.vehzipcode));
+        setNewEndTime(formatTime(tripsData.endtime, tripsData?.vehzipcode));
         setSwapRequestDetails(tripsData.swapDetails[0]);
     }, [tripsData]);
 
@@ -104,7 +105,7 @@ export default function Details({ tripsData }: any) {
         }
     }
 
-    const createPayloadForCheckout = (type, userId) => {
+    const createPayloadForCheckout = (type: string, userId: number) => {
         const hostid = tripsData.hostid;
 
         const vehicleDetails = tripsData.vehicleDetails[0];
@@ -121,8 +122,10 @@ export default function Details({ tripsData }: any) {
             name: vechicleName,
             image: vechileImage,
             hostid: hostid,
-            startTime: newStart.toISOString(),
-            endTime: newEnd.toISOString(),
+            // startTime: newStart.toISOString(),
+            // endTime: newEnd.toISOString(),
+            startTime: convertToCarTimeZoneISO(newStartDate, newStartTime, tripsData.vehzipcode),
+            endTime: convertToCarTimeZoneISO(newEndDate, newEndTime, tripsData.vehzipcode),
             pickupTime: newStartTime,
             dropTime: newEndTime,
             totalDays: priceCalculatedList.numberOfDays,
@@ -229,20 +232,20 @@ export default function Details({ tripsData }: any) {
                             </div>
                             <div className='flex items-center justify-between'>
                                 <div className='text-md'>Trip Start Date</div>
-                                <div className='text-md font-medium'>{format(new Date(tripsData.starttime), 'LLL dd, y | h:mm a')}</div>
+                                <div className='text-md font-medium'>{formatDateAndTime(tripsData.starttime, tripsData.vehzipcode)}</div>
                             </div>
                             <div className='flex items-center justify-between'>
                                 <div className='text-md'>Trip End Date</div>
-                                <div className='text-md font-medium'>{format(new Date(tripsData.endtime), 'LLL dd, y | h:mm a')}</div>
+                                <div className='text-md font-medium'>{formatDateAndTime(tripsData.endtime, tripsData.vehzipcode)}</div>
                             </div>
 
                             <div className='flex items-center justify-between'>
                                 <div className='text-md'>Pickup & Return</div>
                                 <div className='text-md font-medium'>
-                                    {tripsData?.vehaddress1 ? `${tripsData?.vehaddress1}, ` : null}
-                                    {tripsData?.vehaddress2 ? `${tripsData?.vehaddress2}, ` : null}
-                                    {tripsData?.vehcity ? `${tripsData?.vehcity}, ` : null}
-                                    {tripsData?.vehstate ? `${tripsData?.vehstate}, ` : null}
+                                    {tripsData?.vehaddress1 ? `${toTitleCase(tripsData?.vehaddress1)}, ` : null}
+                                    {tripsData?.vehaddress2 ? `${toTitleCase(tripsData?.vehaddress2)}, ` : null}
+                                    {tripsData?.vehcity ? `${toTitleCase(tripsData?.vehcity)}, ` : null}
+                                    {tripsData?.vehstate ? `${toTitleCase(tripsData?.vehstate)}, ` : null}
                                     {tripsData?.vehzipcode ? `${tripsData?.vehzipcode}` : null}
                                 </div>
                             </div>
@@ -300,10 +303,9 @@ export default function Details({ tripsData }: any) {
                                 </Button>
                             ) : null}
 
-                            {tripsData.status.toLowerCase() !== 'started' &&
-                                tripsData.status.toLowerCase() !== 'cancelled' &&
-                                tripsData.status.toLowerCase() !== 'completed' &&
-                                tripsData.status.toLowerCase() !== 'cancellation requested' && <CancelTripComponent tripId={tripsData.tripid} />}
+                            {['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) === -1 && (
+                                <CancelTripComponent tripId={tripsData.tripid} />
+                            )}
                         </div>
 
                         {tripsData.status.toLowerCase() == 'completed' && tripsData?.vehicleDetails[0]?.tripreview.length == 0 && (
@@ -329,7 +331,8 @@ export default function Details({ tripsData }: any) {
                                 <div className='flex-2 flex w-full flex-col gap-1'>
                                     <TimeSelect
                                         label='Trip Start Time'
-                                        defaultValue={format(new Date(tripsData.starttime), 'HH:mm:ss')}
+                                        // defaultValue={format(new Date(tripsData.starttime), 'HH:mm:ss')}
+                                        defaultValue={formatTime(tripsData.starttime, tripsData?.vehzipcode)}
                                         onChange={time => {
                                             setNewStartTime(time);
                                             getPriceCalculation();
@@ -339,7 +342,7 @@ export default function Details({ tripsData }: any) {
                                 <div className='flex-2 ml-4 flex w-full flex-col gap-1'>
                                     <TimeSelect
                                         label='Trip End Time'
-                                        defaultValue={format(new Date(tripsData.endtime), 'HH:mm:ss')}
+                                        defaultValue={formatTime(tripsData.endtime, tripsData?.vehzipcode)}
                                         onChange={time => {
                                             setNewEndTime(time);
                                             getPriceCalculation();
@@ -380,6 +383,7 @@ export default function Details({ tripsData }: any) {
                                                         newEndDate={newEndDate}
                                                         newStartTime={newStartTime}
                                                         newEndTime={newEndTime}
+                                                        zipCode={tripsData?.vehzipcode}
                                                     />
 
                                                     <footer className='mt-6 flex select-none items-center justify-end gap-4'>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 import ErrorComponent from '@/components/custom/ErrorComponent';
+import { formatDateAndTime, toTitleCase } from '@/lib/utils';
 
 const TripsList = ({ tripsData }) => {
     if (!Array.isArray(tripsData) || tripsData.length === 0) {
@@ -33,42 +34,44 @@ const TripsList = ({ tripsData }) => {
 
                     <div className='flex flex-auto flex-col'>
                         <div>
-                            <h4 className='font-semibold text-gray-900'>{`${trip.vehmake} ${trip.vehmodel} (${trip.vehyear})`}</h4>
+                            <h4 className='font-semibold text-gray-900'>{`${toTitleCase(trip.vehmake)} ${trip.vehmodel} (${trip.vehyear})`}</h4>
                             <div className='mt-2 flex w-full flex-col gap-2 text-xs text-gray-600'>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Start Date</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
-                                        <p>
-                                            {format(new Date(trip.starttime), 'LLL dd, y')} | {format(new Date(trip.starttime), 'h:mm a')}
-                                        </p>
+                                        <>
+                                            {/* {format(new Date(trip.starttime), 'LLL dd, y')} | {format(new Date(trip.starttime), 'h:mm a')} */}
+                                            {formatDateAndTime(trip.starttime, '73301')}
+                                        </>
                                     </div>
                                 </div>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>End Date</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
-                                        <p>
-                                            {format(new Date(trip.endtime), 'LLL dd, y')} | {format(new Date(trip.endtime), 'h:mm a')}
-                                        </p>
+                                        <>
+                                            {formatDateAndTime(trip.endtime, '73301')}
+                                            {/* {format(new Date(trip.endtime), 'LLL dd, y')} | {format(new Date(trip.endtime), 'h:mm a')} */}
+                                        </>
                                     </div>
                                 </div>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Pickup</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
-                                        <p>
-                                            {trip?.vehaddress1}, {trip?.vehaddress2}, {trip?.vehzipcode}, {trip?.vehcityname}, {trip?.vehstate}
-                                        </p>
+                                        <>
+                                            {toTitleCase(trip?.vehaddress1)}, {trip?.vehaddress2}, {trip?.vehzipcode}, {trip?.vehcityname}, {trip?.vehstate}
+                                        </>
                                     </div>
                                 </div>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Trip Duration</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
-                                        <p>
+                                        <>
                                             {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24))}
                                             {'  '}
                                             {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24)) == 1
                                                 ? 'Day'
                                                 : 'Days'}
-                                        </p>
+                                        </>
                                     </div>
                                 </div>
                             </div>

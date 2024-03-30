@@ -14,7 +14,6 @@ const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedIm
             return a.orderNumber - b.orderNumber;
         }
     });
-
     return (
         <>
             <div className='rounded-lg sm:overflow-hidden '>

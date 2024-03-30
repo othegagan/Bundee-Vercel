@@ -13,7 +13,6 @@ const TripDetailComponent = ({ tripId }) => {
     const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
     const { tripData, loading, error } = useTripDetails(tripId);
 
-    // console.log(tripData)
     useScrollToTopOnLoad(loading);
 
     return (

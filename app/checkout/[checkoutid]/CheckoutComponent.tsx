@@ -4,7 +4,7 @@ import { CheckoutCardSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { getSession } from '@/lib/auth';
-import { formatDate } from '@/lib/utils';
+import { formatDateAndTime } from '@/lib/utils';
 import { cancelPaymentIntent, createPaymentIntentWithAmount, createTripExtension, createTripReduction, createTripReservation } from '@/server/checkout';
 import { useEffect, useState } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
@@ -53,7 +53,7 @@ export default function CheckoutComponent() {
 
             fetchVehicleMetaData();
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }, []);
 
@@ -210,10 +210,9 @@ export default function CheckoutComponent() {
         delete payload.hostid;
         delete payload.stateSurchargeAmount;
         delete payload.stateSurchargeTax;
-        delete payload.delivery
+        delete payload.delivery;
 
         // console.log('Trip Extension payload', payload);
-
 
         try {
             const response = await createTripExtension(payload);
@@ -270,7 +269,7 @@ export default function CheckoutComponent() {
         delete payload.hostid;
         delete payload.stateSurchargeAmount;
         delete payload.stateSurchargeTax;
-        delete payload.delivery
+        delete payload.delivery;
 
         // console.log('Trip reduction payload', payload);
 
@@ -375,11 +374,11 @@ function TripDetail({ vehicleImage, vehicleName, checkoutDetails }) {
                 <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{vehicleName}</h5>
                 <div className='flex items-center justify-between'>
                     <dt className='text-sm font-bold'>Trip Start Date</dt>
-                    <dd className='text-sm font-medium text-gray-900'>{formatDate(checkoutDetails.startTime)}</dd>
+                    <dd className='text-sm font-medium text-gray-900'>{formatDateAndTime(checkoutDetails.startTime, checkoutDetails.zipCode)}</dd>
                 </div>
                 <div className='flex items-center justify-between'>
                     <dt className='text-sm font-bold'>Trip End Date</dt>
-                    <dd className='text-sm font-medium text-gray-900'>{formatDate(checkoutDetails.endTime)}</dd>
+                    <dd className='text-sm font-medium text-gray-900'>{formatDateAndTime(checkoutDetails.endTime, checkoutDetails.zipCode)}</dd>
                 </div>
             </dl>
 
@@ -409,7 +408,7 @@ function TripDetail({ vehicleImage, vehicleName, checkoutDetails }) {
 
 function PaymentSection({ elementFetched, payButtonText, submit }) {
     return (
-        <div className='flex flex-col gap-2 pt-5 col-span-1'>
+        <div className='col-span-1 flex flex-col gap-2 pt-5'>
             <div className='rounded-sm bg-white p-4 shadow-md' id='payment-element'></div>
             <div className='border-t border-gray-200 px-4 py-6 sm:px-6'>
                 {elementFetched ? (

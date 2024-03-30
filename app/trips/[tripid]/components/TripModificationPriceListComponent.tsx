@@ -1,22 +1,22 @@
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { roundToTwoDecimalPlaces } from '@/lib/utils';
-import { format, parse } from 'date-fns';
-import React from 'react';
+import { convertToCarTimeZoneISO, formatDateAndTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 
-export default function TripModificationPriceListComponent({ priceCalculatedList, isExtension, newStartDate, newEndDate, newStartTime, newEndTime }: any) {
+export default function TripModificationPriceListComponent({ priceCalculatedList, zipCode, newStartDate, newEndDate, newStartTime, newEndTime }: any) {
     return (
         <div className='space-y-2'>
             <p className='flex  justify-between pt-1 text-xs text-gray-900'>
                 Start Date :
                 <span className='ml-2 '>
-                    {newStartDate ? `${format(new Date(newStartDate + 'T' + newStartTime), 'LLL dd, y | h:mm a')}` : 'Dates not selected'}
+                    {newStartDate ? `${formatDateAndTime(convertToCarTimeZoneISO(newStartDate, newStartTime, zipCode), zipCode)}` : 'Dates not selected'}
                 </span>
             </p>
             <p className='flex  justify-between pt-1 text-xs text-gray-900'>
                 End Date :
-                <span className='ml-2 '>{newEndDate ? `${format(new Date(newEndDate + 'T' + newEndTime), 'LLL dd, y | h:mm a')}` : 'Dates not selected'}</span>
+                <span className='ml-2 '>
+                    {newEndDate ? `${formatDateAndTime(convertToCarTimeZoneISO(newEndDate, newEndTime, zipCode), zipCode)}` : 'Dates not selected'}
+                </span>
             </p>
             {priceCalculatedList?.numberOfDays > 0 && (
                 <div className='flex items-center justify-between pt-1'>

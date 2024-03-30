@@ -28,6 +28,7 @@ import BoxContainer from '@/components/BoxContainer';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import { IoInformationCircleOutline } from 'react-icons/io5';
+import { convertToCarTimeZoneISO } from '@/lib/utils';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
@@ -203,8 +204,10 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 authorizationpercentage: priceCalculatedList.authPercentage,
                 authorizationamount: priceCalculatedList.authAmount,
                 perDayAmount: priceCalculatedList.pricePerDay,
-                startTime: new Date(startDate + 'T' + startTime).toISOString(),
-                endTime: new Date(endDate + 'T' + endTime).toISOString(),
+                // startTime: new Date(startDate + 'T' + startTime).toISOString(),
+                // endTime: new Date(endDate + 'T' + endTime).toISOString(),
+                startTime: convertToCarTimeZoneISO(startDate, startTime,  '73301'),
+                endTime: convertToCarTimeZoneISO(endDate, endTime,  '73301'),
                 totalDays: priceCalculatedList.numberOfDays,
                 taxAmount: priceCalculatedList.taxAmount,
                 tripTaxAmount: priceCalculatedList.tripTaxAmount,

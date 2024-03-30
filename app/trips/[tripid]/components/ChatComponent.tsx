@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { auth } from '@/lib/firebase';
 import { toast } from '@/components/ui/use-toast';
 import { getTripChatHistory, sendMessageToHost } from '@/server/tripOperations';
+import { formatDateAndTime } from '@/lib/utils';
 
 const AUTHOR_TYPE = {
     SYSTEM: 'system',
@@ -166,13 +167,15 @@ function Message({ message, tripsData }) {
                             <div>
                                 Trip Start Date :{' '}
                                 <span className='text-base font-medium text-gray-800'>
-                                    {format(new Date(tripsData?.starttime), 'LLL dd, y')} | {format(new Date(tripsData?.starttime), 'h:mm a')}
+                                    {formatDateAndTime(tripsData?.starttime, tripsData?.vehzipcode)}
+                                    {/* {format(new Date(tripsData?.starttime), 'LLL dd, y')} | {format(new Date(tripsData?.starttime), 'h:mm a')} */}
                                 </span>{' '}
                             </div>
                             <div>
                                 Trip End Date :{' '}
                                 <span className='text-base font-medium text-gray-800'>
-                                    {format(new Date(tripsData?.endtime), 'LLL dd, y')} | {format(new Date(tripsData?.endtime), 'h:mm a')}
+                                    {formatDateAndTime(tripsData?.endtime, tripsData?.vehzipcode)}
+                                    {/* {format(new Date(tripsData?.endtime), 'LLL dd, y')} | {format(new Date(tripsData?.endtime), 'h:mm a')} */}
                                 </span>{' '}
                             </div>
 

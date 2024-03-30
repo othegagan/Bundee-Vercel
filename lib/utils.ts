@@ -1,6 +1,9 @@
+import { parseZonedDateTime } from '@internationalized/date';
 import { type ClassValue, clsx } from 'clsx';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
+import zipToTimeZone from 'zipcode-to-timezone';
+import moment from 'moment-timezone';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -20,41 +23,34 @@ export function roundToTwoDecimalPlaces(num: number) {
     }
 }
 
-
-export function createDateTime(dateString, timeString) {
-    const date = new Date(dateString);
-    const [hour, minute, period] = timeString.match(/\d+|\w+/g);
-
-    const hour24 = period === 'PM' && hour !== '12' ? parseInt(hour) + 12 : parseInt(hour);
-
-    date.setHours(hour24, parseInt(minute), 0, 0);
-    return date;
+export function getTimeZoneByZipcode(zipCode: string) {
+    const timeZone = zipToTimeZone.lookup(zipCode) || 'America/Chicago'; // 73301, (Los angeles zip code : 90274) (MST : 85323)
+    // console.log('Time zone:', timeZone);
+    return timeZone || null;
 }
 
-export function extractTimeIn12HourFormat(timeString) {
-    // Remove the '+00' from the time string
-    const cleanedTimeString = timeString.replace('+00', '');
+export function convertToCarTimeZoneISO(date: string, time: string, zipCode: string) {
+    const dateString = `${date}T${time}`;
+    const timeZone = getTimeZoneByZipcode(zipCode);
+    const converedCarDate = parseZonedDateTime(`${dateString}[${timeZone}]`).toAbsoluteString();
 
-    const date = new Date(cleanedTimeString);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-
-    const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
-
-    return formattedTime;
+    return converedCarDate;
 }
 
-export function convertToAPITimeFormat(dateTimeString) {
-    const [datePart, timePart] = dateTimeString.split(' ');
-    const [year, month, day] = datePart.split('-');
-    const [hours, minutes] = timePart.slice(0, 5).split(':');
+export function formatDateAndTime(date: string, zipCode: string) {
+    const endTimeUTC = moment.utc(date);
+    const timeZone = getTimeZoneByZipcode(zipCode);
+    const timeInTimeZone = endTimeUTC.tz(timeZone);
 
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
+    const formattedDate = timeInTimeZone.format('MMM DD, YYYY');
+    const formattedTime = timeInTimeZone.format('h:mm A');
+    const timeZoneAbbreviation = timeInTimeZone.format('z');
+
+    return `${formattedDate} | ${formattedTime} ${timeZoneAbbreviation}`;
 }
 
-
-export function formatDate(date) {
-    return `${format(new Date(date), 'PPP')} | ${format(new Date(date), 'h:mm a')}`;
+export function formatTime(dateTimeString: string, zipCode: string) {
+    const timeZone = getTimeZoneByZipcode(zipCode);
+    const time = moment(dateTimeString).tz(timeZone).format('HH:mm:ss');
+    return time;
 }
