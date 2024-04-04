@@ -5,6 +5,7 @@ import { searchVehiclesAvailability } from '@/server/vehicleOperations';
 import { addDays, format } from 'date-fns';
 import { useState } from 'react';
 import useTabFocusEffect from './useTabFocusEffect';
+import { getSearchDates } from '@/app/api/searchTimezoneConverstion/route';
 
 const useVehicleSearch = () => {
     const [loading, setLoading] = useState(false);
@@ -34,8 +35,10 @@ const useVehicleSearch = () => {
             const searchPayload = {
                 lat: longitude,
                 lng: latitude,
-                startTs: new Date(startDate + 'T' + startTime).toISOString(),
-                endTS: new Date(endDate + 'T' + endTime).toISOString(),
+                // startTs: new Date(startDate + 'T' + startTime).toISOString(),
+                // endTS: new Date(endDate + 'T' + endTime).toISOString(),
+                startTs: getSearchDates(longitude, latitude, startDate, startTime),
+                endTS: getSearchDates(longitude, latitude, endDate, endTime),
                 pickupTime: startTime,
                 dropTime: endTime,
                 isAirport,
@@ -55,6 +58,7 @@ const useVehicleSearch = () => {
                 throw new Error(response.message);
             }
         } catch (error) {
+            console.log(error);
             setError(error);
         } finally {
             setLoading(false);
