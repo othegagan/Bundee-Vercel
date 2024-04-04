@@ -4,6 +4,7 @@ import { format, parseISO } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 import zipToTimeZone from 'zipcode-to-timezone';
 import moment from 'moment-timezone';
+import tzlookup from 'tz-lookup';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -53,4 +54,19 @@ export function formatTime(dateTimeString: string, zipCode: string) {
     const timeZone = getTimeZoneByZipcode(zipCode);
     const time = moment(dateTimeString).tz(timeZone).format('HH:mm:ss');
     return time;
+}
+
+
+export function getSearchDates(lat: number, lon: number, date: string, time: string) {
+    const timezone = tzlookup(lat, lon);
+    if (timezone) {
+        const dateString = `${date}T${time}`;
+
+        const converedCarDate = parseZonedDateTime(`${dateString}[${timezone}]`).toAbsoluteString();
+
+        return converedCarDate;
+    } else {
+        console.log('Timezone not found for provided coordinates.');
+        return null;
+    }
 }

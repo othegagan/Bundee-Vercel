@@ -1,23 +1,8 @@
 //API  route to convert dates for search API
 
+import { getSearchDates } from '@/lib/utils';
 import { NextRequest, NextResponse } from 'next/server';
-import { parseZonedDateTime } from '@internationalized/date';
-import tzlookup from 'tz-lookup';
 
-
-export function getSearchDates(lat: number, lon: number, date: string, time: string) {
-    const timezone = tzlookup(lat, lon);
-    if (timezone) {
-        const dateString = `${date}T${time}`;
-
-        const converedCarDate = parseZonedDateTime(`${dateString}[${timezone}]`).toAbsoluteString();
-
-        return converedCarDate;
-    } else {
-        console.log('Timezone not found for provided coordinates.');
-        return null;
-    }
-}
 
 export async function POST(req: NextRequest) {
     try {
