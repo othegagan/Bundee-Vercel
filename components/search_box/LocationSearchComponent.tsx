@@ -80,7 +80,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
 
     return (
         <>
-            <div className={` rounded-md bg-white shadow-md  md:block ${pathname == '/' ? 'block' : 'hidden'}`}>
+            <div className={` rounded-md bg-white shadow-md select-none  md:block ${pathname == '/' ? 'block' : 'hidden'}`}>
                 <div className='grid grid-cols-2 gap-5 px-4 py-6 sm:px-8 sm:py-7 md:grid-cols-12  lg:grid-cols-12'>
                     <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                         <div className='flex w-full flex-col gap-1 '>
