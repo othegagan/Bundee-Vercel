@@ -5,7 +5,7 @@ import { searchVehiclesAvailability } from '@/server/vehicleOperations';
 import { addDays, format } from 'date-fns';
 import { useState } from 'react';
 import useTabFocusEffect from './useTabFocusEffect';
-import { getSearchDates } from '@/app/api/searchTimezoneConverstion/route';
+import { getSearchDates } from '@/lib/utils';
 
 const useVehicleSearch = () => {
     const [loading, setLoading] = useState(false);
