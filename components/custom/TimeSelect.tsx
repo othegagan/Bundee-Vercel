@@ -3,7 +3,7 @@
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const TimeSelect: React.FC<{ onChange: (time: string) => void; defaultValue: any; label: string }> = ({ onChange, defaultValue, label }) => {
+const TimeSelect: React.FC<{ onChange: (time: string) => void; defaultValue: any; label: string, className?:string }> = ({ onChange, defaultValue, label, className }) => {
     const generateTimes = React.useMemo(() => {
         return Array.from({ length: 48 }, (_, i) => {
             const hour24 = Math.floor(i / 2);
@@ -20,7 +20,7 @@ const TimeSelect: React.FC<{ onChange: (time: string) => void; defaultValue: any
         <div className='flex flex-col gap-2 w-full'>
             <label className='text-xs font-semibold'>{label}</label>
             <Select onValueChange={onChange} defaultValue={defaultValue}>
-                <SelectTrigger className='md:w-[150px]'>
+                <SelectTrigger className={`md:w-[150px] ${className}`}>
                     <SelectValue placeholder='Select end time' />
                 </SelectTrigger>
                 <SelectContent className='max-h-60'>

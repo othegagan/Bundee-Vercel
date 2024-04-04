@@ -13,6 +13,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import TimeSelect from '../custom/TimeSelect';
 import LocationSearchBox from './LocationSearchBox';
+import SearchCalendar from './SearchCalendar';
 
 const LocationSearchComponent = ({ searchCity }: any) => {
     const pathname = usePathname();
@@ -80,77 +81,31 @@ const LocationSearchComponent = ({ searchCity }: any) => {
     return (
         <>
             <div className={` rounded-md bg-white shadow-md  md:block ${pathname == '/' ? 'block' : 'hidden'}`}>
-                <div className='gap-4 px-4 py-6 sm:px-8  sm:py-7 lg:flex lg:items-end '>
-                    <div className='mb-4 flex w-full lg:mb-0'>
+                <div className='grid grid-cols-2 gap-5 px-4 py-6 sm:px-8 sm:py-7 md:grid-cols-12  lg:grid-cols-12'>
+                    <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                         <div className='flex w-full flex-col gap-1 '>
                             <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zipcode</label>
                             <LocationSearchBox />
                         </div>
                     </div>
-
-                    <div className='flex w-full flex-col  gap-4 md:flex-row md:items-end'>
-                        <div className='flex w-full flex-row justify-between gap-4 md:flex-row'>
-                            <div className='flex w-[65%] flex-col gap-1'>
-                                <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={'outline'}
-                                            className={cn('w-full justify-start text-left font-normal', !startDateQuery && 'text-muted-foreground')}>
-                                            <CalendarIcon className='mr-2 h-4 w-4' />
-                                            {startDateQuery ? format(new Date(startDateQuery + 'T00:00:00'), 'PPP') : <span>Pickup date</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className='w-auto p-0'>
-                                        <Calendar
-                                            mode='single'
-                                            required
-                                            selected={new Date(startDateQuery + 'T00:00:00')}
-                                            onSelect={date => setUserSelectedPickupDate(date)}
-                                            defaultMonth={new Date(startDateQuery + 'T00:00:00')}
-                                            initialFocus
-                                            disabled={date => date < new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
-
-                            <div className='flex w-[35%] flex-col gap-1 md:w-full '>
-                                <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} />
-                            </div>
+                    <div className='col-span-2 md:col-span-6 lg:col-span-3'>
+                        <div className='flex w-full flex-col gap-1 '>
+                            <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
+                            <SearchCalendar startDate={startDateQuery} setStartDate={setStartDateQuery} endDate={endDateQuery} setEndDate={setEndDateQuery} />
                         </div>
-                        <div className='flex flex-row   gap-4 md:flex-row'>
-                            <div className='flex w-[65%] flex-col gap-1 '>
-                                <label className='mb-1 text-xs font-semibold'>Drop Date</label>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={'outline'}
-                                            className={cn('w-full justify-start text-left font-normal', !endDateQuery && 'text-muted-foreground')}>
-                                            <CalendarIcon className='mr-2 h-4 w-4' />
-                                            {endDateQuery ? format(new Date(endDateQuery + 'T00:00:00'), 'PPP') : <span>Pick an drop date</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className='w-auto p-0'>
-                                        <Calendar
-                                            required
-                                            mode='single'
-                                            selected={new Date(endDateQuery + 'T00:00:00')}
-                                            onSelect={(date: any) => setEndDateQuery(format(date, 'yyyy-MM-dd'))}
-                                            defaultMonth={new Date(endDateQuery + 'T00:00:00')}
-                                            initialFocus
-                                            // @ts-ignore
-                                            disabled={date => date < new Date(new Date((startDateQuery + 'T00:00:00') as string) + 1 * 24 * 60 * 60 * 1000)}
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
-
-                            <div className='flex w-[35%] flex-col gap-1 md:w-full'>
-                                <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} />
-                            </div>
+                    </div>
+                    <div className='col-span-1 md:col-span-3 lg:col-span-2'>
+                        <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} className='md:w-full' />
+                    </div>
+                    <div className='col-span-1 md:col-span-3 lg:col-span-2'>
+                        <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' />
+                    </div>
+                    <div className='col-span-2 md:col-span-3 lg:col-span-1'>
+                        <div className='flex h-full w-full items-end justify-end'>
+                            <Button onClick={redirectToVech} className='w-full'>
+                                Search
+                            </Button>
                         </div>
-                        <Button onClick={redirectToVech}>Search</Button>
                     </div>
                 </div>
             </div>
@@ -177,96 +132,36 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                         <ModalHeader onClose={closeModal}>{''}</ModalHeader>
                         <ModalBody className='p-0'>
                             <div className=' rounded-md bg-white '>
-                                <div className='gap-4 '>
-                                    <div className='mb-4 flex w-full lg:mb-0'>
+                                <div className='grid grid-cols-2 gap-5 md:grid-cols-12  lg:grid-cols-12'>
+                                    <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                                         <div className='flex w-full flex-col gap-1 '>
                                             <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zipcode</label>
                                             <LocationSearchBox />
                                         </div>
                                     </div>
-
-                                    <div className='flex w-full flex-col  gap-4 md:flex-row md:items-end'>
-                                        <div className='flex w-full flex-row justify-between gap-4 md:flex-row'>
-                                            <div className='flex w-[65%] flex-col gap-1'>
-                                                <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <Button
-                                                            variant={'outline'}
-                                                            className={cn(
-                                                                'w-full justify-start text-left font-normal',
-                                                                !startDateQuery && 'text-muted-foreground',
-                                                            )}>
-                                                            <CalendarIcon className='mr-2 h-4 w-4' />
-                                                            {startDateQuery ? format(new Date(startDateQuery + 'T00:00:00'), 'PPP') : <span>Pickup date</span>}
-                                                        </Button>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent className='w-auto p-0'>
-                                                        <Calendar
-                                                            mode='single'
-                                                            required
-                                                            selected={new Date(startDateQuery + 'T00:00:00')}
-                                                            onSelect={date => setUserSelectedPickupDate(date)}
-                                                            defaultMonth={new Date(startDateQuery + 'T00:00:00')}
-                                                            initialFocus
-                                                            disabled={date => date < new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
-                                                        />
-                                                    </PopoverContent>
-                                                </Popover>
-                                            </div>
-
-                                            <div className='flex w-[35%] flex-col gap-1 md:w-full '>
-                                                <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} />
-                                            </div>
+                                    <div className='col-span-2 md:col-span-6 lg:col-span-3'>
+                                        <div className='flex w-full flex-col gap-1 '>
+                                            <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
+                                            <SearchCalendar
+                                                startDate={startDateQuery}
+                                                setStartDate={setStartDateQuery}
+                                                endDate={endDateQuery}
+                                                setEndDate={setEndDateQuery}
+                                            />
                                         </div>
-                                        <div className='flex flex-row   gap-4 md:flex-row'>
-                                            <div className='flex w-[65%] flex-col gap-1 '>
-                                                <label className='mb-1 text-xs font-semibold'>Drop Date</label>
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <Button
-                                                            variant={'outline'}
-                                                            className={cn(
-                                                                'w-full justify-start text-left font-normal',
-                                                                !endDateQuery && 'text-muted-foreground',
-                                                            )}>
-                                                            <CalendarIcon className='mr-2 h-4 w-4' />
-                                                            {endDateQuery ? (
-                                                                format(new Date(endDateQuery + 'T00:00:00'), 'PPP')
-                                                            ) : (
-                                                                <span>Pick an drop date</span>
-                                                            )}
-                                                        </Button>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent className='w-auto p-0'>
-                                                        <Calendar
-                                                            required
-                                                            mode='single'
-                                                            selected={new Date(endDateQuery + 'T00:00:00')}
-                                                            onSelect={(date: any) => setEndDateQuery(format(date, 'yyyy-MM-dd'))}
-                                                            defaultMonth={new Date(endDateQuery + 'T00:00:00')}
-                                                            initialFocus
-                                                            // @ts-ignore
-                                                            disabled={date =>date < new Date(new Date((startDateQuery + 'T00:00:00') as string) + 1 * 24 * 60 * 60 * 1000)
-                                                            }
-                                                        />
-                                                    </PopoverContent>
-                                                </Popover>
-                                            </div>
-
-                                            <div className='flex w-[35%] flex-col gap-1 md:w-full'>
-                                                <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} />
-                                            </div>
+                                    </div>
+                                    <div className='col-span-1 md:col-span-3 lg:col-span-2'>
+                                        <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} className='md:w-full' />
+                                    </div>
+                                    <div className='col-span-1 md:col-span-3 lg:col-span-2'>
+                                        <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' />
+                                    </div>
+                                    <div className='col-span-2 md:col-span-3 lg:col-span-1'>
+                                        <div className='flex h-full w-full items-end justify-end'>
+                                            <Button onClick={redirectToVech} className='w-full'>
+                                                Search
+                                            </Button>
                                         </div>
-                                        <Button
-                                            onClick={() => {
-                                                redirectToVech();
-                                                setTimeout(() => {
-                                                    closeModal();
-                                                }, 400);
-                                            }}>
-                                            Search
-                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -279,3 +174,66 @@ const LocationSearchComponent = ({ searchCity }: any) => {
 };
 
 export default LocationSearchComponent;
+
+{
+    /* <div className='flex w-[65%] flex-col gap-1'>
+    <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
+    <Popover>
+        <PopoverTrigger asChild>
+            <Button
+                variant={'outline'}
+                className={cn('w-full justify-start text-left font-normal', !startDateQuery && 'text-muted-foreground')}>
+                <CalendarIcon className='mr-2 h-4 w-4' />
+                {startDateQuery ? format(new Date(startDateQuery + 'T00:00:00'), 'PPP') : <span>Pickup date</span>}
+            </Button>
+        </PopoverTrigger>
+        <PopoverContent className='w-auto p-0'>
+            <Calendar
+                mode='single'
+                required
+                selected={new Date(startDateQuery + 'T00:00:00')}
+                onSelect={date => setUserSelectedPickupDate(date)}
+                defaultMonth={new Date(startDateQuery + 'T00:00:00')}
+                initialFocus
+                disabled={date => date < new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
+            />
+        </PopoverContent>
+    </Popover>
+</div>
+
+
+
+<div className='flex w-[65%] flex-col gap-1 '>
+    <label className='mb-1 text-xs font-semibold'>Drop Date</label>
+    <Popover>
+        <PopoverTrigger asChild>
+            <Button
+                variant={'outline'}
+                className={cn('w-full justify-start text-left font-normal', !endDateQuery && 'text-muted-foreground')}>
+                <CalendarIcon className='mr-2 h-4 w-4' />
+                {endDateQuery ? format(new Date(endDateQuery + 'T00:00:00'), 'PPP') : <span>Pick an drop date</span>}
+            </Button>
+        </PopoverTrigger>
+        <PopoverContent className='w-auto p-0'>
+            <Calendar
+                required
+                mode='single'
+                selected={new Date(endDateQuery + 'T00:00:00')}
+                onSelect={(date: any) => setEndDateQuery(format(date, 'yyyy-MM-dd'))}
+                defaultMonth={new Date(endDateQuery + 'T00:00:00')}
+                initialFocus
+                // @ts-ignore
+                disabled={date => date < new Date(new Date((startDateQuery + 'T00:00:00') as string) + 1 * 24 * 60 * 60 * 1000)}
+            />
+        </PopoverContent>
+    </Popover>
+</div>
+
+
+
+
+
+
+
+*/
+}
