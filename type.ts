@@ -19,6 +19,7 @@ declare namespace NodeJS {
         MAPBOX_SEARCH_COUNTRY: string;
         MAPBOX_RESPONSE_LANGUAGE: string;
         MAPBOX_ACCESS_TOKEN: string;
+        NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: string;
 
         STRIPE_BASE_URL: string;
         CREATE_STRIPE_CUSTOMER: string;

@@ -32,6 +32,7 @@ const PhoneNumberSignInModal = () => {
     const [otpError, setOTPError] = useState('');
 
     const [loading, setLoading] = useState(false);
+    const [verfying, setVerifying] = useState(false);
 
     const handleSendVerificationCode = async event => {
         event.preventDefault();
@@ -40,7 +41,7 @@ const PhoneNumberSignInModal = () => {
         try {
             setLoading(true);
             const response: any = await getUserByPhoneNumber(phoneNumber);
-            console.log(response);
+            // console.log(response);
             if (response.data.errorCode != 1) {
                 phoneSignIn();
             } else {
@@ -73,7 +74,7 @@ const PhoneNumberSignInModal = () => {
     };
 
     function onOTPVerify() {
-        setLoading(true);
+        setVerifying(true);
         //@ts-ignore
         window.confirmationResult
             .confirm(verificationCode)
@@ -90,11 +91,11 @@ const PhoneNumberSignInModal = () => {
                 } else {
                     throw new Error(response.message);
                 }
-                setLoading(false);
+                setVerifying(false);
             })
             .catch(err => {
                 console.log(err);
-                setLoading(false);
+                setVerifying(false);
                 toast({
                     variant: 'destructive',
                     description: 'Wrong OTP!',
@@ -191,13 +192,16 @@ const PhoneNumberSignInModal = () => {
                                         </InputOTPGroup>
                                     </InputOTP>
 
-                                    <Button type='button' disabled={verificationCode.length != 6} onClick={onOTPVerify}>
-                                        Verify Code
+                                    <Button type='button' disabled={verificationCode.length != 6 || verfying} onClick={onOTPVerify}>
+                                        {verfying ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Verify Code</>}
                                     </Button>
                                 </div>
                             )}
                             {otpError && <p className='mt-3 rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
-                            <div id='recaptcha-container'></div>
+
+                            <div className={`${!verificationId ? '' : 'hidden'}  `}>
+                                <div id='recaptcha-container'></div>
+                            </div>
 
                             <hr className='my-4' />
 

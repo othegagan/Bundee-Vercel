@@ -8,6 +8,7 @@ import { FaStar } from 'react-icons/fa6';
 import { toTitleCase } from '@/lib/utils';
 import CarFilters from './CarFilters';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
+import MapComponent from '@/components/map/MapComponent';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
@@ -38,11 +39,24 @@ const Vehicles = ({ searchParams }: any) => {
                     ) : filteredCars.length === 0 ? (
                         <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
                     ) : (
-                        <div className='mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-x-6 md:gap-y-8 lg:grid-cols-3  xl:gap-x-8'>
-                            {filteredCars.map((car: any) => (
-                                <CarCard key={car.id} car={car} searchQuery={searchQuery} />
-                            ))}
-                        </div>
+                        <>
+                            <div className='mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:hidden md:gap-x-6 md:gap-y-8 lg:grid-cols-3  xl:gap-x-8'>
+                                {filteredCars.map((car: any) => (
+                                    <CarCard key={car.id} car={car} searchQuery={searchQuery} />
+                                ))}
+                            </div>
+
+                            <div className='mt-6 hidden w-full md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8'>
+                                <div className=' w-full gap-5 md:col-span-1 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8 '>
+                                    {filteredCars.map((car: any) => (
+                                        <CarCard key={car.id} car={car} searchQuery={searchQuery} />
+                                    ))}
+                                </div>
+                                <div className='md:col-span-1 md:min-w-full h-[700px]'>
+                                    <MapComponent />
+                                </div>
+                            </div>
+                        </>
                     )}
                 </>
             )}
