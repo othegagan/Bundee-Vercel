@@ -115,7 +115,7 @@ const RegisterModal = () => {
         signInWithPopup(auth, provider)
             .then(async result => {
                 // Handle successful sign-in
-                // console.log(result.user.email);
+                // console.log(result.user);
 
                 const firebaseToken = await result.user.getIdToken();
 
@@ -145,7 +145,7 @@ const RegisterModal = () => {
                     const createUserResponse = await createNewUser(dataToCreateUser);
 
                     if (createUserResponse.success) {
-                        const userResponse = createUserResponse.data.userResponse;
+                        const userResponse = createUserResponse.data.userResponses[0];
                         await login({ userData: userResponse, authToken: authTokenResponse.authToken });
                         router.refresh();
                         closeModal();

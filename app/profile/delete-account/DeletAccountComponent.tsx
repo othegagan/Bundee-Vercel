@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { deleteAccount } from '@/server/userOperations';
 import { toast } from '@/components/ui/use-toast';
+import { logout } from '@/lib/auth';
 
 const DeletAccountComponent = () => {
     const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ const DeletAccountComponent = () => {
             const response = await deleteAccount();
             if (response.success) {
                 localStorage.clear();
-                window.location.href = '/';
+                await logout();
             } else {
                 setOpen(false);
                 toast({

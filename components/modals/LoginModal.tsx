@@ -128,7 +128,7 @@ const LoginModal = () => {
                     const createUserResponse = await createNewUser(dataToCreateUser);
 
                     if (createUserResponse.success) {
-                        const userResponse = createUserResponse.data.userResponse;
+                        const userResponse = createUserResponse.data.userResponses[0];
                         await login({ userData: userResponse, authToken: authTokenResponse.authToken });
                         router.refresh();
                         closeModal();
