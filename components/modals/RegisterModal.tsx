@@ -19,6 +19,8 @@ import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { PhoneInput } from '../ui/phone-input';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 const RegisterModal = () => {
     const router = useRouter();
@@ -39,42 +41,37 @@ const RegisterModal = () => {
     const [accountUpdateAgree, setAccountUpdateAgree] = useState(false);
     const [accountUpdateAgreeError, setAccountUpdateAgreeError] = useState(false);
 
+    const [phoneNumber, setPhoneNumber] = useState('');
+
     const [formData, setFormData] = useState({
         email: '',
         firstName: '',
         lastName: '',
-        phoneNumber: '',
         password: '',
         confirmPassword: '',
     });
     const [authErrors, setAuthErrors] = useState({
         email: '',
-        phoneNumber: '',
         password: '',
         confirmPassword: '',
         firstName: '',
         lastName: '',
+        phoneNumber,
     });
 
     const onToggle = useCallback(() => {
+        closeModal();
         loginModal.onOpen();
-        registerModal.onClose();
-        setAgree(false);
-        setAgreeError(false);
-        setAccountUpdateAgree(false);
-        setAccountUpdateAgreeError(false);
-        setMarketingAgree(false);
-        setMarketingAgreeError(false);
     }, [loginModal, registerModal]);
 
     const firebaseAuthHandler = async (event: any) => {
         setAuthErrors({
             email: '',
-            phoneNumber: '',
             password: '',
             confirmPassword: '',
             firstName: '',
             lastName: '',
+            phoneNumber: '',
         });
         setFirebaseError(null);
         setAgreeError(false);
@@ -89,7 +86,7 @@ const RegisterModal = () => {
                     firstname: formData.firstName,
                     lastname: formData.lastName,
                     email: formData.email,
-                    mobilephone: formData.phoneNumber,
+                    mobilephone: phoneNumber,
                 };
 
                 const data = await createNewUser(dataToCreateUser);
@@ -176,7 +173,7 @@ const RegisterModal = () => {
     };
 
     const checkForValidations = () => {
-        const { email, password, confirmPassword, phoneNumber, firstName, lastName } = formData;
+        const { email, password, confirmPassword, firstName, lastName } = formData;
         const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?~\\[\]-]).{8,}$/;
         const phoneNumberPattern = /^\d{10}$/;
         const namePattern = /^[a-zA-Z\s]+$/;
@@ -190,9 +187,9 @@ const RegisterModal = () => {
                 password: '',
                 confirmPassword: '',
                 email: '',
-                phoneNumber: '',
                 firstName: 'Invalid First Name',
                 lastName: '',
+                phoneNumber: '',
             });
             return false;
         }
@@ -203,26 +200,14 @@ const RegisterModal = () => {
                 password: '',
                 confirmPassword: '',
                 email: '',
-                phoneNumber: '',
                 firstName: '',
                 lastName: 'Invalid Last Name',
+                phoneNumber: '',
             });
             return false;
         }
 
-        if (phoneNumber.length !== 10) {
-            setAuthErrors({
-                password: '',
-                confirmPassword: '',
-                email: '',
-                phoneNumber: 'Phone number must be 10 digits long',
-                firstName: '',
-                lastName: '',
-            });
-            return false;
-        }
-
-        if (!phoneNumberPattern.test(phoneNumber)) {
+        if (!isValidPhoneNumber(phoneNumber)) {
             setAuthErrors({
                 password: '',
                 confirmPassword: '',
@@ -239,9 +224,9 @@ const RegisterModal = () => {
                 password: '',
                 confirmPassword: '',
                 email: 'Invalid Email Address',
-                phoneNumber: '',
                 firstName: '',
                 lastName: '',
+                phoneNumber: '',
             });
             return false;
         }
@@ -251,9 +236,9 @@ const RegisterModal = () => {
                 password: '',
                 confirmPassword: 'Passwords Does not Match',
                 email: '',
-                phoneNumber: '',
                 firstName: '',
                 lastName: '',
+                phoneNumber: '',
             });
             return false;
         }
@@ -263,9 +248,9 @@ const RegisterModal = () => {
                 password: 'Password must be at least 8 characters Long',
                 confirmPassword: '',
                 email: '',
-                phoneNumber: '',
                 firstName: '',
                 lastName: '',
+                phoneNumber: '',
             });
             return false;
         }
@@ -275,9 +260,9 @@ const RegisterModal = () => {
                 password: 'Password must contain at least 1 Uppercase, 1 Lowercase, 1 Number and 1 Special Character',
                 confirmPassword: '',
                 email: '',
-                phoneNumber: '',
                 firstName: '',
                 lastName: '',
+                phoneNumber: '',
             });
             return false;
         }
@@ -303,6 +288,7 @@ const RegisterModal = () => {
     function openModal() {
         registerModal.onOpen();
     }
+
     function closeModal() {
         registerModal.onClose();
         setShowSucessfullSignUp(false);
@@ -312,13 +298,13 @@ const RegisterModal = () => {
         setAccountUpdateAgreeError(false);
         setMarketingAgree(false);
         setMarketingAgreeError(false);
-        setFirebaseError("")
+        setFirebaseError('');
+        setPhoneNumber('');
 
         setFormData({
             email: '',
             firstName: '',
             lastName: '',
-            phoneNumber: '',
             password: '',
             confirmPassword: '',
         });
@@ -382,14 +368,23 @@ const RegisterModal = () => {
                                     </div>
                                     <Label>Phone Number</Label>
                                     <div className='mt-2'>
-                                        <Input
+                                        {/* <Input
                                             id='phoneNumber'
                                             name='phoneNumber'
                                             required
                                             value={formData.phoneNumber}
                                             onChange={handleChange}
                                             className={`block w-full ${authErrors.phoneNumber ? 'border-destructive' : ''}`}
+                                        /> */}
+
+                                        <PhoneInput
+                                            value={phoneNumber}
+                                            onChange={setPhoneNumber}
+                                            defaultCountry='US'
+                                            international
+                                            placeholder='Enter a phone number'
                                         />
+
                                         {authErrors.phoneNumber && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.phoneNumber}</p>}
                                     </div>
                                     <div className='mt-4'>

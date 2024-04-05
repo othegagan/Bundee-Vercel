@@ -3,7 +3,7 @@
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import usePhoneNumberVerificationModal from '@/hooks/usePhoneNumberVerificationModal';
 import { auth } from '@/lib/firebase';
-import { linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, updatePhoneNumber } from 'firebase/auth';
+import { linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, updatePhoneNumber, unlink, getAuth } from 'firebase/auth';
 import { useState } from 'react';
 import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
@@ -11,14 +11,17 @@ import { Label } from '../ui/label';
 import { PhoneInput } from '../ui/phone-input';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateProfile } from '@/server/userOperations';
+import { toast } from '../ui/use-toast';
 
 const PhoneNumberModal = () => {
+    // console.log(auth.currentUser);
     const phoneNumberVerificationModal = usePhoneNumberVerificationModal();
     const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationId, setVerificationId] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
     const [verificationSent, setVerificationSent] = useState(false);
     const [otpError, setOTPError] = useState('');
+    const [verifiying, setVerifiying] = useState(false);
 
     const handleSendVerificationCode = async () => {
         try {
@@ -39,13 +42,14 @@ const PhoneNumberModal = () => {
 
     const handleVerifyCode = async () => {
         try {
+            setVerifiying(true);
             setOTPError('');
             if (!verificationId) {
                 console.error('No verification ID available. Please request a verification code first.');
                 return;
             }
             const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-            console.log('credential', credential);
+            // console.log('credential', credential);
 
             // const update = await updatePhoneNumber(auth.currentUser, credential);
             // console.log(update);
@@ -58,18 +62,60 @@ const PhoneNumberModal = () => {
                 const session = await getSession();
 
                 const userResponse = await getUserByEmail(session.email);
+                // console.log(userResponse);
 
-                const updatePayload = { ...userResponse.data.userResponse, mobilePhone: phoneNumber };
-                const response = await updateProfile(updatePayload);
-                setPhoneNumber('');
-                setVerificationId('');
-                setVerificationSent(false);
-                window.location.reload();
+                if (userResponse.success) {
+                    const db_data = userResponse.data.userResponse;
+                    const updatePayload = {
+                        address_1: db_data.address_1,
+                        address_2: db_data.address_2,
+                        address_3: db_data.address_3,
+                        city: db_data.city,
+                        country: db_data.country,
+                        postcode: db_data.postcode,
+                        state: db_data.state,
+                        driverlisense: db_data.driverlisense,
+                        firstname: db_data.firstname,
+                        middlename: '',
+                        lastname: db_data.lastname,
+                        iduser: db_data.iduser,
+                        language: 'NA',
+                        userimage: db_data.userimage,
+                        vehicleowner: false,
+
+                        mobilePhone: phoneNumber,
+                        isPhoneVarified: true,
+                        isEmailVarified: true,
+                        fromValue: 'completeProfile',
+                    };
+
+                    const response = await updateProfile(updatePayload);
+                    if (response.success) {
+                        setPhoneNumber('');
+                        setVerificationId('');
+                        setVerificationSent(false);
+                        toast({
+                            description: 'Phone number updated successfully',
+                            duration: 3000,
+                        });
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 600);
+                    } else {
+                        throw new Error(response.message);
+                    }
+                } else {
+                    throw new Error(userResponse.message);
+                }
             }
         } catch (error: any) {
+            console.log(error);
             handleAuthError(error.code);
+            unLinkPhonenumber();
             console.error('Error verifying code:', error.code);
             // Handle errors appropriately
+        } finally {
+            setVerifiying(false);
         }
     };
 
@@ -109,6 +155,21 @@ const PhoneNumberModal = () => {
         phoneNumberVerificationModal.onClose();
     }
 
+    function unLinkPhonenumber() {
+        const auth = getAuth();
+        unlink(auth.currentUser, 'phone')
+            .then(res => {
+                console.log(res);
+                // Auth provider unlinked from account
+                // ...
+            })
+            .catch(error => {
+                // An error happened
+                // ...
+                console.log(error);
+            });
+    }
+
     return (
         <Modal isOpen={phoneNumberVerificationModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
             <ModalHeader onClose={closeModal}>{''}</ModalHeader>
@@ -144,14 +205,18 @@ const PhoneNumberModal = () => {
                                 </InputOTPGroup>
                             </InputOTP>
 
-                            <Button type='button' className='w-fit' disabled={verificationCode.length != 6} onClick={handleVerifyCode}>
-                                Verify Code
+                            <Button type='button' className='w-fit' disabled={verificationCode.length != 6 && verifiying} onClick={handleVerifyCode}>
+                                {verifiying ? <div className='loader '></div> : <>Verify Code</>}
                             </Button>
                         </div>
                     )}
                     {otpError && <p className='rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
 
                     {!otpError && !verificationId && <div id='recaptcha-container'></div>}
+
+                    {/* <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
+                        Unlink phone
+                    </Button> */}
                 </div>
             </ModalBody>
         </Modal>
