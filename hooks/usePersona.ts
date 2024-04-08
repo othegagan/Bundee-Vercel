@@ -5,6 +5,7 @@ import * as PersonaVerification from 'persona';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail } from '@/server/userOperations';
 import { getVerifiedDetailsFromPersona, updatePersonaProfile } from '@/server/personaOperations';
+import { toast } from '@/components/ui/use-toast';
 
 const usePersona = () => {
     const isDevelopmentOrTest = process.env.NEXT_PUBLIC_APP_ENV === 'development' || process.env.NEXT_PUBLIC_APP_ENV === 'test';
@@ -77,9 +78,8 @@ const usePersona = () => {
         setPersonaClientLoading(true);
 
         try {
-            const userID = localStorage.getItem('userId');
-
             const res = await updatePersonaProfile(inquiryId);
+            console.log(res);
             if (res.success) {
                 setPersonaUpdated(true);
                 // alert(`Complete with status ${res.success}`);
@@ -91,6 +91,11 @@ const usePersona = () => {
             }
         } catch (e) {
             console.error('Error in handleComplete:', e);
+            toast({
+                duration: 4000,
+                description: 'Something went wrong while saving the deatils.',
+                variant: 'destructive',
+            });
         } finally {
             setPersonaClientLoading(false);
         }

@@ -11,8 +11,21 @@ export async function updatePersonaProfile(personaEnquiryId: any) {
             personaEnquiryId,
             userId: session.userId,
         };
+        console.log(payload);
         const response = await http.post(url, payload);
-        return handleResponse(response.data);
+        if (response.data.errorCode == 0) {
+            return {
+                success: true,
+                data: null,
+                message: 'Persona  updated successfully',
+            };
+        } else {
+            return {
+                success: false,
+                data: null,
+                message: 'Failed to update Persona  ',
+            };
+        }
     } catch (error: any) {
         throw new Error(error.message);
     }

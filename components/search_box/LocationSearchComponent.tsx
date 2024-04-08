@@ -2,11 +2,7 @@
 
 import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { toast } from '@/components/ui/use-toast';
-import { cn } from '@/lib/utils';
-import { CalendarIcon } from '@radix-ui/react-icons';
 import { addDays, differenceInMinutes, format } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { usePathname, useRouter } from 'next/navigation';
@@ -80,8 +76,8 @@ const LocationSearchComponent = ({ searchCity }: any) => {
 
     return (
         <>
-            <div className={` rounded-md bg-white shadow-md select-none  md:block ${pathname == '/' ? 'block' : 'hidden'}`}>
-                <div className='grid grid-cols-2 gap-5 px-4 py-6 sm:px-8 sm:py-7 md:grid-cols-12  lg:grid-cols-12'>
+            <div className={`  bg-white  select-none  md:block ${pathname == '/' ? 'block' : 'hidden'}`}>
+                <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12  lg:grid-cols-12'>
                     <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                         <div className='flex w-full flex-col gap-1 '>
                             <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zipcode</label>

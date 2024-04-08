@@ -57,6 +57,10 @@ export default function RecentlyViewedVehicles() {
         return;
     }
 
+    if (!loading && recentlyViewedData.length == 0) {
+        return null;
+    }
+
     return (
         <BoxContainer className={`py-6 `}>
             <ClientOnly>

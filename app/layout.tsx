@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from '@/components/Footer';
 
 import { Toaster } from '@/components/ui/toaster';
@@ -25,10 +25,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang='en' suppressHydrationWarning>
-            <title>MyBundee</title>
-            <link rel='icon' type='image/png' href='/bundee-logo.png'></link>
-            <meta content='width=device-width, initial-scale=1' name='viewport' />
-            <meta name='description' content='' />
+            <head>
+                <title>MyBundee</title>
+                <link rel='icon' type='image/png' href='/bundee-logo.png'></link>
+                <meta content='width=device-width, initial-scale=1' name='viewport' />
+                <meta name='description' content='' />
+                <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+            </head>
             <body className={` ${inter.className} flex min-h-screen  w-full flex-col`}>
                 <ClientOnly>
                     <LoginModal />

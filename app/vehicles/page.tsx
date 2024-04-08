@@ -6,8 +6,8 @@ import LocationSearchComponent from '@/components/search_box/LocationSearchCompo
 const Page = ({ searchParams }: any) => {
     return (
         <>
-            <BoxContainer className='py-6'>
-                <div className='z-40 md:sticky md:top-[3.5rem]'>
+            <BoxContainer className='py-6 pt-0'>
+                <div className='z-40 md:sticky md:top-[3.75rem] bg-white'>
                     <LocationSearchComponent searchCity={searchParams.city || 'Austin, Texas, United States'} />
                 </div>
                 <Vehicles searchParams={searchParams} />

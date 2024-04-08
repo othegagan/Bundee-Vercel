@@ -60,7 +60,6 @@ export default function CheckoutComponent() {
     const createIntent = async () => {
         const checkoutData = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
         const createIntentResponse = await createPaymentIntentWithAmount(Number(checkoutData.totalamount));
-        console.log(createIntentResponse);
         try {
             if (createIntentResponse.success) {
                 const responseData = createIntentResponse.data.response;
