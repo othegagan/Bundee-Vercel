@@ -155,7 +155,7 @@ export default function CheckoutComponent() {
             console.log(' reservation payload', payload);
 
             const response = await createTripReservation(payload);
-            // console.log(response);
+            console.log(response);
 
             if (response.success) {
                 toast({

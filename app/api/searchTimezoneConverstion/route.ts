@@ -1,19 +1,26 @@
 //API  route to convert dates for search API
 
-import { getSearchDates } from '@/lib/utils';
+import { convertToCarTimeZoneISO, getSearchDates } from '@/lib/utils';
 import { NextRequest, NextResponse } from 'next/server';
-
 
 export async function POST(req: NextRequest) {
     try {
-        const { latitude, longitude, startDate, startTime, endDate, endTime } = await req.json();
+        const { latitude, longitude, zipCode, startDate, startTime, endDate, endTime } = await req.json();
+        let zoneStartDateTime = '';
+        let zoneEndDateTime = '';
 
-        const zoneStartDateTime = getSearchDates(Number(longitude), Number(latitude), startDate, startTime);
-        const zoneEndDateTime = getSearchDates(Number(longitude), Number(latitude), endDate, endTime);
+        if (zipCode == '') {
+            zoneStartDateTime = getSearchDates(Number(longitude), Number(latitude), startDate, startTime);
+            zoneEndDateTime = getSearchDates(Number(longitude), Number(latitude), endDate, endTime);
+        } else {
+            zoneStartDateTime = convertToCarTimeZoneISO(startDate, startTime, zipCode);
+            zoneEndDateTime = convertToCarTimeZoneISO(endDate, endTime, zipCode);
+        }
 
         const data = {
-            lat: longitude,
-            lng: latitude,
+            lat: longitude || '',
+            lng: latitude || '',
+            zipCode: zipCode || '',
             startTs: zoneStartDateTime,
             endTS: zoneEndDateTime,
             pickupTime: startTime,
