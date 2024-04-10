@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
             {
                 success: false,
-                message: 'Failed to convert the dates',
+                message: 'Failed to convert the dates : ' + error,
                 data: null,
             },
             { status: 500 },
