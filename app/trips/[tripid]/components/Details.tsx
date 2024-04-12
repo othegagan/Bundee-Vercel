@@ -141,6 +141,7 @@ export default function Details({ tripsData }: any) {
             Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
             ...priceCalculatedList,
+            taxPercentage : priceCalculatedList.taxPercentage  * 100,
         };
 
         if (type === 'reduction') {
