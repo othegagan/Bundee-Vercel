@@ -168,7 +168,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         }
     }
 
-    async function requestToCheckOutHandler(make, model, year, image, vehicleId) {
+    async function requestToCheckOutHandler(make: any, model: any, year: any, image: any, vehicleId: any, zipcode: any) {
         const session = await getSession();
 
         if (!session.isLoggedIn && !session.userId) {
@@ -222,7 +222,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 cityName: '',
                 country: '',
                 state: '',
-                zipCode: '',
+                zipCode: zipcode,
                 latitude: '',
                 longitude: '',
                 ...priceCalculatedList,
@@ -255,9 +255,9 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         }
     }
 
-    function extractFirstDeliveryDetails(constraintsArray) {
+    function extractFirstDeliveryDetails(constraintsArray: any[]) {
         try {
-            const firstDeliveryDetails = constraintsArray.find(constraint => constraint.constraintName === 'DeliveryDetails');
+            const firstDeliveryDetails = constraintsArray.find((constraint: { constraintName: string; }) => constraint.constraintName === 'DeliveryDetails');
 
             if (firstDeliveryDetails) {
                 const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
@@ -403,6 +403,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         vehicleDetails.year,
                                         vehicleImages[0]?.imagename,
                                         vehicleDetails.id,
+                                        vehicleDetails.zipcode
                                     );
                                 }}>
                                 {priceLoading ? <span className='loader'></span> : ' Proceed to book'}

@@ -45,7 +45,7 @@ export default function UserMenu({ menuItems, isLoggedIn }: UserMenuProps) {
                     <DropdownMenuSeparator />
 
                     {isLoggedIn ? (
-                        <DropdownMenuItem>
+                        <DropdownMenuItem className='p-0'>
                             <LogoutButton />
                         </DropdownMenuItem>
                     ) : null}

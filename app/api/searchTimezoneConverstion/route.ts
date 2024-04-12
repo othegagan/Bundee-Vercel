@@ -1,4 +1,4 @@
-import { convertToCarTimeZoneISO, getSearchDates } from '@/lib/utils';
+import { convertToCarTimeZoneISO, formatDateAndTime, getSearchDates } from '@/lib/utils';
 import { NextRequest, NextResponse } from 'next/server';
 
 function splitDateTime(dateTimeString: string) {
@@ -11,18 +11,23 @@ function splitDateTime(dateTimeString: string) {
 
 export async function POST(req: NextRequest) {
     try {
-        const { latitude, longitude, zipCode, startDate, startTime, endDate, endTime, startTS, endTS } = await req.json();
+        const { latitude, longitude, zipCode, startDate, startTime, endDate, endTime, startTS, endTS, tripST, tripET } = await req.json();
 
         let zoneStartDateTime = '';
         let zoneEndDateTime = '';
+
 
         if (zipCode === '') {
             zoneStartDateTime = getSearchDates(Number(longitude), Number(latitude), startDate, startTime);
             zoneEndDateTime = getSearchDates(Number(longitude), Number(latitude), endDate, endTime);
         } else {
-            if (!startTS || !endTS) {
+            if (startTS || endTS) {
                 zoneStartDateTime = convertToCarTimeZoneISO(startDate, startTime, zipCode);
                 zoneEndDateTime = convertToCarTimeZoneISO(endDate, endTime, zipCode);
+            } else if (tripST || tripET) {
+
+                zoneStartDateTime = formatDateAndTime(tripST,zipCode);
+                zoneEndDateTime = formatDateAndTime(tripET,zipCode);
             } else {
                 const start = startTS ? splitDateTime(startTS) : { date: startDate, time: startTime };
                 const end = endTS ? splitDateTime(endTS) : { date: endDate, time: endTime };

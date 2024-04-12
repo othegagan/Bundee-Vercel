@@ -22,7 +22,7 @@ const Vehicles = ({ searchParams }: any) => {
 
     return (
         <div className=''>
-            <div className='py-3 flex flex-col md:flex-row md:items-center md:justify-between md:sticky md:top-[9.5rem] z-40 bg-white'>
+            <div className='z-40 flex flex-col bg-white py-3 md:sticky md:top-[9.5rem] md:flex-row md:items-center md:justify-between'>
                 <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>Available Cars</h1>
 
                 <div className='flex items-center justify-between gap-4'>
@@ -46,16 +46,29 @@ const Vehicles = ({ searchParams }: any) => {
                                 ))}
                             </div>
 
-                            <div className=' hidden w-full md:grid md:grid-cols-5 md:gap-x-6 md:gap-y-8'>
-                                <div className=' w-full gap-5 md:col-span-3 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8 '>
-                                    {filteredCars.map((car: any) => (
-                                        <CarCard key={car.id} car={car} searchQuery={searchQuery} />
-                                    ))}
+                            {process.env.NEXT_PUBLIC_APP_ENV == 'test' ? (
+                                <div className=' hidden w-full md:grid md:grid-cols-5 md:gap-x-6 md:gap-y-8'>
+                                    <div className=' w-full gap-5 md:col-span-3 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8 '>
+                                        {filteredCars.map((car: any) => (
+                                            <CarCard key={car.id} car={car} searchQuery={searchQuery} />
+                                        ))}
+                                    </div>
+                                    <div className='h-[700px] md:sticky md:top-[14rem] md:col-span-2 md:min-w-full'>
+                                        <MapComponent filteredCars={filteredCars} searchQuery={searchQuery} />
+                                    </div>
                                 </div>
-                                <div className='md:col-span-2 md:min-w-full h-[600px] md:sticky md:top-[14rem]'>
-                                    <MapComponent filteredCars={filteredCars} searchQuery={searchQuery} />
+                            ) : (
+                                <div className=' hidden w-full md:grid md:grid-cols-5 md:gap-x-6 md:gap-y-8'>
+                                    <div className=' w-full gap-5 md:col-span-5 md:grid md:grid-cols-3   md:gap-x-6 md:gap-y-8 '>
+                                        {filteredCars.map((car: any) => (
+                                            <CarCard key={car.id} car={car} searchQuery={searchQuery} />
+                                        ))}
+                                    </div>
+                                    {/* <div className='md:col-span-2 md:min-w-full h-[600px] md:sticky md:top-[14rem]'>
+                                <MapComponent filteredCars={filteredCars} searchQuery={searchQuery} />
+                            </div> */}
                                 </div>
-                            </div>
+                            )}
                         </div>
                     )}
                 </>
@@ -77,7 +90,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
         }
     });
     return (
-        <Link href={`/vehicles/${car.id}?${searchQuery}`} className='custom-shadow group cursor-pointer rounded-lg bg-white hover:shadow-md h-fit'>
+        <Link href={`/vehicles/${car.id}?${searchQuery}`} className='custom-shadow group h-fit cursor-pointer rounded-lg bg-white hover:shadow-md'>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>
                 <div className='aspect-video h-44 w-full overflow-hidden rounded-t-md bg-neutral-200 group-hover:opacity-[0.9] lg:aspect-video lg:h-44'>
                     {images[0]?.imagename ? (
