@@ -7,6 +7,7 @@ import { toast } from '@/components/ui/use-toast';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateInsuranceProfile, updateProfile } from '@/server/userOperations';
 import usePhoneNumberVerificationModal from '@/hooks/usePhoneNumberVerificationModal';
+import { MdVerified } from 'react-icons/md';
 
 const ProfileUpdatePage = ({}) => {
     const phoneNumberVerification = usePhoneNumberVerificationModal();
@@ -36,6 +37,7 @@ const ProfileUpdatePage = ({}) => {
     const [formData, setFormData] = useState<any>({});
 
     const [isCurrentlyEditing, setIscurrntlyEditing] = useState(false);
+    const [isPhoneNumberVerified, setIsPhoneNumberVerified] = useState(false);
 
     const handleStateChange = e => {
         handleInputChange('state', e);
@@ -80,6 +82,7 @@ const ProfileUpdatePage = ({}) => {
             const userResponse = await getUserByEmail(session.email);
             if (userResponse.success) {
                 const data = userResponse.data.userResponse;
+                // console.log(data)
                 const insuranceData = userResponse.data.driverProfiles[0];
                 setFirstNamenew(data['firstname']);
                 setLastNamenew(data['lastname']);
@@ -93,6 +96,10 @@ const ProfileUpdatePage = ({}) => {
                 setaddress2(data['address_2']);
                 setInsurancecarrierName(insuranceData['insuranceCompany']);
                 setInsurancecarrierNametNumber(insuranceData['insuranceNumber']);
+
+                setIsPhoneNumberVerified(data['isPhoneVarified']);
+
+                // console.log(isPhoneNumberVerified)
 
                 const initialFormData = {
                     firstName: data['firstname'],
@@ -110,7 +117,7 @@ const ProfileUpdatePage = ({}) => {
                     address3: data['address_3'],
                     insuranceCarrierName: insuranceData.insuranceName,
                     insuranceCarrierNumber: insuranceData.insuranceNumber,
-                    isPhoneVerified: data['isPhoneVerified'],
+                    isPhoneVarified: data['isPhoneVarified'],
                 };
                 setFormData(initialFormData);
             }
@@ -311,11 +318,6 @@ const ProfileUpdatePage = ({}) => {
                             <div className='flex items-center justify-between '>
                                 <h2 className='mt-10 text-base font-semibold leading-7 text-gray-900'>Phone Number</h2>
 
-                                {isAccordionOpensecond && (
-                                    <button onClick={e => phoneNumberAccordionHandler(e)} className='rounded-lg bg-gray-100 px-3 py-3 font-bold text-black'>
-                                        Cancel
-                                    </button>
-                                )}
                                 <button
                                     onClick={() => {
                                         phoneNumberVerification.onOpen();
@@ -328,7 +330,12 @@ const ProfileUpdatePage = ({}) => {
 
                             <div className='grid grid-cols-1 items-center justify-center gap-y-8 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-1'>
                                 <div>
-                                    <div>{phoneNumbernew}</div>
+                                    <div>
+                                        {phoneNumbernew}
+                                        {isPhoneNumberVerified && <div className='ml-2 inline-block'>
+                                            <MdVerified className='size-4 text-green-600' />
+                                        </div>}
+                                    </div>
                                     <div className='mt-2' style={{ borderTop: '1.5px solid #ccc' }}></div>
                                 </div>
                             </div>
@@ -339,39 +346,15 @@ const ProfileUpdatePage = ({}) => {
 
                             <div className='grid grid-cols-1 items-center justify-center gap-y-8 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-1'>
                                 <div>
-                                    {isAccordionOpenemail && (
-                                        <div className='mt-5 flex flex-col'>
-                                            <div className='grid gap-4 gap-y-2 pr-5 text-sm  md:grid-cols-1'>
-                                                <div className='md:col-span-2'>
-                                                    <label>Email</label>
-                                                    <Input
-                                                        type='text'
-                                                        name='email'
-                                                        id='email'
-                                                        value={formData.email}
-                                                        onChange={e => handleInputChange('email', e)}
-                                                    />
-                                                    <div className='mt-2'>{/* Input component for First Name */}</div>
-                                                </div>
-                                            </div>
-
-                                            <div className='mt-4'></div>
-                                            <Button
-                                                disabled={isDataSavingInprogreess}
-                                                className='my-6 w-[100px] bg-black text-white hover:bg-gray-800'
-                                                onClick={e => onUploadEvent(e)}>
-                                                {isDataSavingInprogreess ? (
-                                                    <p>
-                                                        <div className='loader'></div>
-                                                    </p>
-                                                ) : (
-                                                    <>Save</>
-                                                )}
-                                            </Button>
+                                    {emailnew && (
+                                        <div>
+                                            {emailnew}
+                                            <span className='ml-2 inline-block'>
+                                                <MdVerified className='size-4 text-green-600' />
+                                            </span>
                                         </div>
                                     )}
-                                    {!isAccordionOpenemail && <div> {emailnew}</div>}
-                                    <div className='mt-2' style={{ borderTop: '1.5px solid #ccc' }}></div>{' '}
+                                    <div className='mt-2' style={{ borderTop: '1.5px solid #ccc' }}></div>
                                 </div>
                             </div>
 
@@ -516,7 +499,7 @@ const ProfileUpdatePage = ({}) => {
                                             {countrynew && <>{countrynew} </>}
                                         </div>
                                     )}
-                                    <div className='mt-2' style={{ borderTop: '1.5px solid #ccc' }}></div>{' '}
+                                    <div className='mt-2' style={{ borderTop: '1.5px solid #ccc' }}></div>
                                 </div>
                             </div>
 

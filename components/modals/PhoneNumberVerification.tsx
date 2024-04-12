@@ -33,6 +33,7 @@ const PhoneNumberModal = () => {
 
             setVerificationId(verifyId);
             setVerificationSent(true); // Set flag to indicate verification code has been sent
+            console.log('verifyId', verifyId);
         } catch (error) {
             console.error('Error sending code:', error.code);
             // Handle errors appropriately
@@ -111,7 +112,7 @@ const PhoneNumberModal = () => {
         } catch (error: any) {
             console.log(error);
             handleAuthError(error.code);
-            unLinkPhonenumber();
+            // unLinkPhonenumber();
             console.error('Error verifying code:', error.code);
             // Handle errors appropriately
         } finally {
@@ -130,6 +131,7 @@ const PhoneNumberModal = () => {
             'auth/invalid-credential': 'Invailid Credentials. Please try again.',
             'auth/invalid-phone-number': 'Invalid phone number. Please enter a valid phone number.',
             'auth/auth/code-expired': 'Invalid OTP. Please enter a valid OTP.',
+            'auth/invalid-verification-code': 'Invalid OTP. Please enter a valid OTP.',
             'auth/provider-already-linked': 'Account already linked with phone number',
             default: 'An error occurred. Please try again.',
         };
@@ -155,20 +157,20 @@ const PhoneNumberModal = () => {
         phoneNumberVerificationModal.onClose();
     }
 
-    function unLinkPhonenumber() {
-        const auth = getAuth();
-        unlink(auth.currentUser, 'phone')
-            .then(res => {
-                console.log(res);
-                // Auth provider unlinked from account
-                // ...
-            })
-            .catch(error => {
-                // An error happened
-                // ...
-                console.log(error);
-            });
-    }
+    // function unLinkPhonenumber() {
+    //     const auth = getAuth();
+    //     unlink(auth.currentUser, 'phone')
+    //         .then(res => {
+    //             console.log(res);
+    //             // Auth provider unlinked from account
+    //             // ...
+    //         })
+    //         .catch(error => {
+    //             // An error happened
+    //             // ...
+    //             console.log(error);
+    //         });
+    // }
 
     return (
         <Modal isOpen={phoneNumberVerificationModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
@@ -205,7 +207,7 @@ const PhoneNumberModal = () => {
                                 </InputOTPGroup>
                             </InputOTP>
 
-                            <Button type='button' className='w-fit' disabled={verificationCode.length != 6 && verifiying} onClick={handleVerifyCode}>
+                            <Button type='button' className='w-fit' disabled={verificationCode.length !== 6 || verifiying} onClick={handleVerifyCode}>
                                 {verifiying ? <div className='loader '></div> : <>Verify Code</>}
                             </Button>
                         </div>
