@@ -184,8 +184,8 @@ const ProfileUpdatePage = ({}) => {
             iduser: Number(session.userId),
             firstname: formData.firstName,
             middlename: '',
-            lastname: formData.lastName,
-            mobilePhone: formData.phoneNumber,
+            lastname: formData.lastName || "",
+            mobilePhone: formData.phoneNumber|| "",
             address_1: formData.address1 || '',
             address_2: formData.address2 || '',
             address_3: formData.address3 || '',
@@ -193,8 +193,8 @@ const ProfileUpdatePage = ({}) => {
             state: formData.state || '',
             postcode: formData.zipCode || '',
             country: 'USA',
-            language: 'NA',
-            driverlisense: 'NA',
+            language: '',
+            driverlisense: '',
             vehicleowner: false,
             userimage: formData.base64Image || '',
             isEmailVerified: true,
@@ -204,6 +204,7 @@ const ProfileUpdatePage = ({}) => {
 
         try {
             const response = await updateProfile(updatePayload);
+            console.log(response)
             if (response.success) {
                 toast({
                     duration: 3000,

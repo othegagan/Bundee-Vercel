@@ -84,7 +84,7 @@ const usePersona = () => {
                 setPersonaUpdated(true);
                 // alert(`Complete with status ${res.success}`);
                 //@ts-ignore
-                embeddedClientRef.current.exit(true);
+                // embeddedClientRef.current.exit(true);
             } else {
                 setPersonaUpdated(false);
                 // alert(`Error while updating Driving license`);

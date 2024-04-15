@@ -6,12 +6,11 @@ import { handleResponse, http } from '@/lib/httpService';
 export async function updatePersonaProfile(personaEnquiryId: any) {
     try {
         const session = await getSession();
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/api/v1/user/createDriverProfile';
+        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/createDriverProfile';
         const payload = {
             personaEnquiryId,
             userId: session.userId,
         };
-        console.log(payload);
         const response = await http.post(url, payload);
         if (response.data.errorCode == 0) {
             return {
