@@ -25,6 +25,7 @@ const PhoneNumberModal = () => {
 
     const handleSendVerificationCode = async () => {
         try {
+            setOTPError('');
             const formattedPhoneNumber = phoneNumber;
             const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
@@ -36,6 +37,7 @@ const PhoneNumberModal = () => {
             console.log('verifyId', verifyId);
         } catch (error) {
             console.error('Error sending code:', error.code);
+            console.error('Error:', error);
             // Handle errors appropriately
             handleAuthError(error.code);
         }
@@ -133,6 +135,7 @@ const PhoneNumberModal = () => {
             'auth/auth/code-expired': 'Invalid OTP. Please enter a valid OTP.',
             'auth/invalid-verification-code': 'Invalid OTP. Please enter a valid OTP.',
             'auth/provider-already-linked': 'Account already linked with phone number',
+            'auth/account-exists-with-different-credential': 'Phone number as been linked with another account. Please try again with different phone number.',
             default: 'An error occurred. Please try again.',
         };
         setPhoneNumber('');

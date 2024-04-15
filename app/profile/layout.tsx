@@ -56,13 +56,13 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                     const response = await getUserByEmail(session.email);
                     if (response.success) {
                         const data = response.data.userResponse;
-
+                        // console.log(data)
                         const payload = {
                             iduser: data.iduser,
                             firstname: data.firstname,
                             middlename: '',
                             lastname: data.lastname || '',
-                            mobilePhone: data.mobilephone || '',
+                            mobilePhone: data.mobilePhone || '',
                             address_1: data.address_1 || '',
                             address_2: data.address_2 || '',
                             address_3: data.address_3 || '',
@@ -78,6 +78,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             isPhoneVarified: data.isPhoneVarified,
                             isEmailVarified: true,
                         };
+
+                        // console.log(payload)
                         const updateResponse = await updateProfile(payload);
                         if (updateResponse.success) {
                             toast({

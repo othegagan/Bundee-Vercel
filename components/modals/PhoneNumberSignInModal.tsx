@@ -42,7 +42,7 @@ const PhoneNumberSignInModal = () => {
             setLoading(true);
             const response: any = await getUserByPhoneNumber(phoneNumber);
             // console.log(response);
-            if (response.data.errorCode != 1) {
+            if (response.success) {
                 phoneSignIn();
             } else {
                 throw new Error('Error in get user', response.message);

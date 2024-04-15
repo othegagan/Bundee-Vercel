@@ -105,7 +105,7 @@ const ProfileUpdatePage = ({}) => {
                     firstName: data['firstname'],
                     middleName: data['middlename'] || '',
                     lastName: data['lastname'],
-                    phoneNumber: data['mobilephone'],
+                    phoneNumber: data['mobilePhone'],
                     email: data['email'],
                     zipCode: data['postcode'],
                     city: data['city'],
@@ -168,7 +168,7 @@ const ProfileUpdatePage = ({}) => {
         setFirstNamenew(formData.firstName);
         setLastNamenew(formData.lastName);
 
-        setPhoneNumbernew(formData.phoneNumber);
+        setPhoneNumbernew(formData.mobilePhone);
 
         setaddress1(formData.address1);
         setaddress2(formData.address2);
@@ -185,7 +185,7 @@ const ProfileUpdatePage = ({}) => {
             firstname: formData.firstName,
             middlename: '',
             lastname: formData.lastName || "",
-            mobilePhone: formData.phoneNumber|| "",
+            mobilePhone: formData.mobilePhone|| "",
             address_1: formData.address1 || '',
             address_2: formData.address2 || '',
             address_3: formData.address3 || '',
