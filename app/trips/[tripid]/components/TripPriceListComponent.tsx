@@ -147,15 +147,9 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                         <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
                     </div>
                 )}
-                {pricelist?.extraMilage > 0 && (
-                    <div className='flex items-center justify-between'>
-                        <div className='text-md'>Extra Miles </div>
-                        <div className='text-md font-medium'> {roundToTwoDecimalPlaces(pricelist?.extraMilage)} miles</div>
-                    </div>
-                )}
                 {pricelist?.extraMileageCost > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-md'>Extra mile cost {roundToTwoDecimalPlaces(pricelist?.extraMileageCost)}</div>
+                        <div className='text-md'>Extra mile cost ({roundToTwoDecimalPlaces(pricelist?.extraMilage)} miles)</div>
                         <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.extraMileageCost)}</div>
                     </div>
                 )}

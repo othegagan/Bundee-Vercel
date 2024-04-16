@@ -9,6 +9,7 @@ import { toTitleCase } from '@/lib/utils';
 import CarFilters from './CarFilters';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import MapComponent from '@/components/map/MapComponent';
+import { IoAirplaneSharp } from 'react-icons/io5';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
@@ -22,7 +23,7 @@ const Vehicles = ({ searchParams }: any) => {
 
     return (
         <div className=''>
-            <div className='z-40 flex flex-col bg-white py-3 md:sticky md:top-[9.5rem] md:flex-row md:items-center md:justify-between'>
+            <div className='z-[29] flex flex-col bg-white py-3 md:sticky md:top-[9.5rem] md:flex-row md:items-center md:justify-between'>
                 <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>Available Cars</h1>
 
                 <div className='flex items-center justify-between gap-4'>
@@ -64,9 +65,6 @@ const Vehicles = ({ searchParams }: any) => {
                                             <CarCard key={car.id} car={car} searchQuery={searchQuery} />
                                         ))}
                                     </div>
-                                    {/* <div className='md:col-span-2 md:min-w-full h-[600px] md:sticky md:top-[14rem]'>
-                                <MapComponent filteredCars={filteredCars} searchQuery={searchQuery} />
-                            </div> */}
                                 </div>
                             )}
                         </div>
@@ -111,7 +109,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                 <div className='absolute bottom-2 left-1 inline-flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
                     <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
                     <span className=' text-sm text-neutral-700'>
-                        {car.rating} • ({car?.tripcount} {car?.tripcount === 1 ? 'Trip' : 'Trips'})
+                        {car?.rating} • ({car?.tripcount} {car?.tripcount === 1 ? 'Trip' : 'Trips'})
                     </span>
                 </div>
             </div>
@@ -124,10 +122,14 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                     </p>
                 </div>
 
-                <p>
-                    <span className='text-lg font-bold text-primary'>${car.price_per_hr}</span>
-                    <span className='text-md text-neutral-600'>/Day</span>
-                </p>
+                <div className='flex flex-col items-end gap-3'>
+                    <p>
+                        <span className='text-lg font-bold text-primary'>${car.price_per_hr}</span>
+                        <span className='text-md text-neutral-600'>/Day</span>
+                    </p>
+
+                    {car?.airportDelivery ? <IoAirplaneSharp className='size-5 -rotate-90 text-green-500' /> : null}
+                </div>
             </div>
         </Link>
     );
