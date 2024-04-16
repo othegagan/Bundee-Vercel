@@ -2,11 +2,11 @@
 
 import { toTitleCase } from '@/lib/utils';
 import { getCenter } from 'geolib';
-import { MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import Map, { FullscreenControl, Marker, NavigationControl, Popup, ScaleControl } from 'react-map-gl';
+import { ImLocation } from "react-icons/im";
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
     const coordinates = filteredCars.map(result => ({
@@ -38,7 +38,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                 e.originalEvent.stopPropagation();
                 setCarPopInfo(car);
             }}>
-            <MapPin className='cursor-pointer' />
+            <ImLocation className='cursor-pointer size-7' />
         </Marker>
     ));
 
