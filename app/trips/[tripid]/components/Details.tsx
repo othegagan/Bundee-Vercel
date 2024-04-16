@@ -78,17 +78,17 @@ export default function Details({ tripsData }: any) {
 
             const payload: any = {
                 vehicleid: tripsData.vehicleId,
-                startTime: new Date(newStartDate + 'T' + newStartTime).toISOString(),
-                endTime: new Date(newEndDate + 'T' + newEndTime).toISOString(),
+                startTime: convertToCarTimeZoneISO(newStartDate, newStartTime, tripsData.vehzipcode),
+                endTime: convertToCarTimeZoneISO(newEndDate, newEndTime, tripsData.vehzipcode),
                 airportDelivery: tripsData.airportDelivery,
                 customDelivery: tripsData.delivery,
                 hostid: tripsData.hostid,
             };
 
-            // console.log(payload, 'payload');
+            console.log(payload, 'payload');
 
             const responseData: any = await calculatePrice(payload);
-            // console.log(responseData);
+            console.log(responseData);
 
             if (responseData.success) {
                 const data = responseData.data;
@@ -228,7 +228,7 @@ export default function Details({ tripsData }: any) {
                             <div className='flex items-center justify-between'>
                                 <div className='text-md'>Total Booking Days</div>
                                 <div className='text-md font-medium'>
-                                    {tripsData.tripPaymentTokens[0].totaldays} {tripsData?.tripPaymentTokens[0]?.totaldays == 1 ? 'Day' : 'Days'}
+                                    {tripsData.tripPaymentTokens[0]?.totaldays} {tripsData?.tripPaymentTokens[0]?.totaldays == 1 ? 'Day' : 'Days'}
                                 </div>
                             </div>
                             <div className='flex items-center justify-between'>

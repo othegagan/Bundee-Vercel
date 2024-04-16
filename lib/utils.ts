@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import zipToTimeZone from 'zipcode-to-timezone';
 import moment from 'moment-timezone';
 import tzlookup from 'tz-lookup';
+import CryptoJS from 'crypto-js';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -25,7 +26,7 @@ export function roundToTwoDecimalPlaces(num: number) {
 }
 
 export function getTimeZoneByZipcode(zipCode: string) {
-    const timeZone = zipToTimeZone.lookup(zipCode)  || 'America/Chicago'; // 73301, (Los angeles zip code : 90274) (MST : 85323)
+    const timeZone = zipToTimeZone.lookup(zipCode) || 'America/Chicago'; // 73301, (Los angeles zip code : 90274) (MST : 85323)
     // console.log('Time zone:', timeZone);
     return timeZone || null;
 }
@@ -56,7 +57,6 @@ export function formatTime(dateTimeString: string, zipCode: string) {
     return time;
 }
 
-
 export function getSearchDates(lat: number, lon: number, date: string, time: string) {
     const timezone = tzlookup(lat, lon);
     if (timezone) {
@@ -70,3 +70,22 @@ export function getSearchDates(lat: number, lon: number, date: string, time: str
         return null;
     }
 }
+
+export const encryptId = (id: string) => {
+    const encryptionKey = 'jumv7p7DQJdX1EAS';
+    return CryptoJS.AES.encrypt(id.toString(), encryptionKey).toString();
+};
+
+// Function to decrypt the ID
+export const decryptId = (encryptedId: string) => {
+    try {
+        const encryptionKey = 'jumv7p7DQJdX1EAS';
+        const decodedEncryptedId = decodeURIComponent(encryptedId);
+        const bytes = CryptoJS.AES.decrypt(decodedEncryptedId, encryptionKey);
+        const decryptedId = bytes.toString(CryptoJS.enc.Utf8);
+        return decryptedId;
+    } catch (error) {
+        console.error('Decryption error:', error);
+        return ''; // Return empty string or handle error accordingly
+    }
+};

@@ -1,13 +1,13 @@
 {
     "name": "bundee",
-    "version": "2.1.0",
+    "version": "2.1.8",
     "private": true,
     "scripts": {
         "start": "next start",
         "lint": "next lint",
-        "dev": "copy  .env.dev .env.local && next dev",
-        "qa": "copy  .env.qa .env.local && next dev",
-        "prod": "copy  .env.prod .env.local && next dev",
+        "dev": "copy  .env.dev .env.local && next dev --turbo",
+        "qa": "copy  .env.qa .env.local && next dev --turbo",
+        "prod": "copy  .env.prod .env.local && next dev --turbo",
         "build:dev": "copy  .env.dev .env.local  &&  next build",
         "build:qa": "copy  .env.qa .env.local  &&  next build",
         "build:prod": "copy  .env.prod .env.local  &&  next build"
@@ -38,6 +38,7 @@
         "clsx": "^2.1.0",
         "cmdk": "^1.0.0",
         "cookies-next": "^4.1.1",
+        "crypto-js": "^4.2.0",
         "date-fns": "^3.3.1",
         "firebase": "^10.6.0",
         "geolib": "^3.3.4",
