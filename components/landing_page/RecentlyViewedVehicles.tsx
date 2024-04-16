@@ -84,19 +84,19 @@ export default function RecentlyViewedVehicles() {
                                         />
                                     </div>
 
-                                    <div className='flex flex-col gap-2 px-3 '>
-                                        <p className='mt-2 text-sm  font-bold text-neutral-900'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
-                                        <div className='flex items-center justify-between gap-3 '>
+                                    <div className=' p-2'>
+                                        <p className=' text-sm  font-bold text-neutral-900'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
+                                        <div className='flex items-center justify-between h-auto '>
                                             <div className='flex gap-2'>
                                                 {car.rating ? <p className='text-xs font-medium text-neutral-900 '>{car.rating}</p> : <>{car.rating}</>}
                                                 {car.tripCount != 0 && (
-                                                    <div className='inline-flex gap-2'>
+                                                    <div className='inline-flex gap-2 mt-1'>
                                                         <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
                                                         <span className='text-xs font-medium text-neutral-900  '>({car.tripCount} Trips)</span>
                                                     </div>
                                                 )}
                                                 {car.tripCount == 0 && (
-                                                    <span className='mb-2 rounded-md bg-green-50 px-2  py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>
+                                                    <span className=' rounded-md bg-green-50 px-2  py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>
                                                         New
                                                     </span>
                                                 )}

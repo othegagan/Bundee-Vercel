@@ -47,8 +47,6 @@ const DrivingLicenceComponent = () => {
 
     const getVerifiedDetailsFromPersona = async (personaEnquiryId: any) => {
         try {
-            // await new Promise(resolve => setTimeout(resolve, 5000));
-
             const data = await getDetailsFromPersona(personaEnquiryId);
             // console.log(data);
             setVerifiedDetails(data || null);
@@ -113,24 +111,7 @@ const DrivingLicenceComponent = () => {
                                 </div>
                             </div>
 
-                            <div className='flex justify-end '>
-                                <Button
-                                    type='button'
-                                    variant='black'
-                                    size='sm'
-                                    onClick={() => {
-                                        createClient(setShowPersona);
-                                    }}
-                                    disabled={isPersonaClientLoading}>
-                                    {isPersonaClientLoading ? (
-                                        <div className='flex px-16'>
-                                            <div className='loader'></div>
-                                        </div>
-                                    ) : (
-                                        <> Update Driving License</>
-                                    )}
-                                </Button>
-                            </div>
+
                         </div>
                     ) : (
                         <p className='mt-10 text-base '>Unable to get verified details.Please update your driving license.</p>

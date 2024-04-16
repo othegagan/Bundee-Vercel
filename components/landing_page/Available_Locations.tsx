@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import BoxContainer from '../BoxContainer';
+import Image from 'next/image';
 
 const locations = [
     {
@@ -57,9 +58,13 @@ const Available_Locations = () => {
                     {locations.map(location => (
                         <Link href={location.link} className='group relative cursor-pointer' key={location.id}>
                             <div className='aspect-video h-44 w-full overflow-hidden rounded-md bg-neutral-200 shadow-md lg:aspect-square'>
-                                <img
+                                <Image
                                     src={location.imageUrl}
                                     alt={location.location}
+                                    width={0}
+                                    height={0}
+                                    sizes='100vw'
+                                    style={{ width: '100%', height: '100%' }}
                                     className='h-full w-full object-cover object-center transition-all ease-in-out group-hover:scale-110 group-hover:opacity-80 lg:h-full lg:w-full'
                                 />
                                 <div className='absolute inset-x-4 top-32  overflow-hidden rounded-lg  '>

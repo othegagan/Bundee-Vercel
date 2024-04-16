@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import BoxContainer from '../BoxContainer';
 
 export default function BundeeBranding() {
@@ -17,22 +18,37 @@ export default function BundeeBranding() {
                 <div className='-m-1 flex flex-row sm:flex-wrap md:-m-2'>
                     <div className='flex w-full flex-row-reverse flex-wrap sm:w-1/2 lg:flex-row'>
                         <div className='w-full p-1  lg:w-1/2'>
-                            <img
+                            <Image
                                 alt='gallery'
+                                width={0}
+                                height={0}
+                                sizes='100vw'
+                                priority
+                                style={{ width: '100%', height: '100%' }}
                                 className='block h-full w-full rounded-lg object-cover object-center '
                                 src='https://fiat.b-cdn.net/FT623338.jpeg'
                             />
                         </div>
                         <div className='w-full p-1  lg:w-1/2'>
-                            <img
+                            <Image
                                 alt='gallery'
+                                width={0}
+                                height={0}
+                                sizes='100vw'
+                                priority
+                                style={{ width: '100%', height: '100%' }}
                                 className='block h-full w-full rounded-lg object-cover object-center '
                                 src='https://23820752.fs1.hubspotusercontent-na1.net/hub/23820752/hubfs/EV%20gallery2.png?width=1320&height=1200&name=EV%20gallery2.png'
                             />
                         </div>
                         <div className='w-full p-1 '>
-                            <img
+                            <Image
                                 alt='gallery'
+                                width={0}
+                                height={0}
+                                sizes='100vw'
+                                priority
+                                style={{ width: '100%', height: '100%' }}
                                 className='block h-full max-h-none w-full rounded-lg object-cover object-center lg:max-h-[1000px] '
                                 src='https://fiat.b-cdn.net/HT526227.jpeg'
                             />
@@ -40,22 +56,37 @@ export default function BundeeBranding() {
                     </div>
                     <div className='flex w-full flex-wrap sm:w-1/2'>
                         <div className='w-full p-1 '>
-                            <img
+                            <Image
                                 alt='gallery'
+                                width={0}
+                                height={0}
+                                sizes='100vw'
+                                priority
+                                style={{ width: '100%', height: '100%' }}
                                 className='block h-full w-full rounded-lg object-cover object-center '
                                 src='https://fiat.b-cdn.net/GT121992.jpeg'
                             />
                         </div>
                         <div className='w-1/2 p-1 '>
-                            <img
+                            <Image
                                 alt='gallery'
+                                width={0}
+                                height={0}
+                                sizes='100vw'
+                                priority
+                                style={{ width: '100%', height: '100%' }}
                                 className='block h-full w-full rounded-lg object-cover object-center '
                                 src='https://23820752.fs1.hubspotusercontent-na1.net/hub/23820752/hubfs/NEV%20gallery3.png?width=1320&height=1200&name=NEV%20gallery2.png'
                             />
                         </div>
                         <div className='w-1/2 p-1 '>
-                            <img
+                            <Image
                                 alt='gallery'
+                                width={0}
+                                height={0}
+                                sizes='100vw'
+                                priority
+                                style={{ width: '100%', height: '100%' }}
                                 className='block h-full w-full rounded-lg object-cover object-center '
                                 src='https://23820752.fs1.hubspotusercontent-na1.net/hub/23820752/hubfs/NEV%20gallery2.png?width=1320&height=1200&name=NEV%20gallery2.png'
                             />
