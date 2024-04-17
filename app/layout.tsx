@@ -20,7 +20,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
     title: 'MyBundee',
     description:
-        'Step into the world of Bundee, where you can discover a diverse range of vehicles tailored to your interests. Embark on a journey to explore and experience your dream destinations.',
+        'Step into the world of Bundee, where you can discover a diverse range of vehicles tailored to your interests. Embark on a journey to explore and experience your dream destinations .',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
