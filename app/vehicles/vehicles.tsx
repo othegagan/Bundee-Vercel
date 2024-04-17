@@ -11,10 +11,17 @@ import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import MapComponent from '@/components/map/MapComponent';
 import { IoAirplaneSharp } from 'react-icons/io5';
 import { MdOutlineDiscount } from 'react-icons/md';
+import useCarFilterModal from '@/hooks/useCarFilterModal';
+import { Button } from '@/components/ui/button';
+import { VscSettings } from 'react-icons/vsc';
+import { usePathname } from 'next/navigation';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
-    const [filteredCars, setFilteredCars] = useState<any[]>([]);
+    const useCarFilter = useCarFilterModal();
+
+    const pathname = usePathname();
 
     useScrollToTopOnLoad(loading);
 
@@ -24,12 +31,21 @@ const Vehicles = ({ searchParams }: any) => {
 
     return (
         <div className=''>
-            <div className='z-[29] flex flex-col bg-white py-3 md:sticky md:top-[9.5rem] md:flex-row md:items-center md:justify-between'>
+            <div
+                className={`z-[29] ${pathname == '/' ? 'block rounded-md' : '-mx-4'} flex flex-col bg-white py-3 md:sticky md:top-[9.5rem] md:flex-row md:items-center md:justify-between`}>
                 <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>Available Cars</h1>
 
                 <div className='flex items-center justify-between gap-4'>
-                    {!loading ? <p className='text-sm font-medium text-neutral-600'>{filteredCars.length} vehicles found.</p> : <CarCountSkeleton />}
-                    <CarFilters carDetails={carDetails} setFilteredCars={setFilteredCars} />
+                    {!loading ? (
+                        <p className='text-sm font-medium text-neutral-600'>{useCarFilter.filteredCars.length} vehicles found.</p>
+                    ) : (
+                        <CarCountSkeleton />
+                    )}
+                    <Button className='flex gap-3 ' variant='outline' type='button' onClick={useCarFilter.onOpen}>
+                        <VscSettings className='rotate-90' />
+                        Filters{' '}
+                        {useCarFilter.appliedFiltersCount > 0 ? <p>({useCarFilter.appliedFiltersCount > 0 ? useCarFilter.appliedFiltersCount : ''})</p> : null}
+                    </Button>
                 </div>
             </div>
             {loading ? (
@@ -38,12 +54,12 @@ const Vehicles = ({ searchParams }: any) => {
                 <>
                     {error ? (
                         <ErrorComponent />
-                    ) : filteredCars.length === 0 ? (
+                    ) : useCarFilter.filteredCars.length === 0 ? (
                         <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
                     ) : (
                         <div className=''>
                             <div className=' grid grid-cols-1 gap-5 sm:grid-cols-2 md:hidden md:gap-x-6 md:gap-y-8 lg:grid-cols-3  xl:gap-x-8'>
-                                {filteredCars.map((car: any) => (
+                                {useCarFilter.filteredCars.map((car: any) => (
                                     <CarCard key={car.id} car={car} searchQuery={searchQuery} />
                                 ))}
                             </div>
@@ -51,18 +67,18 @@ const Vehicles = ({ searchParams }: any) => {
                             {process.env.NEXT_PUBLIC_APP_ENV == 'test' ? (
                                 <div className=' hidden w-full md:grid md:grid-cols-5 md:gap-x-6 md:gap-y-8'>
                                     <div className=' w-full gap-5 md:col-span-3 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8 '>
-                                        {filteredCars.map((car: any) => (
+                                        {useCarFilter.filteredCars.map((car: any) => (
                                             <CarCard key={car.id} car={car} searchQuery={searchQuery} />
                                         ))}
                                     </div>
                                     <div className='h-[700px] md:sticky md:top-[14rem] md:col-span-2 md:min-w-full'>
-                                        <MapComponent filteredCars={filteredCars} searchQuery={searchQuery} />
+                                        <MapComponent filteredCars={useCarFilter.filteredCars} searchQuery={searchQuery} />
                                     </div>
                                 </div>
                             ) : (
                                 <div className=' hidden w-full md:grid md:grid-cols-5 md:gap-x-6 md:gap-y-8'>
                                     <div className=' w-full gap-5 md:col-span-5 md:grid md:grid-cols-3   md:gap-x-6 md:gap-y-8 '>
-                                        {filteredCars.map((car: any) => (
+                                        {useCarFilter.filteredCars.map((car: any) => (
                                             <CarCard key={car.id} car={car} searchQuery={searchQuery} />
                                         ))}
                                     </div>
@@ -89,9 +105,11 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
         }
     });
     return (
-        <Link href={`/vehicles/${car.id}?${searchQuery}`} className='custom-shadow group h-fit cursor-pointer rounded-lg bg-white hover:shadow-md'>
+        <div className='custom-shadow group h-fit  rounded-lg bg-white hover:shadow-md'>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>
-                <div className='aspect-video h-44 w-full overflow-hidden rounded-t-md bg-neutral-200 group-hover:opacity-[0.9] lg:aspect-video lg:h-44'>
+                <Link
+                    href={`/vehicles/${car.id}?${searchQuery}`}
+                    className='aspect-video h-44 w-full cursor-pointer overflow-hidden rounded-t-md bg-neutral-200 group-hover:opacity-[0.9] lg:aspect-video lg:h-44'>
                     {images[0]?.imagename ? (
                         <img
                             src={images[0].imagename}
@@ -105,7 +123,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                             className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
                         />
                     )}
-                </div>
+                </Link>
 
                 <div className='absolute bottom-2 left-1 inline-flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
                     <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
@@ -117,7 +135,9 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
 
             <div className='mt-1 flex flex-wrap justify-between p-3'>
                 <div className=''>
-                    <p className='text-base font-semibold text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
+                    <Link
+                        href={`/vehicles/${car.id}?${searchQuery}`}
+                        className='cursor-pointer text-base font-semibold text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</Link>
                     <p className='mt-1 text-sm text-neutral-500'>
                         {toTitleCase(car?.cityname)}, {toTitleCase(car?.state)}
                     </p>
@@ -129,11 +149,33 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                         <span className='text-md text-neutral-600'>/Day</span>
                     </p>
                     <div className='flex gap-2'>
-                        {car?.airportDelivery ? <IoAirplaneSharp className='size-5 -rotate-90 text-primary' /> : null}
-                        {car?.isDiscountAvailable ? <MdOutlineDiscount className='size-5 text-green-500' /> : null}
+                        {car?.airportDelivery ? (
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <IoAirplaneSharp className='size-5 -rotate-90 text-primary' />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Airport Delivery Available</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        ) : null}
+                        {car?.isDiscountAvailable ? (
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <MdOutlineDiscount className='size-5 text-green-500' />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Discount Available</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        ) : null}
                     </div>{' '}
                 </div>
             </div>
-        </Link>
+        </div>
     );
 }

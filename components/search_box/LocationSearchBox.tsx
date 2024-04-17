@@ -6,9 +6,9 @@ import { useSearchParams } from 'next/navigation';
 import { useQueryState } from 'next-usequerystate';
 import { fetchDataFromMapboxWithForwardGeocoding } from '@/server/mapbox';
 import { useMapboxData } from '@/hooks/useMapboxData';
+import { ScrollArea } from '../ui/scroll-area';
 
 const DEBOUNCE_TIME = 300;
-
 
 const LocationSearchBox = () => {
     const [inputValue, setInputValue] = useState('');
@@ -37,6 +37,14 @@ const LocationSearchBox = () => {
         debounceFetchData(value);
     };
 
+    useEffect(() => {
+        if (show) {
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.documentElement.style.overflow = '';
+        }
+    }, [show]);
+
     return (
         <div>
             <div className='relative '>
@@ -62,13 +70,48 @@ const LocationSearchBox = () => {
                 </div>
 
                 <div
-                    className={`absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md  border-t  bg-white p-1 px-2 py-1.5 text-xs font-medium  text-foreground shadow-lg transition-opacity ease-in-out ${
+                    className={`'z-50 absolute mt-1 min-w-[300px] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md ${
                         show && inputValue ? 'scale-1  opacity-100' : 'scale-0  opacity-0'
                     }`}
                     role='presentation'>
                     <p className='mb-1 text-[11px] text-neutral-400'>Suggestions</p>
 
-                    {loading && (
+                    {loading ? (
+                        <div className='flex w-[300px] flex-col gap-2 px-2'>
+                            <Skeleton className='h-4 w-3/4 rounded-md bg-neutral-300' />
+                            <Skeleton className='h-4 w-1/2 rounded-md bg-neutral-300' />
+                        </div>
+                    ) : (
+                        <>
+                            {error && <p className='my-6 text-center w-[300px] text-xs'>{error}</p>}
+                            {!error && locationSuggestions.length === 0 ? (
+                                <div className='flex flex-col gap-2 w-[300px]'>
+                                    <p className='my-6 text-center text-xs'>No Suggestions</p>
+                                </div>
+                            ) : (
+                                <ScrollArea className='border-1 flex max-h-60 w-full select-none flex-col rounded-lg p-1'>
+                                    {locationSuggestions.map((item: any, index: number) => (
+                                        <div
+                                            className='relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-[13px] outline-none hover:bg-neutral-200 hover:text-accent-foreground '
+                                            key={index}
+                                            onMouseDown={() => {
+                                                setShow(false);
+                                                setInputValue(item.placeName);
+                                                clearTimeout(blurTimeoutId);
+                                                setCity(item.placeName);
+                                                settLatitude(item.latitude);
+                                                setLongitude(item.longitude);
+                                                setIsAirport(item.isAirport);
+                                            }}>
+                                            <span>{item.placeName}</span>
+                                        </div>
+                                    ))}
+                                </ScrollArea>
+                            )}
+                        </>
+                    )}
+
+                    {/* {loading && (
                         <div className='flex flex-col gap-2'>
                             <Skeleton className='h-4 w-3/4 rounded-md bg-neutral-300' />
                             <Skeleton className='h-4 w-1/2 rounded-md bg-neutral-300' />
@@ -94,7 +137,7 @@ const LocationSearchBox = () => {
                                 <span>{item.placeName}</span>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

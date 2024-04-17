@@ -67,12 +67,12 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                         <img width='100%' src={carPopInfo.imageresponse[0].imagename} className='rounded-md ' />
                         <div className='mt-1 text-sm font-semibold'>{`${toTitleCase(carPopInfo?.make)} ${carPopInfo?.model.toLocaleUpperCase()} ${carPopInfo?.year}`}</div>
                         <div className='-mb-1 flex justify-between gap-2'>
-                            <div className='inline-flex  items-center rounded-lg bg-white'>
+                            {/* <div className='inline-flex  items-center rounded-lg bg-white'>
                                 <FaStar className='mr-2 size-3 text-yellow-400' />
                                 <span className=' text-neutral-700'>
                                     {carPopInfo.rating} • ({carPopInfo?.tripcount} {carPopInfo?.tripcount === 1 ? 'Trip' : 'Trips'})
                                 </span>
-                            </div>
+                            </div> */}
                             <p>
                                 <span className='text-lg font-bold text-primary'>${carPopInfo.price_per_hr}</span>
                                 <span className='text-md text-neutral-600'>/Day</span>

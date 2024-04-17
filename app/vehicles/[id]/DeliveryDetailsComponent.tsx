@@ -40,7 +40,7 @@ const DeliveryDetailsComponent = ({
             if (isAirportDeliveryChoosen) {
                 toast({
                     duration: 4000,
-                    className: 'bg-red-300 text-white',
+                    variant:'destructive',
                     title: 'You have already choosen airport delivery.',
                     description: 'Please uncheck it to choose custom delivery.',
                 });
@@ -52,7 +52,7 @@ const DeliveryDetailsComponent = ({
             if (isCustoumDelivery) {
                 toast({
                     duration: 4000,
-                    className: 'bg-red-300 text-white',
+                    variant:'destructive',
                     title: 'You have already choosen custom delivery.',
                     description: 'Please uncheck it to choose airport delivery.',
                 });

@@ -13,6 +13,7 @@ import PhoneNumberModal from '@/components/modals/PhoneNumberVerification';
 import { HideComponentInFrame, HideInIFrame } from '@/components/HideInIFrame';
 import PhoneNumberSignInModal from '@/components/modals/PhoneNumberSignInModal';
 import TripReviewModal from '@/components/modals/TripReviewModal';
+import CarFilters from './vehicles/CarFilters';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <PhoneNumberModal />
                     <PhoneNumberSignInModal />
                     <TripReviewModal />
+                    <CarFilters />
                 </ClientOnly>
                 <HideComponentInFrame>
                     <Navbar />

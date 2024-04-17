@@ -1,3 +1,4 @@
+'use client';
 import { toTitleCase } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
 import { Slider } from '@/components/ui/slider';
@@ -8,19 +9,20 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { PiGasCan } from 'react-icons/pi';
 import { BsBatteryCharging } from 'react-icons/bs';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from '@/components/custom/modal';
+import useCarFilterModal from '@/hooks/useCarFilterModal';
 
 interface CarFiltersProps {
     carDetails: any[];
     setFilteredCars: (filteredCars: any[]) => void;
 }
 
-const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+const CarFilters = () => {
+    const useCarFilter = useCarFilterModal();
     function openModal() {
-        setIsModalOpen(true);
+        useCarFilter.onOpen();
     }
     function closeModal() {
-        setIsModalOpen(false);
+        useCarFilter.onClose();
     }
 
     const [selectedMakes, setSelectedMakes] = useState<string[]>([]);
@@ -34,8 +36,8 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
     const [range, setRange] = useState([0, 200]);
 
     const fuelTypes = [
-        { icon: <PiGasCan className='w-5 h-5' />, text: 'gasoline' },
-        { icon: <BsBatteryCharging className='w-5 h-5' />, text: 'electric' },
+        { icon: <PiGasCan className='h-5 w-5' />, text: 'gasoline' },
+        { icon: <BsBatteryCharging className='h-5 w-5' />, text: 'electric' },
     ];
     const ratings = [1, 2, 3, 4, 5];
 
@@ -58,10 +60,12 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
 
     useEffect(() => {
         handleReset();
-    }, [carDetails]);
+    }, [useCarFilter.carDetails]);
 
     const handleMakeChange = (make: string) => {
-        const updatedMakes = selectedMakes.includes(make.toLowerCase()) ? selectedMakes.filter(m => m !== make.toLowerCase()) : [...selectedMakes, make.toLowerCase()];
+        const updatedMakes = selectedMakes.includes(make.toLowerCase())
+            ? selectedMakes.filter(m => m !== make.toLowerCase())
+            : [...selectedMakes, make.toLowerCase()];
         setSelectedMakes(updatedMakes);
     };
 
@@ -85,7 +89,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
     };
 
     const filterCars = () => {
-        let filteredCars = carDetails;
+        let filteredCars = useCarFilter.carDetails;
 
         if (selectedMakes.length > 0) {
             filteredCars = filteredCars.filter(car => selectedMakes.includes(car.make.toLowerCase()));
@@ -142,7 +146,15 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
             });
         }
 
-        setFilteredCars(filteredCars);
+        useCarFilter.setFilteredCars(filteredCars);
+        const appliedFiltersCount =
+            (selectedMakes.length > 0 ? 1 : 0) +
+            (selectedFuelTypes.length > 0 ? 1 : 0) +
+            (selectedRatings.length > 0 ? 1 : 0) +
+            (seatingCapacityFilters.length > 0 ? 1 : 0) +
+            (minPricePerHr !== 0 || maxPricePerHr !== 200 ? 1 : 0);
+
+        useCarFilter.setAppliedFiltersCount(appliedFiltersCount);
     };
 
     const handleReset = () => {
@@ -155,38 +167,46 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
         setResetSlider(!resetSlider);
     };
 
-    const appliedFiltersCount =
-        (selectedMakes.length > 0 ? 1 : 0) +
-        (selectedFuelTypes.length > 0 ? 1 : 0) +
-        (selectedRatings.length > 0 ? 1 : 0) +
-        (seatingCapacityFilters.length > 0 ? 1 : 0) +
-        (minPricePerHr !== 0 || maxPricePerHr !== 200 ? 1 : 0);
-
     return (
         <>
-            <Button className='flex gap-3 ' variant='outline' type='button' onClick={openModal}>
+            {/* <Button className='flex gap-3 ' variant='outline' type='button' onClick={openModal}>
                 <VscSettings className='rotate-90' />
                 Filters {appliedFiltersCount > 0 ? <p>({appliedFiltersCount > 0 ? appliedFiltersCount : ''})</p> : null}
-            </Button>
+            </Button> */}
 
-            <Modal isOpen={isModalOpen} onClose={closeModal} className='lg:max-w-5xl'>
+            <Modal isOpen={useCarFilter.isOpen} onClose={closeModal} className='lg:max-w-5xl'>
                 <ModalHeader onClose={closeModal}>Filters</ModalHeader>
                 <ModalBody className=''>
-                    <div className='grid gap-5 grid-cols-1 lg:grid-cols-2'>
-                        <div className='  space-y-3 md:space-y-5  select-none md:border-r'>
+                    <div className='grid grid-cols-1 gap-5 lg:grid-cols-2'>
+                        <div className='  select-none space-y-3  md:space-y-5 md:border-r'>
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Sort By Price</Label>
-                                <RadioGroup defaultValue='relevance' className=' flex gap-4 items-center'>
+                                <RadioGroup defaultValue='relevance' className=' flex items-center gap-4'>
                                     <div className='flex items-center space-x-2'>
-                                        <RadioGroupItem value='relevance' id='r1' checked={sortOrder === 'relevance'} onClick={() => setSortOrder('relevance')} />
+                                        <RadioGroupItem
+                                            value='relevance'
+                                            id='r1'
+                                            checked={sortOrder === 'relevance'}
+                                            onClick={() => setSortOrder('relevance')}
+                                        />
                                         <Label htmlFor='r1'>Relevance</Label>
                                     </div>
                                     <div className='flex items-center space-x-2'>
-                                        <RadioGroupItem value='lowToHigh' id='r2' checked={sortOrder === 'lowToHigh'} onClick={() => setSortOrder('lowToHigh')} />
+                                        <RadioGroupItem
+                                            value='lowToHigh'
+                                            id='r2'
+                                            checked={sortOrder === 'lowToHigh'}
+                                            onClick={() => setSortOrder('lowToHigh')}
+                                        />
                                         <Label htmlFor='r2'> Low to High</Label>
                                     </div>
                                     <div className='flex items-center space-x-2'>
-                                        <RadioGroupItem value='highToLow' id='r3' checked={sortOrder === 'highToLow'} onClick={() => setSortOrder('highToLow')} />
+                                        <RadioGroupItem
+                                            value='highToLow'
+                                            id='r3'
+                                            checked={sortOrder === 'highToLow'}
+                                            onClick={() => setSortOrder('highToLow')}
+                                        />
                                         <Label htmlFor='r3'> High to Low</Label>
                                     </div>
                                 </RadioGroup>
@@ -194,7 +214,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
 
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Price Range</Label>
-                                <div className='md:w-[18rem] w-[19rem]'>
+                                <div className='w-[19rem] md:w-[18rem]'>
                                     <Slider
                                         // @ts-ignore
                                         defaultValue={[0, 200]}
@@ -211,11 +231,11 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
 
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Vehicle Make</Label>
-                                <div className='flex gap-2 md:gap-4 flex-wrap '>
-                                    {Array.from(new Set(carDetails.map(car => car.make.toLowerCase()))).map((make, index) => (
+                                <div className='flex flex-wrap gap-2 md:gap-4 '>
+                                    {Array.from(new Set(useCarFilter.carDetails.map(car => car.make.toLowerCase()))).map((make: any, index) => (
                                         <div
                                             key={index}
-                                            className={`flex  items-center rounded-md  cursor-pointer  w-fit text-xs md:text-sm font-medium ${
+                                            className={`flex  w-fit cursor-pointer  items-center  rounded-md text-xs font-medium md:text-sm ${
                                                 selectedMakes.includes(make) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input
@@ -223,7 +243,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
                                                 id={`make-${index}`}
                                                 checked={selectedMakes.includes(make)}
                                                 onChange={() => handleMakeChange(make)}
-                                                className='mr-2 hidden w-full h-full cursor-pointer'
+                                                className='mr-2 hidden h-full w-full cursor-pointer'
                                             />
                                             <label htmlFor={`make-${index}`} className=' cursor-pointer px-3 py-2'>
                                                 {toTitleCase(make)}
@@ -233,14 +253,14 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
                                 </div>
                             </div>
                         </div>
-                        <div className='  space-y-3 md:space-y-5  select-none '>
+                        <div className='  select-none space-y-3  md:space-y-5 '>
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Fuel Type</Label>
-                                <div className='flex gap-4 flex-wrap'>
+                                <div className='flex flex-wrap gap-4'>
                                     {fuelTypes.map((fuelType, index) => (
                                         <div
                                             key={index}
-                                            className={`flex  items-center rounded-md  cursor-pointer  w-fit text-sm font-medium ${
+                                            className={`flex  w-fit cursor-pointer  items-center  rounded-md text-sm font-medium ${
                                                 selectedFuelTypes.includes(fuelType.text) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input
@@ -248,7 +268,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
                                                 id={`fuelType-${fuelType.text}`}
                                                 checked={selectedFuelTypes.includes(fuelType.text)}
                                                 onChange={() => handleFuelTypeChange(fuelType.text)}
-                                                className='mr-2 hidden w-full h-full cursor-pointer'
+                                                className='mr-2 hidden h-full w-full cursor-pointer'
                                             />
                                             <label htmlFor={`fuelType-${fuelType.text}`} className=' cursor-pointer px-3 py-2'>
                                                 <div className='flex gap-2'>
@@ -263,11 +283,11 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
 
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Ratings</Label>
-                                <div className='flex gap-4 flex-wrap '>
+                                <div className='flex flex-wrap gap-4 '>
                                     {ratings.map((rating, index) => (
                                         <div
                                             key={index}
-                                            className={`flex  items-center rounded-md  cursor-pointer  w-fit text-sm font-medium ${
+                                            className={`flex  w-fit cursor-pointer  items-center  rounded-md text-sm font-medium ${
                                                 selectedRatings.includes(rating) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input
@@ -276,7 +296,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
                                                 value={rating}
                                                 checked={selectedRatings.includes(rating)}
                                                 onChange={() => handleRatingChange(rating)}
-                                                className='mr-2 hidden w-full h-full cursor-pointer'
+                                                className='mr-2 hidden h-full w-full cursor-pointer'
                                             />
                                             <label htmlFor={`rating-${rating}`} className=' cursor-pointer px-3 py-1'>
                                                 {rating} <span className='text-lg'>&#9733;</span>
@@ -288,11 +308,11 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
 
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>No of Seats</Label>
-                                <div className='flex gap-4 flex-wrap'>
+                                <div className='flex flex-wrap gap-4'>
                                     {seatings.map((seating, index) => (
                                         <div
                                             key={index}
-                                            className={`flex items-center rounded-md cursor-pointer w-fit text-sm font-medium ${
+                                            className={`flex w-fit cursor-pointer items-center rounded-md text-sm font-medium ${
                                                 seatingCapacityFilters.includes(String(seating)) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input
@@ -301,7 +321,7 @@ const CarFilters: React.FC<CarFiltersProps> = ({ carDetails, setFilteredCars }) 
                                                 value={seating}
                                                 checked={seatingCapacityFilters.includes(String(seating))}
                                                 onChange={() => handleSeatingCapacityChange(String(seating))}
-                                                className='mr-2 hidden w-full h-full cursor-pointer'
+                                                className='mr-2 hidden h-full w-full cursor-pointer'
                                             />
                                             <label htmlFor={`seating-${seating}`} className='cursor-pointer px-3 py-1'>
                                                 {seating} Seater
