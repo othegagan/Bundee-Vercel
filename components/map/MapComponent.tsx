@@ -3,10 +3,12 @@
 import { toTitleCase } from '@/lib/utils';
 import { getCenter } from 'geolib';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import Map, { FullscreenControl, Marker, NavigationControl, Popup, ScaleControl } from 'react-map-gl';
-import { ImLocation } from "react-icons/im";
+import { ImLocation } from 'react-icons/im';
+
+import type { MarkerDragEvent, LngLat } from 'react-map-gl';
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
     const coordinates = filteredCars.map(result => ({
@@ -82,3 +84,59 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
         </Map>
     );
 }
+
+// draggable pin
+
+// const initialViewState = {
+//     latitude: 30.271129,
+//     longitude: -97.7437,
+//     zoom: 12,
+// }
+
+// const [marker, setMarker] = useState({
+//     latitude: 30.271129,
+//     longitude: -97.7437,
+// });
+// const [events, logEvents] = useState<Record<string, LngLat>>({});
+
+// const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
+//     logEvents(_events => ({ ..._events, onDragStart: event.lngLat }));
+// }, []);
+
+// const onMarkerDrag = useCallback((event: MarkerDragEvent) => {
+//     logEvents(_events => ({ ..._events, onDrag: event.lngLat }));
+
+//     setMarker({
+//         longitude: event.lngLat.lng,
+//         latitude: event.lngLat.lat,
+//     });
+
+//     console.log("lat", event.lngLat.lat, "lng", event.lngLat.lng, )
+// }, []);
+
+// const onMarkerDragEnd = useCallback((event: MarkerDragEvent) => {
+//     logEvents(_events => ({ ..._events, onDragEnd: event.lngLat }));
+// }, []);
+
+// return (
+//     <>
+//         <Map
+//             initialViewState={initialViewState}
+//             mapStyle='mapbox://styles/mapbox/streets-v9'
+//             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}>
+//             <Marker
+//                 longitude={marker.longitude}
+//                 latitude={marker.latitude}
+//                 anchor='bottom'
+//                 draggable
+//                 onDragStart={onMarkerDragStart}
+//                 onDrag={onMarkerDrag}
+//                 onDragEnd={onMarkerDragEnd}>
+//                 <ImLocation className='size-7 cursor-pointer' />
+//             </Marker>
+//             <FullscreenControl position='top-left' />
+//             <NavigationControl position='top-left' />
+//             <ScaleControl />
+//         </Map>
+//     </>
+// );
