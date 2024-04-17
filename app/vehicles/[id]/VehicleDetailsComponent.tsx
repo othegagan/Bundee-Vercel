@@ -147,7 +147,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         <div className='relative  flex items-center gap-x-4'>
                             {vehicleHostDetails?.userimage && (
                                 <img
-                                    src={`data:image/png;base64, ${vehicleHostDetails.userimage}`}
+                                    src={`${vehicleHostDetails.userimage}`}
                                     alt={vehicleHostDetails.firstname}
                                     className='size-14 rounded-full border bg-neutral-50'
                                 />

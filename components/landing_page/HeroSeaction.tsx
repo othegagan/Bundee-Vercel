@@ -12,9 +12,9 @@ const HeroSeaction = () => {
                 width={0}
                 height={0}
                 sizes='100vw'
-                style={{ width: '100%', height: '70vh' }} 
+                style={{ width: '100%', height: '70vh' }}
                 alt='hero image'
-                className='bg-blend-lighten object-fill opacity-95 absolute -z-10 object-center'
+                className='bg-blend-lighten object-cover opacity-95 absolute -z-10 object-center'
             />
             <section className='  h-[70vh]    py-16  sm:py-16 lg:py-24'>
                 <Container>

@@ -187,3 +187,7 @@ td button[disabled] {
         background-position: -200% 0;
     }
 }
+
+.search-suggestion {
+    z-index: 999 !important;
+}

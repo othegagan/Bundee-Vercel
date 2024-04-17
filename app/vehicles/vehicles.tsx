@@ -10,6 +10,7 @@ import CarFilters from './CarFilters';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import MapComponent from '@/components/map/MapComponent';
 import { IoAirplaneSharp } from 'react-icons/io5';
+import { MdOutlineDiscount } from 'react-icons/md';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
@@ -127,8 +128,10 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                         <span className='text-lg font-bold text-primary'>${car.price_per_hr}</span>
                         <span className='text-md text-neutral-600'>/Day</span>
                     </p>
-
-                    {car?.airportDelivery ? <IoAirplaneSharp className='size-5 -rotate-90 text-green-500' /> : null}
+                    <div className='flex gap-2'>
+                        {car?.airportDelivery ? <IoAirplaneSharp className='size-5 -rotate-90 text-primary' /> : null}
+                        {car?.isDiscountAvailable ? <MdOutlineDiscount className='size-5 text-green-500' /> : null}
+                    </div>{' '}
                 </div>
             </div>
         </Link>
