@@ -1,6 +1,6 @@
 {
     "name": "bundee",
-    "version": "2.1.9",
+    "version": "2.1.8",
     "private": true,
     "scripts": {
         "start": "next start",
