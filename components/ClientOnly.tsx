@@ -15,6 +15,7 @@ const ClientOnly: React.FC<ClientOnlyProps> = ({ children }) => {
 
     if (!hasMounted) return null;
 
+    console.log("Running in ",process.env.NEXT_PUBLIC_APP_ENV);
     return <>{children}</>;
 };
 
