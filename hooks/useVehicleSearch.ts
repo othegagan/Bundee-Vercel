@@ -8,14 +8,25 @@ import useTabFocusEffect from './useTabFocusEffect';
 import { getSearchDates } from '@/lib/utils';
 import useCarFilterModal from './useCarFilterModal';
 
+function getAllURLParameters() {
+    const url = new URL(window.location.href);
+    const params: any = new URLSearchParams(url.search);
+    const queryParams = {};
+    for (const [key, value] of params.entries()) {
+        queryParams[key] = value;
+    }
+
+    return queryParams;
+}
+
 const useVehicleSearch = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const useCarFilter = useCarFilterModal();
-
-    const searchVehicles = async searchParams => {
+    const searchVehicles = async () => {
+        console.log();
         setLoading(true);
         setError(null);
         setData([]);
@@ -24,6 +35,7 @@ const useVehicleSearch = () => {
         try {
             let hostid = localStorage.getItem('hostid');
             const session = await getSession();
+            const searchParams: any = getAllURLParameters();
 
             const city = searchParams?.city ? searchParams?.city : 'Austin, Texas, United States';
             const latitude = searchParams?.latitude ? searchParams?.latitude : '-97.7437';

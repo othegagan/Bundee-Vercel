@@ -26,7 +26,7 @@ const Vehicles = ({ searchParams }: any) => {
     useScrollToTopOnLoad(loading);
 
     useEffect(() => {
-        searchVehicles(searchParams);
+        searchVehicles();
     }, [searchParams]);
 
     return (
