@@ -57,7 +57,6 @@ export async function createTripReservation(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createReservation';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
-        console.log(modifiedPayload)
         const response = await http.post(url, modifiedPayload);
         console.log(response.data)
         if (response.data.errorCode == 0) {
