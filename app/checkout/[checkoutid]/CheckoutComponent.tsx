@@ -152,10 +152,10 @@ export default function CheckoutComponent() {
             delete payload.stateSurchargeAmount;
             delete payload.stateSurchargeTax;
 
-            console.log(' reservation payload', payload);
+            // console.log(' reservation payload', payload);
 
             const response = await createTripReservation(payload);
-            console.log(response);
+            // console.log(response);
 
             if (response.success) {
                 toast({
@@ -165,7 +165,7 @@ export default function CheckoutComponent() {
                     description: 'Thank you for your payment. Your transaction was successful.',
                 });
                 secureLocalStorage.removeItem('checkOutInfo');
-                window.location.href = '/checkout/success';
+                // window.location.href = '/checkout/success';
             } else {
                 handleError();
                 console.log('error in back end api', response.data);

@@ -100,7 +100,7 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
 
 export async function sendMessageToHost(tripid: number, messageBody: string, firebaseToken: string) {
     try {
-        const url = process.env.CHAT_SERVICE_BASEURL + '/getAllChatHistory';
+        const url = process.env.CHAT_SERVICE_BASEURL + '/clientSendMessage';
 
         const headersList = {
             Accept: '*/*',
