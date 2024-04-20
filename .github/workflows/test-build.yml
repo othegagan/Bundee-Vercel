@@ -1,0 +1,31 @@
+name: test-and-deploy
+
+on:
+    push:
+        branches:
+            - qa
+
+permissions:
+    id-token: write
+    contents: read
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '20.12.1'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build Next.js app for QA
+              run: npm run build:qa
+
+            - name: Test the build
+              run: npm test
