@@ -22,7 +22,7 @@ const Footer = () => {
                                     <Link href='/terms'>Terms of Use</Link>
                                 </p>
                                 <p>
-                                    <Link href='/faqs'>FAQ's</Link>
+                                    <Link href='/#faqs'>FAQ's</Link>
                                 </p>
                             </div>
                         </div>
