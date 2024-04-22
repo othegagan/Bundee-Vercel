@@ -7,6 +7,7 @@ import { getSession } from '@/lib/auth';
 import { formatDateAndTime } from '@/lib/utils';
 import { cancelPaymentIntent, createPaymentIntentWithAmount, createTripExtension, createTripReduction, createTripReservation } from '@/server/checkout';
 import { useEffect, useState } from 'react';
+import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
 import secureLocalStorage from 'react-secure-storage';
 
@@ -21,6 +22,8 @@ export default function CheckoutComponent() {
     const [payButtonText, setPayButtonText] = useState('Continue to Payment');
     const [vehicleImage, setVehicleImage] = useState('');
     const [vehicleName, setVehicleName] = useState('');
+
+    const [message, setMessage] = useState('');
 
     const [params, setParams] = useState<any>({
         id: '',
@@ -58,11 +61,12 @@ export default function CheckoutComponent() {
     }, []);
 
     const createIntent = async () => {
+        setMessage('');
         const checkoutData = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
-        const createIntentResponse = await createPaymentIntentWithAmount(Number(checkoutData.totalamount));
+        const createIntentResponse = await createPaymentIntentWithAmount(checkoutData.totalamount);
         try {
-            if (createIntentResponse.success) {
-                const responseData = createIntentResponse.data.response;
+            if (createIntentResponse) {
+                const responseData = createIntentResponse;
                 setParams(responseData);
 
                 const clientSecret = responseData.client_secret;
@@ -92,6 +96,7 @@ export default function CheckoutComponent() {
     };
 
     const submit = async () => {
+        setMessage('');
         setPayButtonText('Processing Payment');
         try {
             const session = await getSession();
@@ -105,6 +110,11 @@ export default function CheckoutComponent() {
             });
 
             if (error) {
+                if (error.type === 'card_error' || error.type === 'validation_error') {
+                    setMessage(error.message);
+                } else {
+                    setMessage('An unexpected error occurred. Please Try again.');
+                }
                 console.error(error);
                 // handleError();
                 setPayButtonText('Continue to Payment');
@@ -353,7 +363,7 @@ export default function CheckoutComponent() {
                         )}
                     </div>
 
-                    <PaymentSection elementFetched={elementFetched} payButtonText={payButtonText} submit={submit} />
+                    <PaymentSection elementFetched={elementFetched} payButtonText={payButtonText} submit={submit} message={message} />
                 </div>
             </BoxContainer>
         </>
@@ -405,11 +415,24 @@ function TripDetail({ vehicleImage, vehicleName, checkoutDetails }) {
     );
 }
 
-function PaymentSection({ elementFetched, payButtonText, submit }) {
+function PaymentSection({ elementFetched, payButtonText, submit, message }) {
     return (
         <div className='col-span-1 flex flex-col gap-2 pt-5'>
             <div className='rounded-sm bg-white p-4 shadow-md' id='payment-element'></div>
             <div className='border-t border-gray-200 px-4 py-6 sm:px-6'>
+                {message && (
+                    <div className='my-3 select-none rounded-md bg-red-50 p-3'>
+                        <div className='flex'>
+                            <div className='flex-shrink-0'>
+                                <IoWarning className='h-5 w-5 text-red-400' />
+                            </div>
+                            <div className='ml-3'>
+                                <p className='text-sm font-medium text-red-800'>{message}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {elementFetched ? (
                     <Button size='lg' className='flex h-12 w-full items-center gap-4' onClick={submit} disabled={payButtonText === 'Processing Payment'}>
                         {payButtonText === 'Processing Payment' ? <LuLoader2 className='h-6 w-6 animate-spin text-white' /> : null} {payButtonText}
