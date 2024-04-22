@@ -127,7 +127,7 @@ const Footer = () => {
                                     </li>
                                     <li>
                                         <p className='font-medium'>
-                                            <Link href='/faqs'>FAQ's</Link>
+                                            <Link href='/#faqs'>FAQ's</Link>
                                         </p>
                                     </li>
                                 </ul>
