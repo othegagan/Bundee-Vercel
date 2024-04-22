@@ -1,10 +1,8 @@
-
 import Link from 'next/link';
 import Logo from './landing_page/Logo';
 import Container from './BoxContainer';
 
 const Footer = () => {
-
     return (
         <>
             <footer className=' mt-auto hidden bg-black/10 md:block'>
@@ -22,7 +20,7 @@ const Footer = () => {
                                     <Link href='/terms'>Terms of Use</Link>
                                 </p>
                                 <p>
-                                    <Link href='/faqs'>FAQ's</Link>
+                                    <Link href='/#faqs'>FAQ's</Link>
                                 </p>
                             </div>
                         </div>
@@ -127,7 +125,7 @@ const Footer = () => {
                                     </li>
                                     <li>
                                         <p className='font-medium'>
-                                            <Link href='/faqs'>FAQ's</Link>
+                                            <Link href='/#faqs'>FAQ's</Link>
                                         </p>
                                     </li>
                                 </ul>
