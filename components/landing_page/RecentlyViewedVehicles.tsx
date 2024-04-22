@@ -86,13 +86,15 @@ export default function RecentlyViewedVehicles() {
 
                                     <div className=' p-2'>
                                         <p className=' text-sm  font-bold text-neutral-900'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
-                                        <div className='flex items-center justify-between h-auto '>
+                                        <div className='flex h-auto items-center justify-between '>
                                             <div className='flex gap-2'>
                                                 {car.rating ? <p className='text-xs font-medium text-neutral-900 '>{car.rating}</p> : <>{car.rating}</>}
                                                 {car.tripCount != 0 && (
-                                                    <div className='inline-flex gap-2 mt-1'>
-                                                        <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
-                                                        <span className='text-xs font-medium text-neutral-900  '>({car.tripCount} Trips)</span>
+                                                    <div className='mt-1 inline-flex gap-2'>
+                                                        <FaStar className=' size-4 text-yellow-400' />
+                                                        <span className='text-xs font-medium text-neutral-900  '>
+                                                            ({car.tripCount} {car.tripCount == 1 ? 'Trip' : 'Trips'})
+                                                        </span>
                                                     </div>
                                                 )}
                                                 {car.tripCount == 0 && (

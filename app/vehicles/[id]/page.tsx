@@ -217,7 +217,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 dropTime: endTime,
 
                 comments: 'Request to book',
-                address1: customDeliveryLocation ? customDeliveryLocation : vehicleDetails?.address1,
+                address1: delivery ? customDeliveryLocation : vehicleDetails?.address1,
                 address2: '',
                 cityName: '',
                 country: '',

@@ -165,7 +165,7 @@ export default function CheckoutComponent() {
                     description: 'Thank you for your payment. Your transaction was successful.',
                 });
                 secureLocalStorage.removeItem('checkOutInfo');
-                // window.location.href = '/checkout/success';
+                window.location.href = '/checkout/success';
             } else {
                 handleError();
                 console.log('error in back end api', response.data);
