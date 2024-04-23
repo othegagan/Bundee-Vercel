@@ -16,7 +16,7 @@ const RentalAgreementModal = () => {
     const [isAgreed, setIsAgreed] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const docs = [{ uri: './rental_agreement.pdf', fileType: 'pdf' }];
+    const docs = [{ uri: 'https://utfs.io/f/ea59485d-bd98-41bd-8148-3d12c334ca64-poy0k1.pdf', fileType: 'pdf' }];
 
     // const handleScroll = () => {
     //     const termsElement = termsRef.current;
