@@ -1,11 +1,8 @@
 'use client';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import useRentalAgreementModal from '@/hooks/useRentalAgreement';
-import { Button } from '../ui/button';
 
 export default function FAQ() {
-    const rentalAgreementModal = useRentalAgreementModal();
     const data = {
         FAQs: [
             {
@@ -56,15 +53,6 @@ export default function FAQ() {
                     ))}
                 </Accordion>
             </div>
-
-            <Button
-                variant='outline'
-                onClick={() => {
-                    rentalAgreementModal.setTripId(200);
-                    rentalAgreementModal.onOpen();
-                }}>
-                Agree
-            </Button>
         </>
     );
 }

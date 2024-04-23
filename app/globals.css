@@ -192,6 +192,6 @@ td button[disabled] {
     z-index: 999 !important;
 }
 
-#pdf-toggle-pagination{
+#pdf-controls{
     display: none;
 }

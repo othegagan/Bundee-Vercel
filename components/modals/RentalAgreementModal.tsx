@@ -63,7 +63,7 @@ const RentalAgreementModal = () => {
                             documents={docs}
                             pluginRenderers={DocViewerRenderers}
                             prefetchMethod='GET'
-                            style={{ width: '100%', height: 350, margin: 'auto' }}
+                            style={{ width: '100%', height: 400, margin: 'auto' }}
                             config={{
                                 header: {
                                     disableHeader: true,
