@@ -18,14 +18,14 @@ const RentalAgreementModal = () => {
 
     const docs = [{ uri: './rental_agreement.pdf', fileType: 'pdf' }];
 
-    const handleScroll = () => {
-        const termsElement = termsRef.current;
-        const { scrollHeight, scrollTop, clientHeight } = termsElement;
-        // Check if user scrolled to the bottom with a tolerance of 1 pixel
-        if (scrollHeight - scrollTop <= clientHeight + 1) {
-            setIsAgreed(true);
-        }
-    };
+    // const handleScroll = () => {
+    //     const termsElement = termsRef.current;
+    //     const { scrollHeight, scrollTop, clientHeight } = termsElement;
+    //     // Check if user scrolled to the bottom with a tolerance of 1 pixel
+    //     if (scrollHeight - scrollTop <= clientHeight + 1) {
+    //         setIsAgreed(true);
+    //     }
+    // };
 
     const agreeToRentalAgreement = async () => {
         try {
@@ -79,12 +79,14 @@ const RentalAgreementModal = () => {
                             }}
                         />
                         <div className='mt-5 flex w-full items-center justify-end gap-3'>
-                            <Button type='button' variant='outline'>
+                            <Button type='button' variant='outline'  onClick={() => {
+                                    closeModal();
+                                }}>
                                 Cancel
                             </Button>
                             <Button
                                 type='button'
-                                disabled={!isAgreed || loading}
+                                disabled={ loading}
                                 onClick={() => {
                                     agreeToRentalAgreement();
                                 }}>
