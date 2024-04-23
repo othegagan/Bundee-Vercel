@@ -21,10 +21,21 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
 
     // Calculate center of map whenever filteredCars change
     useEffect(() => {
-        const coordinates = filteredCars.map(result => ({
-            latitude: result.latitude,
-            longitude: result.longitude,
-        }));
+        const coordinates = filteredCars
+            .filter(result =>
+                result.latitude !== undefined &&
+                result.latitude !== null &&
+                result.latitude !== '' &&
+                result.longitude !== undefined &&
+                result.longitude !== null &&
+                result.longitude !== '' &&
+                result.latitude !== 'undefined' &&
+                result.longitude !== 'undefined'
+            )
+            .map(result => ({
+                latitude: result.latitude,
+                longitude: result.longitude,
+            }));
         const center: any = getCenter(coordinates);
         setViewState((prevState: any) => ({
             ...prevState,
@@ -33,19 +44,31 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
         }));
     }, [filteredCars]);
 
-    const pins = filteredCars.map((car, index) => (
-        <Marker
-            key={`marker-${index}`}
-            latitude={Number(car.latitude)}
-            longitude={Number(car.longitude)}
-            anchor='bottom'
-            onClick={e => {
-                e.originalEvent.stopPropagation();
-                setCarPopInfo(car);
-            }}>
-            <ImLocation className='cursor-pointer size-7' />
-        </Marker>
-    ));
+    const pins = filteredCars
+        .filter(car =>
+            car.latitude !== undefined &&
+            car.latitude !== null &&
+            car.latitude !== '' &&
+            car.longitude !== undefined &&
+            car.longitude !== null &&
+            car.longitude !== '' &&
+            car.latitude !== 'undefined' &&
+            car.longitude !== 'undefined'
+        )
+        .map((car, index) => (
+            <Marker
+                key={`marker-${index}`}
+                latitude={Number(car.latitude)}
+                longitude={Number(car.longitude)}
+                anchor='bottom'
+                onClick={e => {
+                    e.originalEvent.stopPropagation();
+                    setCarPopInfo(car);
+                }}>
+                <ImLocation className='cursor-pointer size-7' />
+            </Marker>
+        ));
+
 
     return (
         <Map
@@ -66,18 +89,18 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                     latitude={Number(carPopInfo.latitude)}
                     onClose={() => setCarPopInfo(null)}
                     className=' rounded-lg'>
-                    <Link href={`/vehicles/${carPopInfo.id}?${searchQuery}`} className='flex flex-col  border-0 outline-none focus:border-0'>
-                        <img width='100%' src={carPopInfo.imageresponse[0].imagename} className='rounded-md ' />
+                    <Link href={`/vehicles/${carPopInfo?.id}?${searchQuery}`} className='flex flex-col  border-0 outline-none focus:border-0'>
+                        <img width='100%' src={carPopInfo?.imageresponse[0]?.imagename} className='rounded-md ' />
                         <div className='mt-1 text-sm font-semibold'>{`${toTitleCase(carPopInfo?.make)} ${carPopInfo?.model.toLocaleUpperCase()} ${carPopInfo?.year}`}</div>
                         <div className='-mb-1 flex justify-between gap-2'>
                             <div className='inline-flex  items-center rounded-lg bg-white'>
                                 <FaStar className='mr-2 size-3 text-yellow-400' />
                                 <span className=' text-neutral-700'>
-                                    {carPopInfo.rating} • ({carPopInfo?.tripcount} {carPopInfo?.tripcount === 1 ? 'Trip' : 'Trips'})
+                                    {carPopInfo?.rating} • ({carPopInfo?.tripcount} {carPopInfo?.tripcount === 1 ? 'Trip' : 'Trips'})
                                 </span>
                             </div>
                             <p>
-                                <span className='text-lg font-bold text-primary'>${carPopInfo.price_per_hr}</span>
+                                <span className='text-lg font-bold text-primary'>${carPopInfo?.price_per_hr}</span>
                                 <span className='text-md text-neutral-600'>/Day</span>
                             </p>
                         </div>
