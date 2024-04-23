@@ -16,7 +16,7 @@ const RentalAgreementModal = () => {
     const [isAgreed, setIsAgreed] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const docs = [{ uri: 'https://www.designingui.com/designing_interfaces_12_x.pdf', fileType: 'pdf' }];
+    const docs = [{ uri: './rental_agreement.pdf', fileType: 'pdf' }];
 
     const handleScroll = () => {
         const termsElement = termsRef.current;

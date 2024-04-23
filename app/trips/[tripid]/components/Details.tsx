@@ -282,35 +282,51 @@ export default function Details({ tripsData }: any) {
                             {tripsData.status.toLowerCase() === 'requested' && <FreeCancellationDate tripsData={tripsData} />}
                         </div>
 
-                        <div className='mt-10 flex w-full flex-wrap  gap-3'>
-                            {tripsData.status.toLowerCase() === 'approved' &&
-                                swapRequestDetails?.statuscode.toLowerCase() !== 'swappr' &&
-                                new Date().getTime() < new Date(tripsData.starttime).getTime() - 1000 * 60 * 60 && (
-                                    <Button onClick={handleStartTrip} disabled={tripStarting} className='bg-green-500' size='lg'>
-                                        {tripStarting ? <div className='loader'></div> : 'Start Trip'}
-                                    </Button>
-                                )}
-
-                            {tripsData.status.toLowerCase() === 'approved' ||
-                            tripsData.status.toLowerCase() === 'started' ||
-                            tripsData.status.toLowerCase() === 'requested' ? (
+                        {!tripsData.isRentalAgreed ? (
+                            <div className='mt-10 flex w-full flex-wrap  gap-3'>
                                 <Button
+                                    variant='outline'
                                     onClick={() => {
-                                        setModifyCalenderOpen(true);
-                                        const body = document.querySelector('body');
-                                        body.style.overflow = 'hidden';
-                                    }}
-                                    variant='black'
-                                    size='lg'>
-                                    Modify
+                                        rentalAgreementModal.setTripId(tripsData.tripid);
+                                        rentalAgreementModal.onOpen();
+                                    }}>
+                                    Agree
                                 </Button>
-                            ) : null}
 
-                            {['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) === -1 && (
-                                <CancelTripComponent tripId={tripsData.tripid} />
-                            )}
-                        </div>
+                                {['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) === -1 && (
+                                    <CancelTripComponent tripId={tripsData.tripid} />
+                                )}
+                            </div>
+                        ) : (
+                            <div className='mt-10 flex w-full flex-wrap  gap-3'>
+                                {tripsData.status.toLowerCase() === 'approved' &&
+                                    swapRequestDetails?.statuscode.toLowerCase() !== 'swappr' &&
+                                    new Date().getTime() < new Date(tripsData.starttime).getTime() - 1000 * 60 * 60 && (
+                                        <Button onClick={handleStartTrip} disabled={tripStarting} className='bg-green-500' size='lg'>
+                                            {tripStarting ? <div className='loader'></div> : 'Start Trip'}
+                                        </Button>
+                                    )}
 
+                                {tripsData.status.toLowerCase() === 'approved' ||
+                                tripsData.status.toLowerCase() === 'started' ||
+                                tripsData.status.toLowerCase() === 'requested' ? (
+                                    <Button
+                                        onClick={() => {
+                                            setModifyCalenderOpen(true);
+                                            const body = document.querySelector('body');
+                                            body.style.overflow = 'hidden';
+                                        }}
+                                        variant='black'
+                                        size='lg'>
+                                        Modify
+                                    </Button>
+                                ) : null}
+
+                                {['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) === -1 && (
+                                    <CancelTripComponent tripId={tripsData.tripid} />
+                                )}
+                            </div>
+                        )}
                         {tripsData.status.toLowerCase() == 'completed' && tripsData?.vehicleDetails[0]?.tripreview.length == 0 && (
                             <div
                                 className='mt-4 w-fit cursor-pointer rounded-md bg-orange-400 px-10 py-2 text-sm font-medium tracking-tight text-white'
@@ -321,17 +337,6 @@ export default function Details({ tripsData }: any) {
                                 Add a review
                             </div>
                         )}
-
-                            <Button
-                                variant='outline'
-                                onClick={() => {
-                                    rentalAgreementModal.setTripId(tripsData.tripid);
-                                    rentalAgreementModal.onOpen();
-                                }}>
-                                Agree
-                            </Button>
-                        {/* {!tripsData.isRentalAgreed && (
-                        )} */}
                     </div>
                 </div>
             </div>
