@@ -19,9 +19,11 @@ import TripPriceListComponent from './TripPriceListComponent';
 import TripVehicleDetailsComponent from './TripVehicleDetailsComponent';
 import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, formatDateAndTime, formatTime, toTitleCase } from '@/lib/utils';
+import useRentalAgreementModal from '@/hooks/useRentalAgreement';
 
 export default function Details({ tripsData }: any) {
     const tripReviewModal = useTripReviewModal();
+    const rentalAgreementModal = useRentalAgreementModal();
 
     const [modifyCalenderOpen, setModifyCalenderOpen] = useState(false);
     const [swapRequestDetails, setSwapRequestDetails] = useState(null);
@@ -141,7 +143,7 @@ export default function Details({ tripsData }: any) {
             Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
             ...priceCalculatedList,
-            taxPercentage : priceCalculatedList.taxPercentage  * 100,
+            taxPercentage: priceCalculatedList.taxPercentage * 100,
         };
 
         if (type === 'reduction') {
@@ -319,6 +321,17 @@ export default function Details({ tripsData }: any) {
                                 Add a review
                             </div>
                         )}
+
+                            <Button
+                                variant='outline'
+                                onClick={() => {
+                                    rentalAgreementModal.setTripId(tripsData.tripid);
+                                    rentalAgreementModal.onOpen();
+                                }}>
+                                Agree
+                            </Button>
+                        {/* {!tripsData.isRentalAgreed && (
+                        )} */}
                     </div>
                 </div>
             </div>

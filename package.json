@@ -13,6 +13,7 @@
         "build:prod": "cp  .env.prod .env.local  &&  next build"
     },
     "dependencies": {
+        "@cyntler/react-doc-viewer": "^1.14.1",
         "@headlessui/react": "^1.7.17",
         "@heroicons/react": "^2.0.18",
         "@internationalized/date": "^3.5.1",

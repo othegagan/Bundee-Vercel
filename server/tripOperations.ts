@@ -33,6 +33,20 @@ export async function getTripDetailsbyId(tripid: number) {
     }
 }
 
+export async function updateRentalAgreement(tripid: number) {
+    try {
+        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/updateRentalAgreement';
+        const payload = {
+            tripId: tripid,
+            isRentalAgreed: true,
+        };
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 export async function swapRequest(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createSwapRequest';
