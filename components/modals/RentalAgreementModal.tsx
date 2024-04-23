@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 import ClientOnly from '../ClientOnly';
 import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
-import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
+import DocViewer, { DocViewerRenderers, IHeaderOverride } from '@cyntler/react-doc-viewer';
 
 const RentalAgreementModal = () => {
     const router = useRouter();
@@ -16,8 +16,7 @@ const RentalAgreementModal = () => {
     const [isAgreed, setIsAgreed] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const docs = [{ uri: 'https://www.niti.gov.in/sites/default/files/2020-01/Newspapers_English_Hindi_2020.pdf', fileType: 'pdf' }];
-
+    const docs = [{ uri: 'https://www.designingui.com/designing_interfaces_12_x.pdf', fileType: 'pdf' }];
 
     const handleScroll = () => {
         const termsElement = termsRef.current;
@@ -63,6 +62,7 @@ const RentalAgreementModal = () => {
                         <DocViewer
                             documents={docs}
                             pluginRenderers={DocViewerRenderers}
+                            prefetchMethod='GET'
                             style={{ width: '100%', height: 350, margin: 'auto' }}
                             config={{
                                 header: {
@@ -72,7 +72,7 @@ const RentalAgreementModal = () => {
                                 },
                                 csvDelimiter: ',', // "," as default,
                                 pdfZoom: {
-                                    defaultZoom: 1, // 1 as default,
+                                    defaultZoom: 1.2, // 1 as default,
                                     zoomJump: 0.2, // 0.1 as default,
                                 },
                                 pdfVerticalScrollByDefault: true, // false as default
