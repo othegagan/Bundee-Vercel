@@ -285,6 +285,7 @@ export default function Details({ tripsData }: any) {
                         {!tripsData.isRentalAgreed ? (
                             <div className='mt-10 flex w-full flex-wrap  gap-3'>
                                 <Button
+                                    size='lg'
                                     variant='outline'
                                     onClick={() => {
                                         rentalAgreementModal.setTripId(tripsData.tripid);

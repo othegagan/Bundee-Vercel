@@ -8,6 +8,7 @@ import ClientOnly from '../ClientOnly';
 import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
 import DocViewer, { DocViewerRenderers, IHeaderOverride } from '@cyntler/react-doc-viewer';
+import Link from 'next/link';
 
 const RentalAgreementModal = () => {
     const router = useRouter();
@@ -79,19 +80,31 @@ const RentalAgreementModal = () => {
                             }}
                         />
                         <div className='mt-5 flex w-full items-center justify-end gap-3'>
-                            <Button type='button' variant='outline'  onClick={() => {
-                                    closeModal();
-                                }}>
-                                Cancel
-                            </Button>
-                            <Button
-                                type='button'
-                                disabled={ loading}
-                                onClick={() => {
-                                    agreeToRentalAgreement();
-                                }}>
-                                {loading ? <div className='loader'></div> : 'Agree'}
-                            </Button>
+                            <Link
+                                href='https://utfs.io/f/ea59485d-bd98-41bd-8148-3d12c334ca64-poy0k1.pdf'
+                                className='cursor-pointer font-semibold underline underline-offset-2'
+                                download
+                                target='_blank'>
+                                Download Agreement
+                            </Link>
+                            <div className='flex items-center gap-3'>
+                                <Button
+                                    type='button'
+                                    variant='outline'
+                                    onClick={() => {
+                                        closeModal();
+                                    }}>
+                                    Cancel
+                                </Button>
+                                <Button
+                                    type='button'
+                                    disabled={loading}
+                                    onClick={() => {
+                                        agreeToRentalAgreement();
+                                    }}>
+                                    {loading ? <div className='loader'></div> : 'Agree'}
+                                </Button>
+                            </div>
                         </div>
                     </main>
                 </ClientOnly>
