@@ -3,23 +3,23 @@ import { create } from 'zustand';
 interface RentalAgreementModalStore {
     isOpen: boolean;
     tripId: number;
-    isAgreemnetAccepted: boolean;
+    isAgreemnetAcceptedOn: string;
     onOpen: () => void;
     onClose: () => void;
     setTripId: (tripId: number) => void;
-    setIsAgrrementAccepted: (value: boolean) => void;
+    setIsAgrrementAcceptedOn: (value: string) => void;
 }
 
 const useRentalAgreementModal = create<RentalAgreementModalStore>(set => ({
     isOpen: false,
     tripId: 0,
-    isAgreemnetAccepted: false,
+    isAgreemnetAcceptedOn: '',
     onOpen: () => {
         set({ isOpen: true });
     },
     onClose: () => set({ isOpen: false }),
     setTripId: (tripId: number) => set({ tripId: tripId }),
-    setIsAgrrementAccepted: (value: boolean) => set({ isAgreemnetAccepted: value })
+    setIsAgrrementAcceptedOn: (value: string) => set({ isAgreemnetAcceptedOn: value }),
 }));
 
 export default useRentalAgreementModal;

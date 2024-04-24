@@ -1,14 +1,16 @@
 'use client';
-
 import { getCenter } from 'geolib';
 import Link from 'next/link';
-import { useCallback, useState, useEffect } from 'react';
+import { useState, useEffect, useRef, use } from 'react';
 import { FaStar } from 'react-icons/fa';
-import Map, { FullscreenControl, Marker, NavigationControl, Popup, ScaleControl } from 'react-map-gl';
+import Map, { FullscreenControl, MapRef, Marker, NavigationControl, Popup, ScaleControl } from 'react-map-gl';
 import { ImLocation } from 'react-icons/im';
 import { toTitleCase } from '@/lib/utils';
+import useCarFilterModal from '@/hooks/useCarFilterModal';
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
+    const useCarFilter = useCarFilterModal();
+
     const [viewState, setViewState] = useState<any>({
         width: '100%',
         height: '100%',
@@ -19,18 +21,21 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
 
     const [carPopInfo, setCarPopInfo] = useState<any>(null);
 
+    const mapRef = useRef<MapRef>();
+
     // Calculate center of map whenever filteredCars change
     useEffect(() => {
         const coordinates = filteredCars
-            .filter(result =>
-                result.latitude !== undefined &&
-                result.latitude !== null &&
-                result.latitude !== '' &&
-                result.longitude !== undefined &&
-                result.longitude !== null &&
-                result.longitude !== '' &&
-                result.latitude !== 'undefined' &&
-                result.longitude !== 'undefined'
+            .filter(
+                result =>
+                    result.latitude !== undefined &&
+                    result.latitude !== null &&
+                    result.latitude !== '' &&
+                    result.longitude !== undefined &&
+                    result.longitude !== null &&
+                    result.longitude !== '' &&
+                    result.latitude !== 'undefined' &&
+                    result.longitude !== 'undefined',
             )
             .map(result => ({
                 latitude: result.latitude,
@@ -45,19 +50,20 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
     }, [filteredCars]);
 
     const pins = filteredCars
-        .filter(car =>
-            car.latitude !== undefined &&
-            car.latitude !== null &&
-            car.latitude !== '' &&
-            car.longitude !== undefined &&
-            car.longitude !== null &&
-            car.longitude !== '' &&
-            car.latitude !== 'undefined' &&
-            car.longitude !== 'undefined'
+        .filter(
+            car =>
+                car.latitude !== undefined &&
+                car.latitude !== null &&
+                car.latitude !== '' &&
+                car.longitude !== undefined &&
+                car.longitude !== null &&
+                car.longitude !== '' &&
+                car.latitude !== 'undefined' &&
+                car.longitude !== 'undefined',
         )
         .map((car, index) => (
             <Marker
-                key={`marker-${index}`}
+                key={`marker-${car.id}`}
                 latitude={Number(car.latitude)}
                 longitude={Number(car.longitude)}
                 anchor='bottom'
@@ -65,17 +71,74 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                     e.originalEvent.stopPropagation();
                     setCarPopInfo(car);
                 }}>
-                <ImLocation className='cursor-pointer size-7' />
+                <ImLocation className='size-7 cursor-pointer' />
             </Marker>
         ));
 
+    const checkIfPositionInViewport = (lat: number, lng: number) => {
+        const bounds = mapRef.current?.getBounds(); // Use optional chaining
+        if (bounds) {
+            console.log(bounds);
+            return bounds.contains([lng, lat]);
+        }
+        return false; // Or any default value if bounds not yet available
+    };
+
+    const isMarkerInViewport = marker => {
+        const { latitude, longitude } = marker;
+        return checkIfPositionInViewport(latitude, longitude);
+    };
+
+    //@ts-ignore
+    useEffect(() => {
+        mapRef.current?.on('move', onMove);
+
+        return () => mapRef.current?.off('move', onMove);
+    }, [pins, checkIfPositionInViewport]);
+
+    const onMove = (evt: any) => {
+        const visibleMarkers = pins.filter(marker => isMarkerInViewport(marker.props));
+        const markerNumbers = visibleMarkers.map(marker => parseInt(marker.key.replace('marker-', '')));
+        const filteredCars = useCarFilter.filteredCars.filter(car => markerNumbers.includes(car.id)).slice(0, 20);
+        // useCarFilter.setFilteredCars(filteredCars);
+
+        const coordinates = filteredCars
+            .filter(
+                result =>
+                    result.latitude !== undefined &&
+                    result.latitude !== null &&
+                    result.latitude !== '' &&
+                    result.longitude !== undefined &&
+                    result.longitude !== null &&
+                    result.longitude !== '' &&
+                    result.latitude !== 'undefined' &&
+                    result.longitude !== 'undefined',
+            )
+            .map(result => ({
+                latitude: result.latitude,
+                longitude: result.longitude,
+            }));
+        const center: any = getCenter(coordinates);
+        setViewState((prevState: any) => ({
+            ...prevState,
+            latitude: center.latitude,
+            longitude: center.longitude,
+        }));
+        // console.log('Markers within viewport:', markerNumbers);
+        // console.log(
+        //     'Filtered car IDs:',
+        //     filteredCars.map(car => car.id),
+        // );
+        setViewState(evt.viewState);
+    };
 
     return (
         <Map
             {...viewState}
             mapStyle='mapbox://styles/mapbox/streets-v9'
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-            onMove={evt => setViewState(evt.viewState)}>
+            onMove={onMove}
+            ref={mapRef}>
             <FullscreenControl position='top-left' />
             <NavigationControl position='top-left' />
             <ScaleControl />

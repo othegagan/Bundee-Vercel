@@ -282,10 +282,15 @@ export default function Details({ tripsData }: any) {
                             {tripsData.status.toLowerCase() === 'requested' && <FreeCancellationDate tripsData={tripsData} />}
 
                             {tripsData.isRentalAgreed && (
-                                <div>
-                                    <p className='font-medium leading-none underline underline-offset-2'>Rental Agreement</p>
-                                    agreed on {format(new Date(tripsData.rentalAgreedDate), 'PP, h:mm a')}
-                                </div>
+                                <Button
+                                    variant='ghost'
+                                    onClick={() => {
+                                        rentalAgreementModal.setIsAgrrementAcceptedOn(format(new Date(tripsData.rentalAgreedDate), 'PP, h:mm a'));
+                                        rentalAgreementModal.onOpen();
+                                    }}
+                                    className='font-medium leading-none tracking-wide underline underline-offset-2'>
+                                    View Rental Agreement
+                                </Button>
                             )}
                         </div>
 
