@@ -32,7 +32,7 @@ const Vehicles = ({ searchParams }: any) => {
     return (
         <div className=''>
             <div
-                className={`z-[29] ${pathname == '/' ? 'block rounded-md' : '-mx-4'} flex flex-col bg-white py-3 md:sticky md:top-[9.5rem] md:flex-row md:items-center md:justify-between`}>
+                className={`z-[29] px-4 ${pathname == '/' ? 'block rounded-md' : '-mx-4'} flex flex-col bg-white py-3 md:sticky md:top-[9.5rem] md:flex-row md:items-center md:justify-between`}>
                 <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>Available Cars</h1>
 
                 <div className='flex items-center justify-between gap-4'>

@@ -26,7 +26,7 @@ const RentalAgreementModal = () => {
                     <PDFViewer docs={docs} />
                     {rentalAgreementModal.isAgreemnetAcceptedOn ? (
                         <label htmlFor='terms1' className='ml-6 text-sm font-medium leading-none tracking-normal'>
-                            MyBundee's Rental Agreement accepted on {rentalAgreementModal.isAgreemnetAcceptedOn}
+                            MyBundee's Rental Agreement accepted on <br className='md:hidden'/> {rentalAgreementModal.isAgreemnetAcceptedOn}
                         </label>
                     ) : (
                         <RentalAgreementCheckBox />

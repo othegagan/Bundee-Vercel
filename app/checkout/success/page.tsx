@@ -23,7 +23,7 @@ export default function CheckoutSuccess() {
 
     return (
         <>
-            <div className='my-20 flex h-[calc(75vh-80px)] w-full items-center justify-center bg-white p-5 md:my-0'>
+            <div className='my-6 flex min-h-[calc(75vh-80px)] w-full items-center justify-center bg-white px-5 '>
                 <div className='text-center'>
                     <div className='inline-flex rounded-full  p-4'>
                         <img
@@ -32,10 +32,12 @@ export default function CheckoutSuccess() {
                             alt=''
                         />
                     </div>
-                    <h1 className='mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>Reservation Request has been submitted</h1>
+                    <h1 className='mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
+                        Reservation Request has <br className='md:hidden' /> been submitted
+                    </h1>
                     <p className='lg-w-[600px] mx-auto  mt-6 w-full text-base text-gray-600'>
-                        You should hear back from your vehicle host shortly. <br /> In addition, you can check your reservation details by clicking on the Trip
-                        Status button below.
+                        You should hear back from your vehicle host shortly. <br className='hidden md:block' /> In addition, you can check your reservation
+                        details by clicking on the Trip Status button below.
                     </p>
                     <div className='mt-10'>
                         <Link
@@ -45,8 +47,8 @@ export default function CheckoutSuccess() {
                         </Link>
                     </div>
 
-                    <p className='mt-2 text-lg font-semibold text-neutral-600'>
-                        Redirecting to trips  in {countdown} {countdown === 1 ? 'second' : 'seconds'}...
+                    <p className='mt-10 text-lg font-semibold text-neutral-400'>
+                        Redirecting to trips in {countdown} {countdown === 1 ? 'second' : 'seconds'}...
                     </p>
                 </div>
             </div>
