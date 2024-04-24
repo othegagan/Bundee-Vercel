@@ -97,14 +97,12 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
         }
 
         const data = await response.json();
-        console.log(data);
 
         const messageData = data.messages.map(item => ({
             author: item.author,
             message: item.body,
             deliveryDate: item.dateUpdated, // Adjust as needed
         }));
-        console.log(messageData);
 
         return messageData;
     } catch (error: any) {

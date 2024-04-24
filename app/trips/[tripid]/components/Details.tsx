@@ -280,9 +280,17 @@ export default function Details({ tripsData }: any) {
                             )}
 
                             {tripsData.status.toLowerCase() === 'requested' && <FreeCancellationDate tripsData={tripsData} />}
+
+                            {tripsData.isRentalAgreed && (
+                                <div>
+                                    <p className='font-medium leading-none underline underline-offset-2'>Rental Agreement</p>
+                                    agreed on {format(new Date(tripsData.rentalAgreedDate), 'PP, h:mm a')}
+                                </div>
+                            )}
                         </div>
 
-                        {!tripsData.isRentalAgreed ? (
+                        {!tripsData.isRentalAgreed &&
+                        ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) == -1 ? (
                             <div className='mt-10 flex w-full flex-wrap  gap-3'>
                                 <Button
                                     size='lg'
