@@ -7,9 +7,12 @@ import Map, { FullscreenControl, MapRef, Marker, NavigationControl, Popup, Scale
 import { ImLocation } from 'react-icons/im';
 import { toTitleCase } from '@/lib/utils';
 import useCarFilterModal from '@/hooks/useCarFilterModal';
+import { Button } from '../ui/button';
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
     const useCarFilter = useCarFilterModal();
+
+    const [viewChanged, setViewChanged] = useState(false);
 
     const [viewState, setViewState] = useState<any>({
         width: '100%',
@@ -76,9 +79,9 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
         ));
 
     const checkIfPositionInViewport = (lat: number, lng: number) => {
-        const bounds = mapRef.current?.getBounds(); // Use optional chaining
+        const bounds = mapRef.current?.getBounds();
         if (bounds) {
-            console.log(bounds);
+            // console.log('Bounds', bounds);
             return bounds.contains([lng, lat]);
         }
         return false; // Or any default value if bounds not yet available
@@ -97,11 +100,6 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
     }, [pins, checkIfPositionInViewport]);
 
     const onMove = (evt: any) => {
-        const visibleMarkers = pins.filter(marker => isMarkerInViewport(marker.props));
-        const markerNumbers = visibleMarkers.map(marker => parseInt(marker.key.replace('marker-', '')));
-        const filteredCars = useCarFilter.filteredCars.filter(car => markerNumbers.includes(car.id)).slice(0, 20);
-        // useCarFilter.setFilteredCars(filteredCars);
-
         const coordinates = filteredCars
             .filter(
                 result =>
@@ -118,59 +116,80 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                 latitude: result.latitude,
                 longitude: result.longitude,
             }));
+
         const center: any = getCenter(coordinates);
+
         setViewState((prevState: any) => ({
             ...prevState,
             latitude: center.latitude,
             longitude: center.longitude,
         }));
-        // console.log('Markers within viewport:', markerNumbers);
+
+        setViewState(evt.viewState);
+
+        setTimeout(() => {
+            setViewChanged(true);
+        }, 500);
+    };
+
+    const filterOutCars = () => {
+        const visibleMarkers = pins.filter(marker => isMarkerInViewport(marker.props));
+        const markerNumbers = visibleMarkers.map(marker => parseInt(marker.key.replace('marker-', '')));
+        const filteredCars = useCarFilter.filteredCars.filter(car => markerNumbers.includes(car.id));
         // console.log(
         //     'Filtered car IDs:',
         //     filteredCars.map(car => car.id),
         // );
-        setViewState(evt.viewState);
+        // useCarFilter.setFilteredCars(filteredCars);
     };
 
     return (
-        <Map
-            {...viewState}
-            mapStyle='mapbox://styles/mapbox/streets-v9'
-            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-            onMove={onMove}
-            ref={mapRef}>
-            <FullscreenControl position='top-left' />
-            <NavigationControl position='top-left' />
-            <ScaleControl />
+        <div className='relative h-full w-full'>
+            {/* {viewChanged && (
+                <Button variant='black' size='sm' className='absolute left-[20%] z-40  transform' onClick={filterOutCars}>
+                    Search this area
+                </Button>
+            )} */}
 
-            {pins}
+            <Map
+                {...viewState}
+                mapStyle='mapbox://styles/mapbox/streets-v9'
+                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+                onMove={onMove}
+                ref={mapRef}>
+                <FullscreenControl position='top-left' />
+                <NavigationControl position='top-left' />
+                <ScaleControl />
 
-            {carPopInfo && (
-                <Popup
-                    anchor='bottom'
-                    longitude={Number(carPopInfo.longitude)}
-                    latitude={Number(carPopInfo.latitude)}
-                    onClose={() => setCarPopInfo(null)}
-                    className=' rounded-lg'>
-                    <Link href={`/vehicles/${carPopInfo?.id}?${searchQuery}`} className='flex flex-col  border-0 outline-none focus:border-0'>
-                        <img width='100%' src={carPopInfo?.imageresponse[0]?.imagename} className='rounded-md ' />
-                        <div className='mt-1 text-sm font-semibold'>{`${toTitleCase(carPopInfo?.make)} ${carPopInfo?.model.toLocaleUpperCase()} ${carPopInfo?.year}`}</div>
-                        <div className='-mb-1 flex justify-between gap-2'>
-                            <div className='inline-flex  items-center rounded-lg bg-white'>
-                                <FaStar className='mr-2 size-3 text-yellow-400' />
-                                <span className=' text-neutral-700'>
-                                    {carPopInfo?.rating} • ({carPopInfo?.tripcount} {carPopInfo?.tripcount === 1 ? 'Trip' : 'Trips'})
-                                </span>
+                {pins}
+
+                {carPopInfo && (
+                    <Popup
+                        anchor='bottom'
+                        longitude={Number(carPopInfo.longitude)}
+                        latitude={Number(carPopInfo.latitude)}
+                        onClose={() => setCarPopInfo(null)}
+                        className=' rounded-lg'>
+                        <Link href={`/vehicles/${carPopInfo?.id}?${searchQuery}`} className='flex flex-col  border-0 outline-none focus:border-0'>
+                            <img width='100%' src={carPopInfo?.imageresponse[0]?.imagename} className='rounded-md ' />
+                            <div className='mt-1 text-sm font-semibold'>{`${toTitleCase(carPopInfo?.make)} ${carPopInfo?.model.toLocaleUpperCase()} ${carPopInfo?.year}`}</div>
+                            <div className='-mb-1 flex justify-between gap-2'>
+                                <div className='inline-flex  items-center rounded-lg bg-white'>
+                                    <FaStar className='mr-2 size-3 text-yellow-400' />
+                                    <span className=' text-neutral-700'>
+                                        {carPopInfo?.rating} • ({carPopInfo?.tripcount} {carPopInfo?.tripcount === 1 ? 'Trip' : 'Trips'})
+                                    </span>
+                                </div>
+                                <p>
+                                    <span className='text-lg font-bold text-primary'>${carPopInfo?.price_per_hr}</span>
+                                    <span className='text-md text-neutral-600'>/Day</span>
+                                </p>
                             </div>
-                            <p>
-                                <span className='text-lg font-bold text-primary'>${carPopInfo?.price_per_hr}</span>
-                                <span className='text-md text-neutral-600'>/Day</span>
-                            </p>
-                        </div>
-                    </Link>
-                </Popup>
-            )}
-        </Map>
+                        </Link>
+                    </Popup>
+                )}
+            </Map>
+        </div>
     );
 }
 

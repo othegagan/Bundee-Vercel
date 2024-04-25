@@ -394,6 +394,7 @@ export default function Details({ tripsData }: any) {
                                     setNewStartDate={setNewStartDate}
                                     setNewEndDate={setNewEndDate}
                                     setIsInitialLoad={setIsInitialLoad}
+                                    tripStarted={tripsData.status.toLowerCase() ==='started'}
                                 />
                             </div>
                         </div>

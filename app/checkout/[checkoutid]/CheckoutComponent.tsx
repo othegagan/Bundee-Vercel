@@ -40,6 +40,7 @@ export default function CheckoutComponent() {
 
             const fetchVehicleMetaData = () => {
                 setCheckoutDetails(data);
+                console.log(data)
 
                 setUserRequestType(data.type);
                 console.log(data.type);
@@ -64,6 +65,7 @@ export default function CheckoutComponent() {
         setMessage('');
         const checkoutData = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
         const createIntentResponse = await createPaymentIntentWithAmount(checkoutData.totalamount);
+        console.log(createIntentResponse);
         try {
             if (createIntentResponse) {
                 const responseData = createIntentResponse;
@@ -84,14 +86,14 @@ export default function CheckoutComponent() {
                 throw new Error(createIntentResponse.message);
             }
         } catch (error) {
-            console.log(error);
-            setElementFetched(false);
             toast({
                 duration: 3000,
                 variant: 'destructive',
                 title: 'Oops! Something went wrong.',
                 description: 'Something went wrong in initializing payment.',
             });
+            console.log(error);
+            setElementFetched(false);
         }
     };
 
