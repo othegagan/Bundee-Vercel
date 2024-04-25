@@ -201,7 +201,11 @@ export default function CheckoutComponent() {
             'hostid',
             'delivery',
         ];
-        keysToRemove?.forEach(key => delete payload[key]);
+        keysToRemove?.forEach(key => {
+            if (payload.hasOwnProperty(key)) {
+                delete payload[key];
+            }
+        });
         return payload;
     };
 

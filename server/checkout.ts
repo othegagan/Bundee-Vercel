@@ -5,7 +5,6 @@ import { handleResponse, http } from '@/lib/httpService';
 
 export async function createPaymentIntentWithAmount(amount: number) {
     try {
-        console.log('Amount :', Math.ceil(amount));
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
         const session = await getSession();
 
@@ -66,6 +65,7 @@ export async function createTripReservation(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createReservation';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
+        console.log('Reservation Payload :' , modifiedPayload)
         const response = await http.post(url, modifiedPayload);
         console.log(response.data);
         if (response.data.errorCode == 0) {
@@ -90,6 +90,7 @@ export async function createTripExtension(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v2/booking/createTripModificationExtension';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
+        console.log('Trip extension Payload :' , modifiedPayload)
         const response = await http.post(url, modifiedPayload);
         console.log(response.data);
         if (response.data.errorCode == 0) {
@@ -114,6 +115,7 @@ export async function createTripReduction(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v2/booking/createTripModificationReduction';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
+        console.log('Trip reduction Payload :' , modifiedPayload)
         const response = await http.post(url, modifiedPayload);
         console.log(response.data);
         if (response.data.errorCode == 0) {
