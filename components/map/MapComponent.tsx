@@ -136,10 +136,10 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
         const visibleMarkers = pins.filter(marker => isMarkerInViewport(marker.props));
         const markerNumbers = visibleMarkers.map(marker => parseInt(marker.key.replace('marker-', '')));
         const filteredCars = useCarFilter.filteredCars.filter(car => markerNumbers.includes(car.id));
-        // console.log(
-        //     'Filtered car IDs:',
-        //     filteredCars.map(car => car.id),
-        // );
+        console.log(
+            'Filtered car IDs:',
+            filteredCars.map(car => car.id),
+        );
         // useCarFilter.setFilteredCars(filteredCars);
     };
 

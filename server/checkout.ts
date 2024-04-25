@@ -5,7 +5,7 @@ import { handleResponse, http } from '@/lib/httpService';
 
 export async function createPaymentIntentWithAmount(amount: number) {
     try {
-        console.log('Amount :', amount);
+        console.log('Amount :', Math.ceil(amount));
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
         const session = await getSession();
 
@@ -24,7 +24,7 @@ export async function createPaymentIntentWithAmount(amount: number) {
         }
 
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.ceil(amount),
+            amount: Math.ceil(amount) * 100,
             currency: 'USD',
             customer: customerToken,
             setup_future_usage: 'off_session',
