@@ -20,6 +20,7 @@ import TripVehicleDetailsComponent from './TripVehicleDetailsComponent';
 import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, formatDateAndTime, formatTime, toTitleCase } from '@/lib/utils';
 import useRentalAgreementModal from '@/hooks/useRentalAgreement';
+import { Download } from 'lucide-react';
 
 export default function Details({ tripsData }: any) {
     const tripReviewModal = useTripReviewModal();
@@ -286,7 +287,7 @@ export default function Details({ tripsData }: any) {
                                     variant='ghost'
                                     onClick={() => {
                                         // console.log(tripsData.rentalAgrrementUrl)
-                                        rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl)
+                                        rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl);
                                         rentalAgreementModal.setIsAgrrementAcceptedOn(format(new Date(tripsData.rentalAgreedDate), 'PP, h:mm a'));
                                         rentalAgreementModal.onOpen();
                                     }}
@@ -298,13 +299,13 @@ export default function Details({ tripsData }: any) {
 
                         {!tripsData.isRentalAgreed &&
                         ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) == -1 ? (
-                            <div className='mt-10 flex w-full flex-wrap  gap-3'>
+                            <div className='mt-8 flex w-full flex-wrap  gap-3'>
                                 <Button
                                     size='lg'
                                     variant='outline'
                                     onClick={() => {
                                         // console.log(tripsData.rentalAgrrementUrl)
-                                        rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl)
+                                        rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl);
                                         rentalAgreementModal.setTripId(tripsData.tripid);
                                         rentalAgreementModal.onOpen();
                                     }}>
@@ -346,13 +347,26 @@ export default function Details({ tripsData }: any) {
                             </div>
                         )}
                         {tripsData.status.toLowerCase() == 'completed' && tripsData?.vehicleDetails[0]?.tripreview.length == 0 && (
-                            <div
-                                className='mt-4 w-fit cursor-pointer rounded-md bg-orange-400 px-10 py-2 text-sm font-medium tracking-tight text-white'
-                                onClick={() => {
-                                    tripReviewModal.onOpen();
-                                    tripReviewModal.setTripData(tripsData);
-                                }}>
-                                Add a review
+                            <div className='flex flex-col gap-2'>
+                                <Button
+                                    className='flex items-center gap-3'
+                                    variant='outline'
+                                    onClick={() => {
+                                        // console.log(tripsData.rentalAgrrementUrl)
+                                        rentalAgreementModal.setInvoicePDFLink(tripsData.invoiceUrl);
+                                        rentalAgreementModal.onOpen();
+                                    }}>
+                                    <Download className='size-4' /> Download Invoice
+                                </Button>
+
+                                <div
+                                    className='mt-4 flex w-full cursor-pointer justify-center rounded-md bg-orange-400 px-10 py-2 text-center text-sm font-medium tracking-tight text-white'
+                                    onClick={() => {
+                                        tripReviewModal.onOpen();
+                                        tripReviewModal.setTripData(tripsData);
+                                    }}>
+                                    Add a review
+                                </div>
                             </div>
                         )}
                     </div>
@@ -398,7 +412,7 @@ export default function Details({ tripsData }: any) {
                                     setNewStartDate={setNewStartDate}
                                     setNewEndDate={setNewEndDate}
                                     setIsInitialLoad={setIsInitialLoad}
-                                    tripStarted={tripsData.status.toLowerCase() ==='started'}
+                                    tripStarted={tripsData.status.toLowerCase() === 'started'}
                                 />
                             </div>
                         </div>
