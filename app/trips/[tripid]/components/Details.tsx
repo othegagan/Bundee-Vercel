@@ -285,7 +285,7 @@ export default function Details({ tripsData }: any) {
                                 <Button
                                     variant='ghost'
                                     onClick={() => {
-                                        console.log(tripsData.rentalAgrrementUrl)
+                                        // console.log(tripsData.rentalAgrrementUrl)
                                         rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl)
                                         rentalAgreementModal.setIsAgrrementAcceptedOn(format(new Date(tripsData.rentalAgreedDate), 'PP, h:mm a'));
                                         rentalAgreementModal.onOpen();
@@ -303,10 +303,10 @@ export default function Details({ tripsData }: any) {
                                     size='lg'
                                     variant='outline'
                                     onClick={() => {
-                                        console.log(tripsData.rentalAgrrementUrl)
+                                        // console.log(tripsData.rentalAgrrementUrl)
                                         rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl)
                                         rentalAgreementModal.setTripId(tripsData.tripid);
-                                        // rentalAgreementModal.onOpen();
+                                        rentalAgreementModal.onOpen();
                                     }}>
                                     Agree
                                 </Button>
