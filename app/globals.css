@@ -195,3 +195,7 @@ td button[disabled] {
 #pdf-controls{
     display: none;
 }
+
+.ePSHhz{
+    overflow: auto !important;
+}
