@@ -8,12 +8,13 @@ import RentalAgreementCheckBox from '../custom/RentalAgreementCheckBox';
 const RentalAgreementModal = () => {
     const rentalAgreementModal = useRentalAgreementModal();
 
-    const docs = [{ uri: 'https://utfs.io/f/ea59485d-bd98-41bd-8148-3d12c334ca64-poy0k1.pdf', fileType: 'pdf' }];
+    const docs = [{ uri: rentalAgreementModal.rentalAgreementPDFLink || 'https://utfs.io/f/ea59485d-bd98-41bd-8148-3d12c334ca64-poy0k1.pdf', fileType: 'pdf' }];
 
     function openModal() {
         rentalAgreementModal.onOpen();
     }
     function closeModal() {
+        rentalAgreementModal.setRentalAgreementPDFLink('');
         rentalAgreementModal.setIsAgrrementAcceptedOn('');
         rentalAgreementModal.onClose();
     }
@@ -26,7 +27,7 @@ const RentalAgreementModal = () => {
                     <PDFViewer docs={docs} />
                     {rentalAgreementModal.isAgreemnetAcceptedOn ? (
                         <label htmlFor='terms1' className='ml-6 text-sm font-medium leading-none tracking-normal'>
-                            MyBundee's Rental Agreement accepted on <br className='md:hidden'/> {rentalAgreementModal.isAgreemnetAcceptedOn}
+                            MyBundee's Rental Agreement accepted on <br className='md:hidden' /> {rentalAgreementModal.isAgreemnetAcceptedOn}
                         </label>
                     ) : (
                         <RentalAgreementCheckBox />
