@@ -25,14 +25,7 @@ export default function CheckoutComponent() {
 
     const [message, setMessage] = useState('');
 
-    const [params, setParams] = useState<any>({
-        id: '',
-        startDate: '',
-        endDate: '',
-        pickupTime: '',
-        dropTime: '',
-        pricePerHour: '',
-    });
+    const [params, setParams] = useState<any>(null);
 
     useEffect(() => {
         try {
@@ -40,10 +33,10 @@ export default function CheckoutComponent() {
 
             const fetchVehicleMetaData = () => {
                 setCheckoutDetails(data);
-                console.log(data)
+                // console.log(data)
 
                 setUserRequestType(data.type);
-                console.log(data.type);
+                // console.log(data.type);
 
                 setVehicleName(data.name);
                 setVehicleImage(data.image);
@@ -65,7 +58,7 @@ export default function CheckoutComponent() {
         setMessage('');
         const checkoutData = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
         const createIntentResponse = await createPaymentIntentWithAmount(checkoutData.totalamount);
-        console.log(createIntentResponse);
+        // console.log(createIntentResponse);
         try {
             if (createIntentResponse) {
                 const responseData = createIntentResponse;
@@ -138,8 +131,8 @@ export default function CheckoutComponent() {
         try {
             const payload = {
                 ...checkoutDetails,
-                stripePaymentToken: params.stripePaymentToken,
-                customerToken: params.customerToken,
+                stripePaymentToken: params.id,
+                customerToken: params.customer,
                 stripePaymentTransactionDetail: '{ "key1" : "val1" }',
                 stripePaymentID: 'NA',
                 paymentMethodIDToken: 'NA',
@@ -194,8 +187,8 @@ export default function CheckoutComponent() {
     const tripExtension = async () => {
         const payload = {
             ...checkoutDetails,
-            stripePaymentToken: params.stripePaymentToken,
-            customerToken: params.customerToken,
+            stripePaymentToken: params.id,
+            customerToken: params.customer,
             stripePaymentID: 'NA',
             stripePaymentTransactionDetail: '{ "key1" : "val1" }',
             paymentMethodIDToken: 'NA',
@@ -253,8 +246,8 @@ export default function CheckoutComponent() {
     const tripReduction = async () => {
         const payload = {
             ...checkoutDetails,
-            stripePaymentToken: params.stripePaymentToken,
-            customerToken: params.customerToken,
+            stripePaymentToken: params.id,
+            customerToken: params.customer,
             stripePaymentID: 'NA',
             stripePaymentTransactionDetail: '{ "key1" : "val1" }',
             paymentMethodIDToken: 'NA',
@@ -282,7 +275,7 @@ export default function CheckoutComponent() {
         delete payload.stateSurchargeTax;
         delete payload.delivery;
 
-        // console.log('Trip reduction payload', payload);
+        console.log('Trip reduction payload', payload);
 
         try {
             const response = await createTripReduction(payload);
@@ -312,8 +305,8 @@ export default function CheckoutComponent() {
         let vehicleid = checkoutDetails.vehicleId;
         let amount = checkoutDetails.totalamount;
         let hostid = checkoutDetails.hostid;
-        let stripetoken = params.stripePaymentToken;
-        let stripetokenid = params.customerToken;
+        let stripetoken =  params.id
+        let stripetokenid = params.customer;
 
         const response = await cancelPaymentIntent(vehicleid, amount, hostid, stripetoken, stripetokenid);
     };
