@@ -1,8 +1,14 @@
+'use client';
 import Link from 'next/link';
 import Logo from './landing_page/Logo';
 import Container from './BoxContainer';
+import { usePathname } from 'next/navigation';
 
 const Footer = () => {
+    const pathname = usePathname();
+    if (pathname == '/vehicles') {
+        return null;
+    }
     return (
         <>
             <footer className=' mt-auto hidden bg-black/10 md:block'>

@@ -1,19 +1,18 @@
 'use client';
-import { getCenter } from 'geolib';
-import Link from 'next/link';
-import { useState, useEffect, useRef, use } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
-import Map, { FullscreenControl, MapRef, Marker, NavigationControl, Popup, ScaleControl } from 'react-map-gl';
 import { ImLocation } from 'react-icons/im';
-import { toTitleCase } from '@/lib/utils';
-import useCarFilterModal from '@/hooks/useCarFilterModal';
+import Map, { FullscreenControl, MapRef, Marker, NavigationControl, Popup, ScaleControl } from 'react-map-gl';
 import { Button } from '../ui/button';
+import useVehicleSearch, { getAllURLParameters } from '@/hooks/useVehicleSearch';
+import { toTitleCase } from '@/lib/utils';
+import { getCenter } from 'geolib';
+import { useQueryState } from 'next-usequerystate';
+import Link from 'next/link';
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
-    const useCarFilter = useCarFilterModal();
-
-    const [viewChanged, setViewChanged] = useState(false);
-
+    const { loading, searchVehicles } = useVehicleSearch();
+    const mapRef = useRef<MapRef>();
     const [viewState, setViewState] = useState<any>({
         width: '100%',
         height: '100%',
@@ -21,50 +20,32 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
         longitude: 0,
         zoom: 12,
     });
-
     const [carPopInfo, setCarPopInfo] = useState<any>(null);
+    const [viewChanged, setViewChanged] = useState(false);
+    const [pins, setPins] = useState<any>([]);
+    const [isMapSearch, setIsMapSearch] = useQueryState('isMapSearch', { defaultValue: 'false', history: 'replace' });
+    const [southWestlat, setSouthWestlat] = useQueryState('southWestlat', { defaultValue: '', history: 'replace' });
+    const [southWestlong, setSouthWestlong] = useQueryState('southWestlong', { defaultValue: '', history: 'replace' });
+    const [northEastlat, setNorthEastlat] = useQueryState('northEastlat', { defaultValue: '', history: 'replace' });
+    const [northEastlong, setNorthEastlong] = useQueryState('northEastlong', { defaultValue: '', history: 'replace' });
 
-    const mapRef = useRef<MapRef>();
-
-    // Calculate center of map whenever filteredCars change
     useEffect(() => {
-        const coordinates = filteredCars
-            .filter(
-                result =>
-                    result.latitude !== undefined &&
-                    result.latitude !== null &&
-                    result.latitude !== '' &&
-                    result.longitude !== undefined &&
-                    result.longitude !== null &&
-                    result.longitude !== '' &&
-                    result.latitude !== 'undefined' &&
-                    result.longitude !== 'undefined',
-            )
-            .map(result => ({
-                latitude: result.latitude,
-                longitude: result.longitude,
-            }));
-        const center: any = getCenter(coordinates);
+        const filteredCoordinates = filteredCars.filter(isValidCoordinate);
+
+        const center: any = filteredCoordinates.length > 0 ? getCenter(filteredCoordinates) : {};
+
+        const searchParams: any = getAllURLParameters();
+
+        const defaultLatitude = searchParams.latitude || '-97.7437';
+        const defaultLongitude = searchParams.longitude || '30.271129';
+
         setViewState((prevState: any) => ({
             ...prevState,
-            latitude: center.latitude,
-            longitude: center.longitude,
+            latitude: center.latitude || defaultLongitude,
+            longitude: center.longitude || defaultLatitude,
         }));
-    }, [filteredCars]);
 
-    const pins = filteredCars
-        .filter(
-            car =>
-                car.latitude !== undefined &&
-                car.latitude !== null &&
-                car.latitude !== '' &&
-                car.longitude !== undefined &&
-                car.longitude !== null &&
-                car.longitude !== '' &&
-                car.latitude !== 'undefined' &&
-                car.longitude !== 'undefined',
-        )
-        .map((car, index) => (
+        const carMarkers = filteredCoordinates.map((car, index) => (
             <Marker
                 key={`marker-${car.id}`}
                 latitude={Number(car.latitude)}
@@ -78,78 +59,48 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
             </Marker>
         ));
 
-    const checkIfPositionInViewport = (lat: number, lng: number) => {
-        const bounds = mapRef.current?.getBounds();
-        if (bounds) {
-            // console.log('Bounds', bounds);
-            return bounds.contains([lng, lat]);
-        }
-        return false; // Or any default value if bounds not yet available
+        setPins(carMarkers);
+        
+    }, [filteredCars]);
+
+    const isValidCoordinate = (car: { latitude: any; longitude: any }) => {
+        const { latitude, longitude } = car;
+        return (
+            latitude !== undefined &&
+            latitude !== null &&
+            latitude !== '' &&
+            longitude !== undefined &&
+            longitude !== null &&
+            longitude !== '' &&
+            latitude !== 'undefined' &&
+            longitude !== 'undefined'
+        );
     };
-
-    const isMarkerInViewport = marker => {
-        const { latitude, longitude } = marker;
-        return checkIfPositionInViewport(latitude, longitude);
-    };
-
-    //@ts-ignore
-    useEffect(() => {
-        mapRef.current?.on('move', onMove);
-
-        return () => mapRef.current?.off('move', onMove);
-    }, [pins, checkIfPositionInViewport]);
 
     const onMove = (evt: any) => {
-        const coordinates = filteredCars
-            .filter(
-                result =>
-                    result.latitude !== undefined &&
-                    result.latitude !== null &&
-                    result.latitude !== '' &&
-                    result.longitude !== undefined &&
-                    result.longitude !== null &&
-                    result.longitude !== '' &&
-                    result.latitude !== 'undefined' &&
-                    result.longitude !== 'undefined',
-            )
-            .map(result => ({
-                latitude: result.latitude,
-                longitude: result.longitude,
-            }));
-
-        const center: any = getCenter(coordinates);
-
-        setViewState((prevState: any) => ({
-            ...prevState,
-            latitude: center.latitude,
-            longitude: center.longitude,
-        }));
-
         setViewState(evt.viewState);
-
         setTimeout(() => {
             setViewChanged(true);
         }, 500);
     };
 
     const filterOutCars = () => {
-        const visibleMarkers = pins.filter(marker => isMarkerInViewport(marker.props));
-        const markerNumbers = visibleMarkers.map(marker => parseInt(marker.key.replace('marker-', '')));
-        const filteredCars = useCarFilter.filteredCars.filter(car => markerNumbers.includes(car.id));
-        console.log(
-            'Filtered car IDs:',
-            filteredCars.map(car => car.id),
-        );
-        // useCarFilter.setFilteredCars(filteredCars);
+        const bounds = mapRef.current?.getBounds();
+        setSouthWestlat(String(bounds._sw.lat));
+        setSouthWestlong(String(bounds._sw.lng));
+        setNorthEastlong(String(bounds._ne.lng));
+        setNorthEastlat(String(bounds._ne.lat));
+        setIsMapSearch('true');
+        searchVehicles();
     };
 
     return (
         <div className='relative h-full w-full'>
-            {/* {viewChanged && (
-                <Button variant='black' size='sm' className='absolute left-[20%] z-40  transform' onClick={filterOutCars}>
-                    Search this area
+            {viewChanged && (
+                <Button variant='black' disabled={loading} size='sm' className='absolute left-[40%] top-2  z-40' onClick={filterOutCars}>
+                    {loading ? <div className='loader'></div> : 'Search this area'}
                 </Button>
-            )} */}
+            )}
 
             <Map
                 {...viewState}
@@ -193,7 +144,37 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
     );
 }
 
-// draggable pin
+// const visibleMarkers = pins.filter(marker => isMarkerInViewport(marker.props));
+// const markerNumbers = visibleMarkers.map(marker => parseInt(marker.key.replace('marker-', '')));
+// const filteredCars = useCarFilter.filteredCars.filter(car => markerNumbers.includes(car.id));
+// console.log(
+//     'Filtered car IDs:',
+//     filteredCars.map(car => car.id),
+// );
+// useCarFilter.setFilteredCars(filteredCars);
+
+// const checkIfPositionInViewport = (lat: number, lng: number) => {
+//     const bounds = mapRef.current?.getBounds();
+//     if (bounds) {
+//         // console.log('Bounds', bounds);
+//         return bounds.contains([lng, lat]);
+//     }
+//     return false; // Or any default value if bounds not yet available
+// };
+
+// const isMarkerInViewport = marker => {
+//     const { latitude, longitude } = marker;
+//     return checkIfPositionInViewport(latitude, longitude);
+// };
+
+// //@ts-ignore
+// useEffect(() => {
+//     mapRef.current?.on('move', onMove);
+
+//     return () => mapRef.current?.off('move', onMove);
+// }, [pins, checkIfPositionInViewport]);
+
+//////////////////// draggable pin /////////////////
 
 // const initialViewState = {
 //     latitude: 30.271129,

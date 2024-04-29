@@ -17,7 +17,7 @@ const TimeSelect: React.FC<{ onChange: (time: string) => void; defaultValue: any
     }, []); // Memoize the generated times array
 
     return (
-        <div className='flex flex-col gap-2 w-full'>
+        <div className='flex flex-col gap-1 w-full'>
             <label className='text-xs font-semibold'>{label}</label>
             <Select onValueChange={onChange} defaultValue={defaultValue}>
                 <SelectTrigger className={`md:w-[150px] ${className}`}>

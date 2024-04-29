@@ -192,10 +192,10 @@ td button[disabled] {
     z-index: 999 !important;
 }
 
-#pdf-controls{
+#pdf-controls {
     display: none;
 }
 
-.ePSHhz{
+.ePSHhz {
     overflow: auto !important;
 }

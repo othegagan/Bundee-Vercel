@@ -22,6 +22,7 @@ const LocationSearchBox = () => {
     const [latitude, settLatitude] = useQueryState('latitude', { defaultValue: '-97.7437', history: 'replace' });
     const [longitude, setLongitude] = useQueryState('longitude', { defaultValue: '30.271129', history: 'replace' });
     const [isAirport, setIsAirport] = useQueryState('isAirport', { defaultValue: 'false', history: 'replace' });
+    const [isMapSearch, setIsMapSearch] = useQueryState('isMapSearch', { defaultValue: 'false', history: 'replace' });
 
     useEffect(() => {
         const city = searchParams.get('city') || '';
@@ -70,7 +71,7 @@ const LocationSearchBox = () => {
                 </div>
 
                 <div
-                    className={`'z-50 absolute mt-1 min-w-[300px] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md ${
+                    className={`'z-[997] absolute mt-1 min-w-[300px] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md ${
                         show && inputValue ? 'scale-1  opacity-100' : 'scale-0  opacity-0'
                     }`}
                     role='presentation'>
@@ -83,9 +84,9 @@ const LocationSearchBox = () => {
                         </div>
                     ) : (
                         <>
-                            {error && <p className='my-6 text-center w-[300px] text-xs'>{error}</p>}
+                            {error && <p className='my-6 w-[300px] text-center text-xs'>{error}</p>}
                             {!error && locationSuggestions.length === 0 ? (
-                                <div className='flex flex-col gap-2 w-[300px]'>
+                                <div className='flex w-[300px] flex-col gap-2'>
                                     <p className='my-6 text-center text-xs'>No Suggestions</p>
                                 </div>
                             ) : (
@@ -102,6 +103,7 @@ const LocationSearchBox = () => {
                                                 settLatitude(item.latitude);
                                                 setLongitude(item.longitude);
                                                 setIsAirport(item.isAirport);
+                                                setIsMapSearch('false');
                                             }}>
                                             <span>{item.placeName}</span>
                                         </div>
