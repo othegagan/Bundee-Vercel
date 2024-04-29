@@ -13,46 +13,55 @@ import { ScrollArea } from '../ui/scroll-area';
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
     const { loading, searchVehicles, viewChanged, setViewChanged } = useVehicleSearch();
 
-    const mapRef = useRef<MapRef>();
-
-    const [viewState, setViewState] = useState<any>({
-        width: '100%',
-        height: '100%',
-        latitude: 0,
-        longitude: 0,
-        zoom: 12,
-    });
-
     const [carPopInfo, setCarPopInfo] = useState<any>(null);
     const [carsPopInfo, setCarsPopInfo] = useState<any>(null);
     const [pins, setPins] = useState<any>([]);
 
     const [city, setCity] = useQueryState('city', { defaultValue: '' });
     const [isMapSearch, setIsMapSearch] = useQueryState('isMapSearch', { defaultValue: 'false', history: 'replace' });
+    const [zoomLevel, setzoomLevel] = useQueryState('zoomLevel', { defaultValue: '10', history: 'replace' });
     const [southWestlat, setSouthWestlat] = useQueryState('southWestlat', { defaultValue: '', history: 'replace' });
     const [southWestlong, setSouthWestlong] = useQueryState('southWestlong', { defaultValue: '', history: 'replace' });
     const [northEastlat, setNorthEastlat] = useQueryState('northEastlat', { defaultValue: '', history: 'replace' });
     const [northEastlong, setNorthEastlong] = useQueryState('northEastlong', { defaultValue: '', history: 'replace' });
 
+    const mapRef = useRef<MapRef>();
+
+    const searchParams: any = getAllURLParameters();
+
+
+    const [viewState, setViewState] = useState<any>({
+        width: '100%',
+        height: '100%',
+        latitude: searchParams.longitude || 0,
+        longitude: searchParams.latitude || 0,
+        zoom: Number(zoomLevel),
+    });
+
     useEffect(() => {
         const filteredCoordinates = filteredCars.filter(isValidCoordinate);
         const center: any = filteredCoordinates.length > 0 ? getCenter(filteredCoordinates) : {};
 
-        const searchParams: any = getAllURLParameters();
-        const defaultLatitude = searchParams.latitude;
-        const defaultLongitude = searchParams.longitude;
+        const defaultLatitude = searchParams.longitude;
+        const defaultLongitude = searchParams.latitude;
 
         setViewState((prevState: any) => {
-            if (filteredCoordinates.length === 0) {
-                return prevState; // Retain previous state if no filteredCoordinates
-            } else {
+            if (searchParams?.isMapSearch && filteredCoordinates.length === 0) {
                 return {
                     ...prevState,
                     latitude: center.latitude || defaultLatitude,
                     longitude: center.longitude || defaultLongitude,
                 };
+            } else if(searchParams?.isMapSearch && filteredCoordinates.length === 0){
+                return {
+                    ...prevState,
+                };
             }
         });
+
+        // ...prevState,
+        //             latitude: center.latitude || defaultLatitude,
+        //             longitude: center.longitude || defaultLongitude,
 
         // Group points by same latitude and longitude
         const groupedPoints = groupBySameLatLng(filteredCoordinates);
@@ -141,10 +150,11 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
     };
 
     const onMove = (evt: any) => {
+        setzoomLevel(evt.viewState.zoom);
+        setViewState(evt.viewState);
         setTimeout(() => {
             setViewChanged(true);
         }, 500);
-        setViewState(evt.viewState);
     };
 
     const searchThisArea = () => {

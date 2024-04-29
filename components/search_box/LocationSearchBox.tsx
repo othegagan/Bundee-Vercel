@@ -23,6 +23,8 @@ const LocationSearchBox = () => {
     const [longitude, setLongitude] = useQueryState('longitude', { defaultValue: '30.271129', history: 'replace' });
     const [isAirport, setIsAirport] = useQueryState('isAirport', { defaultValue: 'false', history: 'replace' });
     const [isMapSearch, setIsMapSearch] = useQueryState('isMapSearch', { defaultValue: 'false', history: 'replace' });
+    const [zoomLevel, setzoomLevel] = useQueryState('zoomLevel', { defaultValue: '10', history: 'replace' });
+
 
     useEffect(() => {
         const city = searchParams.get('city') || '';
@@ -104,6 +106,7 @@ const LocationSearchBox = () => {
                                                 setLongitude(item.longitude);
                                                 setIsAirport(item.isAirport);
                                                 setIsMapSearch('false');
+                                                setzoomLevel('10')
                                             }}>
                                             <span>{item.placeName}</span>
                                         </div>

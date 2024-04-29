@@ -41,6 +41,8 @@ const LocationSearchComponent = ({ searchCity }: any) => {
         const startTime = queryParams.get('startTime') || startTimeQuery;
         const endTime = queryParams.get('endTime') || endTimeQuery;
         const isAirport = queryParams.get('isAirport') || false;
+        const isMapSearch = queryParams.get('isMapSearch') || false;
+        const zoomLevel = queryParams.get('zoomLevel') || 8;
 
         const fullStartDate = `${startDate}T${startTime}`;
         const fullEndDate = `${endDate}T${endTime}`;
@@ -61,7 +63,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
             return;
         }
 
-        const newUrl = `/vehicles?city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}`;
+        const newUrl = `/vehicles?city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}&isMapSearch=${isMapSearch}&zoomLevel=${zoomLevel}`;
 
         router.push(newUrl);
     };
@@ -81,8 +83,9 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                 <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12  lg:grid-cols-12'>
                     <div className='col-span-2 md:col-span-3 lg:col-span-4'>
                         <div className='flex w-full flex-col  '>
-                            <label className='mb-1 text-xs font-semibold inline-flex'>
-                                Search By City <span className='inline-block text-xs font-semibold text-neutral-800 sm:hidden lg:block'>, Place and Zipcode</span>
+                            <label className='mb-1 inline-flex text-xs font-semibold'>
+                                Search By City{' '}
+                                <span className='inline-block text-xs font-semibold text-neutral-800 sm:hidden lg:block'>, Place and Zipcode</span>
                             </label>
                             <LocationSearchBox />
                         </div>
