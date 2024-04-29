@@ -28,7 +28,7 @@ const LocationSearchBox = () => {
         const city = searchParams.get('city') || '';
         setInputValue(city);
         fetchData(city);
-    }, []);
+    }, [searchParams]);
 
     const debounceFetchData = debounce(fetchData, DEBOUNCE_TIME);
 

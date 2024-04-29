@@ -24,6 +24,7 @@ const useVehicleSearch = () => {
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [viewChanged, setViewChanged] = useState(false);
     const useCarFilter = useCarFilterModal();
     const searchVehicles = async () => {
         console.log();
@@ -112,12 +113,13 @@ const useVehicleSearch = () => {
         } finally {
             setLoading(false);
             useCarFilter.setIsLoading(false);
+            setViewChanged(false);
         }
     };
 
     // useTabFocusEffect(searchVehicles, []);
 
-    return { loading, error, data, searchQuery, searchVehicles };
+    return { loading, error, data, searchQuery, searchVehicles, viewChanged, setViewChanged };
 };
 
 export default useVehicleSearch;
