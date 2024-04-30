@@ -32,7 +32,6 @@ export function getTimeZoneByZipcode(zipCode: string) {
 }
 
 export function convertToTuroDate(dateString: string, zipCode: string) {
-    console.log(dateString, zipCode);
     const dateStringWithoutTimeZone = dateString.replace(/ [A-Z]{3} /, ' ');
     const parsedDate = parse(dateStringWithoutTimeZone, 'EEE MMM dd HH:mm:ss yyyy', new Date());
     const formattedDate = format(parsedDate, 'yyyy-MM-dd');
