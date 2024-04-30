@@ -26,7 +26,7 @@ export function roundToTwoDecimalPlaces(num: number) {
 }
 
 export function getTimeZoneByZipcode(zipCode: string) {
-    const timeZone = zipToTimeZone.lookup(zipCode) || 'America/Chicago'; // 73301, (Los angeles zip code : 90274) (MST : 85323)
+    const timeZone = zipToTimeZone.lookup(zipCode) ; // 73301, (Los angeles zip code : 90274) (MST : 85323)
     // console.log('Time zone:', timeZone);
     return timeZone || null;
 }
