@@ -37,7 +37,7 @@ export default function CheckoutComponent() {
                 setUserRequestType(data.type);
                 setVehicleName(data.name);
                 setVehicleImage(data.image);
-                // createIntent(data.totalamount);
+                createIntent(data.totalamount);
             } catch (error) {
                 console.error(error);
             }
@@ -251,7 +251,7 @@ export default function CheckoutComponent() {
                         )}
                     </div>
 
-                    {/* <PaymentSection elementFetched={elementFetched} payButtonText={payButtonText} submit={submit} message={message} /> */}
+                    <PaymentSection elementFetched={elementFetched} payButtonText={payButtonText} submit={submit} message={message} />
                 </div>
             </BoxContainer>
         </>
