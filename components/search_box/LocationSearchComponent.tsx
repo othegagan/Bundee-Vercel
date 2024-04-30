@@ -16,8 +16,8 @@ const LocationSearchComponent = ({ searchCity }: any) => {
     const router = useRouter();
     const [showModal, setShowModal] = useState(false);
 
-    const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(addDays(new Date(), 2), 'yyyy-MM-dd'), history: 'replace' });
-    const [endDateQuery, setEndDateQuery] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 5), 'yyyy-MM-dd'), history: 'replace' });
+    const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(new Date(), 'yyyy-MM-dd'), history: 'replace' });
+    const [endDateQuery, setEndDateQuery] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 2), 'yyyy-MM-dd'), history: 'replace' });
 
     const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: '10:00:00', history: 'replace' });
     const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: '10:00:00', history: 'replace' });

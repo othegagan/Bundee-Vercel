@@ -13,7 +13,7 @@ import {
 } from '@/components/custom/calendar';
 import { DatePickerContent, DateRangePicker } from '@/components/custom/date-picker';
 import { cn } from '@/lib/utils';
-import { getLocalTimeZone, parseDate } from '@internationalized/date';
+import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { addDays, format } from 'date-fns';
 import { useState } from 'react';
@@ -76,7 +76,7 @@ export default function SearchCalendar({ setStartDate, setEndDate, startDate, en
                         onChange={value => onDateSelect(value)}
                         visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
                         pageBehavior='visible'
-                        minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}>
+                        minValue={today(getLocalTimeZone())}>
                         <CalendarHeading />
                         <div className='hidden gap-6 overflow-auto md:flex'>
                             <CalendarGrid>

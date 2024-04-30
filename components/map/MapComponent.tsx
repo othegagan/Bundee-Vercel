@@ -101,7 +101,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                             viewBox='0 0 436 624'
                             fill='none'
                             xmlns='http://www.w3.org/2000/svg'
-                            className='size-10 cursor-pointer text-orange-400'>
+                            className='size-10 cursor-pointer'>
                             <path
                                 d='M218 0C97.4771 0 0 97.656 0 218.4C0 382.2 218 624 218 624C218 624 436 382.2 436 218.4C436 97.656 338.523 0 218 0Z'
                                 fill='currentColor'
@@ -118,9 +118,11 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                     key={`grouped-marker-${index}`}
                     latitude={Number(group[0].latitude)}
                     longitude={Number(group[0].longitude)}
-                    anchor='top'
+                    // anchor='top'
                     onClick={e => {
                         e.originalEvent.stopPropagation();
+                        setCarPopInfo(null);
+                        setCarsPopInfo(null);
                         if (group.length > 1) {
                             setCarsPopInfo(group);
                         } else {
@@ -220,19 +222,20 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                     <Popup
                         longitude={Number(carsPopInfo[0].longitude)}
                         latitude={Number(carsPopInfo[0].latitude)}
-                        anchor='bottom'
+                        // anchor='bottom'
                         onClose={() => {
                             setCarPopInfo(null);
                             setCarsPopInfo(null);
                         }}
                         style={{ maxWidth: '350px' }}
                         className=' w-[400px] rounded-lg'>
-                        <ScrollArea className='border-1 flex max-h-60  w-full select-none flex-col gap-2  rounded-lg'>
+                            <p>{carsPopInfo.length} cars are available here.</p>
+                        <div className='border-1 flex max-h-60 overflow-y-auto w-full select-none flex-col   rounded-lg'>
                             {carsPopInfo.map((car: any, index) => (
                                 <Link
                                     key={index}
                                     href={`/vehicles/${car?.id}?${searchQuery}`}
-                                    className='my-2 grid grid-cols-3 gap-2 rounded-md border  hover:bg-neutral-200/70'>
+                                    className='my-1 grid grid-cols-3 gap-2 rounded-md border  hover:bg-neutral-200/70'>
                                     <div className='aspect-video h-16 w-full border'>
                                         {car?.imageresponse[0]?.imagename ? (
                                             <img
@@ -267,7 +270,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                                     </div>
                                 </Link>
                             ))}
-                        </ScrollArea>
+                        </div>
                     </Popup>
                 )}
             </Map>

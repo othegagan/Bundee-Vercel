@@ -55,7 +55,6 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
         isDateUnavailableStart ||
         isDateUnavailableEnd;
 
-
     const currentDate = today(getLocalTimeZone());
     let errorMessage = '';
 
@@ -79,7 +78,6 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
         setStartDate(format(item.start.toDate(getLocalTimeZone()), 'yyyy-MM-dd'));
         setEndDate(format(item.end.toDate(getLocalTimeZone()), 'yyyy-MM-dd'));
     }
-
 
     return (
         <div>
@@ -113,7 +111,8 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
                             onChange={value => onDateSelect(value)}
                             visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
                             pageBehavior='visible'
-                            minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}
+                            // minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}
+                            minValue={today(getLocalTimeZone())}
                             isDateUnavailable={isDateUnavailable}
                             isInvalid={isInvalid}
                             >
