@@ -74,12 +74,11 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             driverlisense: data.driverlisense || "",
                             vehicleowner: false,
                             fromValue: 'completeProfile',
-                            userimage: resultAsString  || "",
+                            userimage: resultAsString.split(',')[1]  || "",
                             isPhoneVarified: data.isPhoneVarified,
                             isEmailVarified: true,
                         };
 
-                        // console.log(payload)
                         const updateResponse = await updateProfile(payload);
                         if (updateResponse.success) {
                             toast({
