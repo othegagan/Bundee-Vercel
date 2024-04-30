@@ -1,4 +1,4 @@
-import { convertToCarTimeZoneISO, formatDateAndTime, getSearchDates } from '@/lib/utils';
+import { convertToCarTimeZoneISO, convertToTuroDate, formatDateAndTime, getSearchDates } from '@/lib/utils';
 import { NextRequest, NextResponse } from 'next/server';
 
 function splitDateTime(dateTimeString: string) {
@@ -11,16 +11,22 @@ function splitDateTime(dateTimeString: string) {
 
 export async function POST(req: NextRequest) {
     try {
-        const { latitude, longitude, zipCode, startDate, startTime, endDate, endTime, startTS, endTS, tripST, tripET } = await req.json();
+        const { latitude, longitude, zipCode, startDate, startTime, endDate, endTime, startTS, endTS, tripST, tripET, turoStartTime, turoEndTime } =
+            await req.json();
 
         let zoneStartDateTime = '';
         let zoneEndDateTime = '';
+        let turoST = '';
+        let turoET = '';
 
         if (zipCode === '') {
             zoneStartDateTime = getSearchDates(Number(longitude), Number(latitude), startDate, startTime);
             zoneEndDateTime = getSearchDates(Number(longitude), Number(latitude), endDate, endTime);
         } else {
-            if (startTS || endTS) {
+            if (turoStartTime || turoEndTime) {
+                turoST = convertToTuroDate(turoStartTime, zipCode);
+                turoET = convertToTuroDate(turoEndTime, zipCode);
+            } else if (startTS || endTS) {
                 const start = startTS ? splitDateTime(startTS) : { date: startDate, time: startTime };
                 const end = endTS ? splitDateTime(endTS) : { date: endDate, time: endTime };
                 zoneStartDateTime = convertToCarTimeZoneISO(start.date, start.time, zipCode);
@@ -34,7 +40,7 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        const data = {
+        const responseData = {
             lat: longitude || '',
             lng: latitude || '',
             zipCode: zipCode || '',
@@ -42,13 +48,15 @@ export async function POST(req: NextRequest) {
             endTS: zoneEndDateTime,
             pickupTime: startTime,
             dropTime: endTime,
+            turoST,
+            turoET,
         };
 
         return NextResponse.json(
             {
                 success: true,
                 message: 'Successfully converted to vehicle specified time zone',
-                data,
+                data: responseData,
             },
             { status: 200 },
         );

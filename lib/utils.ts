@@ -1,6 +1,6 @@
 import { parseZonedDateTime } from '@internationalized/date';
 import { type ClassValue, clsx } from 'clsx';
-import { format, parseISO } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 import zipToTimeZone from 'zipcode-to-timezone';
 import moment from 'moment-timezone';
@@ -26,9 +26,22 @@ export function roundToTwoDecimalPlaces(num: number) {
 }
 
 export function getTimeZoneByZipcode(zipCode: string) {
-    const timeZone = zipToTimeZone.lookup(zipCode) ; // 73301, (Los angeles zip code : 90274) (MST : 85323)
+    const timeZone = zipToTimeZone.lookup(zipCode); // 73301, (Los angeles zip code : 90274) (MST : 85323)
     // console.log('Time zone:', timeZone);
     return timeZone || null;
+}
+
+export function convertToTuroDate(dateString: string, zipCode: string) {
+    console.log(dateString, zipCode);
+    const dateStringWithoutTimeZone = dateString.replace(/ [A-Z]{3} /, ' ');
+    const parsedDate = parse(dateStringWithoutTimeZone, 'EEE MMM dd HH:mm:ss yyyy', new Date());
+    const formattedDate = format(parsedDate, 'yyyy-MM-dd');
+    const formattedTime = parsedDate.toTimeString().slice(0, 8);
+    const timeZone = getTimeZoneByZipcode(zipCode);
+    const combinedDateTimeString = `${formattedDate}T${formattedTime}`;
+    const convertedCarDate = parseZonedDateTime(`${combinedDateTimeString}[${timeZone}]`).toAbsoluteString();
+    console.log(dateString, '==>', convertedCarDate);
+    return convertedCarDate;
 }
 
 export function convertToCarTimeZoneISO(date: string, time: string, zipCode: string) {
