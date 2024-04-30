@@ -121,6 +121,7 @@ export default function CheckoutComponent() {
             // console.log('Reservation payload', payload);
 
             const response = await createTripReservation(payload);
+
             handleResponse(response, 'Payment made successful.', 'Thank you for your payment. Your transaction was successful.', '/checkout/success');
         } catch (error) {
             console.error('Error creating reservation:', error);
@@ -210,7 +211,6 @@ export default function CheckoutComponent() {
     };
 
     const handleResponse = (response, successTitle, successDescription, successRedirect) => {
-        console.log(response);
         if (response.success) {
             toast({ duration: 4000, variant: 'success', title: successTitle, description: successDescription });
             secureLocalStorage.removeItem('checkOutInfo');
@@ -224,7 +224,7 @@ export default function CheckoutComponent() {
         try {
             await cancelIntent();
             toast({ duration: 4000, variant: 'destructive', title, description });
-            window.location.href = '/checkout/failure';
+            // window.location.href = '/checkout/failure';
         } catch (error) {
             console.error('Error handling error', error);
         }

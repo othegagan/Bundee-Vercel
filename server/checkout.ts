@@ -55,6 +55,7 @@ export async function cancelPaymentIntent(vehicleid: number, amount: number, hos
         };
 
         const response = await http.post(url, payload);
+        console.log(' CancelPaymentIntent response', response.data);
         return handleResponse(response);
     } catch (error: any) {
         throw new Error(error.message);
@@ -65,9 +66,9 @@ export async function createTripReservation(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createReservation';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
-        console.log('Reservation Payload :' , modifiedPayload)
+        console.log('Reservation Payload :', modifiedPayload);
         const response = await http.post(url, modifiedPayload);
-        console.log(response.data);
+        console.log(' Reservation response', response.data);
         if (response.data.errorCode == 0) {
             return {
                 success: true,
@@ -90,9 +91,9 @@ export async function createTripExtension(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v2/booking/createTripModificationExtension';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
-        console.log('Trip extension Payload :' , modifiedPayload)
+        console.log('Trip extension Payload :', modifiedPayload);
         const response = await http.post(url, modifiedPayload);
-        console.log(response.data);
+        console.log(' Extension response', response.data);
         if (response.data.errorCode == 0) {
             return {
                 success: true,
@@ -115,9 +116,9 @@ export async function createTripReduction(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v2/booking/createTripModificationReduction';
         const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
-        console.log('Trip reduction Payload :' , modifiedPayload)
+        console.log('Trip reduction Payload :', modifiedPayload);
         const response = await http.post(url, modifiedPayload);
-        console.log(response.data);
+        console.log(' Reduction response', response.data);
         if (response.data.errorCode == 0) {
             return {
                 success: true,
