@@ -105,7 +105,7 @@ const ProfileUpdatePage = ({}) => {
                     firstName: data['firstname'],
                     middleName: data['middlename'] || '',
                     lastName: data['lastname'],
-                    phoneNumber: data['mobilePhone'],
+                    phoneNumber: data['mobilephone'],
                     email: data['email'],
                     zipCode: data['postcode'],
                     city: data['city'],
@@ -118,6 +118,7 @@ const ProfileUpdatePage = ({}) => {
                     insuranceCarrierName: insuranceData.insuranceName,
                     insuranceCarrierNumber: insuranceData.insuranceNumber,
                     isPhoneVarified: data['isPhoneVarified'],
+                    isEmailVarified: true,
                 };
                 setFormData(initialFormData);
             }
@@ -184,8 +185,8 @@ const ProfileUpdatePage = ({}) => {
             iduser: Number(session.userId),
             firstname: formData.firstName,
             middlename: '',
-            lastname: formData.lastName || "",
-            mobilePhone: formData.mobilePhone|| "",
+            lastname: formData.lastName || '',
+            mobilePhone: formData.mobilephone || '+919036644552',
             address_1: formData.address1 || '',
             address_2: formData.address2 || '',
             address_3: formData.address3 || '',
@@ -198,13 +199,14 @@ const ProfileUpdatePage = ({}) => {
             vehicleowner: false,
             userimage: formData.base64Image || '',
             isEmailVerified: true,
-            isPhoneVerified: formData.isPhoneVerified,
+            isPhoneVarified: formData.isPhoneVarified,
             fromValue: 'completeProfile',
         };
 
         try {
+            // console.log(updatePayload)
             const response = await updateProfile(updatePayload);
-            console.log(response)
+            // console.log(response);
             if (response.success) {
                 toast({
                     duration: 3000,
@@ -333,9 +335,11 @@ const ProfileUpdatePage = ({}) => {
                                 <div>
                                     <div>
                                         {phoneNumbernew}
-                                        {isPhoneNumberVerified && <div className='ml-2 inline-block'>
-                                            <MdVerified className='size-4 text-green-600' />
-                                        </div>}
+                                        {isPhoneNumberVerified && (
+                                            <div className='ml-2 inline-block'>
+                                                <MdVerified className='size-4 text-green-600' />
+                                            </div>
+                                        )}
                                     </div>
                                     <div className='mt-2' style={{ borderTop: '1.5px solid #ccc' }}></div>
                                 </div>

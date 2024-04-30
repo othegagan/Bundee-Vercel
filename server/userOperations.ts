@@ -86,9 +86,13 @@ export async function clearRecentlyViewedVehicles() {
 
 export async function updateProfile(payload: any) {
     try {
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/updateUser';
+        // old one '/v1/user/updateUser';
+        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/updateUserWithImage';
 
+        // console.log(payload);
         const response = await http.post(url, payload);
+        // console.log(response.data);
+
         return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
