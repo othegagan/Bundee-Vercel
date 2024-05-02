@@ -1,6 +1,6 @@
 import { parseZonedDateTime } from '@internationalized/date';
 import { type ClassValue, clsx } from 'clsx';
-import { format, parse, parseISO } from 'date-fns';
+import { addMinutes, format, parse, parseISO, startOfHour } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 import zipToTimeZone from 'zipcode-to-timezone';
 import moment from 'moment-timezone';
@@ -25,6 +25,12 @@ export function roundToTwoDecimalPlaces(num: number) {
     }
 }
 
+export function getCurrentTimeRounded() {
+    const now = new Date();
+    const nextHour = addMinutes(startOfHour(now), 60);
+    const roundedTime = format(nextHour, 'HH:mm:ss');
+    return roundedTime;
+}
 export function getTimeZoneByZipcode(zipCode: string) {
     const timeZone = zipToTimeZone.lookup(zipCode); // 73301, (Los angeles zip code : 90274) (MST : 85323)
     // console.log('Time zone:', timeZone);

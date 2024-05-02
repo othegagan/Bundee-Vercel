@@ -87,6 +87,7 @@ const LoginModal = () => {
             'auth/user-disabled': 'Account has been disabled.',
             'auth/missing-password': 'Please enter your password.',
             'auth/invalid-credential': 'Invailid Credentials. Please try again.',
+            'auth/invalid-login-credentials': 'Invailid Credentials. Please try again.',
             default: 'An error occurred. Please try again.',
         };
         setPassword('');

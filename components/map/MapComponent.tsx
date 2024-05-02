@@ -19,7 +19,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
 
     const [city, setCity] = useQueryState('city', { defaultValue: '' });
     const [isMapSearch, setIsMapSearch] = useQueryState('isMapSearch', { defaultValue: 'false', history: 'replace' });
-    const [zoomLevel, setzoomLevel] = useQueryState('zoomLevel', { defaultValue: '10', history: 'replace' });
+    const [zoomLevel, setzoomLevel] = useQueryState('zoomLevel', { defaultValue: '12', history: 'replace' });
     const [southWestlat, setSouthWestlat] = useQueryState('southWestlat', { defaultValue: '', history: 'replace' });
     const [southWestlong, setSouthWestlong] = useQueryState('southWestlong', { defaultValue: '', history: 'replace' });
     const [northEastlat, setNorthEastlat] = useQueryState('northEastlat', { defaultValue: '', history: 'replace' });

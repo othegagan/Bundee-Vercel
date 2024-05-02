@@ -110,37 +110,51 @@ const DrivingLicenceComponent = () => {
                                     <p className='block text-sm text-primary'>{verifiedDetails['address-country-code']['value'] || '-'}</p>
                                 </div>
                             </div>
-
-
                         </div>
                     ) : (
                         <p className='mt-10 text-base '>Unable to get verified details.Please update your driving license.</p>
                     )}
+
+                    <div className='mt-6 flex justify-end'>
+                        <Button
+                            type='button'
+                            variant='black'
+                            onClick={() => {
+                                createClient(setShowPersona);
+                            }}
+                            disabled={isPersonaClientLoading}>
+                            {isPersonaClientLoading ? (
+                                <div className='flex px-16'>
+                                    <div className='loader'></div>
+                                </div>
+                            ) : (
+                                <> Update Driving License</>
+                            )}
+                        </Button>
+                    </div>
                 </>
             ) : (
                 <div className=' mt-12 flex flex-col gap-3'>
-                    <h4>Oops, Your Profile is not verified, Please continue to verify your driving license.</h4>
+                    <p className='text-lg'>Your driving license has not yet been verified. Please verify it.</p>
+                    <div className='mt-6 flex justify-end'>
+                        <Button
+                            type='button'
+                            variant='black'
+                            onClick={() => {
+                                createClient(setShowPersona);
+                            }}
+                            disabled={isPersonaClientLoading}>
+                            {isPersonaClientLoading ? (
+                                <div className='flex px-16'>
+                                    <div className='loader'></div>
+                                </div>
+                            ) : (
+                                <>Verify driving license</>
+                            )}
+                        </Button>
+                    </div>
                 </div>
             )}
-
-            <div className='flex justify-end mt-6'>
-                {' '}
-                <Button
-                    type='button'
-                    variant='black'
-                    onClick={() => {
-                        createClient(setShowPersona);
-                    }}
-                    disabled={isPersonaClientLoading}>
-                    {isPersonaClientLoading ? (
-                        <div className='flex px-16'>
-                            <div className='loader'></div>
-                        </div>
-                    ) : (
-                        <> Update Driving License</>
-                    )}
-                </Button>
-            </div>
 
             {/* <div className='h-screen flex justify-center' style={{ width: '100%' }}>
                 {process.env.NEXT_PUBLIC_APP_ENV === 'development' ? (

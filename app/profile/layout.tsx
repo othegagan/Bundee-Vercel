@@ -198,14 +198,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                         {pathName === '/profile/change-password' && 'Change Password'}
                                         {pathName === '/profile/delete-account' && 'Delete Account'}
                                     </h1>
-                                    <p className='mt-4 text-sm text-gray-700'>
-                                        Your profile details remain confidential and will not be disclosed to any third parties. The host will access your
-                                        information solely for the purposes of vehicle pickup, billing, and mailing. For additional details on customer data
-                                        usage, Please refer to our{' '}
-                                        <Link href='/privacy' className='font-bold text-primary'>
-                                            Privacy Policy
-                                        </Link>
-                                    </p>
+                                  
 
                                     {children}
                                 </div>

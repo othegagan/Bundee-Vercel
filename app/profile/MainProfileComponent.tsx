@@ -115,7 +115,7 @@ const ProfileUpdatePage = ({}) => {
                     address1: data['address_1'],
                     address2: data['address_2'],
                     address3: data['address_3'],
-                    insuranceCarrierName: insuranceData.insuranceName,
+                    insuranceCarrierName: insuranceData.insuranceCompany,
                     insuranceCarrierNumber: insuranceData.insuranceNumber,
                     isPhoneVarified: data['isPhoneVarified'],
                     isEmailVarified: true,
@@ -157,6 +157,18 @@ const ProfileUpdatePage = ({}) => {
             setIsDataSavingInProgress(false);
             closeAllAccordion();
             setIscurrntlyEditing(false);
+            toast({
+                duration: 3000,
+                variant: 'success',
+                description: 'Insurance details updated successful.',
+            });
+            fetchData();
+        } else {
+            toast({
+                duration: 3000,
+                variant: 'destructive',
+                description: 'Failed to update your insurance details.',
+            });
         }
     }
 
@@ -241,7 +253,7 @@ const ProfileUpdatePage = ({}) => {
                     <div className='border-b border-gray-900/10 pb-0'>
                         <div className='my-4 border-b-gray-300'>
                             <div className='flex items-center justify-between'>
-                                <h2 className='text-base font-semibold leading-7 text-gray-900'>Legal Name</h2>
+                                <h2 className='text-base font-semibold leading-7 text-gray-900'> Name</h2>
 
                                 {isAccordionOpen && (
                                     <button onClick={e => legalNameAccordionHandler(e)} className='rounded-lg bg-gray-100 px-3 py-3 font-bold text-black'>

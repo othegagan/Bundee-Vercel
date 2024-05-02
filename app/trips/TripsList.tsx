@@ -34,14 +34,14 @@ const TripsList = ({ tripsData }) => {
 
                     <div className='flex flex-auto flex-col'>
                         <div>
-                            <h4 className='font-semibold text-gray-900'>{`${toTitleCase(trip.vehmake)} ${trip.vehmodel} (${trip.vehyear})`}</h4>
+                            <h4 className='font-semibold text-gray-900 capitalize'>{`${trip.vehmake} ${trip.vehmodel} (${trip.vehyear}`}</h4>
                             <div className='mt-2 flex w-full flex-col gap-2 text-xs text-gray-600'>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Start Date</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
                                         <>
                                             {/* {format(new Date(trip.starttime), 'LLL dd, y')} | {format(new Date(trip.starttime), 'h:mm a')} */}
-                                            {formatDateAndTime(trip.starttime, '73301')}
+                                            {formatDateAndTime(trip.starttime, trip?.vehzipcode)}
                                         </>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@ const TripsList = ({ tripsData }) => {
                                     <div className='w-1/3 space-y-2'>End Date</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
                                         <>
-                                            {formatDateAndTime(trip.endtime, '73301')}
+                                            {formatDateAndTime(trip.endtime, trip?.vehzipcode)}
                                             {/* {format(new Date(trip.endtime), 'LLL dd, y')} | {format(new Date(trip.endtime), 'h:mm a')} */}
                                         </>
                                     </div>

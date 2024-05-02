@@ -51,7 +51,7 @@ const useVehicleSearch = () => {
             const southWestlong = searchParams?.southWestlong ? searchParams?.southWestlong : '';
             const northEastlat = searchParams?.northEastlat ? searchParams?.northEastlat : '';
             const northEastlong = searchParams?.northEastlong ? searchParams?.northEastlong : '';
-            const isMapSearch = Boolean(searchParams?.isMapSearch ? searchParams?.isMapSearch : false);
+            const isMapSearch = searchParams?.isMapSearch ? searchParams?.isMapSearch : false;
 
             const searchPayload = {
                 lat: longitude,
@@ -94,10 +94,9 @@ const useVehicleSearch = () => {
             //     throw new Error(response.message);
             // }
 
-            const combinedPayload = isMapSearch ? mapsearchPayload : searchPayload;
-            // console.log(combinedPayload);
+            const payload = isMapSearch == 'true' ? mapsearchPayload : searchPayload;
 
-            const response = await searchVehiclesByLatitudeAndLongitude(combinedPayload);
+            const response = await searchVehiclesByLatitudeAndLongitude(payload);
             if (response.success) {
                 const data = response.data.vehicleAllDetails;
                 setData(data);

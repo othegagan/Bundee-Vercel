@@ -134,7 +134,7 @@ export default function ChatComponent({ tripsData }) {
 function Message({ message, tripsData }) {
     const authorImage = {
         [AUTHOR_TYPE.SYSTEM]: '/robot.png',
-        [AUTHOR_TYPE.HOST]: 'https://emedia1.nhs.wales/HEIW2/cache/file/F4C33EF0-69EE-4445-94018B01ADCF6FD4.png',
+        [AUTHOR_TYPE.HOST]: '/dummy_avatar.png',
     };
 
     const isClientMessage = message.author === AUTHOR_TYPE.CLIENT;

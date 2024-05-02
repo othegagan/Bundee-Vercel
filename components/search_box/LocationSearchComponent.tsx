@@ -10,6 +10,7 @@ import { useState } from 'react';
 import TimeSelect from '../custom/TimeSelect';
 import LocationSearchBox from './LocationSearchBox';
 import SearchCalendar from './SearchCalendar';
+import { getCurrentTimeRounded } from '@/lib/utils';
 
 const LocationSearchComponent = ({ searchCity }: any) => {
     const pathname = usePathname();
@@ -19,8 +20,8 @@ const LocationSearchComponent = ({ searchCity }: any) => {
     const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(new Date(), 'yyyy-MM-dd'), history: 'replace' });
     const [endDateQuery, setEndDateQuery] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 2), 'yyyy-MM-dd'), history: 'replace' });
 
-    const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: '10:00:00', history: 'replace' });
-    const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: '10:00:00', history: 'replace' });
+    const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
+    const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
 
     function setUserSelectedPickupDate(date: any, daysToAdd: number = 3) {
         const pickupDate = new Date(date);
@@ -42,7 +43,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
         const endTime = queryParams.get('endTime') || endTimeQuery;
         const isAirport = queryParams.get('isAirport') || false;
         const isMapSearch = queryParams.get('isMapSearch') || false;
-        const zoomLevel = queryParams.get('zoomLevel') || 8;
+        const zoomLevel = queryParams.get('zoomLevel') || 12;
 
         const fullStartDate = `${startDate}T${startTime}`;
         const fullEndDate = `${endDate}T${endTime}`;
