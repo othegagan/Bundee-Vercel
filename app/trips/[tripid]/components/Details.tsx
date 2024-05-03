@@ -145,6 +145,7 @@ export default function Details({ tripsData, tripRating }: any) {
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
             ...priceCalculatedList,
             taxPercentage: priceCalculatedList.taxPercentage * 100,
+            zipCode:tripsData.vehzipcode
         };
 
         if (type === 'reduction') {

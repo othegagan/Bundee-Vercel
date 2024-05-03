@@ -81,6 +81,7 @@ export default function CheckoutComponent() {
             });
             if (error) {
                 setMessage(error.message);
+                setPayButtonText('Pay Now');
                 handleError('Oops! Your payment is not successful.', error.message || 'An unexpected error occurred. Please Try again.');
             } else if (paymentIntent && paymentIntent.status === 'requires_capture') {
                 handleSuccess();
@@ -88,7 +89,7 @@ export default function CheckoutComponent() {
                 handleError('Oops! Your payment is not successful.', 'Payment failed');
             }
         } catch (error) {
-            setPayButtonText('Continue to Payment');
+            setPayButtonText('Pay Now');
             console.error('Error processing payment', error);
             handleError('Oops! Your payment is not successful.', 'An unexpected error occurred. Please Try again.');
         }
