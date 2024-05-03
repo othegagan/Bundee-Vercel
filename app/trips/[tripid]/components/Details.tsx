@@ -22,7 +22,7 @@ import { convertToCarTimeZoneISO, formatDateAndTime, formatTime, toTitleCase } f
 import useRentalAgreementModal from '@/hooks/useRentalAgreement';
 import { Download } from 'lucide-react';
 
-export default function Details({ tripsData }: any) {
+export default function Details({ tripsData, tripRating }: any) {
     const tripReviewModal = useTripReviewModal();
     const rentalAgreementModal = useRentalAgreementModal();
 
@@ -347,7 +347,7 @@ export default function Details({ tripsData }: any) {
                             </div>
                         )}
 
-                        {tripsData.invoiceUrl  && (
+                        {tripsData.invoiceUrl && (
                             <div className='flex flex-col gap-2'>
                                 <Button
                                     className='flex items-center gap-3'
@@ -359,15 +359,17 @@ export default function Details({ tripsData }: any) {
                                     }}>
                                     <Download className='size-4' /> Download Invoice
                                 </Button>
+                            </div>
+                        )}
 
-                                <div
-                                    className='mt-4 flex w-full cursor-pointer justify-center rounded-md bg-orange-400 px-10 py-2 text-center text-sm font-medium tracking-tight text-white'
-                                    onClick={() => {
-                                        tripReviewModal.onOpen();
-                                        tripReviewModal.setTripData(tripsData);
-                                    }}>
-                                    Add a review
-                                </div>
+                        {tripsData.status.toLowerCase() == 'completed' && tripRating.length == 0 && (
+                            <div
+                                className='mt-4 flex w-full cursor-pointer justify-center rounded-md bg-orange-400 px-10 py-2 text-center text-sm font-medium tracking-tight text-white'
+                                onClick={() => {
+                                    tripReviewModal.onOpen();
+                                    tripReviewModal.setTripData(tripsData);
+                                }}>
+                                Add a review
                             </div>
                         )}
                     </div>

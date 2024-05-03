@@ -4,6 +4,7 @@ import useTabFocusEffect from './useTabFocusEffect';
 
 export const useTripDetails = tripId => {
     const [tripData, setTripData] = useState(null);
+    const [tripRating, setTripRating] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
@@ -16,6 +17,7 @@ export const useTripDetails = tripId => {
 
             if (response.success && response.data.activetripresponse) {
                 setTripData(response.data.activetripresponse[0]);
+                setTripRating(response.data.tripreview)
             } else {
                 throw new Error(response.message);
             }
@@ -33,5 +35,5 @@ export const useTripDetails = tripId => {
 
     useTabFocusEffect(() => fetchData(), []);
 
-    return { tripData, loading, error };
+    return { tripData, loading, error, tripRating };
 };
