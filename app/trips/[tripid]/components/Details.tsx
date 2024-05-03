@@ -346,7 +346,8 @@ export default function Details({ tripsData }: any) {
                                 )}
                             </div>
                         )}
-                        {tripsData.status.toLowerCase() == 'completed' && tripsData?.vehicleDetails[0]?.tripreview.length == 0 && (
+
+                        {tripsData.invoiceUrl  && (
                             <div className='flex flex-col gap-2'>
                                 <Button
                                     className='flex items-center gap-3'
