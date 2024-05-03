@@ -20,5 +20,19 @@ export const useMapboxData = () => {
         }
     };
 
-    return { data, loading, error, fetchData };
+    const fetchAdreeses = async (query: string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response: any = await fetchDataFromMapboxWithForwardGeocoding(query, true);
+            setData(response || []);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setError('Something went wrong! Try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { data, loading, error, fetchData, fetchAdreeses };
 };
