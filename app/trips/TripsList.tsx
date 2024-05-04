@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { formatDateAndTime, toTitleCase } from '@/lib/utils';
+import Link from 'next/link';
 
 const TripsList = ({ tripsData }) => {
     if (!Array.isArray(tripsData) || tripsData.length === 0) {
@@ -13,16 +14,12 @@ const TripsList = ({ tripsData }) => {
         );
     }
 
-    const handleNavigateToDetails = tripId => {
-        window.location.href = `/trips/${tripId}`;
-    };
-
     return (
         <div className='grid w-full grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6'>
             {tripsData.map(trip => (
-                <div
+                <Link
                     key={trip.tripid}
-                    onClick={() => handleNavigateToDetails(trip.tripid)}
+                    href={`/trips/${trip.tripid}`}
                     className='group col-span-1 flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow md:flex-row'>
                     <div className='h-44 w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 md:h-full md:w-64'>
                         <img
@@ -115,7 +112,7 @@ const TripsList = ({ tripsData }) => {
                             </dl>
                         </div>
                     </div>
-                </div>
+                </Link>
             ))}
         </div>
     );

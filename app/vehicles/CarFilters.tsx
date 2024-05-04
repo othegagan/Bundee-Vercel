@@ -55,7 +55,7 @@ const CarFilters = () => {
     useEffect(() => {
         setTimeout(() => {
             filterCars();
-        }, 0);
+        }, 500);
     }, [selectedMakes, minPricePerHr, maxPricePerHr, selectedRatings, selectedFuelTypes, sortOrder, seatingCapacityFilters]);
 
     useEffect(() => {
@@ -89,6 +89,7 @@ const CarFilters = () => {
     };
 
     const filterCars = () => {
+        useCarFilter.setIsLoading(true);
         let filteredCars = useCarFilter.carDetails;
 
         if (selectedMakes.length > 0) {
@@ -155,6 +156,7 @@ const CarFilters = () => {
             (minPricePerHr !== 0 || maxPricePerHr !== 200 ? 1 : 0);
 
         useCarFilter.setAppliedFiltersCount(appliedFiltersCount);
+        useCarFilter.setIsLoading(false)
     };
 
     const handleReset = () => {

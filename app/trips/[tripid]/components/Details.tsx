@@ -21,6 +21,7 @@ import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, formatDateAndTime, formatTime, toTitleCase } from '@/lib/utils';
 import useRentalAgreementModal from '@/hooks/useRentalAgreement';
 import { Download } from 'lucide-react';
+import StartTripComponent from './StartTripComponent';
 
 export default function Details({ tripsData, tripRating }: any) {
     const tripReviewModal = useTripReviewModal();
@@ -28,8 +29,6 @@ export default function Details({ tripsData, tripRating }: any) {
 
     const [modifyCalenderOpen, setModifyCalenderOpen] = useState(false);
     const [swapRequestDetails, setSwapRequestDetails] = useState(null);
-
-    const [tripStarting, setTripStarting] = useState(false);
 
     const [error, setError] = useState('');
 
@@ -145,7 +144,7 @@ export default function Details({ tripsData, tripRating }: any) {
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
             ...priceCalculatedList,
             taxPercentage: priceCalculatedList.taxPercentage * 100,
-            zipCode:tripsData.vehzipcode
+            zipCode: tripsData.vehzipcode,
         };
 
         if (type === 'reduction') {
@@ -189,28 +188,6 @@ export default function Details({ tripsData, tripRating }: any) {
         window.location.reload();
     };
 
-    const handleStartTrip = async () => {
-        try {
-            setTripStarting(true);
-            const response = await startTripByDriver(Number(tripsData.tripid));
-            if (response.success) {
-                window.location.reload();
-            } else {
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Something went wrong in starting the trip',
-                });
-                throw new Error(response.message);
-            }
-        } catch (error) {
-            console.error('Error starting the trip', error);
-            setError(error);
-        } finally {
-            setTripStarting(false);
-        }
-    };
-
     return (
         <>
             <div className='mx-auto mb-10 max-w-7xl px-4 py-2 sm:px-6 md:mb-14 lg:px-8'>
@@ -224,9 +201,7 @@ export default function Details({ tripsData, tripRating }: any) {
                     </div>
 
                     <div className='mt-4 lg:row-span-3 lg:mt-0'>
-                        <div className='flex justify-end'>
-                            <TripImageVideoUploadComponent tripsData={tripsData} />
-                        </div>
+                        <TripImageVideoUploadComponent tripsData={tripsData} />
 
                         <div className='mt-10 flex flex-col gap-4'>
                             <div className='flex items-center justify-between'>
@@ -300,10 +275,11 @@ export default function Details({ tripsData, tripRating }: any) {
 
                         {!tripsData.isRentalAgreed &&
                         ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) == -1 ? (
-                            <div className='mt-8 flex w-full flex-wrap  gap-3'>
+                            <div className='mt-8 grid w-full grid-cols-2  gap-3'>
                                 <Button
                                     size='lg'
                                     variant='outline'
+                                    className='w-full'
                                     onClick={() => {
                                         // console.log(tripsData.rentalAgrrementUrl)
                                         rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl);
@@ -318,18 +294,12 @@ export default function Details({ tripsData, tripRating }: any) {
                                 )}
                             </div>
                         ) : (
-                            <div className='mt-10 flex w-full flex-wrap  gap-3'>
-                                {tripsData.status.toLowerCase() === 'approved' &&
-                                    swapRequestDetails?.statuscode.toLowerCase() !== 'swappr' &&
-                                    new Date().getTime() < new Date(tripsData.starttime).getTime() - 1000 * 60 * 60 && (
-                                        <Button onClick={handleStartTrip} disabled={tripStarting} className='bg-green-500' size='lg'>
-                                            {tripStarting ? <div className='loader'></div> : 'Start Trip'}
-                                        </Button>
-                                    )}
+                            <div className='mt-10 grid w-full grid-cols-2  gap-3'>
+                                {tripsData.status.toLowerCase() === 'approved' && swapRequestDetails?.statuscode.toLowerCase() !== 'swappr' && (
+                                    <StartTripComponent starttime={tripsData.starttime} tripid={tripsData.tripid} key={tripsData.tripid} />
+                                )}
 
-                                {tripsData.status.toLowerCase() === 'approved' ||
-                                tripsData.status.toLowerCase() === 'started' ||
-                                tripsData.status.toLowerCase() === 'requested' ? (
+                                {['approved', 'started', 'requested'].indexOf(tripsData.status.toLowerCase()) !== -1 && (
                                     <Button
                                         onClick={() => {
                                             setModifyCalenderOpen(true);
@@ -337,10 +307,11 @@ export default function Details({ tripsData, tripRating }: any) {
                                             body.style.overflow = 'hidden';
                                         }}
                                         variant='black'
+                                        className='w-full'
                                         size='lg'>
                                         Modify
                                     </Button>
-                                ) : null}
+                                )}
 
                                 {['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) === -1 && (
                                     <CancelTripComponent tripId={tripsData.tripid} />

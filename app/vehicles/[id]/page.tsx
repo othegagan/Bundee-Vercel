@@ -26,11 +26,13 @@ import secureLocalStorage from 'react-secure-storage';
 import DeliveryDetailsComponent from './DeliveryDetailsComponent';
 import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
+import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
     const { addToWishlistHandler, removeFromWishlistHandler } = useWishlist();
     const { isPersonaClientLoading, createClient } = usePersona();
+    const { isLoading: datesLoading, isError: datesError } = useAvailabilityDates(params.id, null);
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -255,7 +257,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
     function extractFirstDeliveryDetails(constraintsArray: any[]) {
         try {
-            const firstDeliveryDetails = constraintsArray.find((constraint: { constraintName: string; }) => constraint.constraintName === 'DeliveryDetails');
+            const firstDeliveryDetails = constraintsArray.find((constraint: { constraintName: string }) => constraint.constraintName === 'DeliveryDetails');
 
             if (firstDeliveryDetails) {
                 const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
@@ -384,7 +386,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 type='button'
                                 size='lg'
                                 className='mt-6 flex w-full'
-                                disabled={!!error || priceLoading || isPriceError || !priceCalculatedList}
+                                disabled={!!error || priceLoading || isPriceError || !priceCalculatedList || datesLoading || datesError}
                                 onClick={() => {
                                     if (isCustoumDelivery && !customDeliveryLocation) {
                                         toast({
@@ -401,7 +403,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         vehicleDetails.year,
                                         vehicleImages[0]?.imagename,
                                         vehicleDetails.id,
-                                        vehicleDetails.zipcode
+                                        vehicleDetails.zipcode,
                                     );
                                 }}>
                                 {priceLoading ? <span className='loader'></span> : ' Proceed to book'}

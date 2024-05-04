@@ -55,6 +55,7 @@ const CancelTripComponent = ({ tripId }: any) => {
                     openModal();
                 }}
                 variant='destructive'
+                className='w-full'
                 size='lg'>
                 Cancel
             </Button>

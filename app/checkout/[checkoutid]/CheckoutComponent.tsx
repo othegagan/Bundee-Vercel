@@ -165,6 +165,7 @@ export default function CheckoutComponent() {
                 params.id,
                 params.customer,
             );
+            secureLocalStorage.removeItem('checkOutInfo');
             console.log(response);
         } catch (error) {
             console.error('Error cancelling intent:', error);
@@ -225,7 +226,7 @@ export default function CheckoutComponent() {
         try {
             await cancelIntent();
             toast({ duration: 4000, variant: 'destructive', title, description });
-            // window.location.href = '/checkout/failure';
+            window.location.href = '/checkout/failure';
         } catch (error) {
             console.error('Error handling error', error);
         }
