@@ -49,7 +49,8 @@ export function convertToTuroDate(dateString: string, zipCode: string) {
     return convertedCarDate;
 }
 
-export function convertToCarTimeZoneISO(zipCode: string, date?: string, time?: string, datetime?: string) {
+export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: string, datetime?: string) {
+    console.log(date, time, zipCode);
     if (datetime) {
         const timeZone = getTimeZoneByZipcode(zipCode);
         const converedCarDate = parseZonedDateTime(`${datetime}[${timeZone}]`).toAbsoluteString();
