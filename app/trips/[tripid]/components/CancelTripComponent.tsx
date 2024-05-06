@@ -57,7 +57,7 @@ const CancelTripComponent = ({ tripId }: any) => {
                 variant='destructive'
                 className='w-full'
                 size='lg'>
-                Cancel
+                Cancel trip
             </Button>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
