@@ -112,7 +112,7 @@ function NotificationItem({ data }) {
                     </span>
                 )}
             </p>
-            <p className='text-xs font-normal text-muted-foreground'>{data.message}</p>
+            <p className='text-xs font-normal text-muted-foreground'>{data.message}{data?.comments}</p>
         </div>
     );
 }
