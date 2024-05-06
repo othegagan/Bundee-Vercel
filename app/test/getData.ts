@@ -1,4 +1,4 @@
-'use server';
+
 
 export async function retrieveAndSendData() {
     return fetch('https://bundee-webdriver-qa.vercel.app/api/test', {
