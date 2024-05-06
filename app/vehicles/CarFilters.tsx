@@ -53,9 +53,7 @@ const CarFilters = () => {
     }, [range]);
 
     useEffect(() => {
-        setTimeout(() => {
-            filterCars();
-        }, 500);
+        filterCars();
     }, [selectedMakes, minPricePerHr, maxPricePerHr, selectedRatings, selectedFuelTypes, sortOrder, seatingCapacityFilters]);
 
     useEffect(() => {
