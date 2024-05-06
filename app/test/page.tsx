@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { retrieveAndSendData } from './getData';
 
 export default function page() {
+    
     const [data, setData] = useState(null);
     useEffect(() => {
         const getData = async () => {
