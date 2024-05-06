@@ -51,9 +51,9 @@ const Vehicles = ({ searchParams }: any) => {
                         <VehiclesCardsSkeleton columns='2' />
                     ) : (
                         <>
-                            {error ? (
+                            {error && !useCarFilter.isLoading ? (
                                 <ErrorComponent />
-                            ) : useCarFilter.filteredCars.length === 0 ? (
+                            ) : !useCarFilter.isLoading && useCarFilter.filteredCars.length === 0 ? (
                                 <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
                             ) : (
                                 <div className=' w-full gap-5 md:col-span-3 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-4 '>

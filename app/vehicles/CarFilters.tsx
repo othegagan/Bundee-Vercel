@@ -54,7 +54,7 @@ const CarFilters = () => {
 
     useEffect(() => {
         filterCars();
-    }, [selectedMakes, minPricePerHr, maxPricePerHr, selectedRatings, selectedFuelTypes, sortOrder, seatingCapacityFilters]);
+    }, [selectedMakes, minPricePerHr, maxPricePerHr, selectedRatings, selectedFuelTypes, sortOrder, seatingCapacityFilters, useCarFilter.carDetails]);
 
     useEffect(() => {
         handleReset();

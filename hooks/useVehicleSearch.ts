@@ -27,7 +27,6 @@ const useVehicleSearch = () => {
     const [viewChanged, setViewChanged] = useState(false);
     const useCarFilter = useCarFilterModal();
     const searchVehicles = async () => {
-        console.log();
         setLoading(true);
         useCarFilter.setIsLoading(true);
         setError(null);
