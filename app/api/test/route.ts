@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
                 },
                 { status: 200 },
             );
+            response.headers.set('Access-Control-Allow-Origin', '*'); // Adding CORS header
             return response;
         }, 14000);
     });

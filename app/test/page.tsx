@@ -1,16 +1,25 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
+import { retrieveAndSendData } from './getData';
 
 export default function page() {
-    fetch('/api/test', {
-        method: 'GET',
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            // Handle the data received from the API endpoint
-        })
-        .catch(error => {
-            // Handle any errors that occur during the API call
-        });
-    return <div>page</div>;
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        const getData = async () => {
+            const data = await retrieveAndSendData();
+            console.log(data)
+            setData(data);
+        };
+        getData();
+    }, []);
+
+    return (
+        <div>
+            page
+            <br />
+            <br />
+            <br />
+            {JSON.stringify(data)}
+        </div>
+    );
 }
