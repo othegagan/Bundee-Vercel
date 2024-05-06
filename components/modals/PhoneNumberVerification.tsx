@@ -34,7 +34,7 @@ const PhoneNumberModal = () => {
 
             setVerificationId(verifyId);
             setVerificationSent(true); // Set flag to indicate verification code has been sent
-            console.log('verifyId', verifyId);
+            // console.log('verifyId', verifyId);
         } catch (error) {
             console.error('Error sending code:', error.code);
             console.error('Error:', error);
@@ -54,62 +54,58 @@ const PhoneNumberModal = () => {
             const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
             // console.log('credential', credential);
 
-            // const update = await updatePhoneNumber(auth.currentUser, credential);
-            // console.log(update);
+            await updatePhoneNumber(auth.currentUser, credential);
 
-            const result = await linkWithCredential(auth.currentUser, credential);
-            console.log(result);
-            if (result) {
-                // Clear state variables and handle success
+            // const result = await linkWithCredential(auth.currentUser, credential);
+            // console.log(result);
 
-                const session = await getSession();
+            const session = await getSession();
 
-                const userResponse = await getUserByEmail(session.email);
-                // console.log(userResponse);
+            const userResponse = await getUserByEmail(session.email);
+            // console.log(userResponse);
 
-                if (userResponse.success) {
-                    const db_data = userResponse.data.userResponse;
-                    const updatePayload = {
-                        address_1: db_data.address_1,
-                        address_2: db_data.address_2,
-                        address_3: db_data.address_3,
-                        city: db_data.city,
-                        country: db_data.country,
-                        postcode: db_data.postcode,
-                        state: db_data.state,
-                        driverlisense: db_data.driverlisense,
-                        firstname: db_data.firstname,
-                        middlename: '',
-                        lastname: db_data.lastname,
-                        iduser: db_data.iduser,
-                        language: 'NA',
-                        userimage: db_data.userimage,
-                        vehicleowner: false,
+            if (userResponse.success) {
+                const db_data = userResponse.data.userResponse;
+                const updatePayload = {
+                    address_1: db_data.address_1,
+                    address_2: db_data.address_2,
+                    address_3: db_data.address_3,
+                    city: db_data.city,
+                    country: db_data.country,
+                    postcode: db_data.postcode,
+                    state: db_data.state,
+                    driverlisense: db_data.driverlisense,
+                    firstname: db_data.firstname,
+                    middlename: '',
+                    lastname: db_data.lastname,
+                    iduser: db_data.iduser,
+                    language: 'NA',
+                    userimage: db_data.userimage,
+                    vehicleowner: false,
 
-                        mobilePhone: phoneNumber,
-                        isPhoneVarified: true,
-                        isEmailVarified: true,
-                        fromValue: 'completeProfile',
-                    };
+                    mobilePhone: phoneNumber,
+                    isPhoneVarified: true,
+                    isEmailVarified: true,
+                    fromValue: 'completeProfile',
+                };
 
-                    const response = await updateProfile(updatePayload);
-                    if (response.success) {
-                        setPhoneNumber('');
-                        setVerificationId('');
-                        setVerificationSent(false);
-                        toast({
-                            description: 'Phone number updated successfully',
-                            duration: 3000,
-                        });
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 600);
-                    } else {
-                        throw new Error(response.message);
-                    }
+                const response = await updateProfile(updatePayload);
+                if (response.success) {
+                    setPhoneNumber('');
+                    setVerificationId('');
+                    setVerificationSent(false);
+                    toast({
+                        description: 'Phone number updated successfully',
+                        duration: 3000,
+                    });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 600);
                 } else {
-                    throw new Error(userResponse.message);
+                    throw new Error(response.message);
                 }
+            } else {
+                throw new Error(userResponse.message);
             }
         } catch (error: any) {
             console.log(error);

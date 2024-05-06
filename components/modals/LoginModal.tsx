@@ -140,6 +140,7 @@ const LoginModal = () => {
             })
             .catch(error => {
                 // Handle sign-in error
+                handleAuthError(error);
                 console.log(error.message);
                 logout();
             });
