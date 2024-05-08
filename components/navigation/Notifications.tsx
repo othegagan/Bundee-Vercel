@@ -122,8 +122,8 @@ function NotificationItem({ data }) {
                     </span>
                 </p>
                 <p className='text-xs font-normal text-muted-foreground mt-2'>
-                    {!data?.isRentalStatus && data?.message}
-                    {data?.rentalAgreementStatus ? `, ${data?.rentalAgreementStatus}` : ''}
+                    {!data?.isRentalStatus && data?.message +". "}
+                    {data?.rentalAgreementStatus ? ` ${data?.rentalAgreementStatus}` : ''}
                 </p>
             </div>
         </Link>
