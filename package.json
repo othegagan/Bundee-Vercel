@@ -70,6 +70,7 @@
         "tailwind-merge": "^2.2.1",
         "tailwindcss-animate": "^1.0.7",
         "tz-lookup": "^6.1.25",
+        "uuid": "^9.0.1",
         "zipcode-to-timezone": "^0.0.9",
         "zustand": "^4.5.2"
     },

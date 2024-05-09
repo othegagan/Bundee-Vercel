@@ -34,5 +34,6 @@ declare namespace NodeJS {
         NEXT_PUBLIC_FIREBASE_STORAGEBUCKET: string;
         NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID: string;
         NEXT_PUBLIC_FIREBASE_APPID: string;
+        FIREBASE_VAPID_KEY: string;
     }
 }

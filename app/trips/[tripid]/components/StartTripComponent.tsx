@@ -30,8 +30,8 @@ export default function StartTripComponent({ starttime, tripid }) {
 
     const currentTime = new Date().getTime();
     const tripStartTime = new Date(starttime).getTime();
-    console.log('Current Time:', currentTime);
-    console.log('Trip Start Time:', tripStartTime);
+    // console.log('Current Time:', currentTime);
+    // console.log('Trip Start Time:', tripStartTime);
 
     if (currentTime < tripStartTime - 1000 * 60 * 60) {
         return (

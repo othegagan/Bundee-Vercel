@@ -5,6 +5,7 @@ import { getIronSession, SessionOptions } from 'iron-session';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
 
 export const getSession = async () => {
     const session = await getIronSession<SessionData>(cookies(), sessionOptions);
@@ -35,6 +36,18 @@ export const logout = async () => {
     //@ts-ignore
     session.destroy();
     redirect('/');
+};
+
+export const saveDeviceUUID = async () => {
+    const cookieStore = cookies();
+    const uuid = uuidv4();
+    cookieStore.set('deviceUUID', uuid);
+};
+
+export const getDeviceUUID = async () => {
+    const cookieStore = cookies();
+    const UUID = cookieStore.get('deviceUUID');
+    return UUID?.value || null;
 };
 
 // export const changeUsername = async (formData: FormData) => {
