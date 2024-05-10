@@ -4,7 +4,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import useLoginModal from '@/hooks/useLoginModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, initializeNotifications } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 
 import { useCallback, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -59,7 +59,6 @@ const LoginModal = () => {
                         closeModal();
                         await login({ userData: userResponse, authToken: authTokenResponse.authToken });
                         router.refresh();
-                        await registerServiceWorker();
                     } else {
                         throw new Error('Error in get user', response.message);
                     }
@@ -116,7 +115,6 @@ const LoginModal = () => {
                         closeModal();
                         await login(payload);
                         router.refresh();
-                        initializeNotifications();
                     } else {
                         throw new Error(response.message);
                     }
@@ -134,7 +132,6 @@ const LoginModal = () => {
                         const userResponse = createUserResponse.data.userResponses[0];
                         await login({ userData: userResponse, authToken: authTokenResponse.authToken });
                         router.refresh();
-                        await registerServiceWorker();
                         closeModal();
                     } else {
                         throw new Error('Unable to create user');
@@ -147,20 +144,6 @@ const LoginModal = () => {
                 console.log(error.message);
                 logout();
             });
-    };
-
-    const registerServiceWorker = async () => {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('/firebase-messaging-sw.js')
-                .then(async registration => {
-                    console.log('Service Worker registered successfully:', registration);
-                    await initializeNotifications()
-                })
-                .catch(error => {
-                    console.error('Service Worker registration failed:', error);
-                });
-        }
     };
 
     function openModal() {

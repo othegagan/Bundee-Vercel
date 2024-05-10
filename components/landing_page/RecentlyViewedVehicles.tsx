@@ -1,5 +1,6 @@
 'use client';
 
+import { toTitleCase } from '@/lib/utils';
 import { clearRecentlyViewedVehicles, getRecentlyViewedVehicles } from '@/server/userOperations';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -8,8 +9,6 @@ import BoxContainer from '../BoxContainer';
 import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
 import { toast } from '../ui/use-toast';
-import { toTitleCase } from '@/lib/utils';
-import useTabFocusEffect from '@/hooks/useTabFocusEffect';
 
 export default function RecentlyViewedVehicles() {
     const [recentlyViewedData, setRecentlyViewedData] = useState([]);

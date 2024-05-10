@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
+import { deleteTokenFromFirebase } from './firebase';
 
 export const getSession = async () => {
     const session = await getIronSession<SessionData>(cookies(), sessionOptions);
