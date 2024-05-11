@@ -7,6 +7,8 @@ import { getAllNotifications, updateUserNotifications } from '@/server/notificat
 import { BellIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
+import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns';
 
 export default function NotificationsComponent() {
     const [loading, setLoading] = useState(false);
@@ -103,16 +105,27 @@ export default function NotificationsComponent() {
 
 function NotificationItem({ data }) {
     return (
-        <div className='my-1 w-full rounded-md border px-2 py-1 hover:bg-gray-50'>
-            <p className='text-sm font-medium text-foreground'>
-                {data.branchResponses[0]?.make} {data.branchResponses[0]?.model} {data.branchResponses[0]?.year}
-                {data.viewed === false && (
-                    <span className='font-normalme-2 -mt-1 ml-2 rounded bg-green-100 px-2.5 py-0.5 text-[10px] text-green-800 dark:bg-green-900 dark:text-green-300'>
-                        New
+        <Link href={`/trips/${data.tripId}`}>
+            <div className='my-1 w-full rounded-md border px-2 py-1 hover:bg-gray-50'>
+                <p className='flex flex-wrap items-center justify-between text-sm font-medium text-foreground'>
+                    <span className='text-primary underline underline-offset-2'>
+                        {data.branchResponses[0]?.make} {data.branchResponses[0]?.model} {data.branchResponses[0]?.year}
                     </span>
-                )}
-            </p>
-            <p className='text-xs font-normal text-muted-foreground'>{data.message}</p>
-        </div>
+                    {data.viewed === false && (
+                        <span className='font-normalme-2 -mt-1 ml-2 rounded bg-green-100 px-2.5 py-0.5 text-[10px] text-green-800 dark:bg-green-900 dark:text-green-300'>
+                            New
+                        </span>
+                    )}
+
+                    <span className='text-xs font-normal text-muted-foreground'>
+                        {formatDistanceToNow(new Date(data.createdDate), { includeSeconds: false })} ago
+                    </span>
+                </p>
+                <p className='text-xs font-normal text-muted-foreground mt-2'>
+                    {!data?.isRentalStatus && data?.message +". "}
+                    {data?.rentalAgreementStatus ? ` ${data?.rentalAgreementStatus}` : ''}
+                </p>
+            </div>
+        </Link>
     );
 }

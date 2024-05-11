@@ -20,6 +20,23 @@ export async function searchVehiclesAvailability(searchQuery: any) {
     }
 }
 
+export async function searchVehiclesByLatitudeAndLongitude(searchQuery: any) {
+    try {
+        const url = process.env.AVAILABILITY_BASEURL + '/v1/availability/searchVehiclesByLatitudeAndLongitude';
+        // console.log('Serach Payload', searchQuery);
+        const response = await http.post(url, searchQuery);
+        // console.log(response.data)
+        return {
+            data : response.data,
+            success : true,
+            message : ' Search done'
+        }
+        // return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 export async function getVehicleAllDetailsByVechicleId(vechicleId: number) {
     try {
         const session = await getSession();

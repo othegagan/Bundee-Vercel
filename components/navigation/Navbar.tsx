@@ -11,8 +11,9 @@ import Logo from '../landing_page/Logo';
 import LoginSignupButtons from './LoginSignupButtons';
 import UserMenu from './UserMenu';
 import NotificationsComponent from './Notifications';
+import LocationSearchComponent from '../search_box/LocationSearchComponent';
 
-const Navbar = async () => {
+const Navbar = async ({ searchParams }: any) => {
     const session = await getSession();
 
     const menuItems: any[] = [
@@ -27,7 +28,7 @@ const Navbar = async () => {
 
     return (
         <>
-            <header className=' sticky top-0 z-50 bg-white py-2.5 shadow-sm select-none'>
+            <header className=' sticky top-0 z-[60] select-none bg-white py-2.5 shadow-sm'>
                 <Container>
                     <nav className='flex items-center justify-between '>
                         <Logo />

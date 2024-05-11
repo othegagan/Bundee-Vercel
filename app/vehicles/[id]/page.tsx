@@ -1,39 +1,38 @@
 'use client';
-
 import usePersona, { profileVerifiedStatus } from '@/hooks/usePersona';
 
+import BoxContainer from '@/components/BoxContainer';
+import ClientOnly from '@/components/ClientOnly';
 import CustomDateRangePicker from '@/components/custom/CustomDateRangePicker';
+import ErrorComponent from '@/components/custom/ErrorComponent';
+import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
+import useLoginModal from '@/hooks/useLoginModal';
+import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import useWishlist from '@/hooks/useWishlist';
+import { getSession } from '@/lib/auth';
+import { convertToCarTimeZoneISO } from '@/lib/utils';
+import { calculatePrice } from '@/server/priceCalculation';
+import { addToRecentlyViewedHistory, getVehicleAllDetailsByVechicleId } from '@/server/vehicleOperations';
 import { addDays, format } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { IoIosHeartEmpty, IoMdHeart } from 'react-icons/io';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 import secureLocalStorage from 'react-secure-storage';
 import DeliveryDetailsComponent from './DeliveryDetailsComponent';
 import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
-import ClientOnly from '@/components/ClientOnly';
-import { CgFormatSlash } from 'react-icons/cg';
-import { toast } from '@/components/ui/use-toast';
-import { addToRecentlyViewedHistory, getVehicleAllDetailsByVechicleId } from '@/server/vehicleOperations';
-import { getSession } from '@/lib/auth';
-import useLoginModal from '@/hooks/useLoginModal';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from '@/components/custom/modal';
-import { calculatePrice } from '@/server/priceCalculation';
-import BoxContainer from '@/components/BoxContainer';
-import ErrorComponent from '@/components/custom/ErrorComponent';
-import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
-import { IoInformationCircleOutline } from 'react-icons/io5';
-import { convertToCarTimeZoneISO } from '@/lib/utils';
+import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
     const { addToWishlistHandler, removeFromWishlistHandler } = useWishlist();
     const { isPersonaClientLoading, createClient } = usePersona();
+    const { isLoading: datesLoading, isError: datesError } = useAvailabilityDates(params.id, null);
 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -206,8 +205,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 perDayAmount: priceCalculatedList.pricePerDay,
                 // startTime: new Date(startDate + 'T' + startTime).toISOString(),
                 // endTime: new Date(endDate + 'T' + endTime).toISOString(),
-                startTime: convertToCarTimeZoneISO(startDate, startTime,  '73301'),
-                endTime: convertToCarTimeZoneISO(endDate, endTime,  '73301'),
+                startTime: convertToCarTimeZoneISO(startDate, startTime, vehicleDetails?.zipcode),
+                endTime: convertToCarTimeZoneISO(endDate, endTime, vehicleDetails?.zipcode),
                 totalDays: priceCalculatedList.numberOfDays,
                 taxAmount: priceCalculatedList.taxAmount,
                 tripTaxAmount: priceCalculatedList.tripTaxAmount,
@@ -217,16 +216,16 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 dropTime: endTime,
 
                 comments: 'Request to book',
-                address1: customDeliveryLocation ? customDeliveryLocation : vehicleDetails?.address1,
+                address1: delivery ? customDeliveryLocation : vehicleDetails?.address1,
                 address2: '',
                 cityName: '',
                 country: '',
                 state: '',
-                zipCode: zipcode,
+                zipCode: vehicleDetails?.zipcode,
                 latitude: '',
                 longitude: '',
                 ...priceCalculatedList,
-                taxPercentage : priceCalculatedList.taxPercentage  * 100,
+                taxPercentage: priceCalculatedList.taxPercentage * 100,
                 delivery: delivery,
                 airportDelivery: airportDelivery,
                 deliveryCost: delivery ? deliveryCost : 0,
@@ -258,7 +257,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
     function extractFirstDeliveryDetails(constraintsArray: any[]) {
         try {
-            const firstDeliveryDetails = constraintsArray.find((constraint: { constraintName: string; }) => constraint.constraintName === 'DeliveryDetails');
+            const firstDeliveryDetails = constraintsArray.find((constraint: { constraintName: string }) => constraint.constraintName === 'DeliveryDetails');
 
             if (firstDeliveryDetails) {
                 const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
@@ -387,7 +386,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 type='button'
                                 size='lg'
                                 className='mt-6 flex w-full'
-                                disabled={!!error || priceLoading || isPriceError || !priceCalculatedList}
+                                disabled={!!error || priceLoading || isPriceError || !priceCalculatedList || datesLoading || datesError}
                                 onClick={() => {
                                     if (isCustoumDelivery && !customDeliveryLocation) {
                                         toast({
@@ -404,7 +403,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         vehicleDetails.year,
                                         vehicleImages[0]?.imagename,
                                         vehicleDetails.id,
-                                        vehicleDetails.zipcode
+                                        vehicleDetails.zipcode,
                                     );
                                 }}>
                                 {priceLoading ? <span className='loader'></span> : ' Proceed to book'}
@@ -426,7 +425,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                         Verify your driving licence
                     </ModalHeader>
                     <ModalBody className=' overflow-hidden'>
-                        <p className='font-medium  leading-6'>Oops, Your Profile is not verified, Please continue to verify your driving license.</p>
+                        <p className='font-medium  leading-6'>Your driving license has not yet been verified. Please verify it.</p>
                         <div className=' mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-end'>
                             <Button type='button' size='sm' onClick={() => setShowPersona(false)} variant='outline' className='w-full md:w-fit'>
                                 Back

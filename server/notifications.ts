@@ -34,3 +34,17 @@ export async function updateUserNotifications(notificationIds: any) {
         throw new Error(error.message);
     }
 }
+
+export async function updatePushNotificationToken(deviceUUID: string, deviceToken: string) {
+    try {
+        const session = await getSession();
+        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/updatePushNotification';
+        const payload = { userid: session.userId, deviceUUID: deviceUUID, devicetoken: deviceToken };
+        console.log(payload);
+        const response = await http.post(url, payload);
+        // console.log(response)
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}

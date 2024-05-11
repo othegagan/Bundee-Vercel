@@ -10,17 +10,18 @@ import { useState } from 'react';
 import TimeSelect from '../custom/TimeSelect';
 import LocationSearchBox from './LocationSearchBox';
 import SearchCalendar from './SearchCalendar';
+import { getCurrentTimeRounded } from '@/lib/utils';
 
 const LocationSearchComponent = ({ searchCity }: any) => {
     const pathname = usePathname();
     const router = useRouter();
     const [showModal, setShowModal] = useState(false);
 
-    const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(addDays(new Date(), 2), 'yyyy-MM-dd'), history: 'replace' });
-    const [endDateQuery, setEndDateQuery] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 5), 'yyyy-MM-dd'), history: 'replace' });
+    const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(new Date(), 'yyyy-MM-dd'), history: 'replace' });
+    const [endDateQuery, setEndDateQuery] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 2), 'yyyy-MM-dd'), history: 'replace' });
 
-    const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: '10:00:00', history: 'replace' });
-    const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: '10:00:00', history: 'replace' });
+    const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
+    const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
 
     function setUserSelectedPickupDate(date: any, daysToAdd: number = 3) {
         const pickupDate = new Date(date);
@@ -41,6 +42,8 @@ const LocationSearchComponent = ({ searchCity }: any) => {
         const startTime = queryParams.get('startTime') || startTimeQuery;
         const endTime = queryParams.get('endTime') || endTimeQuery;
         const isAirport = queryParams.get('isAirport') || false;
+        const isMapSearch = queryParams.get('isMapSearch') || false;
+        const zoomLevel = queryParams.get('zoomLevel') || 12;
 
         const fullStartDate = `${startDate}T${startTime}`;
         const fullEndDate = `${endDate}T${endTime}`;
@@ -61,7 +64,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
             return;
         }
 
-        const newUrl = `/vehicles?city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}`;
+        const newUrl = `/vehicles?city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}&isMapSearch=${isMapSearch}&zoomLevel=${zoomLevel}`;
 
         router.push(newUrl);
     };
@@ -76,27 +79,31 @@ const LocationSearchComponent = ({ searchCity }: any) => {
 
     return (
         <>
-            <div className={` z-40 md:sticky md:top-[3.75rem] bg-white   select-none  md:block ${pathname == '/' ? 'block rounded-md' : 'hidden -mx-4'}`}>
+            <div
+                className={` z-[55] md:sticky ${pathname == '/' ? 'md:top-[3.75rem]' : ''} select-none   bg-white  md:block ${pathname == '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
                 <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12  lg:grid-cols-12'>
-                    <div className='col-span-2 md:col-span-6 lg:col-span-4'>
-                        <div className='flex w-full flex-col gap-1 '>
-                            <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zipcode</label>
+                    <div className='col-span-2 md:col-span-3 lg:col-span-4'>
+                        <div className='flex w-full flex-col  '>
+                            <label className='mb-1 inline-flex text-xs font-semibold'>
+                                Search By City{' '}
+                                <span className='inline-block text-xs font-semibold text-neutral-800 sm:hidden lg:block'>, Place and Zipcode</span>
+                            </label>
                             <LocationSearchBox />
                         </div>
                     </div>
-                    <div className='col-span-2 md:col-span-6 lg:col-span-3'>
-                        <div className='flex w-full flex-col gap-1 '>
+                    <div className='col-span-2 md:col-span-4 lg:col-span-3'>
+                        <div className='flex w-full flex-col  '>
                             <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
                             <SearchCalendar startDate={startDateQuery} setStartDate={setStartDateQuery} endDate={endDateQuery} setEndDate={setEndDateQuery} />
                         </div>
                     </div>
-                    <div className='col-span-1 md:col-span-3 lg:col-span-2'>
+                    <div className='col-span-1 md:col-span-2 lg:col-span-2'>
                         <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} className='md:w-full' />
                     </div>
-                    <div className='col-span-1 md:col-span-3 lg:col-span-2'>
+                    <div className='col-span-1 md:col-span-2 lg:col-span-2'>
                         <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' />
                     </div>
-                    <div className='col-span-2 md:col-span-3 lg:col-span-1'>
+                    <div className='col-span-2 md:col-span-1 lg:col-span-1'>
                         <div className='flex h-full w-full items-end justify-end'>
                             <Button onClick={redirectToVech} className='w-full'>
                                 Search

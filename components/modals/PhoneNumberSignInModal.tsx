@@ -133,6 +133,7 @@ const PhoneNumberSignInModal = () => {
             'auth/invalid-credential': 'Invailid Credentials. Please try again.',
             'auth/argument-error': 'Invalid argument. Please check your input and try again.',
             'auth/invalid-phone-number': 'Invalid phone number. Please enter a valid phone number.',
+            'auth/invalid-login-credentials': 'Invailid Credentials. Please try again.',
             default: 'An error occurred. Please try again.',
         };
         setPhoneNumber('');

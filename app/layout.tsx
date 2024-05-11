@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic'
 
 import { Toaster } from '@/components/ui/toaster';
 import Navbar from '@/components/navigation/Navbar';
@@ -14,6 +15,9 @@ import { HideComponentInFrame, HideInIFrame } from '@/components/HideInIFrame';
 import PhoneNumberSignInModal from '@/components/modals/PhoneNumberSignInModal';
 import TripReviewModal from '@/components/modals/TripReviewModal';
 import CarFilters from './vehicles/CarFilters';
+
+const RentalAgreementModal = dynamic(() => import('@/components/modals/RentalAgreementModal'),{ssr:false})
+
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -41,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <PhoneNumberSignInModal />
                     <TripReviewModal />
                     <CarFilters />
+                    <RentalAgreementModal />
                 </ClientOnly>
                 <HideComponentInFrame>
                     <Navbar />

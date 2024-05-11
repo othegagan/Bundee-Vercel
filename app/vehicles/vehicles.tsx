@@ -2,82 +2,78 @@
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { CarCountSkeleton, VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
 import useVehicleSearch from '@/hooks/useVehicleSearch';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { FaStar } from 'react-icons/fa6';
 import { toTitleCase } from '@/lib/utils';
-import CarFilters from './CarFilters';
-import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { FaStar } from 'react-icons/fa6';
+
 import MapComponent from '@/components/map/MapComponent';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import useCarFilterModal from '@/hooks/useCarFilterModal';
+import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import { IoAirplaneSharp } from 'react-icons/io5';
 import { MdOutlineDiscount } from 'react-icons/md';
-import useCarFilterModal from '@/hooks/useCarFilterModal';
-import { Button } from '@/components/ui/button';
 import { VscSettings } from 'react-icons/vsc';
-import { usePathname } from 'next/navigation';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
     const useCarFilter = useCarFilterModal();
 
-    const pathname = usePathname();
-
     useScrollToTopOnLoad(loading);
 
     useEffect(() => {
-        searchVehicles(searchParams);
+        searchVehicles();
     }, [searchParams]);
 
     return (
-        <div className=''>
-            <div
-                className={`z-[29] ${pathname == '/' ? 'block rounded-md' : '-mx-4'} flex flex-col bg-white py-3 md:sticky md:top-[9.5rem] md:flex-row md:items-center md:justify-between`}>
-                <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>Available Cars</h1>
+        <div className='h-[calc(100vh_-_185px)] '>
+            <div className='grid h-full grid-cols-1 gap-4 lg:grid-cols-5'>
+                <div className='   col-span-1 overflow-y-auto lg:col-span-3'>
+                    <div className=' sticky top-0 z-40  my-2 flex w-full justify-between bg-white py-1'>
+                        {loading || useCarFilter.isLoading ? (
+                            <CarCountSkeleton />
+                        ) : (
+                            <h1 className='text-xl font-semibold tracking-tight text-neutral-800 '>
+                                {useCarFilter.filteredCars.length > 0 ? `${useCarFilter.filteredCars.length}  cars found are available.` : ''}
+                            </h1>
+                        )}
+                        <Button className='mr-2 flex gap-3' variant='outline' size='sm' type='button' onClick={useCarFilter.onOpen}>
+                            <VscSettings className='rotate-90' />
+                            Filters
+                            {useCarFilter.appliedFiltersCount > 0 ? (
+                                <p>({useCarFilter.appliedFiltersCount > 0 ? useCarFilter.appliedFiltersCount : ''})</p>
+                            ) : null}
+                        </Button>
+                    </div>
 
-                <div className='flex items-center justify-between gap-4'>
-                    {!loading ? (
-                        <p className='text-sm font-medium text-neutral-600'>{useCarFilter.filteredCars.length} vehicles found.</p>
+                    {loading || useCarFilter.isLoading ? (
+                        <VehiclesCardsSkeleton columns='2' />
                     ) : (
-                        <CarCountSkeleton />
-                    )}
-                    <Button className='flex gap-3 ' variant='outline' type='button' onClick={useCarFilter.onOpen}>
-                        <VscSettings className='rotate-90' />
-                        Filters{' '}
-                        {useCarFilter.appliedFiltersCount > 0 ? <p>({useCarFilter.appliedFiltersCount > 0 ? useCarFilter.appliedFiltersCount : ''})</p> : null}
-                    </Button>
-                </div>
-            </div>
-            {loading ? (
-                <VehiclesCardsSkeleton />
-            ) : (
-                <>
-                    {error ? (
-                        <ErrorComponent />
-                    ) : useCarFilter.filteredCars.length === 0 ? (
-                        <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
-                    ) : (
-                        <div className=''>
-                            <div className=' grid grid-cols-1 gap-5 sm:grid-cols-2 md:hidden md:gap-x-6 md:gap-y-8 lg:grid-cols-3  xl:gap-x-8'>
-                                {useCarFilter.filteredCars.map((car: any) => (
-                                    <CarCard key={car.id} car={car} searchQuery={searchQuery} />
-                                ))}
-                            </div>
-
-                            <div className=' hidden w-full md:grid md:grid-cols-5 md:gap-x-6 md:gap-y-8'>
-                                <div className=' w-full gap-5 md:col-span-3 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8 '>
+                        <>
+                            {error && !useCarFilter.isLoading ? (
+                                <ErrorComponent />
+                            ) : !useCarFilter.isLoading && useCarFilter.filteredCars.length === 0 ? (
+                                <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
+                            ) : (
+                                <div className=' w-full gap-5 md:col-span-3 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-4 '>
                                     {useCarFilter.filteredCars.map((car: any) => (
                                         <CarCard key={car.id} car={car} searchQuery={searchQuery} />
                                     ))}
                                 </div>
-                                <div className='h-[700px] md:sticky md:top-[14rem] md:col-span-2 md:min-w-full'>
-                                    <MapComponent filteredCars={useCarFilter.filteredCars} searchQuery={searchQuery} />
-                                </div>
-                            </div>
-                        </div>
+                            )}
+                        </>
                     )}
-                </>
-            )}
+                </div>
+
+                <div className='col-span-1 h-full w-full overflow-clip rounded lg:col-span-2'>
+                    {loading && !error ? (
+                        <div className='grid place-content-center tracking-wider'> LOADING MAP..</div>
+                    ) : (
+                        <MapComponent searchQuery={searchQuery} filteredCars={useCarFilter.filteredCars} />
+                    )}
+                </div>
+            </div>
         </div>
     );
 };
@@ -95,11 +91,11 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
         }
     });
     return (
-        <div className='custom-shadow group h-fit  rounded-lg bg-white hover:shadow-md'>
+        <div className='group h-fit rounded-lg  border bg-white hover:shadow-md'>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>
                 <Link
                     href={`/vehicles/${car.id}?${searchQuery}`}
-                    className='aspect-video h-44 w-full cursor-pointer overflow-hidden rounded-t-md bg-neutral-200 group-hover:opacity-[0.9] lg:aspect-video lg:h-44'>
+                    className='aspect-video h-44 w-full cursor-pointer overflow-hidden rounded-t-md bg-neutral-200 group-hover:opacity-[0.9] lg:aspect-video lg:h-40'>
                     {images[0]?.imagename ? (
                         <img
                             src={images[0].imagename}
@@ -163,7 +159,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                                 </Tooltip>
                             </TooltipProvider>
                         ) : null}
-                    </div>{' '}
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,11 +5,13 @@ interface CarFilterModalStore {
     filteredCars: any;
     carDetails: any;
     appliedFiltersCount: number;
+    isLoading: boolean;
     onOpen: () => void;
     onClose: () => void;
     setFilteredCars: (data: any) => void;
     setCarDetails: (data: any) => void;
     setAppliedFiltersCount: (data: any) => void;
+    setIsLoading: (data: any) => void;
 }
 
 const useCarFilterModal = create<CarFilterModalStore>(set => ({
@@ -17,6 +19,7 @@ const useCarFilterModal = create<CarFilterModalStore>(set => ({
     filteredCars: [],
     carDetails: [],
     appliedFiltersCount: 0,
+    isLoading: false,
     onOpen: () => {
         set({ isOpen: true });
     },
@@ -29,6 +32,9 @@ const useCarFilterModal = create<CarFilterModalStore>(set => ({
     },
     setAppliedFiltersCount: (count: number) => {
         set({ appliedFiltersCount: count });
+    },
+    setIsLoading: (flag: boolean) => {
+        set({ isLoading: flag });
     },
 }));
 

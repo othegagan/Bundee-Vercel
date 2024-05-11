@@ -3,7 +3,7 @@ import Carousel from '@/components/ui/carousel/carousel';
 import React from 'react';
 
 const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedImages }: any) => {
-    const images: any = [...car.imageresponse].sort((a, b) => {
+    const images: any = [...car?.imageresponse].sort((a, b) => {
         // Sort records with isPrimary true first
         if (a.isPrimary && !b.isPrimary) {
             return -1;

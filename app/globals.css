@@ -191,3 +191,11 @@ td button[disabled] {
 .search-suggestion {
     z-index: 999 !important;
 }
+
+#pdf-controls {
+    display: none;
+}
+
+.ePSHhz {
+    overflow: auto !important;
+}

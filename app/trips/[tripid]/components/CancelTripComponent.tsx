@@ -24,6 +24,11 @@ const CancelTripComponent = ({ tripId }: any) => {
             const response = await cancelReservation(tripId);
             if (response.success) {
                 closeModal();
+                toast({
+                    duration: 3000,
+                    variant: 'success',
+                    description: 'Trip cancellation completed.',
+                });
                 window.location.reload();
             } else {
                 closeModal();
@@ -50,8 +55,9 @@ const CancelTripComponent = ({ tripId }: any) => {
                     openModal();
                 }}
                 variant='destructive'
+                className='w-full'
                 size='lg'>
-                Cancel
+                Cancel trip
             </Button>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>

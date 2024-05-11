@@ -33,6 +33,20 @@ export async function getTripDetailsbyId(tripid: number) {
     }
 }
 
+export async function updateRentalAgreement(tripid: number) {
+    try {
+        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/updateRentalAgreement';
+        const payload = {
+            tripId: tripid,
+            isRentalAgreed: true,
+        };
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 export async function swapRequest(payload: any) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createSwapRequest';
@@ -50,6 +64,7 @@ export async function cancelReservation(tripid: number) {
             tripid: tripid,
         };
         const response = await http.post(url, payload);
+        console.log('cancelReservation ', response.data);
         return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
@@ -83,14 +98,12 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
         }
 
         const data = await response.json();
-        console.log(data);
 
         const messageData = data.messages.map(item => ({
             author: item.author,
             message: item.body,
             deliveryDate: item.dateUpdated, // Adjust as needed
         }));
-        console.log(messageData);
 
         return messageData;
     } catch (error: any) {

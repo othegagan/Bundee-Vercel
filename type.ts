@@ -26,6 +26,14 @@ declare namespace NodeJS {
         CREATE_PAYMENT_INTENT: string;
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
 
-        PERSONA_BEARER_TOKEN:string
+        PERSONA_BEARER_TOKEN: string;
+
+        NEXT_PUBLIC_FIREBASE_APIKEY: string;
+        NEXT_PUBLIC_FIREBASE_AUTHDOMAIN: string;
+        NEXT_PUBLIC_FIREBASE_PROJECTID: string;
+        NEXT_PUBLIC_FIREBASE_STORAGEBUCKET: string;
+        NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID: string;
+        NEXT_PUBLIC_FIREBASE_APPID: string;
+        FIREBASE_VAPID_KEY: string;
     }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { formatDateAndTime, toTitleCase } from '@/lib/utils';
+import Link from 'next/link';
 
 const TripsList = ({ tripsData }) => {
     if (!Array.isArray(tripsData) || tripsData.length === 0) {
@@ -13,16 +14,12 @@ const TripsList = ({ tripsData }) => {
         );
     }
 
-    const handleNavigateToDetails = tripId => {
-        window.location.href = `/trips/${tripId}`;
-    };
-
     return (
         <div className='grid w-full grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6'>
             {tripsData.map(trip => (
-                <div
+                <Link
                     key={trip.tripid}
-                    onClick={() => handleNavigateToDetails(trip.tripid)}
+                    href={`/trips/${trip.tripid}`}
                     className='group col-span-1 flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow md:flex-row'>
                     <div className='h-44 w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 md:h-full md:w-64'>
                         <img
@@ -34,14 +31,14 @@ const TripsList = ({ tripsData }) => {
 
                     <div className='flex flex-auto flex-col'>
                         <div>
-                            <h4 className='font-semibold text-gray-900'>{`${toTitleCase(trip.vehmake)} ${trip.vehmodel} (${trip.vehyear})`}</h4>
+                            <h4 className='font-semibold text-gray-900 capitalize'>{`${trip.vehmake} ${trip.vehmodel} (${trip.vehyear}`}</h4>
                             <div className='mt-2 flex w-full flex-col gap-2 text-xs text-gray-600'>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Start Date</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
                                         <>
                                             {/* {format(new Date(trip.starttime), 'LLL dd, y')} | {format(new Date(trip.starttime), 'h:mm a')} */}
-                                            {formatDateAndTime(trip.starttime, '73301')}
+                                            {formatDateAndTime(trip.starttime, trip?.vehzipcode)}
                                         </>
                                     </div>
                                 </div>
@@ -49,7 +46,7 @@ const TripsList = ({ tripsData }) => {
                                     <div className='w-1/3 space-y-2'>End Date</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
                                         <>
-                                            {formatDateAndTime(trip.endtime, '73301')}
+                                            {formatDateAndTime(trip.endtime, trip?.vehzipcode)}
                                             {/* {format(new Date(trip.endtime), 'LLL dd, y')} | {format(new Date(trip.endtime), 'h:mm a')} */}
                                         </>
                                     </div>
@@ -115,7 +112,7 @@ const TripsList = ({ tripsData }) => {
                             </dl>
                         </div>
                     </div>
-                </div>
+                </Link>
             ))}
         </div>
     );

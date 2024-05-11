@@ -11,7 +11,7 @@ import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 
 const TripDetailComponent = ({ tripId }) => {
     const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
-    const { tripData, loading, error } = useTripDetails(tripId);
+    const { tripData, loading, error, tripRating } = useTripDetails(tripId);
 
     useScrollToTopOnLoad(loading);
 
@@ -38,21 +38,25 @@ const TripDetailComponent = ({ tripId }) => {
                 </div>
             </div>
 
-            {loading ? <VehiclesDetailsSkeleton /> : <MainTripDetails tripData={tripData} tabSelectedIndex={tabSelectedIndex} error={error} />}
+            {loading ? (
+                <VehiclesDetailsSkeleton />
+            ) : (
+                <MainTripDetails tripData={tripData} tripRating={tripRating} tabSelectedIndex={tabSelectedIndex} error={error} />
+            )}
         </BoxContainer>
     );
 };
 
 export default TripDetailComponent;
 
-const MainTripDetails = ({ tripData, tabSelectedIndex, error }) => {
+const MainTripDetails = ({ tripData, tabSelectedIndex, error, tripRating }) => {
     return (
         <div className='mt-6'>
             {error ? (
                 <ErrorComponent />
             ) : (
                 <>
-                    {tabSelectedIndex === 0 && tripData && <Details tripsData={tripData} />}
+                    {tabSelectedIndex === 0 && tripData && <Details tripsData={tripData} tripRating={tripRating} />}
                     {tabSelectedIndex === 1 && <ChatComponent tripsData={tripData} />}
                 </>
             )}

@@ -24,6 +24,7 @@ const ModificationCalendarComponent = ({
     setNewStartDate,
     setNewEndDate,
     setIsInitialLoad,
+    tripStarted,
 }: any) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(originalStartDate),
@@ -92,7 +93,7 @@ const ModificationCalendarComponent = ({
                     onChange={value => onDateSelect(value)}
                     visibleDuration={{ months: 1 }}
                     pageBehavior='visible'
-                    minValue={today(getLocalTimeZone())}
+                    // minValue={tripStarted ? dates.start : today(getLocalTimeZone())}
                     isDateUnavailable={isDateUnavailable}
                     // isInvalid={isInvalid}
                 >

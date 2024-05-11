@@ -64,7 +64,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                     exceededSizeFiles.push(file);
                 }
             });
-            console.log(allowedFiles.length + fileList.length + Number(tripsData?.driverTripStartingBlobs.length || 0));
+            // console.log(allowedFiles.length + fileList.length + Number(tripsData?.driverTripStartingBlobs.length || 0));
 
             if (allowedFiles.length + fileList.length + Number(tripsData?.driverTripStartingBlobs.length || 0) > 10) {
                 toast({
@@ -188,24 +188,23 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
 
     return (
         <>
-            <div>
                 <Button
-                    variant='ghost'
+                    variant='outline'
                     className='relative flex items-center gap-2 text-neutral-500 hover:text-neutral-600'
                     onClick={() => {
                         handleOpenModal();
                     }}>
-                    <FiPaperclip className='w-6 h-6' />
+                    <FiPaperclip className='size-5' />
+                    Upload trip media
                     {noOfFiles > 0 ? (
-                        <div className='absolute inline-flex items-center justify-center w-6 h-6  font-medium text-xs text-white bg-primary rounded-full -top-1 -right-1'>
+                        <div className='absolute inline-flex items-center justify-center size-5  font-medium text-xs text-white bg-primary rounded-full -top-1 -right-1'>
                             {noOfFiles}
                         </div>
                     ) : null}
                 </Button>
-            </div>
 
             {showModal && (
-                <div className='fixed inset-0 z-40 flex items-end bg-black bg-opacity-20 sm:items-center sm:justify-center appear-done enter-done backdrop-blur-[4px]'>
+                <div className='fixed inset-0 z-[99] flex items-end bg-black bg-opacity-20 sm:items-center sm:justify-center appear-done enter-done backdrop-blur-[4px]'>
                     <div
                         className='fixed inset-0 -z-10'
                         onClick={() => {
@@ -224,7 +223,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                                     onClick={() => {
                                         handleCloseModal();
                                     }}>
-                                    <IoClose className='w-6 h-6 text-neutral-500 cursor-pointer' />
+                                    <IoClose className='size-5 text-neutral-500 cursor-pointer' />
                                 </Button>
                             </header>
                             <p className='font-normal text-sm text-neutral-500'>

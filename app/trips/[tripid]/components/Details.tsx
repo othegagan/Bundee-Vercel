@@ -19,14 +19,16 @@ import TripPriceListComponent from './TripPriceListComponent';
 import TripVehicleDetailsComponent from './TripVehicleDetailsComponent';
 import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, formatDateAndTime, formatTime, toTitleCase } from '@/lib/utils';
+import useRentalAgreementModal from '@/hooks/useRentalAgreement';
+import { Download } from 'lucide-react';
+import StartTripComponent from './StartTripComponent';
 
-export default function Details({ tripsData }: any) {
+export default function Details({ tripsData, tripRating }: any) {
     const tripReviewModal = useTripReviewModal();
+    const rentalAgreementModal = useRentalAgreementModal();
 
     const [modifyCalenderOpen, setModifyCalenderOpen] = useState(false);
     const [swapRequestDetails, setSwapRequestDetails] = useState(null);
-
-    const [tripStarting, setTripStarting] = useState(false);
 
     const [error, setError] = useState('');
 
@@ -141,7 +143,8 @@ export default function Details({ tripsData }: any) {
             Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
             ...priceCalculatedList,
-            taxPercentage : priceCalculatedList.taxPercentage  * 100,
+            taxPercentage: priceCalculatedList.taxPercentage * 100,
+            zipCode: tripsData.vehzipcode,
         };
 
         if (type === 'reduction') {
@@ -185,28 +188,6 @@ export default function Details({ tripsData }: any) {
         window.location.reload();
     };
 
-    const handleStartTrip = async () => {
-        try {
-            setTripStarting(true);
-            const response = await startTripByDriver(Number(tripsData.tripid));
-            if (response.success) {
-                window.location.reload();
-            } else {
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Something went wrong in starting the trip',
-                });
-                throw new Error(response.message);
-            }
-        } catch (error) {
-            console.error('Error starting the trip', error);
-            setError(error);
-        } finally {
-            setTripStarting(false);
-        }
-    };
-
     return (
         <>
             <div className='mx-auto mb-10 max-w-7xl px-4 py-2 sm:px-6 md:mb-14 lg:px-8'>
@@ -220,9 +201,7 @@ export default function Details({ tripsData }: any) {
                     </div>
 
                     <div className='mt-4 lg:row-span-3 lg:mt-0'>
-                        <div className='flex justify-end'>
-                            <TripImageVideoUploadComponent tripsData={tripsData} />
-                        </div>
+                        <TripImageVideoUploadComponent tripsData={tripsData} />
 
                         <div className='mt-10 flex flex-col gap-4'>
                             <div className='flex items-center justify-between'>
@@ -278,20 +257,46 @@ export default function Details({ tripsData }: any) {
                             )}
 
                             {tripsData.status.toLowerCase() === 'requested' && <FreeCancellationDate tripsData={tripsData} />}
+
+                            {tripsData.isRentalAgreed && (
+                                <Button
+                                    variant='ghost'
+                                    onClick={() => {
+                                        // console.log(tripsData.rentalAgrrementUrl)
+                                        rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl);
+                                        rentalAgreementModal.setIsAgrrementAcceptedOn(format(new Date(tripsData.rentalAgreedDate), 'PP, h:mm a'));
+                                        rentalAgreementModal.onOpen();
+                                    }}
+                                    className='font-medium leading-none tracking-wide underline underline-offset-2'>
+                                    View Rental Agreement
+                                </Button>
+                            )}
                         </div>
 
-                        <div className='mt-10 flex w-full flex-wrap  gap-3'>
-                            {tripsData.status.toLowerCase() === 'approved' &&
-                                swapRequestDetails?.statuscode.toLowerCase() !== 'swappr' &&
-                                new Date().getTime() < new Date(tripsData.starttime).getTime() - 1000 * 60 * 60 && (
-                                    <Button onClick={handleStartTrip} disabled={tripStarting} className='bg-green-500' size='lg'>
-                                        {tripStarting ? <div className='loader'></div> : 'Start Trip'}
-                                    </Button>
+                        {!tripsData.isRentalAgreed &&
+                        ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) == -1 ? (
+                            <Button
+                                size='lg'
+                                variant='outline'
+                                className='mt-6 w-full'
+                                onClick={() => {
+                                    // console.log(tripsData.rentalAgrrementUrl)
+                                    rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl);
+                                    rentalAgreementModal.setTripId(tripsData.tripid);
+                                    rentalAgreementModal.onOpen();
+                                }}>
+                                Accept Rental Agreement
+                            </Button>
+                        ) : (
+                            <div className='mt-10 grid w-full grid-cols-2  gap-3'>
+                                {tripsData.status.toLowerCase() === 'approved' && swapRequestDetails?.statuscode.toLowerCase() !== 'swappr' && (
+                                    <StartTripComponent starttime={tripsData.starttime} tripid={tripsData.tripid} key={tripsData.tripid} />
                                 )}
+                            </div>
+                        )}
 
-                            {tripsData.status.toLowerCase() === 'approved' ||
-                            tripsData.status.toLowerCase() === 'started' ||
-                            tripsData.status.toLowerCase() === 'requested' ? (
+                        <div className='mt-6 grid w-full grid-cols-2  gap-3'>
+                            {['approved', 'started', 'requested'].indexOf(tripsData.status.toLowerCase()) !== -1 && (
                                 <Button
                                     onClick={() => {
                                         setModifyCalenderOpen(true);
@@ -299,19 +304,35 @@ export default function Details({ tripsData }: any) {
                                         body.style.overflow = 'hidden';
                                     }}
                                     variant='black'
+                                    className='w-full'
                                     size='lg'>
-                                    Modify
+                                    Modify trip
                                 </Button>
-                            ) : null}
+                            )}
 
                             {['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripsData.status.toLowerCase()) === -1 && (
                                 <CancelTripComponent tripId={tripsData.tripid} />
                             )}
                         </div>
 
-                        {tripsData.status.toLowerCase() == 'completed' && tripsData?.vehicleDetails[0]?.tripreview.length == 0 && (
+                        {tripsData.invoiceUrl && (
+                            <div className='flex flex-col gap-2'>
+                                <Button
+                                    className='flex items-center gap-3'
+                                    variant='outline'
+                                    onClick={() => {
+                                        // console.log(tripsData.rentalAgrrementUrl)
+                                        rentalAgreementModal.setInvoicePDFLink(tripsData.invoiceUrl);
+                                        rentalAgreementModal.onOpen();
+                                    }}>
+                                    <Download className='size-4' /> Download Invoice
+                                </Button>
+                            </div>
+                        )}
+
+                        {tripsData.status.toLowerCase() == 'completed' && tripRating.length == 0 && (
                             <div
-                                className='mt-4 w-fit cursor-pointer rounded-md bg-orange-400 px-10 py-2 text-sm font-medium tracking-tight text-white'
+                                className='mt-4 flex w-full cursor-pointer justify-center rounded-md bg-orange-400 px-10 py-2 text-center text-sm font-medium tracking-tight text-white'
                                 onClick={() => {
                                     tripReviewModal.onOpen();
                                     tripReviewModal.setTripData(tripsData);
@@ -362,6 +383,7 @@ export default function Details({ tripsData }: any) {
                                     setNewStartDate={setNewStartDate}
                                     setNewEndDate={setNewEndDate}
                                     setIsInitialLoad={setIsInitialLoad}
+                                    tripStarted={tripsData.status.toLowerCase() === 'started'}
                                 />
                             </div>
                         </div>
