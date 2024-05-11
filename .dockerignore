@@ -1,0 +1,23 @@
+# Ignore .gitignore files
+.gitignore
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore build directory
+build/
+
+# Ignore test directory
+test/
+
+# Ignore coverage directory
+coverage/
+
+# Ignore any files or directories beginning with .env
+.env*
+
+# Ignore any files or directories beginning with .DS_Store
+.DS_Store*
+
+# Ignore any files or directories beginning with thumbs.db
+thumbs.db*
