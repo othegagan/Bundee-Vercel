@@ -48,7 +48,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         <div className='space-y-3'>
                             <p className='font-bold'>Highlights</p>
 
-                            <ul role='list' className='list-disc space-y-2 pl-4 text-sm'>
+                            <ul role='list' className='list-disc space-y-2 pl-4 text-base'>
                                 {vehicleDetails.trim && vehicleDetails.trim !== 'Not Applicable' && vehicleDetails.trim !== 'NA' && (
                                     <li className='text-neutral-600'>{vehicleDetails.trim}</li>
                                 )}
@@ -86,14 +86,14 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                                     const mileageConstraintData = JSON.parse(mileageConstraint.constraintValue);
                                     return mileageConstraintData.extraMileageCost > 0;
                                 }) && (
-                                    <React.Fragment>
+                                    <div>
                                         <p className='font-bold'>Mileage Limit</p>
                                         <div className='flex flex-wrap gap-4'>
                                             {mileageConstraints.map((mileageConstraint, index) => {
                                                 const mileageConstraintData = JSON.parse(mileageConstraint.constraintValue);
                                                 if (mileageConstraintData.extraMileageCost > 0) {
                                                     return (
-                                                        <React.Fragment key={index}>
+                                                        <div key={index}>
                                                             <div className='rounded-md bg-neutral-100 p-4'>
                                                                 <p className='mb-2 text-sm font-medium'>Daily Mileage Limit</p>
                                                                 <p className='text-sm font-bold'>{mileageConstraintData.mileageLimit} miles</p>
@@ -102,14 +102,14 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                                                                 <p className='mb-2 text-sm font-medium'>Additional Cost / Mile</p>
                                                                 <p className='text-sm font-bold'>$ {mileageConstraintData.extraMileageCost}</p>
                                                             </div>
-                                                        </React.Fragment>
+                                                        </div>
                                                     );
                                                 } else {
                                                     return null;
                                                 }
                                             })}
                                         </div>
-                                    </React.Fragment>
+                                    </div>
                                 )}
                             </div>
                         )}
@@ -119,7 +119,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.desciption && (
                         <div className='space-y-3'>
                             <p className='font-bold'>Vehicle Description</p>
-                            <p className='text-base text-gray-900'>{vehicleDetails.desciption}</p>
+                            <pre className=' font-inter text-wrap bg-transparent text-base  text-gray-900 '>{vehicleDetails.desciption}</pre>
                         </div>
                     )}
 
@@ -127,7 +127,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.parkingDetails && (
                         <div className='space-y-3'>
                             <p className='font-bold'>Parking Details</p>
-                            <p className='text-base text-gray-900'>{vehicleDetails.parkingDetails}</p>
+                            <pre className=' font-inter text-wrap bg-transparent text-base  text-gray-900 '>{vehicleDetails.parkingDetails}</pre>
                         </div>
                     )}
 
@@ -135,7 +135,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.guideLines && (
                         <div className='space-y-3'>
                             <p className='font-bold'> Additional GuideLines</p>
-                            <p className='text-base text-gray-900'>{vehicleDetails.guideLines}</p>
+                            <pre className=' font-inter text-wrap bg-transparent text-base  text-gray-900 '>{vehicleDetails.guideLines}</pre>
                         </div>
                     )}
                 </div>

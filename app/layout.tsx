@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from '@/components/Footer';
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 
 import { Toaster } from '@/components/ui/toaster';
 import Navbar from '@/components/navigation/Navbar';
@@ -16,10 +16,9 @@ import PhoneNumberSignInModal from '@/components/modals/PhoneNumberSignInModal';
 import TripReviewModal from '@/components/modals/TripReviewModal';
 import CarFilters from './vehicles/CarFilters';
 
-const RentalAgreementModal = dynamic(() => import('@/components/modals/RentalAgreementModal'),{ssr:false})
+const RentalAgreementModal = dynamic(() => import('@/components/modals/RentalAgreementModal'), { ssr: false });
 
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 
 export const metadata: Metadata = {
     title: 'MyBundee',
