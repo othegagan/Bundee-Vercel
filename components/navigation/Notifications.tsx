@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
+import PushNotifications from '../landing_page/PushNotifications';
 
 export default function NotificationsComponent() {
     const [loading, setLoading] = useState(false);
@@ -57,6 +58,7 @@ export default function NotificationsComponent() {
     useTabFocusEffect(getNotifications, []);
 
     return (
+
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant='ghost' className='relative px-2' onClick={getNotifications}>
@@ -99,6 +101,8 @@ export default function NotificationsComponent() {
                     </>
                 )}
             </DropdownMenuContent>
+            <script src='/firebase-messaging-sw.js'></script>
+            <PushNotifications />
         </DropdownMenu>
     );
 }

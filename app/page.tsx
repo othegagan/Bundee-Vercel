@@ -13,7 +13,7 @@ export default async function Page() {
     return (
         <>
             <HeroSection />
-            {session.isLoggedIn && <PushNotifications />}
+            {/* {session.isLoggedIn && <PushNotifications />} */}
 
             <HideInIFrame>
                 <Available_Locations />
