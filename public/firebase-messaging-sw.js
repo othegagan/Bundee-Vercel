@@ -4,12 +4,12 @@ importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compa
 
 
 firebase.initializeApp({
-    apiKey: "AIzaSyCDrkykMVA-vT7h2KwR9vNs_Jhv4cycuMM",
-    authDomain: "mybundeedev.firebaseapp.com",
-    projectId: "mybundeedev",
-    storageBucket: "mybundeedev.appspot.com",
-    messagingSenderId: "904803044779",
-    appId: "1:904803044779:web:98a2d6323f0222d6c996ee"
+    apiKey: "AIzaSyAtBzIcJK3PdWKZd_dwtTsEXgX5hKZV9hM",
+    authDomain: "mybundeeqa.firebaseapp.com",
+    projectId: "mybundeeqa",
+    storageBucket: "mybundeeqa.appspot.com",
+    messagingSenderId: "999392789960",
+    appId: "1:999392789960:web:1a6b1cd1669517d8beacfd"
 });
 
 const messaging = firebase.messaging();
