@@ -9,9 +9,9 @@ import ChatComponent from './components/ChatComponent';
 import Details from './components/Details';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 
-const TripDetailComponent = ({ tripId }) => {
+const TripDetailComponent = () => {
     const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
-    const { tripData, loading, error, tripRating } = useTripDetails(tripId);
+    const { tripData, loading, error, tripRating } = useTripDetails();
 
     // useScrollToTopOnLoad(loading);
 

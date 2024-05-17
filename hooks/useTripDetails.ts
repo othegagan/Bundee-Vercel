@@ -2,7 +2,7 @@ import { getTripDetailsbyId } from '@/server/tripOperations';
 import { useEffect, useState } from 'react';
 import useTabFocusEffect from './useTabFocusEffect';
 
-export const useTripDetails = tripId => {
+export const useTripDetails = () => {
     const [tripData, setTripData] = useState(null);
     const [tripRating, setTripRating] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -13,11 +13,12 @@ export const useTripDetails = tripId => {
         setError(false);
 
         try {
-            const response = await getTripDetailsbyId(tripId);
+            const tripId = window.location.pathname.split('/')[2];
+            const response = await getTripDetailsbyId(Number(tripId));
 
             if (response.success && response.data.activetripresponse) {
                 setTripData(response.data.activetripresponse[0]);
-                setTripRating(response.data.tripreview)
+                setTripRating(response.data.tripreview);
             } else {
                 throw new Error(response.message);
             }
@@ -31,7 +32,7 @@ export const useTripDetails = tripId => {
 
     useEffect(() => {
         fetchData();
-    }, [tripId]);
+    }, []);
 
     useTabFocusEffect(() => fetchData(), []);
 
