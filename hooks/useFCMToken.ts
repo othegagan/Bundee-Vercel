@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { getMessaging, getToken } from 'firebase/messaging';
-import app from '@/lib/firebase';
+import app, { vapidKey } from '@/lib/firebase';
 import { getDeviceUUID, getSession, saveDeviceUUID } from '@/lib/auth';
 import { updatePushNotificationToken } from '@/server/notifications';
 
@@ -33,7 +33,7 @@ const useFcmToken = () => {
 
                         if (permission === 'granted') {
                             const currentToken = await getToken(messaging, {
-                                vapidKey: 'YOUR_VAPID_KEY', // Replace with your Firebase project's VAPID key
+                                vapidKey: vapidKey, // Replace with your Firebase project's VAPID key
                             });
                             if (currentToken) {
                                 setToken(currentToken);
