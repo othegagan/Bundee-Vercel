@@ -1,7 +1,6 @@
 'use client';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { deleteToken, getMessaging, getToken } from 'firebase/messaging';
 
 export const vapidKey = 'BPXlh9OQxe4gIUZ5gdWrsahfxY8Eu4cxaDn4osuW72ysoyg13swUrwVlNZNz82WVTQrjvVd53STe723itTZ3jVY';
 
@@ -15,26 +14,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
-
 export const auth = getAuth(app);
-export { getToken, messaging };
+
 export default app;
-
-
-export function deleteTokenFromFirebase() {
-    // Delete registration token.
-    getToken(messaging)
-        .then((currentToken: any) => {
-            deleteToken(messaging)
-                .then(() => {
-                    console.log('Token deleted.');
-                })
-                .catch((err: any) => {
-                    console.log('Unable to delete token. ', err);
-                });
-        })
-        .catch((err: any) => {
-            console.log('Error retrieving registration token. ', err);
-        });
-}
