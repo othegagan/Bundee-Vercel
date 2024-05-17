@@ -1,6 +1,6 @@
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { getSession } from '@/lib/auth';
-import DeletAccountComponent from './DeletAccountComponent';
+import DeleteAccountComponent from './DeleteAccountComponent';
 
 export default async function profile() {
     const session = await getSession();
@@ -9,5 +9,5 @@ export default async function profile() {
         return <ErrorComponent message='Oops, it seems you are not logged in. Please log in.' />;
     }
 
-    return <DeletAccountComponent />;
+    return <DeleteAccountComponent />;
 }

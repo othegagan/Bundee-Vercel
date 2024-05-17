@@ -89,7 +89,7 @@ export default function HostPageSearchBox() {
                 <div className='gap-4 px-4 py-6 sm:px-8  sm:py-7 lg:flex lg:items-end '>
                     <div className='mb-4 flex w-full lg:mb-0'>
                         <div className='flex w-full flex-col gap-1 '>
-                            <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zipcode</label>
+                            <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zip code</label>
                             <LocationSearchBox />
                         </div>
                     </div>

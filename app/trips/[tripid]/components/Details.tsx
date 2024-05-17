@@ -264,7 +264,7 @@ export default function Details({ tripsData, tripRating }: any) {
                                     onClick={() => {
                                         // console.log(tripsData.rentalAgrrementUrl)
                                         rentalAgreementModal.setRentalAgreementPDFLink(tripsData.rentalAgrrementUrl);
-                                        rentalAgreementModal.setIsAgrrementAcceptedOn(format(new Date(tripsData.rentalAgreedDate), 'PP, h:mm a'));
+                                        rentalAgreementModal.setIsAgreementAcceptedOn(format(new Date(tripsData.rentalAgreedDate), 'PP, h:mm a'));
                                         rentalAgreementModal.onOpen();
                                     }}
                                     className='font-medium leading-none tracking-wide underline underline-offset-2'>

@@ -41,7 +41,7 @@ export default function CheckoutSuccess() {
                     </p>
                     <div className='mt-10'>
                         <Link
-                            className='ounded-md rounded-full bg-green-600 p-4 text-sm font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
+                            className=' rounded-full bg-green-600 p-4 text-sm font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
                             href='/trips'>
                             See Trip Status
                         </Link>

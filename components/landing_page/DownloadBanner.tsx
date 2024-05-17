@@ -52,7 +52,7 @@ export default function DownloadBanner() {
                             <svg viewBox='0 0 2 2' className='mx-2 inline h-0.5 w-0.5 fill-current' aria-hidden='true'>
                                 <circle cx={1} cy={1} r={1} />
                             </svg>
-                            Download the IOS and Andrioid App for better search experiences.
+                            Download the IOS and Android App for better search experiences.
                         </p>
 
                         {/* <Link href='/downloads' className='flex lex-none rounded-full bg-gray-900 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900'>

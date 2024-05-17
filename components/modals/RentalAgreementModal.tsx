@@ -20,7 +20,7 @@ const RentalAgreementModal = () => {
     function closeModal() {
         rentalAgreementModal.setRentalAgreementPDFLink('');
         rentalAgreementModal.setInvoicePDFLink('');
-        rentalAgreementModal.setIsAgrrementAcceptedOn('');
+        rentalAgreementModal.setIsAgreementAcceptedOn('');
         rentalAgreementModal.onClose();
     }
 
@@ -39,9 +39,9 @@ const RentalAgreementModal = () => {
                         </Link>
                     ) : (
                         <div>
-                            {rentalAgreementModal.isAgreemnetAcceptedOn ? (
+                            {rentalAgreementModal.isAgreementAcceptedOn ? (
                                 <label htmlFor='terms1' className='ml-6 mt-4 text-sm font-medium leading-none tracking-normal'>
-                                    MyBundee's Rental Agreement accepted on <br className='md:hidden' /> {rentalAgreementModal.isAgreemnetAcceptedOn}
+                                    MyBundee's Rental Agreement accepted on <br className='md:hidden' /> {rentalAgreementModal.isAgreementAcceptedOn}
                                 </label>
                             ) : (
                                 <RentalAgreementCheckBox />

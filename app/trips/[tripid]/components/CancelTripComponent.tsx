@@ -42,7 +42,7 @@ const CancelTripComponent = ({ tripId }: any) => {
                 throw new Error(response.message);
             }
         } catch (error) {
-            console.error('Error cencelling the trip', error);
+            console.error('Error cancelling the trip', error);
         } finally {
             setLoading(false);
         }

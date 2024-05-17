@@ -15,7 +15,7 @@ export default function FAQ() {
             },
             {
                 question: 'Why aren’t you available in more cities?',
-                answer: 'We are working closely with small and mid-size Fleet owners to make sure we have the right features to ensure their success (and eventually ours)  We want to dothat by launching in select markets first, then get a lot of feedback and implement that feedback in the platform before bringing on more markets.  We expect to cover more cities in the coming months',
+                answer: 'We are working closely with small and mid-size fleet owners to ensure we have the right features to support their success (and eventually ours). We aim to achieve this by launching in select markets first, gathering extensive feedback, and implementing that feedback into our platform before expanding to additional markets. We expect to cover more cities in the coming months.',
             },
             {
                 question: 'How do I search for available vehicles on mybundee.com?',

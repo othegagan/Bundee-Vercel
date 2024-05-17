@@ -21,7 +21,7 @@ const PhoneNumberModal = () => {
     const [verificationCode, setVerificationCode] = useState('');
     const [verificationSent, setVerificationSent] = useState(false);
     const [otpError, setOTPError] = useState('');
-    const [verifiying, setVerifiying] = useState(false);
+    const [verifying, setVerifiying] = useState(false);
 
     const handleSendVerificationCode = async () => {
         try {
@@ -126,7 +126,7 @@ const PhoneNumberModal = () => {
             'auth/too-many-requests': 'Too many requests. Please try again later.',
             'auth/user-disabled': 'Account has been disabled.',
             'auth/missing-password': 'Please enter your password.',
-            'auth/invalid-credential': 'Invailid Credentials. Please try again.',
+            'auth/invalid-credential': 'Invalid Credentials. Please try again.',
             'auth/invalid-phone-number': 'Invalid phone number. Please enter a valid phone number.',
             'auth/auth/code-expired': 'Invalid OTP. Please enter a valid OTP.',
             'auth/invalid-verification-code': 'Invalid OTP. Please enter a valid OTP.',
@@ -206,8 +206,8 @@ const PhoneNumberModal = () => {
                                 </InputOTPGroup>
                             </InputOTP>
 
-                            <Button type='button' className='w-fit' disabled={verificationCode.length !== 6 || verifiying} onClick={handleVerifyCode}>
-                                {verifiying ? <div className='loader '></div> : <>Verify Code</>}
+                            <Button type='button' className='w-fit' disabled={verificationCode.length !== 6 || verifying} onClick={handleVerifyCode}>
+                                {verifying ? <div className='loader '></div> : <>Verify Code</>}
                             </Button>
                         </div>
                     )}

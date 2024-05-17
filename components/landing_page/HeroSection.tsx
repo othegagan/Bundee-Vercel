@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Container from '../BoxContainer';
 import LocationSearchComponent from '../search_box/LocationSearchComponent';
 
-const HeroSeaction = () => {
+const HeroSection = () => {
     return (
         <div className='relative'>
             <Image
@@ -26,4 +26,4 @@ const HeroSeaction = () => {
     );
 };
 
-export default HeroSeaction;
+export default HeroSection;

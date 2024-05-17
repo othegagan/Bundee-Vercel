@@ -33,12 +33,12 @@ const RegisterModal = () => {
     const [agreeError, setAgreeError] = useState(false);
     const [firebaseError, setFirebaseError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [showSucessfullSignUp, setShowSucessfullSignUp] = useState(false);
+    const [showSuccessfulSignUp, setShowSuccessfulSignUp] = useState(false);
 
-    const [marketingAgree, setMarketingAgree] = useState(false);
+    const [marketingAgree, setMarketingAgree] = useState(true);
     const [marketingAgreeError, setMarketingAgreeError] = useState(false);
 
-    const [accountUpdateAgree, setAccountUpdateAgree] = useState(false);
+    const [accountUpdateAgree, setAccountUpdateAgree] = useState(true);
     const [accountUpdateAgreeError, setAccountUpdateAgreeError] = useState(false);
 
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -78,32 +78,32 @@ const RegisterModal = () => {
         event.preventDefault();
         if (checkForValidations() && agree) {
             setLoading(true);
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-                await sendEmailVerification(userCredential.user);
+            // try {
+            //     const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+            //     await sendEmailVerification(userCredential.user);
 
-                const dataToCreateUser = {
-                    firstname: formData.firstName,
-                    lastname: formData.lastName,
-                    email: formData.email,
-                    mobilephone: phoneNumber,
-                };
+            //     const dataToCreateUser = {
+            //         firstname: formData.firstName,
+            //         lastname: formData.lastName,
+            //         email: formData.email,
+            //         mobilephone: phoneNumber,
+            //     };
 
-                const data = await createNewUser(dataToCreateUser);
+            //     const data = await createNewUser(dataToCreateUser);
 
-                if (data.success) {
-                    setShowSucessfullSignUp(true);
-                } else {
-                    throw new Error('Unable to create user');
-                }
-            } catch (error) {
-                if (error.code === 'auth/email-already-in-use') {
-                    setFirebaseError('Account Already exist please login');
-                } else {
-                    setFirebaseError('An error occurred during sign up');
-                }
-                setLoading(false);
-            }
+            //     if (data.success) {
+            //         setShowSucessfullSignUp(true);
+            //     } else {
+            //         throw new Error('Unable to create user');
+            //     }
+            // } catch (error) {
+            //     if (error.code === 'auth/email-already-in-use') {
+            //         setFirebaseError('Account Already exist please login');
+            //     } else {
+            //         setFirebaseError('An error occurred during sign up');
+            //     }
+            //     setLoading(false);
+            // }
         }
     };
 
@@ -272,15 +272,15 @@ const RegisterModal = () => {
             return false;
         }
 
-        if (!marketingAgree) {
-            setMarketingAgreeError(true);
-            return false;
-        }
+        // if (!marketingAgree) {
+        //     setMarketingAgreeError(true);
+        //     return false;
+        // }
 
-        if (!accountUpdateAgree) {
-            setAccountUpdateAgreeError(true);
-            return false;
-        }
+        // if (!accountUpdateAgree) {
+        //     setAccountUpdateAgreeError(true);
+        //     return false;
+        // }
 
         return true;
     };
@@ -291,15 +291,16 @@ const RegisterModal = () => {
 
     function closeModal() {
         registerModal.onClose();
-        setShowSucessfullSignUp(false);
+        setShowSuccessfulSignUp(false);
         setAgree(false);
         setAgreeError(false);
-        setAccountUpdateAgree(false);
+        setAccountUpdateAgree(true);
         setAccountUpdateAgreeError(false);
-        setMarketingAgree(false);
+        setMarketingAgree(true);
         setMarketingAgreeError(false);
         setFirebaseError('');
         setPhoneNumber('');
+        setLoading(false);
 
         setFormData({
             email: '',
@@ -323,7 +324,7 @@ const RegisterModal = () => {
             <ModalBody>
                 <ClientOnly>
                     <main className='flex items-center justify-center  md:px-4'>
-                        {!showSucessfullSignUp && (
+                        {!showSuccessfulSignUp && (
                             <div className='w-full'>
                                 {/* <div className='flex flex-col items-center gap-4 mt-3 md:mt-0'>
                                     <Logo className='scale-[1.3]' />
@@ -336,7 +337,7 @@ const RegisterModal = () => {
                                     }}>
                                     <div className='mb-3 grid grid-cols-6 gap-2'>
                                         <div className='col-span-6 sm:col-span-3'>
-                                            <Label>First Name</Label>
+                                            <Label>First Name <span>*</span></Label>
                                             <div className='mt-2'>
                                                 <Input
                                                     id='firstName'
@@ -351,7 +352,7 @@ const RegisterModal = () => {
                                             {authErrors.firstName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.firstName}</p>}
                                         </div>
                                         <div className='col-span-6 sm:col-span-3'>
-                                            <Label>Last Name</Label>
+                                            <Label>Last Name <span>*</span></Label>
                                             <div className='mt-2'>
                                                 <Input
                                                     id='lastName'
@@ -366,16 +367,8 @@ const RegisterModal = () => {
                                             {authErrors.lastName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.lastName}</p>}
                                         </div>
                                     </div>
-                                    <Label>Phone Number</Label>
+                                    <Label>Phone Number <span>*</span></Label>
                                     <div className='mt-2'>
-                                        {/* <Input
-                                            id='phoneNumber'
-                                            name='phoneNumber'
-                                            required
-                                            value={formData.phoneNumber}
-                                            onChange={handleChange}
-                                            className={`block w-full ${authErrors.phoneNumber ? 'border-destructive' : ''}`}
-                                        /> */}
 
                                         <PhoneInput
                                             value={phoneNumber}
@@ -388,7 +381,7 @@ const RegisterModal = () => {
                                         {authErrors.phoneNumber && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.phoneNumber}</p>}
                                     </div>
                                     <div className='mt-4'>
-                                        <Label>Email address</Label>
+                                        <Label>Email address <span>*</span></Label>
                                         <div className='mt-2'>
                                             <Input
                                                 id='email'
@@ -404,7 +397,7 @@ const RegisterModal = () => {
                                     </div>
 
                                     <div className='mt-4'>
-                                        <Label>Password</Label>
+                                            <Label>Password <span>*</span></Label>
                                         <div className='relative'>
                                             <button
                                                 tabIndex={-1}
@@ -429,7 +422,7 @@ const RegisterModal = () => {
                                         {authErrors.password && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.password}</p>}
                                     </div>
                                     <div className='mt-4'>
-                                        <Label>Confirm Password</Label>
+                                        <Label>Confirm Password <span>*</span></Label>
                                         <div className='relative'>
                                             <button
                                                 tabIndex={-1}
@@ -565,7 +558,7 @@ const RegisterModal = () => {
                             </div>
                         )}
 
-                        {showSucessfullSignUp && (
+                        {showSuccessfulSignUp && (
                             <div className='flex flex-col items-center justify-center gap-4'>
                                 <img src='/party.svg' alt='party_cone' className='h-40 w-96 object-contain' />
                                 <h3>Thanks {formData.firstName} for joining the Bundee</h3>
@@ -579,7 +572,7 @@ const RegisterModal = () => {
                                     onClick={() => {
                                         loginModal.onOpen();
                                         closeModal();
-                                        setShowSucessfullSignUp(false);
+                                        setShowSuccessfulSignUp(false);
                                     }}>
                                     Login
                                 </Button>

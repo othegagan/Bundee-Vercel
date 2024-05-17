@@ -93,7 +93,7 @@ const usePersona = () => {
             console.error('Error in handleComplete:', e);
             toast({
                 duration: 4000,
-                description: 'Something went wrong while saving the deatils.',
+                description: 'Something went wrong while saving the details.',
                 variant: 'destructive',
             });
         } finally {

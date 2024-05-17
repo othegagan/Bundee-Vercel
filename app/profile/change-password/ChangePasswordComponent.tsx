@@ -84,7 +84,7 @@ const ChangePasswordComponent = () => {
                 <div className='w-full'>
                     <div className='w-full'>
                         <h2 className='mt-10 text-left text-2xl font-bold leading-9 tracking-tight text-gray-900'>Something went wrong.</h2>
-                        <p className=' mt-4 text-left text-gray-600'>We have encounter some prblem reseting your password, please try again</p>
+                        <p className=' mt-4 text-left text-gray-600'>We have encounter some problem resting your password, please try again</p>
                     </div>
                 </div>
             )}

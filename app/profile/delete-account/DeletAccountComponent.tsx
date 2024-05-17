@@ -6,7 +6,7 @@ import { deleteAccount } from '@/server/userOperations';
 import { toast } from '@/components/ui/use-toast';
 import { logout } from '@/lib/auth';
 
-const DeletAccountComponent = () => {
+const DeleteAccountComponent = () => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -88,4 +88,4 @@ const DeletAccountComponent = () => {
     );
 };
 
-export default DeletAccountComponent;
+export default DeleteAccountComponent;

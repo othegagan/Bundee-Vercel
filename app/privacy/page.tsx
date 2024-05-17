@@ -9,7 +9,7 @@ const Privacy = () => {
                 </div>
 
                 <p className=' text-neutral-700'>
-                    <span className='text-primary'>Bundee</span> ('Bunde', 'we', 'us', or 'our') recognizes the importance of privacy. In this Privacy Policy, we describe how we collect, use, and disclose information that we obtain about users of our website MyBundee.com (the 'Site'), our mobile application (the 'App'), and the services available through our Site and App (collectively, the Site, the App, and the services available through them are the 'Services').
+                    <span className='text-primary'>Bundee</span> ('MyBundee', 'we', 'us', or 'our') recognizes the importance of privacy. In this Privacy Policy, we describe how we collect, use, and disclose information that we obtain about users of our website MyBundee.com (the 'Site'), our mobile application (the 'App'), and the services available through our Site and App (collectively, the Site, the App, and the services available through them are the 'Services').
                 </p>
 
                 <p className='mt-4'>

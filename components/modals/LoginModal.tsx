@@ -86,8 +86,8 @@ const LoginModal = () => {
             'auth/too-many-requests': 'Too many requests. Please try again later.',
             'auth/user-disabled': 'Account has been disabled.',
             'auth/missing-password': 'Please enter your password.',
-            'auth/invalid-credential': 'Invailid Credentials. Please try again.',
-            'auth/invalid-login-credentials': 'Invailid Credentials. Please try again.',
+            'auth/invalid-credential': 'Invalid Credentials. Please try again.',
+            'auth/invalid-login-credentials': 'Invalid Credentials. Please try again.',
             default: 'An error occurred. Please try again.',
         };
         setPassword('');
@@ -182,7 +182,7 @@ const LoginModal = () => {
                                     handleLogin(event);
                                 }}>
                                 <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
-                                    Email address
+                                    Email address <span>*</span>
                                 </label>
                                 <div className='mt-1'>
                                     <Input
@@ -196,7 +196,7 @@ const LoginModal = () => {
                                     />
                                 </div>
                                 <label htmlFor='password' className='mt-4 block text-sm font-medium text-gray-700'>
-                                    Password
+                                    Password <span>*</span>
                                 </label>
                                 <div className='relative'>
                                     <div

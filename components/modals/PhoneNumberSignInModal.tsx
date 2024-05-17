@@ -32,7 +32,7 @@ const PhoneNumberSignInModal = () => {
     const [otpError, setOTPError] = useState('');
 
     const [loading, setLoading] = useState(false);
-    const [verfying, setVerifying] = useState(false);
+    const [verifying, setVerifying] = useState(false);
 
     const handleSendVerificationCode = async event => {
         event.preventDefault();
@@ -130,10 +130,10 @@ const PhoneNumberSignInModal = () => {
             'auth/too-many-requests': 'Too many requests. Please try again later.',
             'auth/user-disabled': 'Account has been disabled.',
             'auth/missing-password': 'Please enter your password.',
-            'auth/invalid-credential': 'Invailid Credentials. Please try again.',
+            'auth/invalid-credential': 'Invalid Credentials. Please try again.',
             'auth/argument-error': 'Invalid argument. Please check your input and try again.',
             'auth/invalid-phone-number': 'Invalid phone number. Please enter a valid phone number.',
-            'auth/invalid-login-credentials': 'Invailid Credentials. Please try again.',
+            'auth/invalid-login-credentials': 'Invalid Credentials. Please try again.',
             default: 'An error occurred. Please try again.',
         };
         setPhoneNumber('');
@@ -193,8 +193,8 @@ const PhoneNumberSignInModal = () => {
                                         </InputOTPGroup>
                                     </InputOTP>
 
-                                    <Button type='button' disabled={verificationCode.length != 6 || verfying} onClick={onOTPVerify}>
-                                        {verfying ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Verify Code</>}
+                                    <Button type='button' disabled={verificationCode.length != 6 || verifying} onClick={onOTPVerify}>
+                                        {verifying ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Verify Code</>}
                                     </Button>
                                 </div>
                             )}

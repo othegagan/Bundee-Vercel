@@ -153,7 +153,7 @@ const ProfilePage = () => {
         }
     };
 
-    const handleInsuranceSubit = async () => {
+    const handleInsuranceSubmit = async () => {
         const session = await getSession();
         setProcessing(true);
 
@@ -259,7 +259,7 @@ const ProfilePage = () => {
             <div className='space-y-4'>
                 <div className='border-b-2 border-neutral-900/10 pb-2'>
                     <div className='flex items-center justify-between'>
-                        <h2 className=' text-base font-semibold leading-7'>Moblie Phone</h2>
+                        <h2 className=' text-base font-semibold leading-7'> Phone Number</h2>
                         {activeSection !== 'phoneNumber' ? (
                             <Button
                                 variant='outline'
@@ -358,7 +358,7 @@ const ProfilePage = () => {
                                 </div>
 
                                 <div className='flex flex-col gap-2'>
-                                    <Label>Zipcode</Label>
+                                    <Label>Zip code</Label>
                                     <Input
                                         type='text'
                                         value={savedData.postcode}
@@ -438,7 +438,7 @@ const ProfilePage = () => {
                                 </div>
                             </div>
 
-                            <Button className='max-w-fit' type='button' disabled={processing} variant='black' onClick={handleInsuranceSubit}>
+                            <Button className='max-w-fit' type='button' disabled={processing} variant='black' onClick={handleInsuranceSubmit}>
                                 {processing ? (
                                     <p>
                                         <div className='loader'></div>
