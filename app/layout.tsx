@@ -46,7 +46,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <TripReviewModal />
                     <CarFilters />
                     <RentalAgreementModal />
-                    <PushNotifications />
                 </ClientOnly>
                 <HideComponentInFrame>
                     <Navbar />

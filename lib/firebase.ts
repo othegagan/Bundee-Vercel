@@ -1,5 +1,4 @@
 'use client';
-import { updatePushNotificationToken } from '@/server/notifications';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { deleteToken, getMessaging, getToken } from 'firebase/messaging';
@@ -22,32 +21,6 @@ export const auth = getAuth(app);
 export { getToken, messaging };
 export default app;
 
-const getFirebaseToken = async () => {
-    try {
-        const currentToken = await getToken(messaging, { vapidKey: vapidKey });
-        if (!currentToken) {
-            console.log('No registration token available. Request permission to generate one.');
-            return;
-        }
-        return currentToken;
-    } catch (error) {
-        console.log('An error occurred while retrieving token. ', error);
-    }
-};
-
-export const requestForToken = async (uuid: string) => {
-    try {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-            const currentToken = await getFirebaseToken();
-            const callBackUrl = 'https://bundee-webdriver-qa.vercel.app/';
-            const response = await updatePushNotificationToken(uuid, currentToken, callBackUrl);
-            console.log('Successfully updated push notification token');
-        }
-    } catch (error) {
-        console.log('An error occurred while getting user permission. ', error);
-    }
-};
 
 export function deleteTokenFromFirebase() {
     // Delete registration token.

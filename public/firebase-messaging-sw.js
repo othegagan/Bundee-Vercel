@@ -12,40 +12,67 @@ firebase.initializeApp({
     appId: "1:999392789960:web:1a6b1cd1669517d8beacfd"
 });
 
-const messaging = firebase.messaging();
+class CustomPushEvent extends Event {
+    constructor(data) {
+        super('push');
 
-
-if ('serviceWorker' in navigator) {
-    console.log('in the service worker')
-    navigator.serviceWorker.register('./firebase-messaging-sw.js')
-        .then(function (registration) {
-            console.log('Registration successful, scope is:', registration.scope);
-        }).catch(function (err) {
-            console.log('Service worker registration failed, error:', err);
-        });
+        Object.assign(this, data);
+        this.custom = true;
+    }
 }
 
-self.addEventListener('push', function (event) {
-    console.log('[Service Worker] Push Received.');
-    console.log(`[Service Worker] Push had this data: `);
-    console.log(JSON.parse(event.data.text()));//
-    const notificationObject = JSON.parse(event.data.text());
 
-    const data = notificationObject.notification;
-    const title = data.title;
-    const options = {
-        body: title.body,
-        icon: '/bundee-logo.png',
-    };
-    self.notificationURL = data.click_action;
-    event.waitUntil(self.registration.showNotification(title, options));
+self.addEventListener('push', (e) => {
+    // Skip if event is our own custom event
+    if (e.custom) return;
+
+    // Kep old event data to override
+    const oldData = e.data;
+
+    // Create a new event to dispatch, pull values from notification key and put it in data key,
+    // and then remove notification key
+    const newEvent = new CustomPushEvent({
+        data: {
+            ehheh: oldData.json(),
+            json() {
+                const newData = oldData.json();
+                newData.data = {
+                    ...newData.data,
+                    ...newData.notification,
+                };
+                delete newData.notification;
+                return newData;
+            },
+        },
+        waitUntil: e.waitUntil.bind(e),
+    });
+
+    // Stop event propagation
+    e.stopImmediatePropagation();
+
+    // Dispatch the new wrapped event
+    dispatchEvent(newEvent);
 });
 
-self.addEventListener('notificationclick', function (event) {
-    console.log('[Service Worker] Notification click Received.');
-    event.notification.close();
+const messaging = firebase.messaging();
 
-    event.waitUntil(
-        clients.openWindow(self.notificationURL)
-    );
+messaging.onBackgroundMessage((payload) => {
+    // console.log('[firebase-messaging-sw.js] Received background message ', payload);
+
+    const { title, body, image, icon, ...restPayload } = payload.data;
+    const notificationOptions = {
+        body,
+        icon: image || '/bundee-logo.png', // path to your "fallback" firebase notification logo
+        data: restPayload,
+    };
+    return self.registration.showNotification(title, notificationOptions);
+});
+
+self.addEventListener('notificationclick', (event) => {
+    if (event?.notification?.data && event?.notification?.data?.link) {
+        self.clients.openWindow(event.notification.data.link);
+    }
+
+    // close notification after click
+    event.notification.close();
 });
