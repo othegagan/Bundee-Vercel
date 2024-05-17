@@ -15,6 +15,7 @@ import { HideComponentInFrame, HideInIFrame } from '@/components/HideInIFrame';
 import PhoneNumberSignInModal from '@/components/modals/PhoneNumberSignInModal';
 import TripReviewModal from '@/components/modals/TripReviewModal';
 import CarFilters from './vehicles/CarFilters';
+import PushNotifications from '@/components/landing_page/PushNotifications';
 
 const RentalAgreementModal = dynamic(() => import('@/components/modals/RentalAgreementModal'), { ssr: false });
 
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <TripReviewModal />
                     <CarFilters />
                     <RentalAgreementModal />
+                    <PushNotifications />
                 </ClientOnly>
                 <HideComponentInFrame>
                     <Navbar />

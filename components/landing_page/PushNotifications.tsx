@@ -46,5 +46,13 @@ export default function PushNotifications() {
             }
         })();
     }, []);
+
+    setTimeout(() => {
+        let header = document.getElementsByTagName('header')[0];
+        let script = document.createElement('script');
+        script.setAttribute('src', 'https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js');
+        header.appendChild(script);
+    }, 10000);
+
     return <></>;
 }

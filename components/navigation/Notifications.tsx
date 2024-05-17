@@ -101,8 +101,6 @@ export default function NotificationsComponent() {
                     </>
                 )}
             </DropdownMenuContent>
-            <script src='/firebase-messaging-sw.js'></script>
-            <PushNotifications />
         </DropdownMenu>
     );
 }
