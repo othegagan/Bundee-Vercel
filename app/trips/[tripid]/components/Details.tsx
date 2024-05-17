@@ -1,3 +1,4 @@
+'use client'
 import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { CalendarSelectSkeleton } from '@/components/skeletons/skeletons';

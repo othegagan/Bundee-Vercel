@@ -9,9 +9,5 @@ export default async function TripDetailsPage({ params }: { params: { tripid: st
         return <ErrorComponent message='Oops, it seems you are not logged in. Please log in.' />;
     }
 
-    if (!Number(params.tripid)) {
-        return <ErrorComponent />;
-    }
-
     return <TripDetailComponent tripId={Number(params.tripid)} />;
 }

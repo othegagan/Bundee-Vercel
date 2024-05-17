@@ -13,7 +13,7 @@ const TripDetailComponent = ({ tripId }) => {
     const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
     const { tripData, loading, error, tripRating } = useTripDetails(tripId);
 
-    useScrollToTopOnLoad(loading);
+    // useScrollToTopOnLoad(loading);
 
     return (
         <BoxContainer className='mb-6 py-6'>

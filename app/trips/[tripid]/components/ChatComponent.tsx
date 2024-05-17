@@ -1,3 +1,4 @@
+'use client';
 import { format } from 'date-fns';
 import React, { useState, useRef, useEffect } from 'react';
 import Carousel from '@/components/ui/carousel/carousel';

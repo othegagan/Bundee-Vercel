@@ -1,3 +1,4 @@
+'use client';
 import TripImageVideoCarousel from '@/app/trips/[tripid]/components/TripImageVideoCarousel';
 import Carousel from '@/components/ui/carousel/carousel';
 import React from 'react';

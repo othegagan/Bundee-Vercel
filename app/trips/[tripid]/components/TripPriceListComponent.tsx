@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { roundToTwoDecimalPlaces } from '@/lib/utils';
@@ -54,7 +55,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                 {pricelist?.deliveryCost > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md flex items-center gap-1'>
-                        <div className='text-md'>Additional services chosen</div>
+                            <div className='text-md'>Additional services chosen</div>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button variant='ghost' className=' h-fit w-fit p-1' type='button'>
@@ -88,7 +89,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                 {(pricelist?.tripFee > 0 || pricelist?.concessionFee > 0 || pricelist?.Statesurchargeamount > 0 || pricelist?.registrationRecoveryFee > 0) && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md flex items-center gap-1'>
-                        <div className='text-md'>Trip Fee</div>
+                            <div className='text-md'>Trip Fee</div>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button variant='ghost' className=' h-fit w-fit p-1' type='button'>
