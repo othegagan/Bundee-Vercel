@@ -22,6 +22,12 @@ import { Label } from '../ui/label';
 import { PhoneInput } from '../ui/phone-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
+function validateNANPPhoneNumber(phoneNumber) {
+    // NANP format: +1 (optional) followed by 10 digits, with optional separators
+    const phoneRegex = /^(?:\+1\s?)?(\d{3}[-.\s]?\d{3}[-.\s]?\d{4}|\(\d{3}\)\s?\d{3}[-.\s]?\d{4})$/;
+    return phoneRegex.test(phoneNumber);
+}
+
 const RegisterModal = () => {
     const router = useRouter();
     const loginModal = useLoginModal();
@@ -78,32 +84,34 @@ const RegisterModal = () => {
         event.preventDefault();
         if (checkForValidations() && agree) {
             setLoading(true);
-            // try {
-            //     const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-            //     await sendEmailVerification(userCredential.user);
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+                await sendEmailVerification(userCredential.user);
 
-            //     const dataToCreateUser = {
-            //         firstname: formData.firstName,
-            //         lastname: formData.lastName,
-            //         email: formData.email,
-            //         mobilephone: phoneNumber,
-            //     };
+                const dataToCreateUser = {
+                    firstname: formData.firstName,
+                    lastname: formData.lastName,
+                    email: formData.email,
+                    mobilephone: phoneNumber,
+                };
 
-            //     const data = await createNewUser(dataToCreateUser);
+                const data = await createNewUser(dataToCreateUser);
 
-            //     if (data.success) {
-            //         setShowSucessfullSignUp(true);
-            //     } else {
-            //         throw new Error('Unable to create user');
-            //     }
-            // } catch (error) {
-            //     if (error.code === 'auth/email-already-in-use') {
-            //         setFirebaseError('Account Already exist please login');
-            //     } else {
-            //         setFirebaseError('An error occurred during sign up');
-            //     }
-            //     setLoading(false);
-            // }
+                if (data.success) {
+                    setLoading(false);
+                    setShowSuccessfulSignUp(true);
+                } else {
+                    throw new Error('Unable to create user');
+                }
+            } catch (error) {
+                console.log(error)
+                if (error.code === 'auth/email-already-in-use') {
+                    setFirebaseError('Account Already exist please login');
+                } else {
+                    setFirebaseError('An error occurred during sign up');
+                }
+                setLoading(false);
+            }
         }
     };
 
@@ -207,7 +215,7 @@ const RegisterModal = () => {
             return false;
         }
 
-        if (!isValidPhoneNumber(phoneNumber)) {
+        if (!validateNANPPhoneNumber(phoneNumber)) {
             setAuthErrors({
                 password: '',
                 confirmPassword: '',
@@ -309,6 +317,15 @@ const RegisterModal = () => {
             password: '',
             confirmPassword: '',
         });
+
+        setAuthErrors({
+            password: '',
+            confirmPassword: '',
+            email: '',
+            firstName: '',
+            lastName: '',
+            phoneNumber: '',
+        });
     }
 
     function isValidEmail(email) {
@@ -337,7 +354,9 @@ const RegisterModal = () => {
                                     }}>
                                     <div className='mb-3 grid grid-cols-6 gap-2'>
                                         <div className='col-span-6 sm:col-span-3'>
-                                            <Label>First Name <span>*</span></Label>
+                                            <Label>
+                                                First Name <span>*</span>
+                                            </Label>
                                             <div className='mt-2'>
                                                 <Input
                                                     id='firstName'
@@ -352,7 +371,9 @@ const RegisterModal = () => {
                                             {authErrors.firstName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.firstName}</p>}
                                         </div>
                                         <div className='col-span-6 sm:col-span-3'>
-                                            <Label>Last Name <span>*</span></Label>
+                                            <Label>
+                                                Last Name <span>*</span>
+                                            </Label>
                                             <div className='mt-2'>
                                                 <Input
                                                     id='lastName'
@@ -367,10 +388,12 @@ const RegisterModal = () => {
                                             {authErrors.lastName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.lastName}</p>}
                                         </div>
                                     </div>
-                                    <Label>Phone Number <span>*</span></Label>
+                                    <Label>
+                                        Phone Number <span>*</span>
+                                    </Label>
                                     <div className='mt-2'>
-
                                         <PhoneInput
+                                            //@ts-ignore
                                             value={phoneNumber}
                                             onChange={setPhoneNumber}
                                             defaultCountry='US'
@@ -381,7 +404,9 @@ const RegisterModal = () => {
                                         {authErrors.phoneNumber && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.phoneNumber}</p>}
                                     </div>
                                     <div className='mt-4'>
-                                        <Label>Email address <span>*</span></Label>
+                                        <Label>
+                                            Email address <span>*</span>
+                                        </Label>
                                         <div className='mt-2'>
                                             <Input
                                                 id='email'
@@ -397,7 +422,9 @@ const RegisterModal = () => {
                                     </div>
 
                                     <div className='mt-4'>
-                                            <Label>Password <span>*</span></Label>
+                                        <Label>
+                                            Password <span>*</span>
+                                        </Label>
                                         <div className='relative'>
                                             <button
                                                 tabIndex={-1}
@@ -422,7 +449,9 @@ const RegisterModal = () => {
                                         {authErrors.password && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.password}</p>}
                                     </div>
                                     <div className='mt-4'>
-                                        <Label>Confirm Password <span>*</span></Label>
+                                        <Label>
+                                            Confirm Password <span>*</span>
+                                        </Label>
                                         <div className='relative'>
                                             <button
                                                 tabIndex={-1}

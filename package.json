@@ -7,7 +7,7 @@
         "lint": "next lint",
         "dev": "copy  .env.dev .env.local && next dev --turbo",
         "qa": "copy  .env.qa .env.local && next dev ",
-        "prod": "copy  .env.prod .env.local && next dev --turbo",
+        "prod": "copy  .env.prod .env.local && next dev",
         "build:dev": "cp  .env.dev .env.local  &&  next build",
         "build:qa": "  cp .env.qa .env.local  && next build",
         "build:prod": "cp  .env.prod .env.local  &&  next build"
