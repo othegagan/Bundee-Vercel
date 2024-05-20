@@ -80,8 +80,8 @@ const ProfilePage = () => {
                     userimage: data['userimage'],
                     isEmailVarified: true,
                     isPhoneVarified: data['isPhoneVarified'],
-                    insuranceCompany: insuranceData['insuranceCompany'],
-                    insuranceNumber: insuranceData['insuranceNumber'],
+                    insuranceCompany: insuranceData ? insuranceData['insuranceCompany'] : '',
+                    insuranceNumber: insuranceData ? insuranceData['insuranceNumber'] : '',
                 });
             }
         } catch (error) {
