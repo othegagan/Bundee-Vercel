@@ -164,6 +164,9 @@ importers:
       react-secure-storage:
         specifier: ^1.3.2
         version: 1.3.2
+      react-stately:
+        specifier: ^3.31.1
+        version: 3.31.1(react@18.3.1)
       sharp:
         specifier: ^0.33.4
         version: 0.33.4

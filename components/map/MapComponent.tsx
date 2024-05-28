@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import Map, { FullscreenControl, MapRef, Marker, Popup, ScaleControl } from 'react-map-gl';
 import { Button } from '../ui/button';
-import { ScrollArea } from '../ui/scroll-area';
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
     const { loading, searchVehicles, viewChanged, setViewChanged } = useVehicleSearch();
