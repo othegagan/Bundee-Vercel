@@ -104,7 +104,7 @@ const Vehicles = ({ searchParams }: any) => {
                     )}
                 </div>
 
-                <div className='col-span-1 h-full w-full overflow-clip rounded lg:col-span-2'>
+                <div className={` ${show ? 'hidden' : 'block'} col-span-1 h-full w-full overflow-clip rounded lg:col-span-2`}>
                     {loading && !error ? (
                         <div className='grid place-content-center tracking-wider'> LOADING MAP..</div>
                     ) : (
