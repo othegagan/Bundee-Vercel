@@ -20,7 +20,7 @@ import { Map } from 'lucide-react';
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
     const useCarFilter = useCarFilterModal();
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
 
     useScrollToTopOnLoad(loading);
 
@@ -30,6 +30,7 @@ const Vehicles = ({ searchParams }: any) => {
 
     return (
         <div className='h-[calc(100vh_-_185px)] '>
+            {/* Mobile View components */}
             <div className='sticky top-0 z-40 my-2  flex w-full items-center justify-between bg-white py-1 lg:hidden'>
                 {loading || useCarFilter.isLoading ? (
                     <CarCountSkeleton />
@@ -47,7 +48,7 @@ const Vehicles = ({ searchParams }: any) => {
                         onClick={() => {
                             setShow(!show);
                         }}>
-                        {show ? (
+                        {!show ? (
                             <div className='flex items-center gap-3'>
                                 <Map className='size-4 text-neutral-500' />
                                 Map View
@@ -64,8 +65,42 @@ const Vehicles = ({ searchParams }: any) => {
                 </div>
             </div>
 
-            <div className='grid h-full grid-cols-1 gap-4 lg:grid-cols-5'>
-                <div className={`${show ? 'block' : 'hidden'}  col-span-1 overflow-y-auto lg:col-span-3`}>
+            <div className='grid grid-cols-1 gap-4 lg:hidden w-full h-full'>
+                {show ? (
+                    <div className='col-span-1'>
+
+                        {loading && !error ? (
+                            <div className='grid place-content-center tracking-wider'> LOADING MAP..</div>
+                        ) : (
+                            <MapComponent searchQuery={searchQuery} filteredCars={useCarFilter.filteredCars} />
+                        )}
+                    </div>
+                ) : (
+                    <div className='col-span-1'>
+                        {loading || useCarFilter.isLoading ? (
+                            <VehiclesCardsSkeleton columns='2' />
+                        ) : (
+                            <>
+                                {error && !useCarFilter.isLoading ? (
+                                    <ErrorComponent />
+                                ) : !useCarFilter.isLoading && useCarFilter.filteredCars.length === 0 ? (
+                                    <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
+                                ) : (
+                                    <div className=' grid w-full gap-5 md:col-span-3 md:grid-cols-2 md:gap-x-4 md:gap-y-4 '>
+                                        {useCarFilter.filteredCars.map((car: any) => (
+                                            <CarCard key={car.id} car={car} searchQuery={searchQuery} />
+                                        ))}
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                )}
+            </div>
+
+            {/* Desktop components */}
+            <div className='hidden h-full grid-cols-1 gap-4 lg:grid lg:grid-cols-5'>
+                <div className='col-span-1 overflow-y-auto lg:col-span-3'>
                     <div className='sticky top-0 z-40 my-2  hidden w-full justify-between bg-white py-1 lg:flex'>
                         {loading || useCarFilter.isLoading ? (
                             <CarCountSkeleton />
@@ -104,7 +139,7 @@ const Vehicles = ({ searchParams }: any) => {
                     )}
                 </div>
 
-                <div className={` hidden lg:block col-span-1 h-full w-full overflow-clip rounded lg:col-span-2`}>
+                <div className={`col-span-1 h-full w-full overflow-clip rounded lg:col-span-2`}>
                     {loading && !error ? (
                         <div className='grid place-content-center tracking-wider'> LOADING MAP..</div>
                     ) : (
