@@ -20,7 +20,7 @@ import { Map } from 'lucide-react';
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
     const useCarFilter = useCarFilterModal();
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
 
     useScrollToTopOnLoad(loading);
 

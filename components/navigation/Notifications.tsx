@@ -125,7 +125,7 @@ function NotificationItem({ data }) {
                 </p>
                 <p className='text-xs font-normal text-muted-foreground mt-2'>
                     {!data?.isRentalStatus && data?.message +". "}
-                    {data?.rentalAgreementStatus && ['RECAN','RECANREQ','REREJ'].indexOf(data?.statusCode .toLowerCase()) == -1 ? ` ${data?.rentalAgreementStatus}` : ''}
+                    {data?.rentalAgreementStatus && ['RECAN','RECANREQ','REREJ'].indexOf(data?.statusCode.toLowerCase()) == -1 ? ` ${data?.rentalAgreementStatus}` : ''}
                 </p>
             </div>
         </Link>
