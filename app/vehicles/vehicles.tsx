@@ -4,7 +4,7 @@ import { CarCountSkeleton, VehiclesCardsSkeleton } from '@/components/skeletons/
 import useVehicleSearch from '@/hooks/useVehicleSearch';
 import { toTitleCase } from '@/lib/utils';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa6';
 
 import MapComponent from '@/components/map/MapComponent';
@@ -15,10 +15,12 @@ import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import { IoAirplaneSharp } from 'react-icons/io5';
 import { MdOutlineDiscount } from 'react-icons/md';
 import { VscSettings } from 'react-icons/vsc';
+import { Map } from 'lucide-react';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
     const useCarFilter = useCarFilterModal();
+    const [show, setShow] = useState(false);
 
     useScrollToTopOnLoad(loading);
 
@@ -28,23 +30,59 @@ const Vehicles = ({ searchParams }: any) => {
 
     return (
         <div className='h-[calc(100vh_-_185px)] '>
+            <div className='sticky top-0 z-40 my-2  flex w-full items-center justify-between bg-white py-1 lg:hidden'>
+                {loading || useCarFilter.isLoading ? (
+                    <CarCountSkeleton />
+                ) : (
+                    <h1 className='text-sm font-semibold tracking-tight text-neutral-800 md:text-xl '>
+                        {useCarFilter.filteredCars.length > 0 ? `${useCarFilter.filteredCars.length}  cars found are available.` : ''}
+                    </h1>
+                )}
+                <div className='flex items-center gap-3'>
+                    <Button
+                        className=' flex gap-3'
+                        variant='outline'
+                        size='sm'
+                        type='button'
+                        onClick={() => {
+                            setShow(!show);
+                        }}>
+                        {show ? (
+                            <div className='flex items-center gap-3'>
+                                <Map className='size-4 text-neutral-500' />
+                                Map View
+                            </div>
+                        ) : (
+                            <div className=''>Cars View</div>
+                        )}
+                    </Button>
+                    <Button className=' flex gap-3' variant='black' size='sm' type='button' onClick={useCarFilter.onOpen}>
+                        <VscSettings className='rotate-90' />
+                        Filters
+                        {useCarFilter.appliedFiltersCount > 0 ? <p>({useCarFilter.appliedFiltersCount > 0 ? useCarFilter.appliedFiltersCount : ''})</p> : null}
+                    </Button>
+                </div>
+            </div>
+
             <div className='grid h-full grid-cols-1 gap-4 lg:grid-cols-5'>
-                <div className='   col-span-1 overflow-y-auto lg:col-span-3'>
-                    <div className=' sticky top-0 z-40  my-2 flex w-full justify-between bg-white py-1'>
+                <div className={`${show ? 'block' : 'hidden'}  col-span-1 overflow-y-auto lg:col-span-3`}>
+                    <div className='sticky top-0 z-40 my-2  hidden w-full justify-between bg-white py-1 lg:flex'>
                         {loading || useCarFilter.isLoading ? (
                             <CarCountSkeleton />
                         ) : (
-                            <h1 className='text-xl font-semibold tracking-tight text-neutral-800 '>
+                            <h1 className='text-sm font-semibold tracking-tight text-neutral-800 md:text-xl '>
                                 {useCarFilter.filteredCars.length > 0 ? `${useCarFilter.filteredCars.length}  cars found are available.` : ''}
                             </h1>
                         )}
-                        <Button className='mr-2 flex gap-3' variant='outline' size='sm' type='button' onClick={useCarFilter.onOpen}>
-                            <VscSettings className='rotate-90' />
-                            Filters
-                            {useCarFilter.appliedFiltersCount > 0 ? (
-                                <p>({useCarFilter.appliedFiltersCount > 0 ? useCarFilter.appliedFiltersCount : ''})</p>
-                            ) : null}
-                        </Button>
+                        <div className='flex items-center gap-3'>
+                            <Button className='mr-2 flex gap-3' variant='outline' size='sm' type='button' onClick={useCarFilter.onOpen}>
+                                <VscSettings className='rotate-90' />
+                                Filters
+                                {useCarFilter.appliedFiltersCount > 0 ? (
+                                    <p>({useCarFilter.appliedFiltersCount > 0 ? useCarFilter.appliedFiltersCount : ''})</p>
+                                ) : null}
+                            </Button>
+                        </div>
                     </div>
 
                     {loading || useCarFilter.isLoading ? (
@@ -56,7 +94,7 @@ const Vehicles = ({ searchParams }: any) => {
                             ) : !useCarFilter.isLoading && useCarFilter.filteredCars.length === 0 ? (
                                 <ErrorComponent message='Apologies, but no cars are available within your selected date range. Please adjust your filters to find available options.' />
                             ) : (
-                                <div className=' w-full gap-5 md:col-span-3 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-4 '>
+                                <div className=' grid w-full gap-5 md:col-span-3 md:grid-cols-2 md:gap-x-4 md:gap-y-4 '>
                                     {useCarFilter.filteredCars.map((car: any) => (
                                         <CarCard key={car.id} car={car} searchQuery={searchQuery} />
                                     ))}
