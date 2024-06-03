@@ -3,7 +3,7 @@
 import { getSession } from '@/lib/auth';
 import { handleResponse, http } from '@/lib/httpService';
 
-export async function createPaymentIntentWithAmount(amount: number, intent: string) {
+export async function createPaymentIntentWithAmount(amount: number) {
     try {
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
         const session = await getSession();
@@ -22,58 +22,19 @@ export async function createPaymentIntentWithAmount(amount: number, intent: stri
             customerToken = customer.id;
         }
 
-        // Retrieve the setup intent to get the payment method
-        const setupIntent = await stripe.setupIntents.retrieve(intent);
-
-        if (setupIntent.status !== 'succeeded') {
-            throw new Error('Setup intent is not succeeded');
-        }
-
-        const paymentMethodId = setupIntent.payment_method;
-
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Math.ceil(amount) * 100,
             currency: 'USD',
             customer: customerToken,
-            payment_method: paymentMethodId,
-            off_session: true,
-            confirm: true,
+            setup_future_usage: 'off_session',
+            automatic_payment_methods: {
+                enabled: true,
+                allow_redirects: 'never',
+            },
+            capture_method: 'manual',
         });
 
-        console.log('Payment Intent created successfully:', paymentIntent.id);
         return paymentIntent;
-    } catch (error: any) {
-        throw new Error(error.message);
-    }
-}
-
-export async function createSetUpIntent() {
-    try {
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        const session = await getSession();
-
-        let customerId = '';
-        let customers = await stripe.customers.list({
-            email: session.email,
-        });
-
-        if (customers.data.length > 0) {
-            customerId = customers.data[0].id;
-        } else {
-            const customer = await stripe.customers.create({
-                email: session.email,
-            });
-            customerId = customer.id;
-        }
-
-        const setupIntent = await stripe.setupIntents.create({
-            payment_method_types: ['card'],
-            customer: customerId,
-            description: 'Setup intent',
-            usage: 'off_session',
-        });
-
-        return { setupIntent, customerId };
     } catch (error: any) {
         throw new Error(error.message);
     }
