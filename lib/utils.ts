@@ -1,3 +1,4 @@
+'use client';
 import { parseZonedDateTime } from '@internationalized/date';
 import { type ClassValue, clsx } from 'clsx';
 import { addMinutes, format, parse, parseISO, startOfHour } from 'date-fns';
@@ -27,10 +28,17 @@ export function roundToTwoDecimalPlaces(num: number) {
 
 export function getCurrentTimeRounded() {
     const now = new Date();
-    const nextHour = addMinutes(startOfHour(now), 60);
+    const nextHour = addMinutes(startOfHour(now), 60 * 3);
     const roundedTime = format(nextHour, 'HH:mm:ss');
     return roundedTime;
 }
+
+export function getCurrentDatePlusHours(hours: number) {
+    const now = new Date();
+    now.setHours(now.getHours() + hours);
+    return now;
+}
+
 export function getTimeZoneByZipcode(zipCode: string) {
     const timeZone = zipToTimeZone.lookup(zipCode); // 73301, (Los angeles zip code : 90274) (MST : 85323)
     // console.log('Time zone:', timeZone);

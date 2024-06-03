@@ -3,34 +3,33 @@
 import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { addDays, differenceInMinutes, format } from 'date-fns';
+import { addDays, differenceInMinutes, format, isToday } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import TimeSelect from '../custom/TimeSelect';
 import LocationSearchBox from './LocationSearchBox';
 import SearchCalendar from './SearchCalendar';
-import { getCurrentTimeRounded } from '@/lib/utils';
+import { getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
 
 const LocationSearchComponent = ({ searchCity }: any) => {
     const pathname = usePathname();
     const router = useRouter();
     const [showModal, setShowModal] = useState(false);
 
-    const [startDateQuery, setStartDateQuery] = useQueryState('startDate', { defaultValue: format(new Date(), 'yyyy-MM-dd'), history: 'replace' });
-    const [endDateQuery, setEndDateQuery] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 2), 'yyyy-MM-dd'), history: 'replace' });
+    const [startDateQuery, setStartDateQuery] = useQueryState('startDate', {
+        defaultValue: format(getCurrentDatePlusHours(3) || new Date(), 'yyyy-MM-dd'),
+        history: 'replace',
+    });
+    const [endDateQuery, setEndDateQuery] = useQueryState('endDate', {
+        defaultValue: format(addDays(getCurrentDatePlusHours(3) || new Date(), 2), 'yyyy-MM-dd'),
+        history: 'replace',
+    });
 
     const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
     const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
 
-    function setUserSelectedPickupDate(date: any, daysToAdd: number = 3) {
-        const pickupDate = new Date(date);
-        setStartDateQuery(format(pickupDate, 'yyyy-MM-dd'));
-
-        const dropDate = new Date(date);
-        dropDate.setDate(dropDate.getDate() + daysToAdd);
-        setEndDateQuery(format(dropDate, 'yyyy-MM-dd'));
-    }
+    const todayDate = new Date(startDateQuery);
 
     const redirectToVech = () => {
         const queryParams = new URLSearchParams(window.location.search);
@@ -64,9 +63,9 @@ const LocationSearchComponent = ({ searchCity }: any) => {
             return;
         }
 
-        const newUrl = `/vehicles?city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}&isMapSearch=${isMapSearch}&zoomLevel=${zoomLevel}`;
+        // const newUrl = `/vehicles?city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}&isMapSearch=${isMapSearch}&zoomLevel=${zoomLevel}`;
 
-        router.push(newUrl);
+        // router.push(newUrl);
     };
 
     function openModal() {
@@ -98,7 +97,13 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                         </div>
                     </div>
                     <div className='col-span-1 md:col-span-2 lg:col-span-2'>
-                        <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} className='md:w-full' />
+                        <TimeSelect
+                            label='Pickup Time'
+                            onChange={setStartTimeQuery}
+                            defaultValue={startTimeQuery}
+                            disableLimitTime={isToday(todayDate) && isToday(new Date()) ? getCurrentTimeRounded() : null}
+                            className='md:w-full'
+                        />
                     </div>
                     <div className='col-span-1 md:col-span-2 lg:col-span-2'>
                         <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' />
