@@ -5,7 +5,13 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { getSession } from '@/lib/auth';
 import { formatDateAndTime } from '@/lib/utils';
-import { cancelPaymentIntent, createPaymentIntentWithAmount, createTripExtension, createTripReduction, createTripReservation } from '@/server/checkout';
+import {
+    cancelPaymentIntent,
+    createSetUpIntent,
+    createTripExtension,
+    createTripReduction,
+    createTripReservation,
+} from '@/server/checkout';
 import { useEffect, useState } from 'react';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
@@ -23,7 +29,7 @@ export default function CheckoutComponent() {
     const [vehicleImage, setVehicleImage] = useState('');
     const [vehicleName, setVehicleName] = useState('');
     const [message, setMessage] = useState('');
-    const [params, setParams] = useState(null);
+    const [customerId, setCustomerId] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +43,7 @@ export default function CheckoutComponent() {
                 setUserRequestType(data.type);
                 setVehicleName(data.name);
                 setVehicleImage(data.image);
-                createIntent(data.totalamount);
+                createIntent();
             } catch (error) {
                 console.error(error);
             }
@@ -45,14 +51,15 @@ export default function CheckoutComponent() {
         fetchData();
     }, []);
 
-    const createIntent = async amount => {
+    const createIntent = async () => {
         setMessage('');
         setPayButtonText('Pay Now');
         try {
-            const createIntentResponse = await createPaymentIntentWithAmount(amount);
-            if (!createIntentResponse) throw new Error('Failed to create payment intent.');
-            const responseData = createIntentResponse;
-            setParams(responseData);
+            const createIntentResponse = await createSetUpIntent();
+            if (!createIntentResponse) throw new Error('Failed to create setup intent.');
+            const responseData: any = createIntentResponse.setupIntent;
+            const id = responseData.customer;
+            setCustomerId(id);
             initializeStripe(responseData.client_secret);
         } catch (error) {
             handleError('Oops! Something went wrong.', 'Something went wrong in initializing payment.');
@@ -73,39 +80,52 @@ export default function CheckoutComponent() {
         setMessage('');
         setPayButtonText('Processing Payment');
         try {
-            const session = await getSession();
-            const { error, paymentIntent } = await stripe.confirmPayment({
+            const paymentRes = await stripe.confirmSetup({
                 elements,
-                confirmParams: { return_url: window.location.origin + '/trips', receipt_email: session.email },
+                confirmParams: { return_url: window.location.origin + '/trips' },
                 redirect: 'if_required',
             });
-            if (error) {
-                setMessage(error.message);
+            const setUpId = paymentRes.setupIntent.id;
+            const status = paymentRes.setupIntent.status;
+            const payment_method = paymentRes.setupIntent.payment_method;
+            console.log(setUpId, status, payment_method);
+
+            if (status !== 'succeeded') {
+                setMessage(paymentRes.error?.message || 'Payment setup did not succeed.');
                 setPayButtonText('Pay Now');
-                handleError('Oops! Your payment is not successful.', error.message || 'An unexpected error occurred. Please Try again.');
-            } else if (paymentIntent && paymentIntent.status === 'requires_capture') {
-                handleSuccess();
+                handleError('Oops! Your payment is not successful.', paymentRes.error?.message || 'An unexpected error occurred. Please try again.');
+
+            } else if (status === 'succeeded' && setUpId && payment_method) {
+
+                handleSuccess(payment_method);
+                // toast({ duration: 4000, variant: 'success', title: 'Payment successful', description: 'Payment done.' });
             } else {
-                handleError('Oops! Your payment is not successful.', 'Payment failed');
+                toast({
+                    duration: 4000,
+                    variant: 'destructive',
+                    title: 'Oops! Your payment is not successful.',
+                    description: 'Payment failed.',
+                });
+                handleError('Oops! Your payment is not successful.', 'Payment failed.');
             }
         } catch (error) {
             setPayButtonText('Pay Now');
             console.error('Error processing payment', error);
-            handleError('Oops! Your payment is not successful.', 'An unexpected error occurred. Please Try again.');
+            handleError('Oops! Your payment is not successful.', error.message || 'An unexpected error occurred. Please try again.');
         }
     };
 
-    const handleSuccess = async () => {
+    const handleSuccess = async (payment_method:string) => {
         try {
             switch (userRequestType) {
                 case 'reservation':
-                    await createReservation();
+                    await createReservation(payment_method);
                     break;
                 case 'modify':
-                    await tripExtension();
+                    await tripExtension(payment_method);
                     break;
                 case 'reduction':
-                    await tripReduction();
+                    await tripReduction(payment_method);
                     break;
                 default:
                     break;
@@ -116,12 +136,13 @@ export default function CheckoutComponent() {
         }
     };
 
-    const createReservation = async () => {
+    const createReservation = async (payment_method:string) => {
         try {
-            const payload = preparePayload();
-            // console.log('Reservation payload', payload);
+            const payload = preparePayload(payment_method);
+            console.log('Reservation payload', payload);
 
             const response = await createTripReservation(payload);
+            console.log(response);
 
             handleResponse(response, 'Payment made successful.', 'Thank you for your payment. Your transaction was successful.', '/checkout/success');
         } catch (error) {
@@ -130,9 +151,9 @@ export default function CheckoutComponent() {
         }
     };
 
-    const tripExtension = async () => {
+    const tripExtension = async (payment_method) => {
         try {
-            const payload = preparePayload();
+            const payload = preparePayload(payment_method);
             // console.log('Extension payload', payload);
 
             const response = await createTripExtension(payload);
@@ -143,9 +164,9 @@ export default function CheckoutComponent() {
         }
     };
 
-    const tripReduction = async () => {
+    const tripReduction = async (payment_method) => {
         try {
-            const payload = preparePayload();
+            const payload = preparePayload(payment_method);
             // console.log('Reduction payload', payload);
 
             const response = await createTripReduction(payload);
@@ -162,8 +183,8 @@ export default function CheckoutComponent() {
                 checkoutDetails.vehicleId,
                 checkoutDetails.totalamount,
                 checkoutDetails.hostid,
-                params.id,
-                params.customer,
+                "",
+                customerId,
             );
             secureLocalStorage.removeItem('checkOutInfo');
             console.log(response);
@@ -172,15 +193,15 @@ export default function CheckoutComponent() {
         }
     };
 
-    const preparePayload = () => {
+    const preparePayload = (payment_method:string) => {
         const payload = {
             ...checkoutDetails,
-            stripePaymentToken: params.id,
-            customerToken: params.customer,
+            stripePaymentToken: payment_method,
+            customerToken: customerId,
             stripePaymentTransactionDetail: '{ "key1" : "val1" }',
             stripePaymentID: 'NA',
             paymentMethodIDToken: 'NA',
-            setupIntentToken: 'NA',
+            setupIntentToken: customerId,
             isCustomerTokenNew: 'NA',
             totalDays: String(checkoutDetails.numberOfDays),
             tripamount: String(checkoutDetails.tripAmount),
