@@ -1,3 +1,4 @@
+'use client';
 import { parseZonedDateTime } from '@internationalized/date';
 import { type ClassValue, clsx } from 'clsx';
 import { addMinutes, format, parse, parseISO, startOfHour } from 'date-fns';
@@ -27,10 +28,17 @@ export function roundToTwoDecimalPlaces(num: number) {
 
 export function getCurrentTimeRounded() {
     const now = new Date();
-    const nextHour = addMinutes(startOfHour(now), 60);
+    const nextHour = addMinutes(startOfHour(now), 60 * 3);
     const roundedTime = format(nextHour, 'HH:mm:ss');
     return roundedTime;
 }
+
+export function getCurrentDatePlusHours(hours: number) {
+    const now = new Date();
+    now.setHours(now.getHours() + hours);
+    return now;
+}
+
 export function getTimeZoneByZipcode(zipCode: string) {
     const timeZone = zipToTimeZone.lookup(zipCode); // 73301, (Los angeles zip code : 90274) (MST : 85323)
     // console.log('Time zone:', timeZone);
@@ -50,7 +58,7 @@ export function convertToTuroDate(dateString: string, zipCode: string) {
 }
 
 export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: string, datetime?: string) {
-    console.log(date, time, zipCode);
+    // console.log(date, time, zipCode);
     if (datetime) {
         const timeZone = getTimeZoneByZipcode(zipCode);
         const converedCarDate = parseZonedDateTime(`${datetime}[${timeZone}]`).toAbsoluteString();
@@ -114,3 +122,13 @@ export const decryptId = (encryptedId: string) => {
         return ''; // Return empty string or handle error accordingly
     }
 };
+
+export function convertToCarDate(dateString: string, zipCode: string) {
+    const endTimeUTC = moment.utc(dateString);
+    const timeZone = getTimeZoneByZipcode(zipCode);
+    const timeInTimeZone = endTimeUTC.tz(timeZone);
+
+    const formattedDate = timeInTimeZone.format('yyyy-MM-DD');
+
+    return `${formattedDate}`;
+}

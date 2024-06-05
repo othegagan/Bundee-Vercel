@@ -3,7 +3,19 @@
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const TimeSelect: React.FC<{ onChange: (time: string) => void; defaultValue: any; label: string, className?:string }> = ({ onChange, defaultValue, label, className }) => {
+const TimeSelect = ({
+    onChange,
+    defaultValue,
+    label,
+    className,
+    disableLimitTime,
+}: {
+    onChange: any;
+    defaultValue: any;
+    label: string;
+    className?: string;
+    disableLimitTime?: any;
+}) => {
     const generateTimes = React.useMemo(() => {
         return Array.from({ length: 48 }, (_, i) => {
             const hour24 = Math.floor(i / 2);
@@ -17,15 +29,15 @@ const TimeSelect: React.FC<{ onChange: (time: string) => void; defaultValue: any
     }, []); // Memoize the generated times array
 
     return (
-        <div className='flex flex-col gap-1 w-full'>
+        <div className='flex w-full flex-col gap-1'>
             <label className='text-xs font-semibold'>{label}</label>
             <Select onValueChange={onChange} defaultValue={defaultValue}>
                 <SelectTrigger className={`md:w-[150px] ${className}`}>
                     <SelectValue placeholder='Select end time' />
                 </SelectTrigger>
                 <SelectContent className='max-h-60'>
-                    {generateTimes.map((time: any) => (
-                        <SelectItem key={time.value} value={time.value} className='cursor-pointer'>
+                    {generateTimes.map(time => (
+                        <SelectItem key={time.value} value={time.value} className='cursor-pointer' disabled={disableLimitTime && time.value < disableLimitTime}>
                             {time.label}
                         </SelectItem>
                     ))}

@@ -14,10 +14,10 @@ import useLoginModal from '@/hooks/useLoginModal';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import useWishlist from '@/hooks/useWishlist';
 import { getSession } from '@/lib/auth';
-import { convertToCarTimeZoneISO } from '@/lib/utils';
+import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
 import { calculatePrice } from '@/server/priceCalculation';
 import { addToRecentlyViewedHistory, getVehicleAllDetailsByVechicleId } from '@/server/vehicleOperations';
-import { addDays, format } from 'date-fns';
+import { addDays, format, isToday } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useEffect, useState } from 'react';
 import { IoIosHeartEmpty, IoMdHeart } from 'react-icons/io';
@@ -52,11 +52,18 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
     const [userAuthenticated, setUserAuthenticated] = useState(false);
 
-    const [startDate, setStartDate] = useQueryState('startDate', { defaultValue: format(new Date(), 'yyyy-MM-dd'), history: 'replace' });
-    const [endDate, setEndDate] = useQueryState('endDate', { defaultValue: format(addDays(new Date(), 3), 'yyyy-MM-dd'), history: 'replace' });
+    const [startDate, setStartDate] = useQueryState('startDate', {
+        defaultValue: format(getCurrentDatePlusHours(3) || new Date(), 'yyyy-MM-dd'),
+        history: 'replace',
+    });
+    const [endDate, setEndDate] = useQueryState('endDate', {
+        defaultValue: format(addDays(getCurrentDatePlusHours(3) || new Date(), 2), 'yyyy-MM-dd'),
+        history: 'replace',
+    });
+    const todayDate = new Date(startDate);
 
-    const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: '10:00:00', history: 'replace' });
-    const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: '08:00:00', history: 'replace' });
+    const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
+    const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
 
     const [isAirportDeliveryChoosen, setIsAirportDeliveryChoosen] = useState(false);
     const [isCustoumDelivery, setIsCustoumDelivery] = useState(false);
@@ -356,7 +363,12 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                             </div>
 
                             <div className='flex gap-6'>
-                                <TimeSelect label='Trip Start Time' onChange={setStartTime} defaultValue={startTime} />
+                                <TimeSelect
+                                    label='Trip Start Time'
+                                    onChange={setStartTime}
+                                    defaultValue={startTime}
+                                    disableLimitTime={isToday(startDate) && isToday(new Date()) ? getCurrentTimeRounded() : null}
+                                />
                                 <TimeSelect label='Trip End Time' onChange={setEndTime} defaultValue={endTime} />
                             </div>
 

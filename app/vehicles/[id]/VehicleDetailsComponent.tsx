@@ -93,7 +93,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                                                 const mileageConstraintData = JSON.parse(mileageConstraint.constraintValue);
                                                 if (mileageConstraintData.extraMileageCost > 0) {
                                                     return (
-                                                        <div key={index}>
+                                                        <div key={index} className='flex flex-wrap gap-4'>
                                                             <div className='rounded-md bg-neutral-100 p-4'>
                                                                 <p className='mb-2 text-sm font-medium'>Daily Mileage Limit</p>
                                                                 <p className='text-sm font-bold'>{mileageConstraintData.mileageLimit} miles</p>
