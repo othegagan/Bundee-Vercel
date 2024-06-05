@@ -211,7 +211,7 @@ export default function Details({ tripsData, tripRating }: any) {
                     variant: 'success',
                 });
                 setModifyCalenderOpen(false);
-                // window.location.reload();
+                window.location.reload();
             } else {
                 toast({
                     title: 'Something went wrong while extending the trip',
