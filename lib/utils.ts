@@ -122,3 +122,13 @@ export const decryptId = (encryptedId: string) => {
         return ''; // Return empty string or handle error accordingly
     }
 };
+
+export function convertToCarDate(dateString: string, zipCode: string) {
+    const endTimeUTC = moment.utc(dateString);
+    const timeZone = getTimeZoneByZipcode(zipCode);
+    const timeInTimeZone = endTimeUTC.tz(timeZone);
+
+    const formattedDate = timeInTimeZone.format('yyyy-MM-DD');
+
+    return `${formattedDate}`;
+}

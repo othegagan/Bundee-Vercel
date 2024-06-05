@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { CalendarSelectSkeleton } from '@/components/skeletons/skeletons';
@@ -19,10 +19,11 @@ import TripModificationPriceListComponent from './TripModificationPriceListCompo
 import TripPriceListComponent from './TripPriceListComponent';
 import TripVehicleDetailsComponent from './TripVehicleDetailsComponent';
 import { getSession } from '@/lib/auth';
-import { convertToCarTimeZoneISO, formatDateAndTime, formatTime, toTitleCase } from '@/lib/utils';
+import { convertToCarDate, convertToCarTimeZoneISO, formatDateAndTime, formatTime, toTitleCase } from '@/lib/utils';
 import useRentalAgreementModal from '@/hooks/useRentalAgreement';
 import { Download } from 'lucide-react';
 import StartTripComponent from './StartTripComponent';
+import { createTripExtension, createTripReduction } from '@/server/checkout';
 
 export default function Details({ tripsData, tripRating }: any) {
     const tripReviewModal = useTripReviewModal();
@@ -46,6 +47,8 @@ export default function Details({ tripsData, tripRating }: any) {
     const [isExtension, setIsExtension] = useState(false);
     const [isInitialLoad, setIsInitialLoad] = useState(false);
 
+    const [submitting, setSubmitting] = useState(false);
+
     useEffect(() => {
         setNewStartDate(format(new Date(tripsData.starttime), 'yyyy-MM-dd'));
         setNewEndDate(format(new Date(tripsData.endtime), 'yyyy-MM-dd'));
@@ -56,10 +59,9 @@ export default function Details({ tripsData, tripRating }: any) {
 
     useEffect(() => {
         if (!isInitialLoad && newStartDate && newEndDate) {
-            // Check if it's not initial load
             getPriceCalculation();
         } else {
-            setIsInitialLoad(true); // Update state to indicate subsequent renders
+            setIsInitialLoad(true);
         }
     }, [newStartDate, newEndDate, isInitialLoad]);
 
@@ -67,7 +69,6 @@ export default function Details({ tripsData, tripRating }: any) {
         try {
             const originalDiff = differenceInHours(new Date(tripsData.endtime), new Date(tripsData.starttime));
             const newDiff = differenceInHours(new Date(newEndDate + 'T' + newEndTime), new Date(newStartDate + 'T' + newEndTime));
-            // console.log(originalDiff, newDiff);
 
             if (originalDiff < newDiff) {
                 setIsExtension(true);
@@ -88,10 +89,7 @@ export default function Details({ tripsData, tripRating }: any) {
                 hostid: tripsData.hostid,
             };
 
-            console.log(payload, 'payload');
-
             const responseData: any = await calculatePrice(payload);
-            console.log(responseData);
 
             if (responseData.success) {
                 const data = responseData.data;
@@ -109,33 +107,18 @@ export default function Details({ tripsData, tripRating }: any) {
     }
 
     const createPayloadForCheckout = (type: string, userId: number) => {
-        const hostid = tripsData.hostid;
-
-        const vehicleDetails = tripsData.vehicleDetails[0];
-        const vechicleName = `${vehicleDetails.make} ${vehicleDetails.model} ${vehicleDetails.year}`;
-        const vechileImage = vehicleDetails.imageresponse[0].imagename;
-
-        const newStart = new Date(`${newStartDate}T${newStartTime}`);
-        const newEnd = new Date(`${newEndDate}T${newEndTime}`);
-
         const bookingDetails = {
             tripid: tripsData.tripid,
-            userId: userId,
-            // vehicleid: tripsData.vehicleId,
-            name: vechicleName,
-            image: vechileImage,
-            hostid: hostid,
-            // startTime: newStart.toISOString(),
-            // endTime: newEnd.toISOString(),
+            userId: String(userId),
             startTime: convertToCarTimeZoneISO(newStartDate, newStartTime, tripsData.vehzipcode),
             endTime: convertToCarTimeZoneISO(newEndDate, newEndTime, tripsData.vehzipcode),
             pickupTime: newStartTime,
             dropTime: newEndTime,
-            totalDays: priceCalculatedList.numberOfDays,
+            totalDays: String(priceCalculatedList.numberOfDays),
             taxAmount: priceCalculatedList.taxAmount,
             tripTaxAmount: priceCalculatedList.tripTaxAmount,
             totalamount: priceCalculatedList.totalAmount,
-            tripamount: priceCalculatedList.tripAmount,
+            tripamount: String(priceCalculatedList.tripAmount),
             upCharges: priceCalculatedList.upcharges,
             deliveryCost: priceCalculatedList.delivery,
             perDayAmount: priceCalculatedList.pricePerDay,
@@ -145,17 +128,14 @@ export default function Details({ tripsData, tripRating }: any) {
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
             ...priceCalculatedList,
             taxPercentage: priceCalculatedList.taxPercentage * 100,
-            zipCode: tripsData.vehzipcode,
         };
 
         if (type === 'reduction') {
-            bookingDetails.type = 'reduction';
             bookingDetails.paymentauthorizationconfigid = deductionConfigData.authorizationConfigId || 1;
             bookingDetails.authorizationpercentage = priceCalculatedList.authPercentage;
             bookingDetails.authorizationamount = priceCalculatedList.authAmount;
             bookingDetails.comments = 'Need to Reduce';
         } else if (type === 'extension') {
-            bookingDetails.type = 'modify';
             bookingDetails.deductionfrequencyconfigid = deductionConfigData.deductioneventconfigid || 1;
             bookingDetails.paymentauthorizationconfigid = deductionConfigData.authorizationConfigId || 1;
             bookingDetails.authorizationpercentage = priceCalculatedList.authPercentage;
@@ -163,20 +143,94 @@ export default function Details({ tripsData, tripRating }: any) {
             bookingDetails.comments = 'Need to Extend';
         }
 
-        // console.log(bookingDetails)
+        delete bookingDetails.authAmount;
+        delete bookingDetails.authPercentage;
+        delete bookingDetails.delivery;
+        delete bookingDetails.hostPriceMap;
+        delete bookingDetails.authAmount;
+        delete bookingDetails.numberOfDays;
+        delete bookingDetails.pricePerDay;
+        delete bookingDetails.stateSurchargeAmount;
+        delete bookingDetails.stateSurchargeTax;
+        delete bookingDetails.totalAmount;
+        delete bookingDetails.tripAmount;
+        delete bookingDetails.upcharges;
 
-        secureLocalStorage.setItem('checkOutInfo', JSON.stringify(bookingDetails));
-        window.location.href = `/checkout/${tripsData.vehicleId}`;
+        return bookingDetails;
     };
 
     const handleReduction = async () => {
-        const session = await getSession();
-        createPayloadForCheckout('reduction', session.userId);
+        try {
+            setSubmitting(true);
+            const session = await getSession();
+            const payload = createPayloadForCheckout('reduction', session.userId);
+            const response = await createTripReduction(payload);
+            console.log('Trip Reduction Response', response);
+            if (response.success) {
+                toast({
+                    title: 'Trip reduced successfully',
+                    description: 'Your trip has been reduced successfully',
+                    duration: 5000,
+                    variant: 'success',
+                });
+                setModifyCalenderOpen(false);
+                // window.location.reload();
+            } else {
+                toast({
+                    title: 'Something went wrong while reducing the trip',
+                    description: response.message,
+                    duration: 5000,
+                    variant: 'destructive',
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast({
+                title: 'Something went wrong while reducing the trip',
+                description: error.message,
+                duration: 5000,
+                variant: 'destructive',
+            });
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const handleExtension = async () => {
-        const session = await getSession();
-        createPayloadForCheckout('extension', session.userId);
+        try {
+            setSubmitting(true);
+            const session = await getSession();
+            const payload = createPayloadForCheckout('reduction', session.userId);
+            const response = await createTripExtension(payload);
+            console.log('Trip Extension Response', response);
+            if (response.success) {
+                toast({
+                    title: 'Trip extended successfully',
+                    description: 'Your trip has been extended successfully',
+                    duration: 5000,
+                    variant: 'success',
+                });
+                setModifyCalenderOpen(false);
+                // window.location.reload();
+            } else {
+                toast({
+                    title: 'Something went wrong while extending the trip',
+                    description: response.message,
+                    duration: 5000,
+                    variant: 'destructive',
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            toast({
+                title: 'Something went wrong while extending the trip',
+                description: error.message,
+                duration: 5000,
+                variant: 'destructive',
+            });
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const closeModifyDialog = () => {
@@ -237,7 +291,7 @@ export default function Details({ tripsData, tripRating }: any) {
                                 <label className='font-bold'>Trip Status</label>
                                 <span
                                     className={`rounded px-2.5  py-1.5 text-sm font-medium dark:text-red-300 ${
-                                        tripsData.status === 'Approved'
+                                        tripsData.status.toLowerCase() === 'approved' || tripsData.status.toLowerCase() === 'completed'
                                             ? 'bg-green-100 text-green-800 dark:bg-green-900'
                                             : tripsData.status === 'Requested'
                                               ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900'
@@ -378,8 +432,8 @@ export default function Details({ tripsData, tripRating }: any) {
                                 <ModificationCalendarComponent
                                     vehicleid={tripsData.vehicleId}
                                     tripid={tripsData.tripid}
-                                    originalStartDate={format(new Date(tripsData.starttime), 'yyyy-MM-dd')}
-                                    originalEndDate={format(new Date(tripsData.endtime), 'yyyy-MM-dd')}
+                                    originalStartDate={convertToCarDate(tripsData.starttime, tripsData?.vehzipcode)}
+                                    originalEndDate={convertToCarDate(tripsData.endtime, tripsData?.vehzipcode)}
                                     setError={setError}
                                     setNewStartDate={setNewStartDate}
                                     setNewEndDate={setNewEndDate}
@@ -418,8 +472,8 @@ export default function Details({ tripsData, tripRating }: any) {
                                                             type='button'
                                                             onClick={isExtension ? handleExtension : handleReduction}
                                                             className={`bg-primary ${error ? 'cursor-not-allowed opacity-50' : ''}`}
-                                                            disabled={!!error}>
-                                                            {priceLoading ? (
+                                                            disabled={!!error || submitting}>
+                                                            {priceLoading || submitting ? (
                                                                 <div className='px-10'>
                                                                     <div className='loader'></div>
                                                                 </div>

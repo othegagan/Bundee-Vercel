@@ -196,12 +196,12 @@ export default function CheckoutComponent() {
     const preparePayload = (payment_method:string) => {
         const payload = {
             ...checkoutDetails,
-            stripePaymentToken: payment_method,
+            stripePaymentToken:'NA',
             customerToken: customerId,
             stripePaymentTransactionDetail: '{ "key1" : "val1" }',
             stripePaymentID: 'NA',
-            paymentMethodIDToken: 'NA',
-            setupIntentToken: customerId,
+            paymentMethodIDToken: payment_method,
+            setupIntentToken: "NA",
             isCustomerTokenNew: 'NA',
             totalDays: String(checkoutDetails.numberOfDays),
             tripamount: String(checkoutDetails.tripAmount),
