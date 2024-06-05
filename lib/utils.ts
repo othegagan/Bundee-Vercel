@@ -1,4 +1,4 @@
-'use client';
+
 import { parseZonedDateTime } from '@internationalized/date';
 import { type ClassValue, clsx } from 'clsx';
 import { addMinutes, format, parse, parseISO, startOfHour } from 'date-fns';
