@@ -40,7 +40,7 @@ export async function updatePushNotificationToken(deviceUUID: string, deviceToke
         const session = await getSession();
         const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/updatePushNotification';
         const payload = { userid: session.userId, deviceUUID: deviceUUID, devicetoken: deviceToken, callBackUrl };
-        console.log(payload);
+        // console.log(payload);
         const response = await http.post(url, payload);
         // console.log(response)
         return handleResponse(response.data);

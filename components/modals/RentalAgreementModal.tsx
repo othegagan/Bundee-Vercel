@@ -1,9 +1,14 @@
 'use client';
 
+import dynamic from "next/dynamic";
+
+const PDFViewerComponent = dynamic(() => import("../custom/PDFViewer"), {
+  ssr: false
+});
+
 import useRentalAgreementModal from '@/hooks/useRentalAgreement';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
-import PDFViewerComponent from '../custom/PDFViewer';
 import RentalAgreementCheckBox from '../custom/RentalAgreementCheckBox';
 import { ResponsiveDialog } from '../ui/responsive-dialog';
 

@@ -1,18 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.js';
-
 const options = {
+    cMapUrl: 'cmaps/',
+    cMapPacked: true,
     standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts`,
 };
 
 export default function PDFViewerComponent({ link }: { link: any }) {
     const [numPages, setNumPages] = useState(null);
+
+    useEffect(() => {
+        pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+    }, [link]);
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
