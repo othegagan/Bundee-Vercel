@@ -26,6 +26,7 @@ const PhoneNumberModal = () => {
     const handleSendVerificationCode = async () => {
         try {
             setOTPError('');
+            console.log(phoneNumber)
             const formattedPhoneNumber = phoneNumber;
             const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
@@ -47,40 +48,52 @@ const PhoneNumberModal = () => {
         try {
             setVerifiying(true);
             setOTPError('');
+
             if (!verificationId) {
                 console.error('No verification ID available. Please request a verification code first.');
                 return;
             }
+
             const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
             // console.log('credential', credential);
 
-            await updatePhoneNumber(auth.currentUser, credential);
+            const auth = getAuth();
+            const currentUser = auth.currentUser;
 
-            // const result = await linkWithCredential(auth.currentUser, credential);
-            // console.log(result);
+            // Check if the phone provider is already linked
+            const phoneProviderId = PhoneAuthProvider.PROVIDER_ID;
+            const isPhoneLinked = currentUser.providerData.some(provider => provider.providerId === phoneProviderId);
+
+            if (!isPhoneLinked) {
+                // Link the phone number to the current user
+                const result = await linkWithCredential(currentUser, credential);
+                console.log(result);
+            } else {
+                // Update the phone number directly
+                await updatePhoneNumber(currentUser, credential);
+            }
 
             const session = await getSession();
-
             const userResponse = await getUserByEmail(session.email);
             // console.log(userResponse);
 
             if (userResponse.success) {
                 const db_data = userResponse.data.userResponse;
                 const updatePayload = {
-                    address_1: db_data.address_1,
-                    address_2: db_data.address_2,
-                    address_3: db_data.address_3,
-                    city: db_data.city,
-                    country: db_data.country,
-                    postcode: db_data.postcode,
-                    state: db_data.state,
-                    driverlisense: db_data.driverlisense,
-                    firstname: db_data.firstname,
+                    address_1: db_data.address_1 || "",
+                    address_2: db_data.address_2 || "",
+                    address_3: db_data.address_3 || "",
+                    city: db_data.city || "",
+                    country: db_data.country || "",
+                    postcode: db_data.postcode || "",
+                    state: db_data.state || "",
+                    driverlisense: db_data.driverlisense || "",
+                    firstname: db_data.firstname || "",
                     middlename: '',
-                    lastname: db_data.lastname,
+                    lastname: db_data.lastname || "",
                     iduser: db_data.iduser,
                     language: 'NA',
-                    userimage: db_data.userimage,
+                    userimage: db_data.userimage || "",
                     vehicleowner: false,
 
                     mobilePhone: phoneNumber,
@@ -88,7 +101,6 @@ const PhoneNumberModal = () => {
                     isEmailVarified: true,
                     fromValue: 'completeProfile',
                 };
-
                 const response = await updateProfile(updatePayload);
                 if (response.success) {
                     setPhoneNumber('');
@@ -110,7 +122,6 @@ const PhoneNumberModal = () => {
         } catch (error: any) {
             console.log(error);
             handleAuthError(error.code);
-            // unLinkPhonenumber();
             console.error('Error verifying code:', error.code);
             // Handle errors appropriately
         } finally {
@@ -156,20 +167,20 @@ const PhoneNumberModal = () => {
         phoneNumberVerificationModal.onClose();
     }
 
-    // function unLinkPhonenumber() {
-    //     const auth = getAuth();
-    //     unlink(auth.currentUser, 'phone')
-    //         .then(res => {
-    //             console.log(res);
-    //             // Auth provider unlinked from account
-    //             // ...
-    //         })
-    //         .catch(error => {
-    //             // An error happened
-    //             // ...
-    //             console.log(error);
-    //         });
-    // }
+    function unLinkPhonenumber() {
+        const auth = getAuth();
+        unlink(auth.currentUser, 'phone')
+            .then(res => {
+                console.log(res);
+                // Auth provider unlinked from account
+                // ...
+            })
+            .catch(error => {
+                // An error happened
+                // ...
+                console.log(error);
+            });
+    }
 
     return (
         <Modal isOpen={phoneNumberVerificationModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
@@ -208,9 +219,9 @@ const PhoneNumberModal = () => {
 
                     {!otpError && !verificationId && <div id='recaptcha-container'></div>}
 
-                    {/* <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
+                    <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
                         Unlink phone
-                    </Button> */}
+                    </Button>
                 </div>
             </ModalBody>
         </Modal>

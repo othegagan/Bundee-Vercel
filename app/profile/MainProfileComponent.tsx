@@ -105,27 +105,27 @@ const ProfilePage = () => {
             firstname: savedData.firstname || '',
             middlename: '',
             lastname: savedData.lastname || '',
-            mobilePhone: savedData.mobilePhone || '',
+            mobilePhone: '+919036644552' || '',
             address_1: savedData.address1 || '',
             address_2: savedData.address2 || '',
             address_3: '',
             city: savedData.city || '',
             state: savedData.state || '',
             postcode: savedData.postcode || '',
-            country: savedData.country,
+            country: savedData.country || "USA",
             language: savedData.language || '',
             driverlisense: savedData.driverlisense || '',
             vehicleowner: false,
             userimage: savedData.userimage || '',
-            isEmailVerified: true,
+            isEmailVarified: true,
             isPhoneVarified: savedData.isPhoneVarified,
             fromValue: 'completeProfile',
         };
 
         try {
-            // console.log('Profile Update payload :', updatePayload);
+            console.log('Profile Update payload :', updatePayload);
             const response = await updateProfile(updatePayload);
-            // console.log(response);
+            console.log(response);
             if (response.success) {
                 toast({
                     duration: 3000,
