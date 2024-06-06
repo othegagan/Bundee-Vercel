@@ -167,20 +167,20 @@ const PhoneNumberModal = () => {
         phoneNumberVerificationModal.onClose();
     }
 
-    function unLinkPhonenumber() {
-        const auth = getAuth();
-        unlink(auth.currentUser, 'phone')
-            .then(res => {
-                console.log(res);
-                // Auth provider unlinked from account
-                // ...
-            })
-            .catch(error => {
-                // An error happened
-                // ...
-                console.log(error);
-            });
-    }
+    // function unLinkPhonenumber() {
+    //     const auth = getAuth();
+    //     unlink(auth.currentUser, 'phone')
+    //         .then(res => {
+    //             console.log(res);
+    //             // Auth provider unlinked from account
+    //             // ...
+    //         })
+    //         .catch(error => {
+    //             // An error happened
+    //             // ...
+    //             console.log(error);
+    //         });
+    // }
 
     return (
         <Modal isOpen={phoneNumberVerificationModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
@@ -219,9 +219,9 @@ const PhoneNumberModal = () => {
 
                     {!otpError && !verificationId && <div id='recaptcha-container'></div>}
 
-                    <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
+                    {/* <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
                         Unlink phone
-                    </Button>
+                    </Button> */}
                 </div>
             </ModalBody>
         </Modal>
