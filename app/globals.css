@@ -49,7 +49,6 @@
     }
 }
 
-
 @layer base {
     * {
         @apply scroll-smooth border-border;
@@ -83,13 +82,10 @@
         @apply select-none text-[12px] font-normal leading-[20px] text-muted-foreground sm:text-[14.56px] sm:leading-[24px];
     }
 
-    label>span {
+    label > span {
         @apply select-none font-normal leading-[20px] text-destructive;
     }
-
 }
-
-
 
 .loader {
     background-color: grey;
@@ -131,7 +127,6 @@ td button[disabled] {
     text-decoration: line-through !important;
 }
 
-
 .rdrDefinedRangesWrapper {
     display: none;
 }
@@ -149,28 +144,39 @@ td button[disabled] {
         var(--_g) 0% 50%,
         var(--_g) 50% 50%,
         var(--_g) 100% 50%;
-    background-size: calc(100%/3) 50%;
+    background-size: calc(100% / 3) 50%;
     animation: l3 1s infinite linear;
 }
 
 @keyframes l3 {
     20% {
-        background-position: 0% 0%, 50% 50%, 100% 50%
+        background-position:
+            0% 0%,
+            50% 50%,
+            100% 50%;
     }
 
     40% {
-        background-position: 0% 100%, 50% 0%, 100% 50%
+        background-position:
+            0% 100%,
+            50% 0%,
+            100% 50%;
     }
 
     60% {
-        background-position: 0% 50%, 50% 100%, 100% 0%
+        background-position:
+            0% 50%,
+            50% 100%,
+            100% 0%;
     }
 
     80% {
-        background-position: 0% 50%, 50% 50%, 100% 100%
+        background-position:
+            0% 50%,
+            50% 50%,
+            100% 100%;
     }
 }
-
 
 .skeleton {
     background: linear-gradient(270deg, #d2d2d2, #eaeaea, #eaeaea, #fafafa);

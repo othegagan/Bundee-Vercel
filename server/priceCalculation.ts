@@ -14,7 +14,6 @@ export async function calculatePrice(payload: any) {
     }
 }
 
-
 export async function calculatePriceForTripExtension(payload: any) {
     try {
         const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/calculatePriceForExtension';
@@ -25,7 +24,6 @@ export async function calculatePriceForTripExtension(payload: any) {
         throw new Error(error.message);
     }
 }
-
 
 export async function calculatePriceForTripReduction(payload: any) {
     try {

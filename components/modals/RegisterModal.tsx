@@ -104,7 +104,7 @@ const RegisterModal = () => {
                     throw new Error('Unable to create user');
                 }
             } catch (error) {
-                console.log(error)
+                console.log(error);
                 if (error.code === 'auth/email-already-in-use') {
                     setFirebaseError('Account Already exist please login');
                 } else {

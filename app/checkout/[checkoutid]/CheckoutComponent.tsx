@@ -5,13 +5,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { getSession } from '@/lib/auth';
 import { formatDateAndTime } from '@/lib/utils';
-import {
-    cancelPaymentIntent,
-    createSetUpIntent,
-    createTripExtension,
-    createTripReduction,
-    createTripReservation,
-} from '@/server/checkout';
+import { cancelPaymentIntent, createSetUpIntent, createTripExtension, createTripReduction, createTripReservation } from '@/server/checkout';
 import { useEffect, useState } from 'react';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
@@ -94,9 +88,7 @@ export default function CheckoutComponent() {
                 setMessage(paymentRes.error?.message || 'Payment setup did not succeed.');
                 setPayButtonText('Pay Now');
                 handleError('Oops! Your payment is not successful.', paymentRes.error?.message || 'An unexpected error occurred. Please try again.');
-
             } else if (status === 'succeeded' && setUpId && payment_method) {
-
                 handleSuccess(payment_method);
                 // toast({ duration: 4000, variant: 'success', title: 'Payment successful', description: 'Payment done.' });
             } else {
@@ -115,7 +107,7 @@ export default function CheckoutComponent() {
         }
     };
 
-    const handleSuccess = async (payment_method:string) => {
+    const handleSuccess = async (payment_method: string) => {
         try {
             switch (userRequestType) {
                 case 'reservation':
@@ -136,7 +128,7 @@ export default function CheckoutComponent() {
         }
     };
 
-    const createReservation = async (payment_method:string) => {
+    const createReservation = async (payment_method: string) => {
         try {
             const payload = preparePayload(payment_method);
             console.log('Reservation payload', payload);
@@ -151,7 +143,7 @@ export default function CheckoutComponent() {
         }
     };
 
-    const tripExtension = async (payment_method) => {
+    const tripExtension = async payment_method => {
         try {
             const payload = preparePayload(payment_method);
             // console.log('Extension payload', payload);
@@ -164,7 +156,7 @@ export default function CheckoutComponent() {
         }
     };
 
-    const tripReduction = async (payment_method) => {
+    const tripReduction = async payment_method => {
         try {
             const payload = preparePayload(payment_method);
             // console.log('Reduction payload', payload);
@@ -179,13 +171,7 @@ export default function CheckoutComponent() {
 
     const cancelIntent = async () => {
         try {
-            const response = await cancelPaymentIntent(
-                checkoutDetails.vehicleId,
-                checkoutDetails.totalamount,
-                checkoutDetails.hostid,
-                "",
-                customerId,
-            );
+            const response = await cancelPaymentIntent(checkoutDetails.vehicleId, checkoutDetails.totalamount, checkoutDetails.hostid, '', customerId);
             secureLocalStorage.removeItem('checkOutInfo');
             console.log(response);
         } catch (error) {
@@ -193,15 +179,15 @@ export default function CheckoutComponent() {
         }
     };
 
-    const preparePayload = (payment_method:string) => {
+    const preparePayload = (payment_method: string) => {
         const payload = {
             ...checkoutDetails,
-            stripePaymentToken:'NA',
+            stripePaymentToken: 'NA',
             customerToken: customerId,
             stripePaymentTransactionDetail: '{ "key1" : "val1" }',
             stripePaymentID: 'NA',
             paymentMethodIDToken: payment_method,
-            setupIntentToken: "NA",
+            setupIntentToken: 'NA',
             isCustomerTokenNew: 'NA',
             totalDays: String(checkoutDetails.numberOfDays),
             tripamount: String(checkoutDetails.tripAmount),

@@ -4,7 +4,7 @@ import { startTripByDriver } from '@/server/userOperations';
 import React, { useState } from 'react';
 
 export default function StartTripComponent({ starttime, tripid }) {
-    console.log(starttime, tripid)
+    console.log(starttime, tripid);
     const [tripStarting, setTripStarting] = useState(false);
 
     const handleStartTrip = async () => {

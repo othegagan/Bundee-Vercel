@@ -23,7 +23,7 @@ export const sessionOptions: SessionOptions = {
     cookieName: 'bundee-session',
     cookieOptions: {
         httpOnly: process.env.NODE_ENV === 'production',
-        sameSite:process.env.NODE_ENV === 'production' ? 'none': 'lax' ,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         secure: process.env.NODE_ENV === 'production',
     },
 };

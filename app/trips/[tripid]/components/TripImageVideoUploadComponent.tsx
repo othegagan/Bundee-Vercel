@@ -69,7 +69,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
             if (allowedFiles.length + fileList.length + Number(tripsData?.driverTripStartingBlobs.length || 0) > 10) {
                 toast({
                     duration: 4000,
-                    variant:'destructive',
+                    variant: 'destructive',
                     title: 'Max file limit reached!.',
                     description: 'You can upload a maximum of 10 files.',
                 });
@@ -79,7 +79,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
             if (exceededSizeFiles.length > 0) {
                 toast({
                     duration: 4000,
-                    variant:'destructive',
+                    variant: 'destructive',
                     title: 'Max size limit reached!.',
                     description: "Some files exceed the maximum size limit (2MB) and won't be uploaded.",
                 });
@@ -113,7 +113,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
 
     const handleUpload = async () => {
         setUploading(true);
-        const session = await getSession()
+        const session = await getSession();
         const uploadRequests = fileList.map((file, index) => {
             const url = process.env.NEXT_PUBLIC_UPLOAD_IMAGE_VIDEO_URL;
 
@@ -188,33 +188,33 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
 
     return (
         <>
-                <Button
-                    variant='outline'
-                    className='relative flex items-center gap-2 text-neutral-500 hover:text-neutral-600'
-                    onClick={() => {
-                        handleOpenModal();
-                    }}>
-                    <FiPaperclip className='size-5' />
-                    Upload trip media
-                    {noOfFiles > 0 ? (
-                        <div className='absolute inline-flex items-center justify-center size-5  font-medium text-xs text-white bg-primary rounded-full -top-1 -right-1'>
-                            {noOfFiles}
-                        </div>
-                    ) : null}
-                </Button>
+            <Button
+                variant='outline'
+                className='relative flex items-center gap-2 text-neutral-500 hover:text-neutral-600'
+                onClick={() => {
+                    handleOpenModal();
+                }}>
+                <FiPaperclip className='size-5' />
+                Upload trip media
+                {noOfFiles > 0 ? (
+                    <div className='absolute -right-1 -top-1 inline-flex size-5  items-center justify-center rounded-full bg-primary text-xs font-medium text-white'>
+                        {noOfFiles}
+                    </div>
+                ) : null}
+            </Button>
 
             {showModal && (
-                <div className='fixed inset-0 z-[99] flex items-end bg-black bg-opacity-20 sm:items-center sm:justify-center appear-done enter-done backdrop-blur-[4px]'>
+                <div className='appear-done enter-done fixed inset-0 z-[99] flex items-end bg-black bg-opacity-20 backdrop-blur-[4px] sm:items-center sm:justify-center'>
                     <div
                         className='fixed inset-0 -z-10'
                         onClick={() => {
                             handleCloseModal();
                         }}></div>
-                    <div className='w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg sm:rounded-lg sm:m-4 md:max-w-6xl md:p-7'>
+                    <div className='w-full overflow-hidden rounded-t-lg bg-white px-6 py-4 sm:m-4 sm:rounded-lg md:max-w-6xl md:p-7'>
                         <div>
-                            <header className='flex justify-between gap-2 select-none'>
+                            <header className='flex select-none justify-between gap-2'>
                                 <div className='flex flex-col gap-2'>
-                                    <p className='font-semibold text-lg'>Upload vehicle Images</p>
+                                    <p className='text-lg font-semibold'>Upload vehicle Images</p>
                                 </div>
 
                                 <Button
@@ -223,23 +223,23 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                                     onClick={() => {
                                         handleCloseModal();
                                     }}>
-                                    <IoClose className='size-5 text-neutral-500 cursor-pointer' />
+                                    <IoClose className='size-5 cursor-pointer text-neutral-500' />
                                 </Button>
                             </header>
-                            <p className='font-normal text-sm text-neutral-500'>
+                            <p className='text-sm font-normal text-neutral-500'>
                                 Note: This images uploaded for the purposes of recording vehicle condition in the event of damage.
                             </p>
                             {error && <p className='text-red-400'>{error}</p>}
 
-                            <div className='grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-10 mt-5 sm:mt-8'>
+                            <div className='mt-5 grid grid-cols-1 gap-4 sm:mt-8 md:grid-cols-5 md:gap-10'>
                                 <div className='grid-cols-1 md:col-span-2'>
                                     <div
                                         ref={wrapperRef}
-                                        className='relative border-2 border-dashed border-purple-500 bg-purple-100 rounded-lg p-8 w-full h-full flex flex-col justify-center items-center text-center cursor-pointer transition ease-in-out duration-150 hover:border-neutral-500 hover:bg-neutral-100'
+                                        className='relative flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-purple-500 bg-purple-100 p-8 text-center transition duration-150 ease-in-out hover:border-neutral-500 hover:bg-neutral-100'
                                         onDragEnter={onDragEnter}
                                         onDragLeave={onDragLeave}
                                         onDrop={onDrop}>
-                                        <div className='flex flex-col gap-2 items-center justify-center text-neutral-600 hover:text-neutral-400'>
+                                        <div className='flex flex-col items-center justify-center gap-2 text-neutral-600 hover:text-neutral-400'>
                                             <FaFileUpload className='text-5xl' />
                                             <p className='text-sm'>
                                                 <span className='font-semibold'>Click to upload</span> or drag and drop
@@ -251,27 +251,27 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                                             accept='image/*, video/*'
                                             multiple
                                             onChange={onFileDrop}
-                                            className='opacity-0 absolute inset-0 w-full h-full cursor-pointer'
+                                            className='absolute inset-0 h-full w-full cursor-pointer opacity-0'
                                         />
                                     </div>
                                 </div>
 
                                 <div className='md:col-span-3'>
                                     {fileList.length > 0 ? (
-                                        <div className='flex flex-col justify-between items-stretch gap-4 h-full'>
-                                            <div className='grid grid-col-1 lg:grid-cols-2 gap-4 w-full   lg:h-64 rounded-md border p-2 overflow-y-auto'>
+                                        <div className='flex h-full flex-col items-stretch justify-between gap-4'>
+                                            <div className='grid-col-1 grid w-full gap-4 overflow-y-auto   rounded-md border p-2 lg:h-64 lg:grid-cols-2'>
                                                 {fileList.map((item, index) => (
-                                                    <div key={index} className='flex lg:flex-col gap-3 w-full'>
-                                                        <div className='overflow-hidden relative'>
+                                                    <div key={index} className='flex w-full gap-3 lg:flex-col'>
+                                                        <div className='relative overflow-hidden'>
                                                             {item.type.startsWith('image/') ? (
                                                                 <img
-                                                                    className='h-full w-36 lg:w-[90%] rounded-md border-1 border-neutral-400'
+                                                                    className='border-1 h-full w-36 rounded-md border-neutral-400 lg:w-[90%]'
                                                                     src={URL.createObjectURL(item)}
                                                                     alt={item.name}
                                                                 />
                                                             ) : (
                                                                 <video
-                                                                    className='h-full w-32 lg:w-[90%] rounded-md border-1 border-neutral-400'
+                                                                    className='border-1 h-full w-32 rounded-md border-neutral-400 lg:w-[90%]'
                                                                     controls
                                                                     muted
                                                                     src={URL.createObjectURL(item)}>
@@ -279,10 +279,10 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                                                                 </video>
                                                             )}
                                                         </div>
-                                                        <div className='flex gap-3 w-full justify-between items-start'>
-                                                            <div className='flex flex-col gap-2 w-full'>
+                                                        <div className='flex w-full items-start justify-between gap-3'>
+                                                            <div className='flex w-full flex-col gap-2'>
                                                                 <input
-                                                                    className='flex h-8 w-full  rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50  pr-4 font-normal text-foreground placeholder:text-muted-foreground/80'
+                                                                    className='flex h-8 w-full  rounded-md border border-input bg-transparent px-3 py-1 pr-4 text-sm font-normal text-foreground shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 focus-visible:outline-none  focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
                                                                     placeholder='Enter caption'
                                                                     aria-haspopup='listbox'
                                                                     type='text'
@@ -292,20 +292,20 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                                                                 <div className='flex gap-3 text-neutral-500'>
                                                                     <p className='text-xs '>
                                                                         <span className='truncate'>{item.name}</span>
-                                                                        <span className='text-xs ml-2'>({(item.size / (1024 * 1024)).toFixed(2)} MB)</span>
+                                                                        <span className='ml-2 text-xs'>({(item.size / (1024 * 1024)).toFixed(2)} MB)</span>
                                                                     </p>
                                                                 </div>
                                                                 {uploadProgress[index] !== undefined && (
-                                                                    <div className='flex gap-3 items-center'>
-                                                                        <div className='w-[90%] bg-neutral-200 rounded-full h-2 dark:bg-neutral-700'>
+                                                                    <div className='flex items-center gap-3'>
+                                                                        <div className='h-2 w-[90%] rounded-full bg-neutral-200 dark:bg-neutral-700'>
                                                                             <div
-                                                                                className='bg-purple-600 h-2 rounded-full'
+                                                                                className='h-2 rounded-full bg-purple-600'
                                                                                 style={{ width: `${uploadProgress[index]}%` }}
                                                                                 aria-valuenow={uploadProgress[index]}
                                                                                 aria-valuemin={0}
                                                                                 aria-valuemax={100}></div>
                                                                         </div>
-                                                                        <span className='text-xs whitespace-nowrap'>{uploadProgress[index]}%</span>
+                                                                        <span className='whitespace-nowrap text-xs'>{uploadProgress[index]}%</span>
                                                                     </div>
                                                                 )}
 
@@ -320,7 +320,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                                                             </div>
 
                                                             <MdDeleteForever
-                                                                className='w-14  text-red-400 text-2xl cursor-pointer hover:text-red-500 transition-all ease-in-out'
+                                                                className='w-14  cursor-pointer text-2xl text-red-400 transition-all ease-in-out hover:text-red-500'
                                                                 onClick={() => fileRemove(item)}
                                                             />
                                                         </div>
@@ -328,15 +328,15 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                                                 ))}
                                             </div>
 
-                                            <div className='flex justify-between flex-wrap items-center'>
+                                            <div className='flex flex-wrap items-center justify-between'>
                                                 <p className='text-sm text-neutral-500'>{fileList.length} files selected</p>
                                                 <Button onClick={handleUpload} disabled={uploading} className='px-10'>
-                                                    {uploading ? <LuLoader2 className='w-5 h-5 text-white animate-spin' /> : <>Upload</>}
+                                                    {uploading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Upload</>}
                                                 </Button>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className='flex w-full h-full  justify-center items-center'>
+                                        <div className='flex h-full w-full  items-center justify-center'>
                                             <p>Please select the images/videos you want to upload ..!</p>
                                         </div>
                                     )}

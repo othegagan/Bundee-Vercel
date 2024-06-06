@@ -7,7 +7,6 @@ import { FiTrash2 } from 'react-icons/fi';
 
 const TripImageVideoCarousel = ({ images, uploadedBy }) => {
     const deleteImage = async (id: any) => {
-
         try {
             const response: any = await deleteImageVideoUploaded(id);
 

@@ -10,10 +10,10 @@ export async function searchVehiclesAvailability(searchQuery: any) {
         const response = await http.post(url, searchQuery);
         // console.log(response.data)
         return {
-            data : response.data,
-            success : true,
-            message : ' Search done'
-        }
+            data: response.data,
+            success: true,
+            message: ' Search done',
+        };
         // return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
@@ -27,10 +27,10 @@ export async function searchVehiclesByLatitudeAndLongitude(searchQuery: any) {
         const response = await http.post(url, searchQuery);
         // console.log(response.data)
         return {
-            data : response.data,
-            success : true,
-            message : ' Search done'
-        }
+            data: response.data,
+            success: true,
+            message: ' Search done',
+        };
         // return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
@@ -60,10 +60,10 @@ export async function addToRecentlyViewedHistory(vehicleid: number) {
         const payload = {
             userid: session.userId || '',
             vehicleid: vehicleid,
-            startdate: "2024-01-01",
-            enddate: "2024-01-01",
-            lattitude: "30.271129",
-            longitude: "-97.7437",
+            startdate: '2024-01-01',
+            enddate: '2024-01-01',
+            lattitude: '30.271129',
+            longitude: '-97.7437',
         };
         // console.log(payload)
         const response = await http.post(url, payload);

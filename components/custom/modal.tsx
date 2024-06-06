@@ -76,7 +76,8 @@ interface ModalBodyProps {
 
 function ModalBody({ children, className }: ModalBodyProps) {
     return (
-        <div className={`translate mb-6 max-h-[600px] lg:max-h-[800px] overflow-y-auto h-full translate-y-0   text-sm text-neutral-700 opacity-100 duration-300 dark:text-neutral-400 ${className}`}>
+        <div
+            className={`translate mb-6 h-full max-h-[600px] translate-y-0 overflow-y-auto text-sm   text-neutral-700 opacity-100 duration-300 dark:text-neutral-400 lg:max-h-[800px] ${className}`}>
             {children}
         </div>
     );

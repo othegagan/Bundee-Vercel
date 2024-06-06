@@ -2,7 +2,6 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import { getSession } from '@/lib/auth';
 import ChangePasswordComponent from './ChangePasswordComponent';
 
-
 export default async function page() {
     const session = await getSession();
 

@@ -58,7 +58,6 @@ export default function NotificationsComponent() {
     useTabFocusEffect(getNotifications, []);
 
     return (
-
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant='ghost' className='relative px-2' onClick={getNotifications}>
@@ -123,9 +122,9 @@ function NotificationItem({ data }) {
                         {formatDistanceToNow(new Date(data.createdDate), { includeSeconds: false })} ago
                     </span>
                 </p>
-                <p className='text-xs font-normal text-muted-foreground mt-2'>
-                    {!data?.isRentalStatus && data?.message +". "}
-                    {data?.rentalAgreementStatus && ['RECAN','RECANREQ','REREJ'].indexOf(data?.statusCode) == -1 ? ` ${data?.rentalAgreementStatus}` : ''}
+                <p className='mt-2 text-xs font-normal text-muted-foreground'>
+                    {!data?.isRentalStatus && data?.message + '. '}
+                    {data?.rentalAgreementStatus && ['RECAN', 'RECANREQ', 'REREJ'].indexOf(data?.statusCode) == -1 ? ` ${data?.rentalAgreementStatus}` : ''}
                 </p>
             </div>
         </Link>

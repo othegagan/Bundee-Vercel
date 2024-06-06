@@ -14,7 +14,7 @@ const HeroSection = () => {
                 sizes='100vw'
                 style={{ width: '100%', height: '70vh' }}
                 alt='hero image'
-                className='bg-blend-lighten object-cover opacity-95 absolute -z-10 object-center'
+                className='absolute -z-10 object-cover object-center opacity-95 bg-blend-lighten'
                 priority
             />
             <section className='  h-[70vh]    py-16  sm:py-16 lg:py-24'>

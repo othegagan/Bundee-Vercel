@@ -40,7 +40,7 @@ const DeliveryDetailsComponent = ({
             if (isAirportDeliveryChoosen) {
                 toast({
                     duration: 4000,
-                    variant:'destructive',
+                    variant: 'destructive',
                     title: 'You have already choosen airport delivery.',
                     description: 'Please uncheck it to choose custom delivery.',
                 });
@@ -52,7 +52,7 @@ const DeliveryDetailsComponent = ({
             if (isCustoumDelivery) {
                 toast({
                     duration: 4000,
-                    variant:'destructive',
+                    variant: 'destructive',
                     title: 'You have already choosen custom delivery.',
                     description: 'Please uncheck it to choose airport delivery.',
                 });
@@ -78,10 +78,10 @@ const DeliveryDetailsComponent = ({
     return (
         <div className=''>
             <div className='mb-4'>
-                <label className='text-xs font-semibold mb-2'>Vehicle Location</label>
+                <label className='mb-2 text-xs font-semibold'>Vehicle Location</label>
 
-                <p className='flex  items-center text-sm border border-gray-200 px-3 py-2 rounded-md '>
-                    <FaLocationDot className='text-primary w-5 h-5 mr-2 ' />
+                <p className='flex  items-center rounded-md border border-gray-200 px-3 py-2 text-sm '>
+                    <FaLocationDot className='mr-2 h-5 w-5 text-primary ' />
 
                     {toTitleCase(vehicleDetails?.address1)}
                     {vehicleDetails?.address2 ? ', ' + toTitleCase(vehicleDetails?.address2) : null}
@@ -93,18 +93,18 @@ const DeliveryDetailsComponent = ({
 
             {deliveryDetails ? (
                 <div className='flex flex-col gap-5'>
-                    <div className='border border-gray-200 w-full px-3 py-2 rounded-md '>
+                    <div className='w-full rounded-md border border-gray-200 px-3 py-2 '>
                         <div
-                            className='flex select-none justify-between cursor-pointer '
+                            className='flex cursor-pointer select-none justify-between '
                             onClick={() => {
                                 checkWhichDeliveryIsChoosen('custom');
                             }}>
                             {deliveryDetails ? (
                                 <>
                                     {isCustoumDelivery ? (
-                                        <p className='flex text-green-500 font-medium items-center text-sm   '>Custom delivery Charges applied</p>
+                                        <p className='flex items-center text-sm font-medium text-green-500   '>Custom delivery Charges applied</p>
                                     ) : (
-                                        <p className='flex text-primary font-medium items-center text-sm   '>Do you need Custom delivery?</p>
+                                        <p className='flex items-center text-sm font-medium text-primary   '>Do you need Custom delivery?</p>
                                     )}
                                 </>
                             ) : null}
@@ -113,17 +113,24 @@ const DeliveryDetailsComponent = ({
 
                         {showDetails && (
                             <>
-                                <div className=' py-2 flex flex-col gap-3 '>
-                                    <div className='flex gap-3 select-none'>
-                                        <label htmlFor='custom' className='flex items-center gap-2 cursor-pointer'>
-                                            <input id='custom' type='checkbox' className='h-5 w-5' checked={isCustoumDelivery} onChange={handleCustomDeliveryCheckbox} />
-                                            <div className='text-sm text-neutral-500 flex items-center gap-2'>
-                                                <span className='font-bold'>$ {deliveryDetails?.nonAirportDeliveryCost}</span> will be applied for custom delivery
+                                <div className=' flex flex-col gap-3 py-2 '>
+                                    <div className='flex select-none gap-3'>
+                                        <label htmlFor='custom' className='flex cursor-pointer items-center gap-2'>
+                                            <input
+                                                id='custom'
+                                                type='checkbox'
+                                                className='h-5 w-5'
+                                                checked={isCustoumDelivery}
+                                                onChange={handleCustomDeliveryCheckbox}
+                                            />
+                                            <div className='flex items-center gap-2 text-sm text-neutral-500'>
+                                                <span className='font-bold'>$ {deliveryDetails?.nonAirportDeliveryCost}</span> will be applied for custom
+                                                delivery
                                             </div>
                                         </label>
                                     </div>
                                     <div className={`${isCustoumDelivery ? 'block' : 'hidden'}`}>
-                                        <p className='text-xs my-2 font-bold '>Delivery Location</p>
+                                        <p className='my-2 text-xs font-bold '>Delivery Location</p>
                                         <AddressSearchBox setCustomDeliveryLocation={setCustomDeliveryLocation} />
                                     </div>
                                 </div>
@@ -132,18 +139,18 @@ const DeliveryDetailsComponent = ({
                     </div>
 
                     {deliveryDetails?.deliveryToAirport && (
-                        <div className='border border-gray-200 w-full px-3 py-2 rounded-md '>
+                        <div className='w-full rounded-md border border-gray-200 px-3 py-2 '>
                             <div
-                                className='flex select-none justify-between cursor-pointer '
+                                className='flex cursor-pointer select-none justify-between '
                                 onClick={() => {
                                     checkWhichDeliveryIsChoosen('airport');
                                 }}>
                                 {deliveryDetails?.deliveryToAirport ? (
                                     <>
                                         {isAirportDeliveryChoosen ? (
-                                            <p className='flex text-green-500 font-medium items-center text-sm   '>Airport delivery Charges applied</p>
+                                            <p className='flex items-center text-sm font-medium text-green-500   '>Airport delivery Charges applied</p>
                                         ) : (
-                                            <p className='flex text-primary font-medium items-center text-sm   '>Do you need Airport delivery?</p>
+                                            <p className='flex items-center text-sm font-medium text-primary   '>Do you need Airport delivery?</p>
                                         )}
                                     </>
                                 ) : null}
@@ -154,9 +161,9 @@ const DeliveryDetailsComponent = ({
                                 <>
                                     {deliveryDetails?.deliveryToAirport ? (
                                         <>
-                                            <div className=' py-2  flex flex-col gap-3 '>
-                                                <div className='flex gap-3 select-none h-fit'>
-                                                    <label htmlFor='airport' className='flex items-center gap-2 cursor-pointer'>
+                                            <div className=' flex  flex-col gap-3 py-2 '>
+                                                <div className='flex h-fit select-none gap-3'>
+                                                    <label htmlFor='airport' className='flex cursor-pointer items-center gap-2'>
                                                         <input
                                                             id='airport'
                                                             type='checkbox'
@@ -164,14 +171,15 @@ const DeliveryDetailsComponent = ({
                                                             checked={isAirportDeliveryChoosen}
                                                             onChange={handleAirportDeliveryCheckbox}
                                                         />
-                                                        <div className='text-sm text-neutral-500 flex items-center gap-2'>
-                                                            <span className='font-bold'> $ {deliveryDetails?.airportDeliveryCost}</span> will be applied for airport delivery
+                                                        <div className='flex items-center gap-2 text-sm text-neutral-500'>
+                                                            <span className='font-bold'> $ {deliveryDetails?.airportDeliveryCost}</span> will be applied for
+                                                            airport delivery
                                                         </div>
                                                     </label>
                                                 </div>
 
                                                 <>
-                                                    <p className='text-xs my-1 font-bold '>Delivery Location</p>
+                                                    <p className='my-1 text-xs font-bold '>Delivery Location</p>
                                                     <p className='text-xs'>{city}</p>
                                                     {/* <Textarea rows={} placeholder='Enter Location' value={city} onChange={e => setCustomDeliveryLocation(e.target.value)} /> */}
                                                 </>

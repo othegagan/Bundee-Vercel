@@ -31,7 +31,7 @@ const TripsList = ({ tripsData }) => {
 
                     <div className='flex flex-auto flex-col'>
                         <div>
-                            <h4 className='font-semibold text-gray-900 capitalize'>{`${trip.vehmake} ${trip.vehmodel} (${trip.vehyear}`}</h4>
+                            <h4 className='font-semibold capitalize text-gray-900'>{`${trip.vehmake} ${trip.vehmodel} (${trip.vehyear}`}</h4>
                             <div className='mt-2 flex w-full flex-col gap-2 text-xs text-gray-600'>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Start Date</div>

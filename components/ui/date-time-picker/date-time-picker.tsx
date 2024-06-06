@@ -30,7 +30,13 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DatePickerStateOptions<D
     });
 
     return (
-        <div {...groupProps} ref={ref} className={cn(groupProps.className, 'flex items-center rounded-md ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2')}>
+        <div
+            {...groupProps}
+            ref={ref}
+            className={cn(
+                groupProps.className,
+                'flex items-center rounded-md ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
+            )}>
             <DateField {...fieldProps} />
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>

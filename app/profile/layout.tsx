@@ -69,12 +69,12 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             city: data.city || '',
                             state: data.state || '',
                             postcode: data.postCode || '',
-                            country: data.country || "",
-                            language: data.language || "",
-                            driverlisense: data.driverlisense || "",
+                            country: data.country || '',
+                            language: data.language || '',
+                            driverlisense: data.driverlisense || '',
                             vehicleowner: false,
                             fromValue: 'completeProfile',
-                            userimage: resultAsString.split(',')[1]  || "",
+                            userimage: resultAsString.split(',')[1] || '',
                             isPhoneVarified: data.isPhoneVarified,
                             isEmailVarified: true,
                         };
@@ -118,7 +118,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             <img
                                 src={image ? `${image}` : '/dummy_avatar.png'}
                                 alt=''
-                                className=' relative inline-block h-[100px] w-[100px] md:h-[200px] md:w-[200px] rounded-md  object-cover object-center'
+                                className=' relative inline-block h-[100px] w-[100px] rounded-md object-cover object-center  md:h-[200px] md:w-[200px]'
                             />
                         </div>
                         <div className='col-span-1 flex flex-col gap-1'>
@@ -139,10 +139,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             <Link
                                 key={link.id}
                                 href={link.path}
-                                className={`flex w-fit  cursor-pointer items-center whitespace-nowrap text-sm sm:text-base sm:h-6 sm:px-4 sm:py-6 rounded-md ${
-                                    pathName === link.path
-                                        ? ' bg-primary p-2 text-white '
-                                        : ' bg-white hover:bg-gray-100  '
+                                className={`flex w-fit  cursor-pointer items-center whitespace-nowrap rounded-md text-sm sm:h-6 sm:px-4 sm:py-6 sm:text-base ${
+                                    pathName === link.path ? ' bg-primary p-2 text-white ' : ' bg-white hover:bg-gray-100  '
                                 }`}>
                                 {link.name}
                             </Link>
@@ -171,7 +169,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                         Change Profile Picture
                                         <input id='profilePictureInput' type='file' className='hidden' onChange={handleProfilePictureChange} />
                                     </label>
-                                    <p className='text-sm mt-2'>JPG or PNG. 1MB max.</p>
+                                    <p className='mt-2 text-sm'>JPG or PNG. 1MB max.</p>
 
                                     <div className='mt-10 w-full space-y-0'>
                                         <div className='w-full list-none space-y-3'>
@@ -198,7 +196,6 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                         {pathName === '/profile/change-password' && 'Change Password'}
                                         {pathName === '/profile/delete-account' && 'Delete Account'}
                                     </h1>
-                                  
 
                                     {children}
                                 </div>

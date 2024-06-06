@@ -154,7 +154,7 @@ const CarFilters = () => {
             (minPricePerHr !== 0 || maxPricePerHr !== 200 ? 1 : 0);
 
         useCarFilter.setAppliedFiltersCount(appliedFiltersCount);
-        useCarFilter.setIsLoading(false)
+        useCarFilter.setIsLoading(false);
     };
 
     const handleReset = () => {

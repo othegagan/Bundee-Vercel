@@ -65,11 +65,11 @@ const Vehicles = ({ searchParams }: any) => {
                 </div>
             </div>
 
-            <div className='grid grid-cols-1 gap-4 lg:hidden w-full h-full overflow-y-auto'>
+            <div className='grid h-full w-full grid-cols-1 gap-4 overflow-y-auto lg:hidden'>
                 {show ? (
                     <div className='col-span-1 '>
                         {loading && !error ? (
-                            <div className='grid place-content-center tracking-wider my-10'> LOADING MAP..</div>
+                            <div className='my-10 grid place-content-center tracking-wider'> LOADING MAP..</div>
                         ) : (
                             <MapComponent searchQuery={searchQuery} filteredCars={useCarFilter.filteredCars} />
                         )}

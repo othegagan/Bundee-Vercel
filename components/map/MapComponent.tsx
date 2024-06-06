@@ -28,7 +28,6 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
 
     const searchParams: any = getAllURLParameters();
 
-
     const [viewState, setViewState] = useState<any>({
         width: '100%',
         height: '100%',
@@ -51,7 +50,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                     latitude: center.latitude || defaultLatitude,
                     longitude: center.longitude || defaultLongitude,
                 };
-            } else if(searchParams?.isMapSearch && filteredCoordinates.length === 0){
+            } else if (searchParams?.isMapSearch && filteredCoordinates.length === 0) {
                 return {
                     ...prevState,
                 };
@@ -94,13 +93,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                 ) : (
                     <div className='relative flex flex-col items-center justify-center'>
                         <div className='grouped-marker-count text-md absolute top-1 font-semibold'>{group.length}</div>
-                        <svg
-                            width='436'
-                            height='624'
-                            viewBox='0 0 436 624'
-                            fill='none'
-                            xmlns='http://www.w3.org/2000/svg'
-                            className='size-10 cursor-pointer'>
+                        <svg width='436' height='624' viewBox='0 0 436 624' fill='none' xmlns='http://www.w3.org/2000/svg' className='size-10 cursor-pointer'>
                             <path
                                 d='M218 0C97.4771 0 0 97.656 0 218.4C0 382.2 218 624 218 624C218 624 436 382.2 436 218.4C436 97.656 338.523 0 218 0Z'
                                 fill='currentColor'
@@ -228,8 +221,8 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                         }}
                         style={{ maxWidth: '350px' }}
                         className=' w-[400px] rounded-lg'>
-                            <p>{carsPopInfo.length} cars are available here.</p>
-                        <div className='border-1 flex max-h-60 overflow-y-auto w-full select-none flex-col   rounded-lg'>
+                        <p>{carsPopInfo.length} cars are available here.</p>
+                        <div className='border-1 flex max-h-60 w-full select-none flex-col overflow-y-auto   rounded-lg'>
                             {carsPopInfo.map((car: any, index) => (
                                 <Link
                                     key={index}

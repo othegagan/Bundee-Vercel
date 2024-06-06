@@ -52,7 +52,7 @@ export const handleResponse = (response: any) => {
         return { success: true, data: response, message: response.errorMessage };
     } else if (response.errorCode == '1') {
         return { success: false, data: null, message: response.errorMessage };
-    }  else {
+    } else {
         const errorCodes = codes.map((code: any) => code.key).join(', ');
         return { success: false, data: null, message: `Error: ${errorCodes}` };
     }

@@ -14,7 +14,6 @@ export async function fetchDataFromMapboxWithForwardGeocoding(searchQuery: strin
             ? `${baseURL}${searchQuery}.json?country=${searchCountry}&limit=${searchLimit}&proximity=ip&types=address&language=${responseLanguage}&access_token=${accessToken}`
             : `${baseURL}${searchQuery}.json?country=${searchCountry}&limit=${searchLimit}&proximity=ip&types=place%2Cpostcode%2Caddress%2Cpoi%2Cdistrict%2Clocality%2Cneighborhood&language=${responseLanguage}&access_token=${accessToken}`;
 
-
         const response = await fetch(url, { cache: 'no-cache' });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

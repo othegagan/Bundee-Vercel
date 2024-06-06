@@ -119,7 +119,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.desciption && (
                         <div className='space-y-3'>
                             <p className='font-bold'>Vehicle Description</p>
-                            <pre className=' font-inter text-wrap bg-transparent text-base  text-gray-900 '>{vehicleDetails.desciption}</pre>
+                            <pre className=' text-wrap bg-transparent font-inter text-base  text-gray-900 '>{vehicleDetails.desciption}</pre>
                         </div>
                     )}
 
@@ -127,7 +127,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.parkingDetails && (
                         <div className='space-y-3'>
                             <p className='font-bold'>Parking Details</p>
-                            <pre className=' font-inter text-wrap bg-transparent text-base  text-gray-900 '>{vehicleDetails.parkingDetails}</pre>
+                            <pre className=' text-wrap bg-transparent font-inter text-base  text-gray-900 '>{vehicleDetails.parkingDetails}</pre>
                         </div>
                     )}
 
@@ -135,7 +135,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.guideLines && (
                         <div className='space-y-3'>
                             <p className='font-bold'> Additional GuideLines</p>
-                            <pre className=' font-inter text-wrap bg-transparent text-base  text-gray-900 '>{vehicleDetails.guideLines}</pre>
+                            <pre className=' text-wrap bg-transparent font-inter text-base  text-gray-900 '>{vehicleDetails.guideLines}</pre>
                         </div>
                     )}
                 </div>

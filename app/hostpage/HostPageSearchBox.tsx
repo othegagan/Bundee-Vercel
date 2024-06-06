@@ -102,7 +102,6 @@ export default function HostPageSearchBox() {
                         <div className='flex w-[100%] flex-col gap-1'>
                             <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
                             <DatePicker
-
                                 aria-label='Select Date'
                                 shouldCloseOnSelect={true}
                                 onChange={date => {
@@ -110,7 +109,7 @@ export default function HostPageSearchBox() {
                                 }}
                                 defaultValue={parseDate(startDateQuery)}
                                 minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}>
-                                <DatePickerButton date={parseDate(startDateQuery)}  />
+                                <DatePickerButton date={parseDate(startDateQuery)} />
                                 <DatePickerContent>
                                     <Calendar>
                                         <CalendarHeading />

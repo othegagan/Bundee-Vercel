@@ -88,7 +88,6 @@ const useWishlist = () => {
         fetchData();
     }, []);
 
-
     return {
         isItemWishlisted,
         addToWishlistHandler,

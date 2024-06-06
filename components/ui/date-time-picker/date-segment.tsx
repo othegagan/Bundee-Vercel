@@ -18,7 +18,14 @@ function DateSegment({ segment, state }: DateSegmentProps) {
     } = useDateSegment(segment, state, ref);
 
     return (
-        <div {...segmentProps} ref={ref} className={cn('focus:rounded-[2px] focus:bg-accent focus:text-accent-foreground focus:outline-none', segment.type !== 'literal' ? 'px-[1px]' : '', segment.isPlaceholder ? 'text-muted-foreground' : '')}>
+        <div
+            {...segmentProps}
+            ref={ref}
+            className={cn(
+                'focus:rounded-[2px] focus:bg-accent focus:text-accent-foreground focus:outline-none',
+                segment.type !== 'literal' ? 'px-[1px]' : '',
+                segment.isPlaceholder ? 'text-muted-foreground' : '',
+            )}>
             {segment.text}
         </div>
     );

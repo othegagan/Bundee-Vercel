@@ -44,7 +44,7 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
 
     const blockedDates = unavailableDates.map(date => [parseDate(date), parseDate(date)]) || [];
 
-    const isDateUnavailable = (date) => blockedDates.some(([start, end]) => date.compare(start) >= 0 && date.compare(end) <= 0);
+    const isDateUnavailable = date => blockedDates.some(([start, end]) => date.compare(start) >= 0 && date.compare(end) <= 0);
 
     const isDateUnavailableStart = blockedDates.length > 0 && isDateUnavailable(dates.start);
     const isDateUnavailableEnd = blockedDates.length > 0 && isDateUnavailable(dates.end);
@@ -114,8 +114,7 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
                             // minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}
                             minValue={today(getLocalTimeZone())}
                             isDateUnavailable={isDateUnavailable}
-                            isInvalid={isInvalid}
-                            >
+                            isInvalid={isInvalid}>
                             <CalendarHeading />
                             <div className='hidden gap-6 overflow-auto md:flex'>
                                 <CalendarGrid>

@@ -14,11 +14,12 @@ const RentalAgreementModal = () => {
 
     const defaultPdfLink = 'https://utfs.io/f/ea59485d-bd98-41bd-8148-3d12c334ca64-poy0k1.pdf';
 
-    const docs = [{
-        uri: uri || !rentalAgreementModal.rentalAgreementPDFLink ? defaultPdfLink : null,
-        fileType: 'pdf'
-    }];
-
+    const docs = [
+        {
+            uri: uri || !rentalAgreementModal.rentalAgreementPDFLink ? defaultPdfLink : null,
+            fileType: 'pdf',
+        },
+    ];
 
     function openModal() {
         rentalAgreementModal.onOpen();
