@@ -17,7 +17,7 @@ export function ResponsiveDialog({
     children: React.ReactNode;
     isOpen: boolean;
     openDialog: () => void;
-    title: string;
+    title?: string;
     description?: string;
     closeDialog: () => void;
     className?: string;
@@ -45,7 +45,7 @@ export function ResponsiveDialog({
     return (
         <Drawer open={isOpen} onOpenChange={isOpen => (isOpen ? openDialog() : closeDialog())}>
             <DrawerContent
-                className={cn('mb-6', className)}
+                className={cn( className)}
                 onEscapeKeyDown={closeDialog}
                 onInteractOutside={closeDialog}
                 onDragClose={closeDialog}>

@@ -55,7 +55,7 @@ const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.C
                 <DrawerOverlay />
                 <DrawerPrimitive.Content
                     ref={ref}
-                    className={cn('fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background', className)}
+                    className={cn('fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background ', className)}
                     onMouseDown={handleDragStart}
                     onMouseMove={handleDragMove}
                     onMouseUp={handleDragEnd}
@@ -64,7 +64,7 @@ const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.C
                     onTouchEnd={handleDragEnd}
                     {...props}>
                     <div className='mx-auto mt-4 h-2 w-[100px] rounded-full bg-neutral-300' />
-                    <div>{children}</div>
+                    <div className=' max-h-[60vh] overflow-y-auto mb-4'>{children}</div>
                 </DrawerPrimitive.Content>
             </DrawerPortal>
         );

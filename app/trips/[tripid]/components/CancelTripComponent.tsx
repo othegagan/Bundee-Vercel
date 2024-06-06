@@ -7,10 +7,12 @@ import { Label } from '@/components/ui/label';
 import { cancelReservation } from '@/server/tripOperations';
 import { toast } from '@/components/ui/use-toast';
 import { LuLoader2 } from 'react-icons/lu';
+import { ResponsiveDialog } from '@/components/ui/responsive-dialog';
 
 const CancelTripComponent = ({ tripId }: any) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+
     function openModal() {
         setIsModalOpen(true);
     }
@@ -60,12 +62,9 @@ const CancelTripComponent = ({ tripId }: any) => {
                 Cancel trip
             </Button>
 
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <ModalHeader onClose={closeModal}>Cancel Request</ModalHeader>
-                <ModalBody>
-                    <Label>Are you sure, You would like to cancel this Trip ?</Label>
-                </ModalBody>
-                <ModalFooter className='flex '>
+            <ResponsiveDialog isOpen={isModalOpen} openDialog={openModal} closeDialog={closeModal} title='Cancel Request'>
+                <div className='flex flex-col gap-4'>
+                    <p>Are you sure, You would like to cancel this Trip ?</p>
                     <div className='ml-auto flex justify-end gap-4'>
                         <Button type='button' variant='outline' disabled={loading} onClick={closeModal} className='w-full sm:w-auto '>
                             Back to Trip
@@ -82,8 +81,8 @@ const CancelTripComponent = ({ tripId }: any) => {
                             )}
                         </Button>
                     </div>
-                </ModalFooter>
-            </Modal>
+                </div>
+            </ResponsiveDialog>
         </>
     );
 };

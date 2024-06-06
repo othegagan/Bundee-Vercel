@@ -12,6 +12,7 @@ import { PhoneInput } from '../ui/phone-input';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateProfile } from '@/server/userOperations';
 import { toast } from '../ui/use-toast';
+import { ResponsiveDialog } from '../ui/responsive-dialog';
 
 const PhoneNumberModal = () => {
     // console.log(auth.currentUser);
@@ -172,55 +173,60 @@ const PhoneNumberModal = () => {
     // }
 
     return (
-        <Modal isOpen={phoneNumberVerificationModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
-            <ModalHeader onClose={closeModal}>{''}</ModalHeader>
-            <ModalBody className=''>
-                <div className='flex flex-col space-y-4'>
-                    <h4>Update Phone Number</h4>
-                    {!verificationId ? (
-                        <>
-                            <Label htmlFor='phoneNumber' className='mt-6'>
-                                New Phone Number:
-                            </Label>
-                            <PhoneInput value={phoneNumber} onChange={setPhoneNumber} defaultCountry='US' international placeholder='Enter a phone number' />
-                            <Button type='button' className='ml-auto w-fit' onClick={handleSendVerificationCode} disabled={!phoneNumber || verificationSent}>
-                                {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
-                            </Button>
-                        </>
-                    ) : (
-                        <div className='flex flex-col gap-4'>
-                            <Label htmlFor='verificationCode'>Verification Code:</Label>
+        <ResponsiveDialog
+            isOpen={phoneNumberVerificationModal.isOpen}
+            openDialog={() => {
+                openModal();
+            }}
+            closeDialog={() => {
+                closeModal();
+            }}
+            className='lg:max-w-lg'>
+            <div className='flex flex-col space-y-4'>
+                <h4>Update Phone Number</h4>
+                {!verificationId ? (
+                    <>
+                        <Label htmlFor='phoneNumber' className='mt-6'>
+                            New Phone Number:
+                        </Label>
+                        <PhoneInput value={phoneNumber} onChange={setPhoneNumber} defaultCountry='US' international placeholder='Enter a phone number' />
+                        <Button type='button' className='ml-auto w-fit' onClick={handleSendVerificationCode} disabled={!phoneNumber || verificationSent}>
+                            {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
+                        </Button>
+                    </>
+                ) : (
+                    <div className='flex flex-col gap-4'>
+                        <Label htmlFor='verificationCode'>Verification Code:</Label>
 
-                            <InputOTP
-                                maxLength={6}
-                                value={verificationCode}
-                                onChange={value => setVerificationCode(value)}
-                                className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '>
-                                <InputOTPGroup className='flex justify-center   md:gap-4'>
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={0} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={1} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={2} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={3} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={4} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={5} />
-                                </InputOTPGroup>
-                            </InputOTP>
+                        <InputOTP
+                            maxLength={6}
+                            value={verificationCode}
+                            onChange={value => setVerificationCode(value)}
+                            className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '>
+                            <InputOTPGroup className='flex justify-center   md:gap-4'>
+                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={0} />
+                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={1} />
+                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={2} />
+                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={3} />
+                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={4} />
+                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={5} />
+                            </InputOTPGroup>
+                        </InputOTP>
 
-                            <Button type='button' className='w-fit' disabled={verificationCode.length !== 6 || verifying} onClick={handleVerifyCode}>
-                                {verifying ? <div className='loader '></div> : <>Verify Code</>}
-                            </Button>
-                        </div>
-                    )}
-                    {otpError && <p className='rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
+                        <Button type='button' className='w-fit' disabled={verificationCode.length !== 6 || verifying} onClick={handleVerifyCode}>
+                            {verifying ? <div className='loader '></div> : <>Verify Code</>}
+                        </Button>
+                    </div>
+                )}
+                {otpError && <p className='rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
 
-                    {!otpError && !verificationId && <div id='recaptcha-container'></div>}
+                {!otpError && !verificationId && <div id='recaptcha-container'></div>}
 
-                    {/* <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
+                {/* <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
                         Unlink phone
                     </Button> */}
-                </div>
-            </ModalBody>
-        </Modal>
+            </div>
+        </ResponsiveDialog>
     );
 };
 

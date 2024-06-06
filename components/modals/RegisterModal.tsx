@@ -1,6 +1,5 @@
 'use client';
 
-import Logo from '@/components/landing_page/Logo';
 import useLoginModal from '@/hooks/useLoginModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
 import { login, logout } from '@/lib/auth';
@@ -14,13 +13,11 @@ import { useCallback, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
-import ClientOnly from '../ClientOnly';
-import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { PhoneInput } from '../ui/phone-input';
-import { isValidPhoneNumber } from 'react-phone-number-input';
+import { ResponsiveDialog } from '../ui/responsive-dialog';
 
 function validateNANPPhoneNumber(phoneNumber) {
     // NANP format: +1 (optional) followed by 10 digits, with optional separators
@@ -334,283 +331,284 @@ const RegisterModal = () => {
     }
 
     return (
-        <Modal isOpen={registerModal.isOpen} onClose={closeModal} className=' md:scale-[0.85] lg:max-w-lg'>
-            <ModalHeader onClose={closeModal}>
-                <div className='md:px-4'>Sign Up with Bundee account</div>
-            </ModalHeader>
-            <ModalBody>
-                <ClientOnly>
-                    <main className='flex items-center justify-center  md:px-4'>
-                        {!showSuccessfulSignUp && (
-                            <div className='w-full'>
-                                {/* <div className='flex flex-col items-center gap-4 mt-3 md:mt-0'>
+        <ResponsiveDialog
+            title='Sign Up with Bundee account'
+            description=''
+            isOpen={registerModal.isOpen}
+            openDialog={() => {
+                openModal();
+            }}
+            closeDialog={() => {
+                closeModal();
+            }}
+            className=' md:scale-[0.85] lg:max-w-lg'>
+            <main className='flex items-center justify-center  md:px-4'>
+                {!showSuccessfulSignUp && (
+                    <div className='w-full'>
+                        {/* <div className='flex flex-col items-center gap-4 mt-3 md:mt-0'>
                                     <Logo className='scale-[1.3]' />
 
                                     <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Sign Up with Bundee account</span>
                                 </div> */}
-                                <form
-                                    onSubmit={() => {
-                                        firebaseAuthHandler(event);
-                                    }}>
-                                    <div className='mb-3 grid grid-cols-6 gap-2'>
-                                        <div className='col-span-6 sm:col-span-3'>
-                                            <Label>
-                                                First Name <span>*</span>
-                                            </Label>
-                                            <div className='mt-2'>
-                                                <Input
-                                                    id='firstName'
-                                                    name='firstName'
-                                                    type='text'
-                                                    required
-                                                    value={formData.firstName}
-                                                    onChange={handleChange}
-                                                    className={`block w-full ${authErrors.firstName ? 'border-destructive' : ''}`}
-                                                />
-                                            </div>
-                                            {authErrors.firstName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.firstName}</p>}
-                                        </div>
-                                        <div className='col-span-6 sm:col-span-3'>
-                                            <Label>
-                                                Last Name <span>*</span>
-                                            </Label>
-                                            <div className='mt-2'>
-                                                <Input
-                                                    id='lastName'
-                                                    name='lastName'
-                                                    type='text'
-                                                    required
-                                                    value={formData.lastName}
-                                                    onChange={handleChange}
-                                                    className={`block w-full ${authErrors.lastName ? 'border-destructive' : ''}`}
-                                                />
-                                            </div>
-                                            {authErrors.lastName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.lastName}</p>}
-                                        </div>
-                                    </div>
+                        <form
+                            onSubmit={() => {
+                                firebaseAuthHandler(event);
+                            }}>
+                            <div className='mb-3 grid grid-cols-6 gap-2'>
+                                <div className='col-span-6 sm:col-span-3'>
                                     <Label>
-                                        Phone Number <span>*</span>
+                                        First Name <span>*</span>
                                     </Label>
                                     <div className='mt-2'>
-                                        <PhoneInput
-                                            //@ts-ignore
-                                            value={phoneNumber}
-                                            onChange={setPhoneNumber}
-                                            defaultCountry='US'
-                                            international
-                                            placeholder='Enter a phone number'
+                                        <Input
+                                            id='firstName'
+                                            name='firstName'
+                                            type='text'
+                                            required
+                                            value={formData.firstName}
+                                            onChange={handleChange}
+                                            className={`block w-full ${authErrors.firstName ? 'border-destructive' : ''}`}
                                         />
-
-                                        {authErrors.phoneNumber && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.phoneNumber}</p>}
                                     </div>
-                                    <div className='mt-4'>
-                                        <Label>
-                                            Email address <span>*</span>
-                                        </Label>
-                                        <div className='mt-2'>
-                                            <Input
-                                                id='email'
-                                                name='email'
-                                                type='email'
-                                                required
-                                                value={formData.email}
-                                                onChange={handleChange}
-                                                className={`block w-full ${authErrors.email ? 'border-destructive' : ''}`}
-                                            />
-                                        </div>
-                                        {authErrors.email && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.email}</p>}
+                                    {authErrors.firstName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.firstName}</p>}
+                                </div>
+                                <div className='col-span-6 sm:col-span-3'>
+                                    <Label>
+                                        Last Name <span>*</span>
+                                    </Label>
+                                    <div className='mt-2'>
+                                        <Input
+                                            id='lastName'
+                                            name='lastName'
+                                            type='text'
+                                            required
+                                            value={formData.lastName}
+                                            onChange={handleChange}
+                                            className={`block w-full ${authErrors.lastName ? 'border-destructive' : ''}`}
+                                        />
                                     </div>
-
-                                    <div className='mt-4'>
-                                        <Label>
-                                            Password <span>*</span>
-                                        </Label>
-                                        <div className='relative'>
-                                            <button
-                                                tabIndex={-1}
-                                                type='button'
-                                                onClick={() => {
-                                                    setShowPassword(!showPassword);
-                                                }}
-                                                className='absolute  right-2 top-1 rounded-md bg-white p-2 text-xs'>
-                                                {showPassword == true ? <FaEye /> : <FaEyeSlash />}
-                                            </button>
-
-                                            <Input
-                                                id='password'
-                                                name='password'
-                                                type={showPassword == true ? 'password' : 'text'}
-                                                required
-                                                value={formData.password}
-                                                onChange={handleChange}
-                                                className={`block w-full ${authErrors.password ? 'border-destructive' : ''}`}
-                                            />
-                                        </div>
-                                        {authErrors.password && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.password}</p>}
-                                    </div>
-                                    <div className='mt-4'>
-                                        <Label>
-                                            Confirm Password <span>*</span>
-                                        </Label>
-                                        <div className='relative'>
-                                            <button
-                                                tabIndex={-1}
-                                                type='button'
-                                                onClick={() => {
-                                                    setShowConfirmPassword(!showConfirmPassword);
-                                                }}
-                                                className='absolute  right-2 top-1 rounded-md bg-white p-2 text-xs'>
-                                                {showConfirmPassword == true ? <FaEye /> : <FaEyeSlash />}
-                                            </button>
-
-                                            <Input
-                                                id='confirmPassword'
-                                                name='confirmPassword'
-                                                type={showConfirmPassword == true ? 'password' : 'text'}
-                                                required
-                                                value={formData.confirmPassword}
-                                                onChange={handleChange}
-                                                className={`block w-full ${authErrors.confirmPassword ? 'border-destructive' : ''}`}
-                                            />
-                                        </div>
-                                        {authErrors.confirmPassword && (
-                                            <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.confirmPassword}</p>
-                                        )}
-                                    </div>
-                                    <div className=' relative mt-4 flex gap-x-3'>
-                                        <label htmlFor='candidates' className='flex gap-x-3'>
-                                            <div className='flex h-6 items-center'>
-                                                <input
-                                                    id='candidates'
-                                                    name='candidates'
-                                                    type='checkbox'
-                                                    className='h-4 w-4 rounded border-neutral-300 accent-black'
-                                                    checked={agree}
-                                                    onChange={() => {
-                                                        setAgree(!agree);
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className='text-sm leading-6'>
-                                                <p className='text-neutral-500'>
-                                                    I agree the{' '}
-                                                    <Link href='/terms' className='text-primary underline underline-offset-4'>
-                                                        terms
-                                                    </Link>{' '}
-                                                    and{' '}
-                                                    <Link href='/privacy' className='text-primary underline underline-offset-4'>
-                                                        conditions
-                                                    </Link>{' '}
-                                                    of Bundee .
-                                                </p>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    {agreeError && <ErrorMessage message='Please Agree the Privacy policy and terms of use and continue.' />}
-
-                                    <div className=' relative mt-2 flex gap-x-3'>
-                                        <label htmlFor='marketingAgree' className='flex gap-x-3'>
-                                            <div className='flex h-6 items-center'>
-                                                <input
-                                                    id='marketingAgree'
-                                                    name='marketingAgree'
-                                                    type='checkbox'
-                                                    className='h-4 w-4 rounded border-neutral-300 accent-black'
-                                                    checked={marketingAgree}
-                                                    onChange={() => {
-                                                        setMarketingAgree(!marketingAgree);
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className='text-sm leading-6'>
-                                                <p className='text-neutral-500'>I agree to receive marketing SMS messages from Bundee.</p>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    {marketingAgreeError && <ErrorMessage message='Please Agree to receive marketing SMS messages from Bundee.' />}
-
-                                    <div className=' relative mt-2 flex gap-x-3'>
-                                        <label htmlFor='accountUpdateAgree' className='flex gap-x-3'>
-                                            <div className='flex h-6 items-center'>
-                                                <input
-                                                    id='accountUpdateAgree'
-                                                    name='accountUpdateAgree'
-                                                    type='checkbox'
-                                                    className='h-4 w-4 rounded border-neutral-300 accent-black'
-                                                    checked={accountUpdateAgree}
-                                                    onChange={() => {
-                                                        setAccountUpdateAgree(!accountUpdateAgree);
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className='text-sm leading-6'>
-                                                <p className='text-neutral-500'>I agree to receive account update SMS messages from Bundee.</p>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    {accountUpdateAgreeError && <ErrorMessage message='Please Agree to receive account update SMS messages from Bundee.' />}
-
-                                    {firebaseError && <ErrorMessage message={firebaseError} />}
-
-                                    <div className='mt-6'>
-                                        <Button disabled={loading} className='w-full' type='submit'>
-                                            {loading ? (
-                                                <p>
-                                                    <LuLoader2 className='h-5 w-5 animate-spin text-white' />
-                                                </p>
-                                            ) : (
-                                                <>Sign Up</>
-                                            )}
-                                        </Button>
-                                    </div>
-                                </form>
-                                <hr className='my-4' />
-                                <Button
-                                    onClick={() => {
-                                        googleSignIn();
-                                    }}
-                                    variant='outline'
-                                    className='flex w-full gap-4  py-5'>
-                                    <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
-                                    <span>Continue with Google</span>
-                                </Button>
-
-                                <div className='mt-4 flex flex-col gap-2'>
-                                    <p className='mt-1 '>
-                                        Already have an account?
-                                        <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
-                                            Login
-                                        </span>
-                                        here
-                                    </p>
+                                    {authErrors.lastName && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.lastName}</p>}
                                 </div>
                             </div>
-                        )}
+                            <Label>
+                                Phone Number <span>*</span>
+                            </Label>
+                            <div className='mt-2'>
+                                <PhoneInput
+                                    //@ts-ignore
+                                    value={phoneNumber}
+                                    onChange={setPhoneNumber}
+                                    defaultCountry='US'
+                                    international
+                                    placeholder='Enter a phone number'
+                                />
 
-                        {showSuccessfulSignUp && (
-                            <div className='flex flex-col items-center justify-center gap-4'>
-                                <img src='/party.svg' alt='party_cone' className='h-40 w-96 object-contain' />
-                                <h3>Thanks {formData.firstName} for joining the Bundee</h3>
-                                <p className='text-center'>
-                                    A verification email has been sent successfully..! <br /> Please check your inbox and click on the verification link.
-                                </p>
-                                <Button
-                                    type='button'
-                                    variant='outline'
-                                    size='lg'
-                                    onClick={() => {
-                                        loginModal.onOpen();
-                                        closeModal();
-                                        setShowSuccessfulSignUp(false);
-                                    }}>
-                                    Login
+                                {authErrors.phoneNumber && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.phoneNumber}</p>}
+                            </div>
+                            <div className='mt-4'>
+                                <Label>
+                                    Email address <span>*</span>
+                                </Label>
+                                <div className='mt-2'>
+                                    <Input
+                                        id='email'
+                                        name='email'
+                                        type='email'
+                                        required
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className={`block w-full ${authErrors.email ? 'border-destructive' : ''}`}
+                                    />
+                                </div>
+                                {authErrors.email && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.email}</p>}
+                            </div>
+
+                            <div className='mt-4'>
+                                <Label>
+                                    Password <span>*</span>
+                                </Label>
+                                <div className='relative'>
+                                    <button
+                                        tabIndex={-1}
+                                        type='button'
+                                        onClick={() => {
+                                            setShowPassword(!showPassword);
+                                        }}
+                                        className='absolute  right-2 top-1 rounded-md bg-white p-2 text-xs'>
+                                        {showPassword == true ? <FaEye /> : <FaEyeSlash />}
+                                    </button>
+
+                                    <Input
+                                        id='password'
+                                        name='password'
+                                        type={showPassword == true ? 'password' : 'text'}
+                                        required
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        className={`block w-full ${authErrors.password ? 'border-destructive' : ''}`}
+                                    />
+                                </div>
+                                {authErrors.password && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.password}</p>}
+                            </div>
+                            <div className='mt-4'>
+                                <Label>
+                                    Confirm Password <span>*</span>
+                                </Label>
+                                <div className='relative'>
+                                    <button
+                                        tabIndex={-1}
+                                        type='button'
+                                        onClick={() => {
+                                            setShowConfirmPassword(!showConfirmPassword);
+                                        }}
+                                        className='absolute  right-2 top-1 rounded-md bg-white p-2 text-xs'>
+                                        {showConfirmPassword == true ? <FaEye /> : <FaEyeSlash />}
+                                    </button>
+
+                                    <Input
+                                        id='confirmPassword'
+                                        name='confirmPassword'
+                                        type={showConfirmPassword == true ? 'password' : 'text'}
+                                        required
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        className={`block w-full ${authErrors.confirmPassword ? 'border-destructive' : ''}`}
+                                    />
+                                </div>
+                                {authErrors.confirmPassword && <p className='mt-2 text-xs font-medium text-destructive'>{authErrors.confirmPassword}</p>}
+                            </div>
+                            <div className=' relative mt-4 flex gap-x-3'>
+                                <label htmlFor='candidates' className='flex gap-x-3'>
+                                    <div className='flex h-6 items-center'>
+                                        <input
+                                            id='candidates'
+                                            name='candidates'
+                                            type='checkbox'
+                                            className='h-4 w-4 rounded border-neutral-300 accent-black'
+                                            checked={agree}
+                                            onChange={() => {
+                                                setAgree(!agree);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className='text-sm leading-6'>
+                                        <p className='text-neutral-500'>
+                                            I agree the{' '}
+                                            <Link href='/terms' className='text-primary underline underline-offset-4'>
+                                                terms
+                                            </Link>{' '}
+                                            and{' '}
+                                            <Link href='/privacy' className='text-primary underline underline-offset-4'>
+                                                conditions
+                                            </Link>{' '}
+                                            of Bundee .
+                                        </p>
+                                    </div>
+                                </label>
+                            </div>
+                            {agreeError && <ErrorMessage message='Please Agree the Privacy policy and terms of use and continue.' />}
+
+                            <div className=' relative mt-2 flex gap-x-3'>
+                                <label htmlFor='marketingAgree' className='flex gap-x-3'>
+                                    <div className='flex h-6 items-center'>
+                                        <input
+                                            id='marketingAgree'
+                                            name='marketingAgree'
+                                            type='checkbox'
+                                            className='h-4 w-4 rounded border-neutral-300 accent-black'
+                                            checked={marketingAgree}
+                                            onChange={() => {
+                                                setMarketingAgree(!marketingAgree);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className='text-sm leading-6'>
+                                        <p className='text-neutral-500'>I agree to receive marketing SMS messages from Bundee.</p>
+                                    </div>
+                                </label>
+                            </div>
+                            {marketingAgreeError && <ErrorMessage message='Please Agree to receive marketing SMS messages from Bundee.' />}
+
+                            <div className=' relative mt-2 flex gap-x-3'>
+                                <label htmlFor='accountUpdateAgree' className='flex gap-x-3'>
+                                    <div className='flex h-6 items-center'>
+                                        <input
+                                            id='accountUpdateAgree'
+                                            name='accountUpdateAgree'
+                                            type='checkbox'
+                                            className='h-4 w-4 rounded border-neutral-300 accent-black'
+                                            checked={accountUpdateAgree}
+                                            onChange={() => {
+                                                setAccountUpdateAgree(!accountUpdateAgree);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className='text-sm leading-6'>
+                                        <p className='text-neutral-500'>I agree to receive account update SMS messages from Bundee.</p>
+                                    </div>
+                                </label>
+                            </div>
+                            {accountUpdateAgreeError && <ErrorMessage message='Please Agree to receive account update SMS messages from Bundee.' />}
+
+                            {firebaseError && <ErrorMessage message={firebaseError} />}
+
+                            <div className='mt-6'>
+                                <Button disabled={loading} className='w-full' type='submit'>
+                                    {loading ? (
+                                        <p>
+                                            <LuLoader2 className='h-5 w-5 animate-spin text-white' />
+                                        </p>
+                                    ) : (
+                                        <>Sign Up</>
+                                    )}
                                 </Button>
                             </div>
-                        )}
-                    </main>
-                </ClientOnly>
-            </ModalBody>
-        </Modal>
+                        </form>
+                        <hr className='my-4' />
+                        <Button
+                            onClick={() => {
+                                googleSignIn();
+                            }}
+                            variant='outline'
+                            className='flex w-full gap-4  py-5'>
+                            <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
+                            <span>Continue with Google</span>
+                        </Button>
+
+                        <div className='mt-4 flex flex-col gap-2'>
+                            <p className='mt-1 '>
+                                Already have an account?
+                                <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
+                                    Login
+                                </span>
+                                here
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {showSuccessfulSignUp && (
+                    <div className='flex flex-col items-center justify-center gap-4'>
+                        <img src='/party.svg' alt='party_cone' className='h-40 w-96 object-contain' />
+                        <h3>Thanks {formData.firstName} for joining the Bundee</h3>
+                        <p className='text-center'>
+                            A verification email has been sent successfully..! <br /> Please check your inbox and click on the verification link.
+                        </p>
+                        <Button
+                            type='button'
+                            variant='outline'
+                            size='lg'
+                            onClick={() => {
+                                loginModal.onOpen();
+                                closeModal();
+                                setShowSuccessfulSignUp(false);
+                            }}>
+                            Login
+                        </Button>
+                    </div>
+                )}
+            </main>
+        </ResponsiveDialog>
     );
 };
 

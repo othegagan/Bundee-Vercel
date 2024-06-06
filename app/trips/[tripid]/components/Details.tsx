@@ -24,6 +24,7 @@ import useRentalAgreementModal from '@/hooks/useRentalAgreement';
 import { Download } from 'lucide-react';
 import StartTripComponent from './StartTripComponent';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
+import { ResponsiveDialog } from '@/components/ui/responsive-dialog';
 
 export default function Details({ tripsData, tripRating }: any) {
     const tripReviewModal = useTripReviewModal();
@@ -233,6 +234,10 @@ export default function Details({ tripsData, tripRating }: any) {
         }
     };
 
+    const openModifiyDialog = () => {
+        setModifyCalenderOpen(true);
+    };
+
     const closeModifyDialog = () => {
         setModifyCalenderOpen(false);
         const body = document.querySelector('body');
@@ -399,103 +404,105 @@ export default function Details({ tripsData, tripRating }: any) {
                 </div>
             </div>
 
-            <Modal isOpen={modifyCalenderOpen} onClose={closeModifyDialog} className='lg:max-w-2xl'>
-                <ModalHeader onClose={closeModifyDialog}>Trip Modification</ModalHeader>
-                <ModalBody>
-                    <div className={`grid w-full   grid-cols-1 gap-4 lg:grid-cols-2`}>
-                        <div className='col-span-1'>
-                            <div className='mb-4 flex'>
-                                <div className='flex-2 flex w-full flex-col gap-1'>
-                                    <TimeSelect
-                                        label='Trip Start Time'
-                                        // defaultValue={format(new Date(tripsData.starttime), 'HH:mm:ss')}
-                                        defaultValue={formatTime(tripsData.starttime, tripsData?.vehzipcode)}
-                                        onChange={time => {
-                                            setNewStartTime(time);
-                                            getPriceCalculation();
-                                        }}
-                                    />
-                                </div>
-                                <div className='flex-2 ml-4 flex w-full flex-col gap-1'>
-                                    <TimeSelect
-                                        label='Trip End Time'
-                                        defaultValue={formatTime(tripsData.endtime, tripsData?.vehzipcode)}
-                                        onChange={time => {
-                                            setNewEndTime(time);
-                                            getPriceCalculation();
-                                        }}
-                                    />
-                                </div>
+            <ResponsiveDialog
+                isOpen={modifyCalenderOpen}
+                openDialog={openModifiyDialog}
+                closeDialog={closeModifyDialog}
+                title='Trip Date & Time Modification'
+                className='lg:max-w-2xl'>
+                <div className={`grid w-full   grid-cols-1 gap-4 lg:grid-cols-2`}>
+                    <div className='col-span-1'>
+                        <div className='mb-4 flex'>
+                            <div className='flex-2 flex w-full flex-col gap-1'>
+                                <TimeSelect
+                                    label='Trip Start Time'
+                                    // defaultValue={format(new Date(tripsData.starttime), 'HH:mm:ss')}
+                                    defaultValue={formatTime(tripsData.starttime, tripsData?.vehzipcode)}
+                                    onChange={time => {
+                                        setNewStartTime(time);
+                                        getPriceCalculation();
+                                    }}
+                                />
                             </div>
-
-                            <div className='flex justify-center lg:ml-6'>
-                                <ModificationCalendarComponent
-                                    vehicleid={tripsData.vehicleId}
-                                    tripid={tripsData.tripid}
-                                    originalStartDate={convertToCarDate(tripsData.starttime, tripsData?.vehzipcode)}
-                                    originalEndDate={convertToCarDate(tripsData.endtime, tripsData?.vehzipcode)}
-                                    setError={setError}
-                                    setNewStartDate={setNewStartDate}
-                                    setNewEndDate={setNewEndDate}
-                                    setIsInitialLoad={setIsInitialLoad}
-                                    tripStarted={tripsData.status.toLowerCase() === 'started'}
+                            <div className='flex-2 ml-4 flex w-full flex-col gap-1'>
+                                <TimeSelect
+                                    label='Trip End Time'
+                                    defaultValue={formatTime(tripsData.endtime, tripsData?.vehzipcode)}
+                                    onChange={time => {
+                                        setNewEndTime(time);
+                                        getPriceCalculation();
+                                    }}
                                 />
                             </div>
                         </div>
 
-                        <div className='col-span-1 mt-auto px-3'>
-                            {!error && (
-                                <>
-                                    {priceLoading ? (
-                                        <div className='mt-4 text-center'>
-                                            <CalendarSelectSkeleton />
-                                        </div>
-                                    ) : (
-                                        <>
-                                            {priceCalculatedList ? (
-                                                <div>
-                                                    <TripModificationPriceListComponent
-                                                        priceCalculatedList={priceCalculatedList}
-                                                        isExtension={isExtension}
-                                                        newStartDate={newStartDate}
-                                                        newEndDate={newEndDate}
-                                                        newStartTime={newStartTime}
-                                                        newEndTime={newEndTime}
-                                                        zipCode={tripsData?.vehzipcode}
-                                                    />
-
-                                                    <footer className='mt-6 flex select-none items-center justify-end gap-4'>
-                                                        <Button type='button' onClick={closeModifyDialog} variant='outline'>
-                                                            Cancel
-                                                        </Button>
-                                                        <Button
-                                                            type='button'
-                                                            onClick={isExtension ? handleExtension : handleReduction}
-                                                            className={`bg-primary ${error ? 'cursor-not-allowed opacity-50' : ''}`}
-                                                            disabled={!!error || submitting}>
-                                                            {priceLoading || submitting ? (
-                                                                <div className='px-10'>
-                                                                    <div className='loader'></div>
-                                                                </div>
-                                                            ) : (
-                                                                <>{isExtension ? 'Continue to book' : 'Continue'}</>
-                                                            )}
-                                                        </Button>
-                                                    </footer>
-                                                </div>
-                                            ) : (
-                                                <div className=''>
-                                                    <p>Please select the dates to which you want to modify the trip.</p>
-                                                </div>
-                                            )}
-                                        </>
-                                    )}
-                                </>
-                            )}
+                        <div className='flex justify-center lg:ml-6'>
+                            <ModificationCalendarComponent
+                                vehicleid={tripsData.vehicleId}
+                                tripid={tripsData.tripid}
+                                originalStartDate={convertToCarDate(tripsData.starttime, tripsData?.vehzipcode)}
+                                originalEndDate={convertToCarDate(tripsData.endtime, tripsData?.vehzipcode)}
+                                setError={setError}
+                                setNewStartDate={setNewStartDate}
+                                setNewEndDate={setNewEndDate}
+                                setIsInitialLoad={setIsInitialLoad}
+                                tripStarted={tripsData.status.toLowerCase() === 'started'}
+                            />
                         </div>
                     </div>
-                </ModalBody>
-            </Modal>
+
+                    <div className='col-span-1 mt-auto px-3'>
+                        {!error && (
+                            <>
+                                {priceLoading ? (
+                                    <div className='mt-4 text-center'>
+                                        <CalendarSelectSkeleton />
+                                    </div>
+                                ) : (
+                                    <>
+                                        {priceCalculatedList ? (
+                                            <div>
+                                                <TripModificationPriceListComponent
+                                                    priceCalculatedList={priceCalculatedList}
+                                                    isExtension={isExtension}
+                                                    newStartDate={newStartDate}
+                                                    newEndDate={newEndDate}
+                                                    newStartTime={newStartTime}
+                                                    newEndTime={newEndTime}
+                                                    zipCode={tripsData?.vehzipcode}
+                                                />
+
+                                                <footer className='mt-6 flex select-none items-center justify-end gap-4'>
+                                                    <Button type='button' onClick={closeModifyDialog} variant='outline'>
+                                                        Cancel
+                                                    </Button>
+                                                    <Button
+                                                        type='button'
+                                                        onClick={isExtension ? handleExtension : handleReduction}
+                                                        className={`bg-primary ${error ? 'cursor-not-allowed opacity-50' : ''}`}
+                                                        disabled={!!error || submitting}>
+                                                        {priceLoading || submitting ? (
+                                                            <div className='px-10'>
+                                                                <div className='loader'></div>
+                                                            </div>
+                                                        ) : (
+                                                            <>{isExtension ? 'Continue to book' : 'Continue'}</>
+                                                        )}
+                                                    </Button>
+                                                </footer>
+                                            </div>
+                                        ) : (
+                                            <div className=''>
+                                                <p>Please select the dates to which you want to modify the trip.</p>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+            </ResponsiveDialog>
         </>
     );
 }

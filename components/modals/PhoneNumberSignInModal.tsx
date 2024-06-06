@@ -19,6 +19,7 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { PhoneInput } from '../ui/phone-input';
 import { toast } from '../ui/use-toast';
+import { ResponsiveDialog } from '../ui/responsive-dialog';
 
 const PhoneNumberSignInModal = () => {
     const router = useRouter();
@@ -85,7 +86,7 @@ const PhoneNumberSignInModal = () => {
                     const payload: any = {
                         userData: response.data.userResponse,
                     };
-                    closeModal();
+                    closeDialog();
                     await login(payload);
                     router.refresh();
                 } else {
@@ -104,7 +105,7 @@ const PhoneNumberSignInModal = () => {
             });
     }
 
-    function openModal() {
+    function openDialog() {
         setPhoneNumber('');
         setOTPError('');
         setVerificationCode('');
@@ -112,7 +113,7 @@ const PhoneNumberSignInModal = () => {
         setVerificationSent(false);
         phoneNumberSignInModal.onOpen();
     }
-    function closeModal() {
+    function closeDialog() {
         setPhoneNumber('');
         setOTPError('');
         setVerificationCode('');
@@ -142,89 +143,78 @@ const PhoneNumberSignInModal = () => {
     };
 
     return (
-        <Modal isOpen={phoneNumberSignInModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
-            <ModalHeader onClose={closeModal}>{''}</ModalHeader>
-            <ModalBody className={`  transition-all delay-1000 ${!phoneNumberSignInModal.isOpen ? ' rotate-90' : ' rotate-0'}`}>
-                <ClientOnly>
-                    <main className='flex items-center justify-center p-2 md:p-6 '>
-                        <div className='w-full'>
-                            <div className='flex flex-col items-center gap-4'>
-                                <Logo className='scale-[1.3]' />
+        <ResponsiveDialog isOpen={phoneNumberSignInModal.isOpen} closeDialog={() => closeDialog()} openDialog={() => openDialog()} className='lg:max-w-lg'>
+            <main className='flex items-center justify-center p-2 md:p-6 '>
+                <div className='w-full'>
+                    <div className='flex flex-col items-center gap-4'>
+                        <Logo className='scale-[1.3]' />
 
-                                <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Login with Bundee account</span>
-                            </div>
+                        <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Login with Bundee account</span>
+                    </div>
 
-                            {!verificationId ? (
-                                <div className='space-y-6'>
-                                    <Label htmlFor='phoneNumber' className='mt-6'>
-                                        Phone Number:
-                                    </Label>
-                                    <PhoneInput
-                                        value={phoneNumber}
-                                        onChange={setPhoneNumber}
-                                        defaultCountry='US'
-                                        international
-                                        placeholder='Enter a phone number'
-                                    />
-                                    <Button
-                                        type='button'
-                                        className='ml-auto w-full'
-                                        onClick={handleSendVerificationCode}
-                                        disabled={!phoneNumber || verificationSent || loading}>
-                                        {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Send Verification Code</>}
-                                    </Button>
-                                </div>
-                            ) : (
-                                <div className='flex flex-col gap-4'>
-                                    <Label htmlFor='verificationCode'>Verification Code:</Label>
-
-                                    <InputOTP
-                                        maxLength={6}
-                                        value={verificationCode}
-                                        onChange={value => setVerificationCode(value)}
-                                        className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '>
-                                        <InputOTPGroup className='flex justify-center   md:gap-4'>
-                                            <InputOTPSlot className='rounded-md border border-gray-300 ' index={0} />
-                                            <InputOTPSlot className='rounded-md border border-gray-300 ' index={1} />
-                                            <InputOTPSlot className='rounded-md border border-gray-300 ' index={2} />
-                                            <InputOTPSlot className='rounded-md border border-gray-300 ' index={3} />
-                                            <InputOTPSlot className='rounded-md border border-gray-300 ' index={4} />
-                                            <InputOTPSlot className='rounded-md border border-gray-300 ' index={5} />
-                                        </InputOTPGroup>
-                                    </InputOTP>
-
-                                    <Button type='button' disabled={verificationCode.length != 6 || verifying} onClick={onOTPVerify}>
-                                        {verifying ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Verify Code</>}
-                                    </Button>
-                                </div>
-                            )}
-                            {otpError && <p className='mt-3 rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
-
-                            <div className={`${!verificationId ? '' : 'hidden'}  `}>
-                                <div id='recaptcha-container'></div>
-                            </div>
-
-                            <hr className='my-4' />
-
-                            <div className='mt-4 flex flex-col gap-2'>
-                                <p className='mt-1 text-base'>
-                                    Don't have an account?
-                                    <span
-                                        onClick={() => {
-                                            phoneNumberSignInModal.onClose();
-                                            registerModal.onOpen();
-                                        }}
-                                        className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
-                                        Sign up
-                                    </span>
-                                    here
-                                </p>
-                            </div>
+                    {!verificationId ? (
+                        <div className='space-y-6'>
+                            <Label htmlFor='phoneNumber' className='mt-6'>
+                                Phone Number:
+                            </Label>
+                            <PhoneInput value={phoneNumber} onChange={setPhoneNumber} defaultCountry='US' international placeholder='Enter a phone number' />
+                            <Button
+                                type='button'
+                                className='ml-auto w-full'
+                                onClick={handleSendVerificationCode}
+                                disabled={!phoneNumber || verificationSent || loading}>
+                                {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Send Verification Code</>}
+                            </Button>
                         </div>
-                    </main>
-                </ClientOnly>
-            </ModalBody>
-        </Modal>
+                    ) : (
+                        <div className='flex flex-col gap-4 mt-6'>
+                            <Label htmlFor='verificationCode'>Verification Code:</Label>
+
+                            <InputOTP
+                                maxLength={6}
+                                value={verificationCode}
+                                onChange={value => setVerificationCode(value)}
+                                className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '>
+                                <InputOTPGroup className='flex justify-center   md:gap-4'>
+                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={0} />
+                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={1} />
+                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={2} />
+                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={3} />
+                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={4} />
+                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={5} />
+                                </InputOTPGroup>
+                            </InputOTP>
+
+                            <Button type='button' disabled={verificationCode.length != 6 || verifying} onClick={onOTPVerify}>
+                                {verifying ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Verify Code</>}
+                            </Button>
+                        </div>
+                    )}
+                    {otpError && <p className='mt-3 rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
+
+                    <div className={`${!verificationId ? '' : 'hidden'}  `}>
+                        <div id='recaptcha-container'></div>
+                    </div>
+
+                    <hr className='my-4' />
+
+                    <div className='mt-4 flex flex-col gap-2'>
+                        <p className='mt-1 text-base'>
+                            Don't have an account?
+                            <span
+                                onClick={() => {
+                                    phoneNumberSignInModal.onClose();
+                                    registerModal.onOpen();
+                                }}
+                                className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
+                                Sign up
+                            </span>
+                            here
+                        </p>
+                    </div>
+                </div>
+            </main>
+        </ResponsiveDialog>
     );
 };
 
