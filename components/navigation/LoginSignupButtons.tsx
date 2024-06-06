@@ -14,7 +14,7 @@ export default function LoginSignupButtons() {
                 }}
                 type='button'
                 variant='outline'>
-                Login
+                Log In
             </Button>
 
             <Button

@@ -22,6 +22,7 @@ import Logo from '@/components/landing_page/Logo';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
+import { ResponsiveDialog } from '../ui/responsive-dialog';
 
 const LoginModal = () => {
     const router = useRouter();
@@ -152,6 +153,7 @@ const LoginModal = () => {
         setShowPassword(false);
         loginModal.onOpen();
     }
+
     function closeModal() {
         setPassword('');
         setUserEmail('');
@@ -165,113 +167,119 @@ const LoginModal = () => {
         phoneNumberSignInModal.onOpen();
     }
     return (
-        <Modal isOpen={loginModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
-            <ModalHeader onClose={closeModal}>{''}</ModalHeader>
-            <ModalBody className={`  transition-all delay-1000 ${!loginModal.isOpen ? ' rotate-90' : ' rotate-0'}`}>
-                <ClientOnly>
-                    <main className='flex items-center justify-center p-2 md:p-6 '>
-                        <div className='w-full'>
-                            <div className='flex flex-col items-center gap-4'>
-                                <Logo className='scale-[1.3]' />
+        <ResponsiveDialog
+            title=''
+            description=''
+            isOpen={loginModal.isOpen}
+            openDialog={() => {
+                loginModal.onOpen();
+            }}
+            closeDialog={() => {
+                closeModal();
+            }}>
+            <ClientOnly>
+                <main className='flex items-center justify-center p-2 md:p-6 '>
+                    <div className='w-full'>
+                        <div className='flex flex-col items-center gap-4'>
+                            <Logo className='scale-[1.3]' />
 
-                                <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Login with Bundee account</span>
+                            <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Log In with Bundee account</span>
+                        </div>
+                        <form
+                            onSubmit={event => {
+                                event.preventDefault(); // Prevents the default form submission behavior
+                                handleLogin(event);
+                            }}>
+                            <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
+                                Email address <span>*</span>
+                            </label>
+                            <div className='mt-1'>
+                                <Input
+                                    id='email'
+                                    name='email'
+                                    type='email'
+                                    autoComplete='email'
+                                    required
+                                    value={userEmail}
+                                    onChange={e => setUserEmail(e.target.value)}
+                                />
                             </div>
-                            <form
-                                onSubmit={event => {
-                                    event.preventDefault(); // Prevents the default form submission behavior
-                                    handleLogin(event);
-                                }}>
-                                <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
-                                    Email address <span>*</span>
-                                </label>
+                            <label htmlFor='password' className='mt-4 block text-sm font-medium text-gray-700'>
+                                Password <span>*</span>
+                            </label>
+                            <div className='relative'>
+                                <div
+                                    onClick={() => {
+                                        setShowPassword(!showPassword);
+                                    }}
+                                    className='absolute right-2 top-1 cursor-pointer p-2 text-xs'>
+                                    {showPassword == true ? <FaEye /> : <FaEyeSlash />}
+                                </div>
                                 <div className='mt-1'>
                                     <Input
-                                        id='email'
-                                        name='email'
-                                        type='email'
-                                        autoComplete='email'
+                                        id='password'
+                                        name='password'
+                                        type={showPassword == true ? 'password' : 'text'}
+                                        autoComplete='current-password'
                                         required
-                                        value={userEmail}
-                                        onChange={e => setUserEmail(e.target.value)}
+                                        value={password}
+                                        onChange={e => setPassword(e.target.value)}
                                     />
                                 </div>
-                                <label htmlFor='password' className='mt-4 block text-sm font-medium text-gray-700'>
-                                    Password <span>*</span>
-                                </label>
-                                <div className='relative'>
-                                    <div
-                                        onClick={() => {
-                                            setShowPassword(!showPassword);
-                                        }}
-                                        className='absolute right-2 top-1 cursor-pointer p-2 text-xs'>
-                                        {showPassword == true ? <FaEye /> : <FaEyeSlash />}
-                                    </div>
-                                    <div className='mt-1'>
-                                        <Input
-                                            id='password'
-                                            name='password'
-                                            type={showPassword == true ? 'password' : 'text'}
-                                            autoComplete='current-password'
-                                            required
-                                            value={password}
-                                            onChange={e => setPassword(e.target.value)}
-                                        />
-                                    </div>
-                                </div>
+                            </div>
 
-                                {authError ? (
-                                    <div className='my-3 select-none rounded-md bg-red-50 p-3'>
-                                        <div className='flex'>
-                                            <div className='flex-shrink-0'>
-                                                <IoWarning className='h-5 w-5 text-red-400' />
-                                            </div>
-                                            <div className='ml-3'>
-                                                <p className='text-sm font-medium text-red-800'>{authError}</p>
-                                            </div>
+                            {authError ? (
+                                <div className='my-3 select-none rounded-md bg-red-50 p-3'>
+                                    <div className='flex'>
+                                        <div className='flex-shrink-0'>
+                                            <IoWarning className='h-5 w-5 text-red-400' />
+                                        </div>
+                                        <div className='ml-3'>
+                                            <p className='text-sm font-medium text-red-800'>{authError}</p>
                                         </div>
                                     </div>
-                                ) : null}
+                                </div>
+                            ) : null}
 
-                                <Button disabled={loading} className='mt-4 w-full text-white' type='submit'>
-                                    {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Log in</>}
-                                </Button>
-                            </form>
-
-                            <hr className='my-4' />
-
-                            <Button
-                                onClick={() => {
-                                    googleSignIn();
-                                }}
-                                variant='outline'
-                                className='flex w-full gap-4  py-5'>
-                                <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
-                                <span>Continue with Google</span>
+                            <Button disabled={loading} className='mt-4 w-full text-white' type='submit'>
+                                {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Log In</>}
                             </Button>
+                        </form>
 
-                            <Button onClick={openPhoneLogin} type='button' variant='outline' className='mt-3 flex w-full  gap-3 py-5'>
-                                <FaPhone className='size-5 scale-95' />
-                                <span>Sign in with Phone number</span>
-                            </Button>
+                        <hr className='my-4' />
 
-                            <div className='mt-4 flex flex-col gap-2'>
-                                <Link className='w-fit text-sm font-medium text-primary hover:underline' href='/'>
-                                    Forgot your password?
-                                </Link>
+                        <Button
+                            onClick={() => {
+                                googleSignIn();
+                            }}
+                            variant='outline'
+                            className='flex w-full gap-4  py-5'>
+                            <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
+                            <span>Continue with Google</span>
+                        </Button>
 
-                                <p className='mt-1 text-base'>
-                                    Don't have an account?
-                                    <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
-                                        Sign up
-                                    </span>
-                                    here
-                                </p>
-                            </div>
+                        <Button onClick={openPhoneLogin} type='button' variant='outline' className='mt-3 flex w-full  gap-3 py-5'>
+                            <FaPhone className='size-5 scale-95' />
+                            <span>Sign in with Phone number</span>
+                        </Button>
+
+                        <div className='mt-4 flex flex-col gap-2'>
+                            <Link className='w-fit text-sm font-medium text-primary hover:underline' href='/'>
+                                Forgot your password?
+                            </Link>
+
+                            <p className='mt-1 text-base'>
+                                Don't have an account?
+                                <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
+                                    Sign up
+                                </span>
+                                here
+                            </p>
                         </div>
-                    </main>
-                </ClientOnly>
-            </ModalBody>
-        </Modal>
+                    </div>
+                </main>
+            </ClientOnly>
+        </ResponsiveDialog>
     );
 };
 
