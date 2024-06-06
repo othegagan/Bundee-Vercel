@@ -3,9 +3,8 @@ import BoxContainer from '@/components/BoxContainer';
 import { CheckoutCardSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { getSession } from '@/lib/auth';
 import { formatDateAndTime } from '@/lib/utils';
-import { cancelPaymentIntent, createSetUpIntent, createTripExtension, createTripReduction, createTripReservation } from '@/server/checkout';
+import { createSetUpIntent, createTripReservation } from '@/server/checkout';
 import { useEffect, useState } from 'react';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
@@ -56,7 +55,9 @@ export default function CheckoutComponent() {
             setCustomerId(id);
             initializeStripe(responseData.client_secret);
         } catch (error) {
-            handleError('Oops! Something went wrong.', 'Something went wrong in initializing payment.');
+            toast({ duration: 4000, variant: 'success', title: ' Oops! Something went wrong.', description: 'Something went wrong in initializing payment.' });
+            secureLocalStorage.removeItem('checkOutInfo');
+            window.location.href = '/checkout/success';
             console.error(error);
         }
     };
@@ -73,169 +74,111 @@ export default function CheckoutComponent() {
     const submit = async () => {
         setMessage('');
         setPayButtonText('Processing Payment');
+
         try {
             const paymentRes = await stripe.confirmSetup({
                 elements,
                 confirmParams: { return_url: window.location.origin + '/trips' },
                 redirect: 'if_required',
             });
-            const setUpId = paymentRes.setupIntent.id;
-            const status = paymentRes.setupIntent.status;
-            const payment_method = paymentRes.setupIntent.payment_method;
-            console.log(setUpId, status, payment_method);
 
-            if (status !== 'succeeded') {
-                setMessage(paymentRes.error?.message || 'Payment setup did not succeed.');
-                setPayButtonText('Pay Now');
-                handleError('Oops! Your payment is not successful.', paymentRes.error?.message || 'An unexpected error occurred. Please try again.');
-            } else if (status === 'succeeded' && setUpId && payment_method) {
-                handleSuccess(payment_method);
-                // toast({ duration: 4000, variant: 'success', title: 'Payment successful', description: 'Payment done.' });
+            const { setupIntent, error } = paymentRes;
+
+            if (setupIntent) {
+                const { id: setUpId, status, payment_method } = setupIntent;
+
+                if (status === 'succeeded') {
+                    // console.log(setUpId, status, payment_method);
+                    // Payment setup succeeded, handle success
+                    await createReservation(payment_method);
+                }
             } else {
-                toast({
-                    duration: 4000,
-                    variant: 'destructive',
-                    title: 'Oops! Your payment is not successful.',
-                    description: 'Payment failed.',
-                });
-                handleError('Oops! Your payment is not successful.', 'Payment failed.');
+                console.log(error);
+                let errorMessage = 'Payment failed. Please try again.';
+                if (error) {
+                    const errorCode = error.code;
+                    const declineCode = error.decline_code;
+
+                    switch (errorCode) {
+                        case 'insufficient_funds':
+                            errorMessage = 'You have insufficient funds. Please use another payment method or ensure sufficient funds.';
+                            break;
+                        case 'expired_card':
+                            errorMessage = 'Your card has expired. Please use a different card.';
+                            break;
+                        case 'incorrect_cvc':
+                            errorMessage = 'The CVC code is incorrect. Please try again.';
+                            break;
+                        case 'card_declined':
+                            errorMessage = `Your card was declined. Reason: ${declineCode || 'generic decline'}. Please try another card or contact your bank.`;
+                            break;
+                        default:
+                            errorMessage = error.message || errorMessage;
+                            break;
+                    }
+                }
+                setMessage(errorMessage);
+                setPayButtonText('Pay Now');
+                // handleError('Oops! Your payment is not successful.', 'Payment setup did not succeed.');
             }
         } catch (error) {
             setPayButtonText('Pay Now');
             console.error('Error processing payment', error);
-            handleError('Oops! Your payment is not successful.', error.message || 'An unexpected error occurred. Please try again.');
-        }
-    };
-
-    const handleSuccess = async (payment_method: string) => {
-        try {
-            switch (userRequestType) {
-                case 'reservation':
-                    await createReservation(payment_method);
-                    break;
-                case 'modify':
-                    await tripExtension(payment_method);
-                    break;
-                case 'reduction':
-                    await tripReduction(payment_method);
-                    break;
-                default:
-                    break;
-            }
-        } catch (error) {
-            console.error('Error handling success', error);
-            handleError('Oops! Your payment is not successful.', 'An unexpected error occurred. Please Try again.');
+            toast({ duration: 4000, variant: 'destructive', title: 'Oops! Your payment is not successful.', description: 'Payment failed.' });
+            window.location.href = '/checkout/failure';
         }
     };
 
     const createReservation = async (payment_method: string) => {
         try {
-            const payload = preparePayload(payment_method);
+            const payload = {
+                ...checkoutDetails,
+                stripePaymentToken: 'NA',
+                customerToken: customerId,
+                stripePaymentTransactionDetail: '{ "key1" : "val1" }',
+                stripePaymentID: 'NA',
+                paymentMethodIDToken: payment_method,
+                setupIntentToken: 'NA',
+                isCustomerTokenNew: 'NA',
+                totalDays: String(checkoutDetails.numberOfDays),
+                tripamount: String(checkoutDetails.tripAmount),
+                userId: String(checkoutDetails.userId),
+            };
+            const keysToRemove = [
+                'image',
+                'name',
+                'type',
+                'authAmount',
+                'authPercentage',
+                'hostPriceMap',
+                'numberOfDays',
+                'price',
+                'pricePerDay',
+                'totalAmount',
+                'tripAmount',
+                'upcharges',
+                'stateSurchargeAmount',
+                'stateSurchargeTax',
+                'hostid',
+                'delivery',
+            ];
+            keysToRemove?.forEach(key => {
+                if (payload.hasOwnProperty(key)) {
+                    delete payload[key];
+                }
+            });
             console.log('Reservation payload', payload);
 
             const response = await createTripReservation(payload);
             console.log(response);
 
-            handleResponse(response, 'Payment made successful.', 'Thank you for your payment. Your transaction was successful.', '/checkout/success');
+            toast({ duration: 4000, variant: 'success', title: 'Payment made successful.', description: 'Your transaction was successful.' });
+            secureLocalStorage.removeItem('checkOutInfo');
+            window.location.href = '/checkout/success';
         } catch (error) {
             console.error('Error creating reservation:', error);
-            handleError('Oops! Your payment is not successful.', 'An unexpected error occurred. Please Try again.');
-        }
-    };
-
-    const tripExtension = async payment_method => {
-        try {
-            const payload = preparePayload(payment_method);
-            // console.log('Extension payload', payload);
-
-            const response = await createTripExtension(payload);
-            handleResponse(response, 'Payment made successful.', 'Thank you for your payment. Your transaction was successful.', '/checkout/success');
-        } catch (error) {
-            console.error('Error modifying trip:', error);
-            handleError('Oops! Your payment is not successful.', 'An unexpected error occurred. Please Try again.');
-        }
-    };
-
-    const tripReduction = async payment_method => {
-        try {
-            const payload = preparePayload(payment_method);
-            // console.log('Reduction payload', payload);
-
-            const response = await createTripReduction(payload);
-            handleResponse(response, 'Payment made successful.', 'Thank you for your payment. Trip reduction was successful.', '/checkout/success');
-        } catch (error) {
-            // console.error('Error reducing trip:', error);
-            handleError('Oops! Your payment is not successful.', 'An unexpected error occurred. Please Try again.');
-        }
-    };
-
-    const cancelIntent = async () => {
-        try {
-            const response = await cancelPaymentIntent(checkoutDetails.vehicleId, checkoutDetails.totalamount, checkoutDetails.hostid, '', customerId);
-            secureLocalStorage.removeItem('checkOutInfo');
-            console.log(response);
-        } catch (error) {
-            console.error('Error cancelling intent:', error);
-        }
-    };
-
-    const preparePayload = (payment_method: string) => {
-        const payload = {
-            ...checkoutDetails,
-            stripePaymentToken: 'NA',
-            customerToken: customerId,
-            stripePaymentTransactionDetail: '{ "key1" : "val1" }',
-            stripePaymentID: 'NA',
-            paymentMethodIDToken: payment_method,
-            setupIntentToken: 'NA',
-            isCustomerTokenNew: 'NA',
-            totalDays: String(checkoutDetails.numberOfDays),
-            tripamount: String(checkoutDetails.tripAmount),
-            userId: String(checkoutDetails.userId),
-        };
-        const keysToRemove = [
-            'image',
-            'name',
-            'type',
-            'authAmount',
-            'authPercentage',
-            'hostPriceMap',
-            'numberOfDays',
-            'price',
-            'pricePerDay',
-            'totalAmount',
-            'tripAmount',
-            'upcharges',
-            'stateSurchargeAmount',
-            'stateSurchargeTax',
-            'hostid',
-            'delivery',
-        ];
-        keysToRemove?.forEach(key => {
-            if (payload.hasOwnProperty(key)) {
-                delete payload[key];
-            }
-        });
-        return payload;
-    };
-
-    const handleResponse = (response, successTitle, successDescription, successRedirect) => {
-        if (response.success) {
-            toast({ duration: 4000, variant: 'success', title: successTitle, description: successDescription });
-            secureLocalStorage.removeItem('checkOutInfo');
-            window.location.href = successRedirect;
-        } else {
-            handleError('Oops! Failed to create trip extension.', 'An unexpected error occurred. Please Try again.');
-        }
-    };
-
-    const handleError = async (title, description) => {
-        try {
-            await cancelIntent();
-            toast({ duration: 4000, variant: 'destructive', title, description });
+            toast({ duration: 4000, variant: 'destructive', title: 'Oops! Your payment is not successful.', description: 'Payment failed.' });
             window.location.href = '/checkout/failure';
-        } catch (error) {
-            console.error('Error handling error', error);
         }
     };
 
