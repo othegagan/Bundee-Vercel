@@ -1,11 +1,10 @@
 'use client';
 
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { OtpStyledInput } from '@/components/ui/input-otp';
 import usePhoneNumberVerificationModal from '@/hooks/usePhoneNumberVerificationModal';
 import { auth } from '@/lib/firebase';
 import { linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, updatePhoneNumber, unlink, getAuth } from 'firebase/auth';
 import { useState } from 'react';
-import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { PhoneInput } from '../ui/phone-input';
@@ -198,20 +197,13 @@ const PhoneNumberModal = () => {
                     <div className='flex flex-col gap-4'>
                         <Label htmlFor='verificationCode'>Verification Code:</Label>
 
-                        <InputOTP
-                            maxLength={6}
+                        <OtpStyledInput
+                            numInputs={6}
+                            inputType='number'
                             value={verificationCode}
                             onChange={value => setVerificationCode(value)}
-                            className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '>
-                            <InputOTPGroup className='flex justify-center   md:gap-4'>
-                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={0} />
-                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={1} />
-                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={2} />
-                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={3} />
-                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={4} />
-                                <InputOTPSlot className='rounded-md border border-gray-300 ' index={5} />
-                            </InputOTPGroup>
-                        </InputOTP>
+                            className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '
+                        />
 
                         <Button type='button' className='w-fit' disabled={verificationCode.length !== 6 || verifying} onClick={handleVerifyCode}>
                             {verifying ? <div className='loader '></div> : <>Verify Code</>}

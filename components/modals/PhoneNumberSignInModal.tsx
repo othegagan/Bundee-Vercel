@@ -5,7 +5,7 @@ import { auth } from '@/lib/firebase';
 import { signInWithPhoneNumber } from 'firebase/auth';
 
 import Logo from '@/components/landing_page/Logo';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { OtpStyledInput } from '@/components/ui/input-otp';
 import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
 import { login } from '@/lib/auth';
 import { getUserByPhoneNumber } from '@/server/userOperations';
@@ -167,23 +167,16 @@ const PhoneNumberSignInModal = () => {
                             </Button>
                         </div>
                     ) : (
-                        <div className='flex flex-col gap-4 mt-6'>
+                        <div className='mt-6 flex flex-col gap-4'>
                             <Label htmlFor='verificationCode'>Verification Code:</Label>
 
-                            <InputOTP
-                                maxLength={6}
+                            <OtpStyledInput
+                                numInputs={6}
+                                inputType='number'
                                 value={verificationCode}
                                 onChange={value => setVerificationCode(value)}
-                                className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '>
-                                <InputOTPGroup className='flex justify-center   md:gap-4'>
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={0} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={1} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={2} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={3} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={4} />
-                                    <InputOTPSlot className='rounded-md border border-gray-300 ' index={5} />
-                                </InputOTPGroup>
-                            </InputOTP>
+                                className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '
+                            />
 
                             <Button type='button' disabled={verificationCode.length != 6 || verifying} onClick={onOTPVerify}>
                                 {verifying ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Verify Code</>}
