@@ -1,9 +1,9 @@
 'use client';
 
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic';
 
-const PDFViewerComponent = dynamic(() => import("../custom/PDFViewer"), {
-  ssr: false
+const PDFViewerComponent = dynamic(() => import('../custom/PDFViewer'), {
+    ssr: false,
 });
 
 import useRentalAgreementModal from '@/hooks/useRentalAgreement';

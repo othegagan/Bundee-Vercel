@@ -64,7 +64,7 @@ const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.C
                     onTouchEnd={handleDragEnd}
                     {...props}>
                     <div className='mx-auto mt-4 h-2 w-[100px] rounded-full bg-neutral-300' />
-                    <div className=' max-h-[60vh] overflow-y-auto mb-4'>{children}</div>
+                    <div className=' mb-4 max-h-[60vh] overflow-y-auto'>{children}</div>
                 </DrawerPrimitive.Content>
             </DrawerPortal>
         );

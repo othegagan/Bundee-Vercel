@@ -112,7 +112,7 @@ const ProfilePage = () => {
             city: savedData.city || '',
             state: savedData.state || '',
             postcode: savedData.postcode || '',
-            country: savedData.country || "USA",
+            country: savedData.country || 'USA',
             language: savedData.language || '',
             driverlisense: savedData.driverlisense || '',
             vehicleowner: false,

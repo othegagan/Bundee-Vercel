@@ -26,7 +26,7 @@ const PhoneNumberModal = () => {
     const handleSendVerificationCode = async () => {
         try {
             setOTPError('');
-            console.log(phoneNumber)
+            console.log(phoneNumber);
             const formattedPhoneNumber = phoneNumber;
             const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
@@ -80,20 +80,20 @@ const PhoneNumberModal = () => {
             if (userResponse.success) {
                 const db_data = userResponse.data.userResponse;
                 const updatePayload = {
-                    address_1: db_data.address_1 || "",
-                    address_2: db_data.address_2 || "",
-                    address_3: db_data.address_3 || "",
-                    city: db_data.city || "",
-                    country: db_data.country || "",
-                    postcode: db_data.postcode || "",
-                    state: db_data.state || "",
-                    driverlisense: db_data.driverlisense || "",
-                    firstname: db_data.firstname || "",
+                    address_1: db_data.address_1 || '',
+                    address_2: db_data.address_2 || '',
+                    address_3: db_data.address_3 || '',
+                    city: db_data.city || '',
+                    country: db_data.country || '',
+                    postcode: db_data.postcode || '',
+                    state: db_data.state || '',
+                    driverlisense: db_data.driverlisense || '',
+                    firstname: db_data.firstname || '',
                     middlename: '',
-                    lastname: db_data.lastname || "",
+                    lastname: db_data.lastname || '',
                     iduser: db_data.iduser,
                     language: 'NA',
-                    userimage: db_data.userimage || "",
+                    userimage: db_data.userimage || '',
                     vehicleowner: false,
 
                     mobilePhone: phoneNumber,

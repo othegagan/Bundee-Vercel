@@ -64,7 +64,7 @@ const DeleteAccountComponent = () => {
                     closeDialog();
                 }}>
                 <p>Are you sure you want to delete your account?</p>
-                <div className='flex gap-4 justify-end'>
+                <div className='flex justify-end gap-4'>
                     <Button
                         variant='outline'
                         className='mt-3'

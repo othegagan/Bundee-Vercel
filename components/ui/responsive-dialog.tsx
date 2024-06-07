@@ -44,11 +44,7 @@ export function ResponsiveDialog({
 
     return (
         <Drawer open={isOpen} onOpenChange={isOpen => (isOpen ? openDialog() : closeDialog())}>
-            <DrawerContent
-                className={cn( className)}
-                onEscapeKeyDown={closeDialog}
-                onInteractOutside={closeDialog}
-                onDragClose={closeDialog}>
+            <DrawerContent className={cn(className)} onEscapeKeyDown={closeDialog} onInteractOutside={closeDialog} onDragClose={closeDialog}>
                 <DrawerHeader className='text-left'>
                     <DrawerTitle>{title}</DrawerTitle>
                     {description && <DialogDescription>{description}</DialogDescription>}

@@ -176,7 +176,8 @@ const LoginModal = () => {
             }}
             closeDialog={() => {
                 closeModal();
-            }} className='lg:max-w-lg'>
+            }}
+            className='lg:max-w-lg'>
             <ClientOnly>
                 <main className='flex items-center justify-center p-2 md:p-6 '>
                     <div className='w-full'>
