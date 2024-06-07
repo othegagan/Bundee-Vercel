@@ -73,11 +73,13 @@ export async function createSetUpIntent() {
         const setupIntent = await stripe.setupIntents.create({
             payment_method_types: ['card'],
             customer: customerId,
-            description: 'Setup intent',
+            description: 'Setup intent - ' + session.email,
             usage: 'off_session',
         });
 
-        return { setupIntent, customerId };
+        const client_secret = setupIntent.client_secret;
+
+        return { client_secret, customerId };
     } catch (error: any) {
         throw new Error(error.message);
     }
@@ -116,13 +118,13 @@ export async function createTripReservation(payload: any) {
             return {
                 success: true,
                 data: response.data,
-                message: 'Reservation created successfully',
+                message: 'Reservation created successfully' + response.data.errorMessage,
             };
         } else {
             return {
                 success: false,
                 data: null,
-                message: 'Failed to create Reservation',
+                message: 'Failed to create Reservation' + response.data.errorMessage,
             };
         }
     } catch (error: any) {

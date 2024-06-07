@@ -1,13 +1,48 @@
+'use client';
+
+import BackButton from '../../../components/BackButton';
+import StripePaymentComponent from './StripePaymentComponent';
+import CheckoutDetails, { useCheckoutDetails } from './CheckoutDetails';
 import ErrorComponent from '@/components/custom/ErrorComponent';
-import { getSession } from '@/lib/auth';
-import CheckoutComponent from './CheckoutComponent';
+import { CheckoutCardSkeleton, CheckoutDetailsSkeleton } from '@/components/skeletons/skeletons';
 
-export default async function page() {
-    const session = await getSession();
+export default function page() {
+    const { loading, error } = useCheckoutDetails();
 
-    if (!session.isLoggedIn) {
-        return <ErrorComponent message='Oops, it seems you are not logged in. Please log in.' />;
-    }
+    if (loading)
+        return (
+            <div className='flex justify-center py-6 '>
+                <div className='flex flex-col md:max-w-5xl md:flex-row'>
+                    <div className='flex flex-col border-r p-8 pt-4 md:w-1/2'>
+                        <div className=' mb-6 flex  flex-col items-start justify-start'>
+                            <BackButton />
+                            <CheckoutDetailsSkeleton />
+                        </div>
+                    </div>
+                    <div className='mt-4 flex flex-col p-8 md:w-1/2'>
+                        <h2 className='mb-6 text-2xl font-bold'>Pay with card</h2>
+                        <CheckoutCardSkeleton />
+                    </div>
+                </div>
+            </div>
+        );
 
-    return <CheckoutComponent />;
+    if (error) return <ErrorComponent />;
+
+    return (
+        <div className='flex justify-center py-6'>
+            <div className='flex flex-col md:max-w-4xl md:flex-row'>
+                <div className='flex flex-col border-r p-8 pt-4 md:w-1/2'>
+                    <div className=' mb-6 flex items-center'>
+                        <BackButton />
+                    </div>
+                    <CheckoutDetails />
+                </div>
+                <div className='flex flex-col p-8 md:w-1/2'>
+                    <h2 className='mb-6 text-2xl font-bold'>Pay with card</h2>
+                    <StripePaymentComponent />
+                </div>
+            </div>
+        </div>
+    );
 }

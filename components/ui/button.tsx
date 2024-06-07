@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-
+import { ImSpinner2 } from 'react-icons/im';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
@@ -17,6 +17,7 @@ const buttonVariants = cva(
                 green: 'bg-green-500 text-white shadow-sm hover:bg-green-500/80',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
+                success: 'bg-green-500 text-white  disabled:pointer-events-none disabled:opacity-90 hover:bg-green-500/80',
             },
             size: {
                 default: 'h-9 px-4 py-2',
@@ -35,12 +36,27 @@ const buttonVariants = cva(
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
     asChild?: boolean;
+    loading?: boolean;
+    loadingText?: string;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button';
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
-});
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+    ({ className, variant, size, asChild = false, loading, loadingText, children, ...props }, ref) => {
+        const Comp = asChild ? Slot : 'button';
+        return (
+            <Comp className={cn(buttonVariants({ variant, size, className }))} disabled={loading} ref={ref} {...props}>
+                <>
+                    {loading && (
+                        <>
+                            <ImSpinner2 className={cn('size-5 animate-spin', children && 'mr-2')} /> {loadingText ? loadingText : children}
+                        </>
+                    )}
+                    {!loading && children}
+                </>
+            </Comp>
+        );
+    },
+);
 Button.displayName = 'Button';
 
 export { Button, buttonVariants };

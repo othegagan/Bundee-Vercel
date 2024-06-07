@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 const Footer = () => {
     const pathname = usePathname();
-    if (pathname == '/vehicles') {
+    if (pathname == '/vehicles' || pathname == '/checkout') {
         return null;
     }
     return (
