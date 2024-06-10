@@ -37,9 +37,17 @@ const TimeSelect = ({
                 </SelectTrigger>
                 <SelectContent className='max-h-60'>
                     {generateTimes.map(time => (
-                        <SelectItem key={time.value} value={time.value} className='cursor-pointer' disabled={disableLimitTime && time.value < disableLimitTime}>
-                            {time.label}
-                        </SelectItem>
+                        <>
+                            {disableLimitTime && time.value < disableLimitTime ? null : (
+                                <SelectItem
+                                    key={time.value}
+                                    value={time.value}
+                                    className='cursor-pointer disabled:!hidden'
+                                    disabled={disableLimitTime && time.value < disableLimitTime}>
+                                    {time.label}
+                                </SelectItem>
+                            )}
+                        </>
                     ))}
                 </SelectContent>
             </Select>
