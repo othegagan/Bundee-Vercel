@@ -86,23 +86,23 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         }
                     });
                     console.log('Reservation payload', payload);
-                    const response = await createTripReservation(payload);
+                    const response:any = await createTripReservation(payload);
                     console.log(response);
 
-                    if (response.success) {
+                    if (response && response.success) {
                         setPayment({ status: 'succeeded' });
                         secureLocalStorage.removeItem('checkOutInfo');
                         setTimeout(() => {
                             window.location.href = '/checkout/success';
-                        }, 2000);
+                        }, 1200);
                     } else {
                         setPayment({ status: 'error' });
-                        setErrorMessage('Payment failed. Please try again. ' + response.message);
-                        toast({ duration: 4000, variant: 'destructive', title: 'Oops! Your payment is not successful.', description: 'Payment failed.' });
+                        const errorMessage = response && response.message ? response.message : 'Unknown error occurred.';
+                        setErrorMessage('Payment failed. Please try again. ' + errorMessage);
                         secureLocalStorage.removeItem('checkOutInfo');
                         setTimeout(() => {
                             window.location.href = '/checkout/failure';
-                        }, 4000);
+                        }, 2500);
                     }
                 } else {
                     console.log(error);
