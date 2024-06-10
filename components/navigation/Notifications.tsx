@@ -16,6 +16,7 @@ export default function NotificationsComponent() {
     const [error, setError] = useState(null);
     const [notificationsData, setNotificationsData] = useState([]);
     const [notReadMessages, setNotReadMessages] = useState([]);
+    const [ping, setPing] = useState(true);
 
     const getNotifications = async () => {
         setLoading(true);
@@ -53,6 +54,9 @@ export default function NotificationsComponent() {
 
     useEffect(() => {
         getNotifications();
+        setInterval(() => {
+            setPing(!ping);
+        }, 15000);
     }, []);
 
     useTabFocusEffect(getNotifications, []);
@@ -66,10 +70,10 @@ export default function NotificationsComponent() {
                         // <div className='absolute -end-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] font-medium text-white'>
                         //     {notReadMessages.length}
                         // </div>
-                            <span className='absolute end-0 top-0 -me-0 -mt-0 flex size-3'>
-                                <span className='absolute inline-flex size-full animate-ping rounded-full bg-primary  '></span>
-                                <span className='relative inline-flex size-3 rounded-full bg-primary opacity-75 '></span>
-                            </span>
+                        <span className='absolute right-2 top-1 flex size-3'>
+                            {ping && <span className='absolute inline-flex size-full animate-ping rounded-full bg-orange-500'></span>}
+                            <span className='relative inline-flex size-3 rounded-full bg-primary'></span>
+                        </span>
                     )}
                 </Button>
             </DropdownMenuTrigger>

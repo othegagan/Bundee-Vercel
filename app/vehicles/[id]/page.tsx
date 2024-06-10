@@ -27,6 +27,7 @@ import DeliveryDetailsComponent from './DeliveryDetailsComponent';
 import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
+import BackButton from '@/components/BackButton';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
@@ -302,8 +303,9 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         <>
             <ClientOnly>
                 <BoxContainer className='py-8'>
-                    <div className='mt-3 grid grid-cols-1 gap-6 md:mt-6 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
-                        <div className='flex flex-col lg:col-span-2'>
+                            <BackButton />
+                    <div className='mt-3 grid grid-cols-1 gap-6 md:mt-3 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
+                        <div className='flex flex-col items-start lg:col-span-2'>
                             <VehicleDetailsComponent
                                 vehicleDetails={vehicleDetails}
                                 vehicleHostDetails={vehicleHostDetails}
