@@ -63,9 +63,13 @@ export default function NotificationsComponent() {
                 <Button variant='ghost' className='relative px-2' onClick={getNotifications}>
                     <BellIcon className='h-6 w-6 text-gray-600 group-hover:text-neutral-800' aria-hidden='true' />
                     {notReadMessages.length > 0 && (
-                        <div className='absolute -end-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] font-medium text-white'>
-                            {notReadMessages.length}
-                        </div>
+                        // <div className='absolute -end-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] font-medium text-white'>
+                        //     {notReadMessages.length}
+                        // </div>
+                            <span className='absolute end-0 top-0 -me-0 -mt-0 flex size-3'>
+                                <span className='absolute inline-flex size-full animate-ping rounded-full bg-primary  '></span>
+                                <span className='relative inline-flex size-3 rounded-full bg-primary opacity-75 '></span>
+                            </span>
                     )}
                 </Button>
             </DropdownMenuTrigger>
