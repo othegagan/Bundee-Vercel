@@ -31,7 +31,7 @@ import BackButton from '@/components/BackButton';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
-    const { addToWishlistHandler, removeFromWishlistHandler } = useWishlist();
+    const { addToWishlistHandler, removeFromWishlistHandler , isItemWishlisted} = useWishlist(params.id);
     const { isPersonaClientLoading, createClient } = usePersona();
     const { isLoading: datesLoading, isError: datesError } = useAvailabilityDates(params.id, null);
 
@@ -320,7 +320,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
                                 {userAuthenticated && (
                                     <div className='mr-4 cursor-pointer'>
-                                        {vehicleDetails?.wishList ? (
+                                        {isItemWishlisted ? (
                                             <div onClick={() => removeFromWishlistHandler(vehicleDetails.id)}>
                                                 <IoMdHeart className='h-10 w-10 text-red-500' />
                                             </div>

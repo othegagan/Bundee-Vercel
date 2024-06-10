@@ -3,7 +3,7 @@ import { toast } from '@/components/ui/use-toast';
 import { getAllUserWishlistedVehicles, wishlistHandler } from '@/server/userOperations';
 import useTabFocusEffect from './useTabFocusEffect';
 
-const useWishlist = () => {
+const useWishlist = (id?: string) => {
     const [isItemWishlisted, setIsItemWishlisted] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -17,14 +17,14 @@ const useWishlist = () => {
             if (response.success) {
                 setIsItemWishlisted(true);
                 toast({
-                    duration: 4000,
-                    variant: 'success',
+                    duration: 2500,
+                    variant: 'default',
                     description: 'Vehicle added to the wishlist',
                 });
-                window.location.reload();
+                // window.location.reload();
             } else {
                 toast({
-                    duration: 4000,
+                    duration: 2500,
                     variant: 'destructive',
                     description: 'Something went wrong while adding to wishlist',
                 });
@@ -42,14 +42,14 @@ const useWishlist = () => {
             const response = await wishlistHandler(vehicleId, false);
             if (response.success) {
                 toast({
-                    duration: 3000,
-                    variant: 'success',
+                    duration: 2500,
+                    variant: 'default',
                     description: 'Vehicle removed form the wishlist',
                 });
-                window.location.reload();
+                // window.location.reload();
             } else {
                 toast({
-                    duration: 4000,
+                    duration: 2500,
                     variant: 'destructive',
                     description: 'Something went wrong while removing from wishlist',
                 });
@@ -60,7 +60,7 @@ const useWishlist = () => {
         }
     };
 
-    const fetchData = async () => {
+    const fetchData = async (id?: string) => {
         setLoading(true);
         setError(false);
 
@@ -68,6 +68,10 @@ const useWishlist = () => {
             const response = await getAllUserWishlistedVehicles();
 
             if (response.success && response.data.customervehicleresponse) {
+                
+                const VehicleIsInWishlist = response.data.customervehicleresponse.find(vehicle => vehicle.id == id);
+                setIsItemWishlisted(VehicleIsInWishlist);
+
                 setWishlistData(response.data.customervehicleresponse);
             } else {
                 throw new Error(response.message);
@@ -81,11 +85,15 @@ const useWishlist = () => {
     };
 
     useEffect(() => {
-        fetchData();
+        fetchData(id);
     }, []);
 
     useTabFocusEffect(() => {
-        fetchData();
+        fetchData(id);
+    }, []);
+
+    useTabFocusEffect(() => {
+        fetchData(id);
     }, []);
 
     return {
