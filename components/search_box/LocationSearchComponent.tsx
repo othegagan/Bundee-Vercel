@@ -29,7 +29,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
     const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
     const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
 
-    const todayDate = new Date(startDateQuery);
+    const todayDate = new Date(startDateQuery+'T'+startTimeQuery);
 
     const redirectToVech = () => {
         const queryParams = new URLSearchParams(window.location.search);
@@ -106,7 +106,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                             className='md:w-full'
                         />
                     </div>
-                    
+
                     <div className='col-span-1 md:col-span-4 lg:col-span-2'>
                         <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' />
                     </div>
