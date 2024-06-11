@@ -143,3 +143,12 @@ export function CheckoutDetailsSkeleton() {
         </div>
     );
 }
+
+export function PriceCalculatedListSkeleton() {
+    return (
+        <div className='space-y-2'>
+            <div className={`h-64 w-full rounded-md bg-neutral-200 ${shimmer}`} />
+            <div className={`h-10 w-[60%] ml-auto rounded-md bg-neutral-200 ${shimmer}`} />
+        </div>
+    );
+}

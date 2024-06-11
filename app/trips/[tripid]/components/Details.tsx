@@ -1,7 +1,7 @@
 'use client';
 import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import TimeSelect from '@/components/custom/TimeSelect';
-import { CalendarSelectSkeleton } from '@/components/skeletons/skeletons';
+import { CalendarSelectSkeleton, PriceCalculatedListSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import useTripReviewModal from '@/hooks/useTripReviewModal';
@@ -25,6 +25,8 @@ import { Download } from 'lucide-react';
 import StartTripComponent from './StartTripComponent';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { ResponsiveDialog } from '@/components/ui/responsive-dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 export default function Details({ tripsData, tripRating }: any) {
     const tripReviewModal = useTripReviewModal();
@@ -49,6 +51,8 @@ export default function Details({ tripsData, tripRating }: any) {
     const [isInitialLoad, setIsInitialLoad] = useState(false);
 
     const [submitting, setSubmitting] = useState(false);
+
+    const [comments, setComments] = useState('');
 
     useEffect(() => {
         setNewStartDate(format(new Date(tripsData.starttime), 'yyyy-MM-dd'));
@@ -135,13 +139,13 @@ export default function Details({ tripsData, tripRating }: any) {
             bookingDetails.paymentauthorizationconfigid = deductionConfigData.authorizationConfigId || 1;
             bookingDetails.authorizationpercentage = priceCalculatedList.authPercentage;
             bookingDetails.authorizationamount = priceCalculatedList.authAmount;
-            bookingDetails.comments = 'Need to Reduce';
+            bookingDetails.comments = comments || '';
         } else if (type === 'extension') {
             bookingDetails.deductionfrequencyconfigid = deductionConfigData.deductioneventconfigid || 1;
             bookingDetails.paymentauthorizationconfigid = deductionConfigData.authorizationConfigId || 1;
             bookingDetails.authorizationpercentage = priceCalculatedList.authPercentage;
             bookingDetails.authorizationamount = priceCalculatedList.authAmount;
-            bookingDetails.comments = 'Need to Extend';
+            bookingDetails.comments = comments || '';
         }
 
         delete bookingDetails.authAmount;
@@ -202,8 +206,9 @@ export default function Details({ tripsData, tripRating }: any) {
             setSubmitting(true);
             const session = await getSession();
             const payload = createPayloadForCheckout('reduction', session.userId);
+            // console.log('Trip Extension Response',payload)
             const response = await createTripExtension(payload);
-            console.log('Trip Extension Response', response);
+            // console.log('Trip Extension Response', response);
             if (response.success) {
                 toast({
                     title: 'Trip extended successfully',
@@ -245,6 +250,7 @@ export default function Details({ tripsData, tripRating }: any) {
         setPriceCalculatedList(null);
         setIsExtension(false);
         setError('');
+        setComments('');
         window.location.reload();
     };
 
@@ -410,7 +416,7 @@ export default function Details({ tripsData, tripRating }: any) {
                 closeDialog={closeModifyDialog}
                 closeOnClickOutside={false}
                 title='Trip Date & Time Modification'
-                className='lg:max-w-2xl'>
+                className='lg:max-w-3xl'>
                 <div className={`grid w-full   grid-cols-1 gap-4 lg:grid-cols-2`}>
                     <div className='col-span-1'>
                         <div className='mb-4 flex'>
@@ -452,17 +458,27 @@ export default function Details({ tripsData, tripRating }: any) {
                         </div>
                     </div>
 
-                    <div className='col-span-1 mt-auto px-3'>
+                    <div className='col-span-1 flex flex-col justify-between mt-auto'>
                         {!error && (
                             <>
                                 {priceLoading ? (
                                     <div className='mt-4 text-center'>
-                                        <CalendarSelectSkeleton />
+                                        <PriceCalculatedListSkeleton />
                                     </div>
                                 ) : (
                                     <>
                                         {priceCalculatedList ? (
-                                            <div>
+                                            <div className='flex flex-col gap-4 justify-between '>
+                                                <div className=''>
+                                                    <Label>Comments (optional)</Label>
+                                                    <Textarea
+                                                        className='mt-2'
+                                                        placeholder='Add any comments here'
+                                                        rows={3}
+                                                        value={comments}
+                                                        onChange={e => setComments(e.target.value)}
+                                                    />
+                                                </div>
                                                 <TripModificationPriceListComponent
                                                     priceCalculatedList={priceCalculatedList}
                                                     isExtension={isExtension}
