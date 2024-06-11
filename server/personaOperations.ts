@@ -45,9 +45,27 @@ export const getVerifiedDetailsFromPersona = async (inquiryId: string) => {
 
     try {
         const response = await fetch(`https://withpersona.com/api/v1/inquiries/${inquiryId}`, options);
-        const data = await response.json();
-        const fields = data.data.attributes['fields'];
-        return fields;
+        const responseData = await response.json();
+
+        const fields = responseData.data.attributes['fields'];
+
+        let centerPhotoUrl = null;
+
+        if (Array.isArray(responseData.included)) {
+            // Loop through each item in the included array
+            for (const item of responseData.included) {
+                // Check if the item type is verification/selfie
+                if (item.type === 'verification/selfie') {
+                    // Check if attributes and center-photo-url exist in the item
+                    if (item.attributes && item.attributes['center-photo-url']) {
+                        // Return the center-photo-url
+                        centerPhotoUrl = item.attributes['center-photo-url'];
+                    }
+                }
+            }
+        }
+
+        return { fields, centerPhotoUrl };
     } catch (error) {
         console.error(error);
     }

@@ -15,6 +15,7 @@ const DrivingLicenceComponent = () => {
     const { isPersonaClientLoading, createClient, personaUpdated, getDetailsFromPersona } = usePersona();
     const [error, setError] = useState(false);
     const [verifiedDetails, setVerifiedDetails] = useState<any>({});
+    const [photoUrl, setPhotoUrl] = useState<string | null>('');
 
     useEffect(() => {
         setIsLoading(true);
@@ -48,8 +49,8 @@ const DrivingLicenceComponent = () => {
     const getVerifiedDetailsFromPersona = async (personaEnquiryId: any) => {
         try {
             const data = await getDetailsFromPersona(personaEnquiryId);
-            // console.log(data);
-            setVerifiedDetails(data || null);
+            setVerifiedDetails(data.fields || null);
+            setPhotoUrl(data.centerPhotoUrl || null);
         } catch (error) {
             console.error('Error in getVerifiedDetailsFromPersona:', error);
         }
@@ -57,7 +58,7 @@ const DrivingLicenceComponent = () => {
 
     if (isloading) {
         return (
-            <div className='mt-16'>
+            <div className='mt-10'>
                 <PersonaDetailsSkeleton />
             </div>
         );
@@ -76,38 +77,49 @@ const DrivingLicenceComponent = () => {
                             <p className='text-sm'>
                                 Your driving license details are verified. Please make sure that the details are correct. If not, please update them.
                             </p>
-                            <div className='w-full max-w-[400px] space-y-4'>
-                                <div className='flex w-full items-center gap-3'>
-                                    <p className='block w-[50%] text-sm font-medium'>First Name</p>
-                                    <p className='block text-sm text-primary'>{verifiedDetails['name-first']['value'] || '-'}</p>
+                            <div className='flex flex-col gap-6 md:flex-row'>
+                                <div className='w-full max-w-[400px] space-y-4'>
+                                    <div className='flex w-full items-center gap-3'>
+                                        <p className='block w-[50%] text-sm font-medium'>First Name</p>
+                                        <p className='block text-sm text-primary'>{verifiedDetails['name-first']['value'] || '-'}</p>
+                                    </div>
+                                    <div className='flex w-full items-center gap-3'>
+                                        <p className='block w-[50%] text-sm font-medium'> Last Name</p>
+                                        <p className='block text-sm text-primary'>{verifiedDetails['name-last']['value'] || '-'}</p>
+                                    </div>
+                                    <div className='flex w-full items-center gap-3'>
+                                        <p className='block w-[50%] text-sm font-medium'> Identification Number</p>
+                                        <p className='block text-sm text-primary'>{verifiedDetails['identification-number']['value'] || ' - '}</p>
+                                    </div>
+                                    <div className='flex w-full items-center gap-3'>
+                                        <p className='block w-[50%] text-sm font-medium'>Address 1 </p>
+                                        <p className='block text-sm text-primary'>{verifiedDetails['address-street-1']['value'] || '-'}</p>
+                                    </div>
+                                    <div className='flex w-full items-center gap-3'>
+                                        <p className='block w-[50%] text-sm font-medium'> Address 2</p>
+                                        <p className='block text-sm text-primary'>{verifiedDetails['address-street-2']['value'] || '-'}</p>
+                                    </div>
+                                    <div className='flex w-full items-center gap-3'>
+                                        <p className='block w-[50%] text-sm font-medium'> City</p>
+                                        <p className='block text-sm text-primary'>{verifiedDetails['address-city']['value'] || '-'}</p>
+                                    </div>
+                                    <div className='flex w-full items-center gap-3'>
+                                        <p className='block w-[50%] text-sm font-medium'> State</p>
+                                        <p className='block text-sm text-primary'>{verifiedDetails['address-subdivision']['value'] || '-'}</p>
+                                    </div>
+                                    <div className='flex w-full items-center gap-3'>
+                                        <p className='block w-[50%] text-sm font-medium'> Country</p>
+                                        <p className='block text-sm text-primary'>{verifiedDetails['address-country-code']['value'] || '-'}</p>
+                                    </div>
                                 </div>
-                                <div className='flex w-full items-center gap-3'>
-                                    <p className='block w-[50%] text-sm font-medium'> Last Name</p>
-                                    <p className='block text-sm text-primary'>{verifiedDetails['name-last']['value'] || '-'}</p>
-                                </div>
-                                <div className='flex w-full items-center gap-3'>
-                                    <p className='block w-[50%] text-sm font-medium'> Identification Number</p>
-                                    <p className='block text-sm text-primary'>{verifiedDetails['identification-number']['value'] || ' - '}</p>
-                                </div>
-                                <div className='flex w-full items-center gap-3'>
-                                    <p className='block w-[50%] text-sm font-medium'>Address 1 </p>
-                                    <p className='block text-sm text-primary'>{verifiedDetails['address-street-1']['value'] || '-'}</p>
-                                </div>
-                                <div className='flex w-full items-center gap-3'>
-                                    <p className='block w-[50%] text-sm font-medium'> Address 2</p>
-                                    <p className='block text-sm text-primary'>{verifiedDetails['address-street-2']['value'] || '-'}</p>
-                                </div>
-                                <div className='flex w-full items-center gap-3'>
-                                    <p className='block w-[50%] text-sm font-medium'> City</p>
-                                    <p className='block text-sm text-primary'>{verifiedDetails['address-city']['value'] || '-'}</p>
-                                </div>
-                                <div className='flex w-full items-center gap-3'>
-                                    <p className='block w-[50%] text-sm font-medium'> State</p>
-                                    <p className='block text-sm text-primary'>{verifiedDetails['address-subdivision']['value'] || '-'}</p>
-                                </div>
-                                <div className='flex w-full items-center gap-3'>
-                                    <p className='block w-[50%] text-sm font-medium'> Country</p>
-                                    <p className='block text-sm text-primary'>{verifiedDetails['address-country-code']['value'] || '-'}</p>
+
+                                <div className='flex flex-col  gap-3'>
+                                    <img
+                                        src={photoUrl}
+                                        alt=''
+                                        className=' relative inline-block h-[100px] w-[100px] rounded-md object-cover object-center  md:h-[150px] md:w-[150px]'
+                                    />
+                                    <p className='text-[12px] text-center'>Driver selfie</p>
                                 </div>
                             </div>
                         </div>
