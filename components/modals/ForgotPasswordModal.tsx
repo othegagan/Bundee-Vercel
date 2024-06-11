@@ -77,7 +77,7 @@ export default function ForgotPasswordModal() {
             closeDialog={() => {
                 closeModal();
             }}
-            closeOnClickOutside={false}
+            closeOnClickOutside={true}
             className='lg:max-w-lg'>
             {resetMailSent ? (
                 <div className='flex w-full flex-col gap-y-2'>
@@ -105,10 +105,18 @@ export default function ForgotPasswordModal() {
                             <p className='mt-2 text-xs font-medium text-destructive'>{errors.email?.message}</p>
                         </div>
 
-                        <Button type='submit' className='mt-6 w-full' disabled={isSubmitting} loading={isSubmitting} loadingText='Sending...'>
+                        <Button type='submit' className='mt-3 w-full' disabled={isSubmitting} loading={isSubmitting} loadingText='Sending...'>
                             Get Password Reset link
                         </Button>
                     </div>
+
+                    <p className='mt-4 cursor-pointer w-fit hover:underline'
+                        onClick={() => {
+                            closeModal();
+                            loginModal.onOpen();
+                        }}>
+                        Back to Log In
+                    </p>
                 </form>
             )}
             {errorMessage && <p className='mt-2 text-xs font-medium text-destructive'>{errorMessage}</p>}

@@ -81,7 +81,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
             <div
                 className={` z-[55] md:sticky ${pathname == '/' ? 'md:top-[3.75rem]' : ''} select-none   bg-white  md:block ${pathname == '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
                 <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12  lg:grid-cols-12'>
-                    <div className='col-span-2 md:col-span-3 lg:col-span-4'>
+                    <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                         <div className='flex w-full flex-col  '>
                             <label className='mb-1 inline-flex text-xs font-semibold'>
                                 Search By City{' '}
@@ -90,13 +90,14 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                             <LocationSearchBox />
                         </div>
                     </div>
-                    <div className='col-span-2 md:col-span-4 lg:col-span-3'>
+                    <div className='col-span-2 md:col-span-6 lg:col-span-3'>
                         <div className='flex w-full flex-col  '>
                             <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
                             <SearchCalendar startDate={startDateQuery} setStartDate={setStartDateQuery} endDate={endDateQuery} setEndDate={setEndDateQuery} />
                         </div>
                     </div>
-                    <div className='col-span-1 md:col-span-2 lg:col-span-2'>
+
+                    <div className='col-span-1 md:col-span-4 lg:col-span-2'>
                         <TimeSelect
                             label='Pickup Time'
                             onChange={setStartTimeQuery}
@@ -105,16 +106,19 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                             className='md:w-full'
                         />
                     </div>
-                    <div className='col-span-1 md:col-span-2 lg:col-span-2'>
+                    
+                    <div className='col-span-1 md:col-span-4 lg:col-span-2'>
                         <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' />
                     </div>
-                    <div className='col-span-2 md:col-span-1 lg:col-span-1'>
+
+                    <div className='col-span-2 md:col-span-3 lg:col-span-1'>
                         <div className='flex h-full w-full items-end justify-end'>
                             <Button onClick={redirectToVech} className='w-full'>
                                 Search
                             </Button>
                         </div>
                     </div>
+
                 </div>
             </div>
 

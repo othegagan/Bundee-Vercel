@@ -15,7 +15,7 @@ import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import { IoAirplaneSharp } from 'react-icons/io5';
 import { MdOutlineDiscount } from 'react-icons/md';
 import { VscSettings } from 'react-icons/vsc';
-import { Map } from 'lucide-react';
+import { Car, Map } from 'lucide-react';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
@@ -49,12 +49,15 @@ const Vehicles = ({ searchParams }: any) => {
                             setShow(!show);
                         }}>
                         {!show ? (
-                            <div className='flex items-center gap-3'>
+                            <div className='flex items-center gap-1'>
                                 <Map className='size-4 text-neutral-500' />
                                 Map View
                             </div>
                         ) : (
-                            <div className=''>Cars View</div>
+                            <div className='flex items-center gap-1'>
+                                <Car className='size-4 text-neutral-500' />
+                                Cars View
+                            </div>
                         )}
                     </Button>
                     <Button className=' flex gap-3' variant='black' size='sm' type='button' onClick={useCarFilter.onOpen}>
@@ -108,9 +111,10 @@ const Vehicles = ({ searchParams }: any) => {
                                 {useCarFilter.filteredCars.length > 0 ? `${useCarFilter.filteredCars.length}  cars found are available.` : ''}
                             </h1>
                         )}
+
                         <div className='flex items-center gap-3'>
-                            <Button className='mr-2 flex gap-3' variant='outline' size='sm' type='button' onClick={useCarFilter.onOpen}>
-                                <VscSettings className='rotate-90' />
+                            <Button className='mr-2 flex gap-1' variant='black' size='sm' type='button' onClick={useCarFilter.onOpen}>
+                                <VscSettings className='rotate-90 size-4' />
                                 Filters
                                 {useCarFilter.appliedFiltersCount > 0 ? (
                                     <p>({useCarFilter.appliedFiltersCount > 0 ? useCarFilter.appliedFiltersCount : ''})</p>
@@ -191,11 +195,11 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                 </div>
             </div>
 
-            <div className='mt-1 flex flex-wrap justify-between p-3'>
+            <div className='mt-1 flex  justify-between p-3'>
                 <div className=''>
                     <Link
                         href={`/vehicles/${car.id}?${searchQuery}`}
-                        className='cursor-pointer text-base font-semibold text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</Link>
+                        className='cursor-pointer text-base font-semibold text-neutral-800 truncate'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</Link>
                     <p className='mt-1 text-sm text-neutral-500'>
                         {toTitleCase(car?.cityname)}, {toTitleCase(car?.state)}
                     </p>

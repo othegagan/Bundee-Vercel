@@ -231,6 +231,15 @@ const LoginModal = () => {
                                 </div>
                             </div>
 
+                            <div
+                                className='ml-auto mt-3 w-fit text-sm font-medium text-primary hover:underline cursor-pointer'
+                                onClick={() => {
+                                    closeModal();
+                                    forgotPasswordModal.onOpen();
+                                }}>
+                                Forgot your password?
+                            </div>
+
                             {authError ? (
                                 <div className='my-3 select-none rounded-md bg-red-50 p-3'>
                                     <div className='flex'>
@@ -251,31 +260,24 @@ const LoginModal = () => {
 
                         <hr className='my-4' />
 
-                        <Button
-                            onClick={() => {
-                                googleSignIn();
-                            }}
-                            variant='outline'
-                            className='flex w-full gap-4  py-5'>
-                            <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
-                            <span>Continue with Google</span>
-                        </Button>
+                        <div className='grid gap-3 grid-cols-2'>
+                            <Button
+                                onClick={() => {
+                                    googleSignIn();
+                                }}
+                                variant='outline'
+                                className='flex w-full gap-4  py-5'>
+                                <span>Continue with </span>
+                                <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
+                            </Button>
 
-                        <Button onClick={openPhoneLogin} type='button' variant='outline' className='mt-3 flex w-full  gap-3 py-5'>
-                            <FaPhone className='size-5 scale-95' />
-                            <span>Sign in with Phone number</span>
-                        </Button>
+                            <Button onClick={openPhoneLogin} type='button' variant='outline' className='flex w-full  gap-3 py-5'>
+                                <span>Log In with Phone</span>
+                                <FaPhone className='size-4 scale-95' />
+                            </Button>
+                        </div>
 
                         <div className='mt-4 flex flex-col gap-2'>
-                            <div
-                                className='w-fit text-sm font-medium text-primary hover:underline'
-                                onClick={() => {
-                                    closeModal();
-                                    forgotPasswordModal.onOpen();
-                                }}>
-                                Forgot your password?
-                            </div>
-
                             <p className='mt-1 text-base'>
                                 Don't have an account?
                                 <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
