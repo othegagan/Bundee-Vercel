@@ -16,6 +16,7 @@ import PhoneNumberSignInModal from '@/components/modals/PhoneNumberSignInModal';
 import TripReviewModal from '@/components/modals/TripReviewModal';
 import CarFilters from './vehicles/CarFilters';
 import PushNotifications from '@/components/landing_page/PushNotifications';
+import ForgotPasswordModal from '@/components/modals/ForgotPasswordModal';
 
 const RentalAgreementModal = dynamic(() => import('@/components/modals/RentalAgreementModal'), { ssr: false });
 
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <TripReviewModal />
                     <CarFilters />
                     <RentalAgreementModal />
+                    <ForgotPasswordModal />
                 </ClientOnly>
                 <HideComponentInFrame>
                     <Navbar />

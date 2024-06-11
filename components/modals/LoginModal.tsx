@@ -23,11 +23,13 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
 import { ResponsiveDialog } from '../ui/responsive-dialog';
+import useForgotPasswordModal from '@/hooks/useForgotPasswordModal';
 
 const LoginModal = () => {
     const router = useRouter();
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
+    const forgotPasswordModal = useForgotPasswordModal();
     const phoneNumberSignInModal = usePhoneNumberSignInModal();
     const [showPassword, setShowPassword] = useState(true);
     const [userEmail, setUserEmail] = useState('');
@@ -265,9 +267,14 @@ const LoginModal = () => {
                         </Button>
 
                         <div className='mt-4 flex flex-col gap-2'>
-                            <Link className='w-fit text-sm font-medium text-primary hover:underline' href='/'>
+                            <div
+                                className='w-fit text-sm font-medium text-primary hover:underline'
+                                onClick={() => {
+                                    closeModal();
+                                    forgotPasswordModal.onOpen();
+                                }}>
                                 Forgot your password?
-                            </Link>
+                            </div>
 
                             <p className='mt-1 text-base'>
                                 Don't have an account?
