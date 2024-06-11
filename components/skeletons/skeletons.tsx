@@ -80,11 +80,14 @@ export function CalendarSelectSkeleton() {
 export function PersonaDetailsSkeleton() {
     return (
         <div className='space-y-4'>
-            <div className={`h-6 w-56 rounded-md bg-neutral-200 ${shimmer}`} />
+            <div className={`h-10 w-full md:w-[400px] rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-64 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-72 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-72 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-64 rounded-md bg-neutral-200 ${shimmer}`} />
+            <div className={`h-6 w-72 rounded-md bg-neutral-200 ${shimmer}`} />
+            <div className={`h-6 w-64 rounded-md bg-neutral-200 ${shimmer}`} />
+
         </div>
     );
 }

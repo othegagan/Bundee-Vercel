@@ -44,15 +44,24 @@ const DeleteAccountComponent = () => {
 
     return (
         <div>
-            <p className='mt-12 text-base font-semibold'>
-                The account will be permanently deleted, including all your data associated with the account. This action is irreversible and can not be undone.
+            <p className='mt-6'>
+                We are sorry to see you go. Are you sure you want to delete your MyBundee account? Please be advised if you choose to proceed, your account
+                closure will be irreversible.
             </p>
+
+            <ul className='mt-4 list-disc list-inside'>
+                <li>You will no longer be able to book trips or list your car on Turo.</li>
+                <li>Any booked or pending trips will be cancelled immediately.</li>
+                <li>You will no longer be able to login to your account.</li>
+                <li>You are still financially responsible for any fees, claims, or reimbursements related to your past or pending trips.</li>
+                <li>Any information associated with your account will not be publically viewable on our website and apps.</li>
+            </ul>
+
             <div className='mt-5 flex justify-end'>
                 <Button variant='destructive' onClick={() => openDialog()}>
                     <> Delete Account </>
                 </Button>
             </div>
-
             <ResponsiveDialog
                 title='Confirm Account Deletion'
                 description=''
