@@ -61,7 +61,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         defaultValue: format(addDays(getCurrentDatePlusHours(3) || new Date(), 2), 'yyyy-MM-dd'),
         history: 'replace',
     });
-    const todayDate = new Date(startDate);
+
+    const todayDate = new Date(startDate+'T'+ getCurrentTimeRounded());
 
     const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
     const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
@@ -130,6 +131,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
         fetchData();
     }, [startDate, endDate, startTime, endTime, vehicleHostDetails, searchParams, isCustoumDelivery, isAirportDeliveryChoosen]);
+
 
     async function getPriceCalculation() {
         try {
@@ -369,7 +371,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                     label='Trip Start Time'
                                     onChange={setStartTime}
                                     defaultValue={startTime}
-                                    disableLimitTime={isToday(startDate) && isToday(new Date()) ? getCurrentTimeRounded() : null}
+                                    disableLimitTime={isToday(todayDate) && isToday(new Date()) ? getCurrentTimeRounded() : null}
                                 />
                                 <TimeSelect label='Trip End Time' onChange={setEndTime} defaultValue={endTime} />
                             </div>
