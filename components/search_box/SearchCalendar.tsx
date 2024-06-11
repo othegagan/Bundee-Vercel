@@ -42,6 +42,10 @@ export default function SearchCalendar({ setStartDate, setEndDate, startDate, en
 
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
 
+    // Check if the current time is above 9PM and if so, add an extra day to the minimum date
+    const isPast9PM = new Date().getHours() >= 21
+    const minValueDate = today(getLocalTimeZone()).add({ days: isPast9PM ? 1 : 0 })
+
     return (
         <>
             <DateRangePicker aria-label='Select Date' shouldCloseOnSelect={true}>
@@ -76,7 +80,7 @@ export default function SearchCalendar({ setStartDate, setEndDate, startDate, en
                         onChange={value => onDateSelect(value)}
                         visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
                         pageBehavior='visible'
-                        minValue={today(getLocalTimeZone())}>
+                        minValue={minValueDate}>
                         <CalendarHeading />
                         <div className='hidden gap-6 overflow-auto md:flex'>
                             <CalendarGrid>

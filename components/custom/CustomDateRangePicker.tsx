@@ -79,6 +79,10 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
         setEndDate(format(item.end.toDate(getLocalTimeZone()), 'yyyy-MM-dd'));
     }
 
+    // Check if the current time is above 9PM and if so, add an extra day to the minimum date
+    const isPast9PM = new Date().getHours() >= 21;
+    const minValueDate = today(getLocalTimeZone()).add({ days: isPast9PM ? 1 : 0 });
+
     return (
         <div>
             <ClientOnly>
@@ -112,7 +116,7 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
                             visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
                             pageBehavior='visible'
                             // minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}
-                            minValue={today(getLocalTimeZone())}
+                            minValue={minValueDate}
                             isDateUnavailable={isDateUnavailable}
                             isInvalid={isInvalid}>
                             <CalendarHeading />

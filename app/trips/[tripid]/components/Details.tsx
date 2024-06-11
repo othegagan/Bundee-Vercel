@@ -408,6 +408,7 @@ export default function Details({ tripsData, tripRating }: any) {
                 isOpen={modifyCalenderOpen}
                 openDialog={openModifiyDialog}
                 closeDialog={closeModifyDialog}
+                closeOnClickOutside={false}
                 title='Trip Date & Time Modification'
                 className='lg:max-w-2xl'>
                 <div className={`grid w-full   grid-cols-1 gap-4 lg:grid-cols-2`}>

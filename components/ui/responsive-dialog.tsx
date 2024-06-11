@@ -1,8 +1,6 @@
 import * as React from 'react';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
-import { useMediaQuery } from '@/hooks/use-media-query';
 import { cn } from '@/lib/utils';
 
 export function ResponsiveDialog({
@@ -13,6 +11,7 @@ export function ResponsiveDialog({
     description,
     closeDialog,
     className,
+    closeOnClickOutside = true,
 }: {
     children: React.ReactNode;
     isOpen: boolean;
@@ -21,36 +20,46 @@ export function ResponsiveDialog({
     description?: string;
     closeDialog: () => void;
     className?: string;
+    closeOnClickOutside?: boolean;
 }) {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
 
-    if (isDesktop) {
-        return (
-            <Dialog open={isOpen} onOpenChange={isOpen => (isOpen ? openDialog() : closeDialog())}>
-                <DialogContent
-                    className={cn('sm:max-w-[425px]', className)}
-                    onEscapeKeyDown={closeDialog}
-                    onInteractOutside={closeDialog}
-                    onClickClose={closeDialog}>
-                    <DialogHeader>
-                        <DialogTitle>{title}</DialogTitle>
-                        {description && <DialogDescription>{description}</DialogDescription>}
-                    </DialogHeader>
-                    {children}
-                </DialogContent>
-            </Dialog>
-        );
-    }
+    const handleOpenChange = (isOpen: boolean) => {
+        if (isOpen) {
+            openDialog();
+        } else {
+            closeDialog();
+        }
+    };
 
+    const handleEscapeKeyDown = (event: any) => {
+        if (closeOnClickOutside) {
+            closeDialog();
+        } else {
+            event.preventDefault();
+        }
+    };
+
+    const handleInteractOutside = (event: any) => {
+        if (closeOnClickOutside) {
+            closeDialog();
+        } else {
+            event.preventDefault();
+        }
+    };
     return (
-        <Drawer open={isOpen} onOpenChange={isOpen => (isOpen ? openDialog() : closeDialog())}>
-            <DrawerContent className={cn(className)} onEscapeKeyDown={closeDialog} onInteractOutside={closeDialog} onDragClose={closeDialog}>
-                <DrawerHeader className='text-left'>
-                    <DrawerTitle>{title}</DrawerTitle>
+        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+            <DialogContent
+                className={cn('sm:max-w-[425px]', className)}
+                onEscapeKeyDown={handleEscapeKeyDown}
+                onInteractOutside={handleInteractOutside}
+                onClickClose={closeDialog}>
+                <DialogHeader>
+                    <DialogTitle>{title}</DialogTitle>
                     {description && <DialogDescription>{description}</DialogDescription>}
-                </DrawerHeader>
-                <div className='px-5 sm:px-6'>{children}</div>
-            </DrawerContent>
-        </Drawer>
+                </DialogHeader>
+                {children}
+            </DialogContent>
+        </Dialog>
     );
+
 }
