@@ -130,7 +130,7 @@ const PhoneNumberSignInModal = () => {
                         <div className='w-full'>
                             <div className='flex flex-col items-center gap-4'>
                                 <Logo className='scale-[1.3]' />
-                                <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700'>Login with Bundee account</span>
+                                <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700'>Login with MyBundee account</span>
                             </div>
 
                             {!verificationId ? (

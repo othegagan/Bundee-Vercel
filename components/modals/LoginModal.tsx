@@ -173,7 +173,7 @@ const LoginModal = () => {
                         <div className='flex flex-col items-center gap-4'>
                             <Logo className='scale-[1.3]' />
 
-                            <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Log In with Bundee account</span>
+                            <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Log In with MyBundee account</span>
                         </div>
                         <form
                             onSubmit={event => {

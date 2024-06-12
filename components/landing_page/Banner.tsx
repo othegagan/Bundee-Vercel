@@ -13,7 +13,7 @@ const Banner = () => {
                             <div>
                                 <h2 className='text-3xl font-bold leading-tight  sm:text-4xl lg:text-5xl lg:leading-tight'>Drive like a local</h2>
                                 <p className='mt-4 text-base '>
-                                    Step into the world of Bundee, where you can discover a diverse range of vehicles tailored to your interests. Embark on a
+                                    Step into the world of MyBundee, where you can discover a diverse range of vehicles tailored to your interests. Embark on a
                                     journey to explore and experience your dream destinations.
                                 </p>
 

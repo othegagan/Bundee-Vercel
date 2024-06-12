@@ -9,7 +9,7 @@ const Privacy = () => {
                 </div>
 
                 <p className=' text-neutral-700'>
-                    <span className='text-primary'>Bundee</span> ('MyBundee', 'we', 'us', or 'our') recognizes the importance of privacy. In this Privacy
+                    <span className='text-primary'>MyBundee</span> ('MyBundee', 'we', 'us', or 'our') recognizes the importance of privacy. In this Privacy
                     Policy, we describe how we collect, use, and disclose information that we obtain about users of our website MyBundee.com (the 'Site'), our
                     mobile application (the 'App'), and the services available through our Site and App (collectively, the Site, the App, and the services
                     available through them are the 'Services').
@@ -18,7 +18,7 @@ const Privacy = () => {
                 <p className='mt-4'>
                     By using any of our Services, you agree that any information that we collect from or about you through our Services, including personal
                     information, anonymous information, and aggregate information, will be handled as described in this Privacy Policy. Your use of our
-                    Services, and any dispute over privacy, is subject to this Privacy Policy and any other applicable agreements between you and Bundee, such
+                    Services, and any dispute over privacy, is subject to this Privacy Policy and any other applicable agreements between you and MyBundee, such
                     as our Terms of Service, including any applicable limitations on damages and the resolution of disputes. We collect information about you
                     directly from you, from third parties, and automatically through your use of our Services. We may combine information collected from or
                     about you from these various sources.
@@ -50,7 +50,7 @@ const Privacy = () => {
                     In order for our Services to work, you must authorize us to access your geolocation. If you authorize us to collect your geolocation
                     information, we will collect such geolocation information while our App is running on your device. You can disable our access to your
                     geolocation services by changing the location settings on your device. Doing so, however, will limit your ability to use certain features of
-                    our Services (e.g., you may not be able to drive an Bundee car). Please see our Cookies and Other Tracking Mechanisms section below for more
+                    our Services (e.g., you may not be able to drive an MyBundee car). Please see our Cookies and Other Tracking Mechanisms section below for more
                     information about how we automatically collect information about your use of our Services.
                 </p>
 
@@ -95,8 +95,8 @@ const Privacy = () => {
 
                 <h2 className='my-6 text-xl font-bold text-neutral-900'>Protecting Rights and Interests</h2>
                 <p>
-                    To protect the safety, rights, property, or security of Bundee, the Services, any third party, or the general public; to detect, prevent, or
-                    otherwise address fraud, security, or technical issues; to prevent or stop activity which Bundee, in its sole discretion, may consider to
+                    To protect the safety, rights, property, or security of MyBundee, the Services, any third party, or the general public; to detect, prevent, or
+                    otherwise address fraud, security, or technical issues; to prevent or stop activity which MyBundee, in its sole discretion, may consider to
                     be, or to pose a risk of being, an illegal, unethical, or legally actionable activity; to use as evidence in litigation; and to enforce this
                     Privacy Policy or our Terms of Service.
                 </p>
@@ -145,9 +145,9 @@ const Privacy = () => {
                         <li>
                             <h5 className='font-semibold'>Protecting Rights and Interests</h5>
                             <p>
-                                We may disclose your information to protect the safety, rights, property, or security of Bundee, the Services, any third party,
+                                We may disclose your information to protect the safety, rights, property, or security of MyBundee, the Services, any third party,
                                 or the general public; to detect, prevent, or otherwise address fraud, security, or technical issues; to prevent or stop
-                                activity which Bundee, in its sole discretion, may consider to be, or to pose a risk of being, an illegal, unethical, or legally
+                                activity which MyBundee, in its sole discretion, may consider to be, or to pose a risk of being, an illegal, unethical, or legally
                                 actionable activity; to use as evidence in litigation; and to enforce this Privacy Policy or our Terms of Service .
                             </p>
                         </li>

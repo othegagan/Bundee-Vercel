@@ -19,7 +19,7 @@ export default function FAQ() {
             },
             {
                 question: 'How do I search for available vehicles on mybundee.com?',
-                answer: 'It is quite easy to rent with Bundee.  You can visit our Website (mybundee.com) or download the mybundee app for IOS and Android.  Once you have the app, just search based on the city and desired dates and the app will return the available vehicles, Host details, pick and drop off locations and additional information about the vehicle/host.',
+                answer: 'It is quite easy to rent with MyBundee.  You can visit our Website (mybundee.com) or download the mybundee app for IOS and Android.  Once you have the app, just search based on the city and desired dates and the app will return the available vehicles, Host details, pick and drop off locations and additional information about the vehicle/host.',
             },
             {
                 question: 'What info do you need to book a car?',
@@ -31,7 +31,7 @@ export default function FAQ() {
             },
             {
                 question: 'What about Insurance for the trip?',
-                answer: 'During the initial stages of the rollout of Bundee, we require the Driver to carry their own insurance that covers liability and collision damage.  Your Host will check your insurance coverage during the check-out process.  In the future, we will offer additional insurance coverage through established carriers at an additional price',
+                answer: 'During the initial stages of the rollout of MyBundee, we require the Driver to carry their own insurance that covers liability and collision damage.  Your Host will check your insurance coverage during the check-out process.  In the future, we will offer additional insurance coverage through established carriers at an additional price',
             },
             {
                 question: 'Can the vehicle I booked be delivered to me?',
