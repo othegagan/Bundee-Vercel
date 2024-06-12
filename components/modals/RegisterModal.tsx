@@ -332,7 +332,7 @@ const RegisterModal = () => {
                 {showSuccessfulSignUp && (
                     <div className='flex flex-col items-center justify-center gap-4'>
                         <img src='/party.svg' alt='party_cone' className='h-40 w-96 object-contain' />
-                        <h3>Thanks for joining the MyBundee</h3>
+                        <h3>Thanks for joining MyBundee.</h3>
                         <p className='text-center'>
                             A verification email has been sent successfully..! <br /> Please check your inbox and click on the verification link.
                         </p>

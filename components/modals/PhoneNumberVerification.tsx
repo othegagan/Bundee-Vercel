@@ -25,9 +25,7 @@ const PhoneNumberModal = () => {
 
     const handleSendVerificationCode = async () => {
         try {
-            const response = await getUserByPhoneNumber(`+${phoneNumber}`);
-            if (!response.success) {
-                setOTPError('');
+            setOTPError('');
                 const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
                 let phoneAuthProvider = new PhoneAuthProvider(auth);
@@ -36,9 +34,6 @@ const PhoneNumberModal = () => {
                 setVerificationId(verifyId);
                 setVerificationSent(true); // Set flag to indicate verification code has been sent
                 // console.log('verifyId', verifyId);
-            } else {
-                throw new Error('auth/account-exists-with-different-credential');
-            }
         } catch (error) {
             console.log(error);
             handleAuthError(error.code || error.message);
