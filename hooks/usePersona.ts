@@ -120,7 +120,7 @@ export async function profileVerifiedStatus() {
     const userResponse = await getUserByEmail(session.email);
 
     if (userResponse.success) {
-        const isPersonaVerified = userResponse.data?.driverProfiles?.length == 0 ? false : true;
+        const isPersonaVerified = userResponse.data?.driverProfiles[0]?.personaEnquiryId ? true : false;
         return isPersonaVerified;
     }
 }

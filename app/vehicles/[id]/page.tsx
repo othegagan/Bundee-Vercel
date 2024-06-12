@@ -1,15 +1,17 @@
 'use client';
 import usePersona, { profileVerifiedStatus } from '@/hooks/usePersona';
 
+import BackButton from '@/components/BackButton';
 import BoxContainer from '@/components/BoxContainer';
 import ClientOnly from '@/components/ClientOnly';
 import CustomDateRangePicker from '@/components/custom/CustomDateRangePicker';
 import ErrorComponent from '@/components/custom/ErrorComponent';
-import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
+import { ResponsiveDialog } from '@/components/ui/responsive-dialog';
 import { toast } from '@/components/ui/use-toast';
+import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import useLoginModal from '@/hooks/useLoginModal';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import useWishlist from '@/hooks/useWishlist';
@@ -26,12 +28,10 @@ import secureLocalStorage from 'react-secure-storage';
 import DeliveryDetailsComponent from './DeliveryDetailsComponent';
 import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
-import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import BackButton from '@/components/BackButton';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
-    const { addToWishlistHandler, removeFromWishlistHandler , isItemWishlisted} = useWishlist(params.id);
+    const { addToWishlistHandler, removeFromWishlistHandler, isItemWishlisted } = useWishlist(params.id);
     const { isPersonaClientLoading, createClient } = usePersona();
     const { isLoading: datesLoading, isError: datesError } = useAvailabilityDates(params.id, null);
 
@@ -49,7 +49,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     const [isPriceError, setIsPriceError] = useState(false);
     const [priceErrorMessage, setPriceErrorMessage] = useState(null);
 
-    const [showPersona, setShowPersona] = useState(false);
+    const [showDrivingLicenceModal, setShowDrivingLicenceModal] = useState(false);
 
     const [userAuthenticated, setUserAuthenticated] = useState(false);
 
@@ -62,7 +62,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         history: 'replace',
     });
 
-    const todayDate = new Date(startDate+'T'+ getCurrentTimeRounded());
+    const todayDate = new Date(startDate + 'T' + getCurrentTimeRounded());
 
     const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
     const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
@@ -132,7 +132,6 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         fetchData();
     }, [startDate, endDate, startTime, endTime, vehicleHostDetails, searchParams, isCustoumDelivery, isAirportDeliveryChoosen]);
 
-
     async function getPriceCalculation() {
         try {
             setIsPriceError(false);
@@ -187,7 +186,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
         const isVerified = await profileVerifiedStatus();
         const deductionfrequencyconfigid = isVerified ? deductionConfigData.deductioneventconfigid : 1;
-        isVerified ? setShowPersona(false) : setShowPersona(true);
+        isVerified ? setShowDrivingLicenceModal(false) : setShowDrivingLicenceModal(true);
 
         try {
             const delivery = isAirportDeliveryChoosen ? true : isCustoumDelivery ? true : false;
@@ -305,7 +304,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         <>
             <ClientOnly>
                 <BoxContainer className='py-8'>
-                            <BackButton />
+                    <BackButton />
                     <div className='mt-3 grid grid-cols-1 gap-6 md:mt-3 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
                         <div className='flex flex-col items-start lg:col-span-2'>
                             <VehicleDetailsComponent
@@ -426,47 +425,60 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                             </Button>
                         </div>
                     </div>
+
+                    <DrivingLicenceModal
+                        setShowDrivingLicenceModal={setShowDrivingLicenceModal}
+                        showDrivingLicenceModal={showDrivingLicenceModal}
+                        createClient={createClient}
+                        isPersonaClientLoading={isPersonaClientLoading}
+                    />
                 </BoxContainer>
-
-                <Modal
-                    isOpen={showPersona}
-                    onClose={() => {
-                        setShowPersona(false);
-                    }}
-                    className='lg:max-w-2xl'>
-                    <ModalHeader
-                        onClose={() => {
-                            setShowPersona(false);
-                        }}>
-                        Verify your driving licence
-                    </ModalHeader>
-                    <ModalBody className=' overflow-hidden'>
-                        <p className='font-medium  leading-6'>Your driving license has not yet been verified. Please verify it.</p>
-                        <div className=' mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-end'>
-                            <Button type='button' size='sm' onClick={() => setShowPersona(false)} variant='outline' className='w-full md:w-fit'>
-                                Back
-                            </Button>
-
-                            <Button
-                                type='button'
-                                size='sm'
-                                onClick={() => {
-                                    createClient(setShowPersona);
-                                }}
-                                disabled={isPersonaClientLoading}
-                                className='w-full bg-primary md:w-fit'>
-                                {isPersonaClientLoading ? (
-                                    <div className='flex px-16'>
-                                        <div className='loader'></div>
-                                    </div>
-                                ) : (
-                                    <> Continue Verification</>
-                                )}
-                            </Button>
-                        </div>
-                    </ModalBody>
-                </Modal>
             </ClientOnly>
         </>
+    );
+}
+
+function DrivingLicenceModal({
+    showDrivingLicenceModal,
+    setShowDrivingLicenceModal,
+    createClient,
+    isPersonaClientLoading,
+}: {
+    showDrivingLicenceModal: boolean;
+    setShowDrivingLicenceModal: React.Dispatch<React.SetStateAction<boolean>>;
+    createClient: (setShowDrivingLicenceModal: React.Dispatch<React.SetStateAction<boolean>>) => void;
+    isPersonaClientLoading: boolean;
+}) {
+    return (
+        <ResponsiveDialog
+            title=' Driving licence verification'
+            description=''
+            isOpen={showDrivingLicenceModal}
+            closeOnClickOutside={false}
+            openDialog={() => {
+                setShowDrivingLicenceModal(true);
+            }}
+            closeDialog={() => {
+                setShowDrivingLicenceModal(false);
+            }}>
+            <p className='mt-4 max-w-2xl text-sm leading-snug text-neutral-500'>Your driving license has not yet been verified. <br />Please verify it.</p>
+            <div className=' mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-end'>
+                <Button type='button' size='sm' onClick={() => setShowDrivingLicenceModal(false)} variant='outline' className='w-full md:w-fit'>
+                    Back
+                </Button>
+
+                <Button
+                    type='button'
+                    variant='black'
+                    size='sm'
+                    onClick={() => {
+                        createClient(setShowDrivingLicenceModal);
+                    }}
+                    loading={isPersonaClientLoading}
+                    className='w-full bg-primary md:w-fit'>
+                    Continue Verification
+                </Button>
+            </div>
+        </ResponsiveDialog>
     );
 }
