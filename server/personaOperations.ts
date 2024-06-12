@@ -46,10 +46,12 @@ export const getVerifiedDetailsFromPersona = async (inquiryId: string) => {
     try {
         const response = await fetch(`https://withpersona.com/api/v1/inquiries/${inquiryId}`, options);
         const responseData = await response.json();
+        console.log(responseData);
 
         const fields = responseData.data.attributes['fields'];
 
-        let centerPhotoUrl = null;
+        let centerDriverPhotoUrl = null;
+        let frontDrivingLicensePhotoUrl = null;
 
         if (Array.isArray(responseData.included)) {
             // Loop through each item in the included array
@@ -59,13 +61,22 @@ export const getVerifiedDetailsFromPersona = async (inquiryId: string) => {
                     // Check if attributes and center-photo-url exist in the item
                     if (item.attributes && item.attributes['center-photo-url']) {
                         // Return the center-photo-url
-                        centerPhotoUrl = item.attributes['center-photo-url'];
+                        centerDriverPhotoUrl = item.attributes['center-photo-url'];
+                    }
+                }
+
+                // Check if the item type is verification/government-id
+                if (item.type === 'verification/government-id') {
+                    // Check if attributes and front-photo-url exist in the item
+                    if (item.attributes && item.attributes['front-photo-url']) {
+                        // Return the front-photo-url
+                        frontDrivingLicensePhotoUrl = item.attributes['front-photo-url'];
                     }
                 }
             }
         }
 
-        return { fields, centerPhotoUrl };
+        return { fields, centerDriverPhotoUrl, frontDrivingLicensePhotoUrl };
     } catch (error) {
         console.error(error);
     }

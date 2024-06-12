@@ -77,9 +77,9 @@ export function CalendarSelectSkeleton() {
     );
 }
 
-export function PersonaDetailsSkeleton() {
+export function DrivingLicenceDetailsSkeleton() {
     return (
-        <div className='space-y-4'>
+        <div className='space-y-4 mt-4'>
             <div className={`h-10 w-full md:w-[400px] rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-64 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-72 rounded-md bg-neutral-200 ${shimmer}`} />

@@ -200,14 +200,14 @@ const ProfilePage = () => {
                         <h2 className=' text-base font-semibold leading-7'>Name</h2>
                         {activeSection !== 'name' ? (
                             <Button
-                                variant='outline'
+                                variant='outline' size='sm'
                                 disabled={activeSection !== null}
                                 className={activeSection === 'phoneNumber' ? 'cursor-not-allowed ' : ''}
                                 onClick={() => handleEditClick('name')}>
                                 Edit
                             </Button>
                         ) : (
-                            <Button variant='secondary' onClick={handleCancelClick}>
+                            <Button variant='secondary' size='sm' onClick={handleCancelClick}>
                                 Cancel
                             </Button>
                         )}
@@ -262,7 +262,7 @@ const ProfilePage = () => {
                         <h2 className=' text-base font-semibold leading-7'> Phone Number</h2>
                         {activeSection !== 'phoneNumber' ? (
                             <Button
-                                variant='outline'
+                                variant='outline' size='sm'
                                 disabled={activeSection !== null}
                                 className={activeSection === 'phoneNumber' ? 'cursor-not-allowed ' : ''}
                                 onClick={() => {
@@ -271,7 +271,7 @@ const ProfilePage = () => {
                                 Edit
                             </Button>
                         ) : (
-                            <Button variant='secondary' onClick={handleCancelClick}>
+                            <Button variant='secondary' size='sm' onClick={handleCancelClick}>
                                 Cancel
                             </Button>
                         )}
@@ -307,14 +307,14 @@ const ProfilePage = () => {
                         <h2 className=' text-base font-semibold leading-7'>Address Details</h2>
                         {activeSection !== 'address' ? (
                             <Button
-                                variant='outline'
+                                variant='outline' size='sm'
                                 disabled={activeSection !== null}
                                 className={activeSection === 'address' ? 'cursor-not-allowed ' : ''}
                                 onClick={() => handleEditClick('address')}>
                                 Edit
                             </Button>
                         ) : (
-                            <Button variant='secondary' onClick={handleCancelClick}>
+                            <Button variant='secondary' size='sm' onClick={handleCancelClick}>
                                 Cancel
                             </Button>
                         )}
@@ -400,14 +400,14 @@ const ProfilePage = () => {
                         <h2 className=' text-base font-semibold leading-7'>Insurance Details</h2>
                         {activeSection !== 'insurance' ? (
                             <Button
-                                variant='outline'
+                                variant='outline' size='sm'
                                 disabled={activeSection !== null}
                                 className={activeSection === 'insurance' ? 'cursor-not-allowed ' : ''}
                                 onClick={() => handleEditClick('insurance')}>
                                 Edit
                             </Button>
                         ) : (
-                            <Button variant='secondary' onClick={handleCancelClick}>
+                            <Button variant='secondary' size='sm' onClick={handleCancelClick}>
                                 Cancel
                             </Button>
                         )}

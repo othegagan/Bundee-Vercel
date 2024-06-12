@@ -103,8 +103,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     };
 
     const links = [
-        { id: 1, name: 'Basic Profile', path: '/profile' },
-        { id: 2, name: 'Driving Licence Verification', path: '/profile/driving-licence' },
+        { id: 1, name: ' Profile', path: '/profile' },
+        { id: 2, name: 'Driving Licence ', path: '/profile/driving-licence' },
         { id: 3, name: 'Change Password', path: '/profile/change-password' },
         { id: 4, name: 'Delete Account', path: '/profile/delete-account' },
     ];
@@ -123,10 +123,10 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                         </div>
                         <div className='col-span-1 flex flex-col gap-1'>
                             {name && <h1 className='text-lg font-semibold'>{name}</h1>}
-                            {email && <p className='text-sm text-gray-600'>{email}</p>}
+                            {email && <p className='text-sm text-neutral-600'>{email}</p>}
                             <label
                                 htmlFor='profilePictureInput'
-                                className='mt-4 w-full cursor-pointer whitespace-nowrap  rounded-md border border-gray-300 bg-transparent px-2 py-1 text-center text-xs'>
+                                className='mt-4 w-full cursor-pointer whitespace-nowrap  rounded-md border border-neutral-300 bg-transparent px-2 py-1 text-center text-xs'>
                                 Change Profile Picture
                                 <input id='profilePictureInput' type='file' className='hidden' onChange={handleProfilePictureChange} />
                             </label>
@@ -140,7 +140,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                 key={link.id}
                                 href={link.path}
                                 className={`flex w-fit  cursor-pointer items-center whitespace-nowrap rounded-md text-sm sm:h-6 sm:px-4 sm:py-6 sm:text-base ${
-                                    pathName === link.path ? ' bg-primary p-2 text-white ' : ' bg-white hover:bg-gray-100  '
+                                    pathName === link.path ? ' bg-primary p-2 text-white ' : ' bg-white hover:bg-neutral-100  '
                                 }`}>
                                 {link.name}
                             </Link>
@@ -157,7 +157,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                     <div>
                         <div className='mb-6 rounded bg-white p-4 px-4 md:p-8'>
                             <div className='grid grid-cols-1 gap-4 gap-y-2 text-sm lg:grid-cols-3'>
-                                <div className='flex h-screen flex-col items-center text-gray-600'>
+                                <div className='flex h-screen flex-col items-center text-neutral-600'>
                                     <img
                                         src={image ? `${image}` : '/dummy_avatar.png'}
                                         alt=''
@@ -165,7 +165,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                     />
                                     <label
                                         htmlFor='profilePictureInput'
-                                        className='mt-4 w-full cursor-pointer  rounded-md border border-gray-300 bg-transparent px-2 py-1 text-center'>
+                                        className='mt-4 w-full cursor-pointer  rounded-md border border-neutral-300 bg-transparent px-2 py-1 text-center'>
                                         Change Profile Picture
                                         <input id='profilePictureInput' type='file' className='hidden' onChange={handleProfilePictureChange} />
                                     </label>
@@ -180,7 +180,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                                     className={`flex w-full cursor-pointer items-center justify-center ${
                                                         pathName === link.path
                                                             ? 'h-6 rounded-md bg-primary px-4 py-6 text-white'
-                                                            : 'h-6 rounded-md bg-white px-4 py-4 hover:bg-gray-100'
+                                                            : 'h-6 rounded-md bg-white px-4 py-4 hover:bg-neutral-100'
                                                     }`}>
                                                     {link.name}
                                                 </Link>
@@ -190,12 +190,12 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                 </div>
 
                                 <div className='mx-8 lg:col-span-2'>
-                                    <h1 className='text-2xl font-bold  text-gray-600'>
-                                        {pathName === '/profile' && 'Basic Profile'}
-                                        {pathName === '/profile/driving-licence' && 'Driver Licence Verification'}
+                                    <h3 className='text-xl font-semibold leading-7 text-neutral-900'>
+                                        {pathName === '/profile' && ' Profile'}
+                                        {pathName === '/profile/driving-licence' && 'Driver Licence '}
                                         {pathName === '/profile/change-password' && 'Change Password'}
                                         {pathName === '/profile/delete-account' && 'Delete Account'}
-                                    </h1>
+                                    </h3>
 
                                     {children}
                                 </div>
