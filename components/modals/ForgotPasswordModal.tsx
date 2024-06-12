@@ -106,7 +106,7 @@ export default function ForgotPasswordModal() {
                         </div>
 
                         <Button type='submit' className='mt-3 w-full' disabled={isSubmitting} loading={isSubmitting} loadingText='Sending...'>
-                            Get Password Reset link
+                            Get Password Reset Link
                         </Button>
                     </div>
 

@@ -1,29 +1,25 @@
 'use client';
 
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import useLoginModal from '@/hooks/useLoginModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
-
+import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import Logo from '@/components/landing_page/Logo';
+import useForgotPasswordModal from '@/hooks/useForgotPasswordModal';
+import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
+import { login, logout } from '@/lib/auth';
+import { createNewUser } from '@/server/createNewUser';
+import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FaPhone } from 'react-icons/fa6';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
-import { useRouter } from 'next/navigation';
-import { login, logout } from '@/lib/auth';
-import { createNewUser } from '@/server/createNewUser';
-import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
-import Link from 'next/link';
 import ClientOnly from '../ClientOnly';
-import { Modal, ModalBody, ModalHeader } from '../custom/modal';
-import Logo from '@/components/landing_page/Logo';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
 import { ResponsiveDialog } from '../ui/responsive-dialog';
-import useForgotPasswordModal from '@/hooks/useForgotPasswordModal';
 
 const LoginModal = () => {
     const router = useRouter();
@@ -82,19 +78,9 @@ const LoginModal = () => {
     };
 
     const handleAuthError = error => {
-        const errorMap = {
-            'auth/user-not-found': 'User account not found.',
-            'auth/wrong-password': 'Incorrect password. Try again.',
-            'auth/invalid-email': 'Invalid email address.',
-            'auth/too-many-requests': 'Too many requests. Please try again later.',
-            'auth/user-disabled': 'Account has been disabled.',
-            'auth/missing-password': 'Please enter your password.',
-            'auth/invalid-credential': 'Invalid Credentials. Please try again.',
-            'auth/invalid-login-credentials': 'Invalid Credentials. Please try again.',
-            default: 'An error occurred. Please try again.',
-        };
+        const errorMap = getFirebaseErrorMessage(error.code);
+        setAuthError(errorMap);
         setPassword('');
-        setAuthError(errorMap[error.code] || errorMap.default);
     };
 
     const googleSignIn = () => {
@@ -168,6 +154,7 @@ const LoginModal = () => {
         closeModal();
         phoneNumberSignInModal.onOpen();
     }
+
     return (
         <ResponsiveDialog
             title=''
@@ -181,7 +168,7 @@ const LoginModal = () => {
             }}
             className='lg:max-w-lg'>
             <ClientOnly>
-                <main className='flex items-center justify-center p-2 md:p-6 '>
+                <main className='flex items-center justify-center md:p-6 '>
                     <div className='w-full'>
                         <div className='flex flex-col items-center gap-4'>
                             <Logo className='scale-[1.3]' />
@@ -237,7 +224,7 @@ const LoginModal = () => {
                                     closeModal();
                                     forgotPasswordModal.onOpen();
                                 }}>
-                                Forgot your password?
+                                Forgot Password?
                             </div>
 
                             {authError ? (
@@ -273,7 +260,7 @@ const LoginModal = () => {
 
                             <Button onClick={openPhoneLogin} type='button' variant='outline' className='flex w-full  gap-3 py-5'>
                                 <span>Log In with Phone</span>
-                                <FaPhone className='size-4 scale-95' />
+                                <FaPhone className='size-4 scale-95 hidden md:block' />
                             </Button>
                         </div>
 
