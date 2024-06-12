@@ -32,7 +32,7 @@ function Modal({ isOpen, onClose, children, className }: ModalProps) {
 
     return (
         <div
-            className='enter enter-active fixed inset-0 z-[99] flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center'
+            className='enter enter-active fixed inset-0 z-[99] bg-black/50 backdrop-blur-[1px] flex items-end sm:items-center sm:justify-center'
             onClick={handleBackdropClick}>
             <div
                 className={`translate  w-full transform overflow-hidden rounded-t-lg bg-white px-6 py-4 transition-all duration-300  sm:m-4 sm:max-w-xl sm:rounded-lg   ${className} `}
