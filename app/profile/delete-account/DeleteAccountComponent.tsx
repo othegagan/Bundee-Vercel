@@ -50,7 +50,7 @@ const DeleteAccountComponent = () => {
             </p>
 
             <ul className='mt-4 list-disc list-inside'>
-                <li>You will no longer be able to book trips or list your car on Turo.</li>
+                <li>You will no longer be able to book trips.</li>
                 <li>Any booked or pending trips will be cancelled immediately.</li>
                 <li>You will no longer be able to login to your account.</li>
                 <li>You are still financially responsible for any fees, claims, or reimbursements related to your past or pending trips.</li>
