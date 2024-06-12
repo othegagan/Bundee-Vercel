@@ -105,7 +105,7 @@ const ProfilePage = () => {
             firstname: savedData.firstname || '',
             middlename: '',
             lastname: savedData.lastname || '',
-            mobilePhone: '+919036644552' || '',
+            mobilePhone: savedData.mobilePhone || '',
             address_1: savedData.address1 || '',
             address_2: savedData.address2 || '',
             address_3: '',
@@ -123,9 +123,9 @@ const ProfilePage = () => {
         };
 
         try {
-            console.log('Profile Update payload :', updatePayload);
+            // console.log('Profile Update payload :', updatePayload);
             const response = await updateProfile(updatePayload);
-            console.log(response);
+            // console.log(response);
             if (response.success) {
                 toast({
                     duration: 3000,

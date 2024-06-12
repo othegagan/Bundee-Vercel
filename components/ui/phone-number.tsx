@@ -16,7 +16,7 @@ export default function PhoneNumber({ phone, setPhone, className, props }: Phone
         <div className={`w-full ${className}`}>
             <PhoneInput
                 specialLabel={''}
-                placeholder='123 456 67890'
+                placeholder='Ex : +1234567890'
                 country={'us'}
                 prefix={'+'}
                 value={phone}

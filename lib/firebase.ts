@@ -30,6 +30,10 @@ export function getFirebaseErrorMessage(code: string) {
         'auth/argument-error': 'Invalid argument. Please check your input and try again.',
         'auth/invalid-phone-number': 'Invalid phone number. Please enter a valid phone number.',
         'auth/invalid-login-credentials': 'Invalid Credentials. Please try again.',
+        'auth/auth/code-expired': 'Invalid OTP. Please enter a valid OTP.',
+        'auth/invalid-verification-code': 'Invalid OTP. Please enter a valid OTP.',
+        'auth/provider-already-linked': 'Account already linked with phone number',
+        'auth/account-exists-with-different-credential': 'Phone number as been linked with another account. Please try again with different phone number.',
         default: 'An error occurred. Please try again.',
     };
     return errorMap[code] || errorMap.default;

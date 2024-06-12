@@ -1,17 +1,17 @@
 'use client';
 
 import usePhoneNumberVerificationModal from '@/hooks/usePhoneNumberVerificationModal';
-import { auth } from '@/lib/firebase';
-import { linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, updatePhoneNumber, unlink, getAuth } from 'firebase/auth';
+import { getSession } from '@/lib/auth';
+import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
+import { getUserByEmail, getUserByPhoneNumber, updateProfile } from '@/server/userOperations';
+import { getAuth, linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, unlink, updatePhoneNumber } from 'firebase/auth';
 import { useState } from 'react';
 import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
-import { Label } from '../ui/label';
-import { PhoneInput } from '../ui/phone-input';
-import { getSession } from '@/lib/auth';
-import { getUserByEmail, updateProfile } from '@/server/userOperations';
-import { toast } from '../ui/use-toast';
 import { OtpStyledInput } from '../ui/input-otp';
+import { Label } from '../ui/label';
+import PhoneNumber from '../ui/phone-number';
+import { toast } from '../ui/use-toast';
 
 const PhoneNumberModal = () => {
     // console.log(auth.currentUser);
@@ -25,22 +25,23 @@ const PhoneNumberModal = () => {
 
     const handleSendVerificationCode = async () => {
         try {
-            setOTPError('');
-            console.log(phoneNumber);
-            const formattedPhoneNumber = phoneNumber;
-            const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
+            const response = await getUserByPhoneNumber(`+${phoneNumber}`);
+            if (!response.success) {
+                setOTPError('');
+                const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
-            let phoneAuthProvider = new PhoneAuthProvider(auth);
-            const verifyId = await phoneAuthProvider.verifyPhoneNumber(formattedPhoneNumber, appVerifier);
+                let phoneAuthProvider = new PhoneAuthProvider(auth);
+                const verifyId = await phoneAuthProvider.verifyPhoneNumber(`+${phoneNumber}`, appVerifier);
 
-            setVerificationId(verifyId);
-            setVerificationSent(true); // Set flag to indicate verification code has been sent
-            // console.log('verifyId', verifyId);
+                setVerificationId(verifyId);
+                setVerificationSent(true); // Set flag to indicate verification code has been sent
+                // console.log('verifyId', verifyId);
+            } else {
+                throw new Error('auth/account-exists-with-different-credential');
+            }
         } catch (error) {
-            console.error('Error sending code:', error.code);
-            console.error('Error:', error);
-            // Handle errors appropriately
-            handleAuthError(error.code);
+            console.log(error);
+            handleAuthError(error.code || error.message);
         }
     };
 
@@ -129,58 +130,30 @@ const PhoneNumberModal = () => {
         }
     };
 
-    const handleAuthError = error => {
-        const errorMap = {
-            'auth/user-not-found': 'User account not found.',
-            'auth/wrong-password': 'Incorrect password. Try again.',
-            'auth/invalid-email': 'Invalid email address.',
-            'auth/too-many-requests': 'Too many requests. Please try again later.',
-            'auth/user-disabled': 'Account has been disabled.',
-            'auth/missing-password': 'Please enter your password.',
-            'auth/invalid-credential': 'Invalid Credentials. Please try again.',
-            'auth/invalid-phone-number': 'Invalid phone number. Please enter a valid phone number.',
-            'auth/auth/code-expired': 'Invalid OTP. Please enter a valid OTP.',
-            'auth/invalid-verification-code': 'Invalid OTP. Please enter a valid OTP.',
-            'auth/provider-already-linked': 'Account already linked with phone number',
-            'auth/account-exists-with-different-credential': 'Phone number as been linked with another account. Please try again with different phone number.',
-            default: 'An error occurred. Please try again.',
-        };
+    const handleAuthError = (error: string) => {
+        const errorMap = getFirebaseErrorMessage(error);
         setPhoneNumber('');
-        setOTPError(errorMap[error] || errorMap.default);
+        setOTPError(errorMap);
         console.log(otpError);
     };
 
     function openModal() {
-        setPhoneNumber('');
-        setOTPError('');
-        setVerificationCode('');
-        setVerificationId('');
-        setVerificationSent(false);
+        resetModal();
         phoneNumberVerificationModal.onOpen();
     }
+
     function closeModal() {
-        setPhoneNumber('');
-        setOTPError('');
-        setVerificationCode('');
-        setVerificationId('');
-        setVerificationSent(false);
+        resetModal();
         phoneNumberVerificationModal.onClose();
     }
 
-    // function unLinkPhonenumber() {
-    //     const auth = getAuth();
-    //     unlink(auth.currentUser, 'phone')
-    //         .then(res => {
-    //             console.log(res);
-    //             // Auth provider unlinked from account
-    //             // ...
-    //         })
-    //         .catch(error => {
-    //             // An error happened
-    //             // ...
-    //             console.log(error);
-    //         });
-    // }
+    function resetModal() {
+        setPhoneNumber('');
+        setOTPError('');
+        setVerificationCode('');
+        setVerificationId('');
+        setVerificationSent(false);
+    }
 
     return (
         <Modal isOpen={phoneNumberVerificationModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
@@ -193,7 +166,7 @@ const PhoneNumberModal = () => {
                             <Label htmlFor='phoneNumber' className='mt-6'>
                                 New Phone Number:
                             </Label>
-                            <PhoneInput value={phoneNumber} onChange={setPhoneNumber} defaultCountry='US' international placeholder='Enter a phone number' />
+                            <PhoneNumber setPhone={setPhoneNumber} phone={phoneNumber} />
                             <Button type='button' className='ml-auto w-fit' onClick={handleSendVerificationCode} disabled={!phoneNumber || verificationSent}>
                                 {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
                             </Button>
@@ -210,18 +183,22 @@ const PhoneNumberModal = () => {
                                 className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '
                             />
 
-                            <Button type='button' className='w-fit' disabled={verificationCode.length !== 6 || verifying} onClick={handleVerifyCode}>
-                                {verifying ? <div className='loader '></div> : <>Verify Code</>}
+                            <Button
+                                type='button'
+                                className='w-fit'
+                                disabled={verificationCode.length !== 6 || verifying}
+                                onClick={handleVerifyCode}
+                                loading={verifying}>
+                                Verify Code
                             </Button>
                         </div>
                     )}
+
                     {otpError && <p className='rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
 
                     {!otpError && !verificationId && <div id='recaptcha-container'></div>}
 
-                    {/* <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
-                        Unlink phone
-                    </Button> */}
+                    {/* <UnlinkPhoneNumberButton /> */}
                 </div>
             </ModalBody>
         </Modal>
@@ -229,3 +206,24 @@ const PhoneNumberModal = () => {
 };
 
 export default PhoneNumberModal;
+
+function UnlinkPhoneNumberButton() {
+    const unLinkPhonenumber = () => {
+        const auth = getAuth();
+        unlink(auth.currentUser, 'phone')
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    return (
+        <>
+            <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
+                Unlink phone
+            </Button>
+        </>
+    );
+}
