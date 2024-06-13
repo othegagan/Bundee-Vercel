@@ -17,6 +17,7 @@ import TripReviewModal from '@/components/modals/TripReviewModal';
 import CarFilters from './vehicles/CarFilters';
 import PushNotifications from '@/components/landing_page/PushNotifications';
 import ForgotPasswordModal from '@/components/modals/ForgotPasswordModal';
+import Providers from '@/lib/providers';
 
 const RentalAgreementModal = dynamic(() => import('@/components/modals/RentalAgreementModal'), { ssr: false });
 
@@ -39,27 +40,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
             </head>
             <body className={` ${inter.className} flex min-h-screen  w-full flex-col`}>
-                <ClientOnly>
-                    <LoginModal />
-                    <RegisterModal />
-                    <PhoneNumberModal />
-                    <PhoneNumberSignInModal />
-                    <TripReviewModal />
-                    <CarFilters />
-                    <RentalAgreementModal />
-                    <ForgotPasswordModal />
-                </ClientOnly>
-                <HideComponentInFrame>
-                    <Navbar />
-                </HideComponentInFrame>
+                <Providers>
+                    <ClientOnly>
+                        <LoginModal />
+                        <RegisterModal />
+                        <PhoneNumberModal />
+                        <PhoneNumberSignInModal />
+                        <TripReviewModal />
+                        <CarFilters />
+                        <RentalAgreementModal />
+                        <ForgotPasswordModal />
+                    </ClientOnly>
+                    <HideComponentInFrame>
+                        <Navbar />
+                    </HideComponentInFrame>
 
-                {children}
-                <Toaster />
-                <div className='mt-auto'>
-                    <HideInIFrame>
-                        <Footer />
-                    </HideInIFrame>
-                </div>
+                    {children}
+                    <Toaster />
+                    <div className='mt-auto'>
+                        <HideInIFrame>
+                            <Footer />
+                        </HideInIFrame>
+                    </div>
+                </Providers>
                 <SpeedInsights />
             </body>
         </html>

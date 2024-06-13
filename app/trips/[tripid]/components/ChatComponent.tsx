@@ -153,7 +153,7 @@ function Message({ message, tripsData }) {
                     {message.message.toLocaleLowerCase() === 'a new reservation was requested' && (
                         <div className='space-y-2 p-4'>
                             {tripsData?.vehicleImages.length > 0 && (
-                                <div className='max-w-md rounded-lg sm:overflow-hidden'>
+                                <div className='max-w-sm rounded-lg sm:overflow-hidden'>
                                     <Carousel autoSlide={true}>
                                         {tripsData.vehicleImages.map((s, i) => (
                                             <img key={i} src={s.imagename} className='max-h-fit min-w-full' alt={`vehicle image ${i}`} />
@@ -182,6 +182,7 @@ function Message({ message, tripsData }) {
 
                             <div>
                                 Pickup & Return :
+                            </div>
                                 <span className='ml-2 text-base font-medium text-gray-800'>
                                     {tripsData?.vehaddress1 ? `${tripsData?.vehaddress1}, ` : null}
                                     {tripsData?.vehaddress2 ? `${tripsData?.vehaddress2}, ` : null}
@@ -189,7 +190,6 @@ function Message({ message, tripsData }) {
                                     {tripsData?.vehstate ? `${tripsData?.vehstate}, ` : null}
                                     {tripsData?.vehzipcode ? `${tripsData?.vehzipcode}` : null}
                                 </span>
-                            </div>
                         </div>
                     )}
 

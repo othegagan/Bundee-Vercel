@@ -2,15 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { getAllUserWishlistedVehicles, wishlistHandler } from '@/server/userOperations';
 import useTabFocusEffect from './useTabFocusEffect';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const useWishlist = (id?: string) => {
     const [isItemWishlisted, setIsItemWishlisted] = useState(false);
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-    const [wishlistData, setWishlistData] = useState([]);
-
-    const addToWishlistHandler = async vehicleId => {
+    const addToWishlistHandler = async (vehicleId: number) => {
         setIsItemWishlisted(true);
         try {
             const response = await wishlistHandler(vehicleId, true);
@@ -21,6 +18,7 @@ const useWishlist = (id?: string) => {
                     variant: 'default',
                     description: 'Vehicle added to the wishlist',
                 });
+                refetch();
                 // window.location.reload();
             } else {
                 toast({
@@ -35,7 +33,7 @@ const useWishlist = (id?: string) => {
         }
     };
 
-    const removeFromWishlistHandler = async vehicleId => {
+    const removeFromWishlistHandler = async (vehicleId: number) => {
         setIsItemWishlisted(false);
 
         try {
@@ -46,6 +44,7 @@ const useWishlist = (id?: string) => {
                     variant: 'default',
                     description: 'Vehicle removed form the wishlist',
                 });
+                refetch();
                 // window.location.reload();
             } else {
                 toast({
@@ -61,26 +60,17 @@ const useWishlist = (id?: string) => {
     };
 
     const fetchData = async (id?: string) => {
-        setLoading(true);
-        setError(false);
-
         try {
             const response = await getAllUserWishlistedVehicles();
 
             if (response.success && response.data.customervehicleresponse) {
-                
-                const VehicleIsInWishlist = response.data.customervehicleresponse.find(vehicle => vehicle.id == id);
+                const VehicleIsInWishlist = response.data.customervehicleresponse.find((vehicle: { id: string; }) => vehicle.id == id);
                 setIsItemWishlisted(VehicleIsInWishlist);
-
-                setWishlistData(response.data.customervehicleresponse);
             } else {
                 throw new Error(response.message);
             }
         } catch (error) {
             console.error('Error fetching data', error);
-            setError(true);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -88,13 +78,17 @@ const useWishlist = (id?: string) => {
         fetchData(id);
     }, []);
 
-    useTabFocusEffect(() => {
-        fetchData(id);
-    }, []);
+    const {
+        data: wishlistResponse,
+        isFetching: loading,
+        error,
+        refetch,
+    } = useQuery({
+        queryKey: ['wishlist'],
+        queryFn: async () => getAllUserWishlistedVehicles(),
+        refetchOnWindowFocus: true,
+    });
 
-    useTabFocusEffect(() => {
-        fetchData(id);
-    }, []);
 
     return {
         isItemWishlisted,
@@ -102,7 +96,7 @@ const useWishlist = (id?: string) => {
         removeFromWishlistHandler,
         loading,
         error,
-        wishlistData,
+        wishlistResponse,
     };
 };
 
