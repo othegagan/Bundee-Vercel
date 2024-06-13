@@ -70,7 +70,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
                     key={trip.tripid}
                     href={`/trips/${trip.tripid}`}
                     className='group col-span-1 flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow md:flex-row'>
-                    <div className='h-44 w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 md:h-full md:w-64'>
+                    <div className='h-44 w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 md:h-48 md:w-64'>
                         <img
                             src={trip.vehicleImages[0]?.imagename}
                             alt={`${trip.vehmake} ${trip.vehmodel}`}
@@ -80,7 +80,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
 
                     <div className='flex flex-auto flex-col'>
                         <div>
-                            <h4 className='font-semibold capitalize text-gray-900'>{`${trip.vehmake} ${trip.vehmodel} (${trip.vehyear}`}</h4>
+                            <h4 className='text-lg font-semibold capitalize text-gray-900'>{`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`}</h4>
                             <div className='mt-2 flex w-full flex-col gap-2 text-xs text-gray-600'>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Start Date</div>

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import ChatComponent from './components/ChatComponent';
 import Details from './components/Details';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
+import BackButton from '@/components/BackButton';
 
 const TripDetailComponent = () => {
     const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
@@ -18,7 +19,8 @@ const TripDetailComponent = () => {
     return (
         <BoxContainer className='mb-6 py-6'>
             <div className='flex flex-col gap-1 border-b pb-2 md:flex-row md:items-center md:justify-between'>
-                <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Trip Details</h3>
+                {/* <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Trip Details</h3> */}
+                <BackButton link='/trips' />
                 <div
                     role='tablist'
                     aria-orientation='horizontal'

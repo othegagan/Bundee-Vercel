@@ -4,12 +4,15 @@ import { ArrowLeftIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-export default function BackButton() {
-    const rouer = useRouter();
+export default function BackButton({ link }: { link?: string }) {
+    const router = useRouter();
     return (
-        <Button onClick={() => rouer.back()} variant='link' className='group pl-0 text-sm font-semibold text-black hover:underline'>
-            <ArrowLeftIcon className=' size-4 transition-all ease-in-out group-hover:-translate-x-2    ' />
-            Back
-        </Button>
+        <button
+            role='link'
+            onClick={() => (link ? router.push(link) : router.back())}
+            className='after:ease-[cubic-bezier(0.65_0.05_0.36_1)] group relative flex items-center gap-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 hover:after:origin-bottom-left hover:after:scale-x-100'>
+            {' '}
+            <ArrowLeftIcon className=' size-4 transition-all ease-in-out group-hover:-translate-x-1' /> Back
+        </button>
     );
 }
