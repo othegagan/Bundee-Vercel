@@ -8,7 +8,7 @@ import {
     CalendarGridBody,
     CalendarHeaderCell,
     CalendarCell,
-} from '@/components/custom/calendar';
+} from '@/components/ui/extension/calendar';
 import { CalendarSelectSkeleton, DateSelectSkeleton } from '@/components/skeletons/skeletons';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
