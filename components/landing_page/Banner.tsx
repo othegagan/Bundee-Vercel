@@ -18,7 +18,7 @@ const Banner = () => {
                                 </p>
 
                                 <div className='mt-8 flex flex-row items-center space-x-4 lg:mt-12'>
-                                    <Link href='https://apps.apple.com/in/app/mybundee/id6451430817' className='flex' role='button'>
+                                    <Link href='https://apps.apple.com/app/mybundee/id6451430817' className='flex' role='button'>
                                         <Image width={200} height={200} className='h-auto w-auto object-cover' src='/btn-app-store.svg' alt='' />
                                     </Link>
 
