@@ -1,7 +1,6 @@
 'use client';
 
-import ClientOnly from '@/components/ClientOnly';
-import { Button } from '@/components/custom/button';
+import { Button } from '@/components/ui/extension/button';
 import {
     CalendarCell,
     CalendarGrid,
@@ -10,16 +9,16 @@ import {
     CalendarHeaderCell,
     CalendarHeading,
     RangeCalendar,
-} from '@/components/custom/calendar';
-import { DatePickerContent, DateRangePicker } from '@/components/custom/date-picker';
+} from '@/components/ui/extension/calendar';
+import { DatePickerContent, DateRangePicker } from '@/components/ui/extension/date-picker';
 import { cn } from '@/lib/utils';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { CalendarIcon } from '@radix-ui/react-icons';
-import { addDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import { useState } from 'react';
 import { Group } from 'react-aria-components';
-import { useMediaQuery } from 'react-responsive';
 import { GoDash } from 'react-icons/go';
+import { useMediaQuery } from 'react-responsive';
 
 interface SearchCalendarProps {
     setStartDate: (date) => void;

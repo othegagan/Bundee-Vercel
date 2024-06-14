@@ -1,7 +1,7 @@
 'use client';
 
 import ClientOnly from '@/components/ClientOnly';
-import { Button } from '@/components/custom/button';
+import { Button } from '@/components/ui/extension/button';
 import {
     CalendarCell,
     CalendarGrid,
@@ -10,8 +10,8 @@ import {
     CalendarHeaderCell,
     CalendarHeading,
     RangeCalendar,
-} from '@/components/custom/calendar';
-import { DatePickerContent, DateRangePicker } from '@/components/custom/date-picker';
+} from '@/components/ui/extension/calendar';
+import { DatePickerContent, DateRangePicker } from '@/components/ui/extension/date-picker';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { cn } from '@/lib/utils';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
@@ -20,10 +20,10 @@ import { addDays, format } from 'date-fns';
 import { useState } from 'react';
 import { DateValue, Group } from 'react-aria-components';
 import { useMediaQuery } from 'react-responsive';
-import { DateSelectSkeleton } from '../skeletons/skeletons';
+import { DateSelectSkeleton } from '../../../components/skeletons/skeletons';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 
-const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setError }: any) => {
+const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setError }: any) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(startDate),
         end: parseDate(endDate),
@@ -151,4 +151,4 @@ const CustomDateRangePicker = ({ vehicleid, setStartDate, setEndDate, startDate,
     );
 };
 
-export default CustomDateRangePicker;
+export default DateRangeCalendar;

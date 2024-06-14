@@ -4,7 +4,6 @@ import usePersona, { profileVerifiedStatus } from '@/hooks/usePersona';
 import BackButton from '@/components/BackButton';
 import BoxContainer from '@/components/BoxContainer';
 import ClientOnly from '@/components/ClientOnly';
-import CustomDateRangePicker from '@/components/custom/CustomDateRangePicker';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
@@ -28,6 +27,7 @@ import secureLocalStorage from 'react-secure-storage';
 import DeliveryDetailsComponent from './DeliveryDetailsComponent';
 import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
+import DateRangeCalendar from './DateRangeCalendar';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
@@ -348,7 +348,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                             </div>
 
                             <div className='flex-2 flex w-full flex-col gap-2'>
-                                <CustomDateRangePicker
+                                <DateRangeCalendar
                                     vehicleid={params.id}
                                     setError={setError}
                                     setStartDate={setStartDate}

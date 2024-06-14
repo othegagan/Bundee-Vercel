@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import ClientOnly from '../ClientOnly';
 import { Modal, ModalBody, ModalHeader } from '../custom/modal';
-import Rating from '../custom/RatingComponent';
+import Rating from '@/components/ui/rating';
 import useTripReviewModal from '@/hooks/useTripReviewModal';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
