@@ -8,8 +8,8 @@ import { useQueryState } from 'next-usequerystate';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { Calendar, CalendarCell, CalendarGrid, CalendarGridBody, CalendarGridHeader, CalendarHeaderCell, CalendarHeading } from '@/components/custom/calendar';
-import { DatePicker, DatePickerButton, DatePickerContent } from '@/components/custom/date-picker';
+import { Calendar, CalendarCell, CalendarGrid, CalendarGridBody, CalendarGridHeader, CalendarHeaderCell, CalendarHeading } from '@/components/ui/extension/calendar';
+import { DatePicker, DatePickerButton, DatePickerContent } from '@/components/ui/extension/date-picker';
 import { parseDate } from '@internationalized/date';
 
 export default function HostPageSearchBox() {

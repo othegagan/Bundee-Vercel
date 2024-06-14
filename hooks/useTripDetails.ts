@@ -34,7 +34,7 @@ export const useTripDetails = () => {
         fetchData();
     }, []);
 
-    useTabFocusEffect(() => fetchData(), []);
+    // useTabFocusEffect(() => fetchData(), []);
 
     return { tripData, loading, error, tripRating };
 };
