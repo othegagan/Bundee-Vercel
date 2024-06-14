@@ -2,6 +2,7 @@ import React from 'react';
 
 interface ErrorComponentProps {
     message?: string;
+    variant?: 'vehicleSearch' | 'vehicleDetials' | 'checkout' | 'trips' | 'tripDetails'
 }
 
 const ErrorComponent = ({ message }: ErrorComponentProps) => {
