@@ -23,6 +23,7 @@ const CarFilters = () => {
     }
     function closeModal() {
         useCarFilter.onClose();
+        handleReset();
     }
 
     const [selectedMakes, setSelectedMakes] = useState<string[]>([]);
@@ -169,11 +170,6 @@ const CarFilters = () => {
 
     return (
         <>
-            {/* <Button className='flex gap-3 ' variant='outline' type='button' onClick={openModal}>
-                <VscSettings className='rotate-90' />
-                Filters {appliedFiltersCount > 0 ? <p>({appliedFiltersCount > 0 ? appliedFiltersCount : ''})</p> : null}
-            </Button> */}
-
             <Modal isOpen={useCarFilter.isOpen} onClose={closeModal} className='lg:max-w-5xl'>
                 <ModalHeader onClose={closeModal}>Filters</ModalHeader>
                 <ModalBody className=''>
@@ -338,7 +334,7 @@ const CarFilters = () => {
                         Reset All
                     </Button>
 
-                    <Button type='button' variant='black' className='w-full sm:w-auto ' onClick={closeModal}>
+                    <Button type='button' variant='black' className='w-full sm:w-auto ' onClick={()=>{filterCars(); closeModal()}}>
                         Apply Filters
                     </Button>
                 </ModalFooter>

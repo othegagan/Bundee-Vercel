@@ -80,13 +80,14 @@ const useWishlist = (id?: string) => {
 
     const {
         data: wishlistResponse,
-        isFetching: loading,
+        isLoading: loading,
         error,
         refetch,
     } = useQuery({
         queryKey: ['wishlist'],
         queryFn: async () => getAllUserWishlistedVehicles(),
         refetchOnWindowFocus: true,
+        staleTime: 1000,
     });
 
 

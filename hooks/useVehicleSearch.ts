@@ -1,11 +1,10 @@
 'use client';
 
 import { getSession } from '@/lib/auth';
-import { searchVehiclesAvailability, searchVehiclesByLatitudeAndLongitude } from '@/server/vehicleOperations';
+import { getSearchDates } from '@/lib/utils';
+import { searchVehiclesByLatitudeAndLongitude } from '@/server/vehicleOperations';
 import { addDays, format } from 'date-fns';
 import { useState } from 'react';
-import useTabFocusEffect from './useTabFocusEffect';
-import { getSearchDates } from '@/lib/utils';
 import useCarFilterModal from './useCarFilterModal';
 
 export function getAllURLParameters() {
@@ -79,19 +78,6 @@ const useVehicleSearch = () => {
                 hostId: Number(hostid) || 0,
                 isMapSearch: isMapSearch,
             };
-
-            // console.log(searchPayload);
-
-            // const response = await searchVehiclesAvailability(searchPayload);
-            // if (response.success) {
-            //     const data = response.data.vehicleAllDetails;
-            //     setData(data);
-            //     useCarFilter.setCarDetails(data);
-            //     const newSearchQuery = `city=${city}&latitude=${latitude}&longitude=${longitude}&startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&isAirport=${isAirport}`;
-            //     setSearchQuery(newSearchQuery);
-            // } else {
-            //     throw new Error(response.message);
-            // }
 
             const payload = isMapSearch == 'true' ? mapsearchPayload : searchPayload;
 
