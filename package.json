@@ -47,6 +47,8 @@
         "cookies-next": "^4.2.1",
         "crypto-js": "^4.2.0",
         "date-fns": "^3.6.0",
+        "embla-carousel": "^8.1.5",
+        "embla-carousel-react": "^8.1.5",
         "firebase": "^10.12.2",
         "geolib": "^3.3.4",
         "i": "^0.3.7",

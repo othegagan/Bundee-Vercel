@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import Carousel from '@/components/ui/carousel/carousel';
 import { StarFilledIcon } from '@radix-ui/react-icons';
 import { toTitleCase } from '@/lib/utils';
+import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 
 const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDetails, vehicleBusinessConstraints }) => {
     const mileageConstraints = vehicleBusinessConstraints.filter(constraint => constraint.constraintName === 'MileageConstraint');
@@ -11,11 +12,12 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
         <div>
             {vehicleImages.length > 0 ? (
                 <div className='rounded-lg sm:overflow-hidden '>
-                    <Carousel autoSlide={false}>
+                    <EmblaCarousel slides={vehicleImages} />
+                    {/* <Carousel autoSlide={false}>
                         {vehicleImages.map((s, i) => (
                             <img key={i} src={s.imagename} className='max-h-fit min-w-full object-cover' alt={`vehicle image ${i}`} />
                         ))}
-                    </Carousel>
+                    </Carousel> */}
                 </div>
             ) : (
                 <div className='mx-auto rounded-lg sm:overflow-hidden lg:aspect-video lg:h-44'>
