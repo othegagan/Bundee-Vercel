@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 import './globals.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from '@/components/Footer';
@@ -23,6 +23,7 @@ const RentalAgreementModal = dynamic(() => import('@/components/modals/RentalAgr
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 
+
 export const metadata: Metadata = {
     title: 'MyBundee',
     description:
@@ -39,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <meta name='description' content='' />
                 <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
             </head>
-            <body className={` ${inter.className} flex min-h-screen  w-full flex-col`}>
+            <body className={` flex min-h-screen  w-full flex-col`}>
                 <Providers>
                     <ClientOnly>
                         <LoginModal />
