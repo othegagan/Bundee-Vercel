@@ -13,9 +13,7 @@ const Footer = () => {
         <>
             <footer className=' mt-auto hidden bg-black/10 md:block'>
                 <Container className='p-4'>
-                    <h4 className='px-4'> Get the best driving experience with MyBundee</h4>
-
-                    <div className='mt-4 grid grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-5'>
+                    <div className=' grid grid-cols-2 gap-4 p-4 md:grid-cols-3 lg:grid-cols-5'>
                         <div>
                             <p className='font-semibold text-gray-800 '>MyBundee</p>
                             <div className='mt-2 flex flex-col items-start space-y-2 font-light  md:font-normal'>

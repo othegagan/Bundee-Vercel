@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 
 const TimeSelect = ({
     onChange,
@@ -9,12 +10,14 @@ const TimeSelect = ({
     label,
     className,
     disableLimitTime,
+    variant = 'md',
 }: {
     onChange: any;
     defaultValue: any;
     label: string;
     className?: string;
     disableLimitTime?: any;
+    variant?: 'sm' | 'md';
 }) => {
     const generateTimes = React.useMemo(() => {
         return Array.from({ length: 48 }, (_, i) => {
@@ -28,9 +31,14 @@ const TimeSelect = ({
         });
     }, []); // Memoize the generated times array
 
+    const labelVariants = {
+        sm: 'text-xs',
+        md: 'text-15',
+    };
+
     return (
-        <div className='flex w-full flex-col gap-1'>
-            <label className='text-xs font-semibold'>{label}</label>
+        <div className='flex w-full flex-col gap-2'>
+            <label className={cn('font-semibold', labelVariants[variant])}>{label}</label>
             <Select onValueChange={onChange} defaultValue={defaultValue}>
                 <SelectTrigger className={`md:w-[150px] ${className}`}>
                     <SelectValue placeholder='Select end time' />

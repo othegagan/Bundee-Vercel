@@ -303,36 +303,54 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     return (
         <>
             <ClientOnly>
-                <BoxContainer className='py-8'>
-                    <BackButton />
-                    <div className='mt-3 grid grid-cols-1 gap-6 md:mt-3 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
+                <div className='py-4 md:container lg:px-[4rem]'>
+                    <div className='grid grid-cols-1 gap-6 md:gap-6 lg:grid-cols-3'>
                         <div className='flex flex-col items-start lg:col-span-2'>
                             <VehicleDetailsComponent
                                 vehicleDetails={vehicleDetails}
                                 vehicleHostDetails={vehicleHostDetails}
                                 vehicleImages={vehicleImages}
                                 vehicleBusinessConstraints={vehicleBusinessConstraints}
+                                wishlistButton={
+                                    userAuthenticated && (
+                                        <div className='absolute right-[3%] top-[6%] cursor-pointer rounded-md bg-white p-1 lg:hidden'>
+                                            <div>
+                                                <svg
+                                                    stroke='currentColor'
+                                                    fill='currentColor'
+                                                    strokeWidth={0}
+                                                    viewBox='0 0 512 512'
+                                                    className='size-7 text-red-500'
+                                                    height='1em'
+                                                    width='1em'
+                                                    xmlns='http://www.w3.org/2000/svg'>
+                                                    <path d='M352 56h-1c-39.7 0-74.8 21-95 52-20.2-31-55.3-52-95-52h-1c-61.9.6-112 50.9-112 113 0 37 16.2 89.5 47.8 132.7C156 384 256 456 256 456s100-72 160.2-154.3C447.8 258.5 464 206 464 169c0-62.1-50.1-112.4-112-113zm41.6 229.2C351 343.5 286.1 397.3 256 420.8c-30.1-23.5-95-77.4-137.6-135.7C89.1 245.1 76 198 76 169c0-22.6 8.8-43.8 24.6-59.8 15.9-16 37-24.9 59.6-25.1H161.1c14.3 0 28.5 3.7 41.1 10.8 12.2 6.9 22.8 16.7 30.4 28.5 5.2 7.9 14 12.7 23.5 12.7s18.3-4.8 23.5-12.7c7.7-11.8 18.2-21.6 30.4-28.5 12.6-7.1 26.8-10.8 41.1-10.8h.9c22.5.2 43.7 9.1 59.6 25.1 15.9 16 24.6 37.3 24.6 59.8-.2 29-13.3 76.1-42.6 116.2z' />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    )
+                                }
                             />
                         </div>
 
-                        <div className='mt-4 flex flex-col gap-4 lg:row-span-3 lg:mt-0'>
+                        <div className='container mt-4 flex flex-col gap-6 border-t border-neutral-200 pt-4 md:border-0 lg:row-span-3 lg:mt-0'>
                             <div className='flex justify-between'>
-                                <p className='text-3xl font-bold tracking-tight text-neutral-900'>{`$${vehicleDetails?.price_per_hr} / day`}</p>
-
+                                <h2 className='tracking-tight'>{`$${vehicleDetails?.price_per_hr} / day`}</h2>
                                 {userAuthenticated && (
-                                    <div className='mr-4 cursor-pointer'>
+                                    <div className='mr-4 hidden cursor-pointer lg:block'>
                                         {isItemWishlisted ? (
                                             <div onClick={() => removeFromWishlistHandler(vehicleDetails.id)}>
-                                                <IoMdHeart className='h-10 w-10 text-red-500' />
+                                                <IoMdHeart className='size-10 text-red-500' />
                                             </div>
                                         ) : (
                                             <div onClick={() => addToWishlistHandler(vehicleDetails.id)}>
-                                                <IoIosHeartEmpty className='h-10 w-10 text-red-500' />
+                                                <IoIosHeartEmpty className='size-10 text-red-500' />
                                             </div>
                                         )}
                                     </div>
                                 )}
                             </div>
+
                             <div className='flex-2 flex w-full flex-col gap-2 '>
                                 <DeliveryDetailsComponent
                                     vehicleBusinessConstraints={vehicleBusinessConstraints}
@@ -387,7 +405,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 </>
                             )}
 
-                            <p className='text-sm text-neutral-600'>You will not be charged until the host accepts the reservation request.</p>
+                            <p className='text-14 text-neutral-600'>You will not be charged until the host accepts the reservation request.</p>
 
                             <div className=''>
                                 {priceLoading ? (
@@ -400,7 +418,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                             <Button
                                 type='button'
                                 size='lg'
-                                className='mt-6 flex w-full'
+                                className='mt-5 flex w-full'
                                 disabled={!!error || priceLoading || isPriceError || !priceCalculatedList || datesLoading || datesError}
                                 onClick={() => {
                                     if (isCustoumDelivery && !customDeliveryLocation) {
@@ -432,7 +450,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                         createClient={createClient}
                         isPersonaClientLoading={isPersonaClientLoading}
                     />
-                </BoxContainer>
+                </div>
             </ClientOnly>
         </>
     );
@@ -461,7 +479,10 @@ function DrivingLicenceModal({
             closeDialog={() => {
                 setShowDrivingLicenceModal(false);
             }}>
-            <p className='mt-4 max-w-2xl text-sm leading-snug text-neutral-500'>Your driving license has not yet been verified. <br />Please verify it.</p>
+            <p className='mt-4 max-w-2xl text-sm leading-snug text-neutral-500'>
+                Your driving license has not yet been verified. <br />
+                Please verify it.
+            </p>
             <div className=' mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-end'>
                 <Button type='button' size='sm' onClick={() => setShowDrivingLicenceModal(false)} variant='outline' className='w-full md:w-fit'>
                     Back

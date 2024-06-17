@@ -76,12 +76,12 @@ const DeliveryDetailsComponent = ({
     };
 
     return (
-        <div className=''>
-            <div className='mb-4'>
-                <label className='mb-2 text-xs font-semibold'>Vehicle Location</label>
+        <>
+            <div className='flex w-full flex-col gap-2'>
+                <label className='text-[15px] font-semibold'>Vehicle Location</label>
 
-                <p className='flex  items-center rounded-md border border-gray-200 px-3 py-2 text-sm '>
-                    <FaLocationDot className='mr-2 h-5 w-5 text-primary ' />
+                <p className='flex items-center rounded-md border px-3 py-2 text-14 '>
+                    <FaLocationDot className='mr-2 size-5 ' />
 
                     {toTitleCase(vehicleDetails?.address1)}
                     {vehicleDetails?.address2 ? ', ' + toTitleCase(vehicleDetails?.address2) : null}
@@ -102,9 +102,9 @@ const DeliveryDetailsComponent = ({
                             {deliveryDetails ? (
                                 <>
                                     {isCustoumDelivery ? (
-                                        <p className='flex items-center text-sm font-medium text-green-500   '>Custom delivery Charges applied</p>
+                                        <p className='flex items-center  font-medium text-green-500   '>Custom delivery Charges applied</p>
                                     ) : (
-                                        <p className='flex items-center text-sm font-medium text-primary   '>Do you need Custom delivery?</p>
+                                        <p className='flex items-center  font-medium text-primary   '>Do you need Custom delivery?</p>
                                     )}
                                 </>
                             ) : null}
@@ -148,9 +148,9 @@ const DeliveryDetailsComponent = ({
                                 {deliveryDetails?.deliveryToAirport ? (
                                     <>
                                         {isAirportDeliveryChoosen ? (
-                                            <p className='flex items-center text-sm font-medium text-green-500   '>Airport delivery Charges applied</p>
+                                            <p className='flex items-center  font-medium text-green-500   '>Airport delivery Charges applied</p>
                                         ) : (
-                                            <p className='flex items-center text-sm font-medium text-primary   '>Do you need Airport delivery?</p>
+                                            <p className='flex items-center  font-medium text-primary   '>Do you need Airport delivery?</p>
                                         )}
                                     </>
                                 ) : null}
@@ -192,7 +192,7 @@ const DeliveryDetailsComponent = ({
                     )}
                 </div>
             ) : null}
-        </div>
+        </>
     );
 };
 

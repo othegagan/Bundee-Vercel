@@ -30,14 +30,11 @@ export function VehiclesCardsSkeleton({ className, columns }: VehicleCardSkeleto
 
 export function VehiclesDetailsSkeleton() {
     return (
-        <div className='min-h-screen py-4'>
+        <div className='min-h-[80svh] '>
             <div className='mx-auto max-w-7xl flex-col '>
                 <div className='mx-auto max-w-2xl px-4  sm:px-6 lg:max-w-7xl lg:px-8 '>
-                    <div className='my-3 space-y-3'>
-                        <div className={`h-8 w-1/3 rounded-lg bg-neutral-200 ${shimmer}`} />
-                    </div>
 
-                    <div className='mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
+                    <div className='mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
                         <div className='col-span-4 space-y-4 lg:col-span-2'>
                             <div className={`relative h-[300px] rounded-xl bg-neutral-200 ${shimmer}`} />
 

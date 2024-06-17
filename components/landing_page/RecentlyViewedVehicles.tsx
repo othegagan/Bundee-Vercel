@@ -64,7 +64,7 @@ export default function RecentlyViewedVehicles() {
         <BoxContainer className={`py-6 `}>
             <ClientOnly>
                 <div className='flex w-full justify-between'>
-                    <h4>Recently Viewed</h4>
+                    <h3>Recently Viewed</h3>
                     <Button onClick={handleClearRecentlyViewedVehicles} variant='secondary'>
                         Clear All
                     </Button>

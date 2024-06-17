@@ -86,7 +86,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
     return (
         <div>
             <ClientOnly>
-                <label className='text-xs font-bold'>Trip Dates</label>
+            <label className='text-[15px] font-semibold'>Trip Dates</label>
 
                 <DateRangePicker aria-label='Select Date' shouldCloseOnSelect={true}>
                     <Group>

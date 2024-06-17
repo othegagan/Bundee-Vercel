@@ -22,7 +22,7 @@ const EmblaCarousel: React.FC<PropType> = props => {
 
     return (
         <section className='embla'>
-            <div className='overflow-hidden rounded-md ' ref={emblaRef}>
+            <div className='overflow-hidden md:rounded-md ' ref={emblaRef}>
                 <div className='embla__container '>
                     {slides.map((s, index) => (
                         <div className='embla__slide max-h-80 overflow-hidden md:rounded-md' key={index}>

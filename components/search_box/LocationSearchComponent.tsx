@@ -29,7 +29,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
     const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
     const [endTimeQuery, setEndTimeQuery] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
 
-    const todayDate = new Date(startDateQuery+'T'+startTimeQuery);
+    const todayDate = new Date(startDateQuery + 'T' + startTimeQuery);
 
     const redirectToVech = () => {
         const queryParams = new URLSearchParams(window.location.search);
@@ -82,7 +82,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                 className={` z-[55] md:sticky ${pathname == '/' ? 'md:top-[3.75rem]' : ''} select-none   bg-white  md:block ${pathname == '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
                 <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12  lg:grid-cols-12'>
                     <div className='col-span-2 md:col-span-6 lg:col-span-4'>
-                        <div className='flex w-full flex-col  '>
+                        <div className='flex w-full flex-col gap-2  '>
                             <label className='mb-1 inline-flex text-xs font-semibold'>
                                 Search By City{' '}
                                 <span className='inline-block text-xs font-semibold text-neutral-800 sm:hidden lg:block'>, Place and Zipcode</span>
@@ -91,7 +91,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                         </div>
                     </div>
                     <div className='col-span-2 md:col-span-6 lg:col-span-3'>
-                        <div className='flex w-full flex-col  '>
+                        <div className='flex w-full flex-col gap-2 '>
                             <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
                             <SearchCalendar startDate={startDateQuery} setStartDate={setStartDateQuery} endDate={endDateQuery} setEndDate={setEndDateQuery} />
                         </div>
@@ -104,11 +104,12 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                             defaultValue={startTimeQuery}
                             disableLimitTime={isToday(todayDate) && isToday(new Date()) ? getCurrentTimeRounded() : null}
                             className='md:w-full'
+                            variant='sm'
                         />
                     </div>
 
                     <div className='col-span-1 md:col-span-4 lg:col-span-2'>
-                        <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' />
+                        <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' variant='sm' />
                     </div>
 
                     <div className='col-span-2 md:col-span-3 lg:col-span-1'>
@@ -118,7 +119,6 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                             </Button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -163,10 +163,10 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                                         </div>
                                     </div>
                                     <div className='col-span-1 md:col-span-3 lg:col-span-2'>
-                                        <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} className='md:w-full' />
+                                        <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} className='md:w-full' variant='sm' />
                                     </div>
                                     <div className='col-span-1 md:col-span-3 lg:col-span-2'>
-                                        <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' />
+                                        <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' variant='sm' />
                                     </div>
                                     <div className='col-span-2 md:col-span-3 lg:col-span-1'>
                                         <div className='flex h-full w-full items-end justify-end'>

@@ -9,16 +9,16 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
             <div className='w-full space-y-1 '>
                 {pricelist?.charges > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-md'>
+                        <div>
                             Rental (${pricelist?.pricePerDay} X {pricelist?.numberOfDays} {pricelist?.numberOfDays == 1 ? 'day' : 'days'})
                         </div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.charges)}</div>
+                        <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.charges)}</div>
                     </div>
                 )}
 
                 {pricelist?.numberOfDaysDiscount > 0 && pricelist?.discountAmount > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-md flex items-center gap-1'>
+                        <div className=' flex items-center gap-1'>
                             Discount
                             <span>
                                 <Popover>
@@ -39,7 +39,6 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                                             {pricelist?.numberOfDaysDiscount} Day Discount applied -{' '}
                                                             {roundToTwoDecimalPlaces(pricelist?.discountPercentage)} %
                                                         </div>
-                                                        {/* <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div> */}
                                                     </div>
                                                 )}
                                             </div>
@@ -48,12 +47,13 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                 </Popover>
                             </span>
                         </div>
-                        <div className='text-md font-medium text-green-500'>$ {roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
+                        <div className=' font-medium text-green-500'>$ {roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
                     </div>
                 )}
+
                 {pricelist?.delivery > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-md flex items-center gap-1'>
+                        <div className=' flex items-center gap-1'>
                             Additional services chosen
                             <span>
                                 <Popover>
@@ -80,18 +80,20 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                 </Popover>
                             </span>
                         </div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
+                        <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                     </div>
                 )}
+
                 {pricelist?.upcharges > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-md'>Short notice rental fee</div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.upcharges)}</div>
+                        <div>Short notice rental fee</div>
+                        <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.upcharges)}</div>
                     </div>
                 )}
+
                 {pricelist?.tripFee > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-md flex items-center gap-1'>
+                        <div className=' flex items-center gap-1'>
                             Trip Fee
                             <span>
                                 <Popover>
@@ -141,7 +143,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                 </Popover>
                             </span>
                         </div>
-                        <div className='text-md font-medium'>
+                        <div className=' font-medium'>
                             ${' '}
                             {roundToTwoDecimalPlaces(
                                 pricelist.concessionFee + pricelist.stateSurchargeAmount + pricelist.registrationRecoveryFee + pricelist?.tripFee,
@@ -149,17 +151,20 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                         </div>
                     </div>
                 )}
+
                 {pricelist?.taxAmount > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-md'>Sales Taxes ({roundToTwoDecimalPlaces(pricelist?.taxPercentage * 100)}%)</div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
+                        <div>Sales Taxes ({roundToTwoDecimalPlaces(pricelist?.taxPercentage * 100)}%)</div>
+                        <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
                     </div>
                 )}
+
                 <hr />
+
                 {pricelist?.tripTaxAmount > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div className='text-lg font-bold'>Total Rental Charge</div>
-                        <div className='text-lg  font-bold'>$ {roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
+                        <div className=' font-bold'>Total Rental Charge</div>
+                        <div className='  font-bold'>$ {roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
                     </div>
                 )}
             </div>

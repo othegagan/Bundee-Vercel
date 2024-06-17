@@ -4,20 +4,17 @@ import Carousel from '@/components/ui/carousel/carousel';
 import { StarFilledIcon } from '@radix-ui/react-icons';
 import { toTitleCase } from '@/lib/utils';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
+import Readmore from '@/components/ui/readmore';
 
-const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDetails, vehicleBusinessConstraints }) => {
+const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDetails, vehicleBusinessConstraints, wishlistButton }) => {
     const mileageConstraints = vehicleBusinessConstraints.filter(constraint => constraint.constraintName === 'MileageConstraint');
 
     return (
         <div>
             {vehicleImages.length > 0 ? (
-                <div className='rounded-lg sm:overflow-hidden '>
+                <div className='relative sm:overflow-hidden md:rounded-lg '>
                     <EmblaCarousel slides={vehicleImages} />
-                    {/* <Carousel autoSlide={false}>
-                        {vehicleImages.map((s, i) => (
-                            <img key={i} src={s.imagename} className='max-h-fit min-w-full object-cover' alt={`vehicle image ${i}`} />
-                        ))}
-                    </Carousel> */}
+                    {wishlistButton}
                 </div>
             ) : (
                 <div className='mx-auto rounded-lg sm:overflow-hidden lg:aspect-video lg:h-44'>
@@ -29,19 +26,17 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                 </div>
             )}
 
-            <div className='mt-10 space-y-4'>
-                <div className='flex flex-wrap gap-4'>
-                    <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>
-                        {toTitleCase(vehicleDetails.make)} {vehicleDetails.model} {vehicleDetails.year}
-                    </h1>
-
-                    <div className='flex items-center '>
-                        <div className='flex items-center'>
-                            <StarFilledIcon className='h-5 w-5 text-yellow-400' />
-                            <span className='ml-2'>{vehicleDetails.rating.toFixed(1)}</span>
-                        </div>
-                        <p className='ml-3 text-sm font-medium text-primary hover:text-primary'>({vehicleDetails.tripcount} trips)</p>
+            <div className='container mt-4 space-y-4 md:px-0'>
+                <h2 className='tracking-tight'>
+                    {toTitleCase(vehicleDetails.make)} {vehicleDetails.model} {vehicleDetails.year}
+                </h2>
+                <div className='flex items-center gap-2 '>
+                    <div className='flex items-center gap-2'>
+                        <StarFilledIcon className='size-5 text-yellow-400 md:size-4' />
+                        <span className='text-15'>{vehicleDetails.rating.toFixed(1)}</span>
                     </div>
+                    <p>.</p>
+                    <p className=' text-15 '>({vehicleDetails.tripcount} Trips)</p>
                 </div>
 
                 <div className='space-y-6'>
@@ -50,34 +45,34 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         <div className='space-y-3'>
                             <p className='font-bold'>Highlights</p>
 
-                            <ul role='list' className='list-disc space-y-2 pl-4 text-base'>
+                            <ul role='list' className='list-disc space-y-2 pl-4 text-15'>
                                 {vehicleDetails.trim && vehicleDetails.trim !== 'Not Applicable' && vehicleDetails.trim !== 'NA' && (
-                                    <li className='text-neutral-600'>{vehicleDetails.trim}</li>
+                                    <li>{vehicleDetails.trim}</li>
                                 )}
 
                                 {vehicleDetails.fueltypeprimary &&
                                     vehicleDetails.fueltypeprimary !== 'Not Applicable' &&
-                                    vehicleDetails.fueltypeprimary !== 'NA' && <li className='text-neutral-600'>{vehicleDetails.fueltypeprimary}</li>}
+                                    vehicleDetails.fueltypeprimary !== 'NA' && <li>{vehicleDetails.fueltypeprimary}</li>}
 
                                 {vehicleDetails.bodyclass && vehicleDetails.bodyclass !== 'Not Applicable' && vehicleDetails.bodyclass !== 'NA' && (
-                                    <li className='text-neutral-600'>{vehicleDetails.bodyclass}</li>
+                                    <li>{vehicleDetails.bodyclass}</li>
                                 )}
 
                                 {vehicleDetails.doors && vehicleDetails.doors !== 'Not Applicable' && vehicleDetails.doors !== 'NA' && (
-                                    <li className='text-neutral-600'>{vehicleDetails.doors} Doors</li>
+                                    <li>{vehicleDetails.doors} Doors</li>
                                 )}
 
                                 {vehicleDetails.drivetype && vehicleDetails.drivetype !== 'Not Applicable' && vehicleDetails.drivetype !== 'NA' && (
-                                    <li className='text-neutral-600'>{vehicleDetails.drivetype}</li>
+                                    <li>{vehicleDetails.drivetype}</li>
                                 )}
 
                                 {vehicleDetails.wlectrificationlevel &&
                                     vehicleDetails.wlectrificationlevel !== 'Not Applicable' &&
-                                    vehicleDetails.wlectrificationlevel !== 'NA' && <li className='text-neutral-600'>{vehicleDetails.wlectrificationlevel}</li>}
+                                    vehicleDetails.wlectrificationlevel !== 'NA' && <li>{vehicleDetails.wlectrificationlevel}</li>}
 
                                 {vehicleDetails.seatingCapacity &&
                                     vehicleDetails.seatingCapacity !== 'Not Applicable' &&
-                                    vehicleDetails.seatingCapacity !== 'NA' && <li className='text-neutral-600'>{vehicleDetails.seatingCapacity} Seats</li>}
+                                    vehicleDetails.seatingCapacity !== 'NA' && <li>{vehicleDetails.seatingCapacity} Seats</li>}
                             </ul>
                         </div>
 
@@ -97,11 +92,11 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                                                     return (
                                                         <div key={index} className='flex flex-wrap gap-4'>
                                                             <div className='rounded-md bg-neutral-100 p-4'>
-                                                                <p className='mb-2 text-sm font-medium'>Daily Mileage Limit</p>
+                                                                <p className='mb-2  font-medium'>Daily Mileage Limit</p>
                                                                 <p className='text-sm font-bold'>{mileageConstraintData.mileageLimit} miles</p>
                                                             </div>
                                                             <div className='rounded-md bg-neutral-100 p-4'>
-                                                                <p className='mb-2 text-sm font-medium'>Additional Cost / Mile</p>
+                                                                <p className='mb-2  font-medium'>Additional Cost / Mile</p>
                                                                 <p className='text-sm font-bold'>$ {mileageConstraintData.extraMileageCost}</p>
                                                             </div>
                                                         </div>
@@ -121,7 +116,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.desciption && (
                         <div className='space-y-3'>
                             <p className='font-bold'>Vehicle Description</p>
-                            <pre className=' text-wrap bg-transparent font-inter text-base  text-gray-900 '>{vehicleDetails.desciption}</pre>
+                            <Readmore text={vehicleDetails.desciption} />
                         </div>
                     )}
 
@@ -129,7 +124,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.parkingDetails && (
                         <div className='space-y-3'>
                             <p className='font-bold'>Parking Details</p>
-                            <pre className=' text-wrap bg-transparent font-inter text-base  text-gray-900 '>{vehicleDetails.parkingDetails}</pre>
+                            <Readmore text={vehicleDetails.parkingDetails} />
                         </div>
                     )}
 
@@ -137,7 +132,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {vehicleDetails.guideLines && (
                         <div className='space-y-3'>
                             <p className='font-bold'> Additional GuideLines</p>
-                            <pre className=' text-wrap bg-transparent font-inter text-base  text-gray-900 '>{vehicleDetails.guideLines}</pre>
+                            <Readmore text={vehicleDetails.guideLines} />
                         </div>
                     )}
                 </div>
@@ -147,18 +142,16 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     <div className='flex flex-col gap-2'>
                         <p className='font-bold'>Hosted By</p>
                         <div className='relative  flex items-center gap-x-4'>
-                            {vehicleHostDetails?.userimage && (
-                                <img
-                                    src={`${vehicleHostDetails.userimage}`}
-                                    alt={vehicleHostDetails.firstname}
-                                    className='size-14 rounded-full border bg-neutral-50'
-                                />
-                            )}
-                            <div className='text-sm leading-6'>
+                            <img
+                                src={vehicleHostDetails.userimage || '/dummy_avatar.png'}
+                                alt={vehicleHostDetails.firstname}
+                                className='size-14 rounded-full border bg-neutral-50'
+                            />
+                            <div className='space-y-1'>
                                 <p className='font-semibold text-neutral-900'>
                                     {vehicleHostDetails.firstname} {vehicleHostDetails.lastname}
                                 </p>
-                                <p className='text-neutral-600'>Joined on {format(new Date(vehicleHostDetails.createddate), 'PP')}</p>
+                                <p className='text-14 text-neutral-600'>Joined on {format(new Date(vehicleHostDetails.createddate), 'PP')}</p>
                             </div>
                         </div>
                     </div>
