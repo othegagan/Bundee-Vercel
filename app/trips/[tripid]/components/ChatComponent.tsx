@@ -1,12 +1,15 @@
 'use client';
-import { format } from 'date-fns';
-import React, { useState, useRef, useEffect } from 'react';
-import Carousel from '@/components/ui/carousel/carousel';
-import Image from 'next/image';
-import { auth } from '@/lib/firebase';
+
+import { Button } from '@/components/ui/button';
+import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
+import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
-import { getTripChatHistory, sendMessageToHost } from '@/server/tripOperations';
+import { auth } from '@/lib/firebase';
 import { formatDateAndTime } from '@/lib/utils';
+import { getTripChatHistory, sendMessageToHost } from '@/server/tripOperations';
+import { format } from 'date-fns';
+import { Send } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 const AUTHOR_TYPE = {
     SYSTEM: 'system',
@@ -19,11 +22,14 @@ export default function ChatComponent({ tripsData }) {
     const [tripId, setTripId] = useState(null);
     const [inputMessage, setInputMessage] = useState('');
     const [messageList, setMessageList] = useState([]);
+    const [sendingMessage, setSendingMessage] = useState(false);
 
     const chatWindowRef = useRef(null);
 
-    async function handleSendMessage() {
+    async function handleSendMessage(event: any) {
+        event.preventDefault();
         try {
+            setSendingMessage(true);
             const data = await sendMessageToHost(tripId, inputMessage, token);
             if (data != null) {
                 const context = await getTripChatHistory(tripId, token);
@@ -37,15 +43,17 @@ export default function ChatComponent({ tripsData }) {
                 variant: 'destructive',
                 description: 'Failed to send message. Please try again.',
             });
+        } finally {
+            setSendingMessage(false);
         }
     }
 
     useEffect(() => {
+        let intervalId: string | number | NodeJS.Timeout;
         let retryCount = 0;
         const maxRetries = 5;
-        let intervalId: string | number | NodeJS.Timeout;
 
-        async function fetchChatHistory(tripId, token) {
+        async function fetchChatHistory(tripId: any, token: string) {
             try {
                 const data = await getTripChatHistory(tripId, token);
                 if (data != null) {
@@ -96,7 +104,7 @@ export default function ChatComponent({ tripsData }) {
             initializeChat(); // Initial call to fetch chat history
             intervalId = setInterval(() => {
                 initializeChat();
-            }, 5000);
+            }, 8000);
         }
 
         startChatPolling();
@@ -104,29 +112,36 @@ export default function ChatComponent({ tripsData }) {
         return () => clearInterval(intervalId);
     }, []);
 
-    return (
-        <div className='mx-auto mb-4 mt-4 flex min-h-[80vh] max-w-2xl rounded-lg border bg-white px-4 pb-16 pt-10 sm:px-6 lg:max-w-7xl'>
-            <div className='flex w-full flex-col space-y-4'>
-                <div className='flex-1 gap-5 overflow-y-auto' ref={chatWindowRef}>
-                    {messageList.map((message, index) => (
-                        <Message key={index} message={message} tripsData={tripsData} />
-                    ))}
-                </div>
+    useEffect(() => {
+        // Scroll to bottom when message list changes
+        if (chatWindowRef.current) {
+            chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+        }
+    }, [messageList]);
 
-                <div className='flex items-center space-x-2'>
-                    <input
-                        type='text'
+    return (
+        <div className='rounded-lg pt-2 text-card-foreground shadow-sm'>
+            <div className='h-[calc(90vh-250px)] space-y-4 overflow-y-auto md:h-[calc(90vh-200px)]' ref={chatWindowRef}>
+                {messageList.map((message, index) => (
+                    <Message key={index} message={message} tripsData={tripsData} />
+                ))}
+            </div>
+            <div className='flex items-center pt-3'>
+                <form className='flex w-full items-center space-x-2' onSubmit={handleSendMessage}>
+                    <Input
+                        className=' flex-1 '
+                        id='message'
                         placeholder='Type your message...'
-                        className='flex-1 rounded-full border px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring'
+                        autoComplete='off'
                         value={inputMessage}
                         onChange={e => setInputMessage(e.target.value)}
                     />
-                    <button
-                        onClick={handleSendMessage}
-                        className='rounded-full bg-blue-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-600'>
+                    <Button variant='black' type='submit' disabled={!inputMessage || sendingMessage} loading={sendingMessage} loadingText='Sending...'>
+                        <Send className='mr-2 size-4' />
                         Send
-                    </button>
-                </div>
+                        <span className='sr-only'>Send</span>
+                    </Button>
+                </form>
             </div>
         </div>
     );
@@ -140,62 +155,68 @@ function Message({ message, tripsData }) {
 
     const isClientMessage = message.author === AUTHOR_TYPE.CLIENT;
 
-    return (
-        <div className={`${isClientMessage ? 'flex justify-end' : 'flex justify-start'} my-6`}>
-            <div className='flex items-start'>
-                {message.author !== AUTHOR_TYPE.CLIENT && (
-                    <Image src={authorImage[message.author]} alt={message.author} width={32} height={32} className='mr-2 h-8 w-8 rounded-full' />
-                )}
+    const images = tripsData?.vehicleImages;
 
-                <div className={`p-2 px-4 ${isClientMessage ? 'bg-blue-100' : 'bg-gray-100'} rounded-lg rounded-tl-none`}>
-                    <p className='text-sm font-semibold'>{message.message}</p>
-
-                    {message.message.toLocaleLowerCase() === 'a new reservation was requested' && (
-                        <div className='space-y-2 p-4'>
-                            {tripsData?.vehicleImages.length > 0 && (
-                                <div className='max-w-sm rounded-lg sm:overflow-hidden'>
-                                    <Carousel autoSlide={true}>
-                                        {tripsData.vehicleImages.map((s, i) => (
-                                            <img key={i} src={s.imagename} className='max-h-fit min-w-full' alt={`vehicle image ${i}`} />
-                                        ))}
-                                    </Carousel>
-                                </div>
-                            )}
-                            <p className='font-semibold'>
-                                {tripsData?.vehmake} {tripsData?.vehmodel} {tripsData?.vehyear}
-                            </p>
-
-                            <div>
-                                Trip Start Date :{' '}
-                                <span className='text-base font-medium text-gray-800'>
-                                    {formatDateAndTime(tripsData?.starttime, tripsData?.vehzipcode)}
-                                    {/* {format(new Date(tripsData?.starttime), 'LLL dd, y')} | {format(new Date(tripsData?.starttime), 'h:mm a')} */}
-                                </span>{' '}
-                            </div>
-                            <div>
-                                Trip End Date :{' '}
-                                <span className='text-base font-medium text-gray-800'>
-                                    {formatDateAndTime(tripsData?.endtime, tripsData?.vehzipcode)}
-                                    {/* {format(new Date(tripsData?.endtime), 'LLL dd, y')} | {format(new Date(tripsData?.endtime), 'h:mm a')} */}
-                                </span>{' '}
-                            </div>
-
-                            <div>
-                                Pickup & Return :
-                            </div>
-                                <span className='ml-2 text-base font-medium text-gray-800'>
-                                    {tripsData?.vehaddress1 ? `${tripsData?.vehaddress1}, ` : null}
-                                    {tripsData?.vehaddress2 ? `${tripsData?.vehaddress2}, ` : null}
-                                    {tripsData?.vehcity ? `${tripsData?.vehcity}, ` : null}
-                                    {tripsData?.vehstate ? `${tripsData?.vehstate}, ` : null}
-                                    {tripsData?.vehzipcode ? `${tripsData?.vehzipcode}` : null}
-                                </span>
-                        </div>
-                    )}
-
-                    <p className='flex items-center justify-end text-xs text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
-                </div>
+    if (isClientMessage) {
+        return (
+            <div className='ml-auto flex w-max max-w-[75%] flex-col gap-2 rounded-lg bg-black px-3 py-2 text-sm text-primary-foreground'>
+                {message?.message}
+                <p className='flex items-center justify-end text-[10px] text-white'> {format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
             </div>
-        </div>
-    );
+        );
+    } else {
+        return (
+            <div className='flex'>
+                {message.author !== AUTHOR_TYPE.CLIENT && (
+                    <img src={authorImage[message.author]} alt={message.author} width={32} height={32} className='mr-2 size-8 rounded-full border' />
+                )}
+                {message.message.toLocaleLowerCase() === 'a new reservation was requested' ? (
+                    <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm'>
+                        <span>{message.message}</span>
+
+                        {images.length > 0 ? (
+                            <div className='relative max-w-md sm:overflow-hidden  md:max-w-lg md:rounded-lg'>
+                                <EmblaCarousel slides={images} />
+                            </div>
+                        ) : (
+                            <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
+                                <img src='../image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
+                            </div>
+                        )}
+
+                        <p className='text-16 font-semibold capitalize'>
+                            {tripsData?.vehmake} {tripsData?.vehmodel} {tripsData?.vehyear}
+                        </p>
+
+                        <div>
+                            Trip Start Date :
+                            <span className='font-medium text-gray-800'> {formatDateAndTime(tripsData?.starttime, tripsData?.vehzipcode)}</span>
+                        </div>
+
+                        <div>
+                            Trip End Date : <span className='font-medium text-gray-800'> {formatDateAndTime(tripsData?.endtime, tripsData?.vehzipcode)}</span>
+                        </div>
+
+                        <div>
+                            Pickup & Return :{' '}
+                            <span className='font-medium capitalize text-gray-800'>
+                                {tripsData?.vehaddress1 ? `${tripsData?.vehaddress1}, ` : null}
+                                {tripsData?.vehaddress2 ? `${tripsData?.vehaddress2}, ` : null}
+                                {tripsData?.vehcity ? `${tripsData?.vehcity}, ` : null}
+                                {tripsData?.vehstate ? `${tripsData?.vehstate}, ` : null}
+                                {tripsData?.vehzipcode ? `${tripsData?.vehzipcode}` : null}
+                            </span>
+                        </div>
+
+                        <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                    </div>
+                ) : (
+                    <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm font-medium'>
+                        {message.message}
+                        <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                    </div>
+                )}
+            </div>
+        );
+    }
 }

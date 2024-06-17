@@ -182,7 +182,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                         <img
                             src='./image_not_available.png'
                             alt='image_not_found'
-                            className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
+                            className='h-full w-full  object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
                         />
                     )}
                 </Link>

@@ -1,6 +1,7 @@
 'use client';
 import TripImageVideoCarousel from '@/app/trips/[tripid]/components/TripImageVideoCarousel';
 import Carousel from '@/components/ui/carousel/carousel';
+import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import React from 'react';
 
 const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedImages }: any) => {
@@ -17,13 +18,15 @@ const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedIm
     });
     return (
         <>
-            <div className='rounded-lg sm:overflow-hidden '>
-                <Carousel autoSlide={false}>
-                    {images.map((s, i) => (
-                        <img key={i} src={s.imagename} className='max-h-fit min-w-full' alt={`vehicle image ${i}`} />
-                    ))}
-                </Carousel>
-            </div>
+            {images.length > 0 ? (
+                <div className='relative sm:overflow-hidden md:rounded-lg '>
+                    <EmblaCarousel slides={images} />
+                </div>
+            ) : (
+                <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
+                    <img src='../image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
+                </div>
+            )}
 
             <div className='mt-6 space-y-4'>
                 <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>

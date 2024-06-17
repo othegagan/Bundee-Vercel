@@ -17,7 +17,7 @@ const TripDetailComponent = () => {
     // useScrollToTopOnLoad(loading);
 
     return (
-        <BoxContainer className='mb-6 py-6'>
+        <BoxContainer className='mb-6 py-1'>
             <div className='flex flex-col gap-1 border-b pb-2 md:flex-row md:items-center md:justify-between'>
                 {/* <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Trip Details</h3> */}
                 <BackButton link='/trips' />
@@ -52,16 +52,14 @@ const TripDetailComponent = () => {
 export default TripDetailComponent;
 
 const MainTripDetails = ({ tripData, tabSelectedIndex, error, tripRating }) => {
+    if (error) {
+        return <ErrorComponent />;
+    }
+
     return (
-        <div className='mt-6'>
-            {error ? (
-                <ErrorComponent />
-            ) : (
-                <>
-                    {tabSelectedIndex === 0 && tripData && <Details tripsData={tripData} tripRating={tripRating} />}
-                    {tabSelectedIndex === 1 && <ChatComponent tripsData={tripData} />}
-                </>
-            )}
-        </div>
+        <>
+            {tabSelectedIndex === 0 && tripData && <Details tripsData={tripData} tripRating={tripRating} />}
+            {tabSelectedIndex === 1 && <ChatComponent tripsData={tripData} />}
+        </>
     );
 };
