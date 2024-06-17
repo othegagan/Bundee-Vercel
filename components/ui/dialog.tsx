@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -33,7 +34,7 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
     ({ className, children, onClickClose, size = 'default', ...props }, ref) => {
         const sizeClasses = {
-            default: 'max-h-[calc(100vh-12rem)] w-full h-full lg:h-fit',
+            default: 'max-h-[calc(100vh-12rem)] w-full h-fit',
             full: 'max-w-full max-h-[calc(100vh-5rem)] w-full h-full md:h-fit ',
         };
 

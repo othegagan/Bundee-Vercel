@@ -23,7 +23,6 @@ const CarFilters = () => {
     }
     function closeModal() {
         useCarFilter.onClose();
-        handleReset();
     }
 
     const [selectedMakes, setSelectedMakes] = useState<string[]>([]);

@@ -70,7 +70,6 @@
         @apply text-3xl font-semibold tracking-wide
     }
 
-
     h3 {
         @apply text-[18px] font-bold leading-[28px] md:text-2xl
     }

@@ -16,19 +16,18 @@ import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { cn } from '@/lib/utils';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { CalendarIcon } from '@radix-ui/react-icons';
-import { addDays, format } from 'date-fns';
-import { useState } from 'react';
-import { DateValue, Group } from 'react-aria-components';
+import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { Group } from 'react-aria-components';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 import { useMediaQuery } from 'react-responsive';
 import { DateSelectSkeleton } from '../../../components/skeletons/skeletons';
-import { IoInformationCircleOutline } from 'react-icons/io5';
 
-const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setError }: any) => {
+const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setSelectedDatesError }: any) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(startDate),
         end: parseDate(endDate),
     });
-    // console.log(dates)
 
     const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid, null);
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
@@ -38,7 +37,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
     }
 
     if (datesError) {
-        setError(true);
+        setSelectedDatesError(true);
         return <div>Something went wrong</div>;
     }
 
@@ -58,20 +57,27 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
     const currentDate = today(getLocalTimeZone());
     let errorMessage = '';
 
-    if (isDateUnavailableStart) {
-        errorMessage = 'Start date is unavailable.';
-    } else if (isDateUnavailableEnd) {
-        errorMessage = 'End date is unavailable.';
-    } else if (dates.start.toDate(getLocalTimeZone()) < currentDate) {
-        errorMessage = 'Selected start date cannot be earlier than today.';
-    } else {
-        const daysDifference = (dates.end.toDate(getLocalTimeZone()) - dates.start.toDate(getLocalTimeZone())) / (24 * 60 * 60 * 1000);
-        if (minDays !== 0 && daysDifference + 1 < minDays) {
-            errorMessage = `This car has a minimum trip length requirement of ${minDays} days. Please extend your trip days.`;
-        } else if (maxDays !== 0 && daysDifference + 1 > maxDays) {
-            errorMessage = `This car has a maximum trip length requirement of ${maxDays} days. Please reduce your trip days.`;
+    const getErrorMessage = dates => {
+        if (isDateUnavailableStart) {
+            return 'Start date is unavailable.';
+        } else if (isDateUnavailableEnd) {
+            return 'End date is unavailable.';
+        } else if (dates.start.toDate(getLocalTimeZone()) < currentDate) {
+            return 'Selected start date cannot be earlier than today.';
+        } else {
+            const daysDifference = (dates.end.toDate(getLocalTimeZone()) - dates.start.toDate(getLocalTimeZone())) / (24 * 60 * 60 * 1000);
+            if (minDays !== 0 && daysDifference + 1 < minDays) {
+                return `This car has a minimum trip length requirement of ${minDays} days. Please extend your trip days.`;
+            } else if (maxDays !== 0 && daysDifference + 1 > maxDays) {
+                return `This car has a maximum trip length requirement of ${maxDays} days. Please reduce your trip days.`;
+            }
         }
-    }
+        return '';
+    };
+
+    errorMessage = getErrorMessage(dates);
+
+    setSelectedDatesError(isInvalid);
 
     function onDateSelect(item) {
         setDates(item);
@@ -86,7 +92,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
     return (
         <div>
             <ClientOnly>
-            <label className='text-[15px] font-semibold'>Trip Dates</label>
+                <label className='text-[15px] font-semibold'>Trip Dates</label>
 
                 <DateRangePicker aria-label='Select Date' shouldCloseOnSelect={true}>
                     <Group>
@@ -115,7 +121,6 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
                             onChange={value => onDateSelect(value)}
                             visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
                             pageBehavior='visible'
-                            // minValue={parseDate(format(addDays(new Date(), 2), 'yyyy-MM-dd'))}
                             minValue={minValueDate}
                             isDateUnavailable={isDateUnavailable}
                             isInvalid={isInvalid}>

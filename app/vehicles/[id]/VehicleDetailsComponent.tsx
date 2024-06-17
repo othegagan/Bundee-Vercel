@@ -17,11 +17,11 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                     {wishlistButton}
                 </div>
             ) : (
-                <div className='mx-auto rounded-lg sm:overflow-hidden lg:aspect-video lg:h-44'>
+                <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
                     <img
                         src='../image_not_available.png'
                         alt='image_not_found'
-                        className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
+                        className='h-full w-full min-w-full object-cover md:rounded-md'
                     />
                 </div>
             )}
