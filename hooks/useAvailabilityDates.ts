@@ -40,9 +40,9 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
 
     useEffect(() => {
         fetchData();
-    }, [vehicleId, tripid]);
+    }, [vehicleId]);
 
-    useTabFocusEffect(fetchData, [vehicleId, tripid]);
+    // useTabFocusEffect(fetchData, [vehicleId]);
 
     function convertDates(unAvailabilityDate: string[]): string[] {
         const result: string[] = [];

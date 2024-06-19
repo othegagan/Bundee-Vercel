@@ -87,7 +87,6 @@ export default function TripModificationPriceListComponent({ priceCalculatedList
                                                         {priceCalculatedList?.numberOfDaysDiscount} Day Discount applied -{' '}
                                                         {roundToTwoDecimalPlaces(priceCalculatedList?.discountPercentage)} %
                                                     </div>
-                                                    {/* <div className='text-sm font-medium'>$ {parseFloat(pricelist?.discountAmount.toString()).toFixed(2)}</div> */}
                                                 </div>
                                             )}
                                         </div>
@@ -178,7 +177,7 @@ export default function TripModificationPriceListComponent({ priceCalculatedList
 
             {priceCalculatedList?.taxAmount > 0 && (
                 <div className='flex items-center justify-between'>
-                    <div className='text-xs'>Sales Taxes ({priceCalculatedList?.taxPercentage * 100}%)</div>
+                    <div className='text-xs'>Sales Taxes ({priceCalculatedList?.taxPercentage}%)</div>
                     <div className='text-xs font-medium'>$ {roundToTwoDecimalPlaces(priceCalculatedList?.taxAmount)}</div>
                 </div>
             )}

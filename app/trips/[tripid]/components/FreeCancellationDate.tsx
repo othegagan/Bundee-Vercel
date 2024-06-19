@@ -1,10 +1,10 @@
 import { format } from 'date-fns';
 import React from 'react';
 
-export default function FreeCancellationDate({ tripsData }: any) {
+export default function FreeCancellationDate({ tripData }: any) {
     const calFreeCancellationDate = () => {
-        const freeCancellationDate = new Date(tripsData.starttime);
-        freeCancellationDate.setDate(freeCancellationDate.getDate() - Number(tripsData.cancellationDays));
+        const freeCancellationDate = new Date(tripData.starttime);
+        freeCancellationDate.setDate(freeCancellationDate.getDate() - Number(tripData.cancellationDays));
         return freeCancellationDate;
     };
 

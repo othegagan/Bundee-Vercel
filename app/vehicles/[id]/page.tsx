@@ -235,7 +235,6 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 latitude: '',
                 longitude: '',
                 ...priceCalculatedList,
-                taxPercentage: priceCalculatedList.taxPercentage * 100,
                 delivery: delivery,
                 airportDelivery: airportDelivery,
                 deliveryCost: delivery ? deliveryCost : 0,

@@ -34,7 +34,7 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
     ({ className, children, onClickClose, size = 'default', ...props }, ref) => {
         const sizeClasses = {
-            default: 'max-h-[calc(100vh-12rem)] w-full h-fit',
+            default: 'max-h-[calc(100vh-10rem)]  w-full max-h-min overflow-y-auto',
             full: 'max-w-full max-h-[calc(100vh-5rem)] w-full h-full md:h-fit ',
         };
 
@@ -49,7 +49,7 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
                         className,
                     )}
                     {...props}>
-                    <div className='overflow-y-auto md:max-h-min lg:pb-0'>{children}</div>
+                    <div className='h-full overflow-y-auto md:max-h-min lg:pb-0'>{children}</div>
                     <DialogPrimitive.Close>
                         <button
                             className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground'

@@ -112,7 +112,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         )}
                     </div>
 
-                    {/* Parking desciption Section */}
+                    {/*  desciption Section */}
                     {vehicleDetails.desciption && (
                         <div className='space-y-3'>
                             <p className='font-bold'>Vehicle Description</p>

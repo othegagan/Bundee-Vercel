@@ -154,7 +154,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
 
                 {pricelist?.taxAmount > 0 && (
                     <div className='flex items-center justify-between'>
-                        <div>Sales Taxes ({roundToTwoDecimalPlaces(pricelist?.taxPercentage * 100)}%)</div>
+                        <div>Sales Taxes ({roundToTwoDecimalPlaces(pricelist?.taxPercentage)}%)</div>
                         <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
                     </div>
                 )}

@@ -1,11 +1,22 @@
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { startTripByDriver } from '@/server/userOperations';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function StartTripComponent({ starttime, tripid }) {
-    console.log(starttime, tripid);
     const [tripStarting, setTripStarting] = useState(false);
+    const [showButton, setShowButton] = useState(false);
+
+    useEffect(() => {
+        const checkTime = () => {
+            const currentTime = Date.now();
+            const tripStartTime = Number(starttime);
+            const oneHourBeforeStart = tripStartTime - 1000 * 60 * 60;
+
+            setShowButton(currentTime >= oneHourBeforeStart && currentTime < tripStartTime);
+        };
+        checkTime();
+    }, [starttime]);
 
     const handleStartTrip = async () => {
         try {
@@ -28,18 +39,13 @@ export default function StartTripComponent({ starttime, tripid }) {
         }
     };
 
-    const currentTime = new Date().getTime();
-    const tripStartTime = new Date(starttime).getTime();
-    // console.log('Current Time:', currentTime);
-    // console.log('Trip Start Time:', tripStartTime);
-
-    if (currentTime < tripStartTime - 1000 * 60 * 60) {
-        return (
-            <Button onClick={handleStartTrip} disabled={tripStarting} variant='green' size='lg'>
-                {tripStarting ? <div className='loader'></div> : 'Start Trip'}
-            </Button>
-        );
-    } else {
-        return null; // or any other action you want to take if the condition is not met
+    if (!showButton) {
+        return null;
     }
+
+    return (
+        <Button onClick={handleStartTrip} disabled={tripStarting} variant='green' size='lg'>
+            {tripStarting ? <div className='loader'></div> : 'Start Trip'}
+        </Button>
+    );
 }

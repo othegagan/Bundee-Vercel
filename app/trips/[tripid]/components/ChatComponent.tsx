@@ -117,7 +117,7 @@ export default function ChatComponent({ tripsData }) {
         if (chatWindowRef.current) {
             chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
         }
-    }, [messageList]);
+    }, [sendingMessage]);
 
     return (
         <div className='rounded-lg pt-2 text-card-foreground shadow-sm'>
@@ -134,9 +134,9 @@ export default function ChatComponent({ tripsData }) {
                         placeholder='Type your message...'
                         autoComplete='off'
                         value={inputMessage}
-                        onChange={e => setInputMessage(e.target.value)}
+                        onChange={e => setInputMessage(e.target.value.trim())}
                     />
-                    <Button variant='black' type='submit' disabled={!inputMessage || sendingMessage} loading={sendingMessage} loadingText='Sending...'>
+                    <Button variant='black' type='submit' disabled={!inputMessage.trim() || sendingMessage} loading={sendingMessage} loadingText='Sending...'>
                         <Send className='mr-2 size-4' />
                         Send
                         <span className='sr-only'>Send</span>
