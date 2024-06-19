@@ -58,7 +58,7 @@ const MainTripDetails = ({ tripData, tabSelectedIndex, error, tripRating }) => {
 
     return (
         <>
-            {tabSelectedIndex === 0 && tripData && <Details tripsData={tripData} tripRating={tripRating} />}
+            {tabSelectedIndex === 0 && tripData && <Details tripData={tripData} tripRating={tripRating} />}
             {tabSelectedIndex === 1 && <ChatComponent tripsData={tripData} />}
         </>
     );

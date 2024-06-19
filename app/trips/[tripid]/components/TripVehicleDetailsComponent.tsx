@@ -2,6 +2,7 @@
 import TripImageVideoCarousel from '@/app/trips/[tripid]/components/TripImageVideoCarousel';
 import Carousel from '@/components/ui/carousel/carousel';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
+import Readmore from '@/components/ui/readmore';
 import React from 'react';
 
 const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedImages }: any) => {
@@ -29,49 +30,58 @@ const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedIm
             )}
 
             <div className='mt-6 space-y-4'>
-                <h1 className='text-2xl font-bold tracking-tight text-neutral-900 sm:text-3xl'>
+                <h2 className='tracking-tight'>
                     {car.make} {car.model} {car.year}
-                </h1>
-                {/* <span className='text-xs'>{vehicleDetails.vin}</span> */}
-                <p className='max-w-3xl text-base text-neutral-700'>{car?.desciption}</p>
+                </h2>
 
                 <div className='space-y-6'>
-                    <div className='spacey-3'>
+                    <div className='space-y-3'>
                         <p className='font-bold'>Highlights</p>
-                        <ul role='list' className='mt-3 list-disc space-y-2 pl-4 text-sm'>
-                            {car?.trim && car?.trim !== 'Not Applicable' && car?.trim !== 'NA' && <li className='text-neutral-600'>{car?.trim}</li>}
-                            {car?.vehicleType && car?.vehicleType !== 'Not Applicable' && car?.vehicleType !== 'NA' && (
-                                <li className='text-neutral-600'>{car?.vehicleType}</li>
+                        <ul role='list' className='text-15 list-disc space-y-2 pl-4'>
+                            {car?.trim && car?.trim !== 'Not Applicable' && car?.trim !== 'NA' && <li>{car?.trim}</li>}
+
+                            {car?.fueltypeprimary && car?.fueltypeprimary !== 'Not Applicable' && car?.fueltypeprimary !== 'NA' && (
+                                <li>{car?.fueltypeprimary}</li>
                             )}
-                            {car?.bodyclass && car?.bodyclass !== 'Not Applicable' && car?.bodyclass !== 'NA' && (
-                                <li className='text-neutral-600'>{car?.bodyclass}</li>
-                            )}
-                            {car?.doors && car?.doors !== 'Not Applicable' && car?.doors !== 'NA' && <li className='text-neutral-600'>{car?.doors} Doors</li>}
-                            {car?.drivetype && car?.drivetype !== 'Not Applicable' && car?.drivetype !== 'NA' && (
-                                <li className='text-neutral-600'>{car?.drivetype}</li>
-                            )}
+
+                            {car?.bodyclass && car?.bodyclass !== 'Not Applicable' && car?.bodyclass !== 'NA' && <li>{car?.bodyclass}</li>}
+
+                            {car?.doors && car?.doors !== 'Not Applicable' && car?.doors !== 'NA' && <li>{car?.doors} Doors</li>}
+
+                            {car?.drivetype && car?.drivetype !== 'Not Applicable' && car?.drivetype !== 'NA' && <li>{car?.drivetype}</li>}
+
                             {car?.wlectrificationlevel && car?.wlectrificationlevel !== 'Not Applicable' && car?.wlectrificationlevel !== 'NA' && (
-                                <li className='text-neutral-600'>{car?.wlectrificationlevel}</li>
+                                <li>{car?.wlectrificationlevel}</li>
                             )}
+
                             {car?.seatingCapacity && car?.seatingCapacity !== 'Not Applicable' && car?.seatingCapacity !== 'NA' && (
-                                <li className='text-neutral-600'>{car?.seatingCapacity} Seats</li>
+                                <li>{car?.seatingCapacity} Seats</li>
                             )}
                         </ul>
                     </div>
 
-                    {car?.parkingDetails ? (
+                    {/*  desciption Section */}
+                    {car?.desciption && (
+                        <div className='space-y-3'>
+                            <p className='font-bold'>Vehicle Description</p>
+                            <Readmore text={car.desciption} />
+                        </div>
+                    )}
+
+                    {car?.parkingDetails && (
                         <div className='space-y-3'>
                             <p className='font-bold'>Parking Details</p>
-                            <p className='text-base text-gray-900'>{car?.parkingDetails}</p>
+                            <Readmore text={car?.parkingDetails} />
                         </div>
-                    ) : null}
+                    )}
 
-                    {car?.guideLines ? (
+                    {/* Additional Guidelines Section */}
+                    {car?.guideLines && (
                         <div className='space-y-3'>
                             <p className='font-bold'> Additional GuideLines</p>
-                            <p className='text-base text-gray-900'>{car?.guideLines}</p>
+                            <Readmore text={car.guideLines} />
                         </div>
-                    ) : null}
+                    )}
 
                     {driverUploadedImages.length > 0 ? (
                         <div className='space-y-3'>
