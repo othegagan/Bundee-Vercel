@@ -16,11 +16,11 @@ import { LuLoader2 } from 'react-icons/lu';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { ResponsiveDialog } from '../ui/responsive-dialog';
 import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import PhoneNumber from '../ui/phone-number';
+import { Dialog, DialogBody } from '../ui/dialog';
 
 export const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
 
@@ -180,7 +180,7 @@ const RegisterModal = () => {
     }
 
     return (
-        <ResponsiveDialog
+        <Dialog
             title='Sign Up with MyBundee'
             description=''
             isOpen={registerModal.isOpen}
@@ -191,9 +191,9 @@ const RegisterModal = () => {
                 closeModal();
             }}
             className=' md:scale-[0.85] lg:max-w-lg'>
-            <main className='flex items-center justify-center  md:px-4'>
+            <DialogBody>
                 {!showSuccessfulSignUp && (
-                    <div className='w-full'>
+                    <div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className='grid grid-cols-2 gap-4'>
                                 <div className='space-y-2'>
@@ -348,8 +348,8 @@ const RegisterModal = () => {
                         </Button>
                     </div>
                 )}
-            </main>
-        </ResponsiveDialog>
+            </DialogBody>
+        </Dialog>
     );
 };
 

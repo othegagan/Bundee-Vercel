@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
     darkMode: ['class'],
@@ -71,11 +71,21 @@ module.exports = {
                         transform: 'translateX(100%)',
                     },
                 },
+                'zoom-in': {
+                    '0%': { transform: 'scale(0.95)' },
+                    '100%': { transform: 'scale(1)' },
+                },
+                'zoom-out': {
+                    '0%': { transform: 'scale(1)' },
+                    '100%': { transform: 'scale(0.95)' },
+                },
             },
             animation: {
                 'accordion-down': 'accordion-down 0.2s ease-out',
                 'accordion-up': 'accordion-up 0.2s ease-out',
                 shimmer: 'shimmer 3s infinite',
+                'zoom-in': 'zoom-in 0.5s ease-in-out',
+                'zoom-out': 'zoom-out 0.5s ease-in-out',
             },
         },
     },

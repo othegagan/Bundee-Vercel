@@ -1,6 +1,5 @@
 'use client';
 
-import { Modal, ModalBody, ModalHeader } from '@/components/custom/modal';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { addDays, differenceInMinutes, format, isToday } from 'date-fns';
@@ -11,6 +10,7 @@ import TimeSelect from '../custom/TimeSelect';
 import LocationSearchBox from './LocationSearchBox';
 import SearchCalendar from './SearchCalendar';
 import { getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
+import { Dialog, DialogBody } from '../ui/dialog';
 
 const LocationSearchComponent = ({ searchCity }: any) => {
     const pathname = usePathname();
@@ -140,45 +140,48 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                         </div>
                     </div>
 
-                    <Modal isOpen={showModal} onClose={closeModal} className='p-0 '>
-                        <ModalHeader onClose={closeModal}>{''}</ModalHeader>
-                        <ModalBody className='p-0'>
-                            <div className=' rounded-md bg-white '>
-                                <div className='grid grid-cols-2 gap-5 md:grid-cols-12  lg:grid-cols-12'>
-                                    <div className='col-span-2 md:col-span-6 lg:col-span-4'>
-                                        <div className='flex w-full flex-col gap-1 '>
-                                            <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zipcode</label>
-                                            <LocationSearchBox />
-                                        </div>
+                    <Dialog isOpen={showModal} closeDialog={closeModal} openDialog={openModal}>
+                        <DialogBody>
+                            <div className='grid grid-cols-2 gap-5 md:grid-cols-12  lg:grid-cols-12'>
+                                <div className='col-span-2 md:col-span-6 lg:col-span-4'>
+                                    <div className='flex w-full flex-col gap-1 '>
+                                        <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zipcode</label>
+                                        <LocationSearchBox />
                                     </div>
-                                    <div className='col-span-2 md:col-span-6 lg:col-span-3'>
-                                        <div className='flex w-full flex-col gap-1 '>
-                                            <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
-                                            <SearchCalendar
-                                                startDate={startDateQuery}
-                                                setStartDate={setStartDateQuery}
-                                                endDate={endDateQuery}
-                                                setEndDate={setEndDateQuery}
-                                            />
-                                        </div>
+                                </div>
+                                <div className='col-span-2 md:col-span-6 lg:col-span-3'>
+                                    <div className='flex w-full flex-col gap-1 '>
+                                        <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
+                                        <SearchCalendar
+                                            startDate={startDateQuery}
+                                            setStartDate={setStartDateQuery}
+                                            endDate={endDateQuery}
+                                            setEndDate={setEndDateQuery}
+                                        />
                                     </div>
-                                    <div className='col-span-1 md:col-span-3 lg:col-span-2'>
-                                        <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} className='md:w-full' variant='sm' />
-                                    </div>
-                                    <div className='col-span-1 md:col-span-3 lg:col-span-2'>
-                                        <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' variant='sm' />
-                                    </div>
-                                    <div className='col-span-2 md:col-span-3 lg:col-span-1'>
-                                        <div className='flex h-full w-full items-end justify-end'>
-                                            <Button onClick={redirectToVech} className='w-full'>
-                                                Search
-                                            </Button>
-                                        </div>
+                                </div>
+                                <div className='col-span-1 md:col-span-3 lg:col-span-2'>
+                                    <TimeSelect
+                                        label='Pickup Time'
+                                        onChange={setStartTimeQuery}
+                                        defaultValue={startTimeQuery}
+                                        className='md:w-full'
+                                        variant='sm'
+                                    />
+                                </div>
+                                <div className='col-span-1 md:col-span-3 lg:col-span-2'>
+                                    <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} className='md:w-full' variant='sm' />
+                                </div>
+                                <div className='col-span-2 md:col-span-3 lg:col-span-1'>
+                                    <div className='flex h-full w-full items-end justify-end'>
+                                        <Button onClick={redirectToVech} className='w-full'>
+                                            Search
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
-                        </ModalBody>
-                    </Modal>
+                        </DialogBody>
+                    </Dialog>
                 </>
             ) : null}
         </>

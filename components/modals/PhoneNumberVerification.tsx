@@ -6,12 +6,12 @@ import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { getUserByEmail, getUserByPhoneNumber, updateProfile } from '@/server/userOperations';
 import { getAuth, linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, unlink, updatePhoneNumber } from 'firebase/auth';
 import { useState } from 'react';
-import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
 import PhoneNumber from '../ui/phone-number';
 import { toast } from '../ui/use-toast';
+import { Dialog, DialogBody } from '../ui/dialog';
 
 const PhoneNumberModal = () => {
     // console.log(auth.currentUser);
@@ -26,14 +26,14 @@ const PhoneNumberModal = () => {
     const handleSendVerificationCode = async () => {
         try {
             setOTPError('');
-                const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
+            const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
-                let phoneAuthProvider = new PhoneAuthProvider(auth);
-                const verifyId = await phoneAuthProvider.verifyPhoneNumber(`+${phoneNumber}`, appVerifier);
+            let phoneAuthProvider = new PhoneAuthProvider(auth);
+            const verifyId = await phoneAuthProvider.verifyPhoneNumber(`+${phoneNumber}`, appVerifier);
 
-                setVerificationId(verifyId);
-                setVerificationSent(true); // Set flag to indicate verification code has been sent
-                // console.log('verifyId', verifyId);
+            setVerificationId(verifyId);
+            setVerificationSent(true); // Set flag to indicate verification code has been sent
+            // console.log('verifyId', verifyId);
         } catch (error) {
             console.log(error);
             handleAuthError(error.code || error.message);
@@ -151,11 +151,9 @@ const PhoneNumberModal = () => {
     }
 
     return (
-        <Modal isOpen={phoneNumberVerificationModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
-            <ModalHeader onClose={closeModal}>{''}</ModalHeader>
-            <ModalBody className=''>
+        <Dialog isOpen={phoneNumberVerificationModal.isOpen} closeDialog={closeModal} className='lg:max-w-lg' title='Update Phone Number'>
+            <DialogBody className=''>
                 <div className='flex flex-col space-y-4'>
-                    <h4>Update Phone Number</h4>
                     {!verificationId ? (
                         <>
                             <Label htmlFor='phoneNumber' className='mt-6'>
@@ -195,8 +193,8 @@ const PhoneNumberModal = () => {
 
                     {/* <UnlinkPhoneNumberButton /> */}
                 </div>
-            </ModalBody>
-        </Modal>
+            </DialogBody>
+        </Dialog>
     );
 };
 

@@ -1,13 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import React, { useState } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from '@/components/custom/modal';
-import { Label } from '@/components/ui/label';
-import { cancelReservation } from '@/server/tripOperations';
+import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
-import { LuLoader2 } from 'react-icons/lu';
-import { ResponsiveDialog } from '@/components/ui/responsive-dialog';
+import { cancelReservation } from '@/server/tripOperations';
+import { useState } from 'react';
 
 const CancelTripComponent = ({ tripId }: any) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,27 +59,20 @@ const CancelTripComponent = ({ tripId }: any) => {
                 Cancel trip
             </Button>
 
-            <ResponsiveDialog isOpen={isModalOpen} openDialog={openModal} closeDialog={closeModal} title='Cancel Request'>
-                <div className='flex flex-col gap-4'>
+            <Dialog isOpen={isModalOpen} openDialog={openModal} closeDialog={closeModal} title='Cancel Request'>
+                <DialogBody>
                     <p>Are you sure, You would like to cancel this Trip ?</p>
-                    <div className='ml-auto flex justify-end gap-4'>
-                        <Button type='button' variant='outline' disabled={loading} onClick={closeModal} className='w-full sm:w-auto '>
-                            Back to Trip
-                        </Button>
+                </DialogBody>
+                <DialogFooter>
+                    <Button type='button' variant='outline' disabled={loading} onClick={closeModal} className='w-full sm:w-auto '>
+                        Back to Trip
+                    </Button>
 
-                        <Button type='button' variant='black' className='w-full sm:w-auto ' disabled={loading} onClick={cancelTrip}>
-                            {loading ? (
-                                <div className='flex items-center gap-3'>
-                                    <LuLoader2 className='h-4 w-4 animate-spin text-white' />
-                                    Cancelling...
-                                </div>
-                            ) : (
-                                'Cancel Trip'
-                            )}
-                        </Button>
-                    </div>
-                </div>
-            </ResponsiveDialog>
+                    <Button type='button' variant='black' className='w-full sm:w-auto ' loading={loading} loadingText='Cancelling...' onClick={cancelTrip}>
+                        Cancel Trip
+                    </Button>
+                </DialogFooter>
+            </Dialog>
         </>
     );
 };

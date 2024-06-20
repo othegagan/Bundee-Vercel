@@ -1,7 +1,6 @@
 'use client';
 
 import useForgotPasswordModal from '@/hooks/useForgotPasswordModal';
-import { ResponsiveDialog } from '../ui/responsive-dialog';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { z } from 'zod';
@@ -12,6 +11,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 import useLoginModal from '@/hooks/useLoginModal';
+import { Dialog } from '../ui/dialog';
 
 const schema = z.object({
     email: z.string({ message: 'Email is required' }).email({ message: 'Invalid email address' }).optional(),
@@ -67,7 +67,7 @@ export default function ForgotPasswordModal() {
     }
 
     return (
-        <ResponsiveDialog
+        <Dialog
             title='Forgot Password'
             description=''
             isOpen={forgotPasswordModal.isOpen}
@@ -77,7 +77,7 @@ export default function ForgotPasswordModal() {
             closeDialog={() => {
                 closeModal();
             }}
-            closeOnClickOutside={true}
+            onInteractOutside={true}
             className='lg:max-w-lg'>
             {resetMailSent ? (
                 <div className='flex w-full flex-col gap-y-2'>
@@ -110,7 +110,8 @@ export default function ForgotPasswordModal() {
                         </Button>
                     </div>
 
-                    <p className='mt-4 cursor-pointer w-fit hover:underline'
+                    <p
+                        className='mt-4 w-fit cursor-pointer hover:underline'
                         onClick={() => {
                             closeModal();
                             loginModal.onOpen();
@@ -120,6 +121,6 @@ export default function ForgotPasswordModal() {
                 </form>
             )}
             {errorMessage && <p className='mt-2 text-xs font-medium text-destructive'>{errorMessage}</p>}
-        </ResponsiveDialog>
+        </Dialog>
     );
 }

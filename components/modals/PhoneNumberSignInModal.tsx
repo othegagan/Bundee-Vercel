@@ -11,12 +11,12 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
 import ClientOnly from '../ClientOnly';
-import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import { Button } from '../ui/button';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
 import PhoneNumber from '../ui/phone-number';
 import { toast } from '../ui/use-toast';
+import { Dialog, DialogBody } from '../ui/dialog';
 
 const PhoneNumberSignInModal = () => {
     const router = useRouter();
@@ -122,9 +122,8 @@ const PhoneNumberSignInModal = () => {
     };
 
     return (
-        <Modal isOpen={phoneNumberSignInModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
-            <ModalHeader onClose={closeModal}>{''}</ModalHeader>
-            <ModalBody className={`transition-all delay-1000 ${!phoneNumberSignInModal.isOpen ? 'rotate-90' : 'rotate-0'}`}>
+        <Dialog isOpen={phoneNumberSignInModal.isOpen} closeDialog={closeModal} className='lg:max-w-lg'>
+            <DialogBody>
                 <ClientOnly>
                     <main className='flex items-center justify-center p-2 md:p-6'>
                         <div className='w-full'>
@@ -178,8 +177,8 @@ const PhoneNumberSignInModal = () => {
                         </div>
                     </main>
                 </ClientOnly>
-            </ModalBody>
-        </Modal>
+            </DialogBody>
+        </Dialog>
     );
 };
 

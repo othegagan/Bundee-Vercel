@@ -19,7 +19,7 @@ import { LuLoader2 } from 'react-icons/lu';
 import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { ResponsiveDialog } from '../ui/responsive-dialog';
+import { Dialog } from '../ui/dialog';
 
 const LoginModal = () => {
     const router = useRouter();
@@ -156,7 +156,7 @@ const LoginModal = () => {
     }
 
     return (
-        <ResponsiveDialog
+        <Dialog
             title=''
             description=''
             isOpen={loginModal.isOpen}
@@ -167,116 +167,114 @@ const LoginModal = () => {
                 closeModal();
             }}
             className='lg:max-w-lg'>
-            <ClientOnly>
-                <main className='flex items-center justify-center md:p-6 '>
-                    <div className='w-full'>
-                        <div className='flex flex-col items-center gap-4'>
-                            <Logo className='scale-[1.3]' />
+            <main className='flex items-center justify-center md:p-6 '>
+                <div className='w-full'>
+                    <div className='flex flex-col items-center gap-4'>
+                        <Logo className='scale-[1.3]' />
 
-                            <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Log In with MyBundee account</span>
+                        <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Log In with MyBundee account</span>
+                    </div>
+                    <form
+                        onSubmit={event => {
+                            event.preventDefault(); // Prevents the default form submission behavior
+                            handleLogin(event);
+                        }}>
+                        <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
+                            Email address <span>*</span>
+                        </label>
+                        <div className='mt-1'>
+                            <Input
+                                id='email'
+                                name='email'
+                                type='email'
+                                autoComplete='email'
+                                required
+                                value={userEmail}
+                                onChange={e => setUserEmail(e.target.value)}
+                            />
                         </div>
-                        <form
-                            onSubmit={event => {
-                                event.preventDefault(); // Prevents the default form submission behavior
-                                handleLogin(event);
-                            }}>
-                            <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
-                                Email address <span>*</span>
-                            </label>
+                        <label htmlFor='password' className='mt-4 block text-sm font-medium text-gray-700'>
+                            Password <span>*</span>
+                        </label>
+                        <div className='relative'>
+                            <div
+                                onClick={() => {
+                                    setShowPassword(!showPassword);
+                                }}
+                                className='absolute right-2 top-1 cursor-pointer p-2 text-xs'>
+                                {showPassword == true ? <FaEye /> : <FaEyeSlash />}
+                            </div>
                             <div className='mt-1'>
                                 <Input
-                                    id='email'
-                                    name='email'
-                                    type='email'
-                                    autoComplete='email'
+                                    id='password'
+                                    name='password'
+                                    type={showPassword == true ? 'password' : 'text'}
+                                    autoComplete='current-password'
                                     required
-                                    value={userEmail}
-                                    onChange={e => setUserEmail(e.target.value)}
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
                                 />
                             </div>
-                            <label htmlFor='password' className='mt-4 block text-sm font-medium text-gray-700'>
-                                Password <span>*</span>
-                            </label>
-                            <div className='relative'>
-                                <div
-                                    onClick={() => {
-                                        setShowPassword(!showPassword);
-                                    }}
-                                    className='absolute right-2 top-1 cursor-pointer p-2 text-xs'>
-                                    {showPassword == true ? <FaEye /> : <FaEyeSlash />}
-                                </div>
-                                <div className='mt-1'>
-                                    <Input
-                                        id='password'
-                                        name='password'
-                                        type={showPassword == true ? 'password' : 'text'}
-                                        autoComplete='current-password'
-                                        required
-                                        value={password}
-                                        onChange={e => setPassword(e.target.value)}
-                                    />
-                                </div>
-                            </div>
+                        </div>
 
-                            <div
-                                className='ml-auto mt-3 w-fit text-sm font-medium text-primary hover:underline cursor-pointer'
-                                onClick={() => {
-                                    closeModal();
-                                    forgotPasswordModal.onOpen();
-                                }}>
-                                Forgot Password?
-                            </div>
+                        <div
+                            className='ml-auto mt-3 w-fit cursor-pointer text-sm font-medium text-primary hover:underline'
+                            onClick={() => {
+                                closeModal();
+                                forgotPasswordModal.onOpen();
+                            }}>
+                            Forgot Password?
+                        </div>
 
-                            {authError ? (
-                                <div className='my-3 select-none rounded-md bg-red-50 p-3'>
-                                    <div className='flex'>
-                                        <div className='flex-shrink-0'>
-                                            <IoWarning className='h-5 w-5 text-red-400' />
-                                        </div>
-                                        <div className='ml-3'>
-                                            <p className='text-sm font-medium text-red-800'>{authError}</p>
-                                        </div>
+                        {authError ? (
+                            <div className='my-3 select-none rounded-md bg-red-50 p-3'>
+                                <div className='flex'>
+                                    <div className='flex-shrink-0'>
+                                        <IoWarning className='h-5 w-5 text-red-400' />
+                                    </div>
+                                    <div className='ml-3'>
+                                        <p className='text-sm font-medium text-red-800'>{authError}</p>
                                     </div>
                                 </div>
-                            ) : null}
+                            </div>
+                        ) : null}
 
-                            <Button disabled={loading} className='mt-4 w-full text-white' type='submit'>
-                                {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Log In</>}
-                            </Button>
-                        </form>
+                        <Button disabled={loading} className='mt-4 w-full text-white' type='submit'>
+                            {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Log In</>}
+                        </Button>
+                    </form>
 
-                        <hr className='my-4' />
+                    <hr className='my-4' />
 
-                        <div className='grid gap-3 grid-cols-2'>
-                            <Button
-                                onClick={() => {
-                                    googleSignIn();
-                                }}
-                                variant='outline'
-                                className='flex w-full gap-4  py-5'>
-                                <span>Continue with </span>
-                                <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
-                            </Button>
+                    <div className='grid grid-cols-2 gap-3'>
+                        <Button
+                            onClick={() => {
+                                googleSignIn();
+                            }}
+                            variant='outline'
+                            className='flex w-full gap-4  py-5'>
+                            <span>Continue with </span>
+                            <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
+                        </Button>
 
-                            <Button onClick={openPhoneLogin} type='button' variant='outline' className='flex w-full  gap-3 py-5'>
-                                <span>Log In with Phone</span>
-                                <FaPhone className='size-4 scale-95 hidden md:block' />
-                            </Button>
-                        </div>
-
-                        <div className='mt-4 flex flex-col gap-2'>
-                            <p className='mt-1 text-base'>
-                                Don't have an account?
-                                <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
-                                    Sign up
-                                </span>
-                                here
-                            </p>
-                        </div>
+                        <Button onClick={openPhoneLogin} type='button' variant='outline' className='flex w-full  gap-3 py-5'>
+                            <span>Log In with Phone</span>
+                            <FaPhone className='hidden size-4 scale-95 md:block' />
+                        </Button>
                     </div>
-                </main>
-            </ClientOnly>
-        </ResponsiveDialog>
+
+                    <div className='mt-4 flex flex-col gap-2'>
+                        <p className='mt-1 text-base'>
+                            Don't have an account?
+                            <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
+                                Sign up
+                            </span>
+                            here
+                        </p>
+                    </div>
+                </div>
+            </main>
+        </Dialog>
     );
 };
 

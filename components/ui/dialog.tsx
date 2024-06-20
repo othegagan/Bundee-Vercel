@@ -1,93 +1,96 @@
 'use client';
-import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
+import React, { useEffect } from 'react';
 
-const Dialog = DialogPrimitive.Root;
-
-const DialogTrigger = DialogPrimitive.Trigger;
-
-const DialogPortal = DialogPrimitive.Portal;
-
-const DialogClose = DialogPrimitive.Close;
-
-const DialogOverlay = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Overlay>, React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>>(
-    ({ className }, ref) => (
-        <DialogPrimitive.Overlay
-            ref={ref}
-            className={cn(
-                'fixed inset-0 z-[99] bg-black/50 backdrop-blur-[1px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-                className,
-            )}
-        />
-    ),
-);
-DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-
-interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
-    onClickClose: () => void;
-    size?: 'default' | 'full';
+interface DialogProps {
+    isOpen: boolean;
+    openDialog?: () => void;
+    closeDialog: () => void;
+    children: React.ReactNode;
+    className?: string;
+    onInteractOutside?: boolean;
+    title?: string;
+    description?: string;
 }
 
-const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-    ({ className, children, onClickClose, size = 'default', ...props }, ref) => {
-        const sizeClasses = {
-            default: 'max-h-[calc(100vh-10rem)]  w-full max-h-min overflow-y-auto',
-            full: 'max-w-full max-h-[calc(100vh-5rem)] w-full h-full md:h-fit ',
+function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = true, title, description }: DialogProps) {
+    useEffect(() => {
+        const body = document.body;
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            body.classList.remove('overflow-hidden');
         };
+    }, [isOpen]);
 
-        return (
-            <DialogPortal>
-                <DialogOverlay />
-                <DialogPrimitive.Content
-                    ref={ref}
-                    className={cn(
-                        `fixed bottom-0 left-[50%] z-[100] grid w-full max-w-lg translate-x-[-50%] rounded-lg border bg-background p-6 shadow-lg transition-all duration-500 ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:slide-in-from-left-1/2 md:top-[50%] md:max-h-min md:translate-y-[-50%] md:data-[state=closed]:slide-out-to-top-[48%] md:data-[state=open]:slide-in-from-top-[48%]`,
-                        sizeClasses[size],
-                        className,
-                    )}
-                    {...props}>
-                    <div className='h-full overflow-y-auto md:max-h-min lg:pb-0'>{children}</div>
-                    <DialogPrimitive.Close>
-                        <button
-                            className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground'
-                            onClick={() => {
-                                if (onClickClose) onClickClose();
-                            }}>
-                            <X className='size-5' />
-                            <span className='sr-only'>Close</span>
-                        </button>
-                    </DialogPrimitive.Close>
-                </DialogPrimitive.Content>
-            </DialogPortal>
-        );
-    },
-);
-DialogContent.displayName = DialogPrimitive.Content.displayName;
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (onInteractOutside && e.target === e.currentTarget) {
+            closeDialog();
+        }
+    };
 
-const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-    <div className={cn('mb-4 flex flex-col space-y-1.5 text-center sm:mb-6 sm:text-left', className)} {...props} />
-);
-DialogHeader.displayName = 'DialogHeader';
+    if (!isOpen) return null;
 
-const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-    <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
-);
-DialogFooter.displayName = 'DialogFooter';
+    return (
+        <div
+            className={cn(
+                'fixed inset-0 z-[100] flex items-end bg-black/50 backdrop-blur-[1px] sm:items-center sm:justify-center',
+                isOpen ? 'animate-in fade-in-0' : 'animate-out fade-out-0',
+            )}
+            onClick={handleBackdropClick}
+            data-state={isOpen ? 'open' : 'closed'}>
+            <div
+                className={cn(
+                    'w-full transform overflow-hidden rounded-t-lg bg-white px-6 py-4 transition-all ease-in-out sm:m-4 sm:max-w-xl sm:rounded-lg',
+                    isOpen ? 'animate-in zoom-in-95' : 'animate-out zoom-out-95 slide-out-to-bottom-1/2',
+                    className,
+                )}
+                role='dialog'>
+                <div className='mb-4 flex flex-col space-y-1.5 text-left sm:mb-6'>
+                    <h2 id='radix-:rg:' className='text-left text-lg font-semibold leading-none tracking-tight'>
+                        {title}
+                    </h2>
+                    <p id='radix-:rh:' className='text-sm text-muted-foreground'>
+                        {description}
+                    </p>
+                </div>
 
-const DialogTitle = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Title>, React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>>(
-    ({ className, ...props }, ref) => (
-        <DialogPrimitive.Title ref={ref} className={cn('text-left text-lg font-semibold leading-none tracking-tight', className)} {...props} />
-    ),
-);
-DialogTitle.displayName = DialogPrimitive.Title.displayName;
+                <button
+                    className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none'
+                    onClick={closeDialog}>
+                    <X className='size-5' />
+                    <span className='sr-only'>Close</span>
+                </button>
+                <div>{children}</div>
+            </div>
+        </div>
+    );
+}
 
-const DialogDescription = React.forwardRef<
-    React.ElementRef<typeof DialogPrimitive.Description>,
-    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => <DialogPrimitive.Description ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />);
-DialogDescription.displayName = DialogPrimitive.Description.displayName;
+interface DialogBodyProps {
+    children: React.ReactNode;
+    className?: string;
+}
 
-export { Dialog, DialogPortal, DialogOverlay, DialogClose, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription };
+function DialogBody({ children, className }: DialogBodyProps) {
+    return <div className={cn('translate max-h-[calc(100vh-16rem)] overflow-y-auto md:max-h-min md:overflow-y-hidden lg:pb-0', className)}>{children}</div>;
+}
+
+interface DialogFooterProps {
+    children: React.ReactNode;
+    className?: string;
+}
+
+function DialogFooter({ children, className }: DialogFooterProps) {
+    return (
+        <footer className={cn('-mx-6 -mb-4 grid select-none grid-cols-2 items-center justify-end gap-4 p-5 sm:flex-row md:flex', className)}>{children}</footer>
+    );
+}
+
+export { Dialog, DialogBody, DialogFooter };

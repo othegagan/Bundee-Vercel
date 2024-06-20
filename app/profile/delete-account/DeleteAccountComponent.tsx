@@ -1,11 +1,10 @@
 'use client';
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { deleteAccount } from '@/server/userOperations';
 import { toast } from '@/components/ui/use-toast';
 import { logout } from '@/lib/auth';
-import { ResponsiveDialog } from '@/components/ui/responsive-dialog';
+import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 
 const DeleteAccountComponent = () => {
     const [open, setOpen] = useState(false);
@@ -49,7 +48,7 @@ const DeleteAccountComponent = () => {
                 closure will be irreversible.
             </p>
 
-            <ul className='mt-4 list-disc list-inside'>
+            <ul className='mt-4 list-inside list-disc'>
                 <li>You will no longer be able to book trips.</li>
                 <li>Any booked or pending trips will be cancelled immediately.</li>
                 <li>You will no longer be able to login to your account.</li>
@@ -62,7 +61,7 @@ const DeleteAccountComponent = () => {
                     <> Delete Account </>
                 </Button>
             </div>
-            <ResponsiveDialog
+            <Dialog
                 title='Confirm Account Deletion'
                 description=''
                 isOpen={open}
@@ -72,8 +71,10 @@ const DeleteAccountComponent = () => {
                 closeDialog={() => {
                     closeDialog();
                 }}>
-                <p>Are you sure you want to delete your account?</p>
-                <div className='flex justify-end gap-4'>
+                <DialogBody>
+                    <p>Are you sure you want to delete your account?</p>
+                </DialogBody>
+                <DialogFooter>
                     <Button
                         variant='outline'
                         className='mt-3'
@@ -97,8 +98,8 @@ const DeleteAccountComponent = () => {
                             <> Delete Account</>
                         )}
                     </Button>
-                </div>
-            </ResponsiveDialog>
+                </DialogFooter>
+            </Dialog>
         </div>
     );
 };

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import ClientOnly from '../ClientOnly';
-import { Modal, ModalBody, ModalHeader } from '../custom/modal';
 import Rating from '@/components/ui/rating';
 import useTripReviewModal from '@/hooks/useTripReviewModal';
 import { Textarea } from '../ui/textarea';
@@ -10,6 +9,7 @@ import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { addTripReview } from '@/server/tripOperations';
 import { toast } from '../ui/use-toast';
+import { Dialog, DialogBody } from '../ui/dialog';
 
 const TripReviewModal = () => {
     const [rating, setRating] = useState(0);
@@ -58,28 +58,25 @@ const TripReviewModal = () => {
     }
 
     return (
-        <Modal isOpen={tripReviewModal.isOpen} onClose={closeModal} className='lg:max-w-lg'>
-            <ModalHeader onClose={closeModal}>Trip Review</ModalHeader>
-            <ModalBody className={`  transition-all delay-1000 ${!tripReviewModal.isOpen ? ' rotate-90' : ' rotate-0'}`}>
-                <ClientOnly>
-                    <main className='flex flex-col  p-2 md:p-6 md:pb-0 '>
-                        <Rating rating={rating} setRating={setRating} />
-                        <div className='my-4 flex flex-col gap-2'>
-                            <Label> Comments</Label>
-                            <Textarea
-                                placeholder='Leave your comments here...'
-                                value={comments}
-                                onChange={e => {
-                                    setComments(e.target.value);
-                                }}></Textarea>
-                        </div>
-                        <Button className='ml-auto' variant='black' disabled={rating == 0 && loading} onClick={handleSubmit}>
-                            {loading ? 'Submitting...' : 'Submit'}
-                        </Button>
-                    </main>
-                </ClientOnly>
-            </ModalBody>
-        </Modal>
+        <Dialog isOpen={tripReviewModal.isOpen} closeDialog={closeModal} openDialog={openModal} className='lg:max-w-lg' title='Trip Review'>
+            <DialogBody>
+                <main className='flex flex-col  p-2 md:p-6 md:pb-0 '>
+                    <Rating rating={rating} setRating={setRating} />
+                    <div className='my-4 flex flex-col gap-2'>
+                        <Label> Comments</Label>
+                        <Textarea
+                            placeholder='Leave your comments here...'
+                            value={comments}
+                            onChange={e => {
+                                setComments(e.target.value);
+                            }}></Textarea>
+                    </div>
+                    <Button className='ml-auto' variant='black' disabled={rating == 0 && loading} onClick={handleSubmit}>
+                        {loading ? 'Submitting...' : 'Submit'}
+                    </Button>
+                </main>
+            </DialogBody>
+        </Dialog>
     );
 };
 

@@ -10,7 +10,7 @@ import useRentalAgreementModal from '@/hooks/useRentalAgreement';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
 import RentalAgreementCheckBox from '../custom/RentalAgreementCheckBox';
-import { ResponsiveDialog } from '../ui/responsive-dialog';
+import { Dialog, DialogBody } from '../ui/dialog';
 
 const RentalAgreementModal = () => {
     const rentalAgreementModal = useRentalAgreementModal();
@@ -30,13 +30,13 @@ const RentalAgreementModal = () => {
     }
 
     return (
-        <ResponsiveDialog
+        <Dialog
             title={rentalAgreementModal.invoicePDFLink ? 'Invoice' : 'Rental Agreement '}
             isOpen={rentalAgreementModal.isOpen}
             closeDialog={closeModal}
             openDialog={openModal}
             className='lg:min-h-[500px] lg:max-w-4xl'>
-            <main className='flex flex-col p-2   '>
+            <DialogBody className='flex flex-col p-2   '>
                 <PDFViewerComponent link={uri} />
 
                 {rentalAgreementModal.invoicePDFLink ? (
@@ -57,8 +57,8 @@ const RentalAgreementModal = () => {
                         )}
                     </div>
                 )}
-            </main>
-        </ResponsiveDialog>
+            </DialogBody>
+        </Dialog>
     );
 };
 

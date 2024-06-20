@@ -8,7 +8,6 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
-import { ResponsiveDialog } from '@/components/ui/responsive-dialog';
 import { toast } from '@/components/ui/use-toast';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import useLoginModal from '@/hooks/useLoginModal';
@@ -28,6 +27,7 @@ import DeliveryDetailsComponent from './DeliveryDetailsComponent';
 import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
 import DateRangeCalendar from './DateRangeCalendar';
+import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginModal();
@@ -465,22 +465,24 @@ function DrivingLicenceModal({
     isPersonaClientLoading: boolean;
 }) {
     return (
-        <ResponsiveDialog
+        <Dialog
             title=' Driving licence verification'
             description=''
             isOpen={showDrivingLicenceModal}
-            closeOnClickOutside={false}
+            onInteractOutside={false}
             openDialog={() => {
                 setShowDrivingLicenceModal(true);
             }}
             closeDialog={() => {
                 setShowDrivingLicenceModal(false);
             }}>
-            <p className='mt-4 max-w-2xl text-sm leading-snug text-neutral-500'>
-                Your driving license has not yet been verified. <br />
-                Please verify it.
-            </p>
-            <div className=' mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-end'>
+            <DialogBody>
+                <p className='mt-4 max-w-2xl text-sm leading-snug text-neutral-500'>
+                    Your driving license has not yet been verified. <br />
+                    Please verify it.
+                </p>
+            </DialogBody>
+            <DialogFooter>
                 <Button type='button' size='sm' onClick={() => setShowDrivingLicenceModal(false)} variant='outline' className='w-full md:w-fit'>
                     Back
                 </Button>
@@ -496,7 +498,7 @@ function DrivingLicenceModal({
                     className='w-full bg-primary md:w-fit'>
                     Continue Verification
                 </Button>
-            </div>
-        </ResponsiveDialog>
+            </DialogFooter>
+        </Dialog>
     );
 }

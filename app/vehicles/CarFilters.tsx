@@ -8,8 +8,8 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { PiGasCan } from 'react-icons/pi';
 import { BsBatteryCharging } from 'react-icons/bs';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from '@/components/custom/modal';
 import useCarFilterModal from '@/hooks/useCarFilterModal';
+import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 
 interface CarFiltersProps {
     carDetails: any[];
@@ -169,9 +169,8 @@ const CarFilters = () => {
 
     return (
         <>
-            <Modal isOpen={useCarFilter.isOpen} onClose={closeModal} className='lg:max-w-5xl'>
-                <ModalHeader onClose={closeModal}>Filters</ModalHeader>
-                <ModalBody className=''>
+            <Dialog isOpen={useCarFilter.isOpen} closeDialog={closeModal} className='lg:max-w-5xl' title='Filters'>
+                <DialogBody>
                     <div className='grid grid-cols-1 gap-5 lg:grid-cols-2'>
                         <div className='  select-none space-y-3  md:space-y-5 md:border-r'>
                             <div className='flex flex-col gap-4 pb-3'>
@@ -327,17 +326,24 @@ const CarFilters = () => {
                             </div>
                         </div>
                     </div>
-                </ModalBody>
-                <ModalFooter>
+                </DialogBody>
+                <DialogFooter>
                     <Button type='button' variant='outline' onClick={handleReset} className='w-full sm:w-auto '>
                         Reset All
                     </Button>
 
-                    <Button type='button' variant='black' className='w-full sm:w-auto ' onClick={()=>{filterCars(); closeModal()}}>
+                    <Button
+                        type='button'
+                        variant='black'
+                        className='w-full sm:w-auto '
+                        onClick={() => {
+                            filterCars();
+                            closeModal();
+                        }}>
                         Apply Filters
                     </Button>
-                </ModalFooter>
-            </Modal>
+                </DialogFooter>
+            </Dialog>
         </>
     );
 };

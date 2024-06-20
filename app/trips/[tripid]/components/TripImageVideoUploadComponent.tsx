@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogBody } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 import { getSession } from '@/lib/auth';
 import axios from 'axios';
@@ -203,149 +204,128 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                 ) : null}
             </Button>
 
-            {showModal && (
-                <div className='appear-done enter-done fixed inset-0 z-[99] flex items-end bg-black bg-opacity-20 backdrop-blur-[4px] sm:items-center sm:justify-center'>
-                    <div
-                        className='fixed inset-0 -z-10'
-                        onClick={() => {
-                            handleCloseModal();
-                        }}></div>
-                    <div className='w-full overflow-hidden rounded-t-lg bg-white px-6 py-4 sm:m-4 sm:rounded-lg md:max-w-6xl md:p-7'>
-                        <div>
-                            <header className='flex select-none justify-between gap-2'>
-                                <div className='flex flex-col gap-2'>
-                                    <p className='text-lg font-semibold'>Upload vehicle Images</p>
+            <Dialog
+                isOpen={showModal}
+                closeDialog={handleCloseModal}
+                title='Upload vehicle Images'
+                description='Images are uploaded for the purposes of recording vehicle condition in the event of damage.'
+                className='w-full md:max-w-3xl lg:max-w-4xl'>
+                <DialogBody>
+                    {error && <p className='text-red-400'>{error}</p>}
+
+                    <div className='mt-5 grid grid-cols-1 gap-4 sm:mt-8 md:grid-cols-5 md:gap-10'>
+                        <div className='grid-cols-1 md:col-span-2'>
+                            <div
+                                ref={wrapperRef}
+                                className='relative flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-purple-500 bg-purple-100 p-8 text-center transition duration-150 ease-in-out hover:border-neutral-500 hover:bg-neutral-100'
+                                onDragEnter={onDragEnter}
+                                onDragLeave={onDragLeave}
+                                onDrop={onDrop}>
+                                <div className='flex flex-col items-center justify-center gap-2 text-neutral-600 hover:text-neutral-400'>
+                                    <FaFileUpload className='text-5xl' />
+                                    <p className='text-sm'>
+                                        <span className='font-semibold'>Click to upload</span> or drag and drop
+                                    </p>
+                                    <p className='text-xs'>Max. File Size: 30MB</p>
                                 </div>
-
-                                <Button
-                                    variant='ghost'
-                                    type='button'
-                                    onClick={() => {
-                                        handleCloseModal();
-                                    }}>
-                                    <IoClose className='size-5 cursor-pointer text-neutral-500' />
-                                </Button>
-                            </header>
-                            <p className='text-sm font-normal text-neutral-500'>
-                                Note: This images uploaded for the purposes of recording vehicle condition in the event of damage.
-                            </p>
-                            {error && <p className='text-red-400'>{error}</p>}
-
-                            <div className='mt-5 grid grid-cols-1 gap-4 sm:mt-8 md:grid-cols-5 md:gap-10'>
-                                <div className='grid-cols-1 md:col-span-2'>
-                                    <div
-                                        ref={wrapperRef}
-                                        className='relative flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-purple-500 bg-purple-100 p-8 text-center transition duration-150 ease-in-out hover:border-neutral-500 hover:bg-neutral-100'
-                                        onDragEnter={onDragEnter}
-                                        onDragLeave={onDragLeave}
-                                        onDrop={onDrop}>
-                                        <div className='flex flex-col items-center justify-center gap-2 text-neutral-600 hover:text-neutral-400'>
-                                            <FaFileUpload className='text-5xl' />
-                                            <p className='text-sm'>
-                                                <span className='font-semibold'>Click to upload</span> or drag and drop
-                                            </p>
-                                            <p className='text-xs'>Max. File Size: 30MB</p>
-                                        </div>
-                                        <input
-                                            type='file'
-                                            accept='image/*, video/*'
-                                            multiple
-                                            onChange={onFileDrop}
-                                            className='absolute inset-0 h-full w-full cursor-pointer opacity-0'
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className='md:col-span-3'>
-                                    {fileList.length > 0 ? (
-                                        <div className='flex h-full flex-col items-stretch justify-between gap-4'>
-                                            <div className='grid-col-1 grid w-full gap-4 overflow-y-auto   rounded-md border p-2 lg:h-64 lg:grid-cols-2'>
-                                                {fileList.map((item, index) => (
-                                                    <div key={index} className='flex w-full gap-3 lg:flex-col'>
-                                                        <div className='relative overflow-hidden'>
-                                                            {item.type.startsWith('image/') ? (
-                                                                <img
-                                                                    className='border-1 h-full w-36 rounded-md border-neutral-400 lg:w-[90%]'
-                                                                    src={URL.createObjectURL(item)}
-                                                                    alt={item.name}
-                                                                />
-                                                            ) : (
-                                                                <video
-                                                                    className='border-1 h-full w-32 rounded-md border-neutral-400 lg:w-[90%]'
-                                                                    controls
-                                                                    muted
-                                                                    src={URL.createObjectURL(item)}>
-                                                                    Your browser does not support the video tag.
-                                                                </video>
-                                                            )}
-                                                        </div>
-                                                        <div className='flex w-full items-start justify-between gap-3'>
-                                                            <div className='flex w-full flex-col gap-2'>
-                                                                <input
-                                                                    className='flex h-8 w-full  rounded-md border border-input bg-transparent px-3 py-1 pr-4 text-sm font-normal text-foreground shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 focus-visible:outline-none  focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
-                                                                    placeholder='Enter caption'
-                                                                    aria-haspopup='listbox'
-                                                                    type='text'
-                                                                    value={captions[index]}
-                                                                    onChange={e => handleCaptionChange(index, e.target.value)}
-                                                                />
-                                                                <div className='flex gap-3 text-neutral-500'>
-                                                                    <p className='text-xs '>
-                                                                        <span className='truncate'>{item.name}</span>
-                                                                        <span className='ml-2 text-xs'>({(item.size / (1024 * 1024)).toFixed(2)} MB)</span>
-                                                                    </p>
-                                                                </div>
-                                                                {uploadProgress[index] !== undefined && (
-                                                                    <div className='flex items-center gap-3'>
-                                                                        <div className='h-2 w-[90%] rounded-full bg-neutral-200 dark:bg-neutral-700'>
-                                                                            <div
-                                                                                className='h-2 rounded-full bg-purple-600'
-                                                                                style={{ width: `${uploadProgress[index]}%` }}
-                                                                                aria-valuenow={uploadProgress[index]}
-                                                                                aria-valuemin={0}
-                                                                                aria-valuemax={100}></div>
-                                                                        </div>
-                                                                        <span className='whitespace-nowrap text-xs'>{uploadProgress[index]}%</span>
-                                                                    </div>
-                                                                )}
-
-                                                                {/* <CircleProgressBar
-                                                                initialValue={
-                                                                    uploadProgress[
-                                                                        index
-                                                                    ]
-                                                                }
-                                                                color="blue-500"
-                                                            /> */}
-                                                            </div>
-
-                                                            <MdDeleteForever
-                                                                className='w-14  cursor-pointer text-2xl text-red-400 transition-all ease-in-out hover:text-red-500'
-                                                                onClick={() => fileRemove(item)}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-
-                                            <div className='flex flex-wrap items-center justify-between'>
-                                                <p className='text-sm text-neutral-500'>{fileList.length} files selected</p>
-                                                <Button onClick={handleUpload} disabled={uploading} className='px-10'>
-                                                    {uploading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Upload</>}
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className='flex h-full w-full  items-center justify-center'>
-                                            <p>Please select the images/videos you want to upload ..!</p>
-                                        </div>
-                                    )}
-                                </div>
+                                <input
+                                    type='file'
+                                    accept='image/*, video/*'
+                                    multiple
+                                    onChange={onFileDrop}
+                                    className='absolute inset-0 h-full w-full cursor-pointer opacity-0'
+                                />
                             </div>
                         </div>
+
+                        <div className='md:col-span-3'>
+                            {fileList.length > 0 ? (
+                                <div className='flex h-full flex-col items-stretch justify-between gap-4'>
+                                    <div className='grid-col-1 grid w-full gap-4 overflow-y-auto   rounded-md border p-2 lg:h-64 lg:grid-cols-2'>
+                                        {fileList.map((item, index) => (
+                                            <div key={index} className='flex w-full gap-3 lg:flex-col'>
+                                                <div className='relative overflow-hidden'>
+                                                    {item.type.startsWith('image/') ? (
+                                                        <img
+                                                            className='border-1 h-full w-36 rounded-md border-neutral-400 lg:w-[90%]'
+                                                            src={URL.createObjectURL(item)}
+                                                            alt={item.name}
+                                                        />
+                                                    ) : (
+                                                        <video
+                                                            className='border-1 h-full w-32 rounded-md border-neutral-400 lg:w-[90%]'
+                                                            controls
+                                                            muted
+                                                            src={URL.createObjectURL(item)}>
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    )}
+                                                </div>
+                                                <div className='flex w-full items-start justify-between gap-3'>
+                                                    <div className='flex w-full flex-col gap-2'>
+                                                        <input
+                                                            className='flex h-8 w-full  rounded-md border border-input bg-transparent px-3 py-1 pr-4 text-sm font-normal text-foreground shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/80 focus-visible:outline-none  focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+                                                            placeholder='Enter caption'
+                                                            aria-haspopup='listbox'
+                                                            type='text'
+                                                            value={captions[index]}
+                                                            onChange={e => handleCaptionChange(index, e.target.value)}
+                                                        />
+                                                        <div className='flex gap-3 text-neutral-500'>
+                                                            <p className='text-xs '>
+                                                                <span className='truncate'>{item.name}</span>
+                                                                <span className='ml-2 text-xs'>({(item.size / (1024 * 1024)).toFixed(2)} MB)</span>
+                                                            </p>
+                                                        </div>
+                                                        {uploadProgress[index] !== undefined && (
+                                                            <div className='flex items-center gap-3'>
+                                                                <div className='h-2 w-[90%] rounded-full bg-neutral-200 dark:bg-neutral-700'>
+                                                                    <div
+                                                                        className='h-2 rounded-full bg-purple-600'
+                                                                        style={{ width: `${uploadProgress[index]}%` }}
+                                                                        aria-valuenow={uploadProgress[index]}
+                                                                        aria-valuemin={0}
+                                                                        aria-valuemax={100}></div>
+                                                                </div>
+                                                                <span className='whitespace-nowrap text-xs'>{uploadProgress[index]}%</span>
+                                                            </div>
+                                                        )}
+
+                                                        {/* <CircleProgressBar
+                                    initialValue={
+                                        uploadProgress[
+                                            index
+                                        ]
+                                    }
+                                    color="blue-500"
+                                /> */}
+                                                    </div>
+
+                                                    <MdDeleteForever
+                                                        className='w-14  cursor-pointer text-2xl text-red-400 transition-all ease-in-out hover:text-red-500'
+                                                        onClick={() => fileRemove(item)}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className='flex flex-wrap items-center justify-between'>
+                                        <p className='text-sm text-neutral-500'>{fileList.length} files selected</p>
+                                        <Button onClick={handleUpload} disabled={uploading} className='px-10'>
+                                            {uploading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Upload</>}
+                                        </Button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className='flex h-full w-full  items-center justify-center'>
+                                    <p>Please select the images/videos you want to upload ..!</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
+                </DialogBody>
+            </Dialog>
         </>
     );
 };
