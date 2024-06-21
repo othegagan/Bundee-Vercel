@@ -16,44 +16,50 @@ import React, { useState } from 'react';
 
 interface TripModificationCalendarProps {
     unavailableDates: string[];
-    newStartDate?: string;
-    setNewStartDate?: React.Dispatch<React.SetStateAction<string>>;
     isTripStarted?: boolean;
-    getPriceCalculation: () => void;
-    setIsInitialLoad: React.Dispatch<React.SetStateAction<boolean>>;
     isDisabled?: boolean;
+    date?: string;
+    setDate?: React.Dispatch<React.SetStateAction<string>>;
+    setIsInitialLoad: React.Dispatch<React.SetStateAction<boolean>>;
+    setDateSelectionError?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export function TripModificationCalendar({
     unavailableDates,
-    newStartDate,
-    setNewStartDate,
+    date,
+    setDate,
     isTripStarted,
-    getPriceCalculation,
     setIsInitialLoad,
     isDisabled,
+    setDateSelectionError,
 }: TripModificationCalendarProps) {
-    const [date, setDate] = useState(parseDate(newStartDate));
+    const [value, setValue] = useState(parseDate(date));
 
     const handleDateChange = value => {
-        setDate(value);
+        setValue(value);
         const startDateFormatted = format(value.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
-        setNewStartDate(startDateFormatted);
+        setDate(startDateFormatted);
         setIsInitialLoad(false);
     };
 
-    const givenDate = newStartDate;
-    const minValue = isTripStarted ? parseDate(newStartDate) : today(getLocalTimeZone());
+    const minValue = isTripStarted ? parseDate(date) : today(getLocalTimeZone());
+
+    const isDateUnavailable = dateValue => {
+        const dateStr = format(dateValue.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
+        return unavailableDates.includes(dateStr);
+    };
+
     return (
         <DatePicker aria-label='Select Date' shouldCloseOnSelect={true} isDisabled={isDisabled} className={`${isDisabled && 'cursor-not-allowed'}`}>
-            <DatePickerButton date={date} />
+            <DatePickerButton date={value} />
             <DatePickerContent className='flex flex-col'>
                 <Calendar
-                    value={date}
+                    value={value}
                     onChange={handleDateChange}
                     minValue={minValue}
-                    maxValue={getFirstDateAfter(unavailableDates, givenDate)}
-                    isDisabled={isDisabled}>
+                    maxValue={getFirstDateAfter(unavailableDates, date)}
+                    isDisabled={isDisabled}
+                    isDateUnavailable={isDateUnavailable}>
                     <CalendarHeading />
                     <CalendarGrid>
                         <CalendarGridHeader>{day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
@@ -65,21 +71,22 @@ export function TripModificationCalendar({
     );
 }
 
-function getFirstDateAfter(unAvailabilityDates, givenDate) {
+function getFirstDateAfter(unAvailabilityDates: any[], givenDate: any) {
     // Convert the given date string to a Date object
     const givenDateObj = new Date(givenDate);
 
     // Convert all unavailability date strings to Date objects and filter out those before the given date
-    const futureDates = unAvailabilityDates.map(dateStr => new Date(dateStr)).filter(dateObj => dateObj > givenDateObj);
+    const futureDates = unAvailabilityDates.map(dateStr => new Date(dateStr + 'T00:00:00')).filter(dateObj => dateObj > givenDateObj);
 
     // If there are no future dates, return null
     if (futureDates.length === 0) {
         return null;
     }
-
     // Sort the future dates in ascending order
-    futureDates.sort((a, b) => a - b);
+    futureDates.sort((a: any, b: any) => a - b);
 
-    // Return the first date as a DateValue object
-    return parseDate(futureDates[0].toISOString().split('T')[0]);
+    // Return the date before the first unavailable date to disable the first unavailable date
+    const firstUnavailableDate = futureDates[0];
+    firstUnavailableDate.setDate(firstUnavailableDate.getDate() - 1);
+    return parseDate(format(firstUnavailableDate, 'yyyy-MM-dd'));
 }

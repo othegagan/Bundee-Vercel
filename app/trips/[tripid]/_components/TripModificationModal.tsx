@@ -10,12 +10,13 @@ import { getSession } from '@/lib/auth';
 import { convertToCarDate, convertToCarTimeZoneISO, formatDateTimeWithWeek, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { calculatePrice } from '@/server/priceCalculation';
-import { differenceInHours, format, parseISO, sub } from 'date-fns';
+import { differenceInHours, format, isSameSecond, parseISO, sub } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { StatusBadge } from '../../TripsComponent';
 import { TripModificationCalendar } from './TripModificationCalendar';
 import TripModificationPriceListComponent from './TripModificationPriceListComponent';
 import { CircleCheck, CircleX } from 'lucide-react';
+import { parseDateTime } from '@internationalized/date';
 
 const useTripModification = () => {
     const [submitting, setSubmitting] = useState(false);
@@ -153,7 +154,7 @@ export default function TripModificationDialog({ tripData }) {
 
     const { submitting, submitted, handleReduction, handleExtension, success } = useTripModification();
 
-    const { isLoading, isError, unavailableDates } = useAvailabilityDates(tripData.vehicleId, tripData.tripid);
+    const { isLoading: unavailabilitDatesLoading, isError, unavailableDates } = useAvailabilityDates(tripData.vehicleId, tripData.tripid);
 
     const [dateSelectionError, setDateSelectionError] = useState('');
 
@@ -176,6 +177,7 @@ export default function TripModificationDialog({ tripData }) {
 
     async function getPriceCalculation() {
         try {
+
             let originalDiff = differenceInHours(parseISO(tripData.endtime), parseISO(tripData.starttime));
             let newDiff = differenceInHours(parseISO(`${newEndDate}T${newEndTime}`), parseISO(`${newStartDate}T${newStartTime}`));
 
@@ -289,12 +291,12 @@ export default function TripModificationDialog({ tripData }) {
                                                 <label className='text-14 font-semibold'>New Start Date</label>
                                                 <TripModificationCalendar
                                                     unavailableDates={unavailableDates}
-                                                    newStartDate={convertToCarDate(tripData.starttime, tripData?.vehzipcode)}
-                                                    setNewStartDate={setNewStartDate}
                                                     isTripStarted={tripData.status.toLowerCase() === 'started'}
-                                                    getPriceCalculation={getPriceCalculation}
+                                                    date={convertToCarDate(tripData.starttime, tripData?.vehzipcode)}
+                                                    setDate={setNewStartDate}
                                                     setIsInitialLoad={setIsInitialLoad}
                                                     isDisabled={tripData.status.toLowerCase() === 'started'}
+                                                    setDateSelectionError={setDateSelectionError}
                                                 />
                                             </div>
 
@@ -313,12 +315,12 @@ export default function TripModificationDialog({ tripData }) {
                                                 <label className='text-14 font-semibold'>New End Date</label>
                                                 <TripModificationCalendar
                                                     unavailableDates={unavailableDates}
-                                                    newStartDate={convertToCarDate(tripData.endtime, tripData?.vehzipcode)}
-                                                    setNewStartDate={setNewEndDate}
+                                                    date={convertToCarDate(tripData.endtime, tripData?.vehzipcode)}
+                                                    setDate={setNewEndDate}
                                                     isTripStarted={tripData.status.toLowerCase() === 'started'}
-                                                    getPriceCalculation={getPriceCalculation}
                                                     setIsInitialLoad={setIsInitialLoad}
                                                     isDisabled={false}
+                                                    setDateSelectionError={setDateSelectionError}
                                                 />
                                             </div>
                                             <TimeSelect
