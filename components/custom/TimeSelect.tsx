@@ -33,7 +33,7 @@ const TimeSelect = ({
 
     const labelVariants = {
         sm: 'text-xs',
-        md: 'text-15',
+        md: 'text-14',
     };
 
     return (

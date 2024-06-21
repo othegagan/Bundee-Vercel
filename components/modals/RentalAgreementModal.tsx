@@ -6,7 +6,7 @@ const PDFViewerComponent = dynamic(() => import('../custom/PDFViewer'), {
     ssr: false,
 });
 
-import useRentalAgreementModal from '@/hooks/useRentalAgreement';
+import useRentalAgreementModal from '@/hooks/useDocumentModal';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
 import RentalAgreementCheckBox from '../custom/RentalAgreementCheckBox';

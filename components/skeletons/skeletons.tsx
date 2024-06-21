@@ -30,27 +30,22 @@ export function VehiclesCardsSkeleton({ className, columns }: VehicleCardSkeleto
 
 export function VehiclesDetailsSkeleton() {
     return (
-        <div className='min-h-[80svh] '>
-            <div className='mx-auto max-w-7xl flex-col '>
-                <div className='mx-auto max-w-2xl px-4  sm:px-6 lg:max-w-7xl lg:px-8 '>
+        <div className='container mx-auto min-h-[65svh]'>
+            <div className='mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
+                <div className='col-span-4 space-y-4 lg:col-span-2'>
+                    <div className={`relative h-[300px] rounded-xl bg-neutral-200 ${shimmer}`} />
 
-                    <div className='mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
-                        <div className='col-span-4 space-y-4 lg:col-span-2'>
-                            <div className={`relative h-[300px] rounded-xl bg-neutral-200 ${shimmer}`} />
+                    <div className='h-8 w-full rounded-lg bg-neutral-200' />
+                    <div className='h-4 w-2/3 rounded-lg bg-neutral-200' />
+                    <div className='h-4 w-1/3 rounded-lg bg-neutral-200' />
+                </div>
 
-                            <div className='h-8 w-full rounded-lg bg-neutral-200' />
-                            <div className='h-4 w-2/3 rounded-lg bg-neutral-200' />
-                            <div className='h-4 w-1/3 rounded-lg bg-neutral-200' />
-                        </div>
-
-                        <div className='col-span-1 flex flex-col gap-3'>
-                            <div className={`relative h-[200px] rounded-xl bg-neutral-200 ${shimmer}`} />
-                            <br />
-                            <div className='flex gap-3'>
-                                <div className='h-10 w-2/3 rounded-lg bg-neutral-200' />
-                                <div className='h-10 w-1/3 rounded-lg bg-neutral-200' />
-                            </div>
-                        </div>
+                <div className='col-span-1 flex flex-col gap-3'>
+                    <div className={`relative h-[200px] rounded-xl bg-neutral-200 ${shimmer}`} />
+                    <br />
+                    <div className='flex gap-3'>
+                        <div className='h-10 w-2/3 rounded-lg bg-neutral-200' />
+                        <div className='h-10 w-1/3 rounded-lg bg-neutral-200' />
                     </div>
                 </div>
             </div>
@@ -76,15 +71,14 @@ export function CalendarSelectSkeleton() {
 
 export function DrivingLicenceDetailsSkeleton() {
     return (
-        <div className='space-y-4 mt-4'>
-            <div className={`h-10 w-full md:w-[400px] rounded-md bg-neutral-200 ${shimmer}`} />
+        <div className='mt-4 space-y-4'>
+            <div className={`h-10 w-full rounded-md bg-neutral-200 md:w-[400px] ${shimmer}`} />
             <div className={`h-6 w-64 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-72 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-72 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-64 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-72 rounded-md bg-neutral-200 ${shimmer}`} />
             <div className={`h-6 w-64 rounded-md bg-neutral-200 ${shimmer}`} />
-
         </div>
     );
 }
@@ -145,7 +139,7 @@ export function PriceCalculatedListSkeleton() {
     return (
         <div className='space-y-2'>
             <div className={`h-64 w-full rounded-md bg-neutral-200 ${shimmer}`} />
-            <div className={`h-10 w-[60%] ml-auto rounded-md bg-neutral-200 ${shimmer}`} />
+            <div className={`ml-auto h-10 w-[60%] rounded-md bg-neutral-200 ${shimmer}`} />
         </div>
     );
 }

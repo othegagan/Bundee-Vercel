@@ -8,7 +8,15 @@ import { useQueryState } from 'next-usequerystate';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { Calendar, CalendarCell, CalendarGrid, CalendarGridBody, CalendarGridHeader, CalendarHeaderCell, CalendarHeading } from '@/components/ui/extension/calendar';
+import {
+    Calendar,
+    CalendarCell,
+    CalendarGrid,
+    CalendarGridBody,
+    CalendarGridHeader,
+    CalendarHeaderCell,
+    CalendarHeading,
+} from '@/components/ui/extension/calendar';
 import { DatePicker, DatePickerButton, DatePickerContent } from '@/components/ui/extension/date-picker';
 import { parseDate } from '@internationalized/date';
 
@@ -84,7 +92,6 @@ export default function HostPageSearchBox() {
 
     return (
         <>
-            {/* <form onSubmit={redirectParentWindow}> */}
             <div className={` } rounded-md bg-white  shadow-md`}>
                 <div className='gap-4 px-4 py-6 sm:px-8  sm:py-7 lg:flex lg:items-end '>
                     <div className='mb-4 flex w-full lg:mb-0'>
@@ -95,10 +102,6 @@ export default function HostPageSearchBox() {
                     </div>
 
                     <div className='flex w-full flex-col  gap-4 md:flex-row md:items-end'>
-                        {/* <div className='flex w-[35%] flex-col gap-1 md:w-full '>
-                                <TimeSelect label='Pickup Time' onChange={setStartTimeQuery} defaultValue={startTimeQuery} />
-                            </div> */}
-
                         <div className='flex w-[100%] flex-col gap-1'>
                             <label className='mb-1 text-xs font-semibold'>Pickup Date</label>
                             <DatePicker
@@ -128,9 +131,6 @@ export default function HostPageSearchBox() {
                             </DatePicker>
                         </div>
 
-                        {/* <div className='flex w-[35%] flex-col gap-1 md:w-full'>
-                                <TimeSelect label='Drop Time' onChange={setEndTimeQuery} defaultValue={endTimeQuery} />
-                            </div> */}
                         <div className='flex w-[100%] flex-col gap-1 '>
                             <label className='mb-1 text-xs font-semibold'>Drop Date</label>
 
@@ -166,7 +166,6 @@ export default function HostPageSearchBox() {
                     </div>
                 </div>
             </div>
-            {/* </form> */}
         </>
     );
 }

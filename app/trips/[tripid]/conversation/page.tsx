@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
+import { useTripDetails } from '@/hooks/useTripDetails';
 import { auth } from '@/lib/firebase';
 import { formatDateAndTime } from '@/lib/utils';
 import { getTripChatHistory, sendMessageToHost } from '@/server/tripOperations';
@@ -16,15 +17,18 @@ const AUTHOR_TYPE = {
     HOST: 'HOST',
     CLIENT: 'CLIENT',
 };
-
-export default function ChatComponent({ tripsData }) {
+export default function page({ params }: { params: { tripid: string } }) {
     const [token, setToken] = useState('');
     const [tripId, setTripId] = useState(null);
     const [inputMessage, setInputMessage] = useState('');
     const [messageList, setMessageList] = useState([]);
     const [sendingMessage, setSendingMessage] = useState(false);
+    const [loadingMessages, setLoadingMessages] = useState(false);
 
     const chatWindowRef = useRef(null);
+
+    const { data: response } = useTripDetails(params.tripid);
+    const tripData = response?.data?.activetripresponse[0];
 
     async function handleSendMessage(event: any) {
         event.preventDefault();
@@ -88,14 +92,12 @@ export default function ChatComponent({ tripsData }) {
         }
 
         async function initializeChat() {
-            const pathSegments = window.location.pathname.split('/');
-            const foundTripId = pathSegments[pathSegments.length - 1];
-
+            const foundTripId = params.tripid;
             if (foundTripId) {
-                setTripId(foundTripId);
+                setTripId(Number(foundTripId));
                 const token = await getIdTokenFromFirebase();
                 if (token) {
-                    await fetchChatHistory(foundTripId, token);
+                    await fetchChatHistory(Number(foundTripId), token);
                 }
             }
         }
@@ -123,7 +125,7 @@ export default function ChatComponent({ tripsData }) {
         <div className='rounded-lg pt-2 text-card-foreground shadow-sm'>
             <div className='h-[calc(90vh-250px)] space-y-4 overflow-y-auto md:h-[calc(90vh-200px)]' ref={chatWindowRef}>
                 {messageList.map((message, index) => (
-                    <Message key={index} message={message} tripsData={tripsData} />
+                    <Message key={index} message={message} tripData={tripData} />
                 ))}
             </div>
             <div className='flex items-center pt-3'>
@@ -147,7 +149,7 @@ export default function ChatComponent({ tripsData }) {
     );
 }
 
-function Message({ message, tripsData }) {
+function Message({ message, tripData }) {
     const authorImage = {
         [AUTHOR_TYPE.SYSTEM]: '/robot.png',
         [AUTHOR_TYPE.HOST]: '/dummy_avatar.png',
@@ -155,7 +157,7 @@ function Message({ message, tripsData }) {
 
     const isClientMessage = message.author === AUTHOR_TYPE.CLIENT;
 
-    const images = tripsData?.vehicleImages;
+    const images = tripData?.vehicleImages;
 
     if (isClientMessage) {
         return (
@@ -185,26 +187,25 @@ function Message({ message, tripsData }) {
                         )}
 
                         <p className='text-16 font-semibold capitalize'>
-                            {tripsData?.vehmake} {tripsData?.vehmodel} {tripsData?.vehyear}
+                            {tripData?.vehmake} {tripData?.vehmodel} {tripData?.vehyear}
                         </p>
 
                         <div>
-                            Trip Start Date :
-                            <span className='font-medium text-gray-800'> {formatDateAndTime(tripsData?.starttime, tripsData?.vehzipcode)}</span>
+                            Trip Start Date :<span className='font-medium text-gray-800'> {formatDateAndTime(tripData?.starttime, tripData?.vehzipcode)}</span>
                         </div>
 
                         <div>
-                            Trip End Date : <span className='font-medium text-gray-800'> {formatDateAndTime(tripsData?.endtime, tripsData?.vehzipcode)}</span>
+                            Trip End Date : <span className='font-medium text-gray-800'> {formatDateAndTime(tripData?.endtime, tripData?.vehzipcode)}</span>
                         </div>
 
                         <div>
                             Pickup & Return :{' '}
                             <span className='font-medium capitalize text-gray-800'>
-                                {tripsData?.vehaddress1 ? `${tripsData?.vehaddress1}, ` : null}
-                                {tripsData?.vehaddress2 ? `${tripsData?.vehaddress2}, ` : null}
-                                {tripsData?.vehcity ? `${tripsData?.vehcity}, ` : null}
-                                {tripsData?.vehstate ? `${tripsData?.vehstate}, ` : null}
-                                {tripsData?.vehzipcode ? `${tripsData?.vehzipcode}` : null}
+                                {tripData?.vehaddress1 ? `${tripData?.vehaddress1}, ` : null}
+                                {tripData?.vehaddress2 ? `${tripData?.vehaddress2}, ` : null}
+                                {tripData?.vehcity ? `${tripData?.vehcity}, ` : null}
+                                {tripData?.vehstate ? `${tripData?.vehstate}, ` : null}
+                                {tripData?.vehzipcode ? `${tripData?.vehzipcode}` : null}
                             </span>
                         </div>
 

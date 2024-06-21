@@ -68,7 +68,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
             {tripsResponse.data?.activetripresponse.map((trip: any, index: React.Key) => (
                 <Link
                     key={trip.tripid}
-                    href={`/trips/${trip.tripid}`}
+                    href={`/trips/${trip.tripid}/details`}
                     className='group col-span-1 flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow md:flex-row'>
                     <div className='h-44 w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 md:h-48 md:w-64'>
                         <img
@@ -116,41 +116,8 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
                         </div>
                         <div className='mt-6 flex flex-1 items-end'>
                             <dl className='flex space-x-4 text-sm'>
-                                <div>
-                                    <div
-                                        className={`me-2 rounded px-2.5 py-1 text-sm font-medium dark:text-red-300 ${
-                                            {
-                                                Approved: 'bg-green-100 text-green-800 dark:bg-green-900',
-                                                Completed: 'bg-green-100 text-green-800 dark:bg-green-900',
-                                                Requested: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900',
-                                                Started: 'bg-blue-100 text-blue-800 dark:bg-blue-900',
-                                            }[trip.status] || 'bg-red-100 text-red-800 dark:bg-red-900'
-                                        }`}>
-                                        {trip.status}
-                                    </div>
-                                </div>
-                                {trip.swapDetails && trip.swapDetails.length > 0 && (
-                                    <div className='flex space-x-4 text-sm'>
-                                        <div className='h-8 border border-neutral-200'></div>
-                                        <div>
-                                            {trip.swapDetails[0].statuscode.toLowerCase() === 'swappr' && (
-                                                <span className='inline-flex items-center whitespace-nowrap rounded-md bg-yellow-50 p-2 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20'>
-                                                    Swap Proposal Requested
-                                                </span>
-                                            )}
-                                            {trip.swapDetails[0].statuscode.toLowerCase() === 'swaprej' && (
-                                                <span className='inline-flex items-center whitespace-nowrap rounded-md bg-red-50 p-2 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20'>
-                                                    Swap Proposal Rejected
-                                                </span>
-                                            )}
-                                            {trip.swapDetails[0].statuscode.toLowerCase() === 'swapacc' && (
-                                                <span className='inline-flex items-center whitespace-nowrap rounded-md bg-green-50 p-2 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20'>
-                                                    Swap Proposal Approved
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
+                                <StatusBadge status={trip.status} type='booking' />
+                                {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}
                             </dl>
                         </div>
                     </div>
@@ -158,4 +125,43 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
             ))}
         </div>
     );
+};
+
+export const StatusBadge = ({ status, type }: { type: 'booking' | 'swap'; status: string }) => {
+    const statusClasses = {
+        booking: {
+            approved: 'bg-green-100 text-green-800 ',
+            requested: 'bg-yellow-100 text-yellow-800 ',
+            started: 'bg-blue-100 text-blue-800 ring-blue-600/20',
+            default: 'bg-red-100 text-red-800 ring-red-600/20',
+        },
+        swap: {
+            swappr: 'bg-yellow-100 text-yellow-800 ring-yellow-600/20',
+            swaprej: 'bg-red-100 text-red-800 ring-red-600/20',
+            swapacc: 'bg-green-100 text-green-800 ring-green-600/20',
+            default: 'bg-gray-100 text-gray-800 ring-gray-600/20',
+        },
+    };
+
+    const statusTexts = {
+        swap: {
+            swappr: 'Swap Proposal Requested',
+            swaprej: 'Swap Proposal Rejected',
+            swapacc: 'Swap Proposal Approved',
+            default: 'Unknown Status',
+        },
+    };
+
+    const getStatusClass = (type: string, status: string) => {
+        return statusClasses[type][status.toLowerCase()] || statusClasses[type].default;
+    };
+
+    const getStatusText = (type: string, status: string) => {
+        return (statusTexts[type] && statusTexts[type][status.toLowerCase()]) || status;
+    };
+
+    const statusClass = getStatusClass(type, status);
+    const statusText = getStatusText(type, status);
+
+    return <span className={`text-12 capitalize inline-flex items-center whitespace-nowrap rounded-md px-2.5 py-1.5 font-medium  ${statusClass}`}>{statusText}</span>;
 };

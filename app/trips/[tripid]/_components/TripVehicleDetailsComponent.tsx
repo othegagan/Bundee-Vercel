@@ -1,9 +1,8 @@
 'use client';
-import TripImageVideoCarousel from '@/app/trips/[tripid]/components/TripImageVideoCarousel';
-import Carousel from '@/components/ui/carousel/carousel';
+
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import Readmore from '@/components/ui/readmore';
-import React from 'react';
+import TripImageVideoCarousel from './TripImageVideoCarousel';
 
 const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedImages }: any) => {
     const images: any = [...car?.imageresponse].sort((a, b) => {

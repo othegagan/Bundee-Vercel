@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface RentalAgreementModalStore {
+interface DocumentModalStore {
     isOpen: boolean;
     tripId: number;
     isAgreementAcceptedOn: string;
@@ -14,7 +14,7 @@ interface RentalAgreementModalStore {
     setInvoicePDFLink: (value: string) => void;
 }
 
-const useRentalAgreementModal = create<RentalAgreementModalStore>(set => ({
+const useDocumentModal = create<DocumentModalStore>(set => ({
     isOpen: false,
     tripId: 0,
     isAgreementAcceptedOn: '',
@@ -30,4 +30,4 @@ const useRentalAgreementModal = create<RentalAgreementModalStore>(set => ({
     setInvoicePDFLink: (value: string) => set({ invoicePDFLink: value }),
 }));
 
-export default useRentalAgreementModal;
+export default useDocumentModal;

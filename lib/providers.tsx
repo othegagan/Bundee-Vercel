@@ -9,7 +9,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             queries: {
                 refetchOnWindowFocus: true,
                 staleTime: 2 * 60 * 1000, // Data is fresh for 2 minutes
-                gcTime: 10 * 60 * 1000, // Data is garbage collected after 10 minutes
+                gcTime: 2 * 60 * 1000, // Data is garbage collected after 2 minutes
                 retry: 2,
             },
         },

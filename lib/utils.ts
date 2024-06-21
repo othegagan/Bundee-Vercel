@@ -83,6 +83,18 @@ export function formatDateAndTime(date: string, zipCode: string) {
     return `${formattedDate} | ${formattedTime} ${timeZoneAbbreviation}`;
 }
 
+export function formatDateTimeWithWeek(date: string, zipCode: string) {
+    const endTimeUTC = moment.utc(date);
+    const timeZone = getTimeZoneByZipcode(zipCode);
+    const timeInTimeZone = endTimeUTC.tz(timeZone);
+
+    const formattedDate = timeInTimeZone.format('ddd, MMM DD YYYY');
+    const formattedTime = timeInTimeZone.format('h:mm A');
+    const timeZoneAbbreviation = timeInTimeZone.format('z');
+
+    return `${formattedDate} | ${formattedTime} ${timeZoneAbbreviation}`;
+}
+
 export function formatTime(dateTimeString: string, zipCode: string) {
     const timeZone = getTimeZoneByZipcode(zipCode);
     const time = moment(dateTimeString).tz(timeZone).format('HH:mm:ss');

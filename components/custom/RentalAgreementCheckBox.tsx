@@ -1,6 +1,6 @@
 'use client';
 
-import useRentalAgreementModal from '@/hooks/useRentalAgreement';
+import useRentalAgreementModal from '@/hooks/useDocumentModal';
 import { updateRentalAgreement } from '@/server/tripOperations';
 import { useState } from 'react';
 import { Button } from '../ui/button';
