@@ -28,7 +28,7 @@ const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedIm
                 </div>
             )}
 
-            <div className='mt-6 space-y-4'>
+            <div className='mt-6 px-4 space-y-4'>
                 <h2 className='tracking-tight'>
                     {car.make} {car.model} {car.year}
                 </h2>

@@ -1,7 +1,7 @@
 'use client';
 
 import ErrorComponent from '@/components/custom/ErrorComponent';
-import { VehiclesDetailsSkeleton } from '@/components/skeletons/skeletons';
+import { shimmer, VehiclesDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import { formatDateAndTime, toTitleCase } from '@/lib/utils';
 import { StatusBadge } from '../../TripsComponent';
@@ -15,6 +15,7 @@ import TripModificationDialog from '../_components/TripModificationModal';
 import TripPriceListComponent from '../_components/TripPriceListComponent';
 import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import TripVehicleDetailsComponent from '../_components/TripVehicleDetailsComponent';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function page({ params }: { params: { tripid: string } }) {
     const { data: response, isLoading, error, isFetching } = useTripDetails(params.tripid);
@@ -32,8 +33,8 @@ export default function page({ params }: { params: { tripid: string } }) {
     const swapRequestDetails = tripData?.swapDetails[0];
 
     return (
-        <div className='mt-3 grid grid-cols-1 gap-6 md:mt-6 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
-            <div className='flex flex-col lg:col-span-2'>
+        <div className='mt-3 grid grid-cols-1 gap-6 md:mt-6 md:grid-cols-2 md:gap-6 lg:grid-cols-5'>
+            <div className='flex flex-col lg:col-span-3'>
                 <TripVehicleDetailsComponent
                     car={tripData.vehicleDetails[0]}
                     driverUploadedImages={tripData.driverTripStartingBlobs}
@@ -41,22 +42,22 @@ export default function page({ params }: { params: { tripid: string } }) {
                 />
             </div>
 
-            <div className='mt-4 px-4 lg:row-span-3 lg:mt-0'>
+            <div className='mt-4 px-4 lg:col-span-2 lg:mt-0'>
                 <TripImageVideoUploadComponent tripData={tripData} />
 
                 <div className='mt-10 flex flex-col gap-4'>
                     <div className='flex items-center justify-between'>
-                        <div className='text-md'>Total Booking Days</div>
+                        <div className='text-md'>Booking Duration</div>
                         <div className='text-md font-medium'>
                             {tripData.tripPaymentTokens[0]?.totaldays} {tripData?.tripPaymentTokens[0]?.totaldays == 1 ? 'Day' : 'Days'}
                         </div>
                     </div>
                     <div className='flex items-center justify-between'>
-                        <div className='text-md'>Trip Start Date</div>
+                        <div className='text-md'> Start Date</div>
                         <div className='text-md font-medium'>{formatDateAndTime(tripData.starttime, tripData.vehzipcode)}</div>
                     </div>
                     <div className='flex items-center justify-between'>
-                        <div className='text-md'>Trip End Date</div>
+                        <div className='text-md'> End Date</div>
                         <div className='text-md font-medium'>{formatDateAndTime(tripData.endtime, tripData.vehzipcode)}</div>
                     </div>
 
@@ -74,8 +75,12 @@ export default function page({ params }: { params: { tripid: string } }) {
                     <TripPriceListComponent pricelist={tripData?.tripPaymentTokens[0]} />
 
                     <div className=' flex justify-between'>
-                        <label className='text-14 font-bold'>Trip Status</label>
-                        {isFetching ? <div className='animate-spin'>O</div> : <StatusBadge status={tripData.status.toLowerCase()} type='booking' />}
+                        <label className='text-15 font-bold'>Trip Status</label>
+                        {isFetching ? (
+                            <Skeleton className='h-8 w-28 rounded-lg bg-neutral-200' />
+                        ) : (
+                            <StatusBadge status={tripData.status.toLowerCase()} type='booking' />
+                        )}
                     </div>
 
                     {swapRequestDetails && (

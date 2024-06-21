@@ -102,7 +102,7 @@ export default function Page({ params }) {
         if (chatWindowRef.current) {
             chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
         }
-    }, []);
+    }, [sendMessageMutation.isPending]);
 
     return (
         <div className='rounded-lg px-4 pt-2 text-card-foreground shadow-sm'>

@@ -4,21 +4,17 @@ import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-const TimeSelect = ({
-    onChange,
-    defaultValue,
-    label,
-    className,
-    disableLimitTime,
-    variant = 'md',
-}: {
+interface TimeSelectProps {
     onChange: any;
     defaultValue: any;
     label: string;
     className?: string;
     disableLimitTime?: any;
     variant?: 'sm' | 'md';
-}) => {
+    isDisabled?: boolean;
+}
+
+const TimeSelect = ({ onChange, defaultValue, label, className, disableLimitTime, variant = 'md', isDisabled = false }: TimeSelectProps) => {
     const generateTimes = React.useMemo(() => {
         return Array.from({ length: 48 }, (_, i) => {
             const hour24 = Math.floor(i / 2);
@@ -39,7 +35,7 @@ const TimeSelect = ({
     return (
         <div className='flex w-full flex-col gap-2'>
             <label className={cn('font-semibold', labelVariants[variant])}>{label}</label>
-            <Select onValueChange={onChange} defaultValue={defaultValue}>
+            <Select onValueChange={onChange} defaultValue={defaultValue} disabled={isDisabled}>
                 <SelectTrigger className={`md:w-[150px] ${className}`}>
                     <SelectValue placeholder='Select end time' />
                 </SelectTrigger>

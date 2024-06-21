@@ -139,7 +139,7 @@ export function PriceCalculatedListSkeleton() {
     return (
         <div className='space-y-2'>
             <div className={`h-64 w-full rounded-md bg-neutral-200 ${shimmer}`} />
-            <div className={`ml-auto h-10 w-[60%] rounded-md bg-neutral-200 ${shimmer}`} />
+            <div className={`ml-auto h-9 w-full rounded-md bg-neutral-200 ${shimmer}`} />
         </div>
     );
 }

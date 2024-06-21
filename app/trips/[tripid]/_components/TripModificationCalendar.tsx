@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/extension/button';
 import {
     Calendar,
     CalendarCell,
@@ -10,45 +9,51 @@ import {
     CalendarHeaderCell,
     CalendarHeading,
 } from '@/components/ui/extension/calendar';
-import { DatePicker, DatePickerContent } from '@/components/ui/extension/date-picker';
-import { cn } from '@/lib/utils';
+import { DatePicker, DatePickerButton, DatePickerContent } from '@/components/ui/extension/date-picker';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
 import React, { useState } from 'react';
-import { Group, type DateValue } from 'react-aria-components';
 
 interface TripModificationCalendarProps {
     unavailableDates: string[];
     newStartDate?: string;
     setNewStartDate?: React.Dispatch<React.SetStateAction<string>>;
     isTripStarted?: boolean;
+    getPriceCalculation: () => void;
+    setIsInitialLoad: React.Dispatch<React.SetStateAction<boolean>>;
+    isDisabled?: boolean;
 }
 
-export function TripModificationCalendar({ unavailableDates, newStartDate, setNewStartDate, isTripStarted }: TripModificationCalendarProps) {
-
-    console.log(newStartDate)
-
+export function TripModificationCalendar({
+    unavailableDates,
+    newStartDate,
+    setNewStartDate,
+    isTripStarted,
+    getPriceCalculation,
+    setIsInitialLoad,
+    isDisabled,
+}: TripModificationCalendarProps) {
     const [date, setDate] = useState(parseDate(newStartDate));
 
     const handleDateChange = value => {
         setDate(value);
-        // setNewStartDate(format(value?.toDate(getLocalTimeZone()), 'yyyy-MM-dd'));
+        const startDateFormatted = format(value.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
+        setNewStartDate(startDateFormatted);
+        setIsInitialLoad(false);
     };
 
     const givenDate = newStartDate;
     const minValue = isTripStarted ? parseDate(newStartDate) : today(getLocalTimeZone());
-
     return (
-        <DatePicker aria-label='Select Date' shouldCloseOnSelect={true}>
-            <Group>
-                <Button variant='outline' className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground')}>
-                    <CalendarIcon className='mr-2 h-4 w-4' />
-                    {date ? format(date?.toDate(getLocalTimeZone()), 'PPP') : <span>Pick a date</span>}
-                </Button>
-            </Group>
+        <DatePicker aria-label='Select Date' shouldCloseOnSelect={true} isDisabled={isDisabled} className={`${isDisabled && 'cursor-not-allowed'}`}>
+            <DatePickerButton date={date} />
             <DatePickerContent className='flex flex-col'>
-                <Calendar value={date} onChange={handleDateChange} minValue={minValue} maxValue={getFirstDateAfter(unavailableDates, givenDate)}>
+                <Calendar
+                    value={date}
+                    onChange={handleDateChange}
+                    minValue={minValue}
+                    maxValue={getFirstDateAfter(unavailableDates, givenDate)}
+                    isDisabled={isDisabled}>
                     <CalendarHeading />
                     <CalendarGrid>
                         <CalendarGridHeader>{day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
