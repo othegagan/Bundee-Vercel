@@ -143,3 +143,23 @@ export function PriceCalculatedListSkeleton() {
         </div>
     );
 }
+
+export function ChatSkeleton() {
+    return (
+        <div className='flex w-full flex-col gap-4 p-4'>
+            <div className='flex-grow-1 flex-row items-start gap-4 '>
+                <div className={`${shimmer} h-[350px] w-[75%] rounded-lg bg-neutral-200 `} />
+            </div>
+            <div className='flex-grow-1 flex items-start gap-4 '>
+                <div className={`${shimmer} h-12 w-[200px] rounded-lg bg-neutral-200 `} />
+            </div>
+
+            <div className='flex flex-row-reverse items-start gap-4 '>
+                <div className={`${shimmer} h-12 w-[50%] rounded-lg bg-neutral-200 `} />
+            </div>
+            <div className='flex flex-row-reverse items-start gap-4 '>
+                <div className={`${shimmer} h-12 w-[200px] rounded-lg bg-neutral-200 `} />
+            </div>
+        </div>
+    );
+}

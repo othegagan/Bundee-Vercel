@@ -41,7 +41,7 @@ export default function page({ params }: { params: { tripid: string } }) {
                 />
             </div>
 
-            <div className='mt-4 lg:row-span-3 lg:mt-0'>
+            <div className='mt-4 px-4 lg:row-span-3 lg:mt-0'>
                 <TripImageVideoUploadComponent tripData={tripData} />
 
                 <div className='mt-10 flex flex-col gap-4'>

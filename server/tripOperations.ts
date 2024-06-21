@@ -103,7 +103,7 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
             author: item.author,
             message: item.body,
             deliveryDate: item.dateUpdated, // Adjust as needed
-        }));
+        })).reverse();
 
         return messageData;
     } catch (error: any) {

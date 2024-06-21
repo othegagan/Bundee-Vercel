@@ -1,5 +1,6 @@
 'use client';
 
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import { Input } from '@/components/ui/input';
@@ -11,70 +12,24 @@ import { getTripChatHistory, sendMessageToHost } from '@/server/tripOperations';
 import { format } from 'date-fns';
 import { Send } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { ChatSkeleton } from '@/components/skeletons/skeletons';
 
 const AUTHOR_TYPE = {
     SYSTEM: 'system',
     HOST: 'HOST',
     CLIENT: 'CLIENT',
 };
-export default function page({ params }: { params: { tripid: string } }) {
+
+export default function Page({ params }) {
     const [token, setToken] = useState('');
-    const [tripId, setTripId] = useState(null);
     const [inputMessage, setInputMessage] = useState('');
-    const [messageList, setMessageList] = useState([]);
-    const [sendingMessage, setSendingMessage] = useState(false);
-    const [loadingMessages, setLoadingMessages] = useState(false);
+    const [tripId, setTripId] = useState(null);
 
     const chatWindowRef = useRef(null);
-
-    const { data: response } = useTripDetails(params.tripid);
-    const tripData = response?.data?.activetripresponse[0];
-
-    async function handleSendMessage(event: any) {
-        event.preventDefault();
-        try {
-            setSendingMessage(true);
-            const data = await sendMessageToHost(tripId, inputMessage, token);
-            if (data != null) {
-                const context = await getTripChatHistory(tripId, token);
-                setMessageList(context.reverse());
-                setInputMessage('');
-            }
-        } catch (error) {
-            console.error('Error sending message:', error);
-            toast({
-                duration: 3000,
-                variant: 'destructive',
-                description: 'Failed to send message. Please try again.',
-            });
-        } finally {
-            setSendingMessage(false);
-        }
-    }
+    const queryClient = useQueryClient();
 
     useEffect(() => {
-        let intervalId: string | number | NodeJS.Timeout;
-        let retryCount = 0;
-        const maxRetries = 5;
-
-        async function fetchChatHistory(tripId: any, token: string) {
-            try {
-                const data = await getTripChatHistory(tripId, token);
-                if (data != null) {
-                    setMessageList(data.reverse());
-                    retryCount = 0; // Reset retry count on successful fetch
-                }
-            } catch (error) {
-                console.error('Error fetching chat history:', error);
-                retryCount++;
-                if (retryCount >= maxRetries) {
-                    console.error('Maximum retry limit reached. Stopping further retries.');
-                    clearInterval(intervalId);
-                }
-            }
-        }
-
-        async function getIdTokenFromFirebase() {
+        async function fetchToken() {
             try {
                 if (auth.currentUser) {
                     const idToken = await auth.currentUser.getIdToken();
@@ -90,43 +45,77 @@ export default function page({ params }: { params: { tripid: string } }) {
                 });
             }
         }
-
-        async function initializeChat() {
-            const foundTripId = params.tripid;
-            if (foundTripId) {
-                setTripId(Number(foundTripId));
-                const token = await getIdTokenFromFirebase();
-                if (token) {
-                    await fetchChatHistory(Number(foundTripId), token);
-                }
-            }
-        }
-
-        async function startChatPolling() {
-            initializeChat(); // Initial call to fetch chat history
-            intervalId = setInterval(() => {
-                initializeChat();
-            }, 8000);
-        }
-
-        startChatPolling();
-
-        return () => clearInterval(intervalId);
+        fetchToken();
     }, []);
 
     useEffect(() => {
-        // Scroll to bottom when message list changes
+        if (params.tripid) {
+            setTripId(Number(params.tripid));
+        }
+    }, [params.tripid]);
+
+    const { data: response } = useTripDetails(params.tripid);
+    const tripData = response?.data?.activetripresponse[0];
+
+    const fetchChatHistory = async () => {
+        if (tripId && token) {
+            return await getTripChatHistory(tripId, token);
+        }
+        return [];
+    };
+
+    const { data: messageList = [], isLoading: loadingMessages } = useQuery({
+        queryKey: ['chatHistory', tripId, token],
+        queryFn: fetchChatHistory,
+        enabled: !!tripId && !!token,
+        refetchInterval: 8000,
+        refetchOnWindowFocus: true,
+    });
+
+    const sendMessageMutation = useMutation({
+        mutationFn: async () => {
+            if (tripId && token && inputMessage) {
+                return await sendMessageToHost(tripId, inputMessage, token);
+            }
+            throw new Error('Missing tripId, token, or inputMessage');
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['chatHistory', tripId, token] });
+            setInputMessage('');
+        },
+        onError: error => {
+            console.error('Error sending message:', error);
+            toast({
+                duration: 3000,
+                variant: 'destructive',
+                description: 'Failed to send message. Please try again.',
+            });
+        },
+    });
+
+    const handleSendMessage = event => {
+        event.preventDefault();
+        sendMessageMutation.mutate();
+    };
+
+    useEffect(() => {
         if (chatWindowRef.current) {
             chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
         }
-    }, [sendingMessage]);
+    }, []);
 
     return (
-        <div className='rounded-lg pt-2 text-card-foreground shadow-sm'>
+        <div className='rounded-lg px-4 pt-2 text-card-foreground shadow-sm'>
             <div className='h-[calc(90vh-250px)] space-y-4 overflow-y-auto md:h-[calc(90vh-200px)]' ref={chatWindowRef}>
-                {messageList.map((message, index) => (
-                    <Message key={index} message={message} tripData={tripData} />
-                ))}
+                {loadingMessages ? (
+                    <ChatSkeleton />
+                ) : (
+                    <>
+                        {messageList.map((message, index) => (
+                            <Message key={index} message={message} tripData={tripData} />
+                        ))}
+                    </>
+                )}
             </div>
             <div className='flex items-center pt-3'>
                 <form className='flex w-full items-center space-x-2' onSubmit={handleSendMessage}>
@@ -136,9 +125,14 @@ export default function page({ params }: { params: { tripid: string } }) {
                         placeholder='Type your message...'
                         autoComplete='off'
                         value={inputMessage}
-                        onChange={e => setInputMessage(e.target.value.trim())}
+                        onChange={e => setInputMessage(e.target.value)}
                     />
-                    <Button variant='black' type='submit' disabled={!inputMessage.trim() || sendingMessage} loading={sendingMessage} loadingText='Sending...'>
+                    <Button
+                        variant='black'
+                        type='submit'
+                        disabled={!inputMessage.trim() || sendMessageMutation.isPending}
+                        loading={sendMessageMutation.isPending}
+                        loadingText='Sending...'>
                         <Send className='mr-2 size-4' />
                         Send
                         <span className='sr-only'>Send</span>
