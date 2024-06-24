@@ -11,7 +11,7 @@ export default async function layout({ params, children }: { params: { tripid: s
         return <ErrorComponent message='Oops, it seems you are not logged in. Please log in.' />;
     }
     return (
-        <div className='py-4 md:container lg:px-[4rem]'>
+        <div className='py-4 md:container '>
             <div className='flex flex-col gap-1 border-b pb-2 px-4 md:flex-row md:items-center md:justify-between'>
                 <BackButton link='/trips' />
 

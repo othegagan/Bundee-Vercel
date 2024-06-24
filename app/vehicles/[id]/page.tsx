@@ -303,7 +303,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     return (
         <>
             <ClientOnly>
-                <div className='py-4 md:container lg:px-[4rem]'>
+                <div className='py-4 pb-6 md:container'>
                     <div className='grid grid-cols-1 gap-6 md:gap-6 lg:grid-cols-3'>
                         <div className='flex flex-col items-start lg:col-span-2'>
                             <VehicleDetailsComponent
@@ -316,11 +316,11 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         <div className='absolute right-[3%] top-[6%] cursor-pointer rounded-md bg-white p-1 lg:hidden'>
                                             {isItemWishlisted ? (
                                                 <div onClick={() => removeFromWishlistHandler(vehicleDetails.id)}>
-                                                    <IoMdHeart className='size-10 text-red-500' />
+                                                    <IoMdHeart className='size-8 text-red-500' />
                                                 </div>
                                             ) : (
                                                 <div onClick={() => addToWishlistHandler(vehicleDetails.id)}>
-                                                    <IoIosHeartEmpty className='size-10 text-red-500' />
+                                                    <IoIosHeartEmpty className='size-8 text-red-500' />
                                                 </div>
                                             )}
                                         </div>
@@ -329,7 +329,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                             />
                         </div>
 
-                        <div className='container mt-4 flex flex-col gap-6 border-t border-neutral-200 pt-4 md:border-0 lg:row-span-3 lg:mt-0'>
+                        <div className='container  mt-4 flex flex-col gap-6 border-t border-neutral-200 pt-4 md:border-0 lg:row-span-3 lg:mt-0'>
                             <div className='flex justify-between'>
                                 <h2 className='tracking-tight'>{`$${vehicleDetails?.price_per_hr} / day`}</h2>
                                 {userAuthenticated && (

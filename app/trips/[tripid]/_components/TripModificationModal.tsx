@@ -10,13 +10,14 @@ import { getSession } from '@/lib/auth';
 import { convertToCarDate, convertToCarTimeZoneISO, formatDateTimeWithWeek, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { calculatePrice } from '@/server/priceCalculation';
-import { differenceInHours, format, isSameSecond, parseISO, sub } from 'date-fns';
+import { differenceInHours, format, isSameSecond, parseISO, isAfter, isBefore, isWithinInterval } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { StatusBadge } from '../../TripsComponent';
-import { TripModificationCalendar } from './TripModificationCalendar';
+import { TripModificationEndDateCalendar, TripModificationStartDateCalendar } from './TripModificationCalendars';
 import TripModificationPriceListComponent from './TripModificationPriceListComponent';
 import { CircleCheck, CircleX } from 'lucide-react';
 import { parseDateTime } from '@internationalized/date';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 
 const useTripModification = () => {
     const [submitting, setSubmitting] = useState(false);
@@ -154,7 +155,7 @@ export default function TripModificationDialog({ tripData }) {
 
     const { submitting, submitted, handleReduction, handleExtension, success } = useTripModification();
 
-    const { isLoading: unavailabilitDatesLoading, isError, unavailableDates } = useAvailabilityDates(tripData.vehicleId, tripData.tripid);
+    const { isLoading: unavailabilitDatesLoading, isError, unavailableDates, unformattedDates } = useAvailabilityDates(tripData.vehicleId, tripData.tripid);
 
     const [dateSelectionError, setDateSelectionError] = useState('');
 
@@ -177,11 +178,28 @@ export default function TripModificationDialog({ tripData }) {
 
     async function getPriceCalculation() {
         try {
+            const parsedOriginalStartDate = parseISO(tripData.starttime);
+            const parsedOriginalEndDate = parseISO(tripData.endtime);
+            const parsedNewStartDate = parseISO(`${newStartDate}T${newStartTime}`);
+            const parsedNewEndDate = parseISO(`${newEndDate}T${newEndTime}`);
 
-            let originalDiff = differenceInHours(parseISO(tripData.endtime), parseISO(tripData.starttime));
-            let newDiff = differenceInHours(parseISO(`${newEndDate}T${newEndTime}`), parseISO(`${newStartDate}T${newStartTime}`));
+            // Check if the new start date is not before the new end date
+            if (!isBefore(parsedNewStartDate, parsedNewEndDate)) {
+                throw new Error('New start date must be before new end date');
+            }
 
-            // console.log('originalDiff', originalDiff, 'newDiff', newDiff);
+            // Check for any unavailable dates within the new date range
+            const unAvailabilityDates = unformattedDates.map(date => parseISO(date));
+
+            const hasUnavailableDate = unAvailabilityDates.some(date => isWithinInterval(date, { start: parsedNewStartDate, end: parsedNewEndDate }));
+
+            if (hasUnavailableDate) {
+                throw new Error('The selected date range includes unavailable dates.');
+            }
+
+            let originalDiff = differenceInHours(parsedOriginalEndDate, parsedOriginalStartDate);
+            let newDiff = differenceInHours(parsedNewEndDate, parsedNewStartDate);
+
             if (newDiff > originalDiff) {
                 setIsExtension(true);
             } else {
@@ -192,7 +210,7 @@ export default function TripModificationDialog({ tripData }) {
             setPriceLoading(true);
             setPriceCalculatedList(null);
 
-            const payload: any = {
+            const payload = {
                 vehicleid: tripData.vehicleId,
                 startTime: convertToCarTimeZoneISO(newStartDate, newStartTime, tripData.vehzipcode),
                 endTime: convertToCarTimeZoneISO(newEndDate, newEndTime, tripData.vehzipcode),
@@ -201,7 +219,8 @@ export default function TripModificationDialog({ tripData }) {
                 hostid: tripData.hostid,
             };
 
-            const responseData: any = await calculatePrice(payload);
+            // console.log(payload);
+            const responseData = await calculatePrice(payload);
 
             if (responseData.success) {
                 const data = responseData.data;
@@ -227,6 +246,7 @@ export default function TripModificationDialog({ tripData }) {
         setPriceCalculatedList(null);
         setPriceError('');
         setPriceLoading(false);
+        setDateSelectionError('');
     }
 
     function handleSubmit() {
@@ -289,7 +309,7 @@ export default function TripModificationDialog({ tripData }) {
                                         <div className=' flex w-full items-center justify-between gap-3'>
                                             <div className='flex w-full flex-1 flex-col gap-2'>
                                                 <label className='text-14 font-semibold'>New Start Date</label>
-                                                <TripModificationCalendar
+                                                <TripModificationStartDateCalendar
                                                     unavailableDates={unavailableDates}
                                                     isTripStarted={tripData.status.toLowerCase() === 'started'}
                                                     date={convertToCarDate(tripData.starttime, tripData?.vehzipcode)}
@@ -313,7 +333,7 @@ export default function TripModificationDialog({ tripData }) {
                                         <div className=' flex items-center justify-between gap-3'>
                                             <div className='flex w-full flex-1 flex-col gap-2'>
                                                 <label className='text-14 font-semibold'>New End Date</label>
-                                                <TripModificationCalendar
+                                                <TripModificationEndDateCalendar
                                                     unavailableDates={unavailableDates}
                                                     date={convertToCarDate(tripData.endtime, tripData?.vehzipcode)}
                                                     setDate={setNewEndDate}
@@ -321,6 +341,7 @@ export default function TripModificationDialog({ tripData }) {
                                                     setIsInitialLoad={setIsInitialLoad}
                                                     isDisabled={false}
                                                     setDateSelectionError={setDateSelectionError}
+                                                    newStartDate={newStartDate}
                                                 />
                                             </div>
                                             <TimeSelect
@@ -333,6 +354,13 @@ export default function TripModificationDialog({ tripData }) {
                                             />
                                         </div>
                                     </div>
+                                    {dateSelectionError ||
+                                        (priceError && (
+                                            <div className='mt-2 flex gap-2'>
+                                                <IoInformationCircleOutline className='text-destructive' />
+                                                <p className='text-xs font-normal text-destructive'>{dateSelectionError || priceError}</p>
+                                            </div>
+                                        ))}
                                 </div>
 
                                 {!priceError ? (
@@ -343,7 +371,7 @@ export default function TripModificationDialog({ tripData }) {
                                             </div>
                                         ) : (
                                             <>
-                                                {priceCalculatedList && (
+                                                {priceCalculatedList && !dateSelectionError && (
                                                     <TripModificationPriceListComponent
                                                         priceCalculatedList={priceCalculatedList}
                                                         newStartDate={newStartDate}
@@ -358,9 +386,7 @@ export default function TripModificationDialog({ tripData }) {
                                             </>
                                         )}
                                     </>
-                                ) : (
-                                    <div>Price Calculation Error : {priceError}</div>
-                                )}
+                                ) : null}
                             </div>
                         </DialogBody>
                         <DialogFooter>

@@ -26,7 +26,10 @@ export default function TripModificationPriceListComponent({
     originalTripTaxAmount,
     isExtension,
 }: TripModificationPriceListComponentProps) {
-    const differenceAmount = priceCalculatedList?.tripTaxAmount - originalTripTaxAmount;
+    let differenceAmount = 0;
+
+    if (isExtension) differenceAmount = priceCalculatedList?.tripTaxAmount - originalTripTaxAmount;
+    else differenceAmount = originalTripTaxAmount - priceCalculatedList?.tripTaxAmount ;
 
     const formattedStartDate = formatDateTimeWithWeek(convertToCarTimeZoneISO(newStartDate, newStartTime, zipCode), zipCode);
     const formattedEndDate = formatDateTimeWithWeek(convertToCarTimeZoneISO(newEndDate, newEndTime, zipCode), zipCode);
@@ -218,7 +221,8 @@ export default function TripModificationPriceListComponent({
                 <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>
                     <p className='text-14 font-bold'>Booking Cost Difference</p>
                     <p className='text-14 font-bold'>
-                        {roundToTwoDecimalPlaces(Number(differenceAmount)) == 0 ? '' : (isExtension ? '+' : '-')} $ {Math.abs(Number(roundToTwoDecimalPlaces(Number(differenceAmount))))}
+                        {roundToTwoDecimalPlaces(Number(differenceAmount)) == 0 ? '' : isExtension ? '+' : '-'} ${' '}
+                        {Math.abs(Number(roundToTwoDecimalPlaces(Number(differenceAmount))))}
                     </p>
                 </div>
             </div>

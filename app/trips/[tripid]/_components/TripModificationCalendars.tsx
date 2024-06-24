@@ -20,11 +20,12 @@ interface TripModificationCalendarProps {
     isDisabled?: boolean;
     date?: string;
     setDate?: React.Dispatch<React.SetStateAction<string>>;
+    newStartDate?: string;
     setIsInitialLoad: React.Dispatch<React.SetStateAction<boolean>>;
     setDateSelectionError?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function TripModificationCalendar({
+export function TripModificationStartDateCalendar({
     unavailableDates,
     date,
     setDate,
@@ -52,7 +53,56 @@ export function TripModificationCalendar({
     return (
         <DatePicker aria-label='Select Date' shouldCloseOnSelect={true} isDisabled={isDisabled} className={`${isDisabled && 'cursor-not-allowed'}`}>
             <DatePickerButton date={value} />
-            <DatePickerContent className='flex flex-col'>
+            <DatePickerContent className='flex flex-col '>
+                <Calendar
+                    value={value}
+                    onChange={handleDateChange}
+                    minValue={minValue}
+                    maxValue={getFirstDateAfter(unavailableDates, date)}
+                    isDisabled={isDisabled}
+                    isDateUnavailable={isDateUnavailable}>
+                    <CalendarHeading />
+                    <CalendarGrid>
+                        <CalendarGridHeader>{day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
+                        <CalendarGridBody>{date => <CalendarCell date={date} />}</CalendarGridBody>
+                    </CalendarGrid>
+                </Calendar>
+            </DatePickerContent>
+        </DatePicker>
+    );
+}
+
+
+export function TripModificationEndDateCalendar({
+    unavailableDates,
+    date,
+    setDate,
+    newStartDate,
+    isTripStarted,
+    setIsInitialLoad,
+    isDisabled,
+    setDateSelectionError,
+}: TripModificationCalendarProps) {
+    const [value, setValue] = useState(parseDate(date));
+
+    const handleDateChange = value => {
+        setValue(value);
+        const startDateFormatted = format(value.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
+        setDate(startDateFormatted);
+        setIsInitialLoad(false);
+    };
+
+    const minValue = isTripStarted ? parseDate(newStartDate) : today(getLocalTimeZone());
+
+    const isDateUnavailable = dateValue => {
+        const dateStr = format(dateValue.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
+        return unavailableDates.includes(dateStr);
+    };
+
+    return (
+        <DatePicker aria-label='Select Date' shouldCloseOnSelect={true} isDisabled={isDisabled} className={`${isDisabled && 'cursor-not-allowed'}`}>
+            <DatePickerButton date={value} />
+            <DatePickerContent className='flex flex-col '>
                 <Calendar
                     value={value}
                     onChange={handleDateChange}

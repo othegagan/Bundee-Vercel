@@ -3,7 +3,7 @@ import useTabFocusEffect from './useTabFocusEffect';
 import { getAvailabilityDatesByVehicleId } from '@/server/vehicleOperations';
 
 const useAvailabilityDates = (vehicleId: any, tripid: any) => {
-    const [data, setData] = useState(null);
+    const [unformattedDates, setUnformattedDates] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [unavailableDates, setUnavailableDates] = useState([]);
@@ -16,18 +16,20 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
             const response = await getAvailabilityDatesByVehicleId(vehicleId, tripid);
             if (response.success) {
                 const data = response.data;
-
-                setData(data);
                 const bloackedDates = convertDates(data.unAvailabilityDate);
                 setUnavailableDates(bloackedDates || []);
+                setUnformattedDates(data.unAvailabilityDate);
+
                 const vehicleBusinessConstraints = data.vehicleBusinessConstraints || [];
                 const minMaxDays = vehicleBusinessConstraints.map((constraint: any) => {
                     const { maximumDays, minimumDays } = JSON.parse(constraint.constraintValue);
                     return { maximumDays, minimumDays };
                 });
+
                 const firstMinMax = minMaxDays.length > 0 ? minMaxDays[0] : {};
                 setMinDays(firstMinMax?.minimumDays || 0);
                 setMaxDays(firstMinMax?.maximumDays || 0);
+                
             } else {
                 throw new Error(response.message);
             }
@@ -60,7 +62,7 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
 
     const refetch = fetchData;
 
-    return { data, isLoading, isError, unavailableDates, minDays, maxDays, refetch };
+    return { isLoading, isError, unavailableDates, minDays, maxDays, refetch , unformattedDates};
 };
 
 export default useAvailabilityDates;
