@@ -14,7 +14,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                         <div className='text-md'>
                             Rental (${pricelist?.perdayamount} X {pricelist?.totaldays} days)
                         </div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.charges)}</div>
+                        <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.charges)}</div>
                     </div>
                 )}
                 {pricelist?.numberOfDaysDiscount > 0 && pricelist?.discountAmount > 0 && (
@@ -40,7 +40,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                                                             {pricelist?.numberOfDaysDiscount} Day Discount applied -{' '}
                                                             {roundToTwoDecimalPlaces(pricelist?.discountPercentage)} %
                                                         </div>
-                                                        {/* <div className='text-sm font-medium'>$ {parseFloat(pricelist?.discountAmount.toString()).toFixed(2)}</div> */}
+                                                        {/* <div className='text-sm font-medium'>${parseFloat(pricelist?.discountAmount.toString()).toFixed(2)}</div> */}
                                                     </div>
                                                 )}
                                             </div>
@@ -49,7 +49,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                                 </Popover>
                             </span>
                         </div>
-                        <div className='text-md font-medium text-green-500'>$ {roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
+                        <div className='text-md font-medium text-green-500'>${roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
                     </div>
                 )}
                 {pricelist?.deliveryCost > 0 && (
@@ -69,7 +69,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                                             {pricelist?.deliveryCost > 0 && (
                                                 <div className='flex items-center justify-between'>
                                                     <div className='text-sm'>Custom Delivery fee</div>
-                                                    <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.deliveryCost)}</div>
+                                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.deliveryCost)}</div>
                                                 </div>
                                             )}
                                         </div>
@@ -77,13 +77,13 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.deliveryCost)}</div>
+                        <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.deliveryCost)}</div>
                     </div>
                 )}
                 {pricelist?.upCharges > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md'>Short notice rental fee</div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.upCharges)}</div>
+                        <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.upCharges)}</div>
                     </div>
                 )}
                 {(pricelist?.tripFee > 0 || pricelist?.concessionFee > 0 || pricelist?.Statesurchargeamount > 0 || pricelist?.registrationRecoveryFee > 0) && (
@@ -105,28 +105,28 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                                             {pricelist?.concessionFee > 0 && (
                                                 <div className='flex items-center justify-between'>
                                                     <div className='text-sm'>Airport concession recovery fee</div>
-                                                    <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.concessionFee)}</div>
+                                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.concessionFee)}</div>
                                                 </div>
                                             )}
 
                                             {pricelist?.Statesurchargeamount > 0 && (
                                                 <div className='flex items-center justify-between'>
                                                     <div className='text-sm'>State Surcharge </div>
-                                                    <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.Statesurchargeamount)}</div>
+                                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.Statesurchargeamount)}</div>
                                                 </div>
                                             )}
 
                                             {pricelist?.registrationRecoveryFee > 0 && (
                                                 <div className='flex items-center justify-between'>
                                                     <div className='text-sm'>Vehicle licensing recovery fee </div>
-                                                    <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.registrationRecoveryFee)}</div>
+                                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.registrationRecoveryFee)}</div>
                                                 </div>
                                             )}
 
                                             {pricelist?.tripFee > 0 && (
                                                 <div className='flex items-center justify-between'>
                                                     <div className='text-sm'>Platform fee </div>
-                                                    <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
+                                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
                                                 </div>
                                             )}
                                         </div>
@@ -145,32 +145,32 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                 {pricelist?.taxAmount > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md'>Sales Taxes ({roundToTwoDecimalPlaces(pricelist?.taxPercentage)}%)</div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
+                        <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
                     </div>
                 )}
                 {pricelist?.extraMileageCost > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md'>Extra mile cost ({roundToTwoDecimalPlaces(pricelist?.extraMilage)} miles)</div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.extraMileageCost)}</div>
+                        <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.extraMileageCost)}</div>
                     </div>
                 )}
                 {pricelist?.lateFee > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md'>Late fee </div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.lateFee)}</div>
+                        <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.lateFee)}</div>
                     </div>
                 )}
                 {pricelist?.extraDayCharges > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md'>Extra Day charges </div>
-                        <div className='text-md font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.extraDayCharges)}</div>
+                        <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.extraDayCharges)}</div>
                     </div>
                 )}
                 <hr />
                 {pricelist?.tripTaxAmount > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md font-bold'>Total Rental Charge</div>
-                        <div className='text-md  font-bold'>$ {roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
+                        <div className='text-md  font-bold'>${roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
                     </div>
                 )}
             </div>

@@ -217,7 +217,7 @@ const CarFilters = () => {
                                         step={5}
                                         value={range}
                                         onValueChange={handleRangeChange}
-                                        formatLabel={value => `$ ${value}/Day`}
+                                        formatLabel={value => `$${value}/Day`}
                                         resetValues={resetSlider}
                                     />
                                 </div>

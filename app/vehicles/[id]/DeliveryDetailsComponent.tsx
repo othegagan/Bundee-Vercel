@@ -80,7 +80,7 @@ const DeliveryDetailsComponent = ({
             <div className='flex w-full flex-col gap-2'>
                 <label className='text-[15px] font-semibold'>Vehicle Location</label>
 
-                <p className='flex items-center rounded-md border px-3 py-2 text-14 '>
+                <p className='text-14 flex items-center rounded-md border px-3 py-2 '>
                     <FaLocationDot className='mr-2 size-5 ' />
 
                     {toTitleCase(vehicleDetails?.address1)}
@@ -124,7 +124,7 @@ const DeliveryDetailsComponent = ({
                                                 onChange={handleCustomDeliveryCheckbox}
                                             />
                                             <div className='flex items-center gap-2 text-sm text-neutral-500'>
-                                                <span className='font-bold'>$ {deliveryDetails?.nonAirportDeliveryCost}</span> will be applied for custom
+                                                <span className='font-bold'>${deliveryDetails?.nonAirportDeliveryCost}</span> will be applied for custom
                                                 delivery
                                             </div>
                                         </label>
@@ -172,7 +172,7 @@ const DeliveryDetailsComponent = ({
                                                             onChange={handleAirportDeliveryCheckbox}
                                                         />
                                                         <div className='flex items-center gap-2 text-sm text-neutral-500'>
-                                                            <span className='font-bold'> $ {deliveryDetails?.airportDeliveryCost}</span> will be applied for
+                                                            <span className='font-bold'> ${deliveryDetails?.airportDeliveryCost}</span> will be applied for
                                                             airport delivery
                                                         </div>
                                                     </label>

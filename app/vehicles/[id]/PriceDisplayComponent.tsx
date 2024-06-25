@@ -12,7 +12,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                         <div>
                             Rental (${pricelist?.pricePerDay} X {pricelist?.numberOfDays} {pricelist?.numberOfDays == 1 ? 'day' : 'days'})
                         </div>
-                        <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.charges)}</div>
+                        <div className=' font-medium'>${roundToTwoDecimalPlaces(pricelist?.charges)}</div>
                     </div>
                 )}
 
@@ -47,7 +47,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                 </Popover>
                             </span>
                         </div>
-                        <div className=' font-medium text-green-500'>$ {roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
+                        <div className=' font-medium text-green-500'>${roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
                     </div>
                 )}
 
@@ -71,7 +71,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                                         <div className='text-sm'>
                                                             {isAirportDeliveryChoosen ? 'Airport Delivery Fee' : 'Custom Delivery Fee'}
                                                         </div>
-                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
+                                                        <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                                                     </div>
                                                 )}
                                             </div>
@@ -80,14 +80,14 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                 </Popover>
                             </span>
                         </div>
-                        <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
+                        <div className=' font-medium'>${roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                     </div>
                 )}
 
                 {pricelist?.upcharges > 0 && (
                     <div className='flex items-center justify-between'>
                         <div>Short notice rental fee</div>
-                        <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.upcharges)}</div>
+                        <div className=' font-medium'>${roundToTwoDecimalPlaces(pricelist?.upcharges)}</div>
                     </div>
                 )}
 
@@ -111,14 +111,14 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                                 {pricelist?.concessionFee > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-sm'>Airport concession recovery fee</div>
-                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.concessionFee)}</div>
+                                                        <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.concessionFee)}</div>
                                                     </div>
                                                 )}
 
                                                 {pricelist?.stateSurchargeAmount > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-sm'>State Surcharge </div>
-                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.stateSurchargeAmount)}</div>
+                                                        <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.stateSurchargeAmount)}</div>
                                                     </div>
                                                 )}
 
@@ -126,7 +126,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-sm'>Vehicle licensing recovery fee </div>
                                                         <div className='text-sm font-medium'>
-                                                            $ {roundToTwoDecimalPlaces(pricelist?.registrationRecoveryFee)}
+                                                            ${roundToTwoDecimalPlaces(pricelist?.registrationRecoveryFee)}
                                                         </div>
                                                     </div>
                                                 )}
@@ -134,7 +134,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                                 {pricelist?.tripFee > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-sm'>Platform fee </div>
-                                                        <div className='text-sm font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
+                                                        <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
                                                     </div>
                                                 )}
                                             </div>
@@ -155,7 +155,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                 {pricelist?.taxAmount > 0 && (
                     <div className='flex items-center justify-between'>
                         <div>Sales Taxes ({roundToTwoDecimalPlaces(pricelist?.taxPercentage)}%)</div>
-                        <div className=' font-medium'>$ {roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
+                        <div className=' font-medium'>${roundToTwoDecimalPlaces(pricelist?.taxAmount)}</div>
                     </div>
                 )}
 
@@ -164,7 +164,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                 {pricelist?.tripTaxAmount > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className=' font-bold'>Total Rental Charge</div>
-                        <div className='  font-bold'>$ {roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
+                        <div className='  font-bold'>${roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
                     </div>
                 )}
             </div>

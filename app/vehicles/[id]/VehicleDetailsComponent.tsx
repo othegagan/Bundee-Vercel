@@ -18,11 +18,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                 </div>
             ) : (
                 <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
-                    <img
-                        src='../image_not_available.png'
-                        alt='image_not_found'
-                        className='h-full w-full min-w-full object-cover md:rounded-md'
-                    />
+                    <img src='../image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
                 </div>
             )}
 
@@ -45,7 +41,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         <div className='space-y-3'>
                             <p className='font-bold'>Highlights</p>
 
-                            <ul role='list' className='list-disc space-y-2 pl-4 text-15'>
+                            <ul role='list' className='text-15 list-disc space-y-2 pl-4'>
                                 {vehicleDetails.trim && vehicleDetails.trim !== 'Not Applicable' && vehicleDetails.trim !== 'NA' && (
                                     <li>{vehicleDetails.trim}</li>
                                 )}
@@ -97,7 +93,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                                                             </div>
                                                             <div className='rounded-md bg-neutral-100 p-4'>
                                                                 <p className='mb-2  font-medium'>Additional Cost / Mile</p>
-                                                                <p className='text-sm font-bold'>$ {mileageConstraintData.extraMileageCost}</p>
+                                                                <p className='text-sm font-bold'>${mileageConstraintData.extraMileageCost}</p>
                                                             </div>
                                                         </div>
                                                     );
