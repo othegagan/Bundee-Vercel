@@ -45,7 +45,7 @@ export default function TripModificationPriceListComponent({
                 </div>
 
                 {priceCalculatedList?.numberOfDays > 0 && (
-                    <div className='flex items-center justify-between gap-2 px-2'>
+                    <div className='flex items-center justify-between gap-2 px-2 mt-6'>
                         <p className='text-14'>Booking Duration</p>
                         <p className='text-14'>
                             {priceCalculatedList.numberOfDays} {priceCalculatedList.numberOfDays == 1 ? 'Day' : 'Days'}
@@ -56,7 +56,7 @@ export default function TripModificationPriceListComponent({
                 {priceCalculatedList?.charges > 0 && (
                     <div className='flex items-center justify-between gap-2 px-2'>
                         <p className='text-14'>
-                            Rental (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays} days)
+                            Rental (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays} {priceCalculatedList.numberOfDays == 1 ? 'Day' : 'Days'})
                         </p>
                         <p className='text-14'>{roundToTwoDecimalPlaces(priceCalculatedList?.charges)}</p>
                     </div>
@@ -213,7 +213,7 @@ export default function TripModificationPriceListComponent({
 
                 {priceCalculatedList?.tripTaxAmount > 0 && (
                     <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>
-                        <p className='text-14 font-bold'>Total New Rental Charges</p>
+                        <p className='text-14 font-bold'> New Rental Charges</p>
                         <p className='text-14 font-bold'>$ {roundToTwoDecimalPlaces(priceCalculatedList?.tripTaxAmount)}</p>
                     </div>
                 )}

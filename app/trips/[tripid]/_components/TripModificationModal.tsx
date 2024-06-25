@@ -10,7 +10,7 @@ import { getSession } from '@/lib/auth';
 import { convertToCarDate, convertToCarTimeZoneISO, formatDateTimeWithWeek, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { calculatePrice } from '@/server/priceCalculation';
-import { differenceInHours, format, isSameSecond, parseISO, isAfter, isBefore, isWithinInterval } from 'date-fns';
+import { differenceInHours, format, isSameSecond, parseISO, isAfter, isBefore, isWithinInterval, differenceInDays } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { StatusBadge } from '../../TripsComponent';
 import { TripModificationEndDateCalendar, TripModificationStartDateCalendar } from './TripModificationCalendars';
@@ -155,7 +155,14 @@ export default function TripModificationDialog({ tripData }) {
 
     const { submitting, submitted, handleReduction, handleExtension, success } = useTripModification();
 
-    const { isLoading: unavailabilitDatesLoading, isError, unavailableDates, unformattedDates } = useAvailabilityDates(tripData.vehicleId, tripData.tripid);
+    const {
+        isLoading: unavailabilitDatesLoading,
+        isError,
+        unavailableDates,
+        unformattedDates,
+        minDays,
+        maxDays,
+    } = useAvailabilityDates(tripData.vehicleId, tripData.tripid);
 
     const [dateSelectionError, setDateSelectionError] = useState('');
 
@@ -165,7 +172,7 @@ export default function TripModificationDialog({ tripData }) {
         setNewEndDate(format(convertToCarDate(tripData.endtime, tripData?.vehzipcode), 'yyyy-MM-dd'));
         setNewStartTime(formatTime(tripData.starttime, tripData?.vehzipcode));
         setNewEndTime(formatTime(tripData.endtime, tripData?.vehzipcode));
-    }, [tripData]);
+    }, []);
 
     // Price Calculation
     useEffect(() => {
@@ -185,7 +192,7 @@ export default function TripModificationDialog({ tripData }) {
 
             // Check if the new start date is not before the new end date
             if (!isBefore(parsedNewStartDate, parsedNewEndDate)) {
-                throw new Error('New start date must be before new end date');
+                throw new Error('Please select an end date that comes after the start date.');
             }
 
             // Check for any unavailable dates within the new date range
@@ -267,16 +274,19 @@ export default function TripModificationDialog({ tripData }) {
                 isOpen={tripModificationModal.isOpen}
                 closeDialog={closeModifyDialog}
                 onInteractOutside={false}
-                className={` ${submitted ? 'lg:max-w-2xl' : 'md:max-w-3xl lg:max-w-4xl'}`}
+                className={` ${submitted ? 'lg:max-w-2xl' : 'md:max-w-3xl lg:max-w-5xl'}`}
                 title={submitted ? '' : 'Modify Booking Date Time'}
-                description={!submitted ? 'Selecting new dates will change the total booking charges.' : ''}>
+                description={!submitted ? '' : ''}>
                 {!submitted ? (
                     <>
                         <DialogBody>
                             <div className='mb-2 flex w-full flex-col-reverse items-start gap-2 lg:flex-row lg:justify-between'>
-                                <p className='text-14 '>Please select new dates and times for your trip below.</p>
+                                <div className='space-y-1'>
+                                    <p className='text-16'>Please select new dates and times for the booking below</p>
+                                    <p className='text-14 flex gap-2 items-center text-neutral-500'>  <IoInformationCircleOutline />Selecting new dates may change the total booking cost.</p>
+                                </div>
                                 <div className='text-14 font-semibold'>
-                                    Booking Status : <StatusBadge status={tripData.status} type='booking' />
+                                    Booking Status: <StatusBadge status={tripData.status} type='booking' />
                                 </div>
                             </div>
                             <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8'>
@@ -306,7 +316,7 @@ export default function TripModificationDialog({ tripData }) {
                                     </div>
 
                                     <div className='mt-6 flex w-full flex-col gap-5 text-sm'>
-                                        <div className=' flex w-full items-center justify-between gap-3'>
+                                        <div className=' grid grid-cols-2 gap-3 p-1'>
                                             <div className='flex w-full flex-1 flex-col gap-2'>
                                                 <label className='text-14 font-semibold'>New Start Date</label>
                                                 <TripModificationStartDateCalendar
@@ -330,7 +340,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 }}
                                             />
                                         </div>
-                                        <div className=' flex items-center justify-between gap-3'>
+                                        <div className=' grid grid-cols-2 gap-3 p-1'>
                                             <div className='flex w-full flex-1 flex-col gap-2'>
                                                 <label className='text-14 font-semibold'>New End Date</label>
                                                 <TripModificationEndDateCalendar
