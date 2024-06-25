@@ -12,7 +12,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                 {pricelist?.charges > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md'>
-                            Rental (${pricelist?.perdayamount} X {pricelist?.totaldays} days)
+                            Rental (${pricelist?.perdayamount} X {pricelist?.totaldays} {pricelist?.totaldays == 1 ? 'Day' : 'Days'})
                         </div>
                         <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.charges)}</div>
                     </div>
@@ -89,7 +89,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                 {(pricelist?.tripFee > 0 || pricelist?.concessionFee > 0 || pricelist?.Statesurchargeamount > 0 || pricelist?.registrationRecoveryFee > 0) && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md flex items-center gap-1'>
-                            <div className='text-md'>Trip Fee</div>
+                            <div className='text-md'>Booking Fee</div>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button variant='ghost' className=' h-fit w-fit p-1' type='button'>
@@ -99,7 +99,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                                 <PopoverContent className='w-80'>
                                     <div className='grid select-none gap-4'>
                                         <div className='space-y-2'>
-                                            <p className='font-medium leading-none'>Trip Fee</p>
+                                            <p className='font-medium leading-none'>Booking Fee</p>
                                         </div>
                                         <div className='space-y-1'>
                                             {pricelist?.concessionFee > 0 && (

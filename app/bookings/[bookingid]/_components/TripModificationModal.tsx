@@ -267,7 +267,7 @@ export default function TripModificationDialog({ tripData }) {
     return (
         <div>
             <Button onClick={openModifiyDialog} variant='black' className='w-full' size='lg'>
-                Modify trip
+                Modify booking
             </Button>
 
             <Dialog
@@ -443,7 +443,7 @@ export default function TripModificationDialog({ tripData }) {
                                     <div className='grid grid-cols-1 place-items-center space-y-4'>
                                         <CircleX className='size-20 text-red-500' />
                                         <h3 className=' text-center'>Booking modification failed</h3>
-                                        <p className='text-lg'>Enjoy your journey with us!</p>
+                                        {/* <p className='text-lg'>Enjoy your journey with us!</p> */}
 
                                         <Button
                                             className='mt-2'

@@ -101,7 +101,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
                                     </div>
                                 </div>
                                 <div className='flex w-full'>
-                                    <div className='w-1/3 space-y-2'>Trip Duration</div>
+                                    <div className='w-1/3 space-y-2'>Booking Duration</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
                                         <>
                                             {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24))}

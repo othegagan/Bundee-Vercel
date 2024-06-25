@@ -56,20 +56,20 @@ const CancelTripComponent = ({ tripId }: any) => {
                 variant='destructive'
                 className='w-full'
                 size='lg'>
-                Cancel trip
+                Cancel booking
             </Button>
 
             <Dialog isOpen={isModalOpen} openDialog={openModal} closeDialog={closeModal} title='Cancel Request'>
                 <DialogBody>
-                    <p>Are you sure, You would like to cancel this Trip ?</p>
+                    <p>Are you sure, You would like to cancel this booking ?</p>
                 </DialogBody>
                 <DialogFooter>
                     <Button type='button' variant='outline' disabled={loading} onClick={closeModal} className='w-full sm:w-auto '>
-                        Back to Trip
+                        Back to booking
                     </Button>
 
                     <Button type='button' variant='black' className='w-full sm:w-auto ' loading={loading} loadingText='Cancelling...' onClick={cancelTrip}>
-                        Cancel Trip
+                        Yes, Cancel booking
                     </Button>
                 </DialogFooter>
             </Dialog>

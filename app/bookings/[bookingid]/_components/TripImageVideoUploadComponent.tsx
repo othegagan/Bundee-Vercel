@@ -196,7 +196,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                     handleOpenModal();
                 }}>
                 <FiPaperclip className='size-5' />
-                Upload trip media
+                Upload booking media
                 {noOfFiles > 0 ? (
                     <div className='absolute -right-1 -top-1 inline-flex size-5  items-center justify-center rounded-full bg-primary text-xs font-medium text-white'>
                         {noOfFiles}
