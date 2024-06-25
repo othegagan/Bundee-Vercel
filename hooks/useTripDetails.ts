@@ -1,10 +1,10 @@
 import { getTripDetailsbyId } from '@/server/tripOperations';
 import { useQuery } from '@tanstack/react-query';
 
-export const useTripDetails = (tripId: number | string) => {
+export const useTripDetails = (bookingid: number | string) => {
     return useQuery({
-        queryKey: ['tripDetails', { tripId }],
-        queryFn: async () => getTripDetailsbyId(Number(tripId)),
+        queryKey: ['bookingDetails', { bookingid }],
+        queryFn: async () => getTripDetailsbyId(Number(bookingid)),
         refetchOnWindowFocus: true,
         staleTime: 30 * 1000,
     });

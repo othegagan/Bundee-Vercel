@@ -2,7 +2,7 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import { getSession } from '@/lib/auth';
 import TripsComponent from './TripsComponent';
 
-export default async function Trips() {
+export default async function Bookings() {
     const session = await getSession();
 
     if (!session.isLoggedIn) {

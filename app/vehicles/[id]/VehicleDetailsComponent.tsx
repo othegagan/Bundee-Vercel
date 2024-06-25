@@ -32,7 +32,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         <span className='text-15'>{vehicleDetails.rating.toFixed(1)}</span>
                     </div>
                     <p>.</p>
-                    <p className=' text-15 '>({vehicleDetails.tripcount} Trips)</p>
+                    <p className=' text-15 '>({vehicleDetails.tripcount} Bookings)</p>
                 </div>
 
                 <div className='space-y-6'>

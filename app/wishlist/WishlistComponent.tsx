@@ -75,7 +75,7 @@ const WishlistCard = ({ car, removeFromWishlistHandler }) => {
                 <div className='absolute bottom-2 left-1 inline-flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
                     <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
                     <span className=' text-sm text-neutral-700'>
-                        {car?.rating} • ({car?.tripCount} {car?.tripCount === 1 ? 'Trip' : 'Trips'})
+                        {car?.rating} • ({car?.tripCount} {car?.tripCount === 1 ? 'Booking' : 'Bookings'})
                     </span>
                 </div>
             </div>

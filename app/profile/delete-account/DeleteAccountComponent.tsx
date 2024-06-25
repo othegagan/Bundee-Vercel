@@ -49,10 +49,10 @@ const DeleteAccountComponent = () => {
             </p>
 
             <ul className='mt-4 list-inside list-disc'>
-                <li>You will no longer be able to book trips.</li>
-                <li>Any booked or pending trips will be cancelled immediately.</li>
+                <li>You will no longer be able to book bookings.</li>
+                <li>Any booked or pending bookings will be cancelled immediately.</li>
                 <li>You will no longer be able to login to your account.</li>
-                <li>You are still financially responsible for any fees, claims, or reimbursements related to your past or pending trips.</li>
+                <li>You are still financially responsible for any fees, claims, or reimbursements related to your past or pending bookings.</li>
                 <li>Any information associated with your account will not be publically viewable on our website and apps.</li>
             </ul>
 

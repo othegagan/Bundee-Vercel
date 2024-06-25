@@ -198,7 +198,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                                 <div className='inline-flex  items-center rounded-lg bg-white'>
                                     <FaStar className='mr-2 size-3 text-yellow-400' />
                                     <span className=' text-neutral-700'>
-                                        {carPopInfo?.rating} • ({carPopInfo?.tripcount} {carPopInfo?.tripcount === 1 ? 'Trip' : 'Trips'})
+                                        {carPopInfo?.rating} • ({carPopInfo?.tripcount} {carPopInfo?.tripcount === 1 ? 'Booking' : 'Bookings'})
                                     </span>
                                 </div>
                                 <p>
@@ -251,7 +251,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                                             <div className='inline-flex  items-center rounded-lg'>
                                                 <FaStar className='mr-2 size-3 text-yellow-400' />
                                                 <span className=' text-neutral-700'>
-                                                    {car?.rating} • ({car?.tripcount} {car?.tripcount === 1 ? 'Trip' : 'Trips'})
+                                                    {car?.rating} • ({car?.tripcount} {car?.tripcount === 1 ? 'Booking' : 'Bookings'})
                                                 </span>
                                             </div>
                                             <p>

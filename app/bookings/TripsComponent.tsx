@@ -14,7 +14,7 @@ export default function TripsComponent() {
     return (
         <BoxContainer className='mb-6 py-6'>
             <div className='flex flex-col gap-1 border-b pb-2 md:flex-row md:items-center md:justify-between'>
-                <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Trips</h3>
+                <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Bookings</h3>
                 <div
                     role='tablist'
                     aria-orientation='horizontal'
@@ -44,7 +44,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
         isLoading: loading,
         error,
     } = useQuery({
-        queryKey: ['trips', { endpoint: tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory' }],
+        queryKey: ['bookings', { endpoint: tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory' }],
         queryFn: async () => getTrips(tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory'),
         refetchOnWindowFocus: true,
     });
@@ -56,11 +56,11 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
     }
 
     if (error || !tripsResponse.success) {
-        return <ErrorComponent message='Something went wrong in getting trips' />;
+        return <ErrorComponent message='Something went wrong in getting bookings' />;
     }
 
     if (tripsResponse.data.activetripresponse.length == 0) {
-        return <ErrorComponent message='No trips found.' />;
+        return <ErrorComponent message='No bookings found.' />;
     }
 
     return (
@@ -68,7 +68,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
             {tripsResponse.data?.activetripresponse.map((trip: any, index: React.Key) => (
                 <Link
                     key={trip.tripid}
-                    href={`/trips/${trip.tripid}/details`}
+                    href={`/bookings/${trip.tripid}/details`}
                     className='group col-span-1 flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow md:flex-row'>
                     <div className='h-44 w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 md:h-48 md:w-64'>
                         <img

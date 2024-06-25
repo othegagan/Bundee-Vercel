@@ -4,7 +4,7 @@ import { getSession } from '@/lib/auth';
 import React from 'react';
 import TabsComponent from './_components/TabsComponent';
 
-export default async function layout({ params, children }: { params: { tripid: string }; children: React.ReactNode }) {
+export default async function layout({ params, children }: { params: { bookingid: string }; children: React.ReactNode }) {
     const session = await getSession();
 
     if (!session.isLoggedIn) {
@@ -13,9 +13,9 @@ export default async function layout({ params, children }: { params: { tripid: s
     return (
         <div className='py-4 md:container '>
             <div className='flex flex-col gap-1 border-b pb-2 px-4 md:flex-row md:items-center md:justify-between'>
-                <BackButton link='/trips' />
+                <BackButton link='/bookings' />
 
-                <TabsComponent bookingId={params.tripid} />
+                <TabsComponent bookingId={params.bookingid} />
             </div>
 
             {children}

@@ -114,7 +114,7 @@ export default function NotificationsComponent() {
 
 function NotificationItem({ data }) {
     return (
-        <Link href={`/trips/${data.tripId}`}>
+        <Link href={`/bookings/${data.tripId}/details`}>
             <div className='my-1 w-full rounded-md border px-2 py-1 hover:bg-gray-50'>
                 <p className='flex flex-wrap items-center justify-between text-sm font-medium text-foreground'>
                     <span className='text-primary underline underline-offset-2'>

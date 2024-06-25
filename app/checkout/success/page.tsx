@@ -17,7 +17,7 @@ export default function CheckoutSuccess() {
 
     useEffect(() => {
         if (countdown === 0) {
-            router.push('/trips');
+            router.push('/bookings');
         }
     }, [countdown]);
 
@@ -37,18 +37,18 @@ export default function CheckoutSuccess() {
                     </h1>
                     <p className='lg-w-[600px] mx-auto  mt-6 w-full text-base text-gray-600'>
                         You should hear back from your vehicle host shortly. <br className='hidden md:block' /> In addition, you can check your reservation
-                        details by clicking on the Trip Status button below.
+                        details by clicking on the booking status button below.
                     </p>
                     <div className='mt-10'>
                         <Link
-                            className=' rounded-full bg-green-600 p-4 text-sm font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
-                            href='/trips'>
-                            See Trip Status
+                            className=' rounded-full bg-green-500 p-4 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
+                            href='/bookings'>
+                            See Booking Status
                         </Link>
                     </div>
 
                     <p className='mt-10 text-lg font-semibold text-neutral-400'>
-                        Redirecting to trips in {countdown} {countdown === 1 ? 'second' : 'seconds'}...
+                        Redirecting to bookings in {countdown} {countdown === 1 ? 'second' : 'seconds'}...
                     </p>
                 </div>
             </div>
