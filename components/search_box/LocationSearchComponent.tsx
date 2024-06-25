@@ -84,7 +84,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                     <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                         <div className='flex w-full flex-col gap-1  '>
                             <label className='mb-1 inline-flex text-xs font-semibold'>
-                                Search By City{' '}
+                                Search By City
                                 <span className='inline-block text-xs font-semibold text-neutral-800 sm:hidden lg:block'>, Place and Zipcode</span>
                             </label>
                             <LocationSearchBox />
@@ -129,12 +129,12 @@ const LocationSearchComponent = ({ searchCity }: any) => {
                         <div className=''>{searchCity ? searchCity : null}</div>
                         <div className='mt-1 flex items-center justify-between text-xs text-neutral-500'>
                             <div className=''>
-                                {startDateQuery ? format(new Date(startDateQuery + 'T00:00:00'), 'PPP') : null} |{/* @ts-ignore */}{' '}
+                                {startDateQuery ? format(new Date(startDateQuery + 'T00:00:00'), 'PPP') : null} |{/* @ts-ignore */}
                                 {startTimeQuery ? format(new Date(0, 0, 0, ...startTimeQuery.split(':')), 'h:mm a') : null}
                             </div>
                             <div>--</div>
                             <div className=''>
-                                {endDateQuery ? format(new Date(endDateQuery + 'T00:00:00'), 'PPP') : null} |{/* @ts-ignore */}{' '}
+                                {endDateQuery ? format(new Date(endDateQuery + 'T00:00:00'), 'PPP') : null} |{/* @ts-ignore */}
                                 {endTimeQuery ? format(new Date(0, 0, 0, ...endTimeQuery.split(':')), 'h:mm a') : null}
                             </div>
                         </div>

@@ -64,7 +64,6 @@ export default function CheckoutDetails() {
                 <li className='flex items-center justify-between'>
                     <span className=' text-muted-foreground'>Trip Duration</span>
                     <span>
-                        {' '}
                         {totalDays} {totalDays === 1 ? 'Day' : 'Days'}
                     </span>
                 </li>

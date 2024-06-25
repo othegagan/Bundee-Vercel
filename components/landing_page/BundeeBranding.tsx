@@ -7,7 +7,6 @@ export default function BundeeBranding() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
                 <div className='flex flex-col gap-3'>
                     <h2>
-                        {' '}
                         <span className='text-5xl'> Fiat Electric</span> <br /> Collection: Drive <span className='text-green-500'>Green</span>
                     </h2>
                     <p>

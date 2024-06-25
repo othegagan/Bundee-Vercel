@@ -37,8 +37,8 @@ export default function TripModificationPriceListComponent({
     return (
         <div className='w-full space-y-2'>
             <p className='text-14 font-semibold'>New Booking Summary</p>
-            <div className='flex flex-col  justify-center gap-3 rounded-sm bg-[#FAF7F7] p-2.5 '>
-                <div className='flex w-full justify-between gap-2 px-2'>
+            <div className='flex flex-col  justify-center gap-3 rounded-lg bg-[#FAF7F7] p-4 '>
+                <div className='flex w-full justify-between gap-2 p-4'>
                     <p className='text-14 text-center'>{splitFormattedDateAndTime(formattedStartDate)}</p>
                     <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
                     <p className='text-14 text-center'>{splitFormattedDateAndTime(formattedEndDate)}</p>
@@ -56,7 +56,7 @@ export default function TripModificationPriceListComponent({
                 {priceCalculatedList?.charges > 0 && (
                     <div className='flex items-center justify-between gap-2 px-2'>
                         <p className='text-14'>
-                            Rental (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays}{' '}
+                            Rental (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays}
                             {priceCalculatedList.numberOfDays == 1 ? 'Day' : 'Days'})
                         </p>
                         <p className='text-14'>{roundToTwoDecimalPlaces(priceCalculatedList?.charges)}</p>
@@ -112,7 +112,7 @@ export default function TripModificationPriceListComponent({
                                                 {priceCalculatedList?.discountAmount > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-14'>
-                                                            {priceCalculatedList?.numberOfDaysDiscount} Day Discount applied -{' '}
+                                                            {priceCalculatedList?.numberOfDaysDiscount} Day Discount applied -
                                                             {roundToTwoDecimalPlaces(priceCalculatedList?.discountPercentage)} %
                                                         </div>
                                                     </div>
@@ -194,7 +194,7 @@ export default function TripModificationPriceListComponent({
                             </span>
                         </div>
                         <div className='text-14 '>
-                            ${' '}
+                            $
                             {roundToTwoDecimalPlaces(
                                 priceCalculatedList?.concessionFee +
                                     priceCalculatedList?.stateSurchargeAmount +
@@ -222,7 +222,7 @@ export default function TripModificationPriceListComponent({
                 <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>
                     <p className='text-14 font-bold'>Booking Cost Difference</p>
                     <p className='text-14 font-bold'>
-                        {roundToTwoDecimalPlaces(Number(differenceAmount)) == 0 ? '' : isExtension ? '+' : '-'} ${' '}
+                        {roundToTwoDecimalPlaces(Number(differenceAmount)) == 0 ? '' : isExtension ? '+' : '-'} $
                         {Math.abs(Number(roundToTwoDecimalPlaces(Number(differenceAmount))))}
                     </p>
                 </div>

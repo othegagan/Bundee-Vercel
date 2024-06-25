@@ -36,7 +36,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                                                 {pricelist?.discountAmount > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-sm'>
-                                                            {pricelist?.numberOfDaysDiscount} Day Discount applied -{' '}
+                                                            {pricelist?.numberOfDaysDiscount} Day Discount applied -
                                                             {roundToTwoDecimalPlaces(pricelist?.discountPercentage)} %
                                                         </div>
                                                     </div>
@@ -144,7 +144,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                             </span>
                         </div>
                         <div className=' font-medium'>
-                            ${' '}
+                            $
                             {roundToTwoDecimalPlaces(
                                 pricelist.concessionFee + pricelist.stateSurchargeAmount + pricelist.registrationRecoveryFee + pricelist?.tripFee,
                             )}

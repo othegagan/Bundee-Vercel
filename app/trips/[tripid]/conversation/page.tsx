@@ -193,7 +193,7 @@ function Message({ message, tripData }) {
                         </div>
 
                         <div>
-                            Pickup & Return :{' '}
+                            Pickup & Return :
                             <span className='font-medium capitalize text-gray-800'>
                                 {tripData?.vehaddress1 ? `${tripData?.vehaddress1}, ` : null}
                                 {tripData?.vehaddress2 ? `${tripData?.vehaddress2}, ` : null}

@@ -201,7 +201,7 @@ export default function TripModificationDialog({ tripData }) {
             const hasUnavailableDate = unAvailabilityDates.some(date => isWithinInterval(date, { start: parsedNewStartDate, end: parsedNewEndDate }));
 
             if (hasUnavailableDate) {
-                throw new Error('The selected date range includes unavailable dates.');
+                throw new Error('Some dates are unavailable. Please adjust your selection.');
             }
 
             let originalDiff = differenceInHours(parsedOriginalEndDate, parsedOriginalStartDate);
@@ -274,27 +274,28 @@ export default function TripModificationDialog({ tripData }) {
                 isOpen={tripModificationModal.isOpen}
                 closeDialog={closeModifyDialog}
                 onInteractOutside={false}
-                className={` ${submitted ? 'lg:max-w-2xl' : 'md:max-w-3xl lg:max-w-5xl'}`}
+                className={` ${submitted ? 'lg:max-w-2xl' : 'md:max-w-3xl lg:max-w-6xl lg:p-8 lg:px-10'}`}
                 title={submitted ? '' : 'Modify Booking Date Time'}
                 description={!submitted ? '' : ''}>
                 {!submitted ? (
                     <>
                         <DialogBody>
-                            <div className='mb-2 flex w-full flex-col-reverse items-start gap-2 lg:flex-row lg:justify-between'>
+                            <div className='mb-2 flex w-full flex-col-reverse items-start gap-4 lg:flex-row lg:justify-between'>
                                 <div className='space-y-1'>
                                     <p className='text-16'>Please select new dates and times for the booking below</p>
-                                    <p className='text-14 flex gap-2 items-center text-neutral-500'>  <IoInformationCircleOutline />Selecting new dates may change the total booking cost.</p>
-                                </div>
-                                <div className='text-14 font-semibold'>
-                                    Booking Status: <StatusBadge status={tripData.status} type='booking' />
+                                    <p className='text-14 flex items-center gap-2 text-neutral-500'>
+                                        {' '}
+                                        <IoInformationCircleOutline />
+                                        Selecting new dates may change the total booking cost.
+                                    </p>
                                 </div>
                             </div>
-                            <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8'>
+                            <div className='mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-10'>
                                 <div>
                                     <div className='space-y-3'>
                                         <p className='text-14 font-semibold'>Current Booking Summary</p>
-                                        <div className='flex flex-col items-center justify-center gap-4 rounded-sm bg-[#FAF7F7] p-2.5 '>
-                                            <div className='flex w-full justify-between gap-2 px-2'>
+                                        <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-[#FAF7F7] p-4 '>
+                                            <div className='flex w-full justify-between gap-2 p-3'>
                                                 <p className='text-14 text-center'>
                                                     {splitFormattedDateAndTime(formatDateTimeWithWeek(tripData.starttime, tripData.vehzipcode))}
                                                 </p>
@@ -304,7 +305,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 </p>
                                             </div>
                                             <div className='text-14 '>
-                                                Booking duration: {tripData.tripPaymentTokens[0]?.totaldays}{' '}
+                                                Booking duration: {tripData.tripPaymentTokens[0]?.totaldays}
                                                 {tripData?.tripPaymentTokens[0]?.totaldays == 1 ? 'Day' : 'Days'}
                                             </div>
 
@@ -374,7 +375,7 @@ export default function TripModificationDialog({ tripData }) {
                                 </div>
 
                                 {!priceError ? (
-                                    <>
+                                    <div>
                                         {priceLoading ? (
                                             <div className='mt-4 text-center'>
                                                 <PriceCalculatedListSkeleton />
@@ -395,7 +396,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 )}
                                             </>
                                         )}
-                                    </>
+                                    </div>
                                 ) : null}
                             </div>
                         </DialogBody>

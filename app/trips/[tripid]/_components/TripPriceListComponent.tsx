@@ -37,7 +37,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                                                 {pricelist?.discountAmount > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-sm'>
-                                                            {pricelist?.numberOfDaysDiscount} Day Discount applied -{' '}
+                                                            {pricelist?.numberOfDaysDiscount} Day Discount applied -
                                                             {roundToTwoDecimalPlaces(pricelist?.discountPercentage)} %
                                                         </div>
                                                         {/* <div className='text-sm font-medium'>${parseFloat(pricelist?.discountAmount.toString()).toFixed(2)}</div> */}
@@ -135,7 +135,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                             </Popover>
                         </div>
                         <div className='text-md font-medium'>
-                            ${' '}
+                            $
                             {roundToTwoDecimalPlaces(
                                 pricelist.concessionFee + pricelist.Statesurchargeamount + pricelist.registrationRecoveryFee + pricelist?.tripFee,
                             )}

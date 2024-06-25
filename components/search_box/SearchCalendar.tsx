@@ -42,8 +42,8 @@ export default function SearchCalendar({ setStartDate, setEndDate, startDate, en
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
 
     // Check if the current time is above 9PM and if so, add an extra day to the minimum date
-    const isPast9PM = new Date().getHours() >= 21
-    const minValueDate = today(getLocalTimeZone()).add({ days: isPast9PM ? 1 : 0 })
+    const isPast9PM = new Date().getHours() >= 21;
+    const minValueDate = today(getLocalTimeZone()).add({ days: isPast9PM ? 1 : 0 });
 
     return (
         <>
@@ -58,7 +58,7 @@ export default function SearchCalendar({ setStartDate, setEndDate, startDate, en
                         {dates?.end ? (
                             <div className='flex w-full items-center  justify-between'>
                                 <div className='flex w-full items-center  justify-start'>
-                                    <CalendarIcon className='mr-1 size-4' /> {format(dates.start.toDate(getLocalTimeZone()), 'LLL dd, y')}{' '}
+                                    <CalendarIcon className='mr-1 size-4' /> {format(dates.start.toDate(getLocalTimeZone()), 'LLL dd, y')}
                                 </div>
                                 <GoDash />
                                 <div className='flex w-full items-center  justify-end'>

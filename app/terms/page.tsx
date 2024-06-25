@@ -418,10 +418,10 @@ const Terms = () => {
                     <li>
                         <h2 className='my-6 text-xl font-bold text-neutral-900'>12. Notification of Infringement. DMCA Policy.</h2>
                         <p>
-                            We respect the intellectual property rights of others, and MyBundee does not permit, condone or tolerate the posting of any content on
-                            the Site that infringes any person's copyright. MyBundee will terminate, in appropriate circumstances, a member or driver who is the
-                            source of repeat infringement of copyright. Should you become aware of or suspect any copyright infringement on this Site, please
-                            refer to our
+                            We respect the intellectual property rights of others, and MyBundee does not permit, condone or tolerate the posting of any content
+                            on the Site that infringes any person's copyright. MyBundee will terminate, in appropriate circumstances, a member or driver who is
+                            the source of repeat infringement of copyright. Should you become aware of or suspect any copyright infringement on this Site,
+                            please refer to our
                             <Link className='mx-2 text-primary underline underline-offset-2' href='https://www.vrbo.com/legal/dmca-policy'>
                                 r procedures for Notification of Copyright Infringement
                             </Link>
@@ -439,9 +439,9 @@ const Terms = () => {
                             shall apply. The sole purpose of this policy is to avoid potential misunderstandings or disputes in the event that any part of our
                             business, such as our products, websites, technologies or marketing strategies, seems similar to any of your submissions. If you
                             provide any submissions to us, you agree that: (i) your submission and its contents will automatically become the property of
-                            MyBundee, without any compensation to you. (ii) MyBundee may use or redistribute any such submission and its contents for any purpose
-                            and in any way. (iii) there is no obligation for MyBundee to review any submission. and (iv) there is no obligation to keep any
-                            submission confidential.
+                            MyBundee, without any compensation to you. (ii) MyBundee may use or redistribute any such submission and its contents for any
+                            purpose and in any way. (iii) there is no obligation for MyBundee to review any submission. and (iv) there is no obligation to keep
+                            any submission confidential.
                             <br />
                             We welcome your feedback regarding many areas of our business. If you want to send us your feedback, we simply request that you send
                             it to us using the “feedback” tab located on the bottom right side of the homepage, search results pages, rental car pages, and the
@@ -453,13 +453,13 @@ const Terms = () => {
                     <li>
                         <h2 className='my-6 text-xl font-bold text-neutral-900'>14. Software Available on the Site.</h2>
                         <p>
-                            The Site is controlled and operated by MyBundee or an affiliate of MyBundee in the United States. Software available on the Site (the
-                            “Software”) is subject to United States export controls. No Software available on the Site or software available on any other site
-                            operated by MyBundee or an affiliate of MyBundee in the United States may be downloaded or otherwise exported or re-exported (i) into
-                            (or to a resident of) Cuba, Iraq, Libya, North Korea, Iran, Syria or any other country to which the United States has embargoed
-                            goods, or (ii) anyone on the United States Treasury Department’s list of Specially Designated Nationals or the United States
-                            Commerce Department’s Table of Deny Orders. By using the Site, you represent and warrant that you are not located in, under the
-                            control of, or a national or resident of any such country or on any such list.
+                            The Site is controlled and operated by MyBundee or an affiliate of MyBundee in the United States. Software available on the Site
+                            (the “Software”) is subject to United States export controls. No Software available on the Site or software available on any other
+                            site operated by MyBundee or an affiliate of MyBundee in the United States may be downloaded or otherwise exported or re-exported
+                            (i) into (or to a resident of) Cuba, Iraq, Libya, North Korea, Iran, Syria or any other country to which the United States has
+                            embargoed goods, or (ii) anyone on the United States Treasury Department’s list of Specially Designated Nationals or the United
+                            States Commerce Department’s Table of Deny Orders. By using the Site, you represent and warrant that you are not located in, under
+                            the control of, or a national or resident of any such country or on any such list.
                         </p>
                         <br />
                         All Software is the copyrighted work of MyBundee, an affiliate of MyBundee or an identified third party. Your use of such Software is
@@ -490,16 +490,16 @@ const Terms = () => {
                     <li>
                         <h2 className='my-6 text-xl font-bold text-neutral-900'>17. Limitation of Liability.</h2>
                         <p>
-                            IN NO EVENT WILL MYBUNDEE, OR ITS PARENT COMPANY, SUBSIDIARIES, AFFILIATES, OFFICERS, DIRECTORS, CONSULTANTS, AGENTS AND/OR EMPLOYEES
-                            (COLLECTIVELY, THE “BUNDEE GROUP”), OR ANY THIRD-PARTY PROVIDER OF A SERVICE OR TOOL OFFERED ON ANY SITE OF A MEMBER OF THE MYBUNDEE
-                            GROUP (EACH A “THIRD-PARTY PROVIDER”), BE LIABLE FOR ANY LOST PROFITS OR ANY INDIRECT, CONSEQUENTIAL, SPECIAL, INCIDENTAL, OR
-                            PUNITIVE DAMAGES ARISING OUT OF, BASED ON, OR RESULTING FROM (A) OUR SITE, (B) THESE TERMS, (C) ANY BREACH OF THESE TERMS BY YOU OR
-                            A THIRD PARTY, (D) USE OF THE SITE, TOOLS OR SERVICES WE PROVIDE, OR ANY THIRD PARTY PROVIDER PROVIDES, RELATED TO THE BUSINESS WE
-                            OPERATE ON THE SITE, BY YOU OR ANY THIRD PARTY (E) ANY USER CONTRIBUTED CONTENT, (F) INTERACTION BETWEEN OUR SITE AND ANY THIRD
-                            PARTY SITE, INCLUDING WITHOUT LIMITATION A SOCIAL MEDIA SITE, FACILITATED BY A TOOL OR SERVICE ON OUR SITE AND/OR (G) ANY ACTUAL OR
-                            ATTEMPTED COMMUNICATION OR TRANSACTION, INCLUDING WITHOUT LIMITATION, ANY PAYMENT TRANSACTION (EVEN IF WE OR ANY THIRD PARTY
-                            PROVIDER RECEIVES A FEE IN CONNECTION THEREWITH) BETWEEN USERS, IN EACH CASE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF
-                            SUCH DAMAGES. THESE LIMITATIONS AND EXCLUSIONS APPLY WITHOUT REGARD TO WHETHER THE DAMAGES ARISE FROM (1) BREACH OF CONTRACT, (2)
+                            IN NO EVENT WILL MYBUNDEE, OR ITS PARENT COMPANY, SUBSIDIARIES, AFFILIATES, OFFICERS, DIRECTORS, CONSULTANTS, AGENTS AND/OR
+                            EMPLOYEES (COLLECTIVELY, THE “BUNDEE GROUP”), OR ANY THIRD-PARTY PROVIDER OF A SERVICE OR TOOL OFFERED ON ANY SITE OF A MEMBER OF
+                            THE MYBUNDEE GROUP (EACH A “THIRD-PARTY PROVIDER”), BE LIABLE FOR ANY LOST PROFITS OR ANY INDIRECT, CONSEQUENTIAL, SPECIAL,
+                            INCIDENTAL, OR PUNITIVE DAMAGES ARISING OUT OF, BASED ON, OR RESULTING FROM (A) OUR SITE, (B) THESE TERMS, (C) ANY BREACH OF THESE
+                            TERMS BY YOU OR A THIRD PARTY, (D) USE OF THE SITE, TOOLS OR SERVICES WE PROVIDE, OR ANY THIRD PARTY PROVIDER PROVIDES, RELATED TO
+                            THE BUSINESS WE OPERATE ON THE SITE, BY YOU OR ANY THIRD PARTY (E) ANY USER CONTRIBUTED CONTENT, (F) INTERACTION BETWEEN OUR SITE
+                            AND ANY THIRD PARTY SITE, INCLUDING WITHOUT LIMITATION A SOCIAL MEDIA SITE, FACILITATED BY A TOOL OR SERVICE ON OUR SITE AND/OR (G)
+                            ANY ACTUAL OR ATTEMPTED COMMUNICATION OR TRANSACTION, INCLUDING WITHOUT LIMITATION, ANY PAYMENT TRANSACTION (EVEN IF WE OR ANY THIRD
+                            PARTY PROVIDER RECEIVES A FEE IN CONNECTION THEREWITH) BETWEEN USERS, IN EACH CASE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY
+                            OF SUCH DAMAGES. THESE LIMITATIONS AND EXCLUSIONS APPLY WITHOUT REGARD TO WHETHER THE DAMAGES ARISE FROM (1) BREACH OF CONTRACT, (2)
                             BREACH OF WARRANTY, (3) STRICT LIABILITY, (4) TORT, (5) NEGLIGENCE, OR (6) ANY OTHER CAUSE OF ACTION, TO THE MAXIMUM EXTENT SUCH
                             EXCLUSION AND LIMITATIONS ARE NOT PROHIBITED BY APPLICABLE LAW. IN ALL EVENTS, OUR LIABILITY, AND THE LIABILITY OF ANY MEMBER OF THE
                             MYBUNDEE GROUP, TO YOU OR ANY THIRD PARTY IN ANY CIRCUMSTANCE ARISING OUT OF OR IN CONNECTION WITH THE SITE IS LIMITED TO THE TOTAL
@@ -784,11 +784,11 @@ const Terms = () => {
                         </p>
                         <p>
                             We may assign these Terms in our sole discretion. Users must obtain our prior written consent to assign these Terms, which may be
-                            granted or withheld by us in our sole discretion. MyBundee is committed to an inclusive marketplace built on a foundation of trust and
-                            respect. Our global platform is open to drivers, owners, and rental car managers of every race, color, religion, national origin,
-                            ancestry, sex, gender identity, sexual orientation, and marital status. We expect all users to demonstrate respect and tolerance in
-                            all interactions with other users—both online and offline—and we reserve the right to remove anyone from our marketplace who fails
-                            to abide by these principles.
+                            granted or withheld by us in our sole discretion. MyBundee is committed to an inclusive marketplace built on a foundation of trust
+                            and respect. Our global platform is open to drivers, owners, and rental car managers of every race, color, religion, national
+                            origin, ancestry, sex, gender identity, sexual orientation, and marital status. We expect all users to demonstrate respect and
+                            tolerance in all interactions with other users—both online and offline—and we reserve the right to remove anyone from our
+                            marketplace who fails to abide by these principles.
                         </p>
                         <p>
                             ADDITIONAL TERMS AND CONDITIONS APPLICABLE TO MEMBERS <br />
@@ -837,9 +837,9 @@ const Terms = () => {
                             location or geographic description to ensure it is accurate and not misleading . (iv) it will not wrongfully deny access to the
                             listed rental car. and (v) it will not fail to provide a refund when due in accordance with the applicable cancellation policy or
                             underlying rental agreement. In addition, if MyBundee, through one of its guarantee or warranty programs and in its sole discretion,
-                            compensates a driver for a loss caused by acts or omissions attributable to a member, MyBundee reserves the right to pursue the member
-                            for the amount paid or contributed towards the loss. <br /> Upon our request, each member agrees to promptly provide to us such
-                            proof of personal identification, proof that the inspection, registration, title or condition associated with the rental car is
+                            compensates a driver for a loss caused by acts or omissions attributable to a member, MyBundee reserves the right to pursue the
+                            member for the amount paid or contributed towards the loss. <br /> Upon our request, each member agrees to promptly provide to us
+                            such proof of personal identification, proof that the inspection, registration, title or condition associated with the rental car is
                             accurately described in the listing, proof of ownership of the rental car listed on the Site, and/or proof of authority to list the
                             rental car.
                         </p>
@@ -901,13 +901,13 @@ const Terms = () => {
                         <h2 className='my-6 text-xl font-bold text-neutral-900'>29. Uses of Our Trademarks or Logos.</h2>
                         <p>
                             There are limited ways in which a member may use our trademarks or logos in connection with a listing without specific prior written
-                            authorization. The following are general guidelines. It is usually permissible for you to refer to MyBundee or the name of one of our
-                            affiliate websites on which you list your rental car in a descriptive manner in your listing on the Site or in other permissible
-                            communications. For example, you might say “Check out my rental car on MyBundee,“ or “I list properties on MyBundee.“ However, you may
-                            not refer to MyBundee or any of our affiliates in any way that might lead someone to believe that your company, rental, listing or
-                            site is sponsored by, affiliated with, or endorsed by MyBundee or one of our affiliates. For example, you may not say “Bundee sponsors
-                            my vacation rental,” or describe your rental car as “Bundee’s best vacation rental.” You may not use the MyBundee name or one of our
-                            affiliates’ names on any other website that lists vacation rentals without our prior written authorization.
+                            authorization. The following are general guidelines. It is usually permissible for you to refer to MyBundee or the name of one of
+                            our affiliate websites on which you list your rental car in a descriptive manner in your listing on the Site or in other permissible
+                            communications. For example, you might say “Check out my rental car on MyBundee,“ or “I list properties on MyBundee.“ However, you
+                            may not refer to MyBundee or any of our affiliates in any way that might lead someone to believe that your company, rental, listing
+                            or site is sponsored by, affiliated with, or endorsed by MyBundee or one of our affiliates. For example, you may not say “Bundee
+                            sponsors my vacation rental,” or describe your rental car as “Bundee’s best vacation rental.” You may not use the MyBundee name or
+                            one of our affiliates’ names on any other website that lists vacation rentals without our prior written authorization.
                             <br />
                             The MyBundee name and logo and those of the MyBundee Group and our affiliates are trademarks or registered trademarks in the United
                             States and other jurisdictions around the world. We generally do not permit the use of our names and logos, other than as described
@@ -1048,16 +1048,16 @@ const Terms = () => {
                             employee or representative of the MyBundee Group, we reserve the right to terminate such member’s listing(s) or subscription(s)
                             immediately without refund.
                             <br />
-                            In addition to reserving the right to terminate any listing, MyBundee reserves all rights to respond to any violation of the Terms or
-                            misuse of the Site by, including, but not limited to, hiding a listing from the search results, marking a member as “out of office,”
-                            and removing or changing information that may be false or misleading.
+                            In addition to reserving the right to terminate any listing, MyBundee reserves all rights to respond to any violation of the Terms
+                            or misuse of the Site by, including, but not limited to, hiding a listing from the search results, marking a member as “out of
+                            office,” and removing or changing information that may be false or misleading.
                         </p>
                         <p className=' mt-4'>
                             Additionally, you agree to defend and indemnify MyBundee, its affiliated companies, and any of their officers, directors, employees
                             and agents from and against any claims, causes of action, demands, recoveries, losses, damages, fines, penalties or other costs or
                             expenses of any kind or nature including but not limited to reasonable legal and accounting fees, brought by third parties as a
                             result of: <br />
-                            your breach of these Terms or the documents referenced herein. <br /> your violation of any law or the rights of a third party.{' '}
+                            your breach of these Terms or the documents referenced herein. <br /> your violation of any law or the rights of a third party.
                             <br /> or your use of this Site.
                         </p>
                     </li>

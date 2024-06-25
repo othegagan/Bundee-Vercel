@@ -273,11 +273,11 @@ const RegisterModal = () => {
                                 <label className='flex items-center gap-3'>
                                     <input type='checkbox' id='terms' className='scale-[1.1] accent-black' {...register('acceptTerms')} />
                                     <p className='select-none text-xs'>
-                                        I agree to MyBundee&apos;s{' '}
+                                        I agree to MyBundee&apos;s
                                         <Link href='/terms' className='text-primary underline underline-offset-4'>
                                             terms
-                                        </Link>{' '}
-                                        and{' '}
+                                        </Link>
+                                        and
                                         <Link href='/privacy' className='text-primary underline underline-offset-4'>
                                             Privacy Statements
                                         </Link>
