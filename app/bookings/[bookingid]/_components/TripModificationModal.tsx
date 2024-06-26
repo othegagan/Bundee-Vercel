@@ -10,7 +10,7 @@ import { getSession } from '@/lib/auth';
 import { convertToCarDate, convertToCarTimeZoneISO, formatDateTimeWithWeek, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { calculatePrice } from '@/server/priceCalculation';
-import { differenceInHours, format, isSameSecond, parseISO, isAfter, isBefore, isWithinInterval, differenceInDays } from 'date-fns';
+import { differenceInHours, format, isSameSecond, parseISO, isAfter, isBefore, isWithinInterval, differenceInDays, isEqual } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { StatusBadge } from '../../TripsComponent';
 import { TripModificationEndDateCalendar, TripModificationStartDateCalendar } from './TripModificationCalendars';
@@ -191,7 +191,7 @@ export default function TripModificationDialog({ tripData }) {
             const parsedNewEndDate = parseISO(`${newEndDate}T${newEndTime}`);
 
             // check if the new start date and end date are not as same as the original start and end date
-            if (isSameSecond(parsedNewStartDate, parsedOriginalStartDate) && isSameSecond(parsedNewEndDate, parsedOriginalEndDate)) {
+            if (isEqual(parsedNewStartDate, parsedOriginalStartDate) && isEqual(parsedNewEndDate, parsedOriginalEndDate)) {
                 throw new Error('Please select a new start and end date that are different from the original start and end date.');
             }
 
