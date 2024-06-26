@@ -59,12 +59,12 @@ export default function TripModificationPriceListComponent({
                             Rental (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays}
                             {priceCalculatedList.numberOfDays == 1 ? 'Day' : 'Days'})
                         </p>
-                        <p className='text-14'>{roundToTwoDecimalPlaces(priceCalculatedList?.charges)}</p>
+                        <p className='text-14'>${roundToTwoDecimalPlaces(priceCalculatedList?.charges)}</p>
                     </div>
                 )}
 
                 {priceCalculatedList?.delivery > 0 && (
-                    <div className='flex items-center justify-between'>
+                    <div className='flex items-center justify-between gap-2 px-2'>
                         <div className='flex items-center gap-1 text-xs'>
                             <p className='text-14'>Additional services chosen</p>
                             <Popover>
@@ -88,7 +88,7 @@ export default function TripModificationPriceListComponent({
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <div className='text-xs font-medium'>${roundToTwoDecimalPlaces(priceCalculatedList?.delivery)}</div>
+                        <div className='text-14 font-medium'>${roundToTwoDecimalPlaces(priceCalculatedList?.delivery)}</div>
                     </div>
                 )}
 
