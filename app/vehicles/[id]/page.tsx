@@ -155,7 +155,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 payload.customDelivery = true;
             }
 
-            // console.log(payload, 'payload');
+            console.log(payload, 'payload');
 
             const responseData: any = await calculatePrice(payload);
             // console.log(responseData);
@@ -235,7 +235,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 latitude: '',
                 longitude: '',
                 ...priceCalculatedList,
-                delivery: delivery,
+                delivery: delivery ? true : false,
                 airportDelivery: airportDelivery,
                 deliveryCost: delivery ? deliveryCost : 0,
                 upCharges: priceCalculatedList.upcharges,
@@ -244,7 +244,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             };
 
-            // console.log(checkoutDetails);
+            console.log(checkoutDetails);
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
 
             if (!isVerified) {

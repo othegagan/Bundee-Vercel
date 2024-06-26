@@ -78,7 +78,6 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         'stateSurchargeAmount',
                         'stateSurchargeTax',
                         'hostid',
-                        'delivery',
                     ];
                     keysToRemove?.forEach(key => {
                         if (payload.hasOwnProperty(key)) {
