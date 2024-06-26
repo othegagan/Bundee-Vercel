@@ -190,6 +190,11 @@ export default function TripModificationDialog({ tripData }) {
             const parsedNewStartDate = parseISO(`${newStartDate}T${newStartTime}`);
             const parsedNewEndDate = parseISO(`${newEndDate}T${newEndTime}`);
 
+            // check if the new start date and end date are not as same as the original start and end date
+            if (isSameSecond(parsedNewStartDate, parsedOriginalStartDate) && isSameSecond(parsedNewEndDate, parsedOriginalEndDate)) {
+                throw new Error('Please select a new start and end date that are different from the original start and end date.');
+            }
+
             // Check if the new start date is not before the new end date
             if (!isBefore(parsedNewStartDate, parsedNewEndDate)) {
                 throw new Error('Please select an end date that comes after the start date.');

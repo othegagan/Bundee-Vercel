@@ -140,7 +140,7 @@ export default function TripModificationPriceListComponent({
                     priceCalculatedList?.registrationRecoveryFee > 0) && (
                     <div className='flex items-center justify-between gap-2 px-2 '>
                         <div className='flex items-center gap-1'>
-                            <p className='text-14'>Trip Fee</p>
+                            <p className='text-14'>Booking Fee</p>
                             <span>
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -151,7 +151,7 @@ export default function TripModificationPriceListComponent({
                                     <PopoverContent className='w-64'>
                                         <div className='grid select-none gap-4'>
                                             <div className='space-y-2'>
-                                                <p className='font-medium leading-none'>Trip Fee</p>
+                                                <p className='font-medium leading-none'>Booking Fee</p>
                                             </div>
                                             <div className='space-y-1'>
                                                 {priceCalculatedList?.concessionFee > 0 && (
