@@ -8,7 +8,7 @@ import { auth, getFirebaseErrorMessage, } from '@/lib/firebase';
 import { getUserByPhoneNumber } from '@/server/userOperations';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
 import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
@@ -30,6 +30,14 @@ const PhoneNumberSignInModal = () => {
 
     const [loading, setLoading] = useState(false);
     const [verifying, setVerifying] = useState(false);
+
+    useEffect(() => {
+        if (verificationCode.length === 6) {
+            setTimeout(() => {
+                onOTPVerify();
+            }, 800);
+        }
+    }, [verificationCode]);
 
     const handleSendVerificationCode = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
