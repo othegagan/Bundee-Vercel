@@ -35,7 +35,7 @@ const PhoneNumberSignInModal = () => {
         if (verificationCode.length === 6) {
             setTimeout(() => {
                 onOTPVerify();
-            }, 800);
+            }, 200);
         }
     }, [verificationCode]);
 

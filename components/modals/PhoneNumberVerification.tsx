@@ -5,7 +5,7 @@ import { getSession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { getUserByEmail, getUserByPhoneNumber, updateProfile } from '@/server/userOperations';
 import { getAuth, linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, unlink, updatePhoneNumber } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
@@ -22,6 +22,14 @@ const PhoneNumberModal = () => {
     const [verificationSent, setVerificationSent] = useState(false);
     const [otpError, setOTPError] = useState('');
     const [verifying, setVerifiying] = useState(false);
+
+    useEffect(() => {
+        if (verificationCode.length === 6) {
+            setTimeout(() => {
+                handleVerifyCode();
+            }, 200);
+        }
+    }, [verificationCode]);
 
     const handleSendVerificationCode = async () => {
         try {
