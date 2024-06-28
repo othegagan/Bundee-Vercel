@@ -93,7 +93,7 @@ const PhoneNumberSignInModal = () => {
             if (response.success) {
                 await createSession({ userData: response.data.userResponse });
                 closeModal();
-                router.refresh();
+                // router.refresh();
             } else {
                 throw new Error(response.message);
             }

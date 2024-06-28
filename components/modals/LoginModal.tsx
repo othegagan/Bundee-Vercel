@@ -55,9 +55,9 @@ const LoginModal = () => {
                     const response: any = await getUserByEmail(user.email);
                     if (response.success) {
                         const userResponse = response.data.userResponse;
-                        closeModal();
                         await createSession({ userData: userResponse, authToken: authTokenResponse.authToken });
-                        router.refresh();
+                        closeModal();
+                        // router.refresh();
                     } else {
                         throw new Error('Error in get user', response.message);
                     }
@@ -101,9 +101,9 @@ const LoginModal = () => {
                             userData: response.data.userResponse,
                             authToken: authTokenResponse.authToken,
                         };
-                        closeModal();
                         await createSession(payload);
-                        router.refresh();
+                        closeModal();
+                        // router.refresh();
                     } else {
                         throw new Error(response.message);
                     }
@@ -120,7 +120,7 @@ const LoginModal = () => {
                     if (createUserResponse.success) {
                         const userResponse = createUserResponse.data.userResponses[0];
                         await createSession({ userData: userResponse, authToken: authTokenResponse.authToken });
-                        router.refresh();
+                        // router.refresh();
                         closeModal();
                     } else {
                         throw new Error('Unable to create user');
