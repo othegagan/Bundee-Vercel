@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { JSONparsefy } from './utils';
 
 const secretKey = process.env.SECRET_KEY;
-const cookieName = process.env.NEXT_PUBLIC_SECURE_LOCAL_STORAGE_HASH_KEY;
+const cookieName = process.env.NODE_ENV === 'production' ? 'bundee-session' : 'dev_session';
 const EXPIRY_IN_MS = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
 
 const key = new TextEncoder().encode(secretKey);
@@ -31,7 +31,6 @@ interface CreateSessionProps {
 
 export async function createSession({ userData, authToken }: CreateSessionProps) {
     const expires = new Date(Date.now() + EXPIRY_IN_MS);
-    console.log("Creating session with expiration:", expires);
 
     const sessionData = {
         email: userData?.email,
@@ -48,36 +47,36 @@ export async function createSession({ userData, authToken }: CreateSessionProps)
         expires,
         httpOnly: true,
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
         path: '/',
     });
-    console.log("Session created and cookie set.");
 }
 
 export async function getSession() {
     const sessionCookie = cookies().get(cookieName)?.value;
-    console.log("Getting session, cookie value:", sessionCookie);
 
     if (!sessionCookie) {
-        console.log("No session cookie found, returning default session.");
         return defaultSession;
     }
 
     const data = await decrypt(sessionCookie);
-    console.log("Session data decrypted:", data);
 
     return JSONparsefy(data.sessionData) as SessionData;
 }
 
-
 export async function destroySession() {
     // Destroy the session
-    cookies().set(cookieName, '', { expires: new Date(0) });
+    cookies().set(cookieName, '', { expires: new Date(0), path: '/' });
 }
 
 export const saveDeviceUUID = async () => {
     const cookieStore = cookies();
     const uuid = uuidv4();
-    cookieStore.set('deviceUUID', uuid);
+    cookieStore.set('deviceUUID', uuid, {
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+    });
 };
 
 export const getDeviceUUID = async () => {
@@ -101,6 +100,7 @@ export async function updateSession(request: NextRequest) {
         httpOnly: true,
         expires: parsed.expires,
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
         path: '/',
     });
     return res;
