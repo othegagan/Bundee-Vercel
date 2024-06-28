@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestHeaders } from 'axios';
-import { getSession, logout } from './auth';
+import { getSession, destorySession } from './auth';
 
 const authAxios = (): AxiosInstance => {
     const instance = axios.create({
@@ -27,7 +27,7 @@ const authAxios = (): AxiosInstance => {
         response => response, // Process response with handleResponse function
         async error => {
             if (error.response && error.response.status === 401) {
-                await logout(); // Call logout function
+                await destorySession(); // Call logout function
             }
             return Promise.reject(error);
         },

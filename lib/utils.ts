@@ -11,6 +11,10 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+export function JSONparsefy(obj: any) {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 export function toTitleCase(str: string) {
     return str.replace(/\w\S*/g, function (txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();

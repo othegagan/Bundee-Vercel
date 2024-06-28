@@ -3,8 +3,8 @@
 import Logo from '@/components/landing_page/Logo';
 import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
-import { login } from '@/lib/auth';
-import { auth, getFirebaseErrorMessage, } from '@/lib/firebase';
+import { createSession } from '@/lib/auth';
+import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { getUserByPhoneNumber } from '@/server/userOperations';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
@@ -91,7 +91,7 @@ const PhoneNumberSignInModal = () => {
             const res = await confirmationResult.confirm(verificationCode);
             const response = await getUserByPhoneNumber(`+${phoneNumber}`);
             if (response.success) {
-                await login({ userData: response.data.userResponse });
+                await createSession({ userData: response.data.userResponse });
                 closeModal();
                 router.refresh();
             } else {

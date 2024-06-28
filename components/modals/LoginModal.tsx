@@ -7,7 +7,7 @@ import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 
 import Logo from '@/components/landing_page/Logo';
 import useForgotPasswordModal from '@/hooks/useForgotPasswordModal';
 import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
-import { login, logout } from '@/lib/auth';
+import { createSession, destroySession } from '@/lib/auth';
 import { createNewUser } from '@/server/createNewUser';
 import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
 import { useRouter } from 'next/navigation';
@@ -56,7 +56,7 @@ const LoginModal = () => {
                     if (response.success) {
                         const userResponse = response.data.userResponse;
                         closeModal();
-                        await login({ userData: userResponse, authToken: authTokenResponse.authToken });
+                        await createSession({ userData: userResponse, authToken: authTokenResponse.authToken });
                         router.refresh();
                     } else {
                         throw new Error('Error in get user', response.message);
@@ -102,7 +102,7 @@ const LoginModal = () => {
                             authToken: authTokenResponse.authToken,
                         };
                         closeModal();
-                        await login(payload);
+                        await createSession(payload);
                         router.refresh();
                     } else {
                         throw new Error(response.message);
@@ -119,7 +119,7 @@ const LoginModal = () => {
 
                     if (createUserResponse.success) {
                         const userResponse = createUserResponse.data.userResponses[0];
-                        await login({ userData: userResponse, authToken: authTokenResponse.authToken });
+                        await createSession({ userData: userResponse, authToken: authTokenResponse.authToken });
                         router.refresh();
                         closeModal();
                     } else {
@@ -127,11 +127,11 @@ const LoginModal = () => {
                     }
                 }
             })
-            .catch(error => {
+            .catch(async error => {
                 // Handle sign-in error
                 handleAuthError(error);
                 console.log(error.message);
-                logout();
+               await destroySession();
             });
     };
 

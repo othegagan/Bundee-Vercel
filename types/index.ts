@@ -1,4 +1,3 @@
-import { SessionOptions } from 'iron-session';
 
 export interface SessionData {
     userId: number | null;
@@ -18,15 +17,6 @@ export const defaultSession: SessionData = {
     authToken: '',
 };
 
-export const sessionOptions: SessionOptions = {
-    password: process.env.SECRET_KEY!,
-    cookieName: 'bundee-session',
-    cookieOptions: {
-        httpOnly: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === 'production',
-    },
-};
 
 export interface Vehicle {
     vehicleId: String;

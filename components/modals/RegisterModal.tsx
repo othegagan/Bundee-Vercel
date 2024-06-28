@@ -2,7 +2,7 @@
 
 import useLoginModal from '@/hooks/useLoginModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
-import { login, logout } from '@/lib/auth';
+import { createSession, destroySession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { createNewUser } from '@/server/createNewUser';
 import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
@@ -138,7 +138,7 @@ const RegisterModal = () => {
                         authToken: authTokenResponse.authToken,
                     };
                     closeModal();
-                    await login(payload);
+                    await createSession(payload);
                     router.refresh();
                 } else {
                     throw new Error(userResponse.message);
@@ -155,7 +155,7 @@ const RegisterModal = () => {
 
                 if (createUserResponse.success) {
                     const newUser = createUserResponse.data.userResponses[0];
-                    await login({ userData: newUser, authToken: authTokenResponse.authToken });
+                    await createSession({ userData: newUser, authToken: authTokenResponse.authToken });
                     router.refresh();
                     closeModal();
                 } else {
@@ -164,7 +164,7 @@ const RegisterModal = () => {
             }
         } catch (error) {
             console.error('Error during Google Sign-In:', error.message);
-            logout();
+            destroySession();
         }
     };
 
