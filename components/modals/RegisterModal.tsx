@@ -164,7 +164,7 @@ const RegisterModal = () => {
             }
         } catch (error) {
             console.error('Error during Google Sign-In:', error.message);
-            destroySession();
+            await destroySession();
         }
     };
 

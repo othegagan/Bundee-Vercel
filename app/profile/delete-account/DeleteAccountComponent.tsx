@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { deleteAccount } from '@/server/userOperations';
 import { toast } from '@/components/ui/use-toast';
-import { destorySession } from '@/lib/auth';
+import { destroySession } from '@/lib/auth';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 
 const DeleteAccountComponent = () => {
@@ -19,7 +19,7 @@ const DeleteAccountComponent = () => {
             const response = await deleteAccount();
             if (response.success) {
                 localStorage.clear();
-                await destorySession();
+                await destroySession();
             } else {
                 closeDialog();
                 toast({
