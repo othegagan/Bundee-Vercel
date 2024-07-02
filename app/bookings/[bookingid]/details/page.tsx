@@ -39,6 +39,9 @@ export default function page({ params }: { params: { bookingid: string } }) {
                     car={bookingData.vehicleDetails[0]}
                     driverUploadedImages={bookingData.driverTripStartingBlobs}
                     hostUploadedImages={bookingData.hostTripStartingBlobs}
+                    hostName={bookingData?.hostFirstName + ' ' + bookingData?.hostLastName || ""}
+                    hostPhoneNumber={bookingData?.hostPhoneNumber || ""}
+                    hostImage={bookingData?.hostImage || ""}
                 />
             </div>
 

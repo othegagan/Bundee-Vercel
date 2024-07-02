@@ -19,7 +19,7 @@ export const auth = getAuth(app);
 export default app;
 
 export function getFirebaseErrorMessage(code: string) {
-    const errorMap = {
+    const errorMap: { [key: string]: string } = {
         'auth/user-not-found': 'User account not found.',
         'auth/wrong-password': 'Incorrect password. Try again.',
         'auth/invalid-email': 'Invalid email address.',

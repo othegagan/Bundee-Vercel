@@ -4,7 +4,23 @@ import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import Readmore from '@/components/ui/readmore';
 import TripImageVideoCarousel from './TripImageVideoCarousel';
 
-const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedImages }: any) => {
+interface TripVehicleDetailsComponentProps {
+    car: any;
+    driverUploadedImages: any;
+    hostUploadedImages: any;
+    hostName: string | '';
+    hostPhoneNumber: string | '';
+    hostImage: string | '';
+}
+
+const TripVehicleDetailsComponent = ({
+    car,
+    driverUploadedImages,
+    hostUploadedImages,
+    hostName,
+    hostImage,
+    hostPhoneNumber,
+}: TripVehicleDetailsComponentProps) => {
     const images: any = [...car?.imageresponse].sort((a, b) => {
         // Sort records with isPrimary true first
         if (a.isPrimary && !b.isPrimary) {
@@ -28,7 +44,7 @@ const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedIm
                 </div>
             )}
 
-            <div className='mt-6 px-4 space-y-4'>
+            <div className='mt-6 space-y-4 px-4'>
                 <h2 className='tracking-tight'>
                     {car.make} {car.model} {car.year}
                 </h2>
@@ -95,6 +111,18 @@ const TripVehicleDetailsComponent = ({ car, driverUploadedImages, hostUploadedIm
                             <TripImageVideoCarousel uploadedBy='host' images={hostUploadedImages} />
                         </div>
                     ) : null}
+                </div>
+
+                {/* Hosted  Section */}
+                <div className='flex flex-col gap-2'>
+                    <p className='font-bold'>Hosted By</p>
+                    <div className='relative  flex items-center gap-x-4'>
+                        <img src={hostImage || '/dummy_avatar.png'} alt={hostName} className='size-14 rounded-full border bg-neutral-50' />
+                        <div className='space-y-1'>
+                            <p className='font-semibold text-neutral-900'>{hostName}</p>
+                            <p className='text-14 text-neutral-600'>{hostPhoneNumber}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
