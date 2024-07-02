@@ -155,9 +155,6 @@ importers:
       npm:
         specifier: ^10.8.0
         version: 10.8.0
-      otp-input-react:
-        specifier: ^0.3.0
-        version: 0.3.0
       pdfjs-dist:
         specifier: ^4.3.136
         version: 4.3.136
@@ -194,15 +191,9 @@ importers:
       react-pdf:
         specifier: ^9.0.0
         version: 9.0.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-pdf-js:
-        specifier: ^5.1.0
-        version: 5.1.0(react@18.3.1)
       react-phone-input-2:
         specifier: ^2.15.1
         version: 2.15.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-phone-number-input:
-        specifier: ^3.4.3
-        version: 3.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-responsive:
         specifier: ^10.0.0
         version: 10.0.0(react@18.3.1)
@@ -286,9 +277,6 @@ packages:
   '@babel/runtime@7.24.6':
     resolution: {integrity: sha512-Ja18XcETdEl5mzzACGd+DKgaGJzPTCow7EglgwTmHdwokzDFYh/MHua6lU6DV/hjF2IaOJ4oX2nqnjG7RElKOw==}
     engines: {node: '>=6.9.0'}
-
-  '@bundled-es-modules/pdfjs-dist@2.1.266-rc':
-    resolution: {integrity: sha512-idli/i9GA7hUW8uRIs2Y48m5QHKRv3PaVxlM1VEoOuzWoF2qLdtOepOpIy3BTblakDNt2f/gINPN7X/v9DBKoQ==}
 
   '@emnapi/runtime@1.2.0':
     resolution: {integrity: sha512-bV21/9LQmcQeCPEg3BDFtvwL6cwiTMksYNWQQ4KOxCZikEGalWtenoZ0wCiukJINlGCIi2KXx01g4FoH/LxpzQ==}
@@ -2095,9 +2083,6 @@ packages:
   cookies-next@4.2.1:
     resolution: {integrity: sha512-qsjtZ8TLlxCSX2JphMQNhkm3V3zIMQ05WrLkBKBwu50npBbBfiZWIdmSMzBGcdGKfMK19E0PIitTfRFAdMGHXg==}
 
-  country-flag-icons@1.5.11:
-    resolution: {integrity: sha512-B+mvFywunkRJs270k7kCBjhogvIA0uNn6GAXv6m2cPn3rrwqZzZVr2gBWcz+Cz7OGVWlcbERlYRIX0S6OGr8Bw==}
-
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -2378,9 +2363,6 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  input-format@0.3.10:
-    resolution: {integrity: sha512-5cFv/kOZD7Ch0viprVkuYPDkAU7HBZYBx8QrIpQ6yXUWbAQ0+RQ8IIojDJOf/RO6FDJLL099HDSK2KoVZ2zevg==}
-
   input-otp@1.2.4:
     resolution: {integrity: sha512-md6rhmD+zmMnUh5crQNSQxq3keBRYvE3odbr4Qb9g2NWzQv9azi+t1a3X4TBTbh98fsGHgEEJlzbe1q860uGCA==}
     peerDependencies:
@@ -2457,9 +2439,6 @@ packages:
 
   kdbush@4.0.2:
     resolution: {integrity: sha512-WbCVYJ27Sz8zi9Q7Q0xHC+05iwkm3Znipc2XTlrnJbsHMYktW4hPhXUE8Ys1engBrvffoSCqbil1JQAa7clRpA==}
-
-  libphonenumber-js@1.11.2:
-    resolution: {integrity: sha512-V9mGLlaXN1WETzqQvSu6qf6XVAr3nFuJvWsHcuzCCCo6xUKawwSxOPTpan5CGOSKTn5w/bQuCZcLPJkyysgC3w==}
 
   lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
@@ -2762,9 +2741,6 @@ packages:
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
 
-  otp-input-react@0.3.0:
-    resolution: {integrity: sha512-6HDgAUp+biz18cfeX8189g6sOqA5UGmTeqkREz1MI8x92N8kU/M8YtwLtl60j3pbGkMVbrm3f4n4wtXPeVpMmg==}
-
   path-is-absolute@1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
@@ -2998,12 +2974,6 @@ packages:
       react: '>=16.8.6 || ^17.0.0 || ^18.0.0'
       react-dom: '>=16.8.6 || ^17.0.0 || ^18.0.0'
 
-  react-pdf-js@5.1.0:
-    resolution: {integrity: sha512-l/norbM4BocUJcD0o46b5U4XWTZI1FN1+wfhosPKGy0cJ3T7Ck7GGfr3KXsH5ljc8lyifZPMAm6Rvsbe8OzBbQ==}
-    deprecated: Please move to our namespaced package at @mikecousins/react-pdf
-    peerDependencies:
-      react: '>=16'
-
   react-pdf@9.0.0:
     resolution: {integrity: sha512-J+pza8R2p9oNEOJOHIQJI4o5rFK7ji7bBl2IvsHvz1OOyphvuzVDo5tOJwWAFAbxYauCH3Kt8jOvcMJUOpxYZQ==}
     peerDependencies:
@@ -3019,12 +2989,6 @@ packages:
     peerDependencies:
       react: ^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0
       react-dom: ^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0
-
-  react-phone-number-input@3.4.3:
-    resolution: {integrity: sha512-n0dD9V1T8EWeRoGwVMcNK6bwOdEbIk0U3EQ87K0WTADgyJZUJd9NIQMmpcl9mtWSL+LwPaEMzre0yGkhwZYTzg==}
-    peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
 
   react-remove-scroll-bar@2.3.6:
     resolution: {integrity: sha512-DtSYaao4mBmX+HDo5YWYdBWQwYIQQshUV/dVxFxK+KM26Wjwp1gZ6rv6OC3oujI6Bfu6Xyg3TwK533AQutsn/g==}
@@ -3470,8 +3434,6 @@ snapshots:
   '@babel/runtime@7.24.6':
     dependencies:
       regenerator-runtime: 0.14.1
-
-  '@bundled-es-modules/pdfjs-dist@2.1.266-rc': {}
 
   '@emnapi/runtime@1.2.0':
     dependencies:
@@ -5853,8 +5815,6 @@ snapshots:
       '@types/cookie': 0.6.0
       cookie: 0.6.0
 
-  country-flag-icons@1.5.11: {}
-
   cross-spawn@7.0.3:
     dependencies:
       path-key: 3.1.1
@@ -6142,10 +6102,6 @@ snapshots:
   inherits@2.0.4:
     optional: true
 
-  input-format@0.3.10:
-    dependencies:
-      prop-types: 15.8.1
-
   input-otp@1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
@@ -6211,8 +6167,6 @@ snapshots:
   json-stringify-pretty-compact@3.0.0: {}
 
   kdbush@4.0.2: {}
-
-  libphonenumber-js@1.11.2: {}
 
   lilconfig@2.1.0: {}
 
@@ -6437,8 +6391,6 @@ snapshots:
     dependencies:
       wrappy: 1.0.2
     optional: true
-
-  otp-input-react@0.3.0: {}
 
   path-is-absolute@1.0.1:
     optional: true
@@ -6675,11 +6627,6 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  react-pdf-js@5.1.0(react@18.3.1):
-    dependencies:
-      '@bundled-es-modules/pdfjs-dist': 2.1.266-rc
-      react: 18.3.1
-
   react-pdf@9.0.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       clsx: 2.1.1
@@ -6705,16 +6652,6 @@ snapshots:
       lodash.memoize: 4.1.2
       lodash.reduce: 4.6.0
       lodash.startswith: 4.2.1
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-
-  react-phone-number-input@3.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      classnames: 2.5.1
-      country-flag-icons: 1.5.11
-      input-format: 0.3.10
-      libphonenumber-js: 1.11.2
       prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
