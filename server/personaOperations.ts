@@ -1,7 +1,7 @@
 'use server';
 
 import { getSession } from '@/lib/auth';
-import { handleResponse, http } from '@/lib/httpService';
+import {  http } from '@/lib/httpService';
 
 export async function updatePersonaProfile(personaEnquiryId: any) {
     try {

@@ -16,13 +16,13 @@ import { Dialog, DialogBody } from '@/components/ui/dialog';
 
 const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate }: any) => {
     const [swapRequestedModalOpen, setSwapRequestedModalOpen] = useState(false);
-    const [swapDataLoading, setSwaopDataLoading] = useState(false);
-    const [vehicleDetails, setvehicleDetails] = useState(null);
+    const [swapDataLoading, setSwapDataLoading] = useState(false);
+    const [vehicleDetails, setVehicleDetails] = useState(null);
     const [vehicleImages, setVehicleImages] = useState(null);
     const [error, setError] = useState('');
 
     async function handleSwap() {
-        setSwaopDataLoading(true);
+        setSwapDataLoading(true);
         const fetchData = async () => {
             try {
                 openModal();
@@ -30,7 +30,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                 const response = await getVehicleAllDetailsByVechicleId(id);
                 if (response.success) {
                     const data = response.data;
-                    setvehicleDetails(data.vehicleAllDetails?.[0]);
+                    setVehicleDetails(data.vehicleAllDetails?.[0]);
                     setVehicleImages(data.vehicleAllDetails?.[0]?.imageresponse);
                 } else {
                     toast({
@@ -44,7 +44,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                 console.error('Error fetching vehicle data data', error);
                 setError(error);
             } finally {
-                setSwaopDataLoading(false);
+                setSwapDataLoading(false);
             }
         };
 
@@ -94,7 +94,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
 
     return (
         <div>
-            <label className='mt-4 whitespace-nowrap font-bold '>Swap Status</label>
+            <p className='mt-4 whitespace-nowrap font-bold '>Swap Status</p>
             <div className='flex justify-between'>
                 <StatusBadge status={swapRequestDetails?.statuscode.toLowerCase()} type='swap' />
                 {swapRequestDetails?.statuscode.toLowerCase() === 'swappr' && (
@@ -122,7 +122,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                                 <div className='group relative cursor-pointer select-none rounded-md border border-neutral-200 bg-white'>
                                     <Carousel autoSlide={false}>
                                         {vehicleImages.map((s, i) => (
-                                            <img key={i} src={s.imagename} className='max-h-fit rounded-md' alt={`vehicle image ${i}`} />
+                                            <img key={i} src={s.imagename} className='max-h-fit rounded-md' alt={`vehicle image`} />
                                         ))}
                                     </Carousel>
                                     <div className='flex w-full flex-col gap-2 p-3 md:flex-row md:items-center md:justify-between'>
@@ -168,11 +168,9 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                                 <div className='text-sm leading-6'>
                                     <p className='text-gray-500'>
                                         Terms and conditions applied.
-                                        <span>
-                                            <Link className='ml-1 underline' href='/privacy'>
-                                                Read more about policy
-                                            </Link>
-                                        </span>
+                                        <Link className='ml-1 underline' href='/privacy'>
+                                            <span>Read more about policy</span>
+                                        </Link>
                                     </p>
                                 </div>
                             </div>

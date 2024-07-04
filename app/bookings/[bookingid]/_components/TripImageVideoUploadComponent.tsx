@@ -7,7 +7,6 @@ import axios from 'axios';
 import { useRef, useState } from 'react';
 import { FaFileUpload } from 'react-icons/fa';
 import { FiPaperclip } from 'react-icons/fi';
-import { IoClose } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
 import { MdDeleteForever } from 'react-icons/md';
 
@@ -19,7 +18,6 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
     const [uploadProgress, setUploadProgress] = useState([]);
     const [error, setError] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [noOfFiles, setNoOfFiles] = useState(0);
     const [uploading, setUploading] = useState(false);
 
     const onDragEnter = () => wrapperRef.current.classList.add('opacity-50');
@@ -65,7 +63,6 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                     exceededSizeFiles.push(file);
                 }
             });
-            // console.log(allowedFiles.length + fileList.length + Number(tripsData?.driverTripStartingBlobs.length || 0));
 
             if (allowedFiles.length + fileList.length + Number(tripsData?.driverTripStartingBlobs.length || 0) > 10) {
                 toast({
@@ -151,7 +148,6 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
 
         try {
             await Promise.all(uploadRequests);
-            // alert('All files uploaded successfully!');
             toast({
                 duration: 3000,
                 className: 'bg-green-500 text-white',
@@ -197,11 +193,6 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                 }}>
                 <FiPaperclip className='size-5' />
                 Upload booking media
-                {noOfFiles > 0 ? (
-                    <div className='absolute -right-1 -top-1 inline-flex size-5  items-center justify-center rounded-full bg-primary text-xs font-medium text-white'>
-                        {noOfFiles}
-                    </div>
-                ) : null}
             </Button>
 
             <Dialog

@@ -34,43 +34,41 @@ const TripImageVideoCarousel = ({ images, uploadedBy }) => {
         }
     };
     return (
-        <>
-            <div className='grid grid-cols-1 gap-4 md:grid-cols-3  lg:grid-cols-3'>
-                {images.map(item => (
-                    <div className='custom-shadow h-fit  rounded-lg bg-white hover:shadow-md ' key={item.id}>
-                        <div className='relative flex items-end overflow-hidden rounded-t-lg '>
-                            <div className='aspect-video w-full overflow-hidden rounded-t-md bg-neutral-200  lg:aspect-video lg:h-44'>
-                                {item.url.includes('.mp4') ? (
-                                    <video className='h-full w-full  object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full' controls>
-                                        <source src={item.url} type='video/mp4' />
-                                        Your browser does not support the video tag.
-                                    </video>
-                                ) : (
-                                    <img
-                                        src={item.url}
-                                        alt={item.url}
-                                        className='h-full w-full object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
-                                    />
-                                )}
-                            </div>
-                        </div>
-
-                        <div className=' flex h-fit flex-wrap items-center justify-between p-3'>
-                            <div className=' flex flex-col flex-wrap'>
-                                <p></p>
-                                {item?.caption && <p className=' text-sm text-neutral-700'>{toTitleCase(item.caption)}</p>}
-                                <span className='text-[11px] text-neutral-500'>Uploaded on {format(new Date(item.createdDate), 'PP, p')} </span>
-                            </div>
-                            {uploadedBy == 'driver' && (
-                                <div>
-                                    <FiTrash2 className='cursor-pointer text-lg text-red-500' onClick={() => deleteImage(item.id)} />
-                                </div>
-                            )}
-                        </div>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3  lg:grid-cols-3'>
+        {images.map(item => (
+            <div className='custom-shadow h-fit  rounded-lg bg-white hover:shadow-md ' key={item.id}>
+                <div className='relative flex items-end overflow-hidden rounded-t-lg '>
+                    <div className='aspect-video w-full overflow-hidden rounded-t-md bg-neutral-200  lg:aspect-video lg:h-44'>
+                        {item.url.includes('.mp4') ? (
+                            <video className='h-full w-full  object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full' controls>
+                                <source src={item.url} type='video/mp4' />
+                                Your browser does not support the video tag.
+                            </video>
+                        ) : (
+                            <img
+                                src={item.url}
+                                alt={item.url}
+                                className='h-full w-full object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
+                            />
+                        )}
                     </div>
-                ))}
+                </div>
+
+                <div className=' flex h-fit flex-wrap items-center justify-between p-3'>
+                    <div className=' flex flex-col flex-wrap'>
+                        <p></p>
+                        {item?.caption && <p className=' text-sm text-neutral-700'>{toTitleCase(item.caption)}</p>}
+                        <span className='text-[11px] text-neutral-500'>Uploaded on {format(new Date(item.createdDate), 'PP, p')} </span>
+                    </div>
+                    {uploadedBy == 'driver' && (
+                        <div>
+                            <FiTrash2 className='cursor-pointer text-lg text-red-500' onClick={() => deleteImage(item.id)} />
+                        </div>
+                    )}
+                </div>
             </div>
-        </>
+        ))}
+    </div>
     );
 };
 

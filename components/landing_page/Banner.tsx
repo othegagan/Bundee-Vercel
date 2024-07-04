@@ -29,7 +29,16 @@ const Banner = () => {
                             </div>
 
                             <div className='relative '>
-                                <img className='relative mx-auto w-full max-w-lg  ' src='./banner-circle.png' alt='App screenshot' />
+                                <Image
+                                    src='/banner-circle.png'
+                                    width={0}
+                                    height={0}
+                                    sizes='100vw'
+                                    style={{ width: '100%', height: '70vh' }}
+                                    alt='hero image'
+                                    className='absolute mx-auto object-cover object-center'
+                                    priority
+                                />
                             </div>
                         </div>
                     </div>

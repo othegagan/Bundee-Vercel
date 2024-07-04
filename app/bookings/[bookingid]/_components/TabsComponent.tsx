@@ -1,9 +1,10 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export default function TabsComponent({ bookingId }: { bookingId?: string }) {
+export default function TabsComponent({ bookingId }: Readonly<{ bookingId?: string }>) {
     const pathname = usePathname();
     return (
         <div
@@ -15,8 +16,10 @@ export default function TabsComponent({ bookingId }: { bookingId?: string }) {
                 href={`/bookings/${bookingId}/details`}
                 type='button'
                 role='tab'
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-                        ${pathname === `/bookings/${bookingId}/details` ? 'bg-primary text-white shadow' : 'bg-neutral-100 text-muted-foreground'}`}>
+                className={cn(
+                    'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+                    pathname === `/bookings/${bookingId}/details` ? 'bg-primary text-white shadow' : 'bg-neutral-100 text-muted-foreground',
+                )}>
                 Booking Details
             </Link>
 
@@ -24,8 +27,10 @@ export default function TabsComponent({ bookingId }: { bookingId?: string }) {
                 href={`/bookings/${bookingId}/conversation`}
                 type='button'
                 role='tab'
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-                        ${pathname === `/bookings/${bookingId}/conversation` ? 'bg-primary text-white shadow' : 'bg-neutral-100 text-muted-foreground'}`}>
+                className={cn(
+                    'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+                    pathname === `/bookings/${bookingId}/conversation` ? 'bg-primary text-white shadow' : 'bg-neutral-100 text-muted-foreground',
+                )}>
                 Conversation
             </Link>
         </div>

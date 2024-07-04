@@ -66,10 +66,6 @@ export async function createSetUpIntent() {
             customerId = customer.id;
         }
 
-        // const paymentMethod = await stripe.paymentMethods.attach('pm_1PMVY9AHBUVqiOLM1LYcR3Gf', {
-        //     customer: 'cus_QCRmaCUvkkNaa7',
-        // });
-
         const setupIntent = await stripe.setupIntents.create({
             payment_method_types: ['card'],
             customer: customerId,
