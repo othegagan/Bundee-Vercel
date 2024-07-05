@@ -66,14 +66,14 @@ export async function getSession() {
 
 export async function destroySession() {
     // Destroy the session
-    cookies().set(cookieName, '', { expires: new Date(0), path: '/' });
+    cookies().set(cookieName, '', { expires: new Date(0), path: '/', httpOnly: true, sameSite: 'none' });
 }
 
 export const saveDeviceUUID = async () => {
     const cookieStore = cookies();
     const uuid = uuidv4();
     cookieStore.set('deviceUUID', uuid, {
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        sameSite: 'none',
         secure: process.env.NODE_ENV === 'production',
         path: '/',
     });
@@ -99,7 +99,7 @@ export async function updateSession(request: NextRequest) {
         value: await encrypt(parsed),
         httpOnly: true,
         expires: parsed.expires,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        sameSite: 'none',
         secure: process.env.NODE_ENV === 'production',
         path: '/',
     });
