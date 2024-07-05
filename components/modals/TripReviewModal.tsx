@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import ClientOnly from '../ClientOnly';
 import Rating from '@/components/ui/rating';
 import useTripReviewModal from '@/hooks/useTripReviewModal';
 import { Textarea } from '../ui/textarea';
@@ -69,10 +68,17 @@ const TripReviewModal = () => {
                             value={comments}
                             onChange={e => {
                                 setComments(e.target.value);
-                            }}></Textarea>
+                            }}
+                        />
                     </div>
-                    <Button className='ml-auto' variant='black' disabled={rating == 0 && loading} onClick={handleSubmit}>
-                        {loading ? 'Submitting...' : 'Submit'}
+                    <Button
+                        className='ml-auto'
+                        variant='black'
+                        loading={loading}
+                        loadingText='Submitting...'
+                        disabled={rating === 0 && loading}
+                        onClick={handleSubmit}>
+                        Submit
                     </Button>
                 </main>
             </DialogBody>

@@ -17,7 +17,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { z } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import PhoneNumber from '../ui/phone-number';
 import { Dialog, DialogBody } from '../ui/dialog';
@@ -320,9 +320,9 @@ const RegisterModal = () => {
                         <div className='mt-4 flex flex-col gap-2'>
                             <p className='mt-1 '>
                                 Already have an account?
-                                <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
+                                <button type='button' onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
                                     Log In
-                                </span>
+                                </button>
                             </p>
                         </div>
                     </div>

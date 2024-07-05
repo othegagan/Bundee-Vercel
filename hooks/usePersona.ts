@@ -60,7 +60,6 @@ const usePersona = () => {
                 }
             },
             onCancel() {
-                console.log(`Canceling inquiry`);
                 client.cancel(true);
                 client.destroy();
                 setPersonaClientLoading(false);
@@ -120,7 +119,7 @@ export async function profileVerifiedStatus() {
     const userResponse = await getUserByEmail(session.email);
 
     if (userResponse.success) {
-        const isPersonaVerified = userResponse.data?.driverProfiles[0]?.personaEnquiryId ? true : false;
+        const isPersonaVerified = !!userResponse.data?.driverProfiles[0]?.personaEnquiryId;
         return isPersonaVerified;
     }
 }

@@ -116,13 +116,12 @@ export async function createTripReservation(payload: any) {
                 data: response.data,
                 message: 'Reservation created successfully' + response.data.errorMessage,
             };
-        } else {
-            return {
-                success: false,
-                data: null,
-                message: 'Failed to create Reservation' + response.data.errorMessage,
-            };
         }
+        return {
+            success: false,
+            data: null,
+            message: 'Failed to create Reservation' + response.data.errorMessage,
+        };
     } catch (error: any) {
         throw new Error(error.message);
     }
@@ -141,13 +140,12 @@ export async function createTripExtension(payload: any) {
                 data: response.data,
                 message: 'Trip extension created successfully',
             };
-        } else {
-            return {
-                success: false,
-                data: null,
-                message: 'Failed to create trip extension',
-            };
         }
+        return {
+            success: false,
+            data: null,
+            message: 'Failed to create trip extension',
+        };
     } catch (error: any) {
         throw new Error(error.message);
     }
@@ -166,13 +164,12 @@ export async function createTripReduction(payload: any) {
                 data: response.data,
                 message: 'Trip reduction created successfully',
             };
-        } else {
-            return {
-                success: false,
-                data: null,
-                message: 'Failed to create trip reduction',
-            };
         }
+        return {
+            success: false,
+            data: null,
+            message: 'Failed to create trip reduction',
+        };
     } catch (error: any) {
         throw new Error(error.message);
     }

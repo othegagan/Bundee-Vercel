@@ -45,7 +45,7 @@ export default function StartTripComponent({ starttime, tripid }) {
 
     return (
         <Button onClick={handleStartTrip} disabled={tripStarting} variant='green' size='lg'>
-            {tripStarting ? <div className='loader'></div> : 'Start booking'}
+            {tripStarting ? <div className='loader' /> : 'Start booking'}
         </Button>
     );
 }

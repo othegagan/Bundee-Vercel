@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestHeaders } from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestHeaders } from 'axios';
 import { getSession, destroySession } from './auth';
 
 const authAxios = (): AxiosInstance => {
@@ -9,12 +9,11 @@ const authAxios = (): AxiosInstance => {
     instance.interceptors.request.use(
         async config => {
             const session = await getSession();
-            //@ts-ignore
             config.headers = {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
                 bundee_auth_token: session.authToken || process.env.FALLBACK_BUNDEE_AUTH_TOKEN,
-            } as AxiosRequestHeaders;
+            } as unknown as AxiosRequestHeaders;
             return config;
         },
         error => {
@@ -48,12 +47,12 @@ export const http = {
 export const handleResponse = (response: any) => {
     const codes = response.codes || [];
     const successCode = codes.find((code: any) => code.key === 'SUCCESS');
-    if (successCode.key == 'SUCCESS' && response.errorCode == 0) {
+    if (successCode.key === 'SUCCESS' && response.errorCode == 0) {
         return { success: true, data: response, message: response.errorMessage };
-    } else if (response.errorCode == '1') {
-        return { success: false, data: null, message: response.errorMessage };
-    } else {
-        const errorCodes = codes.map((code: any) => code.key).join(', ');
-        return { success: false, data: null, message: `Error: ${errorCodes}` };
     }
+    if (response.errorCode == '1') {
+        return { success: false, data: null, message: response.errorMessage };
+    }
+    const errorCodes = codes.map((code: any) => code.key).join(', ');
+    return { success: false, data: null, message: `Error: ${errorCodes}` };
 };

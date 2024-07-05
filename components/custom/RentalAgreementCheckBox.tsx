@@ -53,7 +53,7 @@ export default function RentalAgreementCheckBox() {
                     onClick={() => {
                         agreeToRentalAgreement();
                     }}>
-                    {loading ? <div className='loader'></div> : 'Agree'}
+                    {loading ? <div className='loader' /> : 'Agree'}
                 </Button>
             </div>
         </div>

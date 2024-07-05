@@ -1,7 +1,7 @@
 import BackButton from '@/components/BackButton';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { getSession } from '@/lib/auth';
-import React from 'react';
+import type React from 'react';
 import TabsComponent from './_components/TabsComponent';
 
 export default async function layout({ params, children }: { params: { bookingid: string }; children: React.ReactNode }) {

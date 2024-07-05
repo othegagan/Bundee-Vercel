@@ -44,20 +44,20 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
                 View Rental Agreement
             </Button>
         );
-    } else {
-        return (
-            <Button
-                size='lg'
-                variant='outline'
-                className='mt-6 w-full'
-                onClick={() => {
-                    // console.log(tripData.rentalAgrrementUrl)
-                    rentalAgreementModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
-                    rentalAgreementModal.setTripId(tripId);
-                    rentalAgreementModal.onOpen();
-                }}>
-                Accept Rental Agreement
-            </Button>
-        );
     }
+
+    return (
+        <Button
+            size='lg'
+            variant='outline'
+            className='mt-6 w-full'
+            onClick={() => {
+                // console.log(tripData.rentalAgrrementUrl)
+                rentalAgreementModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
+                rentalAgreementModal.setTripId(tripId);
+                rentalAgreementModal.onOpen();
+            }}>
+            Accept Rental Agreement
+        </Button>
+    );
 }

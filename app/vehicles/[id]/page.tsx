@@ -63,7 +63,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         history: 'replace',
     });
 
-    const todayDate = new Date(startDate + 'T' + getCurrentTimeRounded());
+    const todayDate = new Date(`${startDate}T${getCurrentTimeRounded()}`);
 
     const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
     const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
@@ -83,16 +83,16 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
                     setVehicleDetails(data.vehicleAllDetails?.[0] || null);
 
-                    let images = [...data.vehicleAllDetails?.[0]?.imageresponse].sort((a, b) => {
+                    // biome-ignore lint/correctness/noUnsafeOptionalChaining: <explanation>
+                    const images = [...data.vehicleAllDetails?.[0]?.imageresponse].sort((a, b) => {
                         // Sort records with isPrimary true first
                         if (a.isPrimary && !b.isPrimary) {
                             return -1;
-                        } else if (!a.isPrimary && b.isPrimary) {
-                            return 1;
-                        } else {
-                            // For records with the same isPrimary value, maintain their original order
-                            return a.orderNumber - b.orderNumber;
                         }
+                        if (!a.isPrimary && b.isPrimary) {
+                            return 1;
+                        }
+                        return a.orderNumber - b.orderNumber;
                     });
 
                     setVehicleImages(images || null);
@@ -139,8 +139,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
             setPriceLoading(true);
             const payload: any = {
                 vehicleid: Number(params.id),
-                startTime: new Date(startDate + 'T' + startTime).toISOString(),
-                endTime: new Date(endDate + 'T' + endTime).toISOString(),
+                startTime: new Date(`${startDate}T${startTime}`).toISOString(),
+                endTime: new Date(`${endDate}T${endTime}`).toISOString(),
                 airportDelivery: false,
                 customDelivery: false,
                 hostid: vehicleHostDetails?.hostID,
@@ -190,8 +190,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
         isVerified ? setShowDrivingLicenceModal(false) : setShowDrivingLicenceModal(true);
 
         try {
-            const delivery = isAirportDeliveryChoosen ? true : isCustoumDelivery ? true : false;
-            const airportDelivery = isAirportDeliveryChoosen ? true : false;
+            const delivery = isAirportDeliveryChoosen ? true : !!isCustoumDelivery;
+            const airportDelivery = !!isAirportDeliveryChoosen;
 
             const deliveryDetails = extractFirstDeliveryDetails(vehicleBusinessConstraints);
 
@@ -226,7 +226,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 dropTime: endTime,
 
                 comments: 'Request to book',
-                address1: delivery ? customDeliveryLocation : vehicleDetails?.address1  || "",
+                address1: delivery ? customDeliveryLocation : vehicleDetails?.address1 || '',
                 address2: '',
                 cityName: '',
                 country: '',
@@ -235,7 +235,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 latitude: '',
                 longitude: '',
                 ...priceCalculatedList,
-                delivery: delivery ? true : false,
+                delivery: !!delivery,
                 airportDelivery: airportDelivery,
                 deliveryCost: delivery ? deliveryCost : 0,
                 upCharges: priceCalculatedList.upcharges,
@@ -276,9 +276,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                     airportDeliveryCost,
                     nonAirportDeliveryCost,
                 };
-            } else {
-                return null;
             }
+            return null;
         } catch (error) {
             console.log(error);
         }
@@ -315,13 +314,13 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                     userAuthenticated && (
                                         <div className='absolute right-[3%] top-[6%] cursor-pointer rounded-md bg-white p-1 lg:hidden'>
                                             {isItemWishlisted ? (
-                                                <div onClick={() => removeFromWishlistHandler(vehicleDetails.id)}>
+                                                <button type='button' onClick={() => removeFromWishlistHandler(vehicleDetails.id)}>
                                                     <IoMdHeart className='size-8 text-red-500' />
-                                                </div>
+                                                </button>
                                             ) : (
-                                                <div onClick={() => addToWishlistHandler(vehicleDetails.id)}>
+                                                <button type='button' onClick={() => addToWishlistHandler(vehicleDetails.id)}>
                                                     <IoIosHeartEmpty className='size-8 text-red-500' />
-                                                </div>
+                                                </button>
                                             )}
                                         </div>
                                     )
@@ -335,13 +334,13 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 {userAuthenticated && (
                                     <div className='mr-4 hidden cursor-pointer lg:block'>
                                         {isItemWishlisted ? (
-                                            <div onClick={() => removeFromWishlistHandler(vehicleDetails.id)}>
+                                            <button type='button' onClick={() => removeFromWishlistHandler(vehicleDetails.id)}>
                                                 <IoMdHeart className='size-10 text-red-500' />
-                                            </div>
+                                            </button>
                                         ) : (
-                                            <div onClick={() => addToWishlistHandler(vehicleDetails.id)}>
+                                            <button type='button' onClick={() => addToWishlistHandler(vehicleDetails.id)}>
                                                 <IoIosHeartEmpty className='size-10 text-red-500' />
-                                            </div>
+                                            </button>
                                         )}
                                     </div>
                                 )}
@@ -367,8 +366,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                     setError={setError}
                                     setStartDate={setStartDate}
                                     setEndDate={setEndDate}
-                                    startDate={format(new Date(startDate + 'T00:00:00'), 'yyyy-MM-dd')}
-                                    endDate={format(new Date(endDate + 'T00:00:00'), 'yyyy-MM-dd')}
+                                    startDate={format(new Date(`${startDate}T00:00:00`), 'yyyy-MM-dd')}
+                                    endDate={format(new Date(`${endDate}T00:00:00`), 'yyyy-MM-dd')}
                                     setSelectedDatesError={setSelectedDatesError}
                                 />
 
@@ -417,6 +416,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 size='lg'
                                 className='mt-5 flex w-full'
                                 disabled={!!error || priceLoading || isPriceError || !priceCalculatedList || datesLoading || datesError || selectedDatesError}
+                                loading={priceLoading}
+                                loadingText=''
                                 onClick={() => {
                                     if (isCustoumDelivery && !customDeliveryLocation) {
                                         toast({
@@ -436,7 +437,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                         vehicleDetails.zipcode,
                                     );
                                 }}>
-                                {priceLoading ? <span className='loader'></span> : ' Proceed to book'}
+                                Proceed to book
                             </Button>
                         </div>
                     </div>

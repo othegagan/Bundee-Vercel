@@ -1,5 +1,5 @@
 import { convertToCarTimeZoneISO, convertToTuroDate, formatDateAndTime, getSearchDates } from '@/lib/utils';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 function splitDateTime(dateTimeString: string) {
     const [datePart, timePart] = dateTimeString.split('T');
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
             {
                 success: false,
-                message: 'Failed to convert the dates : ' + error,
+                message: `Failed to convert the dates : ${error}`,
                 data: null,
             },
             { status: 500 },

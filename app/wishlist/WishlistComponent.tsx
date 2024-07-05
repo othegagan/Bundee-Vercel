@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import useWishlist from '@/hooks/useWishlist';
 import { toTitleCase } from '@/lib/utils';
 import Link from 'next/link';
-import React from 'react';
+import type React from 'react';
 import { FaStar } from 'react-icons/fa';
 import { IoTrashOutline } from 'react-icons/io5';
 
@@ -33,7 +33,7 @@ const MainComponent = () => {
         return <ErrorComponent message='Something went wrong in getting wishlist vehicles' />;
     }
 
-    if (wishlistResponse.data.customervehicleresponse.length == 0) {
+    if (wishlistResponse.data.customervehicleresponse.length === 0) {
         return <ErrorComponent message='No wishlisted Vehicle found.' />;
     }
 

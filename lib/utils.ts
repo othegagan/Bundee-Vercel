@@ -5,7 +5,6 @@ import { twMerge } from 'tailwind-merge';
 import zipToTimeZone from 'zipcode-to-timezone';
 import moment from 'moment-timezone';
 import tzlookup from 'tz-lookup';
-import CryptoJS from 'crypto-js';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -16,14 +15,12 @@ export function JSONparsefy(obj: any) {
 }
 
 export function toTitleCase(str: string) {
-    return str.replace(/\w\S*/g, function (txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
+    return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }
 
 export function roundToTwoDecimalPlaces(num: number) {
     try {
-        return parseFloat(num.toString()).toFixed(2);
+        return Number.parseFloat(num.toString()).toFixed(2);
     } catch (error) {
         return 0;
     }
@@ -44,7 +41,6 @@ export function getCurrentDatePlusHours(hours: number) {
 
 export function getTimeZoneByZipcode(zipCode: string) {
     const timeZone = zipToTimeZone.lookup(zipCode); // 73301, (Los angeles zip code : 90274) (MST : 85323)
-    // console.log('Time zone:', timeZone);
     return timeZone || null;
 }
 
@@ -61,7 +57,6 @@ export function convertToTuroDate(dateString: string, zipCode: string) {
 }
 
 export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: string, datetime?: string) {
-    // console.log(date, time, zipCode);
     if (datetime) {
         const timeZone = getTimeZoneByZipcode(zipCode);
         const converedCarDate = parseZonedDateTime(`${datetime}[${timeZone}]`).toAbsoluteString();
@@ -76,18 +71,6 @@ export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: 
 }
 
 export function formatDateAndTime(date: string, zipCode: string) {
-    const endTimeUTC = moment.utc(date);
-    const timeZone = getTimeZoneByZipcode(zipCode);
-    const timeInTimeZone = endTimeUTC.tz(timeZone);
-
-    const formattedDate = timeInTimeZone.format('MMM DD, YYYY');
-    const formattedTime = timeInTimeZone.format('h:mm A');
-    const timeZoneAbbreviation = timeInTimeZone.format('z');
-
-    return `${formattedDate} | ${formattedTime} ${timeZoneAbbreviation}`;
-}
-
-export function formatDateTimeWithWeek(date: string, zipCode: string) {
     const endTimeUTC = moment.utc(date);
     const timeZone = getTimeZoneByZipcode(zipCode);
     const timeInTimeZone = endTimeUTC.tz(timeZone);
@@ -113,30 +96,10 @@ export function getSearchDates(lat: number, lon: number, date: string, time: str
         const converedCarDate = parseZonedDateTime(`${dateString}[${timezone}]`).toAbsoluteString();
 
         return converedCarDate;
-    } else {
-        console.log('Timezone not found for provided coordinates.');
-        return null;
     }
+    console.log('Timezone not found for provided coordinates.');
+    return null;
 }
-
-export const encryptId = (id: string) => {
-    const encryptionKey = 'jumv7p7DQJdX1EAS';
-    return CryptoJS.AES.encrypt(id.toString(), encryptionKey).toString();
-};
-
-// Function to decrypt the ID
-export const decryptId = (encryptedId: string) => {
-    try {
-        const encryptionKey = 'jumv7p7DQJdX1EAS';
-        const decodedEncryptedId = decodeURIComponent(encryptedId);
-        const bytes = CryptoJS.AES.decrypt(decodedEncryptedId, encryptionKey);
-        const decryptedId = bytes.toString(CryptoJS.enc.Utf8);
-        return decryptedId;
-    } catch (error) {
-        console.error('Decryption error:', error);
-        return ''; // Return empty string or handle error accordingly
-    }
-};
 
 export function convertToCarDate(dateString: string, zipCode: string) {
     const endTimeUTC = moment.utc(dateString);
@@ -150,4 +113,30 @@ export function convertToCarDate(dateString: string, zipCode: string) {
 
 export function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function getFullAddress(vehicleDetails: any): string {
+    if (!vehicleDetails) return '';
+
+    const addressParts = [];
+
+    if (vehicleDetails.address1) {
+        addressParts.push(toTitleCase(vehicleDetails.address1));
+    }
+    if (vehicleDetails.address2) {
+        addressParts.push(toTitleCase(vehicleDetails.address2));
+    }
+    if (vehicleDetails.zipcode) {
+        addressParts.push(vehicleDetails.zipcode);
+    }
+    if (vehicleDetails.cityname) {
+        addressParts.push(toTitleCase(vehicleDetails.cityname));
+    }
+    if (vehicleDetails.state) {
+        addressParts.push(toTitleCase(vehicleDetails.state));
+    }
+
+    const address = addressParts.join(', ');
+
+    return address;
 }

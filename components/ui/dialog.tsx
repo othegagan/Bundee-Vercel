@@ -38,6 +38,7 @@ function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = 
     if (!isOpen) return null;
 
     return (
+        // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <div
             className={cn(
                 'fixed inset-0 z-[100] flex items-end bg-black/50 backdrop-blur-[1px] sm:items-center sm:justify-center',
@@ -62,6 +63,7 @@ function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = 
                 </div>
 
                 <button
+                    type='button'
                     className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none'
                     onClick={closeDialog}>
                     <X className='size-5' />

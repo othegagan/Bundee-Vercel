@@ -36,7 +36,7 @@ const ChangePasswordComponent = () => {
     };
 
     function isValidEmail(email) {
-        if (email == '') {
+        if (email === '') {
             setError('Email can not be empty');
             return false;
         }
@@ -60,7 +60,7 @@ const ChangePasswordComponent = () => {
 
     return (
         <div className='w-ful mt-12 flex h-screen justify-start'>
-            {errorOccuredInresetMailSent == false && !resetMailSent && (
+            {errorOccuredInresetMailSent === false && !resetMailSent && (
                 <div className='w-full'>
                     <div className='mt-10'>
                         <div className='w-full'>
@@ -80,14 +80,14 @@ const ChangePasswordComponent = () => {
                 </div>
             )}
 
-            {errorOccuredInresetMailSent == true && !resetMailSent && (
+            {errorOccuredInresetMailSent === true && !resetMailSent && (
                 <div className='w-full'>
                     <h2 className='mt-10 text-left text-2xl font-bold leading-9 tracking-tight text-gray-900'>Something went wrong.</h2>
                     <p className=' mt-4 text-left text-gray-600'>We have encounter some problem resting your password, please try again</p>
                 </div>
             )}
 
-            {resetMailSent == true && (
+            {resetMailSent === true && (
                 <div>
                     <div className='flex flex-col justify-start sm:mx-auto sm:w-full sm:max-w-sm'>
                         <p>

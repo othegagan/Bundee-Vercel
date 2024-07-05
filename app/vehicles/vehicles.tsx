@@ -1,4 +1,5 @@
 'use client';
+
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { CarCountSkeleton, VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
 import useVehicleSearch from '@/hooks/useVehicleSearch';
@@ -114,7 +115,7 @@ const Vehicles = ({ searchParams }: any) => {
 
                         <div className='flex items-center gap-3'>
                             <Button className='mr-2 flex gap-1' variant='black' size='sm' type='button' onClick={useCarFilter.onOpen}>
-                                <VscSettings className='rotate-90 size-4' />
+                                <VscSettings className='size-4 rotate-90' />
                                 Filters
                                 {useCarFilter.appliedFiltersCount > 0 ? (
                                     <p>({useCarFilter.appliedFiltersCount > 0 ? useCarFilter.appliedFiltersCount : ''})</p>
@@ -142,7 +143,7 @@ const Vehicles = ({ searchParams }: any) => {
                     )}
                 </div>
 
-                <div className={`col-span-1 h-full w-full overflow-clip rounded lg:col-span-2`}>
+                <div className='col-span-1 h-full w-full overflow-clip rounded lg:col-span-2'>
                     {loading && !error ? (
                         <div className='grid place-content-center tracking-wider'> LOADING MAP..</div>
                     ) : (
@@ -160,11 +161,11 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
     const images: any = [...car.imageresponse].sort((a, b) => {
         if (a.isPrimary && !b.isPrimary) {
             return -1;
-        } else if (!a.isPrimary && b.isPrimary) {
-            return 1;
-        } else {
-            return a.orderNumber - b.orderNumber;
         }
+        if (!a.isPrimary && b.isPrimary) {
+            return 1;
+        }
+        return a.orderNumber - b.orderNumber;
     });
     return (
         <div className='group h-fit rounded-lg  border bg-white hover:shadow-md'>
@@ -199,7 +200,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                 <div className=''>
                     <Link
                         href={`/vehicles/${car.id}?${searchQuery}`}
-                        className='cursor-pointer text-base font-semibold text-neutral-800 truncate'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</Link>
+                        className='cursor-pointer truncate text-base font-semibold text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</Link>
                     <p className='mt-1 text-sm text-neutral-500'>
                         {toTitleCase(car?.cityname)}, {toTitleCase(car?.state)}
                     </p>

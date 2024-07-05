@@ -7,7 +7,7 @@ import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import useTripModificationModal from '@/hooks/useTripModificationModal';
 import { getSession } from '@/lib/auth';
-import { convertToCarDate, convertToCarTimeZoneISO, formatDateTimeWithWeek, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
+import { convertToCarDate, convertToCarTimeZoneISO, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { calculatePrice } from '@/server/priceCalculation';
 import { differenceInHours, format, isBefore, isEqual, isWithinInterval, parseISO } from 'date-fns';
@@ -183,8 +183,10 @@ export default function TripModificationDialog({ tripData }) {
 
     async function getPriceCalculation() {
         try {
-            let originalStartDateTime = format(convertToCarDate(tripData.starttime, tripData?.vehzipcode), 'yyyy-MM-dd') + "T" +formatTime(tripData.starttime, tripData?.vehzipcode)
-            let originalEndDateTime = format(convertToCarDate(tripData.endtime, tripData?.vehzipcode), 'yyyy-MM-dd') + "T" +formatTime(tripData.endtime, tripData?.vehzipcode)
+            const originalStartDateTime =
+                `${format(convertToCarDate(tripData.starttime, tripData?.vehzipcode), 'yyyy-MM-dd')}T${formatTime(tripData.starttime, tripData?.vehzipcode)}`;
+            const originalEndDateTime =
+                `${format(convertToCarDate(tripData.endtime, tripData?.vehzipcode), 'yyyy-MM-dd')}T${formatTime(tripData.endtime, tripData?.vehzipcode)}`;
             const parsedOriginalStartDate = parseISO(originalStartDateTime);
             const parsedOriginalEndDate = parseISO(originalEndDateTime);
             const parsedNewStartDate = parseISO(`${newStartDate}T${newStartTime}`);
@@ -209,8 +211,8 @@ export default function TripModificationDialog({ tripData }) {
                 throw new Error('Some dates are unavailable. Please adjust your selection.');
             }
 
-            let originalDiff = differenceInHours(parsedOriginalEndDate, parsedOriginalStartDate);
-            let newDiff = differenceInHours(parsedNewEndDate, parsedNewStartDate);
+            const originalDiff = differenceInHours(parsedOriginalEndDate, parsedOriginalStartDate);
+            const newDiff = differenceInHours(parsedNewEndDate, parsedNewStartDate);
 
             if (newDiff > originalDiff) {
                 setIsExtension(true);
@@ -302,16 +304,16 @@ export default function TripModificationDialog({ tripData }) {
                                         <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-[#FAF7F7] p-4 '>
                                             <div className='flex w-full justify-between gap-2 p-3'>
                                                 <p className='text-14 text-center'>
-                                                    {splitFormattedDateAndTime(formatDateTimeWithWeek(tripData.starttime, tripData.vehzipcode))}
+                                                    {splitFormattedDateAndTime(formatDateAndTime(tripData.starttime, tripData.vehzipcode))}
                                                 </p>
                                                 <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
                                                 <p className='text-14 text-center'>
-                                                    {splitFormattedDateAndTime(formatDateTimeWithWeek(tripData.endtime, tripData.vehzipcode))}
+                                                    {splitFormattedDateAndTime(formatDateAndTime(tripData.endtime, tripData.vehzipcode))}
                                                 </p>
                                             </div>
                                             <div className='text-14 '>
                                                 Booking duration: {tripData.tripPaymentTokens[0]?.totaldays}
-                                                {tripData?.tripPaymentTokens[0]?.totaldays == 1 ? 'Day' : 'Days'}
+                                                {tripData?.tripPaymentTokens[0]?.totaldays === 1 ? 'Day' : 'Days'}
                                             </div>
 
                                             <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>

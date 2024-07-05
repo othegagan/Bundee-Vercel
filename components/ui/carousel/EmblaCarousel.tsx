@@ -1,7 +1,6 @@
 'use client';
 
-import React from 'react';
-import { EmblaOptionsType } from 'embla-carousel';
+import type React from 'react';
 
 import useEmblaCarousel from 'embla-carousel-react';
 import { NextButton, PrevButton, usePrevNextButtons } from './EmblaCarouselArrowButtons';
@@ -28,7 +27,7 @@ const EmblaCarousel: React.FC<PropType> = props => {
                 <div className='embla__container '>
                     {slides.map((s, index) => (
                         <div className='embla__slide max-h-80 overflow-hidden md:rounded-md' key={index}>
-                            <img key={index} src={s.imagename} className='h-full w-full min-w-full object-cover md:rounded-md' alt={`vehicle image ${index}`} />
+                            <img key={index} src={s.imagename} className='h-full w-full min-w-full object-cover md:rounded-md' alt={`vehicle  ${index}`} />
                         </div>
                     ))}
                 </div>

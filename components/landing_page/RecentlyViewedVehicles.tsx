@@ -16,7 +16,7 @@ export default function RecentlyViewedVehicles() {
 
     async function handleClearRecentlyViewedVehicles() {
         const status = await clearRecentlyViewedVehicles();
-        if (status.success == true) {
+        if (status.success) {
             setRecentlyViewedData([]);
             toast({
                 duration: 4000,
@@ -56,12 +56,12 @@ export default function RecentlyViewedVehicles() {
         return;
     }
 
-    if (!loading && recentlyViewedData.length == 0) {
+    if (!loading && recentlyViewedData.length === 0) {
         return null;
     }
 
     return (
-        <BoxContainer className={`py-6 `}>
+        <BoxContainer className='py-6'>
             <ClientOnly>
                 <div className='flex w-full justify-between'>
                     <h3>Recently Viewed</h3>
@@ -88,15 +88,15 @@ export default function RecentlyViewedVehicles() {
                                         <div className='flex h-auto items-center justify-between '>
                                             <div className='flex gap-2'>
                                                 {car.rating ? <p className='text-xs font-medium text-neutral-900 '>{car.rating}</p> : <>{car.rating}</>}
-                                                {car.tripCount != 0 && (
+                                                {car.tripCount !== 0 && (
                                                     <div className='mt-1 inline-flex gap-2'>
                                                         <FaStar className=' size-4 text-yellow-400' />
                                                         <span className='text-xs font-medium text-neutral-900  '>
-                                                            ({car.tripCount} {car.tripCount == 1 ? 'Booking' : 'Bookings'})
+                                                            ({car.tripCount} {car.tripCount === 1 ? 'Booking' : 'Bookings'})
                                                         </span>
                                                     </div>
                                                 )}
-                                                {car.tripCount == 0 && (
+                                                {car.tripCount === 0 && (
                                                     <span className=' rounded-md bg-green-50 px-2  py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>
                                                         New
                                                     </span>

@@ -26,7 +26,7 @@ const AddressSearchBox = ({ setCustomDeliveryLocation }: any) => {
         <div className='relative '>
             <Input
                 type='text'
-                className={` pr-4 font-normal text-foreground placeholder:text-muted-foreground/80`}
+                className=' pr-4 font-normal text-foreground placeholder:text-muted-foreground/80'
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder='Enter Delivery Location'

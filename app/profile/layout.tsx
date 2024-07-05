@@ -1,5 +1,6 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

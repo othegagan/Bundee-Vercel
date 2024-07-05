@@ -1,6 +1,5 @@
 import React from 'react';
 import { format } from 'date-fns';
-import Carousel from '@/components/ui/carousel/carousel';
 import { StarFilledIcon } from '@radix-ui/react-icons';
 import { toTitleCase } from '@/lib/utils';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
@@ -41,7 +40,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         <div className='space-y-3'>
                             <p className='font-bold'>Highlights</p>
 
-                            <ul role='list' className='text-15 list-disc space-y-2 pl-4'>
+                            <ul className='text-15 list-disc space-y-2 pl-4'>
                                 {vehicleDetails.trim && vehicleDetails.trim !== 'Not Applicable' && vehicleDetails.trim !== 'NA' && (
                                     <li>{vehicleDetails.trim}</li>
                                 )}
@@ -97,9 +96,9 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                                                             </div>
                                                         </div>
                                                     );
-                                                } else {
-                                                    return null;
                                                 }
+
+                                                return null;
                                             })}
                                         </div>
                                     </div>

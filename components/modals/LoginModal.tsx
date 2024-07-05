@@ -131,7 +131,7 @@ const LoginModal = () => {
                 // Handle sign-in error
                 handleAuthError(error);
                 console.log(error.message);
-               await destroySession();
+                await destroySession();
             });
     };
 
@@ -197,18 +197,19 @@ const LoginModal = () => {
                             Password <span>*</span>
                         </label>
                         <div className='relative'>
-                            <div
+                            <button
+                                type='button'
                                 onClick={() => {
                                     setShowPassword(!showPassword);
                                 }}
                                 className='absolute right-2 top-1 cursor-pointer p-2 text-xs'>
-                                {showPassword == true ? <FaEye /> : <FaEyeSlash />}
-                            </div>
+                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                            </button>
                             <div className='mt-1'>
                                 <Input
                                     id='password'
                                     name='password'
-                                    type={showPassword == true ? 'password' : 'text'}
+                                    type={showPassword ? 'password' : 'text'}
                                     autoComplete='current-password'
                                     required
                                     value={password}
@@ -217,14 +218,15 @@ const LoginModal = () => {
                             </div>
                         </div>
 
-                        <div
+                        <button
+                            type='button'
                             className='ml-auto mt-3 w-fit cursor-pointer text-sm font-medium text-primary hover:underline'
                             onClick={() => {
                                 closeModal();
                                 forgotPasswordModal.onOpen();
                             }}>
                             Forgot Password?
-                        </div>
+                        </button>
 
                         {authError ? (
                             <div className='my-3 select-none rounded-md bg-red-50 p-3'>
@@ -266,9 +268,9 @@ const LoginModal = () => {
                     <div className='mt-4 flex flex-col gap-2'>
                         <p className='mt-1 text-base'>
                             Don't have an account?
-                            <span onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
+                            <button type='button' onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
                                 Sign up
-                            </span>
+                            </button>
                             here
                         </p>
                     </div>

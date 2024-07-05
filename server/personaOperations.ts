@@ -1,7 +1,7 @@
 'use server';
 
 import { getSession } from '@/lib/auth';
-import {  http } from '@/lib/httpService';
+import { http } from '@/lib/httpService';
 
 export async function updatePersonaProfile(personaEnquiryId: any) {
     try {
@@ -46,30 +46,22 @@ export const getVerifiedDetailsFromPersona = async (inquiryId: string) => {
     try {
         const response = await fetch(`https://withpersona.com/api/v1/inquiries/${inquiryId}`, options);
         const responseData = await response.json();
-        console.log(responseData);
 
-        const fields = responseData.data.attributes['fields'];
+        const fields = responseData.data.attributes.fields;
 
         let centerDriverPhotoUrl = null;
         let frontDrivingLicensePhotoUrl = null;
 
         if (Array.isArray(responseData.included)) {
-            // Loop through each item in the included array
             for (const item of responseData.included) {
-                // Check if the item type is verification/selfie
                 if (item.type === 'verification/selfie') {
-                    // Check if attributes and center-photo-url exist in the item
-                    if (item.attributes && item.attributes['center-photo-url']) {
-                        // Return the center-photo-url
+                    if (item.attributes?.['center-photo-url']) {
                         centerDriverPhotoUrl = item.attributes['center-photo-url'];
                     }
                 }
 
-                // Check if the item type is verification/government-id
                 if (item.type === 'verification/government-id') {
-                    // Check if attributes and front-photo-url exist in the item
-                    if (item.attributes && item.attributes['front-photo-url']) {
-                        // Return the front-photo-url
+                    if (item.attributes?.['front-photo-url']) {
                         frontDrivingLicensePhotoUrl = item.attributes['front-photo-url'];
                     }
                 }

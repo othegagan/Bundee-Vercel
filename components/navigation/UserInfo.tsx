@@ -6,7 +6,7 @@ import NotificationsComponent from './Notifications';
 export default function UserInfo({ email }: { email: string }) {
     const pathname = usePathname();
 
-    if (pathname == '/test') return null;
+    if (pathname === '/test') return null;
 
     return (
         <>

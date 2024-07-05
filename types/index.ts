@@ -19,7 +19,7 @@ export const defaultSession: SessionData = {
 
 
 export interface Vehicle {
-    vehicleId: String;
+    vehicleId: string;
     make: string;
     model: string;
     year: number;

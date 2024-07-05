@@ -10,7 +10,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                 {pricelist?.charges > 0 && (
                     <div className='flex items-center justify-between'>
                         <div>
-                            Rental (${pricelist?.pricePerDay} X {pricelist?.numberOfDays} {pricelist?.numberOfDays == 1 ? 'day' : 'days'})
+                            Rental (${pricelist?.pricePerDay} X {pricelist?.numberOfDays} {pricelist?.numberOfDays === 1 ? 'day' : 'days'})
                         </div>
                         <div className=' font-medium'>${roundToTwoDecimalPlaces(pricelist?.charges)}</div>
                     </div>

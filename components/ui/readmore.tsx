@@ -16,7 +16,7 @@ export default function Readmore({ text }: { text: string }) {
 
     return (
         <div className=' '>
-            <pre className={cn(`text-15 text-wrap font-sans ${inter.className}`, { ['line-clamp-6 md:line-clamp-5']: !isExpanded })}>{text.trim()}</pre>
+            <pre className={cn(`text-15 text-wrap font-sans ${inter.className}`, { "line-clamp-6 md:line-clamp-5": !isExpanded })}>{text.trim()}</pre>
             {shouldShowReadMore && (
                 <Button variant='outline' size='sm' onClick={toggleReadMore} className='mt-3'>
                     {isExpanded ? 'Read Less' : 'Read More'}

@@ -19,7 +19,7 @@ export async function fetchDataFromMapboxWithForwardGeocoding(searchQuery: strin
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        const forwardGeoCodingLocationData = data['features'];
+        const forwardGeoCodingLocationData = data.features;
 
         const suggestions = addressSeach ? extractAddressFromJson(forwardGeoCodingLocationData) : extractDataFromJson(forwardGeoCodingLocationData);
         return suggestions;
@@ -33,13 +33,13 @@ const extractDataFromJson = (data: any) => {
     const locationSuggestionsFromMapBox = [];
 
     for (const item of data) {
-        const textEn = item['text_en'];
-        const placeName = item['place_name'];
-        const latitude = item['center'][0];
-        const longitude = item['center'][1];
+        const textEn = item.text_en;
+        const placeName = item.place_name;
+        const latitude = item.center[0];
+        const longitude = item.center[1];
 
         // Check if the location is an airport
-        const isAirport = item['properties'] && item['properties']['category'] === 'airport';
+        const isAirport = item.properties && item.properties.category === 'airport';
 
         const locationSuggestion = {
             textEn,
@@ -59,7 +59,7 @@ const extractAddressFromJson = (data: any) => {
     const addressSuggestionsFromMapBox = [];
 
     for (const item of data) {
-        const placeName = item['place_name'];
+        const placeName = item.place_name;
         const components = placeName.split(',');
 
         const address1 = components[0].trim();

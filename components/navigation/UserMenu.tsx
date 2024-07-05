@@ -35,7 +35,7 @@ export default function UserMenu({ menuItems, isLoggedIn }: UserMenuProps) {
                     <DropdownMenuGroup>
                         {menuItems.map((item: any) => (
                             <DropdownMenuItem key={item.label} className={`${item.visible ? 'block' : 'hidden'}`}>
-                                <button onClick={() => router.push(item.link)} className='flex w-full'>
+                                <button type='button' onClick={() => router.push(item.link)} className='flex w-full'>
                                     {item.icon}
                                     {item.label}
                                 </button>

@@ -26,8 +26,8 @@ const DrivingLicenceComponent = () => {
                 const session = await getSession();
                 const userResponse = await getUserByEmail(session.email);
                 if (userResponse.success) {
-                    const isPersonaVerified = userResponse.data?.driverProfiles[0]?.personaEnquiryId ? true : false;
-                    const personaEnquiryId = userResponse.data?.driverProfiles?.length == 0 ? null : userResponse.data?.driverProfiles[0]?.personaEnquiryId;
+                    const isPersonaVerified = !!userResponse.data?.driverProfiles[0]?.personaEnquiryId;
+                    const personaEnquiryId = userResponse.data?.driverProfiles?.length === 0 ? null : userResponse.data?.driverProfiles[0]?.personaEnquiryId;
                     if (personaEnquiryId) {
                         await getVerifiedDetailsFromPersona(personaEnquiryId);
                     }
@@ -94,16 +94,16 @@ const VerifiedDetailsComponent = ({ verifiedDetails, driverPhotoUrl, frontDrivin
         <div className='mt-6 border-t border-neutral-100'>
             <dl className='divide-y divide-neutral-100'>
                 <Field label='Full name'>
-                    {verifiedDetails['name-first']['value'] || ''} {verifiedDetails['name-last']['value'] || ''}
+                    {verifiedDetails['name-first'].value || ''} {verifiedDetails['name-last'].value || ''}
                 </Field>
-                <Field label='Identification Number'>{verifiedDetails['identification-number']['value'] || ' - '}</Field>
-                <Field label='Address 1'>{verifiedDetails['address-street-1']['value'] || '-'}</Field>
-                <Field label='Address 2'>{verifiedDetails['address-street-2']['value'] || '-'}</Field>
-                <Field label='City'>{verifiedDetails['address-city']['value'] || '-'}</Field>
-                <Field label='State'>{verifiedDetails['address-subdivision']['value'] || '-'}</Field>
-                <Field label='Country'>{verifiedDetails['address-country-code']['value'] || '-'}</Field>
+                <Field label='Identification Number'>{verifiedDetails['identification-number'].value || ' - '}</Field>
+                <Field label='Address 1'>{verifiedDetails['address-street-1'].value || '-'}</Field>
+                <Field label='Address 2'>{verifiedDetails['address-street-2'].value || '-'}</Field>
+                <Field label='City'>{verifiedDetails['address-city'].value || '-'}</Field>
+                <Field label='State'>{verifiedDetails['address-subdivision'].value || '-'}</Field>
+                <Field label='Country'>{verifiedDetails['address-country-code'].value || '-'}</Field>
 
-                <dd className='pt-4 flex flex-col gap-4 text-sm text-neutral-900 sm:col-span-2  lg:flex-row'>
+                <dd className='flex flex-col gap-4 pt-4 text-sm text-neutral-900 sm:col-span-2  lg:flex-row'>
                     <Attachment photoUrl={driverPhotoUrl} altText='Driver photo' description='Driver Selfie' />
                     <Attachment photoUrl={frontDrivingLicensePhotoUrl} altText='Driving Licence Front photo' description='Driving License Front photo' />
                 </dd>
@@ -121,7 +121,7 @@ const VerifiedDetailsComponent = ({ verifiedDetails, driverPhotoUrl, frontDrivin
                 disabled={isPersonaClientLoading}>
                 {isPersonaClientLoading ? (
                     <div className='flex px-16'>
-                        <div className='loader'></div>
+                        <div className='loader' />
                     </div>
                 ) : (
                     <> Update Driving License</>
@@ -144,7 +144,7 @@ const UnverifiedComponent = ({ createClient, isPersonaClientLoading, setShowPers
                 disabled={isPersonaClientLoading}>
                 {isPersonaClientLoading ? (
                     <div className='flex px-16'>
-                        <div className='loader'></div>
+                        <div className='loader' />
                     </div>
                 ) : (
                     <>Verify driving license</>

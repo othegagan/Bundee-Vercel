@@ -60,18 +60,25 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
     const getErrorMessage = dates => {
         if (isDateUnavailableStart) {
             return 'Start date is unavailable.';
-        } else if (isDateUnavailableEnd) {
-            return 'End date is unavailable.';
-        } else if (dates.start.toDate(getLocalTimeZone()) < currentDate) {
-            return 'Selected start date cannot be earlier than today.';
-        } else {
-            const daysDifference = (dates.end.toDate(getLocalTimeZone()) - dates.start.toDate(getLocalTimeZone())) / (24 * 60 * 60 * 1000);
-            if (minDays !== 0 && daysDifference + 1 < minDays) {
-                return `This car has a minimum trip length requirement of ${minDays} days. Please extend your trip days.`;
-            } else if (maxDays !== 0 && daysDifference + 1 > maxDays) {
-                return `This car has a maximum trip length requirement of ${maxDays} days. Please reduce your trip days.`;
-            }
         }
+
+        if (isDateUnavailableEnd) {
+            return 'End date is unavailable.';
+        }
+
+        if (dates.start.toDate(getLocalTimeZone()) < currentDate) {
+            return 'Selected start date cannot be earlier than today.';
+        }
+
+        const daysDifference = (dates.end.toDate(getLocalTimeZone()) - dates.start.toDate(getLocalTimeZone())) / (24 * 60 * 60 * 1000);
+        if (minDays !== 0 && daysDifference + 1 < minDays) {
+            return `This car has a minimum trip length requirement of ${minDays} days. Please extend your trip days.`;
+        }
+
+        if (maxDays !== 0 && daysDifference + 1 > maxDays) {
+            return `This car has a maximum trip length requirement of ${maxDays} days. Please reduce your trip days.`;
+        }
+        
         return '';
     };
 

@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import { EmblaCarouselType } from 'embla-carousel';
-import { Button } from '../button';
+import type React from 'react';
+import { type PropsWithChildren, useCallback, useEffect, useState } from 'react'
+import type { EmblaCarouselType } from 'embla-carousel';
 
 type UsePrevNextButtonsType = {
     prevBtnDisabled: boolean;

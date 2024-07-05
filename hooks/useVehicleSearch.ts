@@ -33,7 +33,7 @@ const useVehicleSearch = () => {
         setSearchQuery('');
 
         try {
-            let hostid = localStorage.getItem('hostid');
+            const hostid = localStorage.getItem('hostid');
             const session = await getSession();
             const searchParams: any = getAllURLParameters();
 
@@ -79,7 +79,7 @@ const useVehicleSearch = () => {
                 isMapSearch: isMapSearch,
             };
 
-            const payload = isMapSearch == 'true' ? mapsearchPayload : searchPayload;
+            const payload = isMapSearch === 'true' ? mapsearchPayload : searchPayload;
 
             const response = await searchVehiclesByLatitudeAndLongitude(payload);
             if (response.success) {

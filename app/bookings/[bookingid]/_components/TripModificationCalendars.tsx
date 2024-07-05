@@ -12,7 +12,8 @@ import {
 import { DatePicker, DatePickerButton, DatePickerContent } from '@/components/ui/extension/date-picker';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { format } from 'date-fns';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
 interface TripModificationCalendarProps {
     unavailableDates: string[];
@@ -32,7 +33,6 @@ export function TripModificationStartDateCalendar({
     isTripStarted,
     setIsInitialLoad,
     isDisabled,
-    setDateSelectionError,
 }: TripModificationCalendarProps) {
     const [value, setValue] = useState(parseDate(date));
 
@@ -81,7 +81,6 @@ export function TripModificationEndDateCalendar({
     isTripStarted,
     setIsInitialLoad,
     isDisabled,
-    setDateSelectionError,
 }: TripModificationCalendarProps) {
     const [value, setValue] = useState(parseDate(date));
 
@@ -126,7 +125,7 @@ function getFirstDateAfter(unAvailabilityDates: any[], givenDate: any) {
     const givenDateObj = new Date(givenDate);
 
     // Convert all unavailability date strings to Date objects and filter out those before the given date
-    const futureDates = unAvailabilityDates.map(dateStr => new Date(dateStr + 'T00:00:00')).filter(dateObj => dateObj > givenDateObj);
+    const futureDates = unAvailabilityDates.map(dateStr => new Date(`${dateStr}T00:00:00`)).filter(dateObj => dateObj > givenDateObj);
 
     // If there are no future dates, return null
     if (futureDates.length === 0) {

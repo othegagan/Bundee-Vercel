@@ -12,7 +12,7 @@ const TripPriceListComponent = ({ pricelist }: { pricelist: any }) => {
                 {pricelist?.charges > 0 && (
                     <div className='flex items-center justify-between'>
                         <div className='text-md'>
-                            Rental (${pricelist?.perdayamount} X {pricelist?.totaldays} {pricelist?.totaldays == 1 ? 'Day' : 'Days'})
+                            Rental (${pricelist?.perdayamount} X {pricelist?.totaldays} {pricelist?.totaldays === 1 ? 'Day' : 'Days'})
                         </div>
                         <div className='text-md font-medium'>${roundToTwoDecimalPlaces(pricelist?.charges)}</div>
                     </div>

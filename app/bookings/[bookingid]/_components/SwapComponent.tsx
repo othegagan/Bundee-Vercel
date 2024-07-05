@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import Carousel from '@/components/ui/carousel/carousel';
 import { toast } from '@/components/ui/use-toast';
 import { toTitleCase } from '@/lib/utils';
 import { swapRequest } from '@/server/tripOperations';
@@ -10,9 +9,10 @@ import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { FaStar } from 'react-icons/fa6';
+import { FaLocationDot, FaStar } from 'react-icons/fa6';
 import { StatusBadge } from '../../TripsComponent';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
+import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 
 const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate }: any) => {
     const [swapRequestedModalOpen, setSwapRequestedModalOpen] = useState(false);
@@ -120,11 +120,19 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
 
                             <div className=' rounded-md  '>
                                 <div className='group relative cursor-pointer select-none rounded-md border border-neutral-200 bg-white'>
-                                    <Carousel autoSlide={false}>
-                                        {vehicleImages.map((s, i) => (
-                                            <img key={i} src={s.imagename} className='max-h-fit rounded-md' alt={`vehicle image`} />
-                                        ))}
-                                    </Carousel>
+                                    {vehicleImages.length > 0 ? (
+                                        <div className='relative sm:overflow-hidden md:rounded-lg '>
+                                            <EmblaCarousel slides={vehicleImages} />
+                                        </div>
+                                    ) : (
+                                        <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
+                                            <img
+                                                src='../image_not_available.png'
+                                                alt='image_not_found'
+                                                className='h-full w-full min-w-full object-cover md:rounded-md'
+                                            />
+                                        </div>
+                                    )}
                                     <div className='flex w-full flex-col gap-2 p-3 md:flex-row md:items-center md:justify-between'>
                                         <p className='select-text p-0 text-sm font-bold text-neutral-900 '>
                                             {toTitleCase(vehicleDetails.make)} {vehicleDetails.model} {vehicleDetails.year}
@@ -139,9 +147,8 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                                     </div>
 
                                     <div className='flex gap-1 p-3 pt-0'>
-                                        <svg className='-ml-1 inline-block h-4 w-4 text-orange-500' viewBox='0 0 384 512' fill='currentColor'>
-                                            <path d='M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z' />
-                                        </svg>
+                                        <FaLocationDot className='-ml-1 inline-block h-4 w-4 text-orange-500' />
+
                                         <p className='text-xs font-medium  '>
                                             {vehicleDetails.cityname}, {vehicleDetails.state}
                                         </p>

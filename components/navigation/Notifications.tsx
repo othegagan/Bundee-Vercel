@@ -71,8 +71,8 @@ export default function NotificationsComponent() {
                         //     {notReadMessages.length}
                         // </div>
                         <span className='absolute right-2 top-1 flex size-3'>
-                            {ping && <span className='absolute inline-flex size-full animate-ping rounded-full bg-orange-500'></span>}
-                            <span className='relative inline-flex size-3 rounded-full bg-primary'></span>
+                            {ping && <span className='absolute inline-flex size-full animate-ping rounded-full bg-orange-500' />}
+                            <span className='relative inline-flex size-3 rounded-full bg-primary' />
                         </span>
                     )}
                 </Button>
@@ -81,9 +81,9 @@ export default function NotificationsComponent() {
                 <div className='mt-1 flex justify-between gap-3 p-1'>
                     <p className='text-sm font-bold text-foreground'>Notifications</p>
                     {!loading && notReadMessages.length > 0 && (
-                        <div className='cursor-pointer select-none text-xs text-muted-foreground' onClick={markAsRead}>
+                        <button type='button' className='cursor-pointer select-none text-xs text-muted-foreground' onClick={markAsRead}>
                             Mark all as read
-                        </div>
+                        </button>
                     )}
                 </div>
                 {loading ? (
@@ -131,8 +131,8 @@ function NotificationItem({ data }) {
                     </span>
                 </p>
                 <p className='mt-2 text-xs font-normal text-muted-foreground'>
-                    {!data?.isRentalStatus && data?.message + '. '}
-                    {data?.rentalAgreementStatus && ['RECAN', 'RECANREQ', 'REREJ'].indexOf(data?.statusCode) == -1 ? ` ${data?.rentalAgreementStatus}` : ''}
+                    {!data?.isRentalStatus && `${data?.message}. `}
+                    {data?.rentalAgreementStatus && ['RECAN', 'RECANREQ', 'REREJ'].indexOf(data?.statusCode) === -1 ? ` ${data?.rentalAgreementStatus}` : ''}
                 </p>
             </div>
         </Link>

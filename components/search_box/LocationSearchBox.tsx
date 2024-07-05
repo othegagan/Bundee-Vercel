@@ -54,7 +54,7 @@ const LocationSearchBox = () => {
                     <MagnifyingGlassIcon className='pointer-events-none absolute left-2 top-2 h-5 w-5 text-neutral-400' aria-hidden='true' />
                     <Input
                         type='text'
-                        className={`pl-9 pr-4 font-normal text-foreground placeholder:text-muted-foreground/80`}
+                        className='pl-9 pr-4 font-normal text-foreground placeholder:text-muted-foreground/80'
                         value={inputValue}
                         onChange={handleInputChange}
                         placeholder='Austin, Texas'
@@ -114,34 +114,6 @@ const LocationSearchBox = () => {
                             )}
                         </>
                     )}
-
-                    {/* {loading && (
-                        <div className='flex flex-col gap-2'>
-                            <Skeleton className='h-4 w-3/4 rounded-md bg-neutral-300' />
-                            <Skeleton className='h-4 w-1/2 rounded-md bg-neutral-300' />
-                        </div>
-                    )}
-
-                    {error && <p className='my-3 text-center text-xs'>{error}</p>}
-
-                    <div role='group'>
-                        {locationSuggestions.map((item: any, index: number) => (
-                            <div
-                                className='relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-[13px] outline-none hover:bg-neutral-200 hover:text-accent-foreground '
-                                key={index}
-                                onMouseDown={() => {
-                                    setShow(false);
-                                    setInputValue(item.placeName);
-                                    clearTimeout(blurTimeoutId);
-                                    setCity(item.placeName);
-                                    settLatitude(item.latitude);
-                                    setLongitude(item.longitude);
-                                    setIsAirport(item.isAirport);
-                                }}>
-                                <span>{item.placeName}</span>
-                            </div>
-                        ))}
-                    </div> */}
                 </div>
             </div>
         </div>
@@ -149,7 +121,7 @@ const LocationSearchBox = () => {
 };
 
 // Debounce function
-export const debounce = (func: Function, delay: number) => {
+export const debounce = (func: any, delay: number) => {
     let timeoutId: any;
     return (...args: any) => {
         clearTimeout(timeoutId);

@@ -6,7 +6,7 @@ import { useQueryState } from 'next-usequerystate';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
-import Map, { FullscreenControl, MapRef, Marker, Popup, ScaleControl } from 'react-map-gl';
+import Map, { FullscreenControl, type MapRef, Marker, Popup, ScaleControl } from 'react-map-gl';
 import { Button } from '../ui/button';
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
@@ -50,34 +50,16 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                     latitude: center.latitude || defaultLatitude,
                     longitude: center.longitude || defaultLongitude,
                 };
-            } else if (searchParams?.isMapSearch && filteredCoordinates.length === 0) {
+            }
+            if (searchParams?.isMapSearch && filteredCoordinates.length === 0) {
                 return {
                     ...prevState,
                 };
             }
         });
 
-        // ...prevState,
-        //             latitude: center.latitude || defaultLatitude,
-        //             longitude: center.longitude || defaultLongitude,
-
         // Group points by same latitude and longitude
         const groupedPoints = groupBySameLatLng(filteredCoordinates);
-
-        // const carMarkers = filteredCoordinates.map((car, index) => (
-        //     <Marker
-        //         key={`marker-${car.id}`}
-        //         latitude={Number(car.latitude)}
-        //         longitude={Number(car.longitude)}
-        //         anchor='bottom'
-        //         onClick={e => {
-        //             e.originalEvent.stopPropagation();
-        //             setCarPopInfo(car);
-        //         }}>
-        //         {/* <ImLocation className='size-7 cursor-pointer' /> */}
-        //         <MdPushPin className='size-7 cursor-pointer' />
-        //     </Marker>
-        // ));
 
         // Loop through groupedPoints and render markers
         const groupedMarkers = Object.values(groupedPoints).map((group: any, index) => {
@@ -166,7 +148,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
         <div className='relative h-full w-full'>
             {viewChanged && (
                 <Button variant='black' disabled={loading} size='sm' className='absolute left-[40%] top-2  z-40' onClick={searchThisArea}>
-                    {loading ? <div className='loader'></div> : 'Search this area'}
+                    {loading ? <div className='loader' /> : 'Search this area'}
                 </Button>
             )}
 
@@ -192,7 +174,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                         }}
                         className=' rounded-lg'>
                         <Link href={`/vehicles/${carPopInfo?.id}?${searchQuery}`} className='flex flex-col  border-0 outline-none focus:border-0'>
-                            <img width='100%' src={carPopInfo?.imageresponse[0]?.imagename} className='rounded-md ' />
+                            <img width='100%' src={carPopInfo?.imageresponse[0]?.imagename} className='rounded-md ' alt={`${carPopInfo?.make}`} />
                             <div className='mt-1 text-sm font-semibold'>{`${toTitleCase(carPopInfo?.make)} ${carPopInfo?.model.toLocaleUpperCase()} ${carPopInfo?.year}`}</div>
                             <div className='-mb-1 flex justify-between gap-2'>
                                 <div className='inline-flex  items-center rounded-lg bg-white'>

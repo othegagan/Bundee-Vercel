@@ -1,16 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { createTripReservation } from '@/server/checkout';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { StripeError } from '@stripe/stripe-js';
+import type { StripeError } from '@stripe/stripe-js';
+import type React from 'react';
+import { useState } from 'react';
 import { FaRegCheckCircle } from 'react-icons/fa';
 import { IoWarning } from 'react-icons/io5';
-import { useCheckoutDetails } from './CheckoutDetails';
-import { createTripReservation } from '@/server/checkout';
-import { toast } from '@/components/ui/use-toast';
 import secureLocalStorage from 'react-secure-storage';
+import { useCheckoutDetails } from './CheckoutDetails';
 
 export default function CheckoutForm({ customerId }: { customerId: string }) {
     const [payment, setPayment] = useState<{
@@ -62,6 +61,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         tripamount: String(data.tripAmount),
                         userId: String(data.userId),
                     };
+
                     const keysToRemove = [
                         'image',
                         'name',
@@ -79,16 +79,19 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         'stateSurchargeTax',
                         'hostid',
                     ];
-                    keysToRemove?.forEach(key => {
-                        if (payload.hasOwnProperty(key)) {
-                            delete payload[key];
+
+                    if (keysToRemove) {
+                        for (const key of keysToRemove) {
+                            if (Object.prototype.hasOwnProperty.call(payload, key)) {
+                                delete payload[key];
+                            }
                         }
-                    });
+                    }
                     console.log('Reservation payload', payload);
-                    const response:any = await createTripReservation(payload);
+                    const response = await createTripReservation(payload);
                     console.log(response);
 
-                    if (response && response.success) {
+                    if (response?.success) {
                         setPayment({ status: 'succeeded' });
                         secureLocalStorage.removeItem('checkOutInfo');
                         setTimeout(() => {
@@ -96,8 +99,8 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         }, 1200);
                     } else {
                         setPayment({ status: 'error' });
-                        const errorMessage = response && response.message ? response.message : 'Unknown error occurred.';
-                        setErrorMessage('Payment failed. Please try again. ' + errorMessage);
+                        const errorMessage = response?.message ? response.message : 'Unknown error occurred.';
+                        setErrorMessage(`Payment failed. Please try again. ${errorMessage}`);
                         secureLocalStorage.removeItem('checkOutInfo');
                         setTimeout(() => {
                             window.location.href = '/checkout/failure';

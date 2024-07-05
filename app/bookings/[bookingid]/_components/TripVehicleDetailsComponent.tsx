@@ -25,13 +25,14 @@ const TripVehicleDetailsComponent = ({
         // Sort records with isPrimary true first
         if (a.isPrimary && !b.isPrimary) {
             return -1;
-        } else if (!a.isPrimary && b.isPrimary) {
-            return 1;
-        } else {
-            // For records with the same isPrimary value, maintain their original order
-            return a.orderNumber - b.orderNumber;
         }
+        if (!a.isPrimary && b.isPrimary) {
+            return 1;
+        }
+        // For records with the same isPrimary value, maintain their original order
+        return a.orderNumber - b.orderNumber;
     });
+    
     return (
         <>
             {images.length > 0 ? (
@@ -52,7 +53,7 @@ const TripVehicleDetailsComponent = ({
                 <div className='space-y-6'>
                     <div className='space-y-3'>
                         <p className='font-bold'>Highlights</p>
-                        <ul role='list' className='text-15 list-disc space-y-2 pl-4'>
+                        <ul className='text-15 list-disc space-y-2 pl-4'>
                             {car?.trim && car?.trim !== 'Not Applicable' && car?.trim !== 'NA' && <li>{car?.trim}</li>}
 
                             {car?.fueltypeprimary && car?.fueltypeprimary !== 'Not Applicable' && car?.fueltypeprimary !== 'NA' && (

@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
@@ -11,7 +12,6 @@ import { LuLoader2 } from 'react-icons/lu';
 import { MdDeleteForever } from 'react-icons/md';
 
 const TripImageVideoUploadComponent = ({ tripsData }: any) => {
-    // tripid , userid , hostid
     const wrapperRef = useRef(null);
     const [fileList, setFileList] = useState([]);
     const [captions, setCaptions] = useState([]);
@@ -28,11 +28,12 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
         // Prevent default behavior (Prevent file from being opened)
         e.preventDefault();
 
-        let newFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+        const newFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
         if (newFiles.length > 0) {
             const allowedFiles = [];
             const exceededSizeFiles = [];
             const existingFileNames = fileList.map(file => file.name.toLowerCase()); // Array to keep track of existing file names
+
             // Loop through newFiles using forEach
             Array.from(newFiles).forEach((file: File) => {
                 const fileName = file.name.toLowerCase();
@@ -276,20 +277,12 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                                                                         style={{ width: `${uploadProgress[index]}%` }}
                                                                         aria-valuenow={uploadProgress[index]}
                                                                         aria-valuemin={0}
-                                                                        aria-valuemax={100}></div>
+                                                                        aria-valuemax={100}
+                                                                    />
                                                                 </div>
                                                                 <span className='whitespace-nowrap text-xs'>{uploadProgress[index]}%</span>
                                                             </div>
                                                         )}
-
-                                                        {/* <CircleProgressBar
-                                    initialValue={
-                                        uploadProgress[
-                                            index
-                                        ]
-                                    }
-                                    color="blue-500"
-                                /> */}
                                                     </div>
 
                                                     <MdDeleteForever

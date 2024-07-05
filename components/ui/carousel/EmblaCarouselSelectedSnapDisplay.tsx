@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { EmblaCarouselType } from 'embla-carousel';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import type { EmblaCarouselType } from 'embla-carousel';
 
 type UseSelectedSnapDisplayType = {
     selectedSnap: number;

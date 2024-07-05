@@ -36,7 +36,7 @@ const PhoneNumberModal = () => {
             setOTPError('');
             const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
-            let phoneAuthProvider = new PhoneAuthProvider(auth);
+            const phoneAuthProvider = new PhoneAuthProvider(auth);
             const verifyId = await phoneAuthProvider.verifyPhoneNumber(`+${phoneNumber}`, appVerifier);
 
             setVerificationId(verifyId);
@@ -197,7 +197,7 @@ const PhoneNumberModal = () => {
 
                     {otpError && <p className='rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
 
-                    {!otpError && !verificationId && <div id='recaptcha-container'></div>}
+                    {!otpError && !verificationId && <div id='recaptcha-container' />}
 
                     {/* <UnlinkPhoneNumberButton /> */}
                 </div>

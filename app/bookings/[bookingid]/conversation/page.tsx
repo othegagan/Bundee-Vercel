@@ -160,58 +160,58 @@ function Message({ message, tripData }) {
                 <p className='flex items-center justify-end text-[10px] text-white'> {format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
             </div>
         );
-    } else {
-        return (
-            <div className='flex'>
-                {message.author !== AUTHOR_TYPE.CLIENT && (
-                    <img src={authorImage[message.author]} alt={message.author} width={32} height={32} className='mr-2 size-8 rounded-full border' />
-                )}
-                {message.message.toLocaleLowerCase() === 'a new reservation was requested' ? (
-                    <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm'>
-                        <span>{message.message}</span>
-
-                        {images.length > 0 ? (
-                            <div className='relative max-w-md sm:overflow-hidden  md:max-w-lg md:rounded-lg'>
-                                <EmblaCarousel slides={images} />
-                            </div>
-                        ) : (
-                            <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
-                                <img src='../image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
-                            </div>
-                        )}
-
-                        <p className='text-16 font-semibold capitalize'>
-                            {tripData?.vehmake} {tripData?.vehmodel} {tripData?.vehyear}
-                        </p>
-
-                        <div>
-                            Trip Start Date :<span className='font-medium text-gray-800'> {formatDateAndTime(tripData?.starttime, tripData?.vehzipcode)}</span>
-                        </div>
-
-                        <div>
-                            Trip End Date : <span className='font-medium text-gray-800'> {formatDateAndTime(tripData?.endtime, tripData?.vehzipcode)}</span>
-                        </div>
-
-                        <div>
-                            Pickup & Return :
-                            <span className='font-medium capitalize text-gray-800'>
-                                {tripData?.vehaddress1 ? `${tripData?.vehaddress1}, ` : null}
-                                {tripData?.vehaddress2 ? `${tripData?.vehaddress2}, ` : null}
-                                {tripData?.vehcity ? `${tripData?.vehcity}, ` : null}
-                                {tripData?.vehstate ? `${tripData?.vehstate}, ` : null}
-                                {tripData?.vehzipcode ? `${tripData?.vehzipcode}` : null}
-                            </span>
-                        </div>
-
-                        <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
-                    </div>
-                ) : (
-                    <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm font-medium'>
-                        {message.message}
-                        <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
-                    </div>
-                )}
-            </div>
-        );
     }
+
+    return (
+        <div className='flex'>
+            {message.author !== AUTHOR_TYPE.CLIENT && (
+                <img src={authorImage[message.author]} alt={message.author} width={32} height={32} className='mr-2 size-8 rounded-full border' />
+            )}
+            {message.message.toLocaleLowerCase() === 'a new reservation was requested' ? (
+                <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm'>
+                    <span>{message.message}</span>
+
+                    {images.length > 0 ? (
+                        <div className='relative max-w-md sm:overflow-hidden  md:max-w-lg md:rounded-lg'>
+                            <EmblaCarousel slides={images} />
+                        </div>
+                    ) : (
+                        <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
+                            <img src='../image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
+                        </div>
+                    )}
+
+                    <p className='text-16 font-semibold capitalize'>
+                        {tripData?.vehmake} {tripData?.vehmodel} {tripData?.vehyear}
+                    </p>
+
+                    <div>
+                        Trip Start Date :<span className='font-medium text-gray-800'> {formatDateAndTime(tripData?.starttime, tripData?.vehzipcode)}</span>
+                    </div>
+
+                    <div>
+                        Trip End Date : <span className='font-medium text-gray-800'> {formatDateAndTime(tripData?.endtime, tripData?.vehzipcode)}</span>
+                    </div>
+
+                    <div>
+                        Pickup & Return :
+                        <span className='font-medium capitalize text-gray-800'>
+                            {tripData?.vehaddress1 ? `${tripData?.vehaddress1}, ` : null}
+                            {tripData?.vehaddress2 ? `${tripData?.vehaddress2}, ` : null}
+                            {tripData?.vehcity ? `${tripData?.vehcity}, ` : null}
+                            {tripData?.vehstate ? `${tripData?.vehstate}, ` : null}
+                            {tripData?.vehzipcode ? `${tripData?.vehzipcode}` : null}
+                        </span>
+                    </div>
+
+                    <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                </div>
+            ) : (
+                <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm font-medium'>
+                    {message.message}
+                    <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                </div>
+            )}
+        </div>
+    );
 }

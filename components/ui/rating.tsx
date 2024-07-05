@@ -46,25 +46,24 @@ interface StarProps {
 
 const Star: React.FC<StarProps> = ({ filled, index, onClick }) => {
     return (
-        <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className={`h-10 w-10 cursor-pointer ${filled ? 'text-yellow-400' : 'text-neutral-400'}`}
-            fill={filled ? 'currentColor' : 'none'}
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-            // onMouseEnter={onMouseEnter}
-            // onMouseLeave={onMouseLeave}
-            onClick={() => {
-                console.log('Star clicked at index:', index);
-                onClick();
-            }}>
-            <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='1.4'
-                d='M12 2L15.09 8.74L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.74L12 2z'
-            />
-        </svg>
+        <button type='button' className='h-10 w-10 cursor-pointer' onClick={onClick}>
+            <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className={`h-10 w-10 cursor-pointer ${filled ? 'text-yellow-400' : 'text-neutral-400'}`}
+                fill={filled ? 'currentColor' : 'none'}
+                viewBox='0 0 24 24'
+                stroke='currentColor'
+                // onMouseEnter={onMouseEnter}
+                // onMouseLeave={onMouseLeave}
+            >
+                <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='1.4'
+                    d='M12 2L15.09 8.74L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.74L12 2z'
+                />
+            </svg>
+        </button>
     );
 };
 

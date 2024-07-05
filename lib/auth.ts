@@ -1,10 +1,10 @@
 'use server';
 
 import { v4 as uuidv4 } from 'uuid';
-import { defaultSession, SessionData } from '@/types';
+import { defaultSession, type SessionData } from '@/types';
 import { jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { JSONparsefy } from './utils';
 
 const secretKey = process.env.SECRET_KEY;
@@ -93,7 +93,7 @@ export async function updateSession(request: NextRequest) {
     const parsed = await decrypt(session);
     parsed.expires = new Date(Date.now() + EXPIRY_IN_MS);
 
-    let res = NextResponse.next();
+    const res = NextResponse.next();
     res.cookies.set({
         name: cookieName,
         value: await encrypt(parsed),

@@ -28,7 +28,7 @@ const CarFilters = () => {
     const [selectedMakes, setSelectedMakes] = useState<string[]>([]);
     const [selectedFuelTypes, setSelectedFuelTypes] = useState<string[]>([]);
     const [minPricePerHr, setMinPricePerHr] = useState<number>(0);
-    const [maxPricePerHr, setMaxPricePerHr] = useState<number>(Infinity);
+    const [maxPricePerHr, setMaxPricePerHr] = useState<number>(Number.POSITIVE_INFINITY);
     const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
     const [seatingCapacityFilters, setSeatingCapacityFilters] = useState<string[]>([]);
     const [sortOrder, setSortOrder] = useState<'relevance' | 'lowToHigh' | 'highToLow'>('relevance');
@@ -123,7 +123,7 @@ const CarFilters = () => {
         if (seatingCapacityFilters.length > 0) {
             filteredCars = filteredCars.filter(car => {
                 if (car.seatingCapacity !== null) {
-                    const seatingCapacity = parseInt(car.seatingCapacity);
+                    const seatingCapacity = Number.parseInt(car.seatingCapacity);
                     if (seatingCapacityFilters.includes('2') && seatingCapacity === 2) {
                         return true;
                     }

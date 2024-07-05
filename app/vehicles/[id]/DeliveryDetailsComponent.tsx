@@ -1,5 +1,5 @@
 import { toast } from '@/components/ui/use-toast';
-import { toTitleCase } from '@/lib/utils';
+import { getFullAddress, toTitleCase } from '@/lib/utils';
 import { useState } from 'react';
 import { FaChevronDown, FaLocationDot } from 'react-icons/fa6';
 import AddressSearchBox from './AddressSearchBox';
@@ -30,9 +30,9 @@ const DeliveryDetailsComponent = ({
                 airportDeliveryCost,
                 nonAirportDeliveryCost,
             };
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     function checkWhichDeliveryIsChoosen(show) {
@@ -82,19 +82,15 @@ const DeliveryDetailsComponent = ({
 
                 <p className='text-14 flex items-center rounded-md border px-3 py-2 '>
                     <FaLocationDot className='mr-2 size-5 ' />
-
-                    {toTitleCase(vehicleDetails?.address1)}
-                    {vehicleDetails?.address2 ? ', ' + toTitleCase(vehicleDetails?.address2) : null}
-                    {vehicleDetails?.zipcode ? ', ' + vehicleDetails?.zipcode : null}
-                    {vehicleDetails?.cityname ? ', ' + toTitleCase(vehicleDetails?.cityname) : null}
-                    {vehicleDetails?.state ? ', ' + toTitleCase(vehicleDetails.state) : null}
+                    {getFullAddress(vehicleDetails)}
                 </p>
             </div>
 
             {deliveryDetails ? (
                 <div className='flex flex-col gap-5'>
                     <div className='w-full rounded-md border border-gray-200 px-3 py-2 '>
-                        <div
+                        <button
+                            type='button'
                             className='flex cursor-pointer select-none justify-between '
                             onClick={() => {
                                 checkWhichDeliveryIsChoosen('custom');
@@ -109,7 +105,7 @@ const DeliveryDetailsComponent = ({
                                 </>
                             ) : null}
                             <FaChevronDown className={`text-neutral-500   ${showDetails ? 'rotate-180' : ' rotate-0'}`} />
-                        </div>
+                        </button>
 
                         {showDetails && (
                             <>
@@ -140,7 +136,8 @@ const DeliveryDetailsComponent = ({
 
                     {deliveryDetails?.deliveryToAirport && (
                         <div className='w-full rounded-md border border-gray-200 px-3 py-2 '>
-                            <div
+                            <button
+                                type='button'
                                 className='flex cursor-pointer select-none justify-between '
                                 onClick={() => {
                                     checkWhichDeliveryIsChoosen('airport');
@@ -155,7 +152,7 @@ const DeliveryDetailsComponent = ({
                                     </>
                                 ) : null}
                                 <FaChevronDown className={`text-neutral-500   ${showAiprortDetails ? 'rotate-180' : ' rotate-0'}`} />
-                            </div>
+                            </button>
 
                             {showAiprortDetails && (
                                 <>
@@ -178,11 +175,8 @@ const DeliveryDetailsComponent = ({
                                                     </label>
                                                 </div>
 
-                                                <>
-                                                    <p className='my-1 text-xs font-bold '>Delivery Location</p>
-                                                    <p className='text-xs'>{city}</p>
-                                                    {/* <Textarea rows={} placeholder='Enter Location' value={city} onChange={e => setCustomDeliveryLocation(e.target.value)} /> */}
-                                                </>
+                                                <p className='my-1 text-xs font-bold '>Delivery Location</p>
+                                                <p className='text-xs'>{city}</p>
                                             </div>
                                         </>
                                     ) : null}

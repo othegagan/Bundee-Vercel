@@ -18,9 +18,9 @@ const Navbar = async ({ searchParams }: any) => {
 
     const menuItems: any[] = [
         { label: 'Home', icon: <HomeIcon className='mr-2 h-4 w-4' />, link: '/', visible: true },
-        { label: 'Profile', icon: <HiOutlineUser className='mr-2 h-4 w-4' />, link: '/profile', visible: session?.isLoggedIn ? true : false },
-        { label: 'Bookings', icon: <PiTruck className='mr-2 h-4 w-4' />, link: '/bookings', visible: session?.isLoggedIn ? true : false },
-        { label: 'Wishlist', icon: <IoMdHeartEmpty className='mr-2 h-4 w-4' />, link: '/wishlist', visible: session?.isLoggedIn ? true : false },
+        { label: 'Profile', icon: <HiOutlineUser className='mr-2 h-4 w-4' />, link: '/profile', visible: !!session?.isLoggedIn },
+        { label: 'Bookings', icon: <PiTruck className='mr-2 h-4 w-4' />, link: '/bookings', visible: !!session?.isLoggedIn },
+        { label: 'Wishlist', icon: <IoMdHeartEmpty className='mr-2 h-4 w-4' />, link: '/wishlist', visible: !!session?.isLoggedIn },
         { label: 'Terms & Conditions', icon: <IoDocumentTextOutline className='mr-2 h-4 w-4' />, link: '/terms', visible: true },
         { label: "FAQ's", icon: <IoDocumentTextOutline className='mr-2 h-4 w-4' />, link: '/#faqs', visible: true },
         { label: 'Privacy Policy', icon: <GoShieldCheck className='mr-2 h-4 w-4' />, link: '/privacy', visible: true },

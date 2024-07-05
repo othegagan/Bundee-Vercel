@@ -34,7 +34,7 @@ const AddressSearchBox = ({ address1, setSavedData }) => {
             <div className='relative '>
                 <Input
                     type='text'
-                    className={` pr-4 font-normal text-foreground placeholder:text-muted-foreground/80`}
+                    className=' pr-4 font-normal text-foreground placeholder:text-muted-foreground/80'
                     value={inputValue}
                     onChange={handleInputChange}
                     placeholder='Enter your address'
@@ -101,7 +101,7 @@ const AddressSearchBox = ({ address1, setSavedData }) => {
 };
 
 // Debounce function
-export const debounce = (func: Function, delay: number) => {
+export const debounce = (func: any, delay: number) => {
     let timeoutId: any;
     return (...args: any) => {
         clearTimeout(timeoutId);

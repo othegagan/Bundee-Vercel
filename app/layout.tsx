@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang='en' suppressHydrationWarning={true}>
             <head>
                 <title>MyBundee</title>
-                <link rel='icon' type='image/png' href='/bundee-logo.png'></link>
+                <link rel='icon' type='image/png' href='/bundee-logo.png' />
                 <meta content='width=device-width, initial-scale=1' name='viewport' />
                 <meta name='description' content='' />
                 <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />

@@ -39,7 +39,7 @@ export default function page({ params }: { params: { bookingid: string } }) {
                     car={bookingData.vehicleDetails[0]}
                     driverUploadedImages={bookingData.driverTripStartingBlobs}
                     hostUploadedImages={bookingData.hostTripStartingBlobs}
-                    hostName={bookingData?.hostFirstName + ' ' + bookingData?.hostLastName || ""}
+                    hostName={`${bookingData?.hostFirstName} ${bookingData?.hostLastName}` || ""}
                     hostPhoneNumber={bookingData?.hostPhoneNumber || ""}
                     hostImage={bookingData?.hostImage || ""}
                 />
@@ -52,7 +52,7 @@ export default function page({ params }: { params: { bookingid: string } }) {
                     <div className='flex items-center justify-between'>
                         <div className='text-md'>Booking Duration</div>
                         <div className='text-md font-medium'>
-                            {bookingData.tripPaymentTokens[0]?.totaldays} {bookingData?.tripPaymentTokens[0]?.totaldays == 1 ? 'Day' : 'Days'}
+                            {bookingData.tripPaymentTokens[0]?.totaldays} {bookingData?.tripPaymentTokens[0]?.totaldays === 1 ? 'Day' : 'Days'}
                         </div>
                     </div>
                     <div className='flex items-center justify-between'>
@@ -106,7 +106,7 @@ export default function page({ params }: { params: { bookingid: string } }) {
                     )}
                 </div>
 
-                {!bookingData.isRentalAgreed && ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(bookingData.status.toLowerCase()) == -1 ? (
+                {!bookingData.isRentalAgreed && ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(bookingData.status.toLowerCase()) === -1 ? (
                     <DocumentHandlerComponent
                         isRentalAgreed={bookingData.isRentalAgreed}
                         tripId={bookingData.tripid}
@@ -133,7 +133,7 @@ export default function page({ params }: { params: { bookingid: string } }) {
                     <DocumentHandlerComponent isRentalAgreed={bookingData.isRentalAgreed} tripId={bookingData.tripid} invoiceUrl={bookingData.invoiceUrl} />
                 )}
 
-                {bookingData.status.toLowerCase() == 'completed' && tripRating.length == 0 && <TripReviewDialogTrigger tripData={bookingData} />}
+                {bookingData.status.toLowerCase() === 'completed' && tripRating.length === 0 && <TripReviewDialogTrigger tripData={bookingData} />}
             </div>
         </div>
     );

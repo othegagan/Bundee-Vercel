@@ -17,7 +17,7 @@ export function HideInIFrame({ children }: { children: React.ReactNode }) {
 
 export function HideComponentInFrame({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    if (pathname == '/hostpage') {
+    if (pathname === '/hostpage') {
         return null;
     }
     return children;

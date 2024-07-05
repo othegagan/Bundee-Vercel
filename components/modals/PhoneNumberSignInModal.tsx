@@ -171,14 +171,15 @@ const PhoneNumberSignInModal = () => {
                             <div className='mt-4 flex flex-col gap-2'>
                                 <p className='mt-1 text-base'>
                                     Don't have an account?
-                                    <span
+                                    <button
+                                        type='button'
                                         onClick={() => {
                                             phoneNumberSignInModal.onClose();
                                             registerModal.onOpen();
                                         }}
                                         className='mx-1 cursor-pointer text-base font-medium text-primary hover:underline'>
                                         Sign up
-                                    </span>
+                                    </button>
                                     here
                                 </p>
                             </div>

@@ -58,7 +58,7 @@ const DeleteAccountComponent = () => {
 
             <div className='mt-5 flex justify-end'>
                 <Button variant='destructive' onClick={() => openDialog()}>
-                    <> Delete Account </>
+                    Delete Account
                 </Button>
             </div>
             <Dialog
@@ -92,7 +92,7 @@ const DeleteAccountComponent = () => {
                         className='mt-3'>
                         {loading ? (
                             <div className='flex px-16'>
-                                <div className='loader'></div>
+                                <div className='loader' />
                             </div>
                         ) : (
                             <> Delete Account</>

@@ -62,26 +62,26 @@ const ProfilePage = () => {
                 const insuranceData = userResponse.data.driverProfiles[0];
 
                 setSavedData({
-                    firstname: data['firstname'],
-                    middlename: data['middlename'],
-                    lastname: data['lastname'],
-                    email: data['email'],
-                    mobilePhone: data['mobilephone'],
-                    address1: data['address_1'],
-                    address2: data['address_2'],
-                    address3: data['address_3'],
-                    city: data['city'],
-                    state: data['state'],
-                    country: data['country'],
-                    postcode: data['postcode'],
-                    language: data['language'],
-                    driverlisense: data['driverlisense'],
-                    vehicleowner: data['vehicleowner'],
-                    userimage: data['userimage'],
+                    firstname: data.firstname,
+                    middlename: data.middlename,
+                    lastname: data.lastname,
+                    email: data.email,
+                    mobilePhone: data.mobilephone,
+                    address1: data.address_1,
+                    address2: data.address_2,
+                    address3: data.address_3,
+                    city: data.city,
+                    state: data.state,
+                    country: data.country,
+                    postcode: data.postcode,
+                    language: data.language,
+                    driverlisense: data.driverlisense,
+                    vehicleowner: data.vehicleowner,
+                    userimage: data.userimage,
                     isEmailVarified: true,
-                    isPhoneVarified: data['isPhoneVarified'],
-                    insuranceCompany: insuranceData ? insuranceData['insuranceCompany'] : '',
-                    insuranceNumber: insuranceData ? insuranceData['insuranceNumber'] : '',
+                    isPhoneVarified: data.isPhoneVarified,
+                    insuranceCompany: insuranceData ? insuranceData.insuranceCompany : '',
+                    insuranceNumber: insuranceData ? insuranceData.insuranceNumber : '',
                 });
             }
         } catch (error) {
@@ -200,7 +200,8 @@ const ProfilePage = () => {
                         <h2 className=' text-base font-semibold leading-7'>Name</h2>
                         {activeSection !== 'name' ? (
                             <Button
-                                variant='outline' size='sm'
+                                variant='outline'
+                                size='sm'
                                 disabled={activeSection !== null}
                                 className={activeSection === 'phoneNumber' ? 'cursor-not-allowed ' : ''}
                                 onClick={() => handleEditClick('name')}>
@@ -241,7 +242,7 @@ const ProfilePage = () => {
                             <Button className='max-w-fit' type='button' disabled={processing} variant='black' onClick={handleSubmit}>
                                 {processing ? (
                                     <p>
-                                        <div className='loader'></div>
+                                        <div className='loader' />
                                     </p>
                                 ) : (
                                     <>Save</>
@@ -262,7 +263,8 @@ const ProfilePage = () => {
                         <h2 className=' text-base font-semibold leading-7'> Phone Number</h2>
                         {activeSection !== 'phoneNumber' ? (
                             <Button
-                                variant='outline' size='sm'
+                                variant='outline'
+                                size='sm'
                                 disabled={activeSection !== null}
                                 className={activeSection === 'phoneNumber' ? 'cursor-not-allowed ' : ''}
                                 onClick={() => {
@@ -307,7 +309,8 @@ const ProfilePage = () => {
                         <h2 className=' text-base font-semibold leading-7'>Address Details</h2>
                         {activeSection !== 'address' ? (
                             <Button
-                                variant='outline' size='sm'
+                                variant='outline'
+                                size='sm'
                                 disabled={activeSection !== null}
                                 className={activeSection === 'address' ? 'cursor-not-allowed ' : ''}
                                 onClick={() => handleEditClick('address')}>
@@ -372,7 +375,7 @@ const ProfilePage = () => {
                             <Button className='max-w-fit' type='button' disabled={processing} variant='black' onClick={handleSubmit}>
                                 {processing ? (
                                     <p>
-                                        <div className='loader'></div>
+                                        <div className='loader' />
                                     </p>
                                 ) : (
                                     <>Save</>
@@ -382,11 +385,11 @@ const ProfilePage = () => {
                     ) : (
                         <div>
                             <div>
-                                {savedData.address1 && <>{savedData.address1 + ','} </>}
-                                {savedData.address2 && <>{savedData.address2 + ', '} </>}
-                                {savedData.city && <>{savedData.city + ', '} </>}
-                                {savedData.state && <>{savedData.state + ', '} </>}
-                                {savedData.postcode && <>{savedData.postcode + ', '} </>}
+                                {savedData.address1 && <>{`${savedData.address1},`} </>}
+                                {savedData.address2 && <>{`${savedData.address2}, `} </>}
+                                {savedData.city && <>{`${savedData.city}, `} </>}
+                                {savedData.state && <>{`${savedData.state}, `} </>}
+                                {savedData.postcode && <>{`${savedData.postcode}, `} </>}
                                 {savedData.country && <>{savedData.country} </>}
                             </div>
                         </div>
@@ -400,7 +403,8 @@ const ProfilePage = () => {
                         <h2 className=' text-base font-semibold leading-7'>Insurance Details</h2>
                         {activeSection !== 'insurance' ? (
                             <Button
-                                variant='outline' size='sm'
+                                variant='outline'
+                                size='sm'
                                 disabled={activeSection !== null}
                                 className={activeSection === 'insurance' ? 'cursor-not-allowed ' : ''}
                                 onClick={() => handleEditClick('insurance')}>
@@ -441,7 +445,7 @@ const ProfilePage = () => {
                             <Button className='max-w-fit' type='button' disabled={processing} variant='black' onClick={handleInsuranceSubmit}>
                                 {processing ? (
                                     <p>
-                                        <div className='loader'></div>
+                                        <div className='loader' />
                                     </p>
                                 ) : (
                                     <>Save</>

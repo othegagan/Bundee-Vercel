@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { convertToCarTimeZoneISO, formatDateAndTime, formatDateTimeWithWeek, roundToTwoDecimalPlaces } from '@/lib/utils';
+import { convertToCarTimeZoneISO, formatDateAndTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { splitFormattedDateAndTime } from './TripModificationModal';
 
@@ -31,8 +31,8 @@ export default function TripModificationPriceListComponent({
     if (isExtension) differenceAmount = priceCalculatedList?.tripTaxAmount - originalTripTaxAmount;
     else differenceAmount = originalTripTaxAmount - priceCalculatedList?.tripTaxAmount;
 
-    const formattedStartDate = formatDateTimeWithWeek(convertToCarTimeZoneISO(newStartDate, newStartTime, zipCode), zipCode);
-    const formattedEndDate = formatDateTimeWithWeek(convertToCarTimeZoneISO(newEndDate, newEndTime, zipCode), zipCode);
+    const formattedStartDate = formatDateAndTime(convertToCarTimeZoneISO(newStartDate, newStartTime, zipCode), zipCode);
+    const formattedEndDate = formatDateAndTime(convertToCarTimeZoneISO(newEndDate, newEndTime, zipCode), zipCode);
 
     return (
         <div className='w-full space-y-2'>
@@ -48,7 +48,7 @@ export default function TripModificationPriceListComponent({
                     <div className='mt-6 flex items-center justify-between gap-2 px-2'>
                         <p className='text-14'>Booking Duration</p>
                         <p className='text-14'>
-                            {priceCalculatedList.numberOfDays} {priceCalculatedList.numberOfDays == 1 ? 'Day' : 'Days'}
+                            {priceCalculatedList.numberOfDays} {priceCalculatedList.numberOfDays === 1 ? 'Day' : 'Days'}
                         </p>
                     </div>
                 )}
@@ -57,7 +57,7 @@ export default function TripModificationPriceListComponent({
                     <div className='flex items-center justify-between gap-2 px-2'>
                         <p className='text-14'>
                             Rental (${priceCalculatedList?.pricePerDay} X {priceCalculatedList?.numberOfDays}
-                            {priceCalculatedList.numberOfDays == 1 ? 'Day' : 'Days'})
+                            {priceCalculatedList.numberOfDays === 1 ? 'Day' : 'Days'})
                         </p>
                         <p className='text-14'>${roundToTwoDecimalPlaces(priceCalculatedList?.charges)}</p>
                     </div>

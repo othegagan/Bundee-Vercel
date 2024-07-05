@@ -4,7 +4,7 @@ import useForgotPasswordModal from '@/hooks/useForgotPasswordModal';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { z } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { auth } from '@/lib/firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
@@ -110,14 +110,15 @@ export default function ForgotPasswordModal() {
                         </Button>
                     </div>
 
-                    <p
+                    <button
+                        type='button'
                         className='mt-4 w-fit cursor-pointer hover:underline'
                         onClick={() => {
                             closeModal();
                             loginModal.onOpen();
                         }}>
                         Back to Log In
-                    </p>
+                    </button>
                 </form>
             )}
             {errorMessage && <p className='mt-2 text-xs font-medium text-destructive'>{errorMessage}</p>}
