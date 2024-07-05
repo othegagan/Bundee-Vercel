@@ -1,0 +1,29 @@
+{
+    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "organizeImports": { "enabled": true },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "suspicious": {
+                "noExplicitAny": "off",
+                "noDoubleEquals": "info",
+                "noArrayIndexKey": "info"
+            },
+            "complexity": {
+                "noForEach": "off"
+            },
+            "correctness": {
+                "useExhaustiveDependencies": "info"
+            },
+            "style": {
+                "useTemplate": "off",
+                "useImportType": "off",
+                "noUselessElse": "off"
+            },
+            "a11y": {
+                "noSvgWithoutTitle": "off"
+            }
+        }
+    }
+}
