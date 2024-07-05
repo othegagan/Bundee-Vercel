@@ -11,15 +11,14 @@ import Logo from '../landing_page/Logo';
 import LoginSignupButtons from './LoginSignupButtons';
 import UserMenu from './UserMenu';
 import NotificationsComponent from './Notifications';
-import LocationSearchComponent from '../search_box/LocationSearchComponent';
 
-const Navbar = async ({ searchParams }: any) => {
+const Navbar = async () => {
     const session = await getSession();
 
     const menuItems: any[] = [
         { label: 'Home', icon: <HomeIcon className='mr-2 h-4 w-4' />, link: '/', visible: true },
         { label: 'Profile', icon: <HiOutlineUser className='mr-2 h-4 w-4' />, link: '/profile', visible: !!session?.isLoggedIn },
-        { label: 'Bookings', icon: <PiTruck className='mr-2 h-4 w-4' />, link: '/bookings', visible: !!session?.isLoggedIn },
+        { label: 'Trips', icon: <PiTruck className='mr-2 h-4 w-4' />, link: '/trips', visible: !!session?.isLoggedIn },
         { label: 'Wishlist', icon: <IoMdHeartEmpty className='mr-2 h-4 w-4' />, link: '/wishlist', visible: !!session?.isLoggedIn },
         { label: 'Terms & Conditions', icon: <IoDocumentTextOutline className='mr-2 h-4 w-4' />, link: '/terms', visible: true },
         { label: "FAQ's", icon: <IoDocumentTextOutline className='mr-2 h-4 w-4' />, link: '/#faqs', visible: true },

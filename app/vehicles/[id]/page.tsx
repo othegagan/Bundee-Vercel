@@ -251,7 +251,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 secureLocalStorage.setItem(
                     'personaCallback',
                     JSON.stringify({
-                        origin: 'booking',
+                        origin: 'trips',
                         onSuccess: `/checkout/${vehicleId}`,
                     }),
                 );
@@ -394,7 +394,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                     {priceErrorMessage === 'Error: Wrong Dates' ? (
                                         <p className='text-sm text-red-500'>You have chosen wrong date format</p>
                                     ) : priceErrorMessage === 'Error: Reservation not allowed for previous dates' ? (
-                                        <p className='text-sm text-red-500'>Booking not allowed for previous dates</p>
+                                        <p className='text-sm text-red-500'>Trip not allowed for previous dates</p>
                                     ) : (
                                         <p className='text-sm text-red-500'>Something went wrong in calculating prices.</p>
                                     )}
@@ -424,7 +424,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                             duration: 4000,
                                             className: 'bg-red-400 text-white',
                                             title: 'Please enter a custom delivery location.',
-                                            description: 'The custom delivery location is required for this booking.',
+                                            description: 'The custom delivery location is required for this trip.',
                                         });
                                         return;
                                     }

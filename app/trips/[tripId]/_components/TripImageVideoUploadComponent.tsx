@@ -11,7 +11,7 @@ import { FiPaperclip } from 'react-icons/fi';
 import { LuLoader2 } from 'react-icons/lu';
 import { MdDeleteForever } from 'react-icons/md';
 
-const TripImageVideoUploadComponent = ({ tripsData }: any) => {
+const TripImageVideoUploadComponent = ({ tripData }: any) => {
     const wrapperRef = useRef(null);
     const [fileList, setFileList] = useState([]);
     const [captions, setCaptions] = useState([]);
@@ -65,7 +65,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                 }
             });
 
-            if (allowedFiles.length + fileList.length + Number(tripsData?.driverTripStartingBlobs.length || 0) > 10) {
+            if (allowedFiles.length + fileList.length + Number(tripData?.driverTripStartingBlobs.length || 0) > 10) {
                 toast({
                     duration: 4000,
                     variant: 'destructive',
@@ -118,17 +118,17 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
 
             const formData = new FormData();
             const jsonData = {
-                tripId: tripsData.tripid,
+                tripId: tripData.tripid,
                 isUploadedByHost: false,
                 isUploadedAtStarting: true,
                 url: '',
                 storageRef: '',
                 caption: captions[index],
-                userId: tripsData.userid,
+                userId: tripData.userid,
                 video: file.type.includes('video'),
             };
             formData.append('json', JSON.stringify(jsonData));
-            formData.append('hostid', tripsData.hostid);
+            formData.append('hostid', tripData.hostid);
             formData.append('image', file);
 
             return axios.post(url, formData, {
@@ -193,7 +193,7 @@ const TripImageVideoUploadComponent = ({ tripsData }: any) => {
                     handleOpenModal();
                 }}>
                 <FiPaperclip className='size-5' />
-                Upload booking media
+                Upload trip media
             </Button>
 
             <Dialog

@@ -142,7 +142,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                                             <p className='text-xs font-medium text-neutral-900 '>{vehicleDetails.rating}</p>
 
                                             <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
-                                            <p className='text-xs font-medium text-neutral-900 '>({vehicleDetails.tripcount} Bookings)</p>
+                                            <p className='text-xs font-medium text-neutral-900 '>({vehicleDetails.tripcount} Trips)</p>
                                         </div>
                                     </div>
 

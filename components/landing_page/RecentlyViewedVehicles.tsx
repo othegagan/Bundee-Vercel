@@ -92,7 +92,7 @@ export default function RecentlyViewedVehicles() {
                                                     <div className='mt-1 inline-flex gap-2'>
                                                         <FaStar className=' size-4 text-yellow-400' />
                                                         <span className='text-xs font-medium text-neutral-900  '>
-                                                            ({car.tripCount} {car.tripCount === 1 ? 'Booking' : 'Bookings'})
+                                                            ({car.tripCount} {car.tripCount === 1 ? 'Trip' : 'Trips'})
                                                         </span>
                                                     </div>
                                                 )}

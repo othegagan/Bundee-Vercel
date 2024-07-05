@@ -27,7 +27,7 @@ export default function FAQ() {
             },
             {
                 question: 'What is the cancellation policy?',
-                answer: 'Each Host and trip will have its own cancellation policy that is clearly stated during the booking process as well as in the confirmation emails.  You can also see more details for cancellation under the bookings section.',
+                answer: 'Each Host and trip will have its own cancellation policy that is clearly stated during the booking process as well as in the confirmation emails.  You can also see more details for cancellation under the trips section.',
             },
             {
                 question: 'What about Insurance for the trip?',

@@ -32,7 +32,7 @@ const useTripModification = () => {
         newEndTime: string,
         priceCalculatedList: any,
     ) => {
-        const bookingDetails = {
+        const tripDetails = {
             tripid: tripData.tripid,
             userId: String(userId),
             startTime: convertToCarTimeZoneISO(newStartDate, newStartTime, tripData.vehzipcode),
@@ -55,16 +55,16 @@ const useTripModification = () => {
         };
 
         if (type === 'reduction') {
-            bookingDetails.paymentauthorizationconfigid = 1;
-            bookingDetails.authorizationpercentage = priceCalculatedList.authPercentage;
-            bookingDetails.authorizationamount = priceCalculatedList.authAmount;
-            bookingDetails.comments = '';
+            tripDetails.paymentauthorizationconfigid = 1;
+            tripDetails.authorizationpercentage = priceCalculatedList.authPercentage;
+            tripDetails.authorizationamount = priceCalculatedList.authAmount;
+            tripDetails.comments = '';
         } else if (type === 'extension') {
-            bookingDetails.deductionfrequencyconfigid = 1;
-            bookingDetails.paymentauthorizationconfigid = 1;
-            bookingDetails.authorizationpercentage = priceCalculatedList.authPercentage;
-            bookingDetails.authorizationamount = priceCalculatedList.authAmount;
-            bookingDetails.comments = '';
+            tripDetails.deductionfrequencyconfigid = 1;
+            tripDetails.paymentauthorizationconfigid = 1;
+            tripDetails.authorizationpercentage = priceCalculatedList.authPercentage;
+            tripDetails.authorizationamount = priceCalculatedList.authAmount;
+            tripDetails.comments = '';
         }
 
         const fieldsToRemove = [
@@ -81,9 +81,9 @@ const useTripModification = () => {
             'upcharges',
         ];
 
-        fieldsToRemove.forEach(field => delete bookingDetails[field]);
+        fieldsToRemove.forEach(field => delete tripDetails[field]);
 
-        return bookingDetails;
+        return tripDetails;
     };
 
     const handleTripModification = async (
@@ -274,7 +274,7 @@ export default function TripModificationDialog({ tripData }) {
     return (
         <div>
             <Button onClick={openModifiyDialog} variant='black' className='w-full' size='lg'>
-                Modify booking
+                Modify trip
             </Button>
 
             <Dialog
@@ -282,25 +282,25 @@ export default function TripModificationDialog({ tripData }) {
                 closeDialog={closeModifyDialog}
                 onInteractOutside={false}
                 className={` ${submitted ? 'lg:max-w-2xl' : 'md:max-w-3xl lg:max-w-6xl lg:p-8 lg:px-10'}`}
-                title={submitted ? '' : 'Modify Booking Date Time'}
+                title={submitted ? '' : 'Modify Trip Date Time'}
                 description={!submitted ? '' : ''}>
                 {!submitted ? (
                     <>
                         <DialogBody>
                             <div className='mb-2 flex w-full flex-col-reverse items-start gap-4 lg:flex-row lg:justify-between'>
                                 <div className='space-y-1'>
-                                    <p className='text-16'>Please select new dates and times for the booking below</p>
+                                    <p className='text-16'>Please select new dates and times for the trip below</p>
                                     <p className='text-14 flex items-center gap-2 text-neutral-500'>
                                         {' '}
                                         <IoInformationCircleOutline />
-                                        Selecting new dates may change the total booking cost.
+                                        Selecting new dates may change the total trip cost.
                                     </p>
                                 </div>
                             </div>
                             <div className='mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-10'>
                                 <div>
                                     <div className='space-y-3'>
-                                        <p className='text-14 font-semibold'>Current Booking Summary</p>
+                                        <p className='text-14 font-semibold'>Current Trip Summary</p>
                                         <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-[#FAF7F7] p-4 '>
                                             <div className='flex w-full justify-between gap-2 p-3'>
                                                 <p className='text-14 text-center'>
@@ -312,7 +312,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 </p>
                                             </div>
                                             <div className='text-14 '>
-                                                Booking duration: {tripData.tripPaymentTokens[0]?.totaldays}
+                                                Trip duration: {tripData.tripPaymentTokens[0]?.totaldays}
                                                 {tripData?.tripPaymentTokens[0]?.totaldays === 1 ? 'Day' : 'Days'}
                                             </div>
 
@@ -428,7 +428,7 @@ export default function TripModificationDialog({ tripData }) {
                                 <DialogBody>
                                     <div className='grid grid-cols-1 place-items-center space-y-4'>
                                         <CircleCheck className='size-20 text-green-500' />
-                                        <h3 className=' text-center'>Booking modification submitted</h3>
+                                        <h3 className=' text-center'>Trip modification submitted</h3>
                                         <p className='text-lg'>Enjoy your journey with us!</p>
 
                                         <Button
@@ -439,7 +439,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 window.location.reload();
                                             }}
                                             variant='outline'>
-                                            Return To Booking
+                                            Return To Trip
                                         </Button>
                                     </div>
                                 </DialogBody>
@@ -449,7 +449,7 @@ export default function TripModificationDialog({ tripData }) {
                                 <DialogBody>
                                     <div className='grid grid-cols-1 place-items-center space-y-4'>
                                         <CircleX className='size-20 text-red-500' />
-                                        <h3 className=' text-center'>Booking modification failed</h3>
+                                        <h3 className=' text-center'>Trip modification failed</h3>
                                         {/* <p className='text-lg'>Enjoy your journey with us!</p> */}
 
                                         <Button
@@ -460,7 +460,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 window.location.reload();
                                             }}
                                             variant='outline'>
-                                            Return To Booking
+                                            Return To Trip
                                         </Button>
                                     </div>
                                 </DialogBody>

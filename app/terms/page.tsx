@@ -31,7 +31,7 @@ const Terms = () => {
                         A user’s reservation or use of a MyBundee, Inc. site is bound by the terms and conditions on the MyBundee site where the reservation is
                         finalized (and not necessarily the MyBundee site on which the rental car was originally listed). If there are any conflicts between the
                         terms and conditions of the MyBundee site you found the rental car on and the terms and conditions of the MyBundee site you finalize a
-                        booking on, the terms and conditions of the MyBundee site where the reservation is finalized will govern. If you do not fully agree to
+                        trip on, the terms and conditions of the MyBundee site where the reservation is finalized will govern. If you do not fully agree to
                         these Terms and any other terms and conditions posted or linked to any Site, you are not authorized to access or otherwise use the Site.
                         Under these Terms, “use“ or “access“ of the Site specifically includes any direct or indirect access or use of the Site or any cached
                         version of the Site and any direct or indirect access or use of any information or content on the Site, regardless of how obtained and
@@ -64,18 +64,18 @@ const Terms = () => {
                             provides an on-line marketplace to allow rental car companies who advertise on the Site (each, a “member”) to offer for rent in a
                             variety of pricing formats, a specific rental car to potential renters or renters (each, a “driver” and, collectively with a member,
                             the “users”). “Members“ may also include rental car companies or managers who originally advertised their cars on another website
-                            and their listings have been redistributed on the Site. We also may offer online booking or other tools or services to allow users
+                            and their listings have been redistributed on the Site. We also may offer online trip or other tools or services to allow users
                             to communicate with each other and enter into rental agreements or other transactions.
                             <br />
                             We are not a party to any rental or other agreement between users. This is true even if the Site allows you to book a rental or
-                            provides other ancillary products or services, as the Site may facilitate booking a rental or other tools, services or products, but
+                            provides other ancillary products or services, as the Site may facilitate trip a rental or other tools, services or products, but
                             we are not a party to any rental or other agreement between users. As a result, any part of an actual or potential transaction
                             between a driver and a member, including the quality, condition, safety or legality of the rental cars advertised, the truth or
                             accuracy of the listings (including the content thereof or any review relating to any driver or rental car), the ability of members
                             to rent a rental car or the ability of drivers to contract for rental cars are solely the responsibility of each user. You
                             acknowledge and agree that you may be required to enter into one or more separate agreements, waivers or terms and conditions before
-                            making a booking or purchasing a product or service and MyBundee or one of its affiliates may place additional restrictions on your
-                            booking, product or service.
+                            making a trip or purchasing a product or service and MyBundee or one of its affiliates may place additional restrictions on your
+                            trip, product or service.
                             <br />
                             Users agree that they are responsible for, and agree to abide by, all laws, rules and regulations applicable to their use of the
                             Site, their use of any tool, service or product offered on the Site and any transaction they enter into on the Site or in connection
@@ -138,8 +138,8 @@ const Terms = () => {
                                 license to software offered on the Site.
                             </li>
                             <li>
-                                Any use of the Site or the tools and services on the Site for the purpose of booking or soliciting a rental of a rental car
-                                other than a rental car listed under a valid subscription or pay-per-booking product.
+                                Any use of the Site or the tools and services on the Site for the purpose of trip or soliciting a rental of a rental car
+                                other than a rental car listed under a valid subscription or pay-per-trip product.
                             </li>
                             <li>Copy, reproduce, upload, post, display, republish, distribute or transmit any part of the content in any form whatsoever.</li>
                             <li>
@@ -154,7 +154,7 @@ const Terms = () => {
                             <li>Reverse engineer any part of the Site.</li>
                             <li>Sell, offer for sale, transfer or license any portion of the Site in any form to any third parties.</li>
                             <li>
-                                Use the Site and its inquiry or booking functionality other than to advertise and/or research rental cars, to make legitimate
+                                Use the Site and its inquiry or trip functionality other than to advertise and/or research rental cars, to make legitimate
                                 inquiries to our members or any other use expressly authorized on the Site.
                             </li>
                             <li>
@@ -228,7 +228,7 @@ const Terms = () => {
                             user's purported identity. We encourage you to communicate directly with a driver or member through the tools available on the Site,
                             though even this does not assure you of the identity of the person with which you are communicating. We further encourage you to
                             take other reasonable measures to assure yourself of the other person’s identity and, for drivers, of the rental car and relevant
-                            details of your booking or proposed booking.
+                            details of your trip or proposed trip.
                             <br />
                             You agree to (i) keep your password and online ID for both your account with us and your email account secure and strictly
                             confidential, providing it only to authorized users of your accounts, (ii) instruct each person to whom you give your online ID and
@@ -264,7 +264,7 @@ const Terms = () => {
                             through any Site-related communication, transaction or software, we have granted to you a license to use such information only for:
                             (i) Site-related communications that are not unsolicited commercial messages, (ii) using services offered through the Site, and
                             (iii) inquiring about or otherwise facilitating a financial transaction between you and the other user related to the purpose of the
-                            Site (such as inquiring about or booking a rental car or charging a personal credit card). Any other purpose will require express
+                            Site (such as inquiring about or trip a rental car or charging a personal credit card). Any other purpose will require express
                             permission from the user. You may not use any such information for any unlawful purpose or with any unlawful intent.
                             <br />
                             In all cases, you must give users an opportunity to remove their information from your address book or database or other records and
@@ -372,7 +372,7 @@ const Terms = () => {
                             of the Site, including such features as 24/7 user support, and is calculated as a variable percentage of the total reservation
                             amount (which may or may not include additional fees, taxes and damage deposits). Depending on the laws of the jurisdiction of the
                             driver and/or member, VAT may be charged on top of the service fee. The exact service fee (and any VAT, if applicable) charged will
-                            be displayed to drivers at the time of booking. The service fee plus applicable VAT will be charged after both the driver and member
+                            be displayed to drivers at the time of trip. The service fee plus applicable VAT will be charged after both the driver and member
                             accept the reservation. The service fee will only be refunded in the event a driver is entitled to a refund of the entire rental
                             amount under the terms of the cancellation policy presented in the listing. Any taxes alleged to be owed by any taxing authority on
                             the service fee are the responsibility of MyBundee and members have no responsibility for any such claimed tax liability. Members
@@ -380,7 +380,7 @@ const Terms = () => {
                             <br />
                             Vrbo allows drivers to display prices on the Site in the currency of their choice and may also allow drivers to pay in the currency
                             of their choice. Different currency choices are generally based on publicly available currency rates and are not guaranteed to be
-                            the best rate available. If your currency of choice is not supported for a booking, you’ll be charged in the owner’s selected
+                            the best rate available. If your currency of choice is not supported for a trip, you’ll be charged in the owner’s selected
                             currency. In any event, the currency and exact amount you will pay will be displayed clearly at check out. Our overall compensation
                             may be affected by the currency you choose to pay in. Note that if you pay in a currency different than the currency of your card,
                             your bank or card provider may charge you foreign exchange, transaction, or other fees.
@@ -675,7 +675,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>21. Additional Terms and Conditions Applicable to Online Booking.</h2>
+                        <h2 className='my-6 text-xl font-bold text-neutral-900'>21. Additional Terms and Conditions Applicable to Online Trip.</h2>
                         <p>
                             In addition to being bound by the other terms set forth herein, users and members who use MyBundee.com or any other tool provided by
                             us or a third-party provider on the Site enabling users to book and/or pay for the rental of cars online on one or more of the Sites
@@ -687,12 +687,12 @@ const Terms = () => {
                             do not agree to these or such third-party provider’s terms, you have no right to obtain information from or otherwise continue using
                             our Reservation Services. Failure to use our Reservation Services in accordance with the following terms of use may subject you to
                             severe civil and criminal penalties and other liability. By utilizing a rental agreement as part of the Reservation Services or
-                            otherwise displaying terms relating to the rental as part of the online booking process (including such terms that we may require),
+                            otherwise displaying terms relating to the rental as part of the online trip process (including such terms that we may require),
                             the driver and member each agree to the terms and conditions set forth in the rental agreement or other such terms displayed in the
-                            booking process (including without limitation the cancellation refund policy) effective as of the date that the user indicates
-                            acceptance of the booking or rental agreement, as applicable. You hereby acknowledge and agree that (i) you are fully responsible
+                            trip process (including without limitation the cancellation refund policy) effective as of the date that the user indicates
+                            acceptance of the trip or rental agreement, as applicable. You hereby acknowledge and agree that (i) you are fully responsible
                             for such terms and conditions, (ii) any rental agreement used, whether a sample provided by the Site or a rental agreement copied
-                            and pasted in ReservationManager (or other online booking tool on the Site) by either party, is used solely at their own risk and
+                            and pasted in ReservationManager (or other online trip tool on the Site) by either party, is used solely at their own risk and
                             expense, (iii) nothing contained in the Reservation Services, these Terms or any sample rental agreement is a substitute for the
                             advice of an attorney and (iv) that you have been hereby advised to obtain local legal counsel to prepare, review and revise as
                             necessary any rental agreements to ensure compliance with federal, state and local law and their particular circumstances, and to
@@ -730,7 +730,7 @@ const Terms = () => {
                             otherwise, any notices to us shall be given by postal mail to: MyBundee, Inc.,
                         </p>
                         <p>
-                            When we need to send you notice, it will be sent to the email address you provide to the Site during the registration or booking or
+                            When we need to send you notice, it will be sent to the email address you provide to the Site during the registration or trip or
                             inquiry process or as later updated in your account (if applicable). Notice shall be deemed given upon receipt or 24 hours after an
                             email is sent, unless the sending party is notified that the email address is invalid. Alternatively, we may give you notice by
                             certified mail, postage prepaid and return receipt requested, to any physical address provided to us during the registration process
@@ -755,11 +755,11 @@ const Terms = () => {
                         </p>
                         <p>
                             Subscription rates and fees (including any commissions) charged for any listing that is not subscription based (such as
-                            pay-per-booking) are set at the time of a user or member’s purchase of the subscription or renewal or sign up for the
+                            pay-per-trip) are set at the time of a user or member’s purchase of the subscription or renewal or sign up for the
                             non-subscription-based listing, as applicable. Such rates and fees are subject to change without notice or approval. For
                             subscription listings, the rates in effect at the time of the member’s next subscription renewal, new listing or a member’s upgrade
                             or any other additional or new order of any product or service will govern for such renewal or other order. The fees and commissions
-                            applicable to pay-per-booking listings offered on one or more Sites will be displayed under the “List Your Car” tab when such
+                            applicable to pay-per-trip listings offered on one or more Sites will be displayed under the “List Your Car” tab when such
                             product is generally made available on a Site or shall be otherwise set forth in a communication between us and the member. The
                             types of products and services (including the features, terms and operation thereof) offered at the time of a member’s subscription
                             or sign up for a non-subscription-based listing are subject to the descriptions displayed at the time of use and/or purchase and are
@@ -812,16 +812,16 @@ const Terms = () => {
                         <ul className='list-disc space-y-3'>
                             <li>Members must maintain an accurate reservation calendar on their listing(s).</li>
                             <li>
-                                Members must use commercially reasonable efforts to respond to all booking requests from drivers within 24 hours of receipt of a
-                                request for booking.
+                                Members must use commercially reasonable efforts to respond to all trip requests from drivers within 24 hours of receipt of a
+                                request for trip.
                             </li>
                             <li>
                                 Members must further agree to take commercially reasonable efforts to cause all driver payments to be processed within 24 hours
                                 of authorization by the driver for such payment.
                             </li>
                             <li>
-                                Members must respond to and accept a material number of inquiries and booking requests received in the interest of the driver
-                                experience. and Members are prohibited from cancelling a material number of accepted bookings
+                                Members must respond to and accept a material number of inquiries and trip requests received in the interest of the driver
+                                experience. and Members are prohibited from cancelling a material number of accepted trips
                             </li>
                         </ul>
                     </li>
@@ -850,7 +850,7 @@ const Terms = () => {
                         <p>
                             We cannot guarantee that your listing will appear in any specific order in search results on the Site. Search order will fluctuate
                             based on a variety of factors such as search parameters, subscription level purchased, listing quality, how frequently a calendar is
-                            updated, driver preferences, member response time, reservation history, online booking capability, compliance with posted listing
+                            updated, driver preferences, member response time, reservation history, online trip capability, compliance with posted listing
                             practice requirements, and other factors that we may deem important to the user experience from time to time (“Best Match”). Listing
                             appearance or order in any particular search result may also vary depending on the search criteria used by the particular driver. We
                             reserve the right to apply various search algorithms or to use methods to optimize Best Match results for particular drivers’
@@ -1006,19 +1006,19 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>35. Additional Terms Applicable to Pay-PerBooking Listings.</h2>
+                        <h2 className='my-6 text-xl font-bold text-neutral-900'>35. Additional Terms Applicable to Pay-PerTrip Listings.</h2>
                         <p>
-                            For all pay-per-booking listings, the terms and conditions in effect at the time a booking is accepted will govern and supersede any
+                            For all pay-per-trip listings, the terms and conditions in effect at the time a trip is accepted will govern and supersede any
                             prior agreement between us and you with respect to your use of the Site. <br />
                             These Terms constitute the entire agreement between us and you with respect to the matters set forth herein. <br />A description of
-                            the features and applicable fees that will apply to pay-per-booking listings will be displayed under the “List Your rental car” tab
-                            of the Site offering such product, when made generally available. Pay-per-booking listings are subject to the additional terms,
+                            the features and applicable fees that will apply to pay-per-trip listings will be displayed under the “List Your rental car” tab
+                            of the Site offering such product, when made generally available. Pay-per-trip listings are subject to the additional terms,
                             conditions and requirements set forth during the registration for such listing, including those of our third party providers. Online
-                            booking and payments is required for all pay-per-booking listings. Online payments provided by third party providers are subject to
-                            the terms and conditions and privacy policies of such providers. Pay-per-booking listings may be converted to subscription listings
-                            at any time. however any bookings already made prior to conversion shall remain subject to applicable pay-per-booking fees.
-                            Cancellation policies are required for all pay-per-booking listings, and requirements for such cancellation policies shall be
-                            displayed through the “List Your rental car” tab of the Site offering the pay-per-booking listing.
+                            trip and payments is required for all pay-per-trip listings. Online payments provided by third party providers are subject to
+                            the terms and conditions and privacy policies of such providers. Pay-per-trip listings may be converted to subscription listings
+                            at any time. however any trips already made prior to conversion shall remain subject to applicable pay-per-trip fees.
+                            Cancellation policies are required for all pay-per-trip listings, and requirements for such cancellation policies shall be
+                            displayed through the “List Your rental car” tab of the Site offering the pay-per-trip listing.
                         </p>
                     </li>
 

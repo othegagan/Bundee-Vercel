@@ -23,7 +23,7 @@ const AUTHOR_TYPE = {
 export default function Page({ params }) {
     const [token, setToken] = useState('');
     const [inputMessage, setInputMessage] = useState('');
-    const [bookingId, setBookingId] = useState(null);
+    const [tripId, setTripId] = useState(null);
 
     const chatWindowRef = useRef(null);
     const queryClient = useQueryClient();
@@ -49,38 +49,38 @@ export default function Page({ params }) {
     }, []);
 
     useEffect(() => {
-        if (params.bookingid) {
-            setBookingId(Number(params.bookingid));
+        if (params.tripId) {
+            setTripId(Number(params.tripId));
         }
-    }, [params.bookingid]);
+    }, [params.tripId]);
 
-    const { data: response } = useTripDetails(params.bookingid);
+    const { data: response } = useTripDetails(params.tripId);
     const tripData = response?.data?.activetripresponse[0];
 
     const fetchChatHistory = async () => {
-        if (bookingId && token) {
-            return await getTripChatHistory(bookingId, token);
+        if (tripId && token) {
+            return await getTripChatHistory(tripId, token);
         }
         return [];
     };
 
     const { data: messageList = [], isLoading: loadingMessages } = useQuery({
-        queryKey: ['chatHistory', bookingId, token],
+        queryKey: ['chatHistory', tripId, token],
         queryFn: fetchChatHistory,
-        enabled: !!bookingId && !!token,
+        enabled: !!tripId && !!token,
         refetchInterval: 8000,
         refetchOnWindowFocus: true,
     });
 
     const sendMessageMutation = useMutation({
         mutationFn: async () => {
-            if (bookingId && token && inputMessage) {
-                return await sendMessageToHost(bookingId, inputMessage, token);
+            if (tripId && token && inputMessage) {
+                return await sendMessageToHost(tripId, inputMessage, token);
             }
             throw new Error('Missing tripId, token, or inputMessage');
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['chatHistory', bookingId, token] });
+            await queryClient.invalidateQueries({ queryKey: ['chatHistory', tripId, token] });
             setInputMessage('');
         },
         onError: error => {

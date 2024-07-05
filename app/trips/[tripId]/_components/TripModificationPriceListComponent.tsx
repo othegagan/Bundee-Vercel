@@ -36,7 +36,7 @@ export default function TripModificationPriceListComponent({
 
     return (
         <div className='w-full space-y-2'>
-            <p className='text-14 font-semibold'>New Booking Summary</p>
+            <p className='text-14 font-semibold'>New Trip Summary</p>
             <div className='flex flex-col  justify-center gap-3 rounded-lg bg-[#FAF7F7] p-4 '>
                 <div className='flex w-full justify-between gap-2 p-4'>
                     <p className='text-14 text-center'>{splitFormattedDateAndTime(formattedStartDate)}</p>
@@ -46,7 +46,7 @@ export default function TripModificationPriceListComponent({
 
                 {priceCalculatedList?.numberOfDays > 0 && (
                     <div className='mt-6 flex items-center justify-between gap-2 px-2'>
-                        <p className='text-14'>Booking Duration</p>
+                        <p className='text-14'>Trip Duration</p>
                         <p className='text-14'>
                             {priceCalculatedList.numberOfDays} {priceCalculatedList.numberOfDays === 1 ? 'Day' : 'Days'}
                         </p>
@@ -140,7 +140,7 @@ export default function TripModificationPriceListComponent({
                     priceCalculatedList?.registrationRecoveryFee > 0) && (
                     <div className='flex items-center justify-between gap-2 px-2 '>
                         <div className='flex items-center gap-1'>
-                            <p className='text-14'>Booking Fee</p>
+                            <p className='text-14'>Trip Fee</p>
                             <span>
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -151,7 +151,7 @@ export default function TripModificationPriceListComponent({
                                     <PopoverContent className='w-64'>
                                         <div className='grid select-none gap-4'>
                                             <div className='space-y-2'>
-                                                <p className='font-medium leading-none'>Booking Fee</p>
+                                                <p className='font-medium leading-none'>Trip Fee</p>
                                             </div>
                                             <div className='space-y-1'>
                                                 {priceCalculatedList?.concessionFee > 0 && (
@@ -220,7 +220,7 @@ export default function TripModificationPriceListComponent({
                 )}
 
                 <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>
-                    <p className='text-14 font-bold'>Booking Cost Difference</p>
+                    <p className='text-14 font-bold'>Trip Cost Difference</p>
                     <p className='text-14 font-bold'>
                         {roundToTwoDecimalPlaces(Number(differenceAmount)) == 0 ? '' : isExtension ? '+' : '-'} $
                         {Math.abs(Number(roundToTwoDecimalPlaces(Number(differenceAmount))))}

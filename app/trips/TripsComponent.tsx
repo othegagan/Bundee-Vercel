@@ -15,7 +15,7 @@ export default function TripsComponent() {
     return (
         <BoxContainer className='mb-6 py-6'>
             <div className='flex flex-col gap-1 border-b pb-2 md:flex-row md:items-center md:justify-between'>
-                <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Bookings</h3>
+                <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Trips</h3>
                 <div
                     role='tablist'
                     aria-orientation='horizontal'
@@ -23,8 +23,8 @@ export default function TripsComponent() {
                     data-orientation='horizontal'
                 >
                     {[
-                        { id: 0, title: 'Current Bookings' },
-                        { id: 1, title: 'Booking History' },
+                        { id: 0, title: 'Current Trips' },
+                        { id: 1, title: 'Trips History' },
                     ].map(({ id, title }) => (
                         <button
                             key={id}
@@ -50,7 +50,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
         isLoading: loading,
         error,
     } = useQuery({
-        queryKey: ['bookings', { endpoint: tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory' }],
+        queryKey: ['trips', { endpoint: tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory' }],
         queryFn: async () => getTrips(tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory'),
         refetchOnWindowFocus: true,
     });
@@ -62,11 +62,11 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
     }
 
     if (error || !tripsResponse.success) {
-        return <ErrorComponent message='Something went wrong in getting bookings' />;
+        return <ErrorComponent message='Something went wrong in getting trips' />;
     }
 
     if (tripsResponse.data.activetripresponse.length === 0) {
-        return <ErrorComponent message='No bookings found.' />;
+        return <ErrorComponent message='No trips found.' />;
     }
 
     return (
@@ -74,7 +74,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
             {tripsResponse.data?.activetripresponse.map((trip: any) => (
                 <Link
                     key={trip.tripid}
-                    href={`/bookings/${trip.tripid}/details`}
+                    href={`/trips/${trip.tripid}/details`}
                     className='group col-span-1 flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow md:flex-row'
                 >
                     <div className='h-44 w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 md:h-48 md:w-64'>
@@ -105,7 +105,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
                                     </div>
                                 </div>
                                 <div className='flex w-full'>
-                                    <div className='w-1/3 space-y-2'>Booking Duration</div>
+                                    <div className='w-1/3 space-y-2'>Trip Duration</div>
                                     <div className='w-2/3 space-y-2 font-medium'>
                                         <>
                                             {Math.ceil(
@@ -124,7 +124,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
                         </div>
                         <div className='mt-6 flex flex-1 items-end'>
                             <dl className='flex space-x-4 text-sm'>
-                                <StatusBadge status={trip.status} type='booking' />
+                                <StatusBadge status={trip.status} type='trip' />
                                 {trip.swapDetails && trip.swapDetails.length > 0 && (
                                     <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />
                                 )}
@@ -137,9 +137,10 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
     );
 };
 
-export const StatusBadge = ({ status, type }: { type: 'booking' | 'swap'; status: string }) => {
+export const StatusBadge = ({ status, type }: { type: 'trip' | 'swap'; status: string }) => {
     const statusClasses = {
-        booking: {
+        trip: {
+            completed: 'bg-green-100 text-green-800 ',
             approved: 'bg-green-100 text-green-800 ',
             requested: 'bg-yellow-100 text-yellow-800 ',
             started: 'bg-blue-100 text-blue-800 ring-blue-600/20',
