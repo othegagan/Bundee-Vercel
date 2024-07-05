@@ -66,7 +66,7 @@ export async function getSession() {
 
 export async function destroySession() {
     // Destroy the session
-    cookies().set(cookieName, '', { expires: new Date(0), path: '/', httpOnly: true, sameSite: 'none' });
+    cookies().set(cookieName, '', { expires: new Date(0), httpOnly: true, sameSite: 'none', secure: true, path: '/' });
 }
 
 export const saveDeviceUUID = async () => {
