@@ -47,7 +47,7 @@ export async function createSession({ userData, authToken }: CreateSessionProps)
         expires,
         httpOnly: true,
         sameSite: 'none',
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         path: '/',
     });
 }
@@ -74,7 +74,7 @@ export const saveDeviceUUID = async () => {
     const uuid = uuidv4();
     cookieStore.set('deviceUUID', uuid, {
         sameSite: 'none',
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         path: '/',
     });
 };
@@ -100,7 +100,7 @@ export async function updateSession(request: NextRequest) {
         httpOnly: true,
         expires: parsed.expires,
         sameSite: 'none',
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         path: '/',
     });
     return res;
