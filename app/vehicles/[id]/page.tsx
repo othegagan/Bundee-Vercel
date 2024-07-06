@@ -1,33 +1,33 @@
-'use client';
-import usePersona, { profileVerifiedStatus } from '@/hooks/usePersona';
+"use client";
+import usePersona, { profileVerifiedStatus } from "@/hooks/usePersona";
 
-import BackButton from '@/components/BackButton';
-import BoxContainer from '@/components/BoxContainer';
-import ClientOnly from '@/components/ClientOnly';
-import ErrorComponent from '@/components/custom/ErrorComponent';
-import TimeSelect from '@/components/custom/TimeSelect';
-import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import { toast } from '@/components/ui/use-toast';
-import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
-import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
-import useWishlist from '@/hooks/useWishlist';
-import { getSession } from '@/lib/auth';
-import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
-import { calculatePrice } from '@/server/priceCalculation';
-import { addToRecentlyViewedHistory, getVehicleAllDetailsByVechicleId } from '@/server/vehicleOperations';
-import { addDays, format, isToday } from 'date-fns';
-import { useQueryState } from 'next-usequerystate';
-import { useEffect, useState } from 'react';
-import { IoIosHeartEmpty, IoMdHeart } from 'react-icons/io';
-import { IoInformationCircleOutline } from 'react-icons/io5';
-import secureLocalStorage from 'react-secure-storage';
-import DateRangeCalendar from './DateRangeCalendar';
-import DeliveryDetailsComponent from './DeliveryDetailsComponent';
-import PriceDisplayComponent from './PriceDisplayComponent';
-import VehicleDetailsComponent from './VehicleDetailsComponent';
+import BoxContainer from "@/components/BoxContainer";
+import ClientOnly from "@/components/ClientOnly";
+import BackButton from "@/components/custom/BackButton";
+import ErrorComponent from "@/components/custom/ErrorComponent";
+import TimeSelect from "@/components/custom/TimeSelect";
+import { VehiclesDetailsSkeleton, shimmer } from "@/components/skeletons/skeletons";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogBody, DialogFooter } from "@/components/ui/dialog";
+import { toast } from "@/components/ui/use-toast";
+import useLoginDialog from "@/hooks/dialogHooks/useLoginDialog";
+import useAvailabilityDates from "@/hooks/useAvailabilityDates";
+import useScrollToTopOnLoad from "@/hooks/useScrollToTopOnLoad";
+import useWishlist from "@/hooks/useWishlist";
+import { getSession } from "@/lib/auth";
+import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded } from "@/lib/utils";
+import { calculatePrice } from "@/server/priceCalculation";
+import { addToRecentlyViewedHistory, getVehicleAllDetailsByVechicleId } from "@/server/vehicleOperations";
+import { addDays, format, isToday } from "date-fns";
+import { useQueryState } from "next-usequerystate";
+import { useEffect, useState } from "react";
+import { IoIosHeartEmpty, IoMdHeart } from "react-icons/io";
+import { IoInformationCircleOutline } from "react-icons/io5";
+import secureLocalStorage from "react-secure-storage";
+import DateRangeCalendar from "./DateRangeCalendar";
+import DeliveryDetailsComponent from "./DeliveryDetailsComponent";
+import PriceDisplayComponent from "./PriceDisplayComponent";
+import VehicleDetailsComponent from "./VehicleDetailsComponent";
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginDialog();
@@ -54,19 +54,19 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
     const [userAuthenticated, setUserAuthenticated] = useState(false);
 
-    const [startDate, setStartDate] = useQueryState('startDate', {
-        defaultValue: format(getCurrentDatePlusHours(3) || new Date(), 'yyyy-MM-dd'),
-        history: 'replace',
+    const [startDate, setStartDate] = useQueryState("startDate", {
+        defaultValue: format(getCurrentDatePlusHours(3) || new Date(), "yyyy-MM-dd"),
+        history: "replace",
     });
-    const [endDate, setEndDate] = useQueryState('endDate', {
-        defaultValue: format(addDays(getCurrentDatePlusHours(3) || new Date(), 2), 'yyyy-MM-dd'),
-        history: 'replace',
+    const [endDate, setEndDate] = useQueryState("endDate", {
+        defaultValue: format(addDays(getCurrentDatePlusHours(3) || new Date(), 2), "yyyy-MM-dd"),
+        history: "replace",
     });
 
     const todayDate = new Date(`${startDate}T${getCurrentTimeRounded()}`);
 
-    const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
-    const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
+    const [startTime, setStartTime] = useQueryState("startTime", { defaultValue: getCurrentTimeRounded() || "10:00:00", history: "replace" });
+    const [endTime, setEndTime] = useQueryState("endTime", { defaultValue: getCurrentTimeRounded() || "10:00:00", history: "replace" });
 
     const [isAirportDeliveryChoosen, setIsAirportDeliveryChoosen] = useState(false);
     const [isCustoumDelivery, setIsCustoumDelivery] = useState(false);
@@ -116,7 +116,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                     throw new Error(detailsResponse.message);
                 }
             } catch (error) {
-                console.error('Error fetching data', error);
+                console.error("Error fetching data", error);
             } finally {
                 setIsLoading(false);
             }
@@ -155,7 +155,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 payload.customDelivery = true;
             }
 
-            console.log(payload, 'payload');
+            console.log(payload, "payload");
 
             const responseData: any = await calculatePrice(payload);
             // console.log(responseData);
@@ -207,7 +207,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 price: vehicleDetails.price_per_hr,
                 name: `${make} ${model} ${year}`,
                 image: image,
-                type: 'reservation',
+                type: "reservation",
                 deductionfrequencyconfigid,
                 paymentauthorizationconfigid: deductionConfigData.authorizationConfigId,
                 authorizationpercentage: priceCalculatedList.authPercentage,
@@ -225,15 +225,15 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 pickupTime: startTime,
                 dropTime: endTime,
 
-                comments: 'Request to book',
-                address1: delivery ? customDeliveryLocation : vehicleDetails?.address1 || '',
-                address2: '',
-                cityName: '',
-                country: '',
-                state: '',
+                comments: "Request to book",
+                address1: delivery ? customDeliveryLocation : vehicleDetails?.address1 || "",
+                address2: "",
+                cityName: "",
+                country: "",
+                state: "",
                 zipCode: vehicleDetails?.zipcode,
-                latitude: '',
-                longitude: '',
+                latitude: "",
+                longitude: "",
                 ...priceCalculatedList,
                 delivery: !!delivery,
                 airportDelivery: airportDelivery,
@@ -245,13 +245,13 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
             };
 
             console.log(checkoutDetails);
-            secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
+            secureLocalStorage.setItem("checkOutInfo", JSON.stringify(checkoutDetails));
 
             if (!isVerified) {
                 secureLocalStorage.setItem(
-                    'personaCallback',
+                    "personaCallback",
                     JSON.stringify({
-                        origin: 'trips',
+                        origin: "trips",
                         onSuccess: `/checkout/${vehicleId}`,
                     }),
                 );
@@ -259,14 +259,14 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 window.location.href = `/checkout/${vehicleId}`;
             }
         } catch (error) {
-            console.log('Error handling checkout:', error);
+            console.log("Error handling checkout:", error);
             // Handle error
         }
     }
 
     function extractFirstDeliveryDetails(constraintsArray: any[]) {
         try {
-            const firstDeliveryDetails = constraintsArray.find((constraint: { constraintName: string }) => constraint.constraintName === 'DeliveryDetails');
+            const firstDeliveryDetails = constraintsArray.find((constraint: { constraintName: string }) => constraint.constraintName === "DeliveryDetails");
 
             if (firstDeliveryDetails) {
                 const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
@@ -366,8 +366,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                     setError={setError}
                                     setStartDate={setStartDate}
                                     setEndDate={setEndDate}
-                                    startDate={format(new Date(`${startDate}T00:00:00`), 'yyyy-MM-dd')}
-                                    endDate={format(new Date(`${endDate}T00:00:00`), 'yyyy-MM-dd')}
+                                    startDate={format(new Date(`${startDate}T00:00:00`), "yyyy-MM-dd")}
+                                    endDate={format(new Date(`${endDate}T00:00:00`), "yyyy-MM-dd")}
                                     setSelectedDatesError={setSelectedDatesError}
                                 />
 
@@ -391,9 +391,9 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
                             {isPriceError && (
                                 <>
-                                    {priceErrorMessage === 'Error: Wrong Dates' ? (
+                                    {priceErrorMessage === "Error: Wrong Dates" ? (
                                         <p className='text-sm text-red-500'>You have chosen wrong date format</p>
-                                    ) : priceErrorMessage === 'Error: Reservation not allowed for previous dates' ? (
+                                    ) : priceErrorMessage === "Error: Reservation not allowed for previous dates" ? (
                                         <p className='text-sm text-red-500'>Trip not allowed for previous dates</p>
                                     ) : (
                                         <p className='text-sm text-red-500'>Something went wrong in calculating prices.</p>
@@ -422,9 +422,9 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                     if (isCustoumDelivery && !customDeliveryLocation) {
                                         toast({
                                             duration: 4000,
-                                            className: 'bg-red-400 text-white',
-                                            title: 'Please enter a custom delivery location.',
-                                            description: 'The custom delivery location is required for this trip.',
+                                            className: "bg-red-400 text-white",
+                                            title: "Please enter a custom delivery location.",
+                                            description: "The custom delivery location is required for this trip.",
                                         });
                                         return;
                                     }

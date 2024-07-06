@@ -1,8 +1,8 @@
-import BackButton from '@/components/BackButton';
-import ErrorComponent from '@/components/custom/ErrorComponent';
-import { getSession } from '@/lib/auth';
-import type React from 'react';
-import TabsComponent from './_components/TabsComponent';
+import BackButton from "@/components/custom/BackButton";
+import ErrorComponent from "@/components/custom/ErrorComponent";
+import { getSession } from "@/lib/auth";
+import type React from "react";
+import TabsComponent from "./_components/TabsComponent";
 
 export default async function layout({ params, children }: { params: { tripId: string }; children: React.ReactNode }) {
     const session = await getSession();
