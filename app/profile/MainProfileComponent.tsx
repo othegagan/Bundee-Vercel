@@ -3,13 +3,13 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toast } from '@/components/ui/use-toast';
+import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateInsuranceProfile, updateProfile } from '@/server/userOperations';
 import React, { useEffect, useState } from 'react';
-import AddressSearchBox from './AddressSearchBox';
 import { MdVerified } from 'react-icons/md';
-import { toast } from '@/components/ui/use-toast';
-import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
+import AddressSearchBox from './AddressSearchBox';
 
 const ProfilePage = () => {
     const phoneNumberVerification = usePhoneNumberVerificationDialog();
@@ -40,7 +40,7 @@ const ProfilePage = () => {
     const [activeSection, setActiveSection] = useState<any>(null);
     const [processing, setProcessing] = useState(false);
 
-    const handleEditClick = section => {
+    const handleEditClick = (section) => {
         setActiveSection(section);
     };
 
@@ -90,7 +90,7 @@ const ProfilePage = () => {
     };
 
     const handleInputChange = (key, value) => {
-        setSavedData(prevData => ({
+        setSavedData((prevData) => ({
             ...prevData,
             [key]: value,
         }));
@@ -221,7 +221,7 @@ const ProfilePage = () => {
                                     <Input
                                         type='text'
                                         value={savedData.firstname}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                             handleInputChange('firstname', e.target.value);
                                         }}
                                     />
@@ -232,7 +232,7 @@ const ProfilePage = () => {
                                     <Input
                                         type='text'
                                         value={savedData.lastname}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                             handleInputChange('lastname', e.target.value);
                                         }}
                                     />
@@ -331,13 +331,13 @@ const ProfilePage = () => {
 
                             <div className='flex flex-col gap-2'>
                                 <Label>Address 2</Label>
-                                <Input type='text' value={savedData.address2} onChange={e => handleInputChange('address2', e.target.value)} />
+                                <Input type='text' value={savedData.address2} onChange={(e) => handleInputChange('address2', e.target.value)} />
                             </div>
 
                             <div className='grid grid-cols-1 gap-3 md:grid-cols-3'>
                                 <div className='flex flex-col gap-2'>
                                     <Label>City</Label>
-                                    <Input type='text' value={savedData.city} onChange={e => handleInputChange('city', e.target.value)} />
+                                    <Input type='text' value={savedData.city} onChange={(e) => handleInputChange('city', e.target.value)} />
                                 </div>
                                 <div className='flex flex-col gap-2'>
                                     <Label>State</Label>
@@ -345,14 +345,14 @@ const ProfilePage = () => {
                                         id='state'
                                         name='state'
                                         value={savedData.state}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                             handleInputChange('state', e.target.value);
                                         }}
                                         className='h-9 rounded border p-1 text-sm outline-none'>
                                         <option value='' disabled>
                                             Select State
                                         </option>
-                                        {stateList.map(state => (
+                                        {stateList.map((state) => (
                                             <option key={state.name} value={state.name}>
                                                 {state.name}
                                             </option>
@@ -365,7 +365,7 @@ const ProfilePage = () => {
                                     <Input
                                         type='text'
                                         value={savedData.postcode}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                             handleInputChange('postcode', e.target.value);
                                         }}
                                     />
@@ -424,7 +424,7 @@ const ProfilePage = () => {
                                     <Input
                                         type='text'
                                         value={savedData.insuranceCompany}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                             handleInputChange('insuranceCompany', e.target.value);
                                         }}
                                     />
@@ -435,7 +435,7 @@ const ProfilePage = () => {
                                     <Input
                                         type='text'
                                         value={savedData.insuranceNumber}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                             handleInputChange('insuranceNumber', e.target.value);
                                         }}
                                     />

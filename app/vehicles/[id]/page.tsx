@@ -8,7 +8,9 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
+import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import useWishlist from '@/hooks/useWishlist';
@@ -22,12 +24,10 @@ import { useEffect, useState } from 'react';
 import { IoIosHeartEmpty, IoMdHeart } from 'react-icons/io';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import secureLocalStorage from 'react-secure-storage';
+import DateRangeCalendar from './DateRangeCalendar';
 import DeliveryDetailsComponent from './DeliveryDetailsComponent';
 import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
-import DateRangeCalendar from './DateRangeCalendar';
-import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
     const loginModal = useLoginDialog();

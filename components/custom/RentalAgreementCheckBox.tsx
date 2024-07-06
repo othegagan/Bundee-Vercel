@@ -31,7 +31,7 @@ export default function RentalAgreementCheckBox() {
     return (
         <div className='mt-5 flex w-full  flex-col flex-wrap  gap-3'>
             <div className='items-top flex space-x-2 md:ml-20'>
-                <input type='checkbox' id='terms1' className='accent-black' checked={checked} onChange={e => setChecked(e.target.checked)} />
+                <input type='checkbox' id='terms1' className='accent-black' checked={checked} onChange={(e) => setChecked(e.target.checked)} />
                 <div className='grid gap-1.5 leading-none tracking-normal'>
                     <label htmlFor='terms1' className='text-sm font-medium leading-none tracking-normal'>
                         I have read and agree to MyBundee's Rental Agreement.

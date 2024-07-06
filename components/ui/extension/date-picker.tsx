@@ -4,9 +4,9 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { DatePicker, DateRangePicker, DateRangePickerProps, DateValue, Dialog, DialogProps, Group, GroupProps, PopoverProps } from 'react-aria-components';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/extension/button';
 import { Popover } from '@/components/ui/extension/popover';
+import { cn } from '@/lib/utils';
 
 const _DatePicker = DatePicker;
 
@@ -47,7 +47,7 @@ const _DateRangePickerButton = ({ date, ...props }: _DateRangePickerButtonProps)
 );
 
 const _DatePickerContent = ({ className, popoverClassName, ...props }: DialogProps & { popoverClassName?: PopoverProps['className'] }) => (
-    <Popover className={values => cn('w-auto p-3', typeof popoverClassName === 'function' ? popoverClassName(values) : popoverClassName)}>
+    <Popover className={(values) => cn('w-auto p-3', typeof popoverClassName === 'function' ? popoverClassName(values) : popoverClassName)}>
         <Dialog className={cn('flex w-full flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0', className)} {...props} />
     </Popover>
 );

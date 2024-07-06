@@ -64,18 +64,18 @@ const Terms = () => {
                             provides an on-line marketplace to allow rental car companies who advertise on the Site (each, a “member”) to offer for rent in a
                             variety of pricing formats, a specific rental car to potential renters or renters (each, a “driver” and, collectively with a member,
                             the “users”). “Members“ may also include rental car companies or managers who originally advertised their cars on another website
-                            and their listings have been redistributed on the Site. We also may offer online trip or other tools or services to allow users
-                            to communicate with each other and enter into rental agreements or other transactions.
+                            and their listings have been redistributed on the Site. We also may offer online trip or other tools or services to allow users to
+                            communicate with each other and enter into rental agreements or other transactions.
                             <br />
                             We are not a party to any rental or other agreement between users. This is true even if the Site allows you to book a rental or
-                            provides other ancillary products or services, as the Site may facilitate trip a rental or other tools, services or products, but
-                            we are not a party to any rental or other agreement between users. As a result, any part of an actual or potential transaction
-                            between a driver and a member, including the quality, condition, safety or legality of the rental cars advertised, the truth or
-                            accuracy of the listings (including the content thereof or any review relating to any driver or rental car), the ability of members
-                            to rent a rental car or the ability of drivers to contract for rental cars are solely the responsibility of each user. You
-                            acknowledge and agree that you may be required to enter into one or more separate agreements, waivers or terms and conditions before
-                            making a trip or purchasing a product or service and MyBundee or one of its affiliates may place additional restrictions on your
-                            trip, product or service.
+                            provides other ancillary products or services, as the Site may facilitate trip a rental or other tools, services or products, but we
+                            are not a party to any rental or other agreement between users. As a result, any part of an actual or potential transaction between
+                            a driver and a member, including the quality, condition, safety or legality of the rental cars advertised, the truth or accuracy of
+                            the listings (including the content thereof or any review relating to any driver or rental car), the ability of members to rent a
+                            rental car or the ability of drivers to contract for rental cars are solely the responsibility of each user. You acknowledge and
+                            agree that you may be required to enter into one or more separate agreements, waivers or terms and conditions before making a trip
+                            or purchasing a product or service and MyBundee or one of its affiliates may place additional restrictions on your trip, product or
+                            service.
                             <br />
                             Users agree that they are responsible for, and agree to abide by, all laws, rules and regulations applicable to their use of the
                             Site, their use of any tool, service or product offered on the Site and any transaction they enter into on the Site or in connection
@@ -138,8 +138,8 @@ const Terms = () => {
                                 license to software offered on the Site.
                             </li>
                             <li>
-                                Any use of the Site or the tools and services on the Site for the purpose of trip or soliciting a rental of a rental car
-                                other than a rental car listed under a valid subscription or pay-per-trip product.
+                                Any use of the Site or the tools and services on the Site for the purpose of trip or soliciting a rental of a rental car other
+                                than a rental car listed under a valid subscription or pay-per-trip product.
                             </li>
                             <li>Copy, reproduce, upload, post, display, republish, distribute or transmit any part of the content in any form whatsoever.</li>
                             <li>
@@ -380,10 +380,10 @@ const Terms = () => {
                             <br />
                             Vrbo allows drivers to display prices on the Site in the currency of their choice and may also allow drivers to pay in the currency
                             of their choice. Different currency choices are generally based on publicly available currency rates and are not guaranteed to be
-                            the best rate available. If your currency of choice is not supported for a trip, you’ll be charged in the owner’s selected
-                            currency. In any event, the currency and exact amount you will pay will be displayed clearly at check out. Our overall compensation
-                            may be affected by the currency you choose to pay in. Note that if you pay in a currency different than the currency of your card,
-                            your bank or card provider may charge you foreign exchange, transaction, or other fees.
+                            the best rate available. If your currency of choice is not supported for a trip, you’ll be charged in the owner’s selected currency.
+                            In any event, the currency and exact amount you will pay will be displayed clearly at check out. Our overall compensation may be
+                            affected by the currency you choose to pay in. Note that if you pay in a currency different than the currency of your card, your
+                            bank or card provider may charge you foreign exchange, transaction, or other fees.
                         </p>
                     </li>
 
@@ -687,16 +687,16 @@ const Terms = () => {
                             do not agree to these or such third-party provider’s terms, you have no right to obtain information from or otherwise continue using
                             our Reservation Services. Failure to use our Reservation Services in accordance with the following terms of use may subject you to
                             severe civil and criminal penalties and other liability. By utilizing a rental agreement as part of the Reservation Services or
-                            otherwise displaying terms relating to the rental as part of the online trip process (including such terms that we may require),
-                            the driver and member each agree to the terms and conditions set forth in the rental agreement or other such terms displayed in the
-                            trip process (including without limitation the cancellation refund policy) effective as of the date that the user indicates
-                            acceptance of the trip or rental agreement, as applicable. You hereby acknowledge and agree that (i) you are fully responsible
-                            for such terms and conditions, (ii) any rental agreement used, whether a sample provided by the Site or a rental agreement copied
-                            and pasted in ReservationManager (or other online trip tool on the Site) by either party, is used solely at their own risk and
-                            expense, (iii) nothing contained in the Reservation Services, these Terms or any sample rental agreement is a substitute for the
-                            advice of an attorney and (iv) that you have been hereby advised to obtain local legal counsel to prepare, review and revise as
-                            necessary any rental agreements to ensure compliance with federal, state and local law and their particular circumstances, and to
-                            revise the rental agreement as necessary to accurately represent the rental car, rules, features, etc
+                            otherwise displaying terms relating to the rental as part of the online trip process (including such terms that we may require), the
+                            driver and member each agree to the terms and conditions set forth in the rental agreement or other such terms displayed in the trip
+                            process (including without limitation the cancellation refund policy) effective as of the date that the user indicates acceptance of
+                            the trip or rental agreement, as applicable. You hereby acknowledge and agree that (i) you are fully responsible for such terms and
+                            conditions, (ii) any rental agreement used, whether a sample provided by the Site or a rental agreement copied and pasted in
+                            ReservationManager (or other online trip tool on the Site) by either party, is used solely at their own risk and expense, (iii)
+                            nothing contained in the Reservation Services, these Terms or any sample rental agreement is a substitute for the advice of an
+                            attorney and (iv) that you have been hereby advised to obtain local legal counsel to prepare, review and revise as necessary any
+                            rental agreements to ensure compliance with federal, state and local law and their particular circumstances, and to revise the
+                            rental agreement as necessary to accurately represent the rental car, rules, features, etc
                             <br />
                             There are some members, typically rental car managers, who use software provided by our affiliate, MyBundee, Inc., or a third party.
                             Such software (“Other Reservation Services”) may be governed by terms provided by the third parties or members making such Other
@@ -759,12 +759,12 @@ const Terms = () => {
                             non-subscription-based listing, as applicable. Such rates and fees are subject to change without notice or approval. For
                             subscription listings, the rates in effect at the time of the member’s next subscription renewal, new listing or a member’s upgrade
                             or any other additional or new order of any product or service will govern for such renewal or other order. The fees and commissions
-                            applicable to pay-per-trip listings offered on one or more Sites will be displayed under the “List Your Car” tab when such
-                            product is generally made available on a Site or shall be otherwise set forth in a communication between us and the member. The
-                            types of products and services (including the features, terms and operation thereof) offered at the time of a member’s subscription
-                            or sign up for a non-subscription-based listing are subject to the descriptions displayed at the time of use and/or purchase and are
-                            subject to change without notice or approval. We further reserve the right to offer additional products, services or features for
-                            purchase at any time.
+                            applicable to pay-per-trip listings offered on one or more Sites will be displayed under the “List Your Car” tab when such product
+                            is generally made available on a Site or shall be otherwise set forth in a communication between us and the member. The types of
+                            products and services (including the features, terms and operation thereof) offered at the time of a member’s subscription or sign
+                            up for a non-subscription-based listing are subject to the descriptions displayed at the time of use and/or purchase and are subject
+                            to change without notice or approval. We further reserve the right to offer additional products, services or features for purchase
+                            at any time.
                         </p>
                         <p>
                             We do not separately file the Terms entered into by each user of the Site. Please make a copy of these Terms for your records by
@@ -1008,17 +1008,17 @@ const Terms = () => {
                     <li>
                         <h2 className='my-6 text-xl font-bold text-neutral-900'>35. Additional Terms Applicable to Pay-PerTrip Listings.</h2>
                         <p>
-                            For all pay-per-trip listings, the terms and conditions in effect at the time a trip is accepted will govern and supersede any
-                            prior agreement between us and you with respect to your use of the Site. <br />
+                            For all pay-per-trip listings, the terms and conditions in effect at the time a trip is accepted will govern and supersede any prior
+                            agreement between us and you with respect to your use of the Site. <br />
                             These Terms constitute the entire agreement between us and you with respect to the matters set forth herein. <br />A description of
-                            the features and applicable fees that will apply to pay-per-trip listings will be displayed under the “List Your rental car” tab
-                            of the Site offering such product, when made generally available. Pay-per-trip listings are subject to the additional terms,
-                            conditions and requirements set forth during the registration for such listing, including those of our third party providers. Online
-                            trip and payments is required for all pay-per-trip listings. Online payments provided by third party providers are subject to
-                            the terms and conditions and privacy policies of such providers. Pay-per-trip listings may be converted to subscription listings
-                            at any time. however any trips already made prior to conversion shall remain subject to applicable pay-per-trip fees.
-                            Cancellation policies are required for all pay-per-trip listings, and requirements for such cancellation policies shall be
-                            displayed through the “List Your rental car” tab of the Site offering the pay-per-trip listing.
+                            the features and applicable fees that will apply to pay-per-trip listings will be displayed under the “List Your rental car” tab of
+                            the Site offering such product, when made generally available. Pay-per-trip listings are subject to the additional terms, conditions
+                            and requirements set forth during the registration for such listing, including those of our third party providers. Online trip and
+                            payments is required for all pay-per-trip listings. Online payments provided by third party providers are subject to the terms and
+                            conditions and privacy policies of such providers. Pay-per-trip listings may be converted to subscription listings at any time.
+                            however any trips already made prior to conversion shall remain subject to applicable pay-per-trip fees. Cancellation policies are
+                            required for all pay-per-trip listings, and requirements for such cancellation policies shall be displayed through the “List Your
+                            rental car” tab of the Site offering the pay-per-trip listing.
                         </p>
                     </li>
 

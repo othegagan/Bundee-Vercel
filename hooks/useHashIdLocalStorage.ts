@@ -1,8 +1,8 @@
 'use client';
-import { useEffect } from 'react';
 import { setCookie } from 'cookies-next';
+import { useEffect } from 'react';
 
-const useHashIdLocalStorage = storageKey => {
+const useHashIdLocalStorage = (storageKey) => {
     useEffect(() => {
         const handleHashChange = () => {
             const hash = window.location.hash;

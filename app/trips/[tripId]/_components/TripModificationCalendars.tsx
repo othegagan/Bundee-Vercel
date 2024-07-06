@@ -36,7 +36,7 @@ export function TripModificationStartDateCalendar({
 }: TripModificationCalendarProps) {
     const [value, setValue] = useState(parseDate(date));
 
-    const handleDateChange = value => {
+    const handleDateChange = (value) => {
         setValue(value);
         const startDateFormatted = format(value.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
         setDate(startDateFormatted);
@@ -45,7 +45,7 @@ export function TripModificationStartDateCalendar({
 
     const minValue = isTripStarted ? parseDate(date) : today(getLocalTimeZone());
 
-    const isDateUnavailable = dateValue => {
+    const isDateUnavailable = (dateValue) => {
         const dateStr = format(dateValue.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
         return unavailableDates.includes(dateStr);
     };
@@ -63,15 +63,14 @@ export function TripModificationStartDateCalendar({
                     isDateUnavailable={isDateUnavailable}>
                     <CalendarHeading />
                     <CalendarGrid>
-                        <CalendarGridHeader>{day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
-                        <CalendarGridBody>{date => <CalendarCell date={date} />}</CalendarGridBody>
+                        <CalendarGridHeader>{(day) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
+                        <CalendarGridBody>{(date) => <CalendarCell date={date} />}</CalendarGridBody>
                     </CalendarGrid>
                 </Calendar>
             </DatePickerContent>
         </DatePicker>
     );
 }
-
 
 export function TripModificationEndDateCalendar({
     unavailableDates,
@@ -84,7 +83,7 @@ export function TripModificationEndDateCalendar({
 }: TripModificationCalendarProps) {
     const [value, setValue] = useState(parseDate(date));
 
-    const handleDateChange = value => {
+    const handleDateChange = (value) => {
         setValue(value);
         const startDateFormatted = format(value.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
         setDate(startDateFormatted);
@@ -93,7 +92,7 @@ export function TripModificationEndDateCalendar({
 
     const minValue = isTripStarted ? parseDate(newStartDate) : today(getLocalTimeZone());
 
-    const isDateUnavailable = dateValue => {
+    const isDateUnavailable = (dateValue) => {
         const dateStr = format(dateValue.toDate(getLocalTimeZone()), 'yyyy-MM-dd');
         return unavailableDates.includes(dateStr);
     };
@@ -111,8 +110,8 @@ export function TripModificationEndDateCalendar({
                     isDateUnavailable={isDateUnavailable}>
                     <CalendarHeading />
                     <CalendarGrid>
-                        <CalendarGridHeader>{day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
-                        <CalendarGridBody>{date => <CalendarCell date={date} />}</CalendarGridBody>
+                        <CalendarGridHeader>{(day) => <CalendarHeaderCell>{day}</CalendarHeaderCell>}</CalendarGridHeader>
+                        <CalendarGridBody>{(date) => <CalendarCell date={date} />}</CalendarGridBody>
                     </CalendarGrid>
                 </Calendar>
             </DatePickerContent>
@@ -125,7 +124,7 @@ function getFirstDateAfter(unAvailabilityDates: any[], givenDate: any) {
     const givenDateObj = new Date(givenDate);
 
     // Convert all unavailability date strings to Date objects and filter out those before the given date
-    const futureDates = unAvailabilityDates.map(dateStr => new Date(`${dateStr}T00:00:00`)).filter(dateObj => dateObj > givenDateObj);
+    const futureDates = unAvailabilityDates.map((dateStr) => new Date(`${dateStr}T00:00:00`)).filter((dateObj) => dateObj > givenDateObj);
 
     // If there are no future dates, return null
     if (futureDates.length === 0) {

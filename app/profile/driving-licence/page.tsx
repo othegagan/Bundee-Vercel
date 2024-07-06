@@ -1,7 +1,7 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
-import { getSession } from '@/lib/auth';
 import ErrorComponent from '@/components/custom/ErrorComponent';
+import { getSession } from '@/lib/auth';
+import dynamic from 'next/dynamic';
+import React from 'react';
 
 const DrivingLicenceComponent = dynamic(() => import('./DrivingLicenceComponent'), {
     ssr: false,

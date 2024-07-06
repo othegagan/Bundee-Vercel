@@ -14,7 +14,7 @@ interface CarFilterDialogStore {
     setIsLoading: (data: any) => void;
 }
 
-const useCarFilterDialog = create<CarFilterDialogStore>(set => ({
+const useCarFilterDialog = create<CarFilterDialogStore>((set) => ({
     isOpen: false,
     filteredCars: [],
     carDetails: [],

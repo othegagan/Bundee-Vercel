@@ -6,21 +6,21 @@ import { createSession, destroySession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { createNewUser } from '@/server/createNewUser';
 import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
+import { z } from 'zod';
 import { Button } from '../ui/button';
+import { Dialog, DialogBody } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { z } from 'zod';
-import { type SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import PhoneNumber from '../ui/phone-number';
-import { Dialog, DialogBody } from '../ui/dialog';
 
 export const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
 
@@ -35,11 +35,11 @@ const RegisterSchema = z
             .min(6, { message: 'Password must be at least 6 characters' })
             .regex(passwordRegex, { message: 'Password must contain at least one number and one special character' }),
         confirmPassword: z.string({ message: 'Confirm Password is required' }),
-        acceptTerms: z.boolean().refine(val => val === true, {
+        acceptTerms: z.boolean().refine((val) => val === true, {
             message: 'You must accept the terms and privacy statements',
         }),
     })
-    .refine(data => data.password === data.confirmPassword, {
+    .refine((data) => data.password === data.confirmPassword, {
         message: 'Passwords must match',
         path: ['confirmPassword'],
     });
@@ -73,7 +73,7 @@ export default function RegisterDialog() {
         mode: 'onChange',
     });
 
-    const onSubmit: SubmitHandler<FormFields> = async data => {
+    const onSubmit: SubmitHandler<FormFields> = async (data) => {
         try {
             if (!phoneNumber) {
                 setError('phoneNumber', { type: 'custom', message: 'Phone Number is required' });
@@ -351,7 +351,6 @@ export default function RegisterDialog() {
             </DialogBody>
         </Dialog>
     );
-};
-
+}
 
 const FormError = ({ message }) => <p className='text-xs font-medium text-red-400'>{message}</p>;

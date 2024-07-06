@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import { getLocalTimeZone, today } from '@internationalized/date';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
+import * as React from 'react';
 import {
     Button,
     Calendar,
@@ -80,7 +80,7 @@ const _CalendarCell = ({ className, date, ...props }: CalendarCellProps) => {
 
     return (
         <CalendarCell
-            className={values =>
+            className={(values) =>
                 cn(
                     'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm transition-colors data-[disabled]:pointer-events-none data-[hovered]:bg-accent data-[hovered]:text-accent-foreground data-[disabled]:opacity-50',
                     'h-8 w-8 p-0 font-normal outline-none transition-none data-[unavailable]:cursor-not-allowed  data-[invalid]:bg-red-500   data-[invalid]:text-red-300 data-[unavailable]:line-through data-[selected]:opacity-100  data-[unavailable]:opacity-90',

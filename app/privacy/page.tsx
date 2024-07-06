@@ -50,8 +50,8 @@ const Privacy = () => {
                     In order for our Services to work, you must authorize us to access your geolocation. If you authorize us to collect your geolocation
                     information, we will collect such geolocation information while our App is running on your device. You can disable our access to your
                     geolocation services by changing the location settings on your device. Doing so, however, will limit your ability to use certain features of
-                    our Services (e.g., you may not be able to drive an MyBundee car). Please see our Cookies and Other Tracking Mechanisms section below for more
-                    information about how we automatically collect information about your use of our Services.
+                    our Services (e.g., you may not be able to drive an MyBundee car). Please see our Cookies and Other Tracking Mechanisms section below for
+                    more information about how we automatically collect information about your use of our Services.
                 </p>
 
                 <h2 className='my-6 text-xl font-bold text-neutral-900'>Other Information We Collect Automatically Through Our Vehicles</h2>
@@ -95,10 +95,10 @@ const Privacy = () => {
 
                 <h2 className='my-6 text-xl font-bold text-neutral-900'>Protecting Rights and Interests</h2>
                 <p>
-                    To protect the safety, rights, property, or security of MyBundee, the Services, any third party, or the general public; to detect, prevent, or
-                    otherwise address fraud, security, or technical issues; to prevent or stop activity which MyBundee, in its sole discretion, may consider to
-                    be, or to pose a risk of being, an illegal, unethical, or legally actionable activity; to use as evidence in litigation; and to enforce this
-                    Privacy Policy or our Terms of Service.
+                    To protect the safety, rights, property, or security of MyBundee, the Services, any third party, or the general public; to detect, prevent,
+                    or otherwise address fraud, security, or technical issues; to prevent or stop activity which MyBundee, in its sole discretion, may consider
+                    to be, or to pose a risk of being, an illegal, unethical, or legally actionable activity; to use as evidence in litigation; and to enforce
+                    this Privacy Policy or our Terms of Service.
                 </p>
 
                 <h2 className='my-6 text-xl font-bold text-neutral-900'>Legal Compliance</h2>
@@ -145,10 +145,10 @@ const Privacy = () => {
                         <li>
                             <h5 className='font-semibold'>Protecting Rights and Interests</h5>
                             <p>
-                                We may disclose your information to protect the safety, rights, property, or security of MyBundee, the Services, any third party,
-                                or the general public; to detect, prevent, or otherwise address fraud, security, or technical issues; to prevent or stop
-                                activity which MyBundee, in its sole discretion, may consider to be, or to pose a risk of being, an illegal, unethical, or legally
-                                actionable activity; to use as evidence in litigation; and to enforce this Privacy Policy or our Terms of Service .
+                                We may disclose your information to protect the safety, rights, property, or security of MyBundee, the Services, any third
+                                party, or the general public; to detect, prevent, or otherwise address fraud, security, or technical issues; to prevent or stop
+                                activity which MyBundee, in its sole discretion, may consider to be, or to pose a risk of being, an illegal, unethical, or
+                                legally actionable activity; to use as evidence in litigation; and to enforce this Privacy Policy or our Terms of Service .
                             </p>
                         </li>
                         <li>

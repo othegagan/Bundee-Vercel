@@ -32,7 +32,7 @@ const TripVehicleDetailsComponent = ({
         // For records with the same isPrimary value, maintain their original order
         return a.orderNumber - b.orderNumber;
     });
-    
+
     return (
         <>
             {images.length > 0 ? (

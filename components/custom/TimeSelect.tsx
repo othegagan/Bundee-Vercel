@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 interface TimeSelectProps {
     onChange: any;
@@ -40,7 +40,7 @@ const TimeSelect = ({ onChange, defaultValue, label, className, disableLimitTime
                     <SelectValue placeholder='Select end time' />
                 </SelectTrigger>
                 <SelectContent className='max-h-60'>
-                    {generateTimes.map(time => (
+                    {generateTimes.map((time) => (
                         <SelectItem
                             key={time.value}
                             value={time.value}

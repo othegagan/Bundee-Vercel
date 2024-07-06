@@ -24,7 +24,7 @@ const TripImageVideoUploadComponent = ({ tripData }: any) => {
     const onDragLeave = () => wrapperRef.current.classList.remove('opacity-50');
     const onDrop = () => wrapperRef.current.classList.remove('opacity-50');
 
-    const onFileDrop = e => {
+    const onFileDrop = (e) => {
         // Prevent default behavior (Prevent file from being opened)
         e.preventDefault();
 
@@ -32,7 +32,7 @@ const TripImageVideoUploadComponent = ({ tripData }: any) => {
         if (newFiles.length > 0) {
             const allowedFiles = [];
             const exceededSizeFiles = [];
-            const existingFileNames = fileList.map(file => file.name.toLowerCase()); // Array to keep track of existing file names
+            const existingFileNames = fileList.map((file) => file.name.toLowerCase()); // Array to keep track of existing file names
 
             // Loop through newFiles using forEach
             Array.from(newFiles).forEach((file: File) => {
@@ -86,13 +86,13 @@ const TripImageVideoUploadComponent = ({ tripData }: any) => {
             }
 
             // Update the fileList state and captions if necessary
-            setFileList(prevFileList => [...prevFileList, ...allowedFiles]);
+            setFileList((prevFileList) => [...prevFileList, ...allowedFiles]);
             const newCaptions = Array(allowedFiles.length).fill('');
-            setCaptions(prevCaptions => [...prevCaptions, ...newCaptions]);
+            setCaptions((prevCaptions) => [...prevCaptions, ...newCaptions]);
         }
     };
 
-    const fileRemove = file => {
+    const fileRemove = (file) => {
         const index = fileList.indexOf(file);
         if (index !== -1) {
             const updatedList = [...fileList];
@@ -136,9 +136,9 @@ const TripImageVideoUploadComponent = ({ tripData }: any) => {
                     'Content-Type': 'multipart/form-data', // Add the desired headers here
                     bundee_auth_token: session.authToken,
                 },
-                onUploadProgress: progressEvent => {
+                onUploadProgress: (progressEvent) => {
                     const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-                    setUploadProgress(prevProgress => {
+                    setUploadProgress((prevProgress) => {
                         const updatedProgress = [...prevProgress];
                         updatedProgress[index] = progress;
                         return updatedProgress;
@@ -261,7 +261,7 @@ const TripImageVideoUploadComponent = ({ tripData }: any) => {
                                                             aria-haspopup='listbox'
                                                             type='text'
                                                             value={captions[index]}
-                                                            onChange={e => handleCaptionChange(index, e.target.value)}
+                                                            onChange={(e) => handleCaptionChange(index, e.target.value)}
                                                         />
                                                         <div className='flex gap-3 text-neutral-500'>
                                                             <p className='text-xs '>

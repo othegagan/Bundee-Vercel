@@ -4,14 +4,14 @@ import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumber
 import { getSession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { getUserByEmail, getUserByPhoneNumber, updateProfile } from '@/server/userOperations';
-import { getAuth, linkWithCredential, PhoneAuthProvider, RecaptchaVerifier, unlink, updatePhoneNumber } from 'firebase/auth';
+import { PhoneAuthProvider, RecaptchaVerifier, getAuth, linkWithCredential, unlink, updatePhoneNumber } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
+import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
 import PhoneNumber from '../ui/phone-number';
 import { toast } from '../ui/use-toast';
-import { Dialog, DialogBody } from '../ui/dialog';
 
 export default function PhoneNumberVerificationDialog() {
     // console.log(auth.currentUser);
@@ -66,7 +66,7 @@ export default function PhoneNumberVerificationDialog() {
 
             // Check if the phone provider is already linked
             const phoneProviderId = PhoneAuthProvider.PROVIDER_ID;
-            const isPhoneLinked = currentUser.providerData.some(provider => provider.providerId === phoneProviderId);
+            const isPhoneLinked = currentUser.providerData.some((provider) => provider.providerId === phoneProviderId);
 
             if (!isPhoneLinked) {
                 // Link the phone number to the current user
@@ -180,7 +180,7 @@ export default function PhoneNumberVerificationDialog() {
                                 numInputs={6}
                                 inputType='number'
                                 value={verificationCode}
-                                onChange={value => setVerificationCode(value)}
+                                onChange={(value) => setVerificationCode(value)}
                                 className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '
                             />
 
@@ -204,17 +204,16 @@ export default function PhoneNumberVerificationDialog() {
             </DialogBody>
         </Dialog>
     );
-};
-
+}
 
 function UnlinkPhoneNumberButton() {
     const unLinkPhonenumber = () => {
         const auth = getAuth();
         unlink(auth.currentUser, 'phone')
-            .then(res => {
+            .then((res) => {
                 console.log(res);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error);
             });
     };

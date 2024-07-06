@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { Slot } from '@radix-ui/react-slot';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { ImSpinner2 } from 'react-icons/im';
 import { cn } from '@/lib/utils';
+import { Slot } from '@radix-ui/react-slot';
+import { type VariantProps, cva } from 'class-variance-authority';
+import * as React from 'react';
+import { ImSpinner2 } from 'react-icons/im';
 
 const buttonVariants = cva(
     'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 select-none transition active:scale-[.95]',
@@ -18,7 +18,7 @@ const buttonVariants = cva(
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
                 success: 'bg-green-500 text-white  disabled:pointer-events-none disabled:opacity-90 hover:bg-green-500/80',
-                yellow :'bg-yellow-400 text-black shadow-sm hover:bg-yellow-500',
+                yellow: 'bg-yellow-400 text-black shadow-sm hover:bg-yellow-500',
             },
             size: {
                 default: 'h-9 px-4 py-2',

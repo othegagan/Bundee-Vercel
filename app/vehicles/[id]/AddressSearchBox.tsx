@@ -1,8 +1,8 @@
-import { Skeleton } from '@/components/ui/skeleton';
-import React, { useEffect, useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { useMapboxData } from '@/hooks/useMapboxData';
 import { debounce } from '@/components/search_box/LocationSearchBox';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useMapboxData } from '@/hooks/useMapboxData';
+import React, { useEffect, useState } from 'react';
 
 const DEBOUNCE_TIME = 300;
 
@@ -30,7 +30,7 @@ const AddressSearchBox = ({ setCustomDeliveryLocation }: any) => {
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder='Enter Delivery Location'
-                onClick={e => {
+                onClick={(e) => {
                     const inputElement = e.target as HTMLInputElement;
                     inputElement.select();
                     setShow(true);

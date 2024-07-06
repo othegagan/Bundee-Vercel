@@ -1,17 +1,17 @@
 'use client';
 
-import { Label } from '../ui/label';
-import { Input } from '../ui/input';
-import { z } from 'zod';
-import { type SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { auth } from '@/lib/firebase';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { Button } from '../ui/button';
-import { useState } from 'react';
-import { Dialog } from '../ui/dialog';
 import useForgotPasswordDialog from '@/hooks/dialogHooks/useForgotPasswordDialog';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
+import { auth } from '@/lib/firebase';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { useState } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '../ui/button';
+import { Dialog } from '../ui/dialog';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 const schema = z.object({
     email: z.string({ message: 'Email is required' }).email({ message: 'Invalid email address' }).optional(),
@@ -38,7 +38,7 @@ export default function ForgotPasswordDialog() {
         mode: 'onSubmit',
     });
 
-    const onSubmit: SubmitHandler<FormFields | any> = async data => {
+    const onSubmit: SubmitHandler<FormFields | any> = async (data) => {
         try {
             const email = data.email as string;
             setErrorMessage('');

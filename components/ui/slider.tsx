@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
 

@@ -1,7 +1,7 @@
 'use server';
 
 import { getSession } from '@/lib/auth';
-import { handleResponse, http } from '@/lib/httpService';
+import { http, handleResponse } from '@/lib/httpService';
 
 export async function createPaymentIntentWithAmount(amount: number, intent: string) {
     try {
@@ -9,7 +9,7 @@ export async function createPaymentIntentWithAmount(amount: number, intent: stri
         const session = await getSession();
 
         let customerToken = '';
-        let customers = await stripe.customers.list({
+        const customers = await stripe.customers.list({
             email: session.email,
         });
 
@@ -53,7 +53,7 @@ export async function createSetUpIntent() {
         const session = await getSession();
 
         let customerId = '';
-        let customers = await stripe.customers.list({
+        const customers = await stripe.customers.list({
             email: session.email,
         });
 

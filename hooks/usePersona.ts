@@ -1,11 +1,11 @@
 'use client';
-import { useState, useRef } from 'react';
 import * as PersonaVerification from 'persona';
+import { useRef, useState } from 'react';
 
-import { getSession } from '@/lib/auth';
-import { getUserByEmail } from '@/server/userOperations';
-import { getVerifiedDetailsFromPersona, updatePersonaProfile } from '@/server/personaOperations';
 import { toast } from '@/components/ui/use-toast';
+import { getSession } from '@/lib/auth';
+import { getVerifiedDetailsFromPersona, updatePersonaProfile } from '@/server/personaOperations';
+import { getUserByEmail } from '@/server/userOperations';
 
 const usePersona = () => {
     const isDevelopmentOrTest = process.env.NEXT_PUBLIC_APP_ENV === 'development' || process.env.NEXT_PUBLIC_APP_ENV === 'test';
@@ -19,7 +19,7 @@ const usePersona = () => {
     const [personaUpdated, setPersonaUpdated] = useState(false);
     const embeddedClientRef = useRef(null);
 
-    const createClient = setShowPersona => {
+    const createClient = (setShowPersona) => {
         setPersonaClientLoading(true);
         const environment = isDevelopmentOrTest ? 'sandbox' : 'production';
 
@@ -36,7 +36,7 @@ const usePersona = () => {
                 setPersonaClientLoading(false);
                 setShowPersona(false);
             },
-            onStart: inquiryId => {
+            onStart: (inquiryId) => {
                 console.log(`Started inquiry ${inquiryId}`);
             },
             onComplete: async ({ inquiryId, status }) => {

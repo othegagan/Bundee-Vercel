@@ -6,7 +6,7 @@ interface RegisterDialogStore {
     onClose: () => void;
 }
 
-const useRegisterDialog = create<RegisterDialogStore>(set => ({
+const useRegisterDialog = create<RegisterDialogStore>((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),
     onClose: () => set({ isOpen: false }),

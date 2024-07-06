@@ -1,10 +1,10 @@
 'use client';
-import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { deleteAccount } from '@/server/userOperations';
+import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 import { destroySession } from '@/lib/auth';
-import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
+import { deleteAccount } from '@/server/userOperations';
+import React, { useState } from 'react';
 
 const DeleteAccountComponent = () => {
     const [open, setOpen] = useState(false);

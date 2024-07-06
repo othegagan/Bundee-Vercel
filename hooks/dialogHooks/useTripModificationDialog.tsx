@@ -6,7 +6,7 @@ interface TripModificationDialogStore {
     onClose: () => void;
 }
 
-const useTripModificationDialog = create<TripModificationDialogStore>(set => ({
+const useTripModificationDialog = create<TripModificationDialogStore>((set) => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });

@@ -76,7 +76,7 @@ export default function SearchCalendar({ setStartDate, setEndDate, startDate, en
                         className={'w-fit select-none'}
                         aria-label='Date range (uncontrolled)'
                         value={dates}
-                        onChange={value => onDateSelect(value)}
+                        onChange={(value) => onDateSelect(value)}
                         visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
                         pageBehavior='visible'
                         minValue={minValueDate}>

@@ -1,23 +1,23 @@
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import './globals.css';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import Footer from '@/components/Footer';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import dynamic from 'next/dynamic';
 
-import { Toaster } from '@/components/ui/toaster';
-import Navbar from '@/components/navigation/Navbar';
-import LoginDialog from '@/components/dialogs/LoginDialog';
 import ClientOnly from '@/components/ClientOnly';
-import RegisterModal from '@/components/dialogs/RegisterDialog';
-import PhoneNumberVerificationDialog from '@/components/dialogs/PhoneNumberVerificationDialog';
 import { HideComponentInFrame, HideInIFrame } from '@/components/HideInIFrame';
-import PhoneNumberSignInDialog from '@/components/dialogs/PhoneNumberSignInDialog';
-import TripReviewDialog from '@/components/dialogs/TripReviewDialog';
-import CarFilters from './vehicles/CarFilters';
-import PushNotifications from '@/components/landing_page/PushNotifications';
 import ForgotPasswordDialg from '@/components/dialogs/ForgotPasswordDialog';
+import LoginDialog from '@/components/dialogs/LoginDialog';
+import PhoneNumberSignInDialog from '@/components/dialogs/PhoneNumberSignInDialog';
+import PhoneNumberVerificationDialog from '@/components/dialogs/PhoneNumberVerificationDialog';
+import RegisterModal from '@/components/dialogs/RegisterDialog';
+import TripReviewDialog from '@/components/dialogs/TripReviewDialog';
+import PushNotifications from '@/components/landing_page/PushNotifications';
+import Navbar from '@/components/navigation/Navbar';
+import { Toaster } from '@/components/ui/toaster';
 import Providers from '@/lib/providers';
+import CarFilters from './vehicles/CarFilters';
 
 const DocumentModal = dynamic(() => import('@/components/dialogs/DocumentDialog'), { ssr: false });
 

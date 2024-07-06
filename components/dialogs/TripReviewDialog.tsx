@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import Rating from '@/components/ui/rating';
 import useTripReviewDialog from '@/hooks/dialogHooks/useTripReviewDialog';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
-import { Button } from '../ui/button';
 import { addTripReview } from '@/server/tripOperations';
-import { toast } from '../ui/use-toast';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
+import { Label } from '../ui/label';
+import { Textarea } from '../ui/textarea';
+import { toast } from '../ui/use-toast';
 
 export default function TripReviewDialog() {
     const [rating, setRating] = useState(0);
@@ -66,7 +66,7 @@ export default function TripReviewDialog() {
                         <Textarea
                             placeholder='Leave your comments here...'
                             value={comments}
-                            onChange={e => {
+                            onChange={(e) => {
                                 setComments(e.target.value);
                             }}
                         />

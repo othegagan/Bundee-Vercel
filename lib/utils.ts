@@ -1,10 +1,10 @@
 import { parseZonedDateTime } from '@internationalized/date';
 import { type ClassValue, clsx } from 'clsx';
 import { addMinutes, format, parse, parseISO, startOfHour } from 'date-fns';
-import { twMerge } from 'tailwind-merge';
-import zipToTimeZone from 'zipcode-to-timezone';
 import moment from 'moment-timezone';
+import { twMerge } from 'tailwind-merge';
 import tzlookup from 'tz-lookup';
+import zipToTimeZone from 'zipcode-to-timezone';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -15,7 +15,7 @@ export function JSONparsefy(obj: any) {
 }
 
 export function toTitleCase(str: string) {
-    return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }
 
 export function roundToTwoDecimalPlaces(num: number) {
@@ -112,7 +112,7 @@ export function convertToCarDate(dateString: string, zipCode: string) {
 }
 
 export function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function getFullAddress(vehicleDetails: any): string {

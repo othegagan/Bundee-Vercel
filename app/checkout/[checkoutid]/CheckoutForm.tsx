@@ -23,7 +23,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
     const stripe = useStripe();
     const elements = useElements();
 
-    const handleSubmit: React.FormEventHandler<HTMLFormElement> = async e => {
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
         try {
             e.preventDefault();
             // Abort if form isn't valid

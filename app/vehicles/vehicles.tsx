@@ -13,10 +13,10 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import useCarFilterDialog from '@/hooks/dialogHooks/useCarFilterDialog';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
+import { Car, Map as MapIcon } from 'lucide-react';
 import { IoAirplaneSharp } from 'react-icons/io5';
 import { MdOutlineDiscount } from 'react-icons/md';
 import { VscSettings } from 'react-icons/vsc';
-import { Car, Map as MapIcon } from 'lucide-react';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();

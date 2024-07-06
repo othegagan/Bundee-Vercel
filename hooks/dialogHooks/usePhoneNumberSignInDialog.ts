@@ -6,7 +6,7 @@ interface PhoneNumberSignInStore {
     onClose: () => void;
 }
 
-const usePhoneNumberSignInDialog = create<PhoneNumberSignInStore>(set => ({
+const usePhoneNumberSignInDialog = create<PhoneNumberSignInStore>((set) => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });

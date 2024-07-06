@@ -35,7 +35,7 @@ export default function LoginDialog() {
         registerDialog.onOpen();
     }, [loginDialog, registerDialog]);
 
-    const handleLogin = async event => {
+    const handleLogin = async (event) => {
         event.preventDefault();
         setAuthError('');
 
@@ -74,7 +74,7 @@ export default function LoginDialog() {
         }
     };
 
-    const handleAuthError = error => {
+    const handleAuthError = (error) => {
         const errorMap = getFirebaseErrorMessage(error.code);
         setAuthError(errorMap);
         setPassword('');
@@ -83,7 +83,7 @@ export default function LoginDialog() {
     const googleSignIn = () => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
-            .then(async result => {
+            .then(async (result) => {
                 // Handle successful sign-in
                 // console.log(result.user);
 
@@ -124,7 +124,7 @@ export default function LoginDialog() {
                     }
                 }
             })
-            .catch(async error => {
+            .catch(async (error) => {
                 // Handle sign-in error
                 handleAuthError(error);
                 console.log(error.message);
@@ -172,7 +172,7 @@ export default function LoginDialog() {
                         <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Log In with MyBundee account</span>
                     </div>
                     <form
-                        onSubmit={event => {
+                        onSubmit={(event) => {
                             event.preventDefault(); // Prevents the default form submission behavior
                             handleLogin(event);
                         }}>
@@ -187,7 +187,7 @@ export default function LoginDialog() {
                                 autoComplete='email'
                                 required
                                 value={userEmail}
-                                onChange={e => setUserEmail(e.target.value)}
+                                onChange={(e) => setUserEmail(e.target.value)}
                             />
                         </div>
                         <label htmlFor='password' className='mt-4 block text-sm font-medium text-gray-700'>
@@ -210,7 +210,7 @@ export default function LoginDialog() {
                                     autoComplete='current-password'
                                     required
                                     value={password}
-                                    onChange={e => setPassword(e.target.value)}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                         </div>

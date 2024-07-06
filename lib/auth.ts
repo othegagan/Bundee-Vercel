@@ -1,10 +1,10 @@
 'use server';
 
-import { v4 as uuidv4 } from 'uuid';
-import { defaultSession, type SessionData } from '@/types';
-import { jwtVerify, SignJWT } from 'jose';
+import { type SessionData, defaultSession } from '@/types';
+import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
+import { v4 as uuidv4 } from 'uuid';
 import { JSONparsefy } from './utils';
 
 const secretKey = process.env.SECRET_KEY;
@@ -65,7 +65,7 @@ export async function getSession() {
 }
 
 export async function destroySession() {
-    // Destroy the session  
+    // Destroy the session
     cookies().set(cookieName, '', { expires: new Date(0), httpOnly: true, sameSite: 'none', secure: true, path: '/' });
 }
 

@@ -1,7 +1,7 @@
 'use client';
 
+import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { Button as _Button, type ButtonProps as _ButtonProps } from 'react-aria-components';
 
 import { cn } from '@/lib/utils';
@@ -37,7 +37,7 @@ export interface ButtonProps extends _ButtonProps, VariantProps<typeof buttonVar
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, ...props }, ref) => {
     return (
         <_Button
-            className={values =>
+            className={(values) =>
                 cn(
                     buttonVariants({
                         variant,

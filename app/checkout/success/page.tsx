@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function CheckoutSuccess() {
     const router = useRouter();
@@ -9,7 +9,7 @@ export default function CheckoutSuccess() {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCountdown(prevCountdown => prevCountdown - 1);
+            setCountdown((prevCountdown) => prevCountdown - 1);
         }, 1000);
 
         return () => clearInterval(timer);

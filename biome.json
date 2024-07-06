@@ -43,6 +43,7 @@
             "arrowParentheses": "always",
             "bracketSameLine": true,
             "bracketSpacing": true,
+            "quoteStyle": "single",
             "jsxQuoteStyle": "single",
             "quoteProperties": "asNeeded",
             "semicolons": "always",

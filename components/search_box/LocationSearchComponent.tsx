@@ -2,15 +2,15 @@
 
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
 import { addDays, differenceInMinutes, format, isToday } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import TimeSelect from '../custom/TimeSelect';
+import { Dialog, DialogBody } from '../ui/dialog';
 import LocationSearchBox from './LocationSearchBox';
 import SearchCalendar from './SearchCalendar';
-import { getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
-import { Dialog, DialogBody } from '../ui/dialog';
 
 const LocationSearchComponent = ({ searchCity }: any) => {
     const pathname = usePathname();

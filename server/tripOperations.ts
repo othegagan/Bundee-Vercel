@@ -1,7 +1,7 @@
 'use server';
 
 import { getSession } from '@/lib/auth';
-import { handleResponse, http } from '@/lib/httpService';
+import { http, handleResponse } from '@/lib/httpService';
 
 export async function getTrips(fromValue: string) {
     try {
@@ -99,11 +99,13 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
 
         const data = await response.json();
 
-        const messageData = data.messages.map(item => ({
-            author: item.author,
-            message: item.body,
-            deliveryDate: item.dateUpdated, // Adjust as needed
-        })).reverse();
+        const messageData = data.messages
+            .map((item) => ({
+                author: item.author,
+                message: item.body,
+                deliveryDate: item.dateUpdated, // Adjust as needed
+            }))
+            .reverse();
 
         return messageData;
     } catch (error: any) {

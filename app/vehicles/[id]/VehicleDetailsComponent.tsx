@@ -1,12 +1,12 @@
-import React from 'react';
-import { format } from 'date-fns';
-import { StarFilledIcon } from '@radix-ui/react-icons';
-import { toTitleCase } from '@/lib/utils';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import Readmore from '@/components/ui/readmore';
+import { toTitleCase } from '@/lib/utils';
+import { StarFilledIcon } from '@radix-ui/react-icons';
+import { format } from 'date-fns';
+import React from 'react';
 
 const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDetails, vehicleBusinessConstraints, wishlistButton }) => {
-    const mileageConstraints = vehicleBusinessConstraints.filter(constraint => constraint.constraintName === 'MileageConstraint');
+    const mileageConstraints = vehicleBusinessConstraints.filter((constraint) => constraint.constraintName === 'MileageConstraint');
 
     return (
         <div>
@@ -74,7 +74,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         {/* Mileage constraints*/}
                         {mileageConstraints.length > 0 && (
                             <div className='space-y-3'>
-                                {mileageConstraints.some(mileageConstraint => {
+                                {mileageConstraints.some((mileageConstraint) => {
                                     const mileageConstraintData = JSON.parse(mileageConstraint.constraintValue);
                                     return mileageConstraintData.extraMileageCost > 0;
                                 }) && (

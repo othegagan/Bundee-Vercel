@@ -6,7 +6,7 @@ interface PhoneNumberVerificationDialogStore {
     onClose: () => void;
 }
 
-const usePhoneNumberVerificationDialog = create<PhoneNumberVerificationDialogStore>(set => ({
+const usePhoneNumberVerificationDialog = create<PhoneNumberVerificationDialogStore>((set) => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });

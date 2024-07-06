@@ -1,9 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { getMessaging, getToken } from 'firebase/messaging';
-import app, { vapidKey } from '@/lib/firebase';
 import { getDeviceUUID, getSession, saveDeviceUUID } from '@/lib/auth';
+import app, { vapidKey } from '@/lib/firebase';
 import { updatePushNotificationToken } from '@/server/notifications';
+import { getMessaging, getToken } from 'firebase/messaging';
+import { useEffect, useState } from 'react';
 
 const useFcmToken = () => {
     const [token, setToken] = useState('');

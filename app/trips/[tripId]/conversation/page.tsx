@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { ChatSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import { Input } from '@/components/ui/input';
@@ -9,10 +9,10 @@ import { useTripDetails } from '@/hooks/useTripDetails';
 import { auth } from '@/lib/firebase';
 import { formatDateAndTime } from '@/lib/utils';
 import { getTripChatHistory, sendMessageToHost } from '@/server/tripOperations';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { Send } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { ChatSkeleton } from '@/components/skeletons/skeletons';
 
 const AUTHOR_TYPE = {
     SYSTEM: 'system',
@@ -83,7 +83,7 @@ export default function Page({ params }) {
             await queryClient.invalidateQueries({ queryKey: ['chatHistory', tripId, token] });
             setInputMessage('');
         },
-        onError: error => {
+        onError: (error) => {
             console.error('Error sending message:', error);
             toast({
                 duration: 3000,
@@ -93,7 +93,7 @@ export default function Page({ params }) {
         },
     });
 
-    const handleSendMessage = event => {
+    const handleSendMessage = (event) => {
         event.preventDefault();
         sendMessageMutation.mutate();
     };
@@ -125,7 +125,7 @@ export default function Page({ params }) {
                         placeholder='Type your message...'
                         autoComplete='off'
                         value={inputMessage}
-                        onChange={e => setInputMessage(e.target.value)}
+                        onChange={(e) => setInputMessage(e.target.value)}
                     />
                     <Button
                         variant='black'

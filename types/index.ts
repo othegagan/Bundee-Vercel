@@ -1,4 +1,3 @@
-
 export interface SessionData {
     userId: number | null;
     email: string;
@@ -16,7 +15,6 @@ export const defaultSession: SessionData = {
     isPersonaVerified: false,
     authToken: '',
 };
-
 
 export interface Vehicle {
     vehicleId: string;

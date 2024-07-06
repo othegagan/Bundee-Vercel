@@ -6,7 +6,7 @@ interface ForgotPasswordDialogStore {
     onClose: () => void;
 }
 
-const useForgotPasswordDialog = create<ForgotPasswordDialogStore>(set => ({
+const useForgotPasswordDialog = create<ForgotPasswordDialogStore>((set) => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });

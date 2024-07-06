@@ -72,7 +72,7 @@ export default function RecentlyViewedVehicles() {
 
                 <div className='w-full'>
                     <div className='mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
-                        {recentlyViewedData.map(car => (
+                        {recentlyViewedData.map((car) => (
                             <Link className='rounded-md bg-white shadow ' key={car.id} href={`/vehicles/${car.vehicleid}`}>
                                 <div className='group relative cursor-pointer' key={car.id}>
                                     <div className='aspect-video w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 lg:aspect-video lg:h-44'>

@@ -5,11 +5,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import useTabFocusEffect from '@/hooks/useTabFocusEffect';
 import { getAllNotifications, updateUserNotifications } from '@/server/notifications';
 import { BellIcon } from '@heroicons/react/24/outline';
-import { useEffect, useState } from 'react';
-import { Button } from '../ui/button';
-import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import PushNotifications from '../landing_page/PushNotifications';
+import { Button } from '../ui/button';
 
 export default function NotificationsComponent() {
     const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ export default function NotificationsComponent() {
                 const responseData = response.data.inAppNotifications || [];
                 setNotificationsData(responseData);
 
-                const unReadMessages = responseData.filter(item => item.viewed === false);
+                const unReadMessages = responseData.filter((item) => item.viewed === false);
                 setNotReadMessages(unReadMessages);
             }
         } catch (error) {
@@ -40,7 +40,7 @@ export default function NotificationsComponent() {
     };
 
     const markAsRead = async () => {
-        const unReadMessagesIds = String(notReadMessages.map(item => item.id).join(','));
+        const unReadMessagesIds = String(notReadMessages.map((item) => item.id).join(','));
         setError(null);
 
         try {
@@ -100,7 +100,7 @@ export default function NotificationsComponent() {
                             </div>
                         ) : (
                             <ScrollArea className='border-1 flex max-h-60 w-[300px] select-none flex-col rounded-lg p-1'>
-                                {notificationsData.map(message => (
+                                {notificationsData.map((message) => (
                                     <NotificationItem key={message.id} data={message} />
                                 ))}
                             </ScrollArea>

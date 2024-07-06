@@ -21,7 +21,7 @@ const DeliveryDetailsComponent = ({
     const deliveryDetails = extractFirstDeliveryDetails(vehicleBusinessConstraints);
 
     function extractFirstDeliveryDetails(constraintsArray) {
-        const firstDeliveryDetails = constraintsArray.find(constraint => constraint.constraintName === 'DeliveryDetails');
+        const firstDeliveryDetails = constraintsArray.find((constraint) => constraint.constraintName === 'DeliveryDetails');
         if (firstDeliveryDetails) {
             const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
 

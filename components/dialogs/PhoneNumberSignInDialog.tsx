@@ -12,11 +12,11 @@ import { useEffect, useState } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
 import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
+import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
 import PhoneNumber from '../ui/phone-number';
 import { toast } from '../ui/use-toast';
-import { Dialog, DialogBody } from '../ui/dialog';
 
 export default function PhoneNumberSignInDialog() {
     const router = useRouter();
@@ -189,5 +189,4 @@ export default function PhoneNumberSignInDialog() {
             </DialogBody>
         </Dialog>
     );
-};
-
+}

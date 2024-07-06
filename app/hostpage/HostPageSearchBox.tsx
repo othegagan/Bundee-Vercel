@@ -1,15 +1,15 @@
 'use client';
 
+import TimeSelect from '@/components/custom/TimeSelect';
 import LocationSearchBox from '@/components/search_box/LocationSearchBox';
+import SearchCalendar from '@/components/search_box/SearchCalendar';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
+import { getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
 import { addDays, differenceInMinutes, format, isToday } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import TimeSelect from '@/components/custom/TimeSelect';
-import SearchCalendar from '@/components/search_box/SearchCalendar';
-import { getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
 
 export default function HostPageSearchBox() {
     const router = useRouter();

@@ -8,7 +8,7 @@ interface TripReviewDialogStore {
     setTripData: (data: any) => void;
 }
 
-const useTripReviewDialog = create<TripReviewDialogStore>(set => ({
+const useTripReviewDialog = create<TripReviewDialogStore>((set) => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });

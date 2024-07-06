@@ -1,6 +1,6 @@
+import type { EmblaCarouselType } from 'embla-carousel';
 import type React from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import type { EmblaCarouselType } from 'embla-carousel';
 
 type UseSelectedSnapDisplayType = {
     selectedSnap: number;
@@ -35,7 +35,7 @@ type PropType = {
     snapCount: number;
 };
 
-export const SelectedSnapDisplay: React.FC<PropType> = props => {
+export const SelectedSnapDisplay: React.FC<PropType> = (props) => {
     const { selectedSnap, snapCount } = props;
 
     return (

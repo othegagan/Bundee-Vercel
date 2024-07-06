@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { getAllUserWishlistedVehicles, wishlistHandler } from '@/server/userOperations';
-import useTabFocusEffect from './useTabFocusEffect';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import useTabFocusEffect from './useTabFocusEffect';
 
 const useWishlist = (id?: string) => {
     const [isItemWishlisted, setIsItemWishlisted] = useState(false);
@@ -64,7 +64,7 @@ const useWishlist = (id?: string) => {
             const response = await getAllUserWishlistedVehicles();
 
             if (response.success && response.data.customervehicleresponse) {
-                const VehicleIsInWishlist = response.data.customervehicleresponse.find((vehicle: { id: string; }) => vehicle.id == id);
+                const VehicleIsInWishlist = response.data.customervehicleresponse.find((vehicle: { id: string }) => vehicle.id == id);
                 setIsItemWishlisted(VehicleIsInWishlist);
             } else {
                 throw new Error(response.message);
@@ -89,7 +89,6 @@ const useWishlist = (id?: string) => {
         refetchOnWindowFocus: true,
         staleTime: 1000,
     });
-
 
     return {
         isItemWishlisted,

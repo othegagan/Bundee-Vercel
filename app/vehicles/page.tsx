@@ -1,6 +1,6 @@
 import BoxContainer from '@/components/BoxContainer';
-import Vehicles from './vehicles';
 import LocationSearchComponent from '@/components/search_box/LocationSearchComponent';
+import Vehicles from './vehicles';
 
 const Page = ({ searchParams }: any) => {
     return (

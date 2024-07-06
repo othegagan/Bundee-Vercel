@@ -4,8 +4,8 @@ import TimeSelect from '@/components/custom/TimeSelect';
 import { PriceCalculatedListSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import useTripModificationDialog from '@/hooks/dialogHooks/useTripModificationDialog';
+import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { getSession } from '@/lib/auth';
 import { convertToCarDate, convertToCarTimeZoneISO, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
@@ -81,7 +81,7 @@ const useTripModification = () => {
             'upcharges',
         ];
 
-        fieldsToRemove.forEach(field => delete tripDetails[field]);
+        fieldsToRemove.forEach((field) => delete tripDetails[field]);
 
         return tripDetails;
     };
@@ -201,9 +201,9 @@ export default function TripModificationDialog({ tripData }) {
             }
 
             // Check for any unavailable dates within the new date range
-            const unAvailabilityDates = unformattedDates.map(date => parseISO(date));
+            const unAvailabilityDates = unformattedDates.map((date) => parseISO(date));
 
-            const hasUnavailableDate = unAvailabilityDates.some(date => isWithinInterval(date, { start: parsedNewStartDate, end: parsedNewEndDate }));
+            const hasUnavailableDate = unAvailabilityDates.some((date) => isWithinInterval(date, { start: parsedNewStartDate, end: parsedNewEndDate }));
 
             if (hasUnavailableDate) {
                 throw new Error('Some dates are unavailable. Please adjust your selection.');
@@ -340,7 +340,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 label='New Start Time'
                                                 isDisabled={tripData.status.toLowerCase() === 'started'}
                                                 defaultValue={formatTime(tripData.starttime, tripData?.vehzipcode)}
-                                                onChange={time => {
+                                                onChange={(time) => {
                                                     setNewStartTime(time);
                                                     setIsInitialLoad(false);
                                                 }}
@@ -363,7 +363,7 @@ export default function TripModificationDialog({ tripData }) {
                                             <TimeSelect
                                                 label='New End Time'
                                                 defaultValue={formatTime(tripData.endtime, tripData?.vehzipcode)}
-                                                onChange={time => {
+                                                onChange={(time) => {
                                                     setNewEndTime(time);
                                                     setIsInitialLoad(false);
                                                 }}

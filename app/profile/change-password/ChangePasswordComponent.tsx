@@ -22,7 +22,7 @@ const ChangePasswordComponent = () => {
         fetchData();
     }, []);
 
-    const handleResetPassword = async resetemail => {
+    const handleResetPassword = async (resetemail) => {
         try {
             await sendPasswordResetEmail(auth, resetemail);
             // alert("Password reset email sent! Check your inbox.");

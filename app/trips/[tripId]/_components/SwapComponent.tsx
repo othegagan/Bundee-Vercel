@@ -1,6 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
+import { Dialog, DialogBody } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 import { toTitleCase } from '@/lib/utils';
 import { swapRequest } from '@/server/tripOperations';
@@ -11,8 +13,6 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { FaLocationDot, FaStar } from 'react-icons/fa6';
 import { StatusBadge } from '../../TripsComponent';
-import { Dialog, DialogBody } from '@/components/ui/dialog';
-import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 
 const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate }: any) => {
     const [swapRequestedModalOpen, setSwapRequestedModalOpen] = useState(false);
@@ -51,7 +51,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
         fetchData();
     }
 
-    const handleSwapAcceptOrReject = async statuscode => {
+    const handleSwapAcceptOrReject = async (statuscode) => {
         const data = {
             tripId: swapRequestDetails.tripId,
             userId: swapRequestDetails.userId,

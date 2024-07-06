@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import useDocumentDialog from '@/hooks/dialogHooks/useDocumentDialog';
 import { formatDate } from 'date-fns';
 import React from 'react';
-import useDocumentDialog from '@/hooks/dialogHooks/useDocumentDialog';
 
 interface DocumentHandlerComponentProps {
     isRentalAgreed: boolean;

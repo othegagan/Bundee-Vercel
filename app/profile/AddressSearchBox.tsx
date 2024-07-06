@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useSearchParams } from 'next/navigation';
-import { useQueryState } from 'next-usequerystate';
-import { fetchDataFromMapboxWithForwardGeocoding } from '@/server/mapbox';
-import { useMapboxData } from '@/hooks/useMapboxData';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useMapboxData } from '@/hooks/useMapboxData';
+import { fetchDataFromMapboxWithForwardGeocoding } from '@/server/mapbox';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { useQueryState } from 'next-usequerystate';
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 const DEBOUNCE_TIME = 300;
 
@@ -38,7 +38,7 @@ const AddressSearchBox = ({ address1, setSavedData }) => {
                     value={inputValue}
                     onChange={handleInputChange}
                     placeholder='Enter your address'
-                    onClick={e => {
+                    onClick={(e) => {
                         const inputElement = e.target as HTMLInputElement;
                         inputElement.select();
                         setShow(true);

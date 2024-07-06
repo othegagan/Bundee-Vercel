@@ -1,6 +1,6 @@
-import type React from 'react';
-import { type PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import type { EmblaCarouselType } from 'embla-carousel';
+import type React from 'react';
+import { type PropsWithChildren, useCallback, useEffect, useState } from 'react';
 
 type UsePrevNextButtonsType = {
     prevBtnDisabled: boolean;
@@ -45,7 +45,7 @@ export const usePrevNextButtons = (emblaApi: EmblaCarouselType | undefined): Use
 
 type PropType = PropsWithChildren<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>>;
 
-export const PrevButton: React.FC<PropType> = props => {
+export const PrevButton: React.FC<PropType> = (props) => {
     const { children, ...restProps } = props;
 
     return (
@@ -61,7 +61,7 @@ export const PrevButton: React.FC<PropType> = props => {
     );
 };
 
-export const NextButton: React.FC<PropType> = props => {
+export const NextButton: React.FC<PropType> = (props) => {
     const { children, ...restProps } = props;
 
     return (

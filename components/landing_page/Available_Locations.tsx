@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import BoxContainer from '../BoxContainer';
-import Image from 'next/image';
 
 const locations = [
     {
@@ -55,7 +55,7 @@ const Available_Locations = () => {
                 </div>
 
                 <div className='mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
-                    {locations.map(location => (
+                    {locations.map((location) => (
                         <Link href={location.link} className='group relative cursor-pointer' key={location.id}>
                             <div className='aspect-video h-44 w-full overflow-hidden rounded-md bg-neutral-200 shadow-md lg:aspect-square'>
                                 <Image

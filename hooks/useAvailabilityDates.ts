@@ -1,6 +1,6 @@
+import { getAvailabilityDatesByVehicleId } from '@/server/vehicleOperations';
 import { useEffect, useState } from 'react';
 import useTabFocusEffect from './useTabFocusEffect';
-import { getAvailabilityDatesByVehicleId } from '@/server/vehicleOperations';
 
 const useAvailabilityDates = (vehicleId: any, tripid: any) => {
     const [unformattedDates, setUnformattedDates] = useState(null);
@@ -29,7 +29,6 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
                 const firstMinMax = minMaxDays.length > 0 ? minMaxDays[0] : {};
                 setMinDays(firstMinMax?.minimumDays || 0);
                 setMaxDays(firstMinMax?.maximumDays || 0);
-                
             } else {
                 throw new Error(response.message);
             }
@@ -62,7 +61,7 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
 
     const refetch = fetchData;
 
-    return { isLoading, isError, unavailableDates, minDays, maxDays, refetch , unformattedDates};
+    return { isLoading, isError, unavailableDates, minDays, maxDays, refetch, unformattedDates };
 };
 
 export default useAvailabilityDates;

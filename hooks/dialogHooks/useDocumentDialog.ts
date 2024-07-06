@@ -14,7 +14,7 @@ interface DocumentDialogStore {
     setInvoicePDFLink: (value: string) => void;
 }
 
-const useDocumentDialog = create<DocumentDialogStore>(set => ({
+const useDocumentDialog = create<DocumentDialogStore>((set) => ({
     isOpen: false,
     tripId: 0,
     isAgreementAcceptedOn: '',

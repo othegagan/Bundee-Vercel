@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type AxiosRequestHeaders } from 'axios';
-import { getSession, destroySession } from './auth';
+import { destroySession, getSession } from './auth';
 
 const authAxios = (): AxiosInstance => {
     const instance = axios.create({
@@ -7,7 +7,7 @@ const authAxios = (): AxiosInstance => {
     });
 
     instance.interceptors.request.use(
-        async config => {
+        async (config) => {
             const session = await getSession();
             config.headers = {
                 'Content-Type': 'application/json',
@@ -16,15 +16,15 @@ const authAxios = (): AxiosInstance => {
             } as unknown as AxiosRequestHeaders;
             return config;
         },
-        error => {
+        (error) => {
             return Promise.reject(error);
         },
     );
 
     // Interceptor to handle 401 errors
     instance.interceptors.response.use(
-        response => response, // Process response with handleResponse function
-        async error => {
+        (response) => response, // Process response with handleResponse function
+        async (error) => {
             if (error.response && error.response.status === 401) {
                 await destroySession(); // Call logout function
             }

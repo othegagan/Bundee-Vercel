@@ -7,13 +7,13 @@ import { NextButton, PrevButton, usePrevNextButtons } from './EmblaCarouselArrow
 import { SelectedSnapDisplay, useSelectedSnapDisplay } from './EmblaCarouselSelectedSnapDisplay';
 import './embla.css';
 import Autoplay from 'embla-carousel-autoplay';
-import Fade from 'embla-carousel-fade'
+import Fade from 'embla-carousel-fade';
 
 type PropType = {
     slides: any[];
 };
 
-const EmblaCarousel: React.FC<PropType> = props => {
+const EmblaCarousel: React.FC<PropType> = (props) => {
     const { slides } = props;
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [Autoplay({ playOnInit: true, delay: 10000 }), Fade()]);
 

@@ -1,15 +1,15 @@
 'use client';
-import { toTitleCase } from '@/lib/utils';
-import React, { useEffect, useState } from 'react';
-import { Slider } from '@/components/ui/slider';
-import { VscSettings } from 'react-icons/vsc';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { PiGasCan } from 'react-icons/pi';
-import { BsBatteryCharging } from 'react-icons/bs';
-import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
+import { Slider } from '@/components/ui/slider';
 import useCarFilterDialog from '@/hooks/dialogHooks/useCarFilterDialog';
+import { toTitleCase } from '@/lib/utils';
+import React, { useEffect, useState } from 'react';
+import { BsBatteryCharging } from 'react-icons/bs';
+import { PiGasCan } from 'react-icons/pi';
+import { VscSettings } from 'react-icons/vsc';
 
 interface CarFiltersProps {
     carDetails: any[];
@@ -62,26 +62,26 @@ const CarFilters = () => {
 
     const handleMakeChange = (make: string) => {
         const updatedMakes = selectedMakes.includes(make.toLowerCase())
-            ? selectedMakes.filter(m => m !== make.toLowerCase())
+            ? selectedMakes.filter((m) => m !== make.toLowerCase())
             : [...selectedMakes, make.toLowerCase()];
         setSelectedMakes(updatedMakes);
     };
 
     const handleFuelTypeChange = (fuelType: string) => {
         const updatedFuelTypes = selectedFuelTypes.includes(fuelType.toLowerCase())
-            ? selectedFuelTypes.filter(m => m !== fuelType.toLowerCase())
+            ? selectedFuelTypes.filter((m) => m !== fuelType.toLowerCase())
             : [...selectedFuelTypes, fuelType.toLowerCase()];
         setSelectedFuelTypes(updatedFuelTypes);
     };
 
     const handleRatingChange = (rating: number) => {
-        const updatedRatings = selectedRatings.includes(rating) ? selectedRatings.filter(r => r !== rating) : [...selectedRatings, rating];
+        const updatedRatings = selectedRatings.includes(rating) ? selectedRatings.filter((r) => r !== rating) : [...selectedRatings, rating];
         setSelectedRatings(updatedRatings);
     };
 
     const handleSeatingCapacityChange = (seatingCapacity: string) => {
         const updatedSeatingCapacityFilters = seatingCapacityFilters.includes(seatingCapacity)
-            ? seatingCapacityFilters.filter(capacity => capacity !== seatingCapacity)
+            ? seatingCapacityFilters.filter((capacity) => capacity !== seatingCapacity)
             : [...seatingCapacityFilters, seatingCapacity];
         setSeatingCapacityFilters(updatedSeatingCapacityFilters);
     };
@@ -91,18 +91,18 @@ const CarFilters = () => {
         let filteredCars = useCarFilter.carDetails;
 
         if (selectedMakes.length > 0) {
-            filteredCars = filteredCars.filter(car => selectedMakes.includes(car.make.toLowerCase()));
+            filteredCars = filteredCars.filter((car) => selectedMakes.includes(car.make.toLowerCase()));
         }
 
         if (selectedFuelTypes.length > 0) {
-            filteredCars = filteredCars.filter(car => selectedFuelTypes.includes(car.fueltypeprimary?.toLowerCase()));
+            filteredCars = filteredCars.filter((car) => selectedFuelTypes.includes(car.fueltypeprimary?.toLowerCase()));
         }
 
-        filteredCars = filteredCars.filter(car => car.price_per_hr >= minPricePerHr && car.price_per_hr <= maxPricePerHr);
+        filteredCars = filteredCars.filter((car) => car.price_per_hr >= minPricePerHr && car.price_per_hr <= maxPricePerHr);
 
         if (selectedRatings.length > 0) {
-            filteredCars = filteredCars.filter(car => {
-                return selectedRatings.some(rating => {
+            filteredCars = filteredCars.filter((car) => {
+                return selectedRatings.some((rating) => {
                     if (rating === 5) {
                         return car.rating >= rating;
                     }
@@ -121,7 +121,7 @@ const CarFilters = () => {
         }
 
         if (seatingCapacityFilters.length > 0) {
-            filteredCars = filteredCars.filter(car => {
+            filteredCars = filteredCars.filter((car) => {
                 if (car.seatingCapacity !== null) {
                     const seatingCapacity = Number.parseInt(car.seatingCapacity);
                     if (seatingCapacityFilters.includes('2') && seatingCapacity === 2) {
@@ -217,7 +217,7 @@ const CarFilters = () => {
                                         step={5}
                                         value={range}
                                         onValueChange={handleRangeChange}
-                                        formatLabel={value => `$${value}/Day`}
+                                        formatLabel={(value) => `$${value}/Day`}
                                         resetValues={resetSlider}
                                     />
                                 </div>
@@ -226,7 +226,7 @@ const CarFilters = () => {
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Vehicle Make</Label>
                                 <div className='flex flex-wrap gap-2 md:gap-4 '>
-                                    {Array.from(new Set(useCarFilter.carDetails.map(car => car.make.toLowerCase()))).map((make: any, index) => (
+                                    {Array.from(new Set(useCarFilter.carDetails.map((car) => car.make.toLowerCase()))).map((make: any, index) => (
                                         <div
                                             key={index}
                                             className={`flex  w-fit cursor-pointer  items-center  rounded-md text-xs font-medium md:text-sm ${

@@ -52,10 +52,9 @@ const Star: React.FC<StarProps> = ({ filled, index, onClick }) => {
                 className={`h-10 w-10 cursor-pointer ${filled ? 'text-yellow-400' : 'text-neutral-400'}`}
                 fill={filled ? 'currentColor' : 'none'}
                 viewBox='0 0 24 24'
-                stroke='currentColor'
+                stroke='currentColor'>
                 // onMouseEnter={onMouseEnter}
                 // onMouseLeave={onMouseLeave}
-            >
                 <path
                     strokeLinecap='round'
                     strokeLinejoin='round'

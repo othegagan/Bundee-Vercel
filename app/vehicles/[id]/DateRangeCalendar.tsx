@@ -41,9 +41,9 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
         return <div>Something went wrong</div>;
     }
 
-    const blockedDates = unavailableDates.map(date => [parseDate(date), parseDate(date)]) || [];
+    const blockedDates = unavailableDates.map((date) => [parseDate(date), parseDate(date)]) || [];
 
-    const isDateUnavailable = date => blockedDates.some(([start, end]) => date.compare(start) >= 0 && date.compare(end) <= 0);
+    const isDateUnavailable = (date) => blockedDates.some(([start, end]) => date.compare(start) >= 0 && date.compare(end) <= 0);
 
     const isDateUnavailableStart = blockedDates.length > 0 && isDateUnavailable(dates.start);
     const isDateUnavailableEnd = blockedDates.length > 0 && isDateUnavailable(dates.end);
@@ -57,7 +57,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
     const currentDate = today(getLocalTimeZone());
     let errorMessage = '';
 
-    const getErrorMessage = dates => {
+    const getErrorMessage = (dates) => {
         if (isDateUnavailableStart) {
             return 'Start date is unavailable.';
         }
@@ -78,7 +78,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
         if (maxDays !== 0 && daysDifference + 1 > maxDays) {
             return `This car has a maximum trip length requirement of ${maxDays} days. Please reduce your trip days.`;
         }
-        
+
         return '';
     };
 
@@ -125,7 +125,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
                             className={'w-fit select-none'}
                             aria-label='Date range (uncontrolled)'
                             value={dates}
-                            onChange={value => onDateSelect(value)}
+                            onChange={(value) => onDateSelect(value)}
                             visibleDuration={{ months: isTabletOrLarger ? 2 : 1 }}
                             pageBehavior='visible'
                             minValue={minValueDate}

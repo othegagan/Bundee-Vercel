@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
-import Logo from './landing_page/Logo';
-import Container from './BoxContainer';
 import { usePathname } from 'next/navigation';
+import Container from './BoxContainer';
+import Logo from './landing_page/Logo';
 
 const Footer = () => {
     const pathname = usePathname();

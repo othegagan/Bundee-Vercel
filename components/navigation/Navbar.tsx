@@ -5,12 +5,12 @@ import { HiOutlineUser } from 'react-icons/hi2';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { PiTruck } from 'react-icons/pi';
-import ClientOnly from '../ClientOnly';
 import Container from '../BoxContainer';
+import ClientOnly from '../ClientOnly';
 import Logo from '../landing_page/Logo';
 import LoginSignupButtons from './LoginSignupButtons';
-import UserMenu from './UserMenu';
 import NotificationsComponent from './Notifications';
+import UserMenu from './UserMenu';
 
 const Navbar = async () => {
     const session = await getSession();

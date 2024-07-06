@@ -6,7 +6,7 @@ interface LoginDialogStore {
     onClose: () => void;
 }
 
-const useLoginDialog = create<LoginDialogStore>(set => ({
+const useLoginDialog = create<LoginDialogStore>((set) => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });

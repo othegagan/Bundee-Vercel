@@ -1,6 +1,6 @@
 'use server';
 
-import { handleResponse, http } from '@/lib/httpService';
+import { http, handleResponse } from '@/lib/httpService';
 
 export async function createNewUser({ firstname, lastname, email, mobilephone }) {
     try {

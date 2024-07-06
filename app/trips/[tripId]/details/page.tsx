@@ -1,7 +1,8 @@
 'use client';
 
 import ErrorComponent from '@/components/custom/ErrorComponent';
-import { shimmer, VehiclesDetailsSkeleton } from '@/components/skeletons/skeletons';
+import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import { formatDateAndTime, toTitleCase } from '@/lib/utils';
 import { StatusBadge } from '../../TripsComponent';
@@ -15,7 +16,6 @@ import TripModificationDialog from '../_components/TripModificationDialog';
 import TripPriceListComponent from '../_components/TripPriceListComponent';
 import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import TripVehicleDetailsComponent from '../_components/TripVehicleDetailsComponent';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export default function page({ params }: { params: { tripId: string } }) {
     const { data: response, isLoading, error, isFetching } = useTripDetails(params.tripId);

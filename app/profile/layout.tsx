@@ -1,12 +1,12 @@
 'use client';
-import type React from 'react';
-import { useEffect, useState } from 'react';
+import BoxContainer from '@/components/BoxContainer';
 import { toast } from '@/components/ui/use-toast';
+import { getSession } from '@/lib/auth';
+import { getUserByEmail, updateProfile } from '@/server/userOperations';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { getUserByEmail, updateProfile } from '@/server/userOperations';
-import { getSession } from '@/lib/auth';
-import BoxContainer from '@/components/BoxContainer';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
     const pathName = usePathname();
@@ -36,7 +36,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         fetchData();
     }, []);
 
-    const handleProfilePictureChange = async event => {
+    const handleProfilePictureChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
             if (file.size > 1048576) {
@@ -136,7 +136,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                     </div>
 
                     <div className='mt-7 flex  list-none items-center gap-3 overflow-y-auto'>
-                        {links.map(link => (
+                        {links.map((link) => (
                             <Link
                                 key={link.id}
                                 href={link.path}
@@ -174,7 +174,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
                                     <div className='mt-10 w-full space-y-0'>
                                         <div className='w-full list-none space-y-3'>
-                                            {links.map(link => (
+                                            {links.map((link) => (
                                                 <Link
                                                     key={link.id}
                                                     href={link.path}

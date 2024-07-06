@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import ErrorComponent from '@/components/custom/ErrorComponent';
+import { DrivingLicenceDetailsSkeleton } from '@/components/skeletons/skeletons';
+import { Button } from '@/components/ui/button';
 import usePersona from '@/hooks/usePersona';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail } from '@/server/userOperations';
-import { Button } from '@/components/ui/button';
-import { DrivingLicenceDetailsSkeleton } from '@/components/skeletons/skeletons';
-import ErrorComponent from '@/components/custom/ErrorComponent';
+import { useEffect, useState } from 'react';
 
 const DrivingLicenceComponent = () => {
     const [isVerified, setIsVerified] = useState(false);
@@ -47,7 +47,7 @@ const DrivingLicenceComponent = () => {
         fetchUser();
     }, [personaUpdated]);
 
-    const getVerifiedDetailsFromPersona = async personaEnquiryId => {
+    const getVerifiedDetailsFromPersona = async (personaEnquiryId) => {
         try {
             const data = await getDetailsFromPersona(personaEnquiryId);
             setVerifiedDetails(data.fields || null);

@@ -93,7 +93,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                     latitude={Number(group[0].latitude)}
                     longitude={Number(group[0].longitude)}
                     // anchor='top'
-                    onClick={e => {
+                    onClick={(e) => {
                         e.originalEvent.stopPropagation();
                         setCarPopInfo(null);
                         setCarsPopInfo(null);
@@ -254,7 +254,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
 
 function groupBySameLatLng(data) {
     const groupedPoints = {};
-    data.forEach(point => {
+    data.forEach((point) => {
         const key = `${point.latitude}_${point.longitude}`;
         if (!groupedPoints[key]) {
             groupedPoints[key] = [point];

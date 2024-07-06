@@ -1,6 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Failure() {
     const router = useRouter();
@@ -8,7 +8,7 @@ export default function Failure() {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCountdown(prevCountdown => prevCountdown - 1);
+            setCountdown((prevCountdown) => prevCountdown - 1);
         }, 1000);
 
         return () => clearInterval(timer);
