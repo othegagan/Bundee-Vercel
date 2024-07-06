@@ -8,9 +8,6 @@ interface RatingProps {
 }
 
 const Rating: React.FC<RatingProps> = ({ rating, setRating }) => {
-    const handleMouseEnter = (index: number) => {
-        setRating(index + 1);
-    };
 
     const handleMouseLeave = () => {
         setRating(0);
@@ -27,8 +24,6 @@ const Rating: React.FC<RatingProps> = ({ rating, setRating }) => {
                     key={index}
                     index={index}
                     filled={rating > index}
-                    // onMouseEnter={() => handleMouseEnter(index)}
-                    // onMouseLeave={handleMouseLeave}
                     onClick={() => handleClick(index)}
                 />
             ))}
@@ -39,8 +34,6 @@ const Rating: React.FC<RatingProps> = ({ rating, setRating }) => {
 interface StarProps {
     filled: boolean;
     index: number;
-    // onMouseEnter: () => void;
-    // onMouseLeave: () => void;
     onClick: () => void;
 }
 
@@ -53,8 +46,6 @@ const Star: React.FC<StarProps> = ({ filled, index, onClick }) => {
                 fill={filled ? 'currentColor' : 'none'}
                 viewBox='0 0 24 24'
                 stroke='currentColor'>
-                // onMouseEnter={onMouseEnter}
-                // onMouseLeave={onMouseLeave}
                 <path
                     strokeLinecap='round'
                     strokeLinejoin='round'
