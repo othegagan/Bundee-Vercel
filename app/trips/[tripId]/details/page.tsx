@@ -11,7 +11,7 @@ import FreeCancellationDate from '../_components/FreeCancellationDate';
 import StartTripComponent from '../_components/StartTripComponent';
 import SwapComponent from '../_components/SwapComponent';
 import TripImageVideoUploadComponent from '../_components/TripImageVideoUploadComponent';
-import TripModificationDialog from '../_components/TripModificationModal';
+import TripModificationDialog from '../_components/TripModificationDialog';
 import TripPriceListComponent from '../_components/TripPriceListComponent';
 import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import TripVehicleDetailsComponent from '../_components/TripVehicleDetailsComponent';
@@ -39,9 +39,9 @@ export default function page({ params }: { params: { tripId: string } }) {
                     car={tripData.vehicleDetails[0]}
                     driverUploadedImages={tripData.driverTripStartingBlobs}
                     hostUploadedImages={tripData.hostTripStartingBlobs}
-                    hostName={`${tripData?.hostFirstName} ${tripData?.hostLastName}` || ""}
-                    hostPhoneNumber={tripData?.hostPhoneNumber || ""}
-                    hostImage={tripData?.hostImage || ""}
+                    hostName={`${tripData?.hostFirstName} ${tripData?.hostLastName}` || ''}
+                    hostPhoneNumber={tripData?.hostPhoneNumber || ''}
+                    hostImage={tripData?.hostImage || ''}
                 />
             </div>
 

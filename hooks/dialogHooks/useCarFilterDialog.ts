@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface CarFilterModalStore {
+interface CarFilterDialogStore {
     isOpen: boolean;
     filteredCars: any;
     carDetails: any;
@@ -14,7 +14,7 @@ interface CarFilterModalStore {
     setIsLoading: (data: any) => void;
 }
 
-const useCarFilterModal = create<CarFilterModalStore>(set => ({
+const useCarFilterDialog = create<CarFilterDialogStore>(set => ({
     isOpen: false,
     filteredCars: [],
     carDetails: [],
@@ -38,4 +38,4 @@ const useCarFilterModal = create<CarFilterModalStore>(set => ({
     },
 }));
 
-export default useCarFilterModal;
+export default useCarFilterDialog;

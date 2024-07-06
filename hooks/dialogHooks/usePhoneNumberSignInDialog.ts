@@ -6,7 +6,7 @@ interface PhoneNumberSignInStore {
     onClose: () => void;
 }
 
-const usePhoneNumberSignInModal = create<PhoneNumberSignInStore>(set => ({
+const usePhoneNumberSignInDialog = create<PhoneNumberSignInStore>(set => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });
@@ -14,4 +14,4 @@ const usePhoneNumberSignInModal = create<PhoneNumberSignInStore>(set => ({
     onClose: () => set({ isOpen: false }),
 }));
 
-export default usePhoneNumberSignInModal;
+export default usePhoneNumberSignInDialog;

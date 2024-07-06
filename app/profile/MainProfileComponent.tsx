@@ -3,16 +3,16 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import usePhoneNumberVerificationModal from '@/hooks/usePhoneNumberVerificationModal';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateInsuranceProfile, updateProfile } from '@/server/userOperations';
 import React, { useEffect, useState } from 'react';
 import AddressSearchBox from './AddressSearchBox';
 import { MdVerified } from 'react-icons/md';
 import { toast } from '@/components/ui/use-toast';
+import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 
 const ProfilePage = () => {
-    const phoneNumberVerification = usePhoneNumberVerificationModal();
+    const phoneNumberVerification = usePhoneNumberVerificationDialog();
 
     const [savedData, setSavedData] = useState({
         firstname: '',

@@ -1,32 +1,29 @@
 'use client';
 
-import useLoginModal from '@/hooks/useLoginModal';
-import useRegisterModal from '@/hooks/useRegisterModal';
-import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import Logo from '@/components/landing_page/Logo';
-import useForgotPasswordModal from '@/hooks/useForgotPasswordModal';
-import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
+import useForgotPasswordDialog from '@/hooks/dialogHooks/useForgotPasswordDialog';
+import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
+import usePhoneNumberSignInDialog from '@/hooks/dialogHooks/usePhoneNumberSignInDialog';
+import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession, destroySession } from '@/lib/auth';
+import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { createNewUser } from '@/server/createNewUser';
 import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
-import { useRouter } from 'next/navigation';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useCallback, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FaPhone } from 'react-icons/fa6';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
-import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 import { Dialog } from '../ui/dialog';
+import { Input } from '../ui/input';
 
-const LoginModal = () => {
-    const router = useRouter();
-    const loginModal = useLoginModal();
-    const registerModal = useRegisterModal();
-    const forgotPasswordModal = useForgotPasswordModal();
-    const phoneNumberSignInModal = usePhoneNumberSignInModal();
+export default function LoginDialog() {
+    const loginDialog = useLoginDialog();
+    const registerDialog = useRegisterDialog();
+    const forgotPasswordDialog = useForgotPasswordDialog();
+    const phoneNumberSignInDialog = usePhoneNumberSignInDialog();
     const [showPassword, setShowPassword] = useState(true);
     const [userEmail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,9 +31,9 @@ const LoginModal = () => {
     const [authError, setAuthError] = useState('');
 
     const onToggle = useCallback(() => {
-        loginModal.onClose();
-        registerModal.onOpen();
-    }, [loginModal, registerModal]);
+        loginDialog.onClose();
+        registerDialog.onOpen();
+    }, [loginDialog, registerDialog]);
 
     const handleLogin = async event => {
         event.preventDefault();
@@ -139,7 +136,7 @@ const LoginModal = () => {
         setPassword('');
         setUserEmail('');
         setShowPassword(false);
-        loginModal.onOpen();
+        loginDialog.onOpen();
     }
 
     function closeModal() {
@@ -147,21 +144,21 @@ const LoginModal = () => {
         setUserEmail('');
         setShowPassword(false);
         setAuthError('');
-        loginModal.onClose();
+        loginDialog.onClose();
     }
 
     function openPhoneLogin() {
         closeModal();
-        phoneNumberSignInModal.onOpen();
+        phoneNumberSignInDialog.onOpen();
     }
 
     return (
         <Dialog
             title=''
             description=''
-            isOpen={loginModal.isOpen}
+            isOpen={loginDialog.isOpen}
             openDialog={() => {
-                loginModal.onOpen();
+                loginDialog.onOpen();
             }}
             closeDialog={() => {
                 closeModal();
@@ -223,7 +220,7 @@ const LoginModal = () => {
                             className='ml-auto mt-3 w-fit cursor-pointer text-sm font-medium text-primary hover:underline'
                             onClick={() => {
                                 closeModal();
-                                forgotPasswordModal.onOpen();
+                                forgotPasswordDialog.onOpen();
                             }}>
                             Forgot Password?
                         </button>
@@ -278,6 +275,4 @@ const LoginModal = () => {
             </main>
         </Dialog>
     );
-};
-
-export default LoginModal;
+}

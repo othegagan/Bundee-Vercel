@@ -1,7 +1,7 @@
 'use client';
 
-import useLoginModal from '@/hooks/useLoginModal';
-import useRegisterModal from '@/hooks/useRegisterModal';
+import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
+import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession, destroySession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { createNewUser } from '@/server/createNewUser';
@@ -46,10 +46,10 @@ const RegisterSchema = z
 
 type FormFields = z.infer<typeof RegisterSchema>;
 
-const RegisterModal = () => {
+export default function RegisterDialog() {
     const router = useRouter();
-    const loginModal = useLoginModal();
-    const registerModal = useRegisterModal();
+    const loginDialog = useLoginDialog();
+    const registerDialog = useRegisterDialog();
 
     const [showPassword, setShowPassword] = useState(true);
     const [showConfirmPassword, setShowConfirmPassword] = useState(true);
@@ -59,8 +59,8 @@ const RegisterModal = () => {
 
     const onToggle = useCallback(() => {
         closeModal();
-        loginModal.onOpen();
-    }, [loginModal, registerModal]);
+        loginDialog.onOpen();
+    }, [loginDialog, registerDialog]);
 
     const {
         register,
@@ -169,11 +169,11 @@ const RegisterModal = () => {
     };
 
     function openModal() {
-        registerModal.onOpen();
+        registerDialog.onOpen();
     }
 
     function closeModal() {
-        registerModal.onClose();
+        registerDialog.onClose();
         setShowSuccessfulSignUp(false);
         setPhoneNumber('');
         reset();
@@ -183,7 +183,7 @@ const RegisterModal = () => {
         <Dialog
             title='Sign Up with MyBundee'
             description=''
-            isOpen={registerModal.isOpen}
+            isOpen={registerDialog.isOpen}
             openDialog={() => {
                 openModal();
             }}
@@ -340,7 +340,7 @@ const RegisterModal = () => {
                             variant='outline'
                             size='lg'
                             onClick={() => {
-                                loginModal.onOpen();
+                                loginDialog.onOpen();
                                 closeModal();
                                 setShowSuccessfulSignUp(false);
                             }}>
@@ -353,6 +353,5 @@ const RegisterModal = () => {
     );
 };
 
-export default RegisterModal;
 
 const FormError = ({ message }) => <p className='text-xs font-medium text-red-400'>{message}</p>;

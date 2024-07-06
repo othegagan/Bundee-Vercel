@@ -5,7 +5,7 @@ import { PriceCalculatedListSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import useTripModificationModal from '@/hooks/useTripModificationModal';
+import useTripModificationDialog from '@/hooks/dialogHooks/useTripModificationDialog';
 import { getSession } from '@/lib/auth';
 import { convertToCarDate, convertToCarTimeZoneISO, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
@@ -136,7 +136,7 @@ const useTripModification = () => {
 };
 
 export default function TripModificationDialog({ tripData }) {
-    const tripModificationModal = useTripModificationModal();
+    const tripModificationModal = useTripModificationDialog();
 
     const [newStartDate, setNewStartDate] = useState(null);
     const [newEndDate, setNewEndDate] = useState(null);
@@ -183,10 +183,8 @@ export default function TripModificationDialog({ tripData }) {
 
     async function getPriceCalculation() {
         try {
-            const originalStartDateTime =
-                `${format(convertToCarDate(tripData.starttime, tripData?.vehzipcode), 'yyyy-MM-dd')}T${formatTime(tripData.starttime, tripData?.vehzipcode)}`;
-            const originalEndDateTime =
-                `${format(convertToCarDate(tripData.endtime, tripData?.vehzipcode), 'yyyy-MM-dd')}T${formatTime(tripData.endtime, tripData?.vehzipcode)}`;
+            const originalStartDateTime = `${format(convertToCarDate(tripData.starttime, tripData?.vehzipcode), 'yyyy-MM-dd')}T${formatTime(tripData.starttime, tripData?.vehzipcode)}`;
+            const originalEndDateTime = `${format(convertToCarDate(tripData.endtime, tripData?.vehzipcode), 'yyyy-MM-dd')}T${formatTime(tripData.endtime, tripData?.vehzipcode)}`;
             const parsedOriginalStartDate = parseISO(originalStartDateTime);
             const parsedOriginalEndDate = parseISO(originalEndDateTime);
             const parsedNewStartDate = parseISO(`${newStartDate}T${newStartTime}`);

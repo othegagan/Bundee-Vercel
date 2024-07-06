@@ -1,22 +1,22 @@
 'use client';
 
-import useRentalAgreementModal from '@/hooks/useDocumentModal';
+import useDocumentDialog from '@/hooks/dialogHooks/useDocumentDialog';
 import { updateRentalAgreement } from '@/server/tripOperations';
 import { useState } from 'react';
 import { Button } from '../ui/button';
 
 export default function RentalAgreementCheckBox() {
-    const rentalAgreementModal = useRentalAgreementModal();
+    const documentDialog = useDocumentDialog();
     const [loading, setLoading] = useState(false);
     const [checked, setChecked] = useState(false);
 
     const agreeToRentalAgreement = async () => {
         try {
             setLoading(true);
-            const response: any = await updateRentalAgreement(rentalAgreementModal.tripId);
+            const response: any = await updateRentalAgreement(documentDialog.tripId);
             console.log(response);
             if (response.success) {
-                rentalAgreementModal.onClose();
+                documentDialog.onClose();
                 window.location.reload();
             } else {
                 throw new Error('Error in updating agreement', response.message);
@@ -43,7 +43,7 @@ export default function RentalAgreementCheckBox() {
                     type='button'
                     variant='outline'
                     onClick={() => {
-                        rentalAgreementModal.onClose();
+                        documentDialog.onClose();
                     }}>
                     Cancel
                 </Button>

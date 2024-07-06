@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Rating from '@/components/ui/rating';
-import useTripReviewModal from '@/hooks/useTripReviewModal';
+import useTripReviewDialog from '@/hooks/dialogHooks/useTripReviewDialog';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
@@ -10,17 +10,17 @@ import { addTripReview } from '@/server/tripOperations';
 import { toast } from '../ui/use-toast';
 import { Dialog, DialogBody } from '../ui/dialog';
 
-const TripReviewModal = () => {
+export default function TripReviewDialog() {
     const [rating, setRating] = useState(0);
     const [comments, setComments] = useState('');
-    const tripReviewModal = useTripReviewModal();
+    const tripReviewDialog = useTripReviewDialog();
     const [loading, setLoading] = useState(false);
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            const hostId = tripReviewModal.tripData.hostid;
-            const tripId = tripReviewModal.tripData.tripid;
-            const vehicleId = tripReviewModal.tripData.vehicleId;
+            const hostId = tripReviewDialog.tripData.hostid;
+            const tripId = tripReviewDialog.tripData.tripid;
+            const vehicleId = tripReviewDialog.tripData.vehicleId;
             const response = await addTripReview(hostId, tripId, rating, comments, vehicleId);
 
             if (response.success) {
@@ -48,16 +48,16 @@ const TripReviewModal = () => {
     function openModal() {
         setRating(0);
         setComments('');
-        tripReviewModal.onOpen();
+        tripReviewDialog.onOpen();
     }
     function closeModal() {
         setRating(0);
         setComments('');
-        tripReviewModal.onClose();
+        tripReviewDialog.onClose();
     }
 
     return (
-        <Dialog isOpen={tripReviewModal.isOpen} closeDialog={closeModal} openDialog={openModal} className='lg:max-w-lg' title='Trip Review'>
+        <Dialog isOpen={tripReviewDialog.isOpen} closeDialog={closeModal} openDialog={openModal} className='lg:max-w-lg' title='Trip Review'>
             <DialogBody>
                 <main className='flex flex-col  p-2 md:p-6 md:pb-0 '>
                     <Rating rating={rating} setRating={setRating} />
@@ -84,6 +84,4 @@ const TripReviewModal = () => {
             </DialogBody>
         </Dialog>
     );
-};
-
-export default TripReviewModal;
+}

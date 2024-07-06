@@ -1,16 +1,16 @@
 'use client';
-import useLoginModal from '@/hooks/useLoginModal';
-import useRegisterModal from '@/hooks/useRegisterModal';
+import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
+import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { Button } from '../ui/button';
 
 export default function LoginSignupButtons() {
-    const loginModal = useLoginModal();
-    const registerModal = useRegisterModal();
+    const loginDialog = useLoginDialog();
+    const registerDialog = useRegisterDialog();
     return (
         <div className='flex select-none gap-4'>
             <Button
                 onClick={() => {
-                    loginModal.onOpen();
+                    loginDialog.onOpen();
                 }}
                 type='button'
                 variant='outline'>
@@ -19,7 +19,7 @@ export default function LoginSignupButtons() {
 
             <Button
                 onClick={() => {
-                    registerModal.onOpen();
+                    registerDialog.onOpen();
                 }}
                 type='button'
                 variant='black'>

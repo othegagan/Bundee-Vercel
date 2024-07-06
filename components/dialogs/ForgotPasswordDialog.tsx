@@ -1,6 +1,5 @@
 'use client';
 
-import useForgotPasswordModal from '@/hooks/useForgotPasswordModal';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { z } from 'zod';
@@ -10,8 +9,9 @@ import { auth } from '@/lib/firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { Button } from '../ui/button';
 import { useState } from 'react';
-import useLoginModal from '@/hooks/useLoginModal';
 import { Dialog } from '../ui/dialog';
+import useForgotPasswordDialog from '@/hooks/dialogHooks/useForgotPasswordDialog';
+import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 
 const schema = z.object({
     email: z.string({ message: 'Email is required' }).email({ message: 'Invalid email address' }).optional(),
@@ -19,9 +19,9 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-export default function ForgotPasswordModal() {
-    const forgotPasswordModal = useForgotPasswordModal();
-    const loginModal = useLoginModal();
+export default function ForgotPasswordDialog() {
+    const forgotPasswordDialog = useForgotPasswordDialog();
+    const loginDialog = useLoginDialog();
 
     const [resetMailSent, setResetEmailSent] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -55,7 +55,7 @@ export default function ForgotPasswordModal() {
     };
 
     function openModal() {
-        forgotPasswordModal.onOpen();
+        forgotPasswordDialog.onOpen();
     }
 
     function closeModal() {
@@ -63,16 +63,16 @@ export default function ForgotPasswordModal() {
         setErrorMessage('');
         setEmailSentTo('');
         setResetEmailSent(false);
-        forgotPasswordModal.onClose();
+        forgotPasswordDialog.onClose();
     }
 
     return (
         <Dialog
             title='Forgot Password'
             description=''
-            isOpen={forgotPasswordModal.isOpen}
+            isOpen={forgotPasswordDialog.isOpen}
             openDialog={() => {
-                forgotPasswordModal.onOpen();
+                forgotPasswordDialog.onOpen();
             }}
             closeDialog={() => {
                 closeModal();
@@ -87,7 +87,7 @@ export default function ForgotPasswordModal() {
                     <Button
                         onClick={() => {
                             closeModal();
-                            loginModal.onOpen();
+                            loginDialog.onOpen();
                         }}
                         variant='secondary'
                         className='ml-auto mt-6'>
@@ -115,7 +115,7 @@ export default function ForgotPasswordModal() {
                         className='mt-4 w-fit cursor-pointer hover:underline'
                         onClick={() => {
                             closeModal();
-                            loginModal.onOpen();
+                            loginDialog.onOpen();
                         }}>
                         Back to Log In
                     </button>

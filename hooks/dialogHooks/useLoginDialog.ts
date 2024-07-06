@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-interface PhoneNumberVerificationModalStore {
+interface LoginDialogStore {
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
 }
 
-const usePhoneNumberVerificationModal = create<PhoneNumberVerificationModalStore>(set => ({
+const useLoginDialog = create<LoginDialogStore>(set => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });
@@ -14,4 +14,4 @@ const usePhoneNumberVerificationModal = create<PhoneNumberVerificationModalStore
     onClose: () => set({ isOpen: false }),
 }));
 
-export default usePhoneNumberVerificationModal;
+export default useLoginDialog;

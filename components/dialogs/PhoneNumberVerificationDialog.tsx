@@ -1,6 +1,6 @@
 'use client';
 
-import usePhoneNumberVerificationModal from '@/hooks/usePhoneNumberVerificationModal';
+import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { getSession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { getUserByEmail, getUserByPhoneNumber, updateProfile } from '@/server/userOperations';
@@ -13,9 +13,9 @@ import PhoneNumber from '../ui/phone-number';
 import { toast } from '../ui/use-toast';
 import { Dialog, DialogBody } from '../ui/dialog';
 
-const PhoneNumberModal = () => {
+export default function PhoneNumberVerificationDialog() {
     // console.log(auth.currentUser);
-    const phoneNumberVerificationModal = usePhoneNumberVerificationModal();
+    const phoneNumberVerificationDialog = usePhoneNumberVerificationDialog();
     const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationId, setVerificationId] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
@@ -142,12 +142,12 @@ const PhoneNumberModal = () => {
 
     function openModal() {
         resetModal();
-        phoneNumberVerificationModal.onOpen();
+        phoneNumberVerificationDialog.onOpen();
     }
 
     function closeModal() {
         resetModal();
-        phoneNumberVerificationModal.onClose();
+        phoneNumberVerificationDialog.onClose();
     }
 
     function resetModal() {
@@ -159,7 +159,7 @@ const PhoneNumberModal = () => {
     }
 
     return (
-        <Dialog isOpen={phoneNumberVerificationModal.isOpen} closeDialog={closeModal} className='lg:max-w-lg' title='Update Phone Number'>
+        <Dialog isOpen={phoneNumberVerificationDialog.isOpen} closeDialog={closeModal} className='lg:max-w-lg' title='Update Phone Number'>
             <DialogBody className=''>
                 <div className='flex flex-col space-y-4'>
                     {!verificationId ? (
@@ -206,7 +206,6 @@ const PhoneNumberModal = () => {
     );
 };
 
-export default PhoneNumberModal;
 
 function UnlinkPhoneNumberButton() {
     const unLinkPhonenumber = () => {

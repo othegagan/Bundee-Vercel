@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { convertToCarTimeZoneISO, formatDateAndTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import { splitFormattedDateAndTime } from './TripModificationModal';
+import { splitFormattedDateAndTime } from './TripModificationDialog';
 
 interface TripModificationPriceListComponentProps {
     priceCalculatedList: any;

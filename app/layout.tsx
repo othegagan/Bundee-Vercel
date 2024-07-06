@@ -7,22 +7,21 @@ import dynamic from 'next/dynamic';
 
 import { Toaster } from '@/components/ui/toaster';
 import Navbar from '@/components/navigation/Navbar';
-import LoginModal from '@/components/modals/LoginModal';
+import LoginDialog from '@/components/dialogs/LoginDialog';
 import ClientOnly from '@/components/ClientOnly';
-import RegisterModal from '@/components/modals/RegisterModal';
-import PhoneNumberModal from '@/components/modals/PhoneNumberVerification';
+import RegisterModal from '@/components/dialogs/RegisterDialog';
+import PhoneNumberVerificationDialog from '@/components/dialogs/PhoneNumberVerificationDialog';
 import { HideComponentInFrame, HideInIFrame } from '@/components/HideInIFrame';
-import PhoneNumberSignInModal from '@/components/modals/PhoneNumberSignInModal';
-import TripReviewModal from '@/components/modals/TripReviewModal';
+import PhoneNumberSignInDialog from '@/components/dialogs/PhoneNumberSignInDialog';
+import TripReviewDialog from '@/components/dialogs/TripReviewDialog';
 import CarFilters from './vehicles/CarFilters';
 import PushNotifications from '@/components/landing_page/PushNotifications';
-import ForgotPasswordModal from '@/components/modals/ForgotPasswordModal';
+import ForgotPasswordDialg from '@/components/dialogs/ForgotPasswordDialog';
 import Providers from '@/lib/providers';
 
-const RentalAgreementModal = dynamic(() => import('@/components/modals/RentalAgreementModal'), { ssr: false });
+const DocumentModal = dynamic(() => import('@/components/dialogs/DocumentDialog'), { ssr: false });
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-
 
 export const metadata: Metadata = {
     title: 'MyBundee',
@@ -43,14 +42,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className={`${inter.className} flex min-h-screen  w-full flex-col`}>
                 <Providers>
                     <ClientOnly>
-                        <LoginModal />
+                        <LoginDialog />
                         <RegisterModal />
-                        <PhoneNumberModal />
-                        <PhoneNumberSignInModal />
-                        <TripReviewModal />
+                        <PhoneNumberVerificationDialog />
+                        <PhoneNumberSignInDialog />
+                        <TripReviewDialog />
                         <CarFilters />
-                        <RentalAgreementModal />
-                        <ForgotPasswordModal />
+                        <DocumentModal />
+                        <ForgotPasswordDialg />
                     </ClientOnly>
                     <HideComponentInFrame>
                         <Navbar />

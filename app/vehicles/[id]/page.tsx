@@ -10,7 +10,6 @@ import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeleto
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import useLoginModal from '@/hooks/useLoginModal';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import useWishlist from '@/hooks/useWishlist';
 import { getSession } from '@/lib/auth';
@@ -28,9 +27,10 @@ import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
 import DateRangeCalendar from './DateRangeCalendar';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
+import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 
 export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
-    const loginModal = useLoginModal();
+    const loginModal = useLoginDialog();
     const { addToWishlistHandler, removeFromWishlistHandler, isItemWishlisted } = useWishlist(params.id);
     const { isPersonaClientLoading, createClient } = usePersona();
     const { isLoading: datesLoading, isError: datesError } = useAvailabilityDates(params.id, null);

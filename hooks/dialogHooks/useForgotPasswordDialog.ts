@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-interface ForgotPasswordModalStore {
+interface ForgotPasswordDialogStore {
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
 }
 
-const useForgotPasswordModal = create<ForgotPasswordModalStore>(set => ({
+const useForgotPasswordDialog = create<ForgotPasswordDialogStore>(set => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });
@@ -14,4 +14,4 @@ const useForgotPasswordModal = create<ForgotPasswordModalStore>(set => ({
     onClose: () => set({ isOpen: false }),
 }));
 
-export default useForgotPasswordModal;
+export default useForgotPasswordDialog;

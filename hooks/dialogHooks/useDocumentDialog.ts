@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface DocumentModalStore {
+interface DocumentDialogStore {
     isOpen: boolean;
     tripId: number;
     isAgreementAcceptedOn: string;
@@ -14,7 +14,7 @@ interface DocumentModalStore {
     setInvoicePDFLink: (value: string) => void;
 }
 
-const useDocumentModal = create<DocumentModalStore>(set => ({
+const useDocumentDialog = create<DocumentDialogStore>(set => ({
     isOpen: false,
     tripId: 0,
     isAgreementAcceptedOn: '',
@@ -30,4 +30,4 @@ const useDocumentModal = create<DocumentModalStore>(set => ({
     setInvoicePDFLink: (value: string) => set({ invoicePDFLink: value }),
 }));
 
-export default useDocumentModal;
+export default useDocumentDialog;

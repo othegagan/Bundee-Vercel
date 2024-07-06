@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import useRentalAgreementModal from '@/hooks/useDocumentModal';
 import { formatDate } from 'date-fns';
 import React from 'react';
+import useDocumentDialog from '@/hooks/dialogHooks/useDocumentDialog';
 
 interface DocumentHandlerComponentProps {
     isRentalAgreed: boolean;
@@ -14,7 +14,7 @@ interface DocumentHandlerComponentProps {
 }
 
 export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrrementUrl, rentalAgreedDate, tripId, invoiceUrl }: DocumentHandlerComponentProps) {
-    const rentalAgreementModal = useRentalAgreementModal();
+    const documentModal = useDocumentDialog();
 
     if (invoiceUrl && isRentalAgreed) {
         return (
@@ -22,8 +22,8 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
                 variant='ghost'
                 onClick={() => {
                     // console.log(tripData.rentalAgrrementUrl)
-                    rentalAgreementModal.setInvoicePDFLink(invoiceUrl);
-                    rentalAgreementModal.onOpen();
+                    documentModal.setInvoicePDFLink(invoiceUrl);
+                    documentModal.onOpen();
                 }}>
                 Download Invoice
             </Button>
@@ -36,9 +36,9 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
                 variant='ghost'
                 onClick={() => {
                     // console.log(tripData.rentalAgrrementUrl)
-                    rentalAgreementModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
-                    rentalAgreementModal.setIsAgreementAcceptedOn(formatDate(new Date(rentalAgreedDate), 'PP, h:mm a'));
-                    rentalAgreementModal.onOpen();
+                    documentModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
+                    documentModal.setIsAgreementAcceptedOn(formatDate(new Date(rentalAgreedDate), 'PP, h:mm a'));
+                    documentModal.onOpen();
                 }}
                 className='font-medium leading-none tracking-wide underline underline-offset-2'>
                 View Rental Agreement
@@ -53,9 +53,9 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
             className='mt-6 w-full'
             onClick={() => {
                 // console.log(tripData.rentalAgrrementUrl)
-                rentalAgreementModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
-                rentalAgreementModal.setTripId(tripId);
-                rentalAgreementModal.onOpen();
+                documentModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
+                documentModal.setTripId(tripId);
+                documentModal.onOpen();
             }}>
             Accept Rental Agreement
         </Button>

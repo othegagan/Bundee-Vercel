@@ -1,16 +1,16 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import useTripReviewModal from '@/hooks/useTripReviewModal';
+import useTripReviewDialog from '@/hooks/dialogHooks/useTripReviewDialog';
 
 export default function TripReviewDialogTrigger({ tripData }: { tripData: any }) {
-    const tripReviewModal = useTripReviewModal();
+    const tripReviewDialog = useTripReviewDialog();
     return (
         <Button
             className='mt-4  w-full  '
             onClick={() => {
-                tripReviewModal.onOpen();
-                tripReviewModal.setTripData(tripData);
+                tripReviewDialog.onOpen();
+                tripReviewDialog.setTripData(tripData);
             }}>
             Add a review
         </Button>

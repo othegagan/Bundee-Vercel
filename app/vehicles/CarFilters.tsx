@@ -8,8 +8,8 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { PiGasCan } from 'react-icons/pi';
 import { BsBatteryCharging } from 'react-icons/bs';
-import useCarFilterModal from '@/hooks/useCarFilterModal';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
+import useCarFilterDialog from '@/hooks/dialogHooks/useCarFilterDialog';
 
 interface CarFiltersProps {
     carDetails: any[];
@@ -17,7 +17,7 @@ interface CarFiltersProps {
 }
 
 const CarFilters = () => {
-    const useCarFilter = useCarFilterModal();
+    const useCarFilter = useCarFilterDialog();
     function openModal() {
         useCarFilter.onOpen();
     }

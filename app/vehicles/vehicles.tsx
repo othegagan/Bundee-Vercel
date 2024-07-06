@@ -11,16 +11,16 @@ import { FaStar } from 'react-icons/fa6';
 import MapComponent from '@/components/map/MapComponent';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import useCarFilterModal from '@/hooks/useCarFilterModal';
+import useCarFilterDialog from '@/hooks/dialogHooks/useCarFilterDialog';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import { IoAirplaneSharp } from 'react-icons/io5';
 import { MdOutlineDiscount } from 'react-icons/md';
 import { VscSettings } from 'react-icons/vsc';
-import { Car, Map } from 'lucide-react';
+import { Car, Map as MapIcon } from 'lucide-react';
 
 const Vehicles = ({ searchParams }: any) => {
     const { loading, error, data: carDetails, searchQuery, searchVehicles } = useVehicleSearch();
-    const useCarFilter = useCarFilterModal();
+    const useCarFilter = useCarFilterDialog();
     const [show, setShow] = useState(false);
 
     useScrollToTopOnLoad(loading);
@@ -51,7 +51,7 @@ const Vehicles = ({ searchParams }: any) => {
                         }}>
                         {!show ? (
                             <div className='flex items-center gap-1'>
-                                <Map className='size-4 text-neutral-500' />
+                                <MapIcon className='size-4 text-neutral-500' />
                                 Map View
                             </div>
                         ) : (

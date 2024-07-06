@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-interface TripModificationModalStore {
+interface TripModificationDialogStore {
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
 }
 
-const useTripModificationModal = create<TripModificationModalStore>(set => ({
+const useTripModificationDialog = create<TripModificationDialogStore>(set => ({
     isOpen: false,
     onOpen: () => {
         set({ isOpen: true });
@@ -14,4 +14,4 @@ const useTripModificationModal = create<TripModificationModalStore>(set => ({
     onClose: () => set({ isOpen: false }),
 }));
 
-export default useTripModificationModal;
+export default useTripModificationDialog;

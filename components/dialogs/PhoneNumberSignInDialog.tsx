@@ -1,8 +1,8 @@
 'use client';
 
 import Logo from '@/components/landing_page/Logo';
-import usePhoneNumberSignInModal from '@/hooks/usePhoneNumberSignModal';
-import useRegisterModal from '@/hooks/useRegisterModal';
+import usePhoneNumberSignInDialog from '@/hooks/dialogHooks/usePhoneNumberSignInDialog';
+import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { getUserByPhoneNumber } from '@/server/userOperations';
@@ -18,10 +18,10 @@ import PhoneNumber from '../ui/phone-number';
 import { toast } from '../ui/use-toast';
 import { Dialog, DialogBody } from '../ui/dialog';
 
-const PhoneNumberSignInModal = () => {
+export default function PhoneNumberSignInDialog() {
     const router = useRouter();
-    const registerModal = useRegisterModal();
-    const phoneNumberSignInModal = usePhoneNumberSignInModal();
+    const registerDialog = useRegisterDialog();
+    const phoneNumberSignInDialog = usePhoneNumberSignInDialog();
 
     const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationId, setVerificationId] = useState('');
@@ -108,12 +108,12 @@ const PhoneNumberSignInModal = () => {
 
     const openModal = () => {
         resetState();
-        phoneNumberSignInModal.onOpen();
+        phoneNumberSignInDialog.onOpen();
     };
 
     const closeModal = () => {
         resetState();
-        phoneNumberSignInModal.onClose();
+        phoneNumberSignInDialog.onClose();
     };
 
     const resetState = () => {
@@ -130,7 +130,7 @@ const PhoneNumberSignInModal = () => {
     };
 
     return (
-        <Dialog isOpen={phoneNumberSignInModal.isOpen} closeDialog={closeModal} className='lg:max-w-lg'>
+        <Dialog isOpen={phoneNumberSignInDialog.isOpen} closeDialog={closeModal} className='lg:max-w-lg'>
             <DialogBody>
                 <ClientOnly>
                     <main className='flex items-center justify-center p-2 md:p-6'>
@@ -174,8 +174,8 @@ const PhoneNumberSignInModal = () => {
                                     <button
                                         type='button'
                                         onClick={() => {
-                                            phoneNumberSignInModal.onClose();
-                                            registerModal.onOpen();
+                                            phoneNumberSignInDialog.onClose();
+                                            registerDialog.onOpen();
                                         }}
                                         className='mx-1 cursor-pointer text-base font-medium text-primary hover:underline'>
                                         Sign up
@@ -191,4 +191,3 @@ const PhoneNumberSignInModal = () => {
     );
 };
 
-export default PhoneNumberSignInModal;

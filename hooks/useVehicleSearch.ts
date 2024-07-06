@@ -5,7 +5,7 @@ import { getSearchDates } from '@/lib/utils';
 import { searchVehiclesByLatitudeAndLongitude } from '@/server/vehicleOperations';
 import { addDays, format } from 'date-fns';
 import { useState } from 'react';
-import useCarFilterModal from './useCarFilterModal';
+import useCarFilterDialog from './dialogHooks/useCarFilterDialog';
 
 export function getAllURLParameters() {
     const url = new URL(window.location.href);
@@ -24,7 +24,7 @@ const useVehicleSearch = () => {
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [viewChanged, setViewChanged] = useState(false);
-    const useCarFilter = useCarFilterModal();
+    const useCarFilter = useCarFilterDialog();
     const searchVehicles = async () => {
         setLoading(true);
         useCarFilter.setIsLoading(true);
