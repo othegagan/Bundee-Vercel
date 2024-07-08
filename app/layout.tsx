@@ -1,19 +1,18 @@
-import type { Metadata } from 'next';
-import { Inter, Poppins } from 'next/font/google';
-import './globals.css';
 import Footer from '@/components/Footer';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import { Inter } from 'next/font/google';
+import './globals.css';
 
 import ClientOnly from '@/components/ClientOnly';
-import { HideComponentInFrame, HideInIFrame } from '@/components/HideInIFrame';
+import { HideComponentInFrame, HideInIFrame } from '@/components/custom/HideInIFrame';
 import ForgotPasswordDialg from '@/components/dialogs/ForgotPasswordDialog';
 import LoginDialog from '@/components/dialogs/LoginDialog';
 import PhoneNumberSignInDialog from '@/components/dialogs/PhoneNumberSignInDialog';
 import PhoneNumberVerificationDialog from '@/components/dialogs/PhoneNumberVerificationDialog';
 import RegisterModal from '@/components/dialogs/RegisterDialog';
 import TripReviewDialog from '@/components/dialogs/TripReviewDialog';
-import PushNotifications from '@/components/landing_page/PushNotifications';
 import Navbar from '@/components/navigation/Navbar';
 import { Toaster } from '@/components/ui/toaster';
 import Providers from '@/lib/providers';
