@@ -96,7 +96,7 @@ const usePersona = () => {
                 toast({
                     duration: 4000,
                     description: "Driving license updated successfully.",
-                    variant: "destructive",
+                    variant: "success",
                 });
             } else {
                 setPersonaUpdated(false);
