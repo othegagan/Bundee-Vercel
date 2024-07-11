@@ -12,7 +12,7 @@ export async function updatePersonaProfile(personaEnquiryId: any) {
             userId: session.userId,
         };
         const response = await http.post(url, payload);
-        if (response.data.errorCode == 0) {
+        if (response.data.errorCode === '0') {
             return {
                 success: true,
                 data: null,

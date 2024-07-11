@@ -1,9 +1,7 @@
 "use client";
-import usePersona, { profileVerifiedStatus } from "@/hooks/usePersona";
 
-import BoxContainer from "@/components/BoxContainer";
+import usePersona, { profileVerifiedStatus } from "@/hooks/usePersona";
 import ClientOnly from "@/components/ClientOnly";
-import BackButton from "@/components/custom/BackButton";
 import ErrorComponent from "@/components/custom/ErrorComponent";
 import TimeSelect from "@/components/custom/TimeSelect";
 import { VehiclesDetailsSkeleton, shimmer } from "@/components/skeletons/skeletons";
@@ -155,7 +153,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 payload.customDelivery = true;
             }
 
-            console.log(payload, "payload");
+            // console.log(payload, "payload");
 
             const responseData: any = await calculatePrice(payload);
             // console.log(responseData);

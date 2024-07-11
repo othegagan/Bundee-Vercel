@@ -1,18 +1,27 @@
-'use client';
-import * as PersonaVerification from 'persona';
-import { useRef, useState } from 'react';
+"use client";
+import * as PersonaVerification from "persona";
+import { useRef, useState } from "react";
 
-import { toast } from '@/components/ui/use-toast';
-import { getSession } from '@/lib/auth';
-import { getVerifiedDetailsFromPersona, updatePersonaProfile } from '@/server/personaOperations';
-import { getUserByEmail } from '@/server/userOperations';
+import { toast } from "@/components/ui/use-toast";
+import { getSession } from "@/lib/auth";
+import {
+    getVerifiedDetailsFromPersona,
+    updatePersonaProfile,
+} from "@/server/personaOperations";
+import { getUserByEmail } from "@/server/userOperations";
 
 const usePersona = () => {
-    const isDevelopmentOrTest = process.env.NEXT_PUBLIC_APP_ENV === 'development' || process.env.NEXT_PUBLIC_APP_ENV === 'test';
+    const isDevelopmentOrTest =
+        process.env.NEXT_PUBLIC_APP_ENV === "development" ||
+        process.env.NEXT_PUBLIC_APP_ENV === "test";
 
     const options = {
-        templateId: isDevelopmentOrTest ? 'itmpl_oFwr5vDFxPnJVnpKmXpgxY5x' : 'itmpl_oFwr5vDFxPnJVnpKmXpgxY5x',
-        environmentId: isDevelopmentOrTest ? 'env_3gPXHtfowwicvW8eh5GdW9PV' : 'env_dvc87Vi6niSk1hQoArHedbn1',
+        templateId: isDevelopmentOrTest
+            ? "itmpl_oFwr5vDFxPnJVnpKmXpgxY5x"
+            : "itmpl_oFwr5vDFxPnJVnpKmXpgxY5x",
+        environmentId: isDevelopmentOrTest
+            ? "env_3gPXHtfowwicvW8eh5GdW9PV"
+            : "env_dvc87Vi6niSk1hQoArHedbn1",
     };
 
     const [isPersonaClientLoading, setPersonaClientLoading] = useState(false);
@@ -21,7 +30,7 @@ const usePersona = () => {
 
     const createClient = (setShowPersona) => {
         setPersonaClientLoading(true);
-        const environment = isDevelopmentOrTest ? 'sandbox' : 'production';
+        const environment = isDevelopmentOrTest ? "sandbox" : "production";
 
         const client = new PersonaVerification.Client({
             ...options,
@@ -29,7 +38,9 @@ const usePersona = () => {
             //@ts-ignore
             onLoad: (error: any) => {
                 if (error) {
-                    console.error(`Failed with code: ${error.code} and message ${error.message}`);
+                    console.error(
+                        `Failed with code: ${error.code} and message ${error.message}`
+                    );
                 }
 
                 client.open();
@@ -49,10 +60,10 @@ const usePersona = () => {
             },
             onEvent: (name, meta) => {
                 switch (name) {
-                    case 'start':
+                    case "start":
                         // console.log(`Received event: start`);
                         break;
-                    case 'load-camera-failed':
+                    case "load-camera-failed":
                         // console.log(`Received event: load-camera-failed`);
                         break;
                     default:
@@ -70,7 +81,8 @@ const usePersona = () => {
         embeddedClientRef.current = client;
 
         //@ts-ignore
-        window.exit = () => (client ? client.exit(true) : alert('Initialize client first'));
+        window.exit = () =>
+            client ? client.exit(true) : alert("Initialize client first");
     };
 
     const updateDrivingProfile = async (inquiryId, status) => {
@@ -81,19 +93,26 @@ const usePersona = () => {
             console.log(res);
             if (res.success) {
                 setPersonaUpdated(true);
-                // alert(`Complete with status ${res.success}`);
-                //@ts-ignore
-                // embeddedClientRef.current.exit(true);
+                toast({
+                    duration: 4000,
+                    description: "Driving license updated successfully.",
+                    variant: "destructive",
+                });
             } else {
                 setPersonaUpdated(false);
+                toast({
+                    duration: 4000,
+                    description: "Something went wrong while updating Driving license.",
+                    variant: "destructive",
+                });
                 // alert(`Error while updating Driving license`);
             }
         } catch (e) {
-            console.error('Error in handleComplete:', e);
+            console.error("Error in handleComplete:", e);
             toast({
                 duration: 4000,
-                description: 'Something went wrong while saving the details.',
-                variant: 'destructive',
+                description: "Something went wrong while saving the details.",
+                variant: "destructive",
             });
         } finally {
             setPersonaClientLoading(false);
@@ -109,7 +128,15 @@ const usePersona = () => {
         }
     };
 
-    return { options, isPersonaClientLoading, createClient, updateDrivingProfile, personaUpdated, embeddedClientRef, getDetailsFromPersona };
+    return {
+        options,
+        isPersonaClientLoading,
+        createClient,
+        updateDrivingProfile,
+        personaUpdated,
+        embeddedClientRef,
+        getDetailsFromPersona,
+    };
 };
 
 export default usePersona;
@@ -119,7 +146,8 @@ export async function profileVerifiedStatus() {
     const userResponse = await getUserByEmail(session.email);
 
     if (userResponse.success) {
-        const isPersonaVerified = !!userResponse.data?.driverProfiles[0]?.personaEnquiryId;
+        const isPersonaVerified =
+            !!userResponse.data?.driverProfiles[0]?.personaEnquiryId;
         return isPersonaVerified;
     }
 }
