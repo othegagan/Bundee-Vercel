@@ -32,7 +32,7 @@ const usePersona = () => {
         setPersonaClientLoading(true);
         const environment = isDevelopmentOrTest ? "sandbox" : "production";
 
-        const client = new PersonaVerification.Client({
+        const client :any = new PersonaVerification.Client({
             ...options,
             environment: environment,
             //@ts-ignore
