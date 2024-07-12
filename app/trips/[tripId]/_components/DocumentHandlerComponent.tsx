@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import useDocumentDialog from '@/hooks/dialogHooks/useDocumentDialog';
 import { formatDate } from 'date-fns';
+import { FileDown } from 'lucide-react';
 import React from 'react';
 
 interface DocumentHandlerComponentProps {
@@ -19,13 +20,14 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
     if (invoiceUrl && isRentalAgreed) {
         return (
             <Button
-                variant='ghost'
+            className='flex items-center gap-2 w-full underline underline-offset-2 text-center mb-3'
+                variant='outline'
                 onClick={() => {
                     // console.log(tripData.rentalAgrrementUrl)
                     documentModal.setInvoicePDFLink(invoiceUrl);
                     documentModal.onOpen();
                 }}>
-                Download Invoice
+                <FileDown /> Download Invoice
             </Button>
         );
     }
