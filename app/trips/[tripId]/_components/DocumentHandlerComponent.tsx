@@ -20,14 +20,14 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
     if (invoiceUrl && isRentalAgreed) {
         return (
             <Button
-            className='flex items-center gap-2 w-full underline underline-offset-2 text-center mb-3'
+            className='flex items-center gap-2 w-full  text-center mb-3 py-3'
                 variant='outline'
                 onClick={() => {
                     // console.log(tripData.rentalAgrrementUrl)
                     documentModal.setInvoicePDFLink(invoiceUrl);
                     documentModal.onOpen();
                 }}>
-                <FileDown /> Download Invoice
+                <FileDown className='text-neutral-400 size-4'/> Download Invoice
             </Button>
         );
     }
