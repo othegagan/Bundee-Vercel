@@ -3,7 +3,7 @@
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { CarCountSkeleton, VehiclesCardsSkeleton } from '@/components/skeletons/skeletons';
 import useVehicleSearch from '@/hooks/useVehicleSearch';
-import { toTitleCase } from '@/lib/utils';
+import { sortImagesByIsPrimary, toTitleCase } from '@/lib/utils';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa6';
@@ -158,15 +158,7 @@ const Vehicles = ({ searchParams }: any) => {
 export default Vehicles;
 
 export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
-    const images: any = [...car.imageresponse].sort((a, b) => {
-        if (a.isPrimary && !b.isPrimary) {
-            return -1;
-        }
-        if (!a.isPrimary && b.isPrimary) {
-            return 1;
-        }
-        return a.orderNumber - b.orderNumber;
-    });
+    const images: any = sortImagesByIsPrimary(car.imageresponse);
     return (
         <div className='group h-fit rounded-lg  border bg-white hover:shadow-md'>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>

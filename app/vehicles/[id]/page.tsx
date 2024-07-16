@@ -13,7 +13,7 @@ import useAvailabilityDates from "@/hooks/useAvailabilityDates";
 import useScrollToTopOnLoad from "@/hooks/useScrollToTopOnLoad";
 import useWishlist from "@/hooks/useWishlist";
 import { getSession } from "@/lib/auth";
-import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded } from "@/lib/utils";
+import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded, sortImagesByIsPrimary } from "@/lib/utils";
 import { calculatePrice } from "@/server/priceCalculation";
 import { addToRecentlyViewedHistory, getVehicleAllDetailsByVechicleId } from "@/server/vehicleOperations";
 import { addDays, format, isToday } from "date-fns";
@@ -81,17 +81,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
                     setVehicleDetails(data.vehicleAllDetails?.[0] || null);
 
-                    // biome-ignore lint/correctness/noUnsafeOptionalChaining: <explanation>
-                    const images = [...data.vehicleAllDetails?.[0]?.imageresponse].sort((a, b) => {
-                        // Sort records with isPrimary true first
-                        if (a.isPrimary && !b.isPrimary) {
-                            return -1;
-                        }
-                        if (!a.isPrimary && b.isPrimary) {
-                            return 1;
-                        }
-                        return a.orderNumber - b.orderNumber;
-                    });
+                    const images = sortImagesByIsPrimary(data.vehicleAllDetails?.[0]?.imageresponse);
 
                     setVehicleImages(images || null);
                     setVehicleHostDetails(data.vehicleHostDetails[0] || null);

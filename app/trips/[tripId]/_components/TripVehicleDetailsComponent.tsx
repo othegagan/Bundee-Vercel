@@ -3,6 +3,7 @@
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import Readmore from '@/components/ui/readmore';
 import TripImageVideoCarousel from './TripImageVideoCarousel';
+import { sortImagesByIsPrimary } from '@/lib/utils';
 
 interface TripVehicleDetailsComponentProps {
     car: any;
@@ -21,17 +22,7 @@ const TripVehicleDetailsComponent = ({
     hostImage,
     hostPhoneNumber,
 }: TripVehicleDetailsComponentProps) => {
-    const images: any = [...car?.imageresponse].sort((a, b) => {
-        // Sort records with isPrimary true first
-        if (a.isPrimary && !b.isPrimary) {
-            return -1;
-        }
-        if (!a.isPrimary && b.isPrimary) {
-            return 1;
-        }
-        // For records with the same isPrimary value, maintain their original order
-        return a.orderNumber - b.orderNumber;
-    });
+    const images: any[] = sortImagesByIsPrimary(car?.imageresponse ?? []);
 
     return (
         <>

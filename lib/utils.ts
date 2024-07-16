@@ -1,10 +1,10 @@
-import { parseZonedDateTime } from '@internationalized/date';
-import { type ClassValue, clsx } from 'clsx';
-import { addMinutes, format, parse, parseISO, startOfHour } from 'date-fns';
-import moment from 'moment-timezone';
-import { twMerge } from 'tailwind-merge';
-import tzlookup from 'tz-lookup';
-import zipToTimeZone from 'zipcode-to-timezone';
+import { parseZonedDateTime } from "@internationalized/date";
+import { type ClassValue, clsx } from "clsx";
+import { addMinutes, format, parse, parseISO, startOfHour } from "date-fns";
+import moment from "moment-timezone";
+import { twMerge } from "tailwind-merge";
+import tzlookup from "tz-lookup";
+import zipToTimeZone from "zipcode-to-timezone";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -15,7 +15,10 @@ export function JSONparsefy(obj: any) {
 }
 
 export function toTitleCase(str: string) {
-    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+    return str.replace(
+        /\w\S*/g,
+        (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    );
 }
 
 export function roundToTwoDecimalPlaces(num: number) {
@@ -29,7 +32,7 @@ export function roundToTwoDecimalPlaces(num: number) {
 export function getCurrentTimeRounded() {
     const now = new Date();
     const nextHour = addMinutes(startOfHour(now), 60 * 3);
-    const roundedTime = format(nextHour, 'HH:mm:ss');
+    const roundedTime = format(nextHour, "HH:mm:ss");
     return roundedTime;
 }
 
@@ -45,27 +48,42 @@ export function getTimeZoneByZipcode(zipCode: string) {
 }
 
 export function convertToTuroDate(dateString: string, zipCode: string) {
-    const dateStringWithoutTimeZone = dateString.replace(/ [A-Z]{3} /, ' ');
-    const parsedDate = parse(dateStringWithoutTimeZone, 'EEE MMM dd HH:mm:ss yyyy', new Date());
-    const formattedDate = format(parsedDate, 'yyyy-MM-dd');
+    const dateStringWithoutTimeZone = dateString.replace(/ [A-Z]{3} /, " ");
+    const parsedDate = parse(
+        dateStringWithoutTimeZone,
+        "EEE MMM dd HH:mm:ss yyyy",
+        new Date()
+    );
+    const formattedDate = format(parsedDate, "yyyy-MM-dd");
     const formattedTime = parsedDate.toTimeString().slice(0, 8);
     const timeZone = getTimeZoneByZipcode(zipCode);
     const combinedDateTimeString = `${formattedDate}T${formattedTime}`;
-    const convertedCarDate = parseZonedDateTime(`${combinedDateTimeString}[${timeZone}]`).toAbsoluteString();
-    console.log(dateString, '==>', convertedCarDate);
+    const convertedCarDate = parseZonedDateTime(
+        `${combinedDateTimeString}[${timeZone}]`
+    ).toAbsoluteString();
+    console.log(dateString, "==>", convertedCarDate);
     return convertedCarDate;
 }
 
-export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: string, datetime?: string) {
+export function convertToCarTimeZoneISO(
+    date?: string,
+    time?: string,
+    zipCode?: string,
+    datetime?: string
+) {
     if (datetime) {
         const timeZone = getTimeZoneByZipcode(zipCode);
-        const converedCarDate = parseZonedDateTime(`${datetime}[${timeZone}]`).toAbsoluteString();
+        const converedCarDate = parseZonedDateTime(
+            `${datetime}[${timeZone}]`
+        ).toAbsoluteString();
 
         return converedCarDate;
     }
     const dateString = `${date}T${time}`;
     const timeZone = getTimeZoneByZipcode(zipCode);
-    const converedCarDate = parseZonedDateTime(`${dateString}[${timeZone}]`).toAbsoluteString();
+    const converedCarDate = parseZonedDateTime(
+        `${dateString}[${timeZone}]`
+    ).toAbsoluteString();
 
     return converedCarDate;
 }
@@ -75,29 +93,36 @@ export function formatDateAndTime(date: string, zipCode: string) {
     const timeZone = getTimeZoneByZipcode(zipCode);
     const timeInTimeZone = endTimeUTC.tz(timeZone);
 
-    const formattedDate = timeInTimeZone.format('ddd, MMM DD YYYY');
-    const formattedTime = timeInTimeZone.format('h:mm A');
-    const timeZoneAbbreviation = timeInTimeZone.format('z');
+    const formattedDate = timeInTimeZone.format("ddd, MMM DD YYYY");
+    const formattedTime = timeInTimeZone.format("h:mm A");
+    const timeZoneAbbreviation = timeInTimeZone.format("z");
 
     return `${formattedDate} | ${formattedTime} ${timeZoneAbbreviation}`;
 }
 
 export function formatTime(dateTimeString: string, zipCode: string) {
     const timeZone = getTimeZoneByZipcode(zipCode);
-    const time = moment(dateTimeString).tz(timeZone).format('HH:mm:ss');
+    const time = moment(dateTimeString).tz(timeZone).format("HH:mm:ss");
     return time;
 }
 
-export function getSearchDates(lat: number, lon: number, date: string, time: string) {
+export function getSearchDates(
+    lat: number,
+    lon: number,
+    date: string,
+    time: string
+) {
     const timezone = tzlookup(lat, lon);
     if (timezone) {
         const dateString = `${date}T${time}`;
 
-        const converedCarDate = parseZonedDateTime(`${dateString}[${timezone}]`).toAbsoluteString();
+        const converedCarDate = parseZonedDateTime(
+            `${dateString}[${timezone}]`
+        ).toAbsoluteString();
 
         return converedCarDate;
     }
-    console.log('Timezone not found for provided coordinates.');
+    console.log("Timezone not found for provided coordinates.");
     return null;
 }
 
@@ -106,7 +131,7 @@ export function convertToCarDate(dateString: string, zipCode: string) {
     const timeZone = getTimeZoneByZipcode(zipCode);
     const timeInTimeZone = endTimeUTC.tz(timeZone);
 
-    const formattedDate = timeInTimeZone.format('yyyy-MM-DD');
+    const formattedDate = timeInTimeZone.format("yyyy-MM-DD");
 
     return `${formattedDate}`;
 }
@@ -116,7 +141,7 @@ export function delay(ms: number) {
 }
 
 export function getFullAddress(vehicleDetails: any): string {
-    if (!vehicleDetails) return '';
+    if (!vehicleDetails) return "";
 
     const addressParts = [];
 
@@ -136,7 +161,25 @@ export function getFullAddress(vehicleDetails: any): string {
         addressParts.push(toTitleCase(vehicleDetails.state));
     }
 
-    const address = addressParts.join(', ');
+    const address = addressParts.join(", ");
 
     return address;
+}
+
+export function sortImagesByIsPrimary(images: any[]) {
+    if (!Array.isArray(images)) {
+        return [];
+    }
+
+    return images.slice().sort((a, b) => {
+        // Sort records with isPrimary true first
+        if (a.isPrimary && !b.isPrimary) {
+            return -1;
+        }
+        if (!a.isPrimary && b.isPrimary) {
+            return 1;
+        }
+        // For records with the same isPrimary value, maintain their original order
+        return a.orderNumber - b.orderNumber;
+    });
 }
