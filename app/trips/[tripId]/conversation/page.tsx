@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import { auth } from '@/lib/firebase';
-import { formatDateAndTime } from '@/lib/utils';
+import { formatDateAndTime, getFullAddress } from '@/lib/utils';
 import { getTripChatHistory, sendMessageToHost } from '@/server/tripOperations';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
@@ -196,11 +196,7 @@ function Message({ message, tripData }) {
                     <div>
                         Pickup & Return :
                         <span className='font-medium capitalize text-gray-800'>
-                            {tripData?.vehaddress1 ? `${tripData?.vehaddress1}, ` : null}
-                            {tripData?.vehaddress2 ? `${tripData?.vehaddress2}, ` : null}
-                            {tripData?.vehcity ? `${tripData?.vehcity}, ` : null}
-                            {tripData?.vehstate ? `${tripData?.vehstate}, ` : null}
-                            {tripData?.vehzipcode ? `${tripData?.vehzipcode}` : null}
+                            {getFullAddress({ tripDetails: tripData })}
                         </span>
                     </div>
 

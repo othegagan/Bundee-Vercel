@@ -82,7 +82,7 @@ const DeliveryDetailsComponent = ({
 
                 <p className='text-14 flex items-center rounded-md border px-3 py-2 '>
                     <FaLocationDot className='mr-2 size-5 ' />
-                    {getFullAddress(vehicleDetails)}
+                    {getFullAddress({ vehicleDetails: vehicleDetails })}
                 </p>
             </div>
 

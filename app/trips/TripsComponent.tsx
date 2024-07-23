@@ -3,7 +3,7 @@ import BoxContainer from '@/components/BoxContainer';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { TripsCardsSkeleton } from '@/components/skeletons/skeletons';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
-import { formatDateAndTime, toTitleCase } from '@/lib/utils';
+import { formatDateAndTime, getFullAddress, toTitleCase } from '@/lib/utils';
 import { getTrips } from '@/server/tripOperations';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -96,9 +96,7 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
                                 </div>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Pickup</div>
-                                    <div className='w-2/3 space-y-2 font-medium'>
-                                        {toTitleCase(trip?.vehaddress1)}, {trip?.vehaddress2}, {trip?.vehzipcode}, {trip?.vehcityname}, {trip?.vehstate}
-                                    </div>
+                                    <div className='w-2/3 space-y-2 font-medium'>{getFullAddress({ tripDetails: trip })}</div>
                                 </div>
                                 <div className='flex w-full'>
                                     <div className='w-1/3 space-y-2'>Trip Duration</div>
