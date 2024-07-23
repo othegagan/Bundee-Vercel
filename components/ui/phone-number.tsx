@@ -21,7 +21,7 @@ export default function PhoneNumber({ phone, setPhone, className, props }: Phone
                 prefix={'+'}
                 value={phone}
                 onChange={(phone) => setPhone(phone)}
-                countryCodeEditable={true}
+                countryCodeEditable={false}
                 {...props}
             />
         </div>

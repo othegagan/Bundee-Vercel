@@ -28,7 +28,7 @@ export async function updateUserNotifications(notificationIds: any) {
         };
 
         const response = await http.post(url, payload);
-        // console.log(response)
+    // console.log(response)
         return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
