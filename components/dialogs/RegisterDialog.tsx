@@ -200,14 +200,14 @@ export default function RegisterDialog() {
                                     <Label htmlFor='firstName'>
                                         First Name <span>*</span>
                                     </Label>
-                                    <Input placeholder='John' type='text' id='firstName' {...register('firstName')} />
+                                    <Input  type='text' id='firstName' {...register('firstName')} />
                                     <FormError message={errors.firstName?.message} />
                                 </div>
                                 <div className='space-y-2'>
                                     <Label htmlFor='lastName'>
                                         Last Name <span>*</span>
                                     </Label>
-                                    <Input placeholder='Deo' type='text' id='lastName' {...register('lastName')} />
+                                    <Input  type='text' id='lastName' {...register('lastName')} />
                                     <FormError message={errors.lastName?.message} />
                                 </div>
                             </div>
@@ -216,7 +216,7 @@ export default function RegisterDialog() {
                                 <Label htmlFor='email'>
                                     Email <span>*</span>
                                 </Label>
-                                <Input placeholder='name@example.com' type='email' id='email' {...register('email')} />
+                                <Input  type='email' id='email' {...register('email')} />
                                 <FormError message={errors.email?.message} />
                             </div>
 
