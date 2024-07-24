@@ -233,7 +233,7 @@ export default function RegisterDialog() {
                                     Password <span>*</span>
                                 </Label>
                                 <div className='relative'>
-                                    <Input type={showPassword ? 'text' : 'password'} placeholder='************' id='password' {...register('password')} />
+                                    <Input type={showPassword ? 'text' : 'password'} id='password' {...register('password')} />
                                     {showPassword ? (
                                         <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className='absolute right-2 top-2.5 cursor-pointer' />
                                     ) : (
@@ -248,12 +248,7 @@ export default function RegisterDialog() {
                                     Confirm Password <span>*</span>
                                 </Label>
                                 <div className='relative'>
-                                    <Input
-                                        type={showConfirmPassword ? 'text' : 'password'}
-                                        placeholder='************'
-                                        id='confirmPassword'
-                                        {...register('confirmPassword')}
-                                    />
+                                    <Input type={showConfirmPassword ? 'text' : 'password'} id='confirmPassword' {...register('confirmPassword')} />
                                     {showConfirmPassword ? (
                                         <FaEyeSlash
                                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
