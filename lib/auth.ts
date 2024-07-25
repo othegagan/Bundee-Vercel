@@ -6,6 +6,7 @@ import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import { JSONparsefy } from './utils';
+import { JWTExpired } from 'jose/errors';
 
 const secretKey = process.env.SECRET_KEY;
 const cookieName = process.env.NODE_ENV === 'production' ? 'bundee-session' : 'dev_session';
@@ -59,9 +60,20 @@ export async function getSession() {
         return defaultSession;
     }
 
-    const data = await decrypt(sessionCookie);
-
-    return JSONparsefy(data.sessionData) as SessionData;
+    try {
+        const data = await decrypt(sessionCookie);
+        return JSONparsefy(data.sessionData) as SessionData;
+    } catch (error) {
+        if (error instanceof JWTExpired) {
+            // Token has expired, return default session
+            console.log('Session token has expired');
+            await destroySession(); // Optionally clear the expired cookie
+            return defaultSession;
+        }
+        // For other types of errors, you might want to log them
+        console.error('Error decrypting session:', error);
+        return defaultSession;
+    }
 }
 
 export async function destroySession() {
