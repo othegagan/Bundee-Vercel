@@ -11,7 +11,14 @@ import { FiPaperclip } from 'react-icons/fi';
 import { LuLoader2 } from 'react-icons/lu';
 import { MdDeleteForever } from 'react-icons/md';
 
-const TripImageVideoUploadComponent = ({ tripData }: any) => {
+interface TripImageVideoUploadComponentProps {
+    tripid: number;
+    userId: string | number;
+    hostId: string | number | any;
+    driverTripStartingBlobs: any[] | [];
+}
+
+const TripImageVideoUploadComponent = ({ tripid, userId, hostId, driverTripStartingBlobs }: TripImageVideoUploadComponentProps) => {
     const wrapperRef = useRef(null);
     const [fileList, setFileList] = useState([]);
     const [captions, setCaptions] = useState([]);
@@ -65,7 +72,7 @@ const TripImageVideoUploadComponent = ({ tripData }: any) => {
                 }
             });
 
-            if (allowedFiles.length + fileList.length + Number(tripData?.driverTripStartingBlobs.length || 0) > 10) {
+            if (allowedFiles.length + fileList.length + Number(driverTripStartingBlobs.length || 0) > 10) {
                 toast({
                     duration: 4000,
                     variant: 'destructive',
@@ -118,17 +125,17 @@ const TripImageVideoUploadComponent = ({ tripData }: any) => {
 
             const formData = new FormData();
             const jsonData = {
-                tripId: tripData.tripid,
+                tripId: tripid,
                 isUploadedByHost: false,
                 isUploadedAtStarting: true,
                 url: '',
                 storageRef: '',
                 caption: captions[index],
-                userId: tripData.userid,
+                userId: userId,
                 video: file.type.includes('video'),
             };
             formData.append('json', JSON.stringify(jsonData));
-            formData.append('hostid', tripData.hostid);
+            formData.append('hostid', hostId);
             formData.append('image', file);
 
             return axios.post(url, formData, {
@@ -187,13 +194,12 @@ const TripImageVideoUploadComponent = ({ tripData }: any) => {
     return (
         <>
             <Button
-                variant='outline'
-                className='relative flex items-center gap-2 text-neutral-500 hover:text-neutral-600'
+                variant='link'
+                className='text-md font-normal underline underline-offset-2 px-0 text-foreground'
                 onClick={() => {
                     handleOpenModal();
                 }}>
-                <FiPaperclip className='size-5' />
-                Upload trip media
+                Upload media
             </Button>
 
             <Dialog

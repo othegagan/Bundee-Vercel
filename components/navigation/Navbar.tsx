@@ -27,7 +27,7 @@ const Navbar = async () => {
 
     return (
         <>
-            <header className=' sticky top-0 z-[60] select-none bg-white py-2.5 shadow-sm'>
+            <header className=' sticky top-0 z-[10] select-none bg-white py-2.5 shadow-sm'>
                 <Container>
                     <nav className='flex items-center justify-between '>
                         <Logo />

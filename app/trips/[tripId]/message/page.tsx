@@ -20,7 +20,7 @@ const AUTHOR_TYPE = {
     CLIENT: 'CLIENT',
 };
 
-export default function Page({ params }) {
+export default function MessagePage({ params }) {
     const [token, setToken] = useState('');
     const [inputMessage, setInputMessage] = useState('');
     const [tripId, setTripId] = useState(null);
@@ -105,8 +105,8 @@ export default function Page({ params }) {
     }, [sendMessageMutation.isPending]);
 
     return (
-        <div className='rounded-lg px-4 pt-2 text-card-foreground shadow-sm'>
-            <div className='h-[calc(90vh-250px)] space-y-4 overflow-y-auto md:h-[calc(90vh-200px)]' ref={chatWindowRef}>
+        <div className='rounded-lg px-4 pt-2 text-card-foreground shadow-sm border lg:py-4'>
+            <div className='h-[calc(90vh-250px)] space-y-4 overflow-y-auto lg:h-[calc(97vh-200px)]' ref={chatWindowRef}>
                 {loadingMessages ? (
                     <ChatSkeleton />
                 ) : (
@@ -167,6 +167,7 @@ function Message({ message, tripData }) {
             {message.author !== AUTHOR_TYPE.CLIENT && (
                 <img src={authorImage[message.author]} alt={message.author} width={32} height={32} className='mr-2 size-8 rounded-full border' />
             )}
+            
             {message.message.toLocaleLowerCase() === 'a new reservation was requested' ? (
                 <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm'>
                     <span>{message.message}</span>
@@ -185,15 +186,15 @@ function Message({ message, tripData }) {
                         {tripData?.vehmake} {tripData?.vehmodel} {tripData?.vehyear}
                     </p>
 
-                    <div>
+                    <div className='text-12'>
                         Trip Start Date :<span className='font-medium text-gray-800'> {formatDateAndTime(tripData?.starttime, tripData?.vehzipcode)}</span>
                     </div>
 
-                    <div>
+                    <div className='text-12'>
                         Trip End Date : <span className='font-medium text-gray-800'> {formatDateAndTime(tripData?.endtime, tripData?.vehzipcode)}</span>
                     </div>
 
-                    <div>
+                    <div className='text-12'>
                         Pickup & Return :
                         <span className='font-medium capitalize text-gray-800'>
                             {getFullAddress({ tripDetails: tripData })}

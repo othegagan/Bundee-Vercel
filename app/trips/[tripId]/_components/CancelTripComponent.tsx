@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 import { cancelReservation } from '@/server/tripOperations';
+import { X } from 'lucide-react';
 import { useState } from 'react';
 
 const CancelTripComponent = ({ tripId }: any) => {
@@ -53,9 +54,10 @@ const CancelTripComponent = ({ tripId }: any) => {
                 onClick={() => {
                     openModal();
                 }}
-                variant='destructive'
-                className='w-full'
+                variant='link'
+                className='flex items-center gap-2 text-red-500 hover:text-red-600 p-0 font-semibold'
                 size='lg'>
+                <X className='size-4' />
                 Cancel trip
             </Button>
 

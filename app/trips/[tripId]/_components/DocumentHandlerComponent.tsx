@@ -20,14 +20,14 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
     if (invoiceUrl && isRentalAgreed) {
         return (
             <Button
-            className='flex items-center gap-2 w-full  text-center mb-3 py-3'
+                className='flex items-center gap-2 w-full  text-center mb-3 py-3'
                 variant='outline'
                 onClick={() => {
                     // console.log(tripData.rentalAgrrementUrl)
                     documentModal.setInvoicePDFLink(invoiceUrl);
                     documentModal.onOpen();
                 }}>
-                <FileDown className='text-neutral-400 size-4'/> Download Invoice
+                <FileDown className='text-neutral-400 size-4' /> Download Invoice
             </Button>
         );
     }
@@ -35,14 +35,14 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
     if (isRentalAgreed) {
         return (
             <Button
-                variant='ghost'
+                variant='link'
+                className='p-0 text-md font-normal underline underline-offset-2 text-foreground'
                 onClick={() => {
                     // console.log(tripData.rentalAgrrementUrl)
                     documentModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
                     documentModal.setIsAgreementAcceptedOn(formatDate(new Date(rentalAgreedDate), 'PP, h:mm a'));
                     documentModal.onOpen();
-                }}
-                className='font-medium leading-none tracking-wide underline underline-offset-2'>
+                }}>
                 View Rental Agreement
             </Button>
         );
@@ -50,16 +50,15 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
 
     return (
         <Button
-            size='lg'
-            variant='outline'
-            className='mt-6 w-full'
+            variant='link'
+            className='p-0 text-md font-normal underline underline-offset-2 text-foreground'
             onClick={() => {
                 // console.log(tripData.rentalAgrrementUrl)
                 documentModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
                 documentModal.setTripId(tripId);
                 documentModal.onOpen();
             }}>
-            Accept Rental Agreement
+            Accept
         </Button>
     );
 }

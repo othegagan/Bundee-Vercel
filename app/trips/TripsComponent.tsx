@@ -5,7 +5,7 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import { TripsCardsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
-import { formatDateAndTime, getFullAddress, toTitleCase } from '@/lib/utils';
+import { cn, formatDateAndTime, getFullAddress, toTitleCase } from '@/lib/utils';
 import { getTrips } from '@/server/tripOperations';
 import { useQuery } from '@tanstack/react-query';
 import { CalendarDays, MapPin } from 'lucide-react';
@@ -197,7 +197,7 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
     );
 };
 
-export const StatusBadge = ({ status, type }: { type: 'trip' | 'swap'; status: string }) => {
+export const StatusBadge = ({ status, type, className }: { type: 'trip' | 'swap'; status: string; className?: string }) => {
     const statusTexts = {
         swap: {
             swappr: 'Swap Proposal Requested',
@@ -213,5 +213,9 @@ export const StatusBadge = ({ status, type }: { type: 'trip' | 'swap'; status: s
 
     const statusText = getStatusText(type, status);
 
-    return <div className='text-12 capitalize inline-flex items-center whitespace-nowrap  px-2.5 py-1.5 font-medium bg-[#0A4AC61A]'>{statusText}</div>;
+    return (
+        <div className={cn('text-12 capitalize inline-flex items-center whitespace-nowrap  px-2.5 py-1.5 font-medium bg-[#0A4AC61A]', className)}>
+            {statusText}
+        </div>
+    );
 };

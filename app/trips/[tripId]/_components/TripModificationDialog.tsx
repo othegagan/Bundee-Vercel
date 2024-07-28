@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { TripModificationEndDateCalendar, TripModificationStartDateCalendar } from './TripModificationCalendars';
 import TripModificationPriceListComponent from './TripModificationPriceListComponent';
+import Image from 'next/image';
 
 const useTripModification = () => {
     const [submitting, setSubmitting] = useState(false);
@@ -271,8 +272,9 @@ export default function TripModificationDialog({ tripData }) {
 
     return (
         <div>
-            <Button onClick={openModifiyDialog} variant='black' className='w-full' size='lg'>
-                Modify trip
+            <Button onClick={openModifiyDialog} variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
+                <Image src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
+                Modify Trip
             </Button>
 
             <Dialog
