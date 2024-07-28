@@ -1,48 +1,52 @@
 'use client';
+
 import BoxContainer from '@/components/BoxContainer';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { TripsCardsSkeleton } from '@/components/skeletons/skeletons';
+import { Button } from '@/components/ui/button';
 import useScrollToTopOnLoad from '@/hooks/useScrollToTopOnLoad';
 import { formatDateAndTime, getFullAddress, toTitleCase } from '@/lib/utils';
 import { getTrips } from '@/server/tripOperations';
 import { useQuery } from '@tanstack/react-query';
+import { CalendarDays, MapPin } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import type React from 'react';
 import { useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 export default function TripsComponent() {
     const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
+    const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
     return (
-        <BoxContainer className='mb-6 py-6'>
-            <div className='flex flex-col gap-1 border-b pb-2 md:flex-row md:items-center md:justify-between'>
-                <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Trips</h3>
+        <BoxContainer className='mb-6'>
+            <div className='flex flex-col mx-auto gap-1 border-b  md:flex-row md:items-center md:justify-center select-none'>
                 <div
                     role='tablist'
                     aria-orientation='horizontal'
-                    className='mt-4 grid h-14 w-full max-w-lg grid-cols-2 items-center justify-center gap-4 rounded-lg bg-neutral-100 p-1 px-3 text-muted-foreground'
+                    className='mt-4 grid  w-fit mx-auto max-w-lg grid-cols-2 items-center justify-center gap-10 rounded-lg    text-muted-foreground'
                     data-orientation='horizontal'>
                     {[
-                        { id: 0, title: 'Current Trips' },
-                        { id: 1, title: 'Trips History' },
+                        { id: 0, title: 'Trips' },
+                        { id: 1, title: 'Past Trips' },
                     ].map(({ id, title }) => (
                         <button
                             key={id}
                             onClick={() => setTabSelectedIndex(id)}
                             type='button'
                             role='tab'
-                            className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-                    ${tabSelectedIndex === id ? 'bg-primary text-white shadow' : 'bg-neutral-100 text-muted-foreground'}`}>
+                            className={`inline-flex items-center justify-center whitespace-nowrap  px-3 py-2 text-md font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:underline
+                    ${tabSelectedIndex === id ? 'text-primary font-bold text-lg  ' : 'font-medium text-muted-foreground'}`}>
                             {title}
                         </button>
                     ))}
                 </div>
             </div>
-            <MainComponent tabSelectedIndex={tabSelectedIndex} />
+            <MainComponent tabSelectedIndex={tabSelectedIndex} isTabletOrLarger={isTabletOrLarger} />
         </BoxContainer>
     );
 }
 
-const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
+const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedIndex: number; isTabletOrLarger: boolean }) => {
     const {
         data: tripsResponse,
         isLoading: loading,
@@ -68,80 +72,132 @@ const MainComponent = ({ tabSelectedIndex }: { tabSelectedIndex: number }) => {
     }
 
     return (
-        <div className='mt-6 grid w-full grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6  '>
-            {tripsResponse.data?.activetripresponse.map((trip: any) => (
-                <Link
-                    key={trip.tripid}
-                    href={`/trips/${trip.tripid}/details`}
-                    className='group col-span-1 flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow md:flex-row'>
-                    <div className='h-44 w-full overflow-hidden rounded-md bg-neutral-200 group-hover:opacity-75 md:h-48 md:w-64'>
-                        <img
-                            src={trip.vehicleImages[0]?.imagename}
-                            alt={`${trip.vehmake} ${trip.vehmodel}`}
-                            className='h-full w-full object-cover object-center transition-all ease-in-out group-hover:scale-110 lg:h-full lg:w-full'
-                        />
-                    </div>
+        <div className='mt-6 grid w-full grid-cols-1   gap-4 max-w-4xl mx-auto '>
+            {tripsResponse.data?.activetripresponse.map((trip: any) => {
+                if (isTabletOrLarger) {
+                    return (
+                        <Link
+                            key={trip.tripid}
+                            href={`/trips/${trip.tripid}/details`}
+                            className='flex flex-1 w-full gap-2 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:p-2'>
+                            <div className='flex-center size-32 h-full overflow-hidden rounded-md'>
+                                <img
+                                    src={trip.vehicleImages[0]?.imagename || '/image_not_available.png'}
+                                    alt={`${trip.vehmake} ${trip.vehmodel}`}
+                                    className='h-full w-full object-cover object-center'
+                                />
+                            </div>
 
-                    <div className='flex flex-auto flex-col'>
-                        <div>
-                            <h4 className='text-lg font-semibold capitalize text-gray-900'>{`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`}</h4>
-                            <div className='mt-2 flex w-full flex-col gap-2 text-xs text-gray-600'>
-                                <div className='flex w-full'>
-                                    <div className='w-1/3 space-y-2'>Start Date</div>
-                                    <div className='w-2/3 space-y-2 font-medium'>{formatDateAndTime(trip.starttime, trip?.vehzipcode)}</div>
-                                </div>
-                                <div className='flex w-full'>
-                                    <div className='w-1/3 space-y-2'>End Date</div>
-                                    <div className='w-2/3 space-y-2 font-medium'>{formatDateAndTime(trip.endtime, trip?.vehzipcode)}</div>
-                                </div>
-                                <div className='flex w-full'>
-                                    <div className='w-1/3 space-y-2'>Pickup</div>
-                                    <div className='w-2/3 space-y-2 font-medium'>{getFullAddress({ tripDetails: trip })}</div>
-                                </div>
-                                <div className='flex w-full'>
-                                    <div className='w-1/3 space-y-2'>Trip Duration</div>
-                                    <div className='w-2/3 space-y-2 font-medium'>
-                                        <>
-                                            {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24))}
-                                            {'  '}
-                                            {Math.ceil((Number(new Date(trip.endtime)) - Number(new Date(trip.starttime))) / (1000 * 60 * 60 * 24)) === 1
-                                                ? 'Day'
-                                                : 'Days'}
-                                        </>
+                            <div className='flex w-full flex-1 flex-col gap-2 '>
+                                <div className='flex  w-full items-center justify-between'>
+                                    <div className='text-[18px]  truncate max-w-[200px] font-bold md:max-w-sm'>
+                                        {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
+                                        <div className='text-14 font-medium text-muted-foreground  '>{trip?.vehicleNumber}</div>
+                                    </div>
+                                    <div className='flex-center mt-2 justify-between'>
+                                        <StatusBadge status={trip.status} type='trip' />
+                                        {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}
                                     </div>
                                 </div>
+
+                                <div className='flex w-full gap-2 items-center'>
+                                    <CalendarDays className='size-4 ' />
+                                    <div className='text-14 '>
+                                        {formatDateAndTime(trip.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
+                                        {formatDateAndTime(trip.endtime, trip?.vehzipcode, 'ddd, MMM DD YYYY')}
+                                    </div>
+                                </div>
+
+                                <div className='flex-center text-14  justify-start gap-2'>
+                                    <MapPin className='size-4 ' />
+                                    <p className=' max-w-[300px] md:max-w-[400px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
+                                </div>
+
+                                <div className='flex items-center justify-end gap-10 pl-1.5 -mt-6'>
+                                    {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
+                                        <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
+                                            <Image src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
+                                            Modify Trip
+                                        </Button>
+                                    )}
+                                    <Link href={`/trips/${trip.tripid}/message`}>
+                                        <Button variant='link' className='px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
+                                            <Image src='/icons/chat.svg' alt='chat' width={18} height={18} />
+                                            Message Host
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
-                        <div className='mt-6 flex flex-1 items-end'>
-                            <dl className='flex space-x-4 text-sm'>
-                                <StatusBadge status={trip.status} type='trip' />
-                                {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}
-                            </dl>
-                        </div>
-                    </div>
-                </Link>
-            ))}
+                        </Link>
+                    );
+                } else {
+                    return (
+                        <Link
+                            key={trip.tripid}
+                            href={`/trips/${trip.tripid}/details`}
+                            className='flex gap-2 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:p-2'>
+                            <div className='flex flex-1 flex-col md:flex-row gap-2 text-nowrap'>
+                                <div className='flex gap-3 md:gap-4'>
+                                    <div className='flex-center size-28 h-16 overflow-hidden rounded-md select-none'>
+                                        <img
+                                            src={trip.vehicleImages[0]?.imagename || '/image_not_available.png'}
+                                            alt={`${trip.vehmake} ${trip.vehmodel}`}
+                                            className='h-full w-full object-cover object-center'
+                                        />
+                                    </div>
+
+                                    <div className='flex flex-1 flex-col '>
+                                        <div className='text-16  truncate max-w-[200px] font-semibold md:max-w-sm'>
+                                            {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
+                                        </div>
+
+                                        <div className='flex-center justify-between'>
+                                            <div className='text-14 font-medium text-muted-foreground'>{trip?.vehicleNumber}</div>
+                                            <StatusBadge status={trip.status} type='trip' />
+                                            {trip.swapDetails && trip.swapDetails.length > 0 && (
+                                                <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className='flex w-full gap-2 items-center'>
+                                    <CalendarDays className='size-5 text-muted-foreground' />
+                                    <div className='text-14 '>
+                                        {formatDateAndTime(trip.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
+                                        {formatDateAndTime(trip.endtime, trip?.vehzipcode, 'ddd, MMM DD YYYY')}
+                                    </div>
+                                </div>
+
+                                <div className='flex-center text-14 mt-1.5 justify-start gap-2'>
+                                    <MapPin className='size-5 text-muted-foreground' />
+                                    <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
+                                </div>
+
+                                <div className='flex items-center w-full justify-between '>
+                                    {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
+                                        <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
+                                            <Image src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
+                                            Modify Trip
+                                        </Button>
+                                    )}
+                                    <Link href={`/trips/${trip.tripid}/message`} className='ml-auto'>
+                                        <Button variant='link' className=' px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
+                                            <Image src='/icons/chat.svg' alt='chat' width={18} height={18} />
+                                            Message Host
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </Link>
+                    );
+                }
+            })}
         </div>
     );
 };
 
 export const StatusBadge = ({ status, type }: { type: 'trip' | 'swap'; status: string }) => {
-    const statusClasses = {
-        trip: {
-            completed: 'bg-green-100 text-green-800 ',
-            approved: 'bg-green-100 text-green-800 ',
-            requested: 'bg-yellow-100 text-yellow-800 ',
-            started: 'bg-blue-100 text-blue-800 ring-blue-600/20',
-            default: 'bg-red-100 text-red-800 ring-red-600/20',
-        },
-        swap: {
-            swappr: 'bg-yellow-100 text-yellow-800 ring-yellow-600/20',
-            swaprej: 'bg-red-100 text-red-800 ring-red-600/20',
-            swapacc: 'bg-green-100 text-green-800 ring-green-600/20',
-            default: 'bg-gray-100 text-gray-800 ring-gray-600/20',
-        },
-    };
-
     const statusTexts = {
         swap: {
             swappr: 'Swap Proposal Requested',
@@ -151,20 +207,11 @@ export const StatusBadge = ({ status, type }: { type: 'trip' | 'swap'; status: s
         },
     };
 
-    const getStatusClass = (type: string, status: string) => {
-        return statusClasses[type][status.toLowerCase()] || statusClasses[type].default;
-    };
-
     const getStatusText = (type: string, status: string) => {
         return statusTexts[type]?.[status.toLowerCase()] || status;
     };
 
-    const statusClass = getStatusClass(type, status);
     const statusText = getStatusText(type, status);
 
-    return (
-        <span className={`text-12 capitalize inline-flex items-center whitespace-nowrap rounded-md px-2.5 py-1.5 font-medium  ${statusClass}`}>
-            {statusText}
-        </span>
-    );
+    return <div className='text-12 capitalize inline-flex items-center whitespace-nowrap  px-2.5 py-1.5 font-medium bg-[#0A4AC61A]'>{statusText}</div>;
 };

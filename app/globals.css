@@ -129,6 +129,10 @@
     .text-36 {
         @apply text-[36px] leading-[44px];
     }
+
+    .flex-center{
+        @apply flex items-center justify-center;
+    }
 }
 
 .top-cal {

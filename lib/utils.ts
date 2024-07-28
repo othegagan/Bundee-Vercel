@@ -70,16 +70,12 @@ export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: 
     return converedCarDate;
 }
 
-export function formatDateAndTime(date: string, zipCode: string) {
+export function formatDateAndTime(date: string, zipCode: string, format = 'ddd, MMM DD YYYY | h:mm A z') {
     const endTimeUTC = moment.utc(date);
     const timeZone = getTimeZoneByZipcode(zipCode);
     const timeInTimeZone = endTimeUTC.tz(timeZone);
 
-    const formattedDate = timeInTimeZone.format('ddd, MMM DD YYYY');
-    const formattedTime = timeInTimeZone.format('h:mm A');
-    const timeZoneAbbreviation = timeInTimeZone.format('z');
-
-    return `${formattedDate} | ${formattedTime} ${timeZoneAbbreviation}`;
+    return timeInTimeZone.format(format);
 }
 
 export function formatTime(dateTimeString: string, zipCode: string) {

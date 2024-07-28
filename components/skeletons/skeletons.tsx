@@ -92,14 +92,42 @@ export function CarCountSkeleton() {
     );
 }
 
+export function TripsCard({ className }: { className?: string }) {
+    return (
+        <div className='flex flex-col md:flex-row gap-2 pb-3 border-b'>
+            <div className='flex gap-4 w-full'>
+                <div className={`relative h-20 w-36 md:h-28  rounded-md bg-neutral-200 ${shimmer}`} />
+
+                <div className='flex flex-col gap-2 w-full h-full '>
+                    <div className='flex gap-2 md:flex-row md:justify-between md:items-center w-full'>
+                        <div className='flex gap-2 flex-col w-full'>
+                            <div className={`h-6 w-full md:h-8 md:w-[50%] rounded-sm bg-neutral-200 ${shimmer}`} />
+                            <div className='h-4 w-[50%] md:w-[25%] rounded-sm bg-neutral-200' />
+                        </div>
+                        <div className={`h-8 hidden md:block w-[20%] rounded-sm bg-neutral-200 ${shimmer}`} />
+                    </div>
+                    <div className='h-4 w-[40%] rounded-sm bg-neutral-200 hidden md:block' />
+                    <div className='justify-end gap-4 md:flex hidden w-full'>
+                        <div className={`h-8  w-[20%] rounded-sm bg-neutral-200 ${shimmer}`} />
+                        <div className={`h-8  w-[20%] rounded-sm bg-neutral-200 ${shimmer}`} />
+                    </div>
+                </div>
+            </div>
+            <div className='justify-between md:justify-end gap-4 flex md:hidden '>
+                <div className={`h-8  w-[50%] rounded-sm bg-neutral-200 ${shimmer}`} />
+                <div className={`h-8  w-[50%] rounded-sm bg-neutral-200 ${shimmer}`} />
+            </div>
+        </div>
+    );
+}
+
 export function TripsCardsSkeleton() {
     return (
-        <div className='mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2  xl:gap-x-8'>
-            <VehicleCardSkeleton />
-            <VehicleCardSkeleton />
-            <VehicleCardSkeleton />
-            <VehicleCardSkeleton />
-            <VehicleCardSkeleton />
+        <div className='mt-6 grid grid-cols-1 gap-x-6 gap-y-6 max-w-4xl mx-auto  xl:gap-x-8'>
+            <TripsCard />
+            <TripsCard />
+            <TripsCard />
+            <TripsCard />
         </div>
     );
 }

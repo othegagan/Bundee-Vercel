@@ -1,5 +1,5 @@
 'use server';
-
+import 'server-only';
 import { type SessionData, defaultSession } from '@/types';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';

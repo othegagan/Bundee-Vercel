@@ -13,7 +13,7 @@ export default async function layout({ params, children }: { params: { tripId: s
     return (
         <div className='py-4 md:container '>
             <div className='flex flex-col gap-1 border-b px-4 pb-2 md:flex-row md:items-center md:justify-between'>
-                <BackButton link='/trips' />
+                <BackButton/>
 
                 <TabsComponent tripId={params.tripId} />
             </div>
