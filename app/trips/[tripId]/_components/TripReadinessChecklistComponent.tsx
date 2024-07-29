@@ -3,8 +3,26 @@
 import { RxQuestionMarkCircled } from 'react-icons/rx';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import DocumentHandlerComponent from './DocumentHandlerComponent';
+import { useDriverReadiness } from '@/hooks/useDriverReadiness';
+import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
+import usePersona from '@/hooks/usePersona';
 
 export default function TripReadinessChecklistComponent({ trip }: any) {
+    const { data: response, isLoading, error } = useDriverReadiness();
+    const phoneNumberDialog = usePhoneNumberVerificationDialog();
+    const { isPersonaClientLoading, createClient } = usePersona();
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
+    const drivingLicenseFlag = response.data.driverProfiles.some((profile) => !!profile.personaEnquiryId);
+    const isPhoneVerifiedFlag = response.data.userResponse.isPhoneVarified;
+
     return (
         <div className='flex flex-col gap-2'>
             <div className='text-md font-bold '>Readiness Checklist</div>
@@ -12,24 +30,32 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
             {/* Driving Licence */}
             <div className='flex items-center justify-between'>
                 <div className='text-md w-fit flex-center gap-2'>
-                    <RxQuestionMarkCircled className='text-yellow-500 size-5' /> Driving Licence
+                    {!drivingLicenseFlag ? (
+                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                    ) : (
+                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    )}{' '}
+                    Driving Licence
                 </div>
-                <div className='text-md  underline underline-offset-2'> Upload</div>
-            </div>
-
-            {/* Insurance */}
-            <div className='flex items-center justify-between'>
-                <div className='text-md w-fit flex-center gap-2'>
-                    <IoCheckmarkCircleOutline className='text-green-500 size-5' />
-                    Insurance
-                </div>
-                <div className='text-md  underline underline-offset-2'> Change</div>
+                {!drivingLicenseFlag ? (
+                    <button type='button' className='text-md underline underline-offset-2' onClick={() => createClient(() => {})}>
+                        Upload
+                    </button>
+                ) : (
+                    <button type='button' className='text-md underline underline-offset-2' onClick={() => createClient(() => {})}>
+                        Change
+                    </button>
+                )}
             </div>
 
             {/* Rental Agreement */}
             <div className='flex items-center justify-between'>
                 <div className='text-md w-fit flex-center gap-2'>
-                    <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    {!trip.isRentalAgreed ? (
+                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                    ) : (
+                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    )}{' '}
                     Rental Agreement
                 </div>
                 {!trip.isRentalAgreed && ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(trip.status.toLowerCase()) === -1 && (
@@ -53,10 +79,32 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
             {/* Phone Number */}
             <div className='flex items-center justify-between'>
                 <div className='text-md w-fit flex-center gap-2'>
-                    <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    {!isPhoneVerifiedFlag ? (
+                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                    ) : (
+                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    )}{' '}
                     Phone Number
                 </div>
-                <div className='text-md  underline underline-offset-2'> Verify</div>
+                {!isPhoneVerifiedFlag ? (
+                    <button
+                        type='button'
+                        className='text-md underline underline-offset-2'
+                        onClick={() => {
+                            phoneNumberDialog.onOpen();
+                        }}>
+                        Verify
+                    </button>
+                ) : (
+                    <button
+                        type='button'
+                        className='text-md underline underline-offset-2'
+                        onClick={() => {
+                            phoneNumberDialog.onOpen();
+                        }}>
+                        Change
+                    </button>
+                )}
             </div>
         </div>
     );

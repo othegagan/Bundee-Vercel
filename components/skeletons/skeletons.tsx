@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export const shimmer =
     'relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.5s_infinite] before:bg-gradient-to-r before:from-transparent before:via-black/10 before:to-transparent';
 
@@ -94,7 +96,7 @@ export function CarCountSkeleton() {
 
 export function TripsCard({ className }: { className?: string }) {
     return (
-        <div className='flex flex-col md:flex-row gap-2 pb-3 border-b'>
+        <div className={cn('flex flex-col md:flex-row gap-2 pb-3 border-b', className)}>
             <div className='flex gap-4 w-full'>
                 <div className={`relative h-20 w-36 md:h-28  rounded-md bg-neutral-200 ${shimmer}`} />
 
@@ -175,19 +177,52 @@ export function PriceCalculatedListSkeleton() {
 
 export function ChatSkeleton() {
     return (
-        <div className='flex w-full flex-col gap-4 p-4'>
+        <div className='flex w-full flex-col gap-4 '>
             <div className='flex-grow-1 flex-row items-start gap-4 '>
-                <div className={`${shimmer} h-[350px] w-[75%] rounded-lg bg-neutral-200 `} />
+                <div className={`${shimmer} h-[200px] w-[75%] rounded-lg bg-neutral-200 `} />
             </div>
+
             <div className='flex-grow-1 flex items-start gap-4 '>
                 <div className={`${shimmer} h-12 w-[200px] rounded-lg bg-neutral-200 `} />
             </div>
 
             <div className='flex flex-row-reverse items-start gap-4 '>
-                <div className={`${shimmer} h-12 w-[50%] rounded-lg bg-neutral-200 `} />
+                <div className={`${shimmer} h-10 w-[50%] rounded-lg bg-neutral-200 `} />
             </div>
+
             <div className='flex flex-row-reverse items-start gap-4 '>
                 <div className={`${shimmer} h-12 w-[200px] rounded-lg bg-neutral-200 `} />
+            </div>
+
+            <div className='flex-grow-1 hidden lg:flex items-start gap-4 '>
+                <div className={`${shimmer} h-10 w-[200px] rounded-lg bg-neutral-200 `} />
+            </div>
+
+            <div className='hidden lg:flex flex-row-reverse items-start gap-4 '>
+                <div className={`${shimmer} h-8 w-[50%] rounded-lg bg-neutral-200 `} />
+            </div>
+        </div>
+    );
+}
+
+export function TripsDetailsSkeleton() {
+    return (
+        <div className='container min-h-[65svh]'>
+            <div className='lg:hidden'>
+                <TripsCard />
+            </div>
+            <div className='mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
+                <div className='col-span-4 space-y-4 lg:col-span-2'>
+                    <div className={`relative h-[300px] rounded-xl bg-neutral-200 ${shimmer}`} />
+
+                    <div className='h-8 w-full rounded-lg bg-neutral-200' />
+                    <div className='h-4 w-2/3 rounded-lg bg-neutral-200' />
+                    <div className='h-4 w-1/3 rounded-lg bg-neutral-200' />
+                </div>
+
+                <div className='col-span-1 border p-2 rounded-md lg:p-4 lg:flex flex-col gap-3 hidden'>
+                    <ChatSkeleton />
+                </div>
             </div>
         </div>
     );

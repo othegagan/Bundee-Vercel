@@ -7,7 +7,8 @@ export default function TripReviewDialogTrigger({ tripData }: { tripData: any })
     const tripReviewDialog = useTripReviewDialog();
     return (
         <Button
-            className='mt-4  w-full  '
+            variant='secondary'
+            className='  w-fit ml-auto  px-10'
             onClick={() => {
                 tripReviewDialog.onOpen();
                 tripReviewDialog.setTripData(tripData);

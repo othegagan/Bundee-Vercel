@@ -20,14 +20,14 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
     if (invoiceUrl && isRentalAgreed) {
         return (
             <Button
-                className='flex items-center gap-2 w-full  text-center mb-3 py-3'
-                variant='outline'
+                variant='link'
+                className='p-0 text-sm font-normal underline underline-offset-2 text-foreground'
                 onClick={() => {
                     // console.log(tripData.rentalAgrrementUrl)
                     documentModal.setInvoicePDFLink(invoiceUrl);
                     documentModal.onOpen();
                 }}>
-                <FileDown className='text-neutral-400 size-4' /> Download Invoice
+                Download Invoice
             </Button>
         );
     }
@@ -43,7 +43,7 @@ export default function DocumentHandlerComponent({ isRentalAgreed, rentalAgrreme
                     documentModal.setIsAgreementAcceptedOn(formatDate(new Date(rentalAgreedDate), 'PP, h:mm a'));
                     documentModal.onOpen();
                 }}>
-                View Rental Agreement
+                View
             </Button>
         );
     }

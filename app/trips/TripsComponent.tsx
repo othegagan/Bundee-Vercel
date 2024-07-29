@@ -120,7 +120,7 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                             Modify Trip
                                         </Button>
                                     )}
-                                    <Link href={`/trips/${trip.tripid}/message`}>
+                                    <Link href={`/trips/${trip.tripid}/details`}>
                                         <Button variant='link' className='px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
                                             <Image src='/icons/chat.svg' alt='chat' width={18} height={18} />
                                             Message Host
@@ -214,7 +214,7 @@ export const StatusBadge = ({ status, type, className }: { type: 'trip' | 'swap'
     const statusText = getStatusText(type, status);
 
     return (
-        <div className={cn('text-12 capitalize inline-flex items-center whitespace-nowrap  px-2.5 py-1.5 font-medium bg-[#0A4AC61A]', className)}>
+        <div className={cn('text-12 capitalize inline-flex items-center whitespace-nowrap  px-2.5 py-1.5 font-bold bg-[#0A4AC61A]', className)}>
             {statusText}
         </div>
     );

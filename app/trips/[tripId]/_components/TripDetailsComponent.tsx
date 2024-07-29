@@ -12,6 +12,7 @@ import TripReadinessChecklistComponent from './TripReadinessChecklistComponent';
 import TripPoliciesComponent from './TripPoliciesComponent';
 import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
 
 interface TripVehicleDetailsComponentProps {
     tripData: any;
@@ -35,7 +36,7 @@ export default function TripDetailsComponent({
     const images: any[] = sortImagesByIsPrimary(trip?.vehicleImages ?? []);
 
     return (
-        <div className='space-y-5'>
+        <div className='space-y-5 lg:space-y-10'>
             <div className='flex gap-3 md:gap-4'>
                 <div className='flex-center size-28 h-20 md:size-36  overflow-hidden rounded-md select-none'>
                     <img
@@ -46,10 +47,12 @@ export default function TripDetailsComponent({
                 </div>
 
                 <div className='flex flex-1 flex-col '>
-                    <div className='text-16  truncate max-w-[200px] font-semibold md:max-w-sm'>
+                    <Link
+                        className='text-16  truncate max-w-[200px] font-semibold md:max-w-sm lg:text-xl underline underline-offset-1 w-fit'
+                        href={`/vehicles/${trip.vehicleId}`}>
                         {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
-                    </div>
-                    <div className='text-14 font-medium text-muted-foreground'>{trip?.vehicleNumber}</div>
+                    </Link>
+                    <div className='text-14 font-normal text-muted-foreground lg:text-xl'>{trip?.vehicleNumber}</div>
 
                     <div className='flex-center justify-between mt-3'>
                         {isFetching ? (
@@ -61,31 +64,27 @@ export default function TripDetailsComponent({
                             <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' className='ml-auto' />
                         )}
                     </div>
+
+                    <div className='hidden lg:block'>
+                        <HostDetails hostName={hostName} hostImage={hostImage} hostPhoneNumber={hostPhoneNumber} />
+                    </div>
                 </div>
             </div>
 
             {/* Hosted  Section */}
-            <div className='relative  flex flex-col gap-2'>
-                <div className='flex items-center whitespace-nowrap gap-x-2'>
-                    <p className='text-14'>Hosted By:</p>
-                    <img src={hostImage || '/dummy_avatar.png'} alt={hostName} className='size-8 rounded-full border bg-neutral-50' />
-                    <p className='text-14'>{hostName}</p>
-                </div>
-                <div className='flex items-center whitespace-nowrap gap-x-2'>
-                    <p className='text-14'>Contact Number:</p>
-                    <p className='text-14 '>{hostPhoneNumber}</p>
-                </div>
+            <div className='lg:hidden'>
+                <HostDetails hostName={hostName} hostImage={hostImage} hostPhoneNumber={hostPhoneNumber} />
             </div>
 
             {/* Trip Dates Section */}
             <div className='flex flex-col items-center  gap-3   '>
-                <div className='flex items-center gap-2 font-semibold text-14'>
+                <div className='flex  gap-2 font-semibold text-14'>
                     Trip Duration
                     <span className='font-normal'>
                         ({trip.tripPaymentTokens[0]?.totaldays} {trip?.tripPaymentTokens[0]?.totaldays === 1 ? 'Day' : 'Days'})
                     </span>
                 </div>
-                <div className='flex w-full justify-between gap-2 '>
+                <div className='flex w-full justify-between gap-2 lg:px-20 lg:justify-around'>
                     <p className='text-14 text-center font-semibold'>{splitFormattedDateAndTime(formatDateAndTime(trip.starttime, trip.vehzipcode))}</p>
                     <div className='whitespace-nowrap rounded-full border-primary border p-2 px-2.5 h-fit w-fit font-semibold text-primary/70'>To</div>
                     <p className='text-14 text-center font-semibold'>{splitFormattedDateAndTime(formatDateAndTime(trip.endtime, trip.vehzipcode))}</p>
@@ -103,6 +102,7 @@ export default function TripDetailsComponent({
             <TripReadinessChecklistComponent trip={trip} />
 
             {/* Trip Media */}
+
             <div className='flex flex-col gap-2'>
                 <div className='flex items-center justify-between'>
                     <div className='text-md font-bold '>Trip Media</div>
@@ -117,6 +117,22 @@ export default function TripDetailsComponent({
 
             {/* Policies */}
             {trip.status.toLowerCase() === 'requested' && <TripPoliciesComponent starttime={trip.starttime} cancellationDays={trip.cancellationDays} />}
+        </div>
+    );
+}
+
+function HostDetails({ hostName, hostImage, hostPhoneNumber }: { hostName: string; hostImage: string; hostPhoneNumber: string }) {
+    return (
+        <div className='relative flex flex-col gap-2'>
+            <div className='flex items-center whitespace-nowrap gap-x-2'>
+                <p className='text-16'>Hosted By:</p>
+                <img src={hostImage || '/dummy_avatar.png'} alt={hostName} className='size-8 rounded-full border bg-neutral-50' />
+                <p className='text-16'>{hostName}</p>
+            </div>
+            <div className='flex items-center whitespace-nowrap gap-x-2'>
+                <p className='text-16'>Contact Number:</p>
+                <p className='text-16 '>{hostPhoneNumber}</p>
+            </div>
         </div>
     );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import BackButton from '@/components/custom/BackButton';
 import { ChatSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
@@ -105,8 +106,12 @@ export default function MessagePage({ params }) {
     }, [sendMessageMutation.isPending]);
 
     return (
-        <div className='rounded-lg px-4 pt-2 text-card-foreground shadow-sm border lg:py-4'>
-            <div className='h-[calc(90vh-250px)] space-y-4 overflow-y-auto lg:h-[calc(97vh-200px)]' ref={chatWindowRef}>
+        <div className='rounded-lg px-4  text-card-foreground md:shadow-sm md:border lg:py-4'>
+            <div className='flex items-center justify-start pb-2 border-b lg:hidden'>
+                <BackButton />
+            </div>
+
+            <div className='h-[calc(90vh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97vh-200px)]' ref={chatWindowRef}>
                 {loadingMessages ? (
                     <ChatSkeleton />
                 ) : (
@@ -167,7 +172,7 @@ function Message({ message, tripData }) {
             {message.author !== AUTHOR_TYPE.CLIENT && (
                 <img src={authorImage[message.author]} alt={message.author} width={32} height={32} className='mr-2 size-8 rounded-full border' />
             )}
-            
+
             {message.message.toLocaleLowerCase() === 'a new reservation was requested' ? (
                 <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm'>
                     <span>{message.message}</span>
@@ -195,10 +200,7 @@ function Message({ message, tripData }) {
                     </div>
 
                     <div className='text-12'>
-                        Pickup & Return :
-                        <span className='font-medium capitalize text-gray-800'>
-                            {getFullAddress({ tripDetails: tripData })}
-                        </span>
+                        Pickup & Return :<span className='font-medium capitalize text-gray-800'>{getFullAddress({ tripDetails: tripData })}</span>
                     </div>
 
                     <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
