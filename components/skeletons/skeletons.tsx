@@ -33,7 +33,7 @@ export function VehiclesCardsSkeleton({ className, columns }: VehicleCardSkeleto
 
 export function VehiclesDetailsSkeleton() {
     return (
-        <div className='container min-h-[65svh]'>
+        <div className='container min-h-[65dvh]'>
             <div className='mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
                 <div className='col-span-4 space-y-4 lg:col-span-2'>
                     <div className={`relative h-[300px] rounded-xl bg-neutral-200 ${shimmer}`} />
@@ -207,7 +207,7 @@ export function ChatSkeleton() {
 
 export function TripsDetailsSkeleton() {
     return (
-        <div className='container min-h-[65svh]'>
+        <div className='container min-h-[65dvh]'>
             <div className='lg:hidden'>
                 <TripsCard />
             </div>

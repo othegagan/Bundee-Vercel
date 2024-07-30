@@ -23,7 +23,7 @@ export default function CheckoutSuccess() {
 
     return (
         <>
-            <div className='my-6 flex min-h-[calc(75vh-80px)] w-full items-center justify-center bg-white px-5 '>
+            <div className='my-6 flex min-h-[calc(75dvh-80px)] w-full items-center justify-center bg-white px-5 '>
                 <div className='text-center'>
                     <div className='inline-flex rounded-full  p-4'>
                         <img

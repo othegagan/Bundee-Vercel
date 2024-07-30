@@ -111,7 +111,7 @@ export default function MessagePage({ params }) {
                 <BackButton />
             </div>
 
-            <div className='h-[calc(90dvh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97vh-200px)]' ref={chatWindowRef}>
+            <div className='h-[calc(90dvh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-200px)]' ref={chatWindowRef}>
                 {loadingMessages ? (
                     <ChatSkeleton />
                 ) : (

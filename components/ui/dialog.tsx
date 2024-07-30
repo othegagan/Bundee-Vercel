@@ -81,7 +81,7 @@ interface DialogBodyProps {
 }
 
 function DialogBody({ children, className }: DialogBodyProps) {
-    return <div className={cn('translate max-h-[calc(100vh-16rem)] overflow-y-auto md:max-h-min md:overflow-y-hidden lg:pb-0', className)}>{children}</div>;
+    return <div className={cn('translate max-h-[calc(100dvh-16rem)] overflow-y-auto md:max-h-min md:overflow-y-hidden lg:pb-0', className)}>{children}</div>;
 }
 
 interface DialogFooterProps {

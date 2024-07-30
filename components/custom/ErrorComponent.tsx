@@ -7,7 +7,7 @@ interface ErrorComponentProps {
 
 const ErrorComponent = ({ message }: ErrorComponentProps) => {
     return (
-        <div className='flex h-[calc(70vh-80px)] w-full items-center justify-center bg-white p-5'>
+        <div className='flex h-[calc(70dvh-80px)] w-full items-center justify-center bg-white p-5'>
             <div className='text-center'>
                 <div className='inline-flex rounded-full bg-yellow-100 p-4'>
                     <div className='rounded-full bg-yellow-200 stroke-yellow-600 p-4'>

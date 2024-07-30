@@ -112,7 +112,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <div>
-            <div className='flex min-h-[80vh] flex-col lg:hidden'>
+            <div className='flex min-h-[80dvh] flex-col lg:hidden'>
                 <BoxContainer className='py-10'>
                     <div className='flex gap-3'>
                         <div className='col-span-1 flex flex-col gap-1'>

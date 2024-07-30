@@ -30,7 +30,7 @@ const Vehicles = ({ searchParams }: any) => {
     }, [searchParams]);
 
     return (
-        <div className='h-[calc(100vh_-_185px)] '>
+        <div className='h-[calc(100dvh_-_185px)] '>
             {/* Mobile View components */}
             <div className='sticky top-0 z-40 my-2  flex w-full items-center justify-between bg-white py-1 lg:hidden'>
                 {loading || useCarFilter.isLoading ? (
