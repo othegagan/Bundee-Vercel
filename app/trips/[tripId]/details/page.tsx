@@ -50,7 +50,7 @@ export default function page({ params }: { params: { tripId: string } }) {
                     </Button>
                 </Link>
 
-                <div className='ml-auto  items-center justify-between hidden lg:flex'>
+                <div className='ml-auto gap-10 items-center justify-between hidden lg:flex'>
                     {swapRequestDetails && (
                         <SwapComponent
                             swapRequestDetails={swapRequestDetails}

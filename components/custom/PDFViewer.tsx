@@ -12,7 +12,7 @@ const options = {
 };
 
 export default function PDFViewerComponent({ link }: { link: any }) {
-    const [numPages, setNumPages] = useState(null);
+    const [numPages, setNumPages] = useState<number | null>(null);
 
     useEffect(() => {
         pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
