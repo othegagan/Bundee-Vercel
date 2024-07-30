@@ -476,7 +476,7 @@ export default function TripModificationDialog({ tripData }) {
 export function splitFormattedDateAndTime(input: string) {
     const parts = input.split(' | ');
     if (parts.length !== 2) {
-        throw new Error('Invalid input format');
+        return input;
     }
     const [datePart, timePart] = parts;
     return (

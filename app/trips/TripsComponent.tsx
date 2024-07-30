@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { CalendarDays, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
@@ -47,6 +48,8 @@ export default function TripsComponent() {
 }
 
 const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedIndex: number; isTabletOrLarger: boolean }) => {
+    const router = useRouter();
+
     const {
         data: tripsResponse,
         isLoading: loading,
@@ -103,8 +106,8 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 <div className='flex w-full gap-2 items-center'>
                                     <CalendarDays className='size-4 ' />
                                     <div className='text-14 '>
-                                        {formatDateAndTime(trip.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
-                                        {formatDateAndTime(trip.endtime, trip?.vehzipcode, 'ddd, MMM DD YYYY')}
+                                        {formatDateAndTime(trip?.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
+                                        {formatDateAndTime(trip?.endtime, trip?.vehzipcode, 'ddd, MMM DD YYYY')}
                                     </div>
                                 </div>
 
@@ -116,16 +119,17 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 <div className='flex items-center justify-end gap-10 pl-1.5 -mt-6'>
                                     {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
                                         <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
-                                            <Image src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
+                                            <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
                                             Modify Trip
                                         </Button>
                                     )}
-                                    <Link href={`/trips/${trip.tripid}/details`}>
-                                        <Button variant='link' className='px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
-                                            <Image src='/icons/chat.svg' alt='chat' width={18} height={18} />
-                                            Message Host
-                                        </Button>
-                                    </Link>
+                                    <Button
+                                        onClick={() => router.push(`/trips/${trip.tripid}/details`)}
+                                        variant='link'
+                                        className='px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
+                                        <img src='/icons/chat.svg' alt='chat' width={18} height={18} />
+                                        Message Host
+                                    </Button>
                                 </div>
                             </div>
                         </Link>
@@ -177,16 +181,17 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 <div className='flex items-center w-full justify-between '>
                                     {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
                                         <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
-                                            <Image src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
+                                            <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
                                             Modify Trip
                                         </Button>
                                     )}
-                                    <Link href={`/trips/${trip.tripid}/message`} className='ml-auto'>
-                                        <Button variant='link' className=' px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
-                                            <Image src='/icons/chat.svg' alt='chat' width={18} height={18} />
-                                            Message Host
-                                        </Button>
-                                    </Link>
+                                    <Button
+                                        onClick={() => router.push(`/trips/${trip.tripid}/message`)}
+                                        variant='link'
+                                        className='ml-auto px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
+                                        <img src='/icons/chat.svg' alt='chat' width={18} height={18} />
+                                        Message Host
+                                    </Button>
                                 </div>
                             </div>
                         </Link>

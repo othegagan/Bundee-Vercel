@@ -71,11 +71,14 @@ export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: 
 }
 
 export function formatDateAndTime(date: string, zipCode: string, format = 'ddd, MMM DD YYYY | h:mm A z') {
+    console.log("date", date)
+    console.log("zipCode", zipCode)
+    if (!date || !zipCode) return '';
     const endTimeUTC = moment.utc(date);
     const timeZone = getTimeZoneByZipcode(zipCode);
     const timeInTimeZone = endTimeUTC.tz(timeZone);
 
-    return timeInTimeZone.format(format);
+    return timeInTimeZone.format(format || 'ddd, MMM DD YYYY | h:mm A z');
 }
 
 export function formatTime(dateTimeString: string, zipCode: string) {
