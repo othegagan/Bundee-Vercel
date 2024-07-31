@@ -117,12 +117,12 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 </div>
 
                                 <div className='flex items-center justify-end gap-10 pl-1.5 -mt-6'>
-                                    {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
+                                    {/* {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
                                         <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
                                             <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
                                             Modify Trip
                                         </Button>
-                                    )}
+                                    )} */}
                                     <Button
                                         onClick={() => router.push(`/trips/${trip.tripid}/details`)}
                                         variant='link'
@@ -179,12 +179,12 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 </div>
 
                                 <div className='flex items-center w-full justify-between '>
-                                    {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
+                                    {/* {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
                                         <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
                                             <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
                                             Modify Trip
                                         </Button>
-                                    )}
+                                    )} */}
                                     <Button
                                         onClick={() => router.push(`/trips/${trip.tripid}/message`)}
                                         variant='link'
