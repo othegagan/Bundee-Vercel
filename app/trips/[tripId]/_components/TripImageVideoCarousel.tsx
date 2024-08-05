@@ -35,7 +35,7 @@ const TripImageVideoCarousel = ({ images, uploadedBy }) => {
         }
     };
     return (
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-3  lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3  lg:grid-cols-4'>
             {images.map((item) => (
                 <div className='custom-shadow h-fit  rounded-lg bg-white hover:shadow-md ' key={item.id}>
                     <div className='relative flex items-end overflow-hidden rounded-t-lg '>

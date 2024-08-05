@@ -9,7 +9,6 @@ import { cn, formatDateAndTime, getFullAddress, toTitleCase } from '@/lib/utils'
 import { getTrips } from '@/server/tripOperations';
 import { useQuery } from '@tanstack/react-query';
 import { CalendarDays, MapPin } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -134,7 +133,8 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                             </div>
                         </Link>
                     );
-                } else {
+                }
+
                     return (
                         <Link
                             key={trip.tripid}
@@ -196,7 +196,6 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                             </div>
                         </Link>
                     );
-                }
             })}
         </div>
     );

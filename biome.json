@@ -8,21 +8,27 @@
             "suspicious": {
                 "noExplicitAny": "off",
                 "noDoubleEquals": "info",
-                "noArrayIndexKey": "info"
+                "noArrayIndexKey": "off",
+                "noConsoleLog": "off"
             },
             "complexity": {
-                "noForEach": "off"
+                "noForEach": "off",
+                "useLiteralKeys": "info",
+                "noMultipleSpacesInRegularExpressionLiterals": "warn"
             },
             "correctness": {
-                "useExhaustiveDependencies": "info"
+                "useExhaustiveDependencies": "off",
+                "noUnusedImports": "warn"
             },
             "style": {
-                "useTemplate": "off",
+                "useTemplate": "warn",
                 "useImportType": "off",
-                "noUselessElse": "off"
+                "noUselessElse": "info"
             },
             "a11y": {
-                "noSvgWithoutTitle": "off"
+                "noSvgWithoutTitle": "off",
+                "noPositiveTabindex": "off",
+                "useKeyWithClickEvents": "off"
             }
         }
     },
@@ -30,9 +36,10 @@
         "enabled": true,
         "indentWidth": 4,
         "indentStyle": "space",
-        "lineWidth": 160,
+        "lineWidth": 140,
         "lineEnding": "lf",
-        "ignore": [".biome/cache", "./next.config.js", "./node_modules", "./public"]
+        "attributePosition": "auto",
+        "ignore": [".biome/cache", "./next.config.js", "./node_modules", "./public", ".next"]
     },
     "javascript": {
         "formatter": {
@@ -47,7 +54,7 @@
             "jsxQuoteStyle": "single",
             "quoteProperties": "asNeeded",
             "semicolons": "always",
-            "trailingCommas": "all"
+            "trailingCommas": "none"
         }
     },
     "css": {
@@ -58,5 +65,22 @@
             "lineEnding": "lf",
             "quoteStyle": "single"
         }
-    }
+    },
+    "json": {
+        "formatter": {
+            "trailingCommas": "none",
+            "indentStyle": "space",
+            "lineWidth": 160,
+            "lineEnding": "lf",
+            "indentWidth": 4
+        }
+    },
+    "overrides": [
+        {
+            "include": ["*.json"],
+            "formatter": {
+                "indentWidth": 4
+            }
+        }
+    ]
 }

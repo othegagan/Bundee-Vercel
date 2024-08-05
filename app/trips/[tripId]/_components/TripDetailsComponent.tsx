@@ -1,18 +1,16 @@
 'use client';
 
-import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
-import Readmore from '@/components/ui/readmore';
+import { Skeleton } from '@/components/ui/skeleton';
 import { formatDateAndTime, getFullAddress, sortImagesByIsPrimary, toTitleCase } from '@/lib/utils';
 import { MapPin } from 'lucide-react';
+import Link from 'next/link';
 import { StatusBadge } from '../../TripsComponent';
-import TripImageVideoCarousel from './TripImageVideoCarousel';
+import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
 import { splitFormattedDateAndTime } from './TripModificationDialog';
 import TripPaymentComponent from './TripPaymentComponent';
-import TripReadinessChecklistComponent from './TripReadinessChecklistComponent';
 import TripPoliciesComponent from './TripPoliciesComponent';
-import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
-import { Skeleton } from '@/components/ui/skeleton';
-import Link from 'next/link';
+import TripReadinessChecklistComponent from './TripReadinessChecklistComponent';
+import TripImageVideoCarousel from './TripImageVideoCarousel';
 
 interface TripVehicleDetailsComponentProps {
     tripData: any;
@@ -31,7 +29,7 @@ export default function TripDetailsComponent({
     hostName,
     hostImage,
     hostPhoneNumber,
-    isFetching,
+    isFetching
 }: TripVehicleDetailsComponentProps) {
     const images: any[] = sortImagesByIsPrimary(trip?.vehicleImages ?? []);
 
@@ -102,7 +100,6 @@ export default function TripDetailsComponent({
             <TripReadinessChecklistComponent trip={trip} />
 
             {/* Trip Media */}
-
             <div className='flex flex-col gap-2'>
                 <div className='flex items-center justify-between'>
                     <div className='text-md font-bold '>Trip Media</div>
@@ -113,6 +110,8 @@ export default function TripDetailsComponent({
                         driverTripStartingBlobs={trip?.driverTripStartingBlobs || []}
                     />
                 </div>
+                <TripImageVideoCarousel images={trip?.driverTripStartingBlobs || []} uploadedBy='driver' />
+                <TripImageVideoCarousel images={trip?.hostTripStartingBlobs || []} uploadedBy='host' />
             </div>
 
             {/* Policies */}

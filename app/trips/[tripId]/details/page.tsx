@@ -2,22 +2,15 @@
 
 import BackButton from '@/components/custom/BackButton';
 import ErrorComponent from '@/components/custom/ErrorComponent';
-import { TripsDetailsSkeleton, VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
+import { TripsDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useTripDetails } from '@/hooks/useTripDetails';
-import { formatDateAndTime, toTitleCase } from '@/lib/utils';
 import Link from 'next/link';
-import { StatusBadge } from '../../TripsComponent';
 import CancelTripComponent from '../_components/CancelTripComponent';
-import DocumentHandlerComponent from '../_components/DocumentHandlerComponent';
 import StartTripComponent from '../_components/StartTripComponent';
 import SwapComponent from '../_components/SwapComponent';
 import TripDetailsComponent from '../_components/TripDetailsComponent';
-import TripImageVideoUploadComponent from '../_components/TripImageVideoUploadComponent';
 import TripModificationDialog from '../_components/TripModificationDialog';
-import TripPriceListComponent from '../_components/TripPaymentComponent';
-import TripPoliciesComponent from '../_components/TripPoliciesComponent';
 import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import MessagePage from '../message/page';
 

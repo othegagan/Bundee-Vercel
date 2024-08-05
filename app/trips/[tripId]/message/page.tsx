@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from 'react';
 const AUTHOR_TYPE = {
     SYSTEM: 'system',
     HOST: 'HOST',
-    CLIENT: 'CLIENT',
+    CLIENT: 'CLIENT'
 };
 
 export default function MessagePage({ params }) {
@@ -42,7 +42,7 @@ export default function MessagePage({ params }) {
                 toast({
                     duration: 3000,
                     variant: 'destructive',
-                    description: 'Failed to retrieve token. Please reload the page and try again.',
+                    description: 'Failed to retrieve token. Please reload the page and try again.'
                 });
             }
         }
@@ -70,7 +70,7 @@ export default function MessagePage({ params }) {
         queryFn: fetchChatHistory,
         enabled: !!tripId && !!token,
         refetchInterval: 8000,
-        refetchOnWindowFocus: true,
+        refetchOnWindowFocus: true
     });
 
     const sendMessageMutation = useMutation({
@@ -89,9 +89,9 @@ export default function MessagePage({ params }) {
             toast({
                 duration: 3000,
                 variant: 'destructive',
-                description: 'Failed to send message. Please try again.',
+                description: 'Failed to send message. Please try again.'
             });
-        },
+        }
     });
 
     const handleSendMessage = (event) => {
@@ -111,7 +111,8 @@ export default function MessagePage({ params }) {
                 <BackButton />
             </div>
 
-            <div className='h-[calc(90dvh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-200px)]' ref={chatWindowRef}>
+            <p className='hidden text-md lg:block font-bold'>Messages</p>
+            <div className='h-[calc(90dvh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-220px)]' ref={chatWindowRef}>
                 {loadingMessages ? (
                     <ChatSkeleton />
                 ) : (
@@ -151,7 +152,7 @@ export default function MessagePage({ params }) {
 function Message({ message, tripData }) {
     const authorImage = {
         [AUTHOR_TYPE.SYSTEM]: '/robot.png',
-        [AUTHOR_TYPE.HOST]: '/dummy_avatar.png',
+        [AUTHOR_TYPE.HOST]: '/dummy_avatar.png'
     };
 
     const isClientMessage = message.author === AUTHOR_TYPE.CLIENT;

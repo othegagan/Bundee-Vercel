@@ -1,6 +1,6 @@
 import { parseZonedDateTime } from '@internationalized/date';
 import { type ClassValue, clsx } from 'clsx';
-import { addMinutes, format, parse, parseISO, startOfHour } from 'date-fns';
+import { addMinutes, format, parse, startOfHour } from 'date-fns';
 import moment from 'moment-timezone';
 import { twMerge } from 'tailwind-merge';
 import tzlookup from 'tz-lookup';
@@ -71,8 +71,6 @@ export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: 
 }
 
 export function formatDateAndTime(date: string, zipCode: string, format = 'ddd, MMM DD YYYY | h:mm A z') {
-    console.log("date", date)
-    console.log("zipCode", zipCode)
     if (!date || !zipCode) return '';
     const endTimeUTC = moment.utc(date);
     const timeZone = getTimeZoneByZipcode(zipCode);
