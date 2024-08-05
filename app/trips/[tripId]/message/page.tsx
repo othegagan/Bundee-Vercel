@@ -152,7 +152,7 @@ export default function MessagePage({ params }) {
 function Message({ message, tripData }) {
     const authorImage = {
         [AUTHOR_TYPE.SYSTEM]: '/images/robot.png',
-        [AUTHOR_TYPE.HOST]: '/images/dummy_avatar.png'
+        [AUTHOR_TYPE.HOST]: tripData.hostImage ||'/images/dummy_avatar.png'
     };
 
     const isClientMessage = message.author === AUTHOR_TYPE.CLIENT;
