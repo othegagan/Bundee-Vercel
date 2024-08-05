@@ -112,7 +112,7 @@ export default function MessagePage({ params }) {
             </div>
 
             <p className='hidden text-md lg:block font-bold'>Messages</p>
-            <div className='h-[calc(90dvh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-220px)]' ref={chatWindowRef}>
+            <div className='h-[calc(90dvh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-240px)]' ref={chatWindowRef}>
                 {loadingMessages ? (
                     <ChatSkeleton />
                 ) : (
@@ -151,19 +151,36 @@ export default function MessagePage({ params }) {
 
 function Message({ message, tripData }) {
     const authorImage = {
-        [AUTHOR_TYPE.SYSTEM]: '/robot.png',
-        [AUTHOR_TYPE.HOST]: '/dummy_avatar.png'
+        [AUTHOR_TYPE.SYSTEM]: '/images/robot.png',
+        [AUTHOR_TYPE.HOST]: '/images/dummy_avatar.png'
     };
 
     const isClientMessage = message.author === AUTHOR_TYPE.CLIENT;
+
+    const isHostMessage = message.author === AUTHOR_TYPE.HOST;
 
     const images = tripData?.vehicleImages;
 
     if (isClientMessage) {
         return (
-            <div className='ml-auto flex w-max max-w-[75%] flex-col gap-2 rounded-lg bg-black px-3 py-2 text-sm text-primary-foreground'>
+            <div className='ml-auto flex w-max max-w-[75%] flex-col gap-2 rounded-lg rounded-br-none bg-primary/40 px-3 py-2 text-sm font-medium'>
                 {message?.message}
-                <p className='flex items-center justify-end text-[10px] text-white'> {format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                <p className='flex items-center justify-end text-[10px] '> {format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+            </div>
+        );
+    }
+
+    if (isHostMessage) {
+        return (
+            <div className='flex'>
+                {message.author !== AUTHOR_TYPE.CLIENT && (
+                    <img src={authorImage[message.author]} alt={message.author} width={32} height={32} className='mr-2 size-8 rounded-full border' />
+                )}
+
+                <div className='flex flex-col gap-2 rounded-lg rounded-tl-none bg-[#E1EFFE] px-3 py-2 text-sm font-medium'>
+                    {message.message}
+                    <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                </div>
             </div>
         );
     }
@@ -184,7 +201,11 @@ function Message({ message, tripData }) {
                         </div>
                     ) : (
                         <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
-                            <img src='../image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
+                            <img
+                                src='../images/image_not_available.png'
+                                alt='image_not_found'
+                                className='h-full w-full min-w-full object-cover md:rounded-md'
+                            />
                         </div>
                     )}
 
@@ -207,7 +228,7 @@ function Message({ message, tripData }) {
                     <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
                 </div>
             ) : (
-                <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm font-medium'>
+                <div className='flex flex-col gap-2 rounded-lg rounded-tl-none bg-muted px-3 py-2 text-sm font-medium'>
                     {message.message}
                     <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
                 </div>

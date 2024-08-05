@@ -17,7 +17,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                 </div>
             ) : (
                 <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
-                    <img src='../image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
+                    <img src='../images/image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
                 </div>
             )}
 
@@ -138,7 +138,7 @@ const VehicleDetailsComponent = ({ vehicleDetails, vehicleImages, vehicleHostDet
                         <p className='font-bold'>Hosted By</p>
                         <div className='relative  flex items-center gap-x-4'>
                             <img
-                                src={vehicleHostDetails.userimage || '/dummy_avatar.png'}
+                                src={vehicleHostDetails.userimage || '/images/dummy_avatar.png'}
                                 alt={vehicleHostDetails.firstname}
                                 className='size-14 rounded-full border bg-neutral-50'
                             />

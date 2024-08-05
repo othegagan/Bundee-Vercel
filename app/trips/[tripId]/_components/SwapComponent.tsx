@@ -36,7 +36,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                     toast({
                         duration: 3000,
                         variant: 'destructive',
-                        description: 'Something went wrong.',
+                        description: 'Something went wrong.'
                     });
                     throw new Error(response.message);
                 }
@@ -59,7 +59,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
             statusCode: statuscode,
             toVehicleid: swapRequestDetails.toVehicleId,
             fromVehicleId: swapRequestDetails.fromVehicleId,
-            message: 'NA',
+            message: 'NA'
         };
 
         try {
@@ -70,7 +70,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                 toast({
                     duration: 3000,
                     variant: 'destructive',
-                    description: 'Something went wrong.',
+                    description: 'Something went wrong.'
                 });
                 throw new Error(response.message);
             }
@@ -127,7 +127,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate 
                                     ) : (
                                         <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
                                             <img
-                                                src='../image_not_available.png'
+                                                src='../images/image_not_available.png'
                                                 alt='image_not_found'
                                                 className='h-full w-full min-w-full object-cover md:rounded-md'
                                             />

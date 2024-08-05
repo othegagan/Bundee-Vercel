@@ -8,7 +8,7 @@ const HeroSection = () => {
     return (
         <div className='relative'>
             <Image
-                src='/hero.webp'
+                src='/images/hero.webp'
                 width={0}
                 height={0}
                 sizes='100vw'

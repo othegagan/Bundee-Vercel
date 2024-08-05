@@ -179,27 +179,27 @@ export function ChatSkeleton() {
     return (
         <div className='flex w-full flex-col gap-4 '>
             <div className='flex-grow-1 flex-row items-start gap-4 '>
-                <div className={`${shimmer} h-[200px] w-[75%] rounded-lg bg-neutral-200 `} />
+                <div className={`${shimmer} h-[200px] w-[75%] rounded-lg rounded-br-none bg-neutral-200 `} />
             </div>
 
             <div className='flex-grow-1 flex items-start gap-4 '>
-                <div className={`${shimmer} h-12 w-[200px] rounded-lg bg-neutral-200 `} />
+                <div className={`${shimmer} h-12 w-[200px] rounded-lg rounded-tl-none bg-neutral-200 `} />
             </div>
 
             <div className='flex flex-row-reverse items-start gap-4 '>
-                <div className={`${shimmer} h-10 w-[50%] rounded-lg bg-neutral-200 `} />
+                <div className={`${shimmer} h-10 w-[50%] rounded-lg rounded-br-none bg-neutral-200 `} />
             </div>
 
             <div className='flex flex-row-reverse items-start gap-4 '>
-                <div className={`${shimmer} h-12 w-[200px] rounded-lg bg-neutral-200 `} />
+                <div className={`${shimmer} h-12 w-[200px] rounded-lg rounded-br-none bg-neutral-200 `} />
             </div>
 
             <div className='flex-grow-1 hidden lg:flex items-start gap-4 '>
-                <div className={`${shimmer} h-10 w-[200px] rounded-lg bg-neutral-200 `} />
+                <div className={`${shimmer} h-10 w-[200px] rounded-lg rounded-tl-none bg-neutral-200 `} />
             </div>
 
             <div className='hidden lg:flex flex-row-reverse items-start gap-4 '>
-                <div className={`${shimmer} h-8 w-[50%] rounded-lg bg-neutral-200 `} />
+                <div className={`${shimmer} h-8 w-[50%] rounded-lg rounded-br-none bg-neutral-200 `} />
             </div>
         </div>
     );
@@ -211,8 +211,8 @@ export function TripsDetailsSkeleton() {
             <div className='lg:hidden'>
                 <TripsCard />
             </div>
-            <div className='mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
-                <div className='col-span-4 space-y-4 lg:col-span-2'>
+            <div className='mt-4 grid grid-cols-1 lg:grid-cols-5 gap-4 px-4 pb-20 lg:gap-y-6 lg:gap-x-10'>
+                <div className='col-span-4 space-y-4 lg:col-span-3'>
                     <div className={`relative h-[300px] rounded-xl bg-neutral-200 ${shimmer}`} />
 
                     <div className='h-8 w-full rounded-lg bg-neutral-200' />
@@ -220,7 +220,7 @@ export function TripsDetailsSkeleton() {
                     <div className='h-4 w-1/3 rounded-lg bg-neutral-200' />
                 </div>
 
-                <div className='col-span-1 border p-2 rounded-md lg:p-4 lg:flex flex-col gap-3 hidden'>
+                <div className='col-span-2 border p-2 rounded-md lg:p-4 lg:flex flex-col gap-3 hidden'>
                     <ChatSkeleton />
                 </div>
             </div>

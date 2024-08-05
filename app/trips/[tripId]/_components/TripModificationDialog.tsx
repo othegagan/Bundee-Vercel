@@ -16,7 +16,6 @@ import { useEffect, useState } from 'react';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { TripModificationEndDateCalendar, TripModificationStartDateCalendar } from './TripModificationCalendars';
 import TripModificationPriceListComponent from './TripModificationPriceListComponent';
-import Image from 'next/image';
 
 const useTripModification = () => {
     const [submitting, setSubmitting] = useState(false);
@@ -301,8 +300,8 @@ export default function TripModificationDialog({ tripData }) {
                                 <div>
                                     <div className='space-y-3'>
                                         <p className='text-14 font-semibold'>Current Trip Summary</p>
-                                        <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-[#FAF7F7] p-4 '>
-                                            <div className='flex w-full justify-between gap-2 p-3'>
+                                        <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-[#FAF7F7] p-2 '>
+                                            <div className='flex w-full justify-between gap-2 '>
                                                 <p className='text-14 text-center'>
                                                     {splitFormattedDateAndTime(formatDateAndTime(tripData.starttime, tripData.vehzipcode))}
                                                 </p>

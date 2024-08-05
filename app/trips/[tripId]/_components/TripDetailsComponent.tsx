@@ -5,12 +5,12 @@ import { formatDateAndTime, getFullAddress, sortImagesByIsPrimary, toTitleCase }
 import { MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { StatusBadge } from '../../TripsComponent';
+import TripImageVideoCarousel from './TripImageVideoCarousel';
 import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
 import { splitFormattedDateAndTime } from './TripModificationDialog';
 import TripPaymentComponent from './TripPaymentComponent';
 import TripPoliciesComponent from './TripPoliciesComponent';
 import TripReadinessChecklistComponent from './TripReadinessChecklistComponent';
-import TripImageVideoCarousel from './TripImageVideoCarousel';
 
 interface TripVehicleDetailsComponentProps {
     tripData: any;
@@ -38,7 +38,7 @@ export default function TripDetailsComponent({
             <div className='flex gap-3 md:gap-4'>
                 <div className='flex-center size-28 h-20 md:size-36  overflow-hidden rounded-md select-none'>
                     <img
-                        src={images[0]?.imagename || '/image_not_available.png'}
+                        src={images[0]?.imagename || '/images/image_not_available.png'}
                         alt={toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
                         className='h-full w-full object-cover object-center'
                     />
@@ -75,19 +75,19 @@ export default function TripDetailsComponent({
             </div>
 
             {/* Trip Dates Section */}
-            <div className='flex flex-col items-center  gap-3   '>
-                <div className='flex  gap-2 font-semibold text-14'>
-                    Trip Duration
-                    <span className='font-normal'>
+            <div className='flex flex-col items-center justify-center gap-2 rounded-lg  w-full '>
+                <div className='flex w-full justify-around gap-2 lg:px-16 lg:justify-around'>
+                    <p className='text-14 text-center font-semibold'>{splitFormattedDateAndTime(formatDateAndTime(trip.starttime, trip.vehzipcode))}</p>
+                    <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
+                    <p className='text-14 text-center font-semibold'>{splitFormattedDateAndTime(formatDateAndTime(trip.endtime, trip.vehzipcode))}</p>
+                </div>
+                <div className='text-14  pt-2 border-t w-full text-center'>
+                    Trip duration:{' '}
+                    <span className='font-semibold'>
                         ({trip.tripPaymentTokens[0]?.totaldays} {trip?.tripPaymentTokens[0]?.totaldays === 1 ? 'Day' : 'Days'})
                     </span>
                 </div>
-                <div className='flex w-full justify-between gap-2 lg:px-20 lg:justify-around'>
-                    <p className='text-14 text-center font-semibold'>{splitFormattedDateAndTime(formatDateAndTime(trip.starttime, trip.vehzipcode))}</p>
-                    <div className='whitespace-nowrap rounded-full border-primary border p-2 px-2.5 h-fit w-fit font-semibold text-primary/70'>To</div>
-                    <p className='text-14 text-center font-semibold'>{splitFormattedDateAndTime(formatDateAndTime(trip.endtime, trip.vehzipcode))}</p>
-                </div>
-                <div className='flex-center text-14  justify-center gap-2 pt-2 border-t w-full '>
+                <div className='flex-center text-14  justify-center gap-2 w-full '>
                     <MapPin className='size-5 text-muted-foreground' />
                     <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
                 </div>
@@ -122,15 +122,15 @@ export default function TripDetailsComponent({
 
 function HostDetails({ hostName, hostImage, hostPhoneNumber }: { hostName: string; hostImage: string; hostPhoneNumber: string }) {
     return (
-        <div className='relative flex flex-col gap-2'>
+        <div className='relative flex flex-col '>
             <div className='flex items-center whitespace-nowrap gap-x-2'>
-                <p className='text-16'>Hosted By:</p>
-                <img src={hostImage || '/dummy_avatar.png'} alt={hostName} className='size-8 rounded-full border bg-neutral-50' />
+                <p className='text-14 md:text-16'>Hosted By:</p>
+                <img src={hostImage || '/images/dummy_avatar.png'} alt={hostName} className='size-8 rounded-full border bg-neutral-50' />
                 <p className='text-16'>{hostName}</p>
             </div>
             <div className='flex items-center whitespace-nowrap gap-x-2'>
-                <p className='text-16'>Contact Number:</p>
-                <p className='text-16 '>{hostPhoneNumber}</p>
+                <p className='text-14 md:text-16'>Contact Number:</p>
+                <p className='text-14 md:text-16 '>{hostPhoneNumber}</p>
             </div>
         </div>
     );

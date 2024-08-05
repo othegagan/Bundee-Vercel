@@ -7,7 +7,7 @@ export default function TripReviewDialogTrigger({ tripData }: { tripData: any })
     const tripReviewDialog = useTripReviewDialog();
     return (
         <Button
-            variant='secondary'
+            variant='yellow'
             className='  w-fit ml-auto  px-10'
             onClick={() => {
                 tripReviewDialog.onOpen();

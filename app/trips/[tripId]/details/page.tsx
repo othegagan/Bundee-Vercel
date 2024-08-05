@@ -34,8 +34,9 @@ export default function page({ params }: { params: { tripId: string } }) {
     const swapRequestDetails = tripData?.swapDetails[0];
 
     return (
-        <div className=' grid grid-cols-1 lg:grid-cols-3 gap-4 px-4 pb-20 lg:gap-y-6 lg:gap-x-10'>
-            <div className='flex items-center justify-between col-span-1 lg:col-span-3'>
+        <div className=' grid grid-cols-1 lg:grid-cols-5 gap-4 px-4 pb-20 lg:gap-y-6 lg:gap-x-10'>
+            {/* header section */}
+            <div className='flex items-center justify-between col-span-1 lg:col-span-5'>
                 <BackButton />
                 <Link href={`/trips/${params.tripId}/message`} role='tab' className='block lg:hidden'>
                     <Button variant='outline' className='text-primary border-primary' size='sm'>
@@ -71,7 +72,8 @@ export default function page({ params }: { params: { tripId: string } }) {
                 </div>
             </div>
 
-            <div className='flex flex-col col-span-1 lg:col-span-2'>
+            {/* trip details section */}
+            <div className='flex flex-col col-span-1 lg:col-span-3'>
                 <TripDetailsComponent
                     tripData={tripData}
                     driverUploadedImages={tripData.driverTripStartingBlobs}
@@ -83,7 +85,8 @@ export default function page({ params }: { params: { tripId: string } }) {
                 />
             </div>
 
-            <div className='hidden lg:flex flex-col col-span-1 '>
+            {/* messages section for desktop */}
+            <div className='hidden lg:flex flex-col col-span-2 '>
                 <MessagePage params={params} />
             </div>
 

@@ -43,7 +43,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                 toast({
                     duration: 4000,
                     variant: 'destructive',
-                    description: 'Please select an image size less than 1 MB.',
+                    description: 'Please select an image size less than 1 MB.'
                 });
                 return;
             }
@@ -77,7 +77,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             fromValue: 'completeProfile',
                             userimage: resultAsString.split(',')[1] || '',
                             isPhoneVarified: data.isPhoneVarified,
-                            isEmailVarified: true,
+                            isEmailVarified: true
                         };
 
                         const updateResponse = await updateProfile(payload);
@@ -85,13 +85,13 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             toast({
                                 duration: 3000,
                                 variant: 'success',
-                                description: 'Profile photo updated successful.',
+                                description: 'Profile photo updated successful.'
                             });
                         } else {
                             toast({
                                 duration: 3000,
                                 variant: 'destructive',
-                                description: 'Something went wrong, Try again.',
+                                description: 'Something went wrong, Try again.'
                             });
                         }
                     }
@@ -107,7 +107,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         { id: 1, name: ' Profile', path: '/profile' },
         { id: 2, name: 'Driving Licence ', path: '/profile/driving-licence' },
         { id: 3, name: 'Change Password', path: '/profile/change-password' },
-        { id: 4, name: 'Delete Account', path: '/profile/delete-account' },
+        { id: 4, name: 'Delete Account', path: '/profile/delete-account' }
     ];
 
     return (
@@ -117,7 +117,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                     <div className='flex gap-3'>
                         <div className='col-span-1 flex flex-col gap-1'>
                             <img
-                                src={image ? `${image}` : '/dummy_avatar.png'}
+                                src={image ? `${image}` : '/images/dummy_avatar.png'}
                                 alt=''
                                 className=' relative inline-block h-[100px] w-[100px] rounded-md object-cover object-center  md:h-[200px] md:w-[200px]'
                             />
@@ -160,7 +160,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             <div className='grid grid-cols-1 gap-4 gap-y-2 text-sm lg:grid-cols-3'>
                                 <div className='flex h-screen flex-col items-center text-neutral-600'>
                                     <img
-                                        src={image ? `${image}` : '/dummy_avatar.png'}
+                                        src={image ? `${image}` : '/images/dummy_avatar.png'}
                                         alt=''
                                         className='relative inline-block h-[300px] w-[300px] rounded-sm object-cover object-center'
                                     />

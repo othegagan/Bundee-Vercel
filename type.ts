@@ -27,6 +27,7 @@ declare namespace NodeJS {
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
 
         PERSONA_BEARER_TOKEN: string;
+        NEXT_PUBLIC_IDSCAN_BEARER_TOKEN: string;
 
         NEXT_PUBLIC_FIREBASE_APIKEY: string;
         NEXT_PUBLIC_FIREBASE_AUTHDOMAIN: string;

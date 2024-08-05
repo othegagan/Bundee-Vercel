@@ -13,8 +13,6 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { IoWarning } from 'react-icons/io5';
-import { LuLoader2 } from 'react-icons/lu';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
@@ -325,7 +323,7 @@ export default function RegisterDialog() {
 
                 {showSuccessfulSignUp && (
                     <div className='flex flex-col items-center justify-center gap-4'>
-                        <img src='/party.svg' alt='party_cone' className='h-40 w-96 object-contain' />
+                        <img src='/images/party.svg' alt='party_cone' className='h-40 w-96 object-contain' />
                         <h3>Thanks for joining MyBundee.</h3>
                         <p className='text-center'>
                             A verification email has been sent successfully..! <br /> Please check your inbox and click on the verification link.

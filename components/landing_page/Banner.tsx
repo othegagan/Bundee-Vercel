@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 import BoxContainer from '../BoxContainer';
 
 const Banner = () => {
@@ -19,17 +18,17 @@ const Banner = () => {
 
                                 <div className='mt-8 flex flex-row items-center space-x-4 lg:mt-12'>
                                     <Link href='https://apps.apple.com/app/mybundee/id6451430817' className='flex' role='button'>
-                                        <Image width={200} height={200} className='h-auto w-auto object-cover' src='/btn-app-store.svg' alt='' />
+                                        <Image width={200} height={200} className='h-auto w-auto object-cover' src='/images/btn-app-store.svg' alt='' />
                                     </Link>
 
                                     <Link href='https://play.google.com/store/apps/details?id=com.bundee_mobile_app' className='flex' role='button'>
-                                        <Image width={200} height={200} className='h-auto w-auto object-cover' src='/btn-play-store.svg' alt='' />
+                                        <Image width={200} height={200} className='h-auto w-auto object-cover' src='/images/btn-play-store.svg' alt='' />
                                     </Link>
                                 </div>
                             </div>
 
                             <div className='relative '>
-                                <img className='relative mx-auto w-full max-w-lg  ' src='./banner-circle.png' alt='App screenshot' />
+                                <img className='relative mx-auto w-full max-w-lg  ' src='./images/banner-circle.png' alt='App screenshot' />
                             </div>
                         </div>
                     </div>

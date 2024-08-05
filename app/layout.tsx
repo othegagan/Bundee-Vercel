@@ -17,6 +17,7 @@ import Navbar from '@/components/navigation/Navbar';
 import { Toaster } from '@/components/ui/toaster';
 import Providers from '@/lib/providers';
 import CarFilters from './vehicles/CarFilters';
+import DrivingLicenceDialog from '@/components/dialogs/DrivingLicenceDialog';
 
 const DocumentModal = dynamic(() => import('@/components/dialogs/DocumentDialog'), { ssr: false });
 
@@ -25,7 +26,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'sw
 export const metadata: Metadata = {
     title: 'MyBundee',
     description:
-        'Step into the world of MyBundee, where you can discover a diverse range of vehicles tailored to your interests. Embark on a journey to explore and experience your dream destinations .',
+        'Step into the world of MyBundee, where you can discover a diverse range of vehicles tailored to your interests. Embark on a journey to explore and experience your dream destinations .'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <CarFilters />
                         <DocumentModal />
                         <ForgotPasswordDialg />
+                        <DrivingLicenceDialog />
                     </ClientOnly>
                     <HideComponentInFrame>
                         <Navbar />

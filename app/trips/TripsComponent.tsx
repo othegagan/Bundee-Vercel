@@ -27,7 +27,7 @@ export default function TripsComponent() {
                     data-orientation='horizontal'>
                     {[
                         { id: 0, title: 'Trips' },
-                        { id: 1, title: 'Past Trips' },
+                        { id: 1, title: 'Past Trips' }
                     ].map(({ id, title }) => (
                         <button
                             key={id}
@@ -52,11 +52,11 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
     const {
         data: tripsResponse,
         isLoading: loading,
-        error,
+        error
     } = useQuery({
         queryKey: ['trips', { endpoint: tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory' }],
         queryFn: async () => getTrips(tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory'),
-        refetchOnWindowFocus: true,
+        refetchOnWindowFocus: true
     });
 
     useScrollToTopOnLoad(loading);
@@ -74,17 +74,17 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
     }
 
     return (
-        <div className='mt-6 grid w-full grid-cols-1   gap-4 max-w-4xl mx-auto '>
+        <div className='mt-6 grid w-full grid-cols-1 max-w-4xl mx-auto '>
             {tripsResponse.data?.activetripresponse.map((trip: any) => {
                 if (isTabletOrLarger) {
                     return (
                         <Link
                             key={trip.tripid}
                             href={`/trips/${trip.tripid}/details`}
-                            className='flex flex-1 w-full gap-2 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:p-2'>
+                            className='flex flex-1 w-full gap-4 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:py-3'>
                             <div className='flex-center size-32 h-full overflow-hidden rounded-md'>
                                 <img
-                                    src={trip.vehicleImages[0]?.imagename || '/image_not_available.png'}
+                                    src={trip.vehicleImages[0]?.imagename || '/images/image_not_available.png'}
                                     alt={`${trip.vehmake} ${trip.vehmodel}`}
                                     className='h-full w-full object-cover object-center'
                                 />
@@ -135,67 +135,65 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                     );
                 }
 
-                    return (
-                        <Link
-                            key={trip.tripid}
-                            href={`/trips/${trip.tripid}/details`}
-                            className='flex gap-2 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:p-2'>
-                            <div className='flex flex-1 flex-col md:flex-row gap-2 text-nowrap'>
-                                <div className='flex gap-3 md:gap-4'>
-                                    <div className='flex-center size-28 h-16 overflow-hidden rounded-md select-none'>
-                                        <img
-                                            src={trip.vehicleImages[0]?.imagename || '/image_not_available.png'}
-                                            alt={`${trip.vehmake} ${trip.vehmodel}`}
-                                            className='h-full w-full object-cover object-center'
-                                        />
-                                    </div>
-
-                                    <div className='flex flex-1 flex-col '>
-                                        <div className='text-16  truncate max-w-[200px] font-semibold md:max-w-sm'>
-                                            {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
-                                        </div>
-
-                                        <div className='flex-center justify-between'>
-                                            <div className='text-14 font-medium text-muted-foreground'>{trip?.vehicleNumber}</div>
-                                            <StatusBadge status={trip.status} type='trip' />
-                                            {trip.swapDetails && trip.swapDetails.length > 0 && (
-                                                <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />
-                                            )}
-                                        </div>
-                                    </div>
+                return (
+                    <Link
+                        key={trip.tripid}
+                        href={`/trips/${trip.tripid}/details`}
+                        className='flex gap-2 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:p-2'>
+                        <div className='flex flex-1 flex-col md:flex-row gap-2 text-nowrap'>
+                            <div className='flex gap-3 md:gap-4'>
+                                <div className='flex-center size-28 h-16 overflow-hidden rounded-md select-none'>
+                                    <img
+                                        src={trip.vehicleImages[0]?.imagename || '/images/image_not_available.png'}
+                                        alt={`${trip.vehmake} ${trip.vehmodel}`}
+                                        className='h-full w-full object-cover object-center'
+                                    />
                                 </div>
 
-                                <div className='flex w-full gap-2 items-center'>
-                                    <CalendarDays className='size-5 text-muted-foreground' />
-                                    <div className='text-14 '>
-                                        {formatDateAndTime(trip.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
-                                        {formatDateAndTime(trip.endtime, trip?.vehzipcode, 'ddd, MMM DD YYYY')}
+                                <div className='flex flex-1 flex-col '>
+                                    <div className='text-16  truncate max-w-[200px] font-semibold md:max-w-sm'>
+                                        {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
+                                    </div>
+
+                                    <div className='flex-center justify-between'>
+                                        <div className='text-14 font-medium text-muted-foreground'>{trip?.vehicleNumber}</div>
+                                        <StatusBadge status={trip.status} type='trip' />
+                                        {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className='flex-center text-14 mt-1.5 justify-start gap-2'>
-                                    <MapPin className='size-5 text-muted-foreground' />
-                                    <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
+                            <div className='flex w-full gap-2 items-center'>
+                                <CalendarDays className='size-5 text-muted-foreground' />
+                                <div className='text-14 '>
+                                    {formatDateAndTime(trip.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
+                                    {formatDateAndTime(trip.endtime, trip?.vehzipcode, 'ddd, MMM DD YYYY')}
                                 </div>
+                            </div>
 
-                                <div className='flex items-center w-full justify-between '>
-                                    {/* {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
+                            <div className='flex-center text-14 mt-1.5 justify-start gap-2'>
+                                <MapPin className='size-5 text-muted-foreground' />
+                                <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
+                            </div>
+
+                            <div className='flex items-center w-full justify-between '>
+                                {/* {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
                                         <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
                                             <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
                                             Modify Trip
                                         </Button>
                                     )} */}
-                                    <Button
-                                        onClick={() => router.push(`/trips/${trip.tripid}/message`)}
-                                        variant='link'
-                                        className='ml-auto px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
-                                        <img src='/icons/chat.svg' alt='chat' width={18} height={18} />
-                                        Message Host
-                                    </Button>
-                                </div>
+                                <Button
+                                    onClick={() => router.push(`/trips/${trip.tripid}/message`)}
+                                    variant='link'
+                                    className='ml-auto px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
+                                    <img src='/icons/chat.svg' alt='chat' width={18} height={18} />
+                                    Message Host
+                                </Button>
                             </div>
-                        </Link>
-                    );
+                        </div>
+                    </Link>
+                );
             })}
         </div>
     );
@@ -207,8 +205,8 @@ export const StatusBadge = ({ status, type, className }: { type: 'trip' | 'swap'
             swappr: 'Swap Proposal Requested',
             swaprej: 'Swap Proposal Rejected',
             swapacc: 'Swap Proposal Approved',
-            default: 'Unknown Status',
-        },
+            default: 'Unknown Status'
+        }
     };
 
     const getStatusText = (type: string, status: string) => {

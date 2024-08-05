@@ -33,7 +33,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
         height: '100%',
         latitude: searchParams.longitude || 0,
         longitude: searchParams.latitude || 0,
-        zoom: Number(zoomLevel),
+        zoom: Number(zoomLevel)
     });
 
     useEffect(() => {
@@ -48,12 +48,12 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                 return {
                     ...prevState,
                     latitude: center.latitude || defaultLatitude,
-                    longitude: center.longitude || defaultLongitude,
+                    longitude: center.longitude || defaultLongitude
                 };
             }
             if (searchParams?.isMapSearch && filteredCoordinates.length === 0) {
                 return {
-                    ...prevState,
+                    ...prevState
                 };
             }
         });
@@ -219,7 +219,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                                             />
                                         ) : (
                                             <img
-                                                src='./image_not_available.png'
+                                                src='./images/image_not_available.png'
                                                 alt='image_not_found'
                                                 className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
                                             />

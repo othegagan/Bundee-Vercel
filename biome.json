@@ -21,7 +21,7 @@
                 "noUnusedImports": "warn"
             },
             "style": {
-                "useTemplate": "warn",
+                "useTemplate": "off",
                 "useImportType": "off",
                 "noUselessElse": "info"
             },
