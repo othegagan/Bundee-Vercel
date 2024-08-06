@@ -123,7 +123,7 @@ export default function DrivingLicenceDialog() {
     return (
         <Dialog
             title={isUpdate ? 'Update Driving Licence' : 'Add Driving Licence'}
-            description='Max file size is 3 MB for each image'
+            description='The maximum file size for each image is 3MB.'
             isOpen={isOpen}
             openDialog={() => onOpen()}
             closeDialog={() => closeModal()}
