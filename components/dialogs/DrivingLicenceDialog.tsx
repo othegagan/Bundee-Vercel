@@ -13,12 +13,44 @@ import { Dialog } from '../ui/dialog';
 const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3 MB
 
 const schema = z.object({
-    frontImageBase64: z.string().min(1, 'Front scan is required'),
-    backOrSecondImageBase64: z.string().min(1, 'Document PDF417 barcode is required'),
-    faceImageBase64: z.string().min(1, 'Selfie is required')
+    frontImageBase64: z.string({ message: 'Front scan is required' }).min(1, 'Front scan is required'),
+    backOrSecondImageBase64: z.string({ message: 'Back scan is required' }).min(1, 'Document PDF417 barcode is required'),
+    faceImageBase64: z.string({ message: 'Selfie is required' }).min(1, 'Selfie is required')
 });
 
 type FormFields = z.infer<typeof schema>;
+
+type InputFieldConfig = {
+    id: string;
+    label: string;
+    step: number;
+    field: keyof FormFields;
+    icon: string;
+};
+
+const inputFieldsConfig: InputFieldConfig[] = [
+    {
+        id: 'frontImage',
+        label: 'Front Scan',
+        step: 1,
+        field: 'frontImageBase64',
+        icon: '/icons/driving-licence-front.svg'
+    },
+    {
+        id: 'backImage',
+        label: 'Document PDF417 Barcode',
+        step: 2,
+        field: 'backOrSecondImageBase64',
+        icon: '/icons/driving-licence-back.svg'
+    },
+    {
+        id: 'selfieImage',
+        label: 'Selfie',
+        step: 3,
+        field: 'faceImageBase64',
+        icon: '/icons/selfie.svg'
+    }
+];
 
 export default function DrivingLicenceDialog() {
     const { isOpen, isUpdate, onOpen, onClose } = useDrivingLicenceDialog();
@@ -91,66 +123,52 @@ export default function DrivingLicenceDialog() {
     return (
         <Dialog
             title={isUpdate ? 'Update Driving Licence' : 'Add Driving Licence'}
-            description='Max file size is 3 MB'
+            description='Max file size is 3 MB for each image'
             isOpen={isOpen}
             openDialog={() => onOpen()}
             closeDialog={() => closeModal()}
             onInteractOutside={false}
-            className='lg:max-w-sm'>
+            className='lg:max-w-md'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='flex flex-col gap-y-4'>
-                    <div className='space-y-2'>
-                        <label htmlFor='frontImage' className='  flex gap-4 items-center  w-full h-full  border  rounded-md px-2  cursor-pointer'>
-                            <input
-                                type='file'
-                                id='frontImage'
-                                accept='image/*'
-                                onChange={(e) => handleFileUpload(e, 'frontImageBase64')}
-                                className='hidden w-full h-full'
-                            />
-                            <Image src='/icons/driving-licence-front.svg' className='w-12 h-12' alt='Front' width={48} height={48} />
-                            <p>Front Scan</p>
-                            {uploadedFiles.front && <CircleCheck className='size-5 ml-auto text-green-500' />}
-                        </label>
-                        <FormError message={errors.frontImageBase64?.message} />
-                    </div>
-
-                    <div className='space-y-2'>
-                        <label htmlFor='backImage' className='  flex gap-4 items-center  w-full h-full  border  rounded-md px-2  cursor-pointer'>
-                            <input
-                                type='file'
-                                id='backImage'
-                                accept='image/*'
-                                onChange={(e) => handleFileUpload(e, 'backOrSecondImageBase64')}
-                                className='hidden w-full h-full'
-                            />
-                            <Image src='/icons/driving-licence-back.svg' className='w-12 h-12' alt='back' width={48} height={48} />
-                            <p>Document PDF417 Barcode</p>
-                            {uploadedFiles.backOrSecond && <CircleCheck className='size-5 ml-auto text-green-500' />}
-                        </label>
-                        <FormError message={errors.backOrSecondImageBase64?.message} />
-                    </div>
-
-                    <div className='space-y-2'>
-                        <label htmlFor='selfieImage' className='  flex gap-4 items-center  w-full h-full  border  rounded-md px-2  cursor-pointer'>
-                            <input
-                                type='file'
-                                id='selfieImage'
-                                accept='image/*'
-                                onChange={(e) => handleFileUpload(e, 'faceImageBase64')}
-                                className='hidden w-full h-full'
-                            />
-                            <Image src='/icons/selfie.svg' className='w-12 h-12' alt='Selfie' width={48} height={48} />
-                            <p>Selfie</p>
-                            {uploadedFiles.face && <CircleCheck className='size-5 ml-auto text-green-500' />}
-                        </label>
-                        <FormError message={errors.faceImageBase64?.message} />
-                    </div>
+                    {inputFieldsConfig.map(({ id, label, field, icon, step }) => (
+                        <div key={id} className='space-y-2'>
+                            <label
+                                htmlFor={id}
+                                title={`Upload ${label}`}
+                                className={`flex gap-4 items-center w-full h-full border rounded-md px-2 py-3 cursor-pointer ${
+                                    uploadedFiles[field.replace('ImageBase64', '')] ? 'border-green-500' : ''
+                                }`}>
+                                <input
+                                    type='file'
+                                    id={id}
+                                    accept='image/png, image/jpeg, image/jpg'
+                                    onChange={(e) => handleFileUpload(e, field)}
+                                    className='hidden w-full h-full'
+                                />
+                                {uploadedFiles[field.replace('ImageBase64', '')] ? (
+                                    <img
+                                        src={URL.createObjectURL((document.getElementById(id) as HTMLInputElement).files[0])}
+                                        className='w-20 h-12 object-cover rounded-md'
+                                        alt={label}
+                                    />
+                                ) : (
+                                    <Image src={icon} className='w-20 h-12' alt={label} width={48} height={48} />
+                                )}
+                                <div className='flex flex-col'>
+                                    <p className='text-16 font-bold'>Step {step}</p>
+                                    <p className='text-muted-foreground'>{label}</p>
+                                </div>
+                                {uploadedFiles[field.replace('ImageBase64', '')] && <CircleCheck className='size-6 ml-auto text-green-500' />}
+                            </label>
+                            <FormError message={errors[field]?.message} />
+                        </div>
+                    ))}
 
                     <FormError message={errors.root?.message} />
 
                     <Button type='submit' variant='black' className='mt-3 w-full' disabled={isSubmitting} loading={isSubmitting} loadingText='Submitting...'>
-                        Submit
+                        Verify
                     </Button>
                 </div>
             </form>
