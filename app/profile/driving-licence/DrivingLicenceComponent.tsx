@@ -57,6 +57,7 @@ function VerifiedDetailsComponent({ personalInfo, images , scores}) {
                     type='button'
                     variant='black'
                     onClick={() => {
+                        drivingLicenseDialog.isUpdate = true;
                         drivingLicenseDialog.onOpen();
                     }}>
                     Update Driving License
@@ -76,6 +77,7 @@ function UnverifiedComponent() {
                     type='button'
                     variant='black'
                     onClick={() => {
+                        drivingLicenseDialog.isUpdate = false;
                         drivingLicenseDialog.onOpen();
                     }}>
                     Verify Driving License

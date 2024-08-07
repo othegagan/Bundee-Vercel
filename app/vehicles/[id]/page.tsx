@@ -462,6 +462,7 @@ function DrivingLicenceModal({ showDrivingLicenceModal, setShowDrivingLicenceMod
                     type='button'
                     variant='black'
                     onClick={() => {
+                        drivingLicenseDialog.isUpdate = false;
                         drivingLicenseDialog.onOpen();
                     }}>
                     Continue Verification
