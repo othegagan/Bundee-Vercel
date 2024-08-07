@@ -9,11 +9,11 @@ export interface SessionData {
 
 export const defaultSession: SessionData = {
     isLoggedIn: false,
-    email: '',
+    email: "",
     userId: null,
     isPhoneVerified: false,
     isPersonaVerified: false,
-    authToken: '',
+    authToken: "",
 };
 
 export interface Vehicle {
@@ -24,4 +24,13 @@ export interface Vehicle {
     image: string;
     price: number;
     tripCount: number;
+}
+
+export interface IDScanErrorResponse {
+    code: string;
+    message: string;
+    additionalData?: { Id: string };
+    propertyErrors?: any;
+    multipleErrors?: IDScanErrorResponse[];
+    traceId?: string;
 }

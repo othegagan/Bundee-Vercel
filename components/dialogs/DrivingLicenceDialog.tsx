@@ -1,7 +1,10 @@
 'use client';
 
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
+import { verifyDrivingProfile } from '@/hooks/useDrivingProfile';
+import { IDScanErrorResponse } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import { CircleCheck } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -9,6 +12,7 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { Dialog } from '../ui/dialog';
+import { toast } from '../ui/use-toast';
 
 const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3 MB
 
@@ -107,12 +111,106 @@ export default function DrivingLicenceDialog() {
                 trackString: ''
             };
 
-            console.log('payload', payload);
-            // Process the form data here
+            const response = await verifyDrivingProfile(payload);
+
+            if (response.success) {
+                toast({
+                    title: 'Driving Licence Added',
+                    description: 'Your driving licence has been added to your profile.',
+                    variant: 'success'
+                });
+                closeModal();
+                window.location.reload();
+            } else {
+                toast({
+                    title: 'Error Adding Driving Licence',
+                    description: 'An error occurred while adding your driving licence to your profile.',
+                    variant: 'destructive'
+                });
+            }
         } catch (error: any) {
-            console.log(error);
+            try {
+                const errorData = JSON.parse(error.message);
+                handleError(errorData);
+            } catch (parseError) {
+                console.error('Error parsing error message:', parseError);
+                console.error('Original error:', error);
+            }
         }
     };
+
+    function handleError(errorData: IDScanErrorResponse) {
+        console.error('Error:', errorData.code, errorData.message);
+
+        switch (errorData.code) {
+            case 'ValidationError':
+                setError('root', { type: 'manual', message: 'Please check all fields and try again.' });
+                break;
+            case 'MultipleErrors': {
+                const errorMessages = errorData.multipleErrors?.map((error) => error.message).join(' ');
+                setError('root', { type: 'manual', message: errorMessages || 'Multiple errors occurred. Please try again.' });
+                break;
+            }
+            case 'OCRError':
+                setError('root', { type: 'manual', message: 'Unable to read the front of the document. Please upload a clearer image.' });
+                break;
+            case 'MRZOCRError':
+                setError('root', { type: 'manual', message: 'Unable to read the MRZ (Machine Readable Zone). Please upload a clearer image.' });
+                break;
+            case 'MrzIsNotPresentError':
+                setError('root', { type: 'manual', message: 'The MRZ (Machine Readable Zone) is missing. Please upload a valid document.' });
+                break;
+            case 'FrontImageRequiredError':
+                setError('root', { type: 'manual', message: 'Please upload the front image of your document.' });
+                break;
+            case 'BackImageOrTrackStringNotPresentError':
+                setError('root', { type: 'manual', message: 'Please upload the back image of your document or provide the track string.' });
+                break;
+            case 'PDF417Error':
+                setError('root', { type: 'manual', message: 'Unable to read the barcode. Please upload a clearer image of the back of your document.' });
+                break;
+            case 'FaceDocNotDetectError':
+                setError('root', { type: 'manual', message: 'No face detected on the document. Please upload a valid document with a clear face photo.' });
+                break;
+            case 'FacePhotoNotDetectError':
+                setError('root', { type: 'manual', message: 'No face detected in the selfie. Please upload a clear selfie photo.' });
+                break;
+            case 'DocumentVerifyError':
+                setError('root', { type: 'manual', message: "Unable to verify the document. Please ensure you've uploaded a valid, non-expired document." });
+                break;
+            case 'TrackStringParserError':
+                setError('root', { type: 'manual', message: 'Unable to parse the track string. Please check and try again.' });
+                break;
+            case 'CompareFacesError':
+                setError('root', { type: 'manual', message: 'Unable to compare faces. Please ensure your selfie matches your document photo.' });
+                break;
+            case 'CaptureFacesError':
+                setError('root', { type: 'manual', message: 'Unable to capture faces from the images. Please upload clearer photos.' });
+                break;
+            case 'RequestAlreadyProcessed':
+                setError('root', { type: 'manual', message: 'This request has already been processed. Please start a new verification if needed.' });
+                break;
+            case 'RequestExpired':
+                setError('root', { type: 'manual', message: 'This request has expired. Please start a new verification.' });
+                break;
+            case 'AntiSpoofing':
+                setError('root', { type: 'manual', message: "The anti-spoofing check failed. Please ensure you're using a real, non-manipulated document and photo." });
+                break;
+            case 'NotFound':
+                setError('root', { type: 'manual', message: 'The document could not be found. Please ensure you have uploaded a valid document.' });
+                break;
+            default:
+                setError('root', { type: 'manual', message: 'An unexpected error occurred. Please try again later.' });
+        }
+
+        // If you want to handle MultipleErrors separately, you can keep this logic
+        if (errorData.code === 'MultipleErrors') {
+            console.error('Multiple Errors:');
+            errorData.multipleErrors?.forEach((error) => {
+                console.error(`- ${error.code}: ${error.message}`);
+            });
+        }
+    }
 
     function closeModal() {
         reset();

@@ -1,14 +1,14 @@
 'use client';
 
 import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
-import usePersona from '@/hooks/usePersona';
+import useDrivingProfile from '@/hooks/useDrivingProfile';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { RxQuestionMarkCircled } from 'react-icons/rx';
 import DocumentHandlerComponent from './DocumentHandlerComponent';
 
 export default function TripReadinessChecklistComponent({ trip }: any) {
     const phoneNumberDialog = usePhoneNumberVerificationDialog();
-    const { createClient } = usePersona();
+    const { createClient } = useDrivingProfile();
 
     const drivingLicenseFlag = trip.isLicenseVerified;
     const isPhoneVerifiedFlag = trip.isPhoneVarified;
