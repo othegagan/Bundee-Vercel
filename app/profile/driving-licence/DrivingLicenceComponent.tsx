@@ -18,11 +18,11 @@ const DrivingLicenceComponent = () => {
 
     const { isDrivingProfileVerified, verifiedDetails } = response || {};
 
-    if (!isDrivingProfileVerified) {
+    if (!isDrivingProfileVerified || !verifiedDetails) {
         return <UnverifiedComponent />;
     }
 
-    const { images, scores, personalInfo } = verifiedDetails || {};
+    const { images, scores, personalInfo } = verifiedDetails;
 
     return <VerifiedDetailsComponent personalInfo={personalInfo} images={images} scores={scores} />;
 };
