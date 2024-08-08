@@ -1,4 +1,4 @@
-import { HideInIFrame } from '@/components/custom/HideInIFrame';
+import { HideInIFrame } from '@/components/custom/HideWrapper';
 import Available_Locations from '@/components/landing_page/Available_Locations';
 import Banner from '@/components/landing_page/Banner';
 import BundeeBranding from '@/components/landing_page/BundeeBranding';

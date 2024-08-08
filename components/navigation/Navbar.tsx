@@ -11,6 +11,7 @@ import Logo from '../landing_page/Logo';
 import LoginSignupButtons from './LoginSignupButtons';
 import NotificationsComponent from './Notifications';
 import UserMenu from './UserMenu';
+import { HideComponent } from '../custom/HideWrapper';
 
 const Navbar = async () => {
     const session = await getSession();
@@ -26,7 +27,7 @@ const Navbar = async () => {
     ];
 
     return (
-        <>
+        <HideComponent hideOnlyInRouter='/idscan'>
             <header className=' sticky top-0 z-[10] select-none bg-white py-2.5 shadow-sm'>
                 <Container>
                     <nav className='flex items-center justify-between '>
@@ -50,7 +51,7 @@ const Navbar = async () => {
                     </nav>
                 </Container>
             </header>
-        </>
+        </HideComponent>
     );
 };
 

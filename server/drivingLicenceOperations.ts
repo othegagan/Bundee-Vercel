@@ -1,7 +1,7 @@
-'use server';
+"use server";
 
-import { getSession } from '@/lib/auth';
-import { handleResponse, http } from '@/lib/httpService';
+import { getSession } from "@/lib/auth";
+import { handleResponse, http } from "@/lib/httpService";
 
 export async function updateDrivingProfile(requestId: string) {
     try {
@@ -9,7 +9,7 @@ export async function updateDrivingProfile(requestId: string) {
         const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/createDriverProfile`;
         const payload = {
             personaEnquiryId: requestId,
-            userId: session.userId
+            userId: session.userId,
         };
         const response = await http.post(url, payload);
         return handleResponse(response.data);
@@ -17,4 +17,3 @@ export async function updateDrivingProfile(requestId: string) {
         throw new Error(error.message);
     }
 }
-

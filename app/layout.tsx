@@ -6,7 +6,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 
 import ClientOnly from '@/components/ClientOnly';
-import { HideComponentInFrame, HideInIFrame } from '@/components/custom/HideInIFrame';
+import { HideComponentInFrame, HideInIFrame } from '@/components/custom/HideWrapper';
+import DrivingLicenceDialog from '@/components/dialogs/DrivingLicenceDialog';
 import ForgotPasswordDialg from '@/components/dialogs/ForgotPasswordDialog';
 import LoginDialog from '@/components/dialogs/LoginDialog';
 import PhoneNumberSignInDialog from '@/components/dialogs/PhoneNumberSignInDialog';
@@ -17,7 +18,6 @@ import Navbar from '@/components/navigation/Navbar';
 import { Toaster } from '@/components/ui/toaster';
 import Providers from '@/lib/providers';
 import CarFilters from './vehicles/CarFilters';
-import DrivingLicenceDialog from '@/components/dialogs/DrivingLicenceDialog';
 
 const DocumentModal = dynamic(() => import('@/components/dialogs/DocumentDialog'), { ssr: false });
 
