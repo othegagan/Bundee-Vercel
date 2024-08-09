@@ -130,7 +130,7 @@
         @apply text-[36px] leading-[44px];
     }
 
-    .flex-center{
+    .flex-center {
         @apply flex items-center justify-center;
     }
 }
@@ -268,4 +268,20 @@ td button[disabled] {
 /* Hide arrows in Firefox */
 .no-spinner {
     -moz-appearance: textfield;
+}
+
+
+.idScan-btn {
+    max-width: 400px;
+    margin: 10px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    background: black;
+    color: white;
+    padding: 10px 20px;
+}
+
+#idvc-change-document-type-btn{
+    display: none;
 }

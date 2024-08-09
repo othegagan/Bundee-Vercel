@@ -26,8 +26,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
             <div className='overflow-hidden md:rounded-md ' ref={emblaRef}>
                 <div className='embla__container '>
                     {slides.map((s, index) => (
-                        <div className='embla__slide max-h-80 overflow-hidden md:rounded-md' key={index}>
-                            <img key={index} src={s.imagename} className='h-full w-full min-w-full object-cover md:rounded-md' alt={`vehicle  ${index}`} />
+                        <div className='embla__slide max-h-[360px] overflow-hidden md:rounded-md' key={index}>
+                            <img key={index} src={s.imagename} className='h-full w-full  object-cover md:rounded-md' alt={`vehicle  ${index}`} />
                         </div>
                     ))}
                 </div>

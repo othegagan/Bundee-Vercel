@@ -1,40 +1,38 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import IDVC from "@idscan/idvc2";
-import { toast } from "@/components/ui/use-toast";
+import { useState, useEffect, useRef } from 'react';
+import IDVC from '@idscan/idvc2';
+import { useRouter } from 'next/navigation';
 
-export const useIDVC = (onVerificationComplete: (result: any) => void) => {
-    const [isLoading, setIsLoading] = useState(false);
+export const useIDVC = (handleVerificationComplete) => {
+    const router = useRouter();
     const [isProcessStarted, setIsProcessStarted] = useState(false);
-    const [error, setError] = useState("");
+    const [error, setError] = useState('');
     const [idvcInstance, setIdvcInstance] = useState<any>(null);
 
     const cssLinkRef = useRef<HTMLLinkElement | null>(null);
 
     useEffect(() => {
         const handleChunkError = (e: ErrorEvent) => {
-            if (e.message.includes("Loading chunk")) {
-                setError(
-                    "An error occurred while loading the application. Please reload the page."
-                );
+            if (e.message.includes('Loading chunk')) {
+                setError('An error occurred while loading the application. Please reload the page.');
             }
         };
 
-        window.addEventListener("error", handleChunkError);
+        window.addEventListener('error', handleChunkError);
 
         return () => {
-            window.removeEventListener("error", handleChunkError);
+            window.removeEventListener('error', handleChunkError);
             removeCssFile();
         };
     }, []);
 
     const loadCssFile = () => {
         if (!cssLinkRef.current) {
-            const link = document.createElement("link");
-            link.href = "/idScan.css";
-            link.rel = "stylesheet";
-            link.type = "text/css";
+            const link = document.createElement('link');
+            link.href = '/idScan.css';
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
             document.head.appendChild(link);
             cssLinkRef.current = link;
         }
@@ -49,89 +47,73 @@ export const useIDVC = (onVerificationComplete: (result: any) => void) => {
 
     const startIDVCProcess = () => {
         setIsProcessStarted(true);
-        loadCssFile();
+
+        setTimeout(() => {
+            const params = new URLSearchParams(window.location.search);
+            params.set('drivinglicenseverified', 'true');
+
+            const url = `${window.location.pathname}?${params.toString()}`;
+            router.push(url);
+        }, 3000);
+
+        const videoCapturingEl = document.getElementById('videoCapturingEl');
+        if (!videoCapturingEl) {
+            console.error('Video capturing element not found');
+            setError('Video capturing element not found. Please try again.');
+            return;
+        }
 
         const instance = new IDVC({
-            el: "videoCapturingEl",
+            el: 'videoCapturingEl',
             licenseKey: process.env.NEXT_PUBLIC_IDSCAN_LICENSE_KEY,
-            networkUrl: "networks/",
-            chunkPublicPath: "/networks/",
+            networkUrl: 'networks/',
+            chunkPublicPath: '/networks/',
             resizeUploadedImage: 1200,
             fixFrontOrientAfterUpload: false,
-            autoContinue: true,
+            autoContinue: false,
             isShowDocumentTypeSelect: false,
             useCDN: false,
             isShowGuidelinesButton: false,
-            showSubmitBtn: false,
-            language: "en",
-            realFaceMode: "auto",
-            processingImageFormat: "jpeg",
+            showSubmitBtn: true,
+            language: 'en',
+            realFaceMode: 'auto',
+            processingImageFormat: 'jpeg',
             documentTypes: [
                 {
-                    type: "ID",
+                    type: 'ID',
                     steps: [
                         {
-                            type: "front",
-                            name: "Document Front",
-                            mode: { uploader: true, video: true },
+                            type: 'front',
+                            name: 'Document Front',
+                            mode: { uploader: true, video: true }
                         },
                         {
-                            type: "pdf",
-                            name: "Document PDF417 Barcode",
-                            mode: { uploader: true, video: true },
+                            type: 'pdf',
+                            name: 'Document PDF417 Barcode',
+                            mode: { uploader: true, video: true }
                         },
                         {
-                            type: "face",
-                            name: "Face",
-                            mode: { uploader: true, video: true },
-                        },
-                    ],
-                },
+                            type: 'face',
+                            name: 'Face',
+                            mode: { uploader: true, video: true }
+                        }
+                    ]
+                }
             ],
             onCameraError(data: any) {
-                console.error("Camera error:", data);
-                toast({
-                    title: "An error occurred while accessing the camera. Please reload the page.",
-                    duration: 5000,
-                    variant: "destructive",
-                });
+                console.error('Camera error:', data);
+                setError('An error occurred while accessing the camera. Please reload the page.');
             },
-            // In the submit function of the IDVC instance
-
             submit: async (data: any) => {
-                instance.showSpinner(true);
-                setIsLoading(true);
+                await handleVerificationComplete(data);
+                setIsProcessStarted(false);
+                removeCssFile();
 
-                try {
-                    // const result = await processIDVCData(data);
-                    onVerificationComplete(data);
-                    toast({
-                        title: "Verification completed successfully!",
-                        duration: 5000,
-                        variant: "success",
-                    });
-                } catch (err) {
-                    console.error("Verification error:", err);
-                    toast({
-                        title: "An error occurred while processing your verification request. Please try again.",
-                        duration: 5000,
-                        variant: "destructive",
-                    });
-                } finally {
-                    instance.showSpinner(false);
-                    setIsLoading(false);
-                    setIsProcessStarted(false);
-                    removeCssFile();
-
-                    const videoCapturingEl =
-                        document.getElementById("videoCapturingEl");
-                    if (videoCapturingEl) {
-                        videoCapturingEl.style.display = "none";
-                    } else {
-                        console.warn("Video capturing element not found");
-                    }
+                const videoCapturingEl = document.getElementById('videoCapturingEl');
+                if (videoCapturingEl) {
+                    videoCapturingEl.style.display = 'none';
                 }
-            },
+            }
         });
 
         setIdvcInstance(instance);
@@ -142,24 +124,14 @@ export const useIDVC = (onVerificationComplete: (result: any) => void) => {
             idvcInstance.resetAllSteps();
         }
         setIsProcessStarted(false);
-        setIsLoading(false);
-        setError("");
+        setError('');
         removeCssFile();
     };
 
     return {
-        isLoading,
         isProcessStarted,
         error,
         startIDVCProcess,
-        resetProcess,
-        loadCssFile,
-        removeCssFile,
+        resetProcess
     };
 };
-
-async function processIDVCData(data: any) {
-    // ... (existing data processing logic)
-    // This function should handle the data processing and API call
-    // Return the result from the API call
-}

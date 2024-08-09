@@ -1,67 +1,53 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { useSearchParams } from 'next/navigation';
-import { useIDVC } from '@/hooks/useIDVC';
-import { useEffect } from 'react';
 import ClientOnly from '@/components/ClientOnly';
+import { useIDVC } from '@/hooks/useIDVC';
+import { decryptingData } from '@/lib/decrypt';
+import { delay } from '@/lib/utils';
+import '@idscan/idvc2/dist/css/idvc.css';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function IDScanComponent() {
     const searchParams = useSearchParams();
-    const token = searchParams.get('token');
+    const token = searchParams.get('token') || '';
 
-    const handleVerificationComplete = (result: any) => {
+    const [submitted, setSubmitted] = useState(false);
+
+    const { isProcessStarted, error, startIDVCProcess, resetProcess } = useIDVC(handleVerificationComplete);
+
+    async function handleVerificationComplete(result: any) {
         console.log('Verification result:', result);
+        await delay(10000);
+        const userId = decryptingData(token);
+        setSubmitted(true);
 
-        window.close();
-        // Handle the verification result (e.g., update UI, navigate to a new page, etc.)
-    };
-
-    const { isLoading, isProcessStarted, error, startIDVCProcess, resetProcess, loadCssFile, removeCssFile } =
-        useIDVC(handleVerificationComplete);
-
-    useEffect(() => {
-        if (isProcessStarted) {
-            loadCssFile();
-        } else {
-            removeCssFile();
-        }
-
-        return () => {
-            removeCssFile();
-        };
-    }, [isProcessStarted, loadCssFile, removeCssFile]);
+        // Add any logic you need to process the decrypted userId
+    }
 
     return (
         <ClientOnly>
-            <div className='h-[calc(100dvh-10px)] flex flex-col overflow-y-auto items-center py-10 px-4  '>
+            <div
+                className={`flex flex-col items-center justify-center p-5 h-[100dvh]  overflow-x-hidden ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
                 {!isProcessStarted && (
                     <>
                         <h3>License Verification</h3>
-                        <div className='text-center'>
-                            <p>
-                                You are able to start the validation process. <br /> Grab your license and activate the permissions for the
-                                camera.
-                            </p>
-                        </div>
+                        <p className='text-center max-w-2xl'>
+                            Please have your license ready and enable camera permissions. <br /> Click the start button to begin the
+                            verification process
+                        </p>
                     </>
                 )}
-
-                <div id='videoCapturingEl' className='w-full max-w-[500px] mt-6' />
-
-                {!isProcessStarted && !isLoading && (
-                    <Button variant='black' type='button' onClick={startIDVCProcess} disabled={isLoading}>
-                        Start License Validation
-                    </Button>
+                <div
+                    id='videoCapturingEl'
+                    className={`w-full max-w-[500px] my-5 bg-white rounded-md  relative ${isProcessStarted ? 'h-full' : 'h-0'}`}
+                />
+                {!isProcessStarted && (
+                    <button type='button' onClick={startIDVCProcess} className='idScan-btn' style={{ maxWidth: '400px' }}>
+                        Start License Verification
+                    </button>
                 )}
-                {isLoading && <div>Loading...</div>}
-                {error && <div>{error}</div>}
-
-                {/* {isProcessStarted && !isLoading && (
-                <Button variant='secondary' type='button' onClick={resetProcess}>
-                    Reset Process
-                </Button>
-            )} */}
+                {error && <div className='text-red-500'>{error}</div>}
             </div>
         </ClientOnly>
     );

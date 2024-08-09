@@ -89,7 +89,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                     }
                     console.log('Reservation payload', payload);
                     const response = await createTripReservation(payload);
-                    console.log(response);
+                    // console.log(response);
 
                     if (response?.success) {
                         setPayment({ status: 'succeeded' });

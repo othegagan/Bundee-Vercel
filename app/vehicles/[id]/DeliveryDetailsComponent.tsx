@@ -1,7 +1,8 @@
 import { toast } from '@/components/ui/use-toast';
-import { getFullAddress, toTitleCase } from '@/lib/utils';
+import { getFullAddress } from '@/lib/utils';
+import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import { FaChevronDown, FaLocationDot } from 'react-icons/fa6';
+import { FaLocationDot } from 'react-icons/fa6';
 import AddressSearchBox from './AddressSearchBox';
 
 const DeliveryDetailsComponent = ({
@@ -13,7 +14,7 @@ const DeliveryDetailsComponent = ({
     customDeliveryLocation,
     setCustomDeliveryLocation,
     isAirportDeliveryChoosen,
-    setIsAirportDeliveryChoosen,
+    setIsAirportDeliveryChoosen
 }) => {
     const [showDetails, setShowDetails] = useState(false);
     const [showAiprortDetails, setShowAiprortDetails] = useState(false);
@@ -28,7 +29,7 @@ const DeliveryDetailsComponent = ({
             return {
                 deliveryToAirport,
                 airportDeliveryCost,
-                nonAirportDeliveryCost,
+                nonAirportDeliveryCost
             };
         }
 
@@ -42,7 +43,7 @@ const DeliveryDetailsComponent = ({
                     duration: 4000,
                     variant: 'destructive',
                     title: 'You have already choosen airport delivery.',
-                    description: 'Please uncheck it to choose custom delivery.',
+                    description: 'Please uncheck it to choose custom delivery.'
                 });
                 return;
             }
@@ -54,7 +55,7 @@ const DeliveryDetailsComponent = ({
                     duration: 4000,
                     variant: 'destructive',
                     title: 'You have already choosen custom delivery.',
-                    description: 'Please uncheck it to choose airport delivery.',
+                    description: 'Please uncheck it to choose airport delivery.'
                 });
                 return;
             }
@@ -104,7 +105,7 @@ const DeliveryDetailsComponent = ({
                                     )}
                                 </>
                             ) : null}
-                            <FaChevronDown className={`text-neutral-500   ${showDetails ? 'rotate-180' : ' rotate-0'}`} />
+                            <ChevronDown className={`text-neutral-500 ml-3  ${showDetails ? 'rotate-180' : ' rotate-0'}`} />
                         </button>
 
                         {showDetails && (
@@ -120,8 +121,8 @@ const DeliveryDetailsComponent = ({
                                                 onChange={handleCustomDeliveryCheckbox}
                                             />
                                             <div className='flex items-center gap-2 text-sm text-neutral-500'>
-                                                <span className='font-bold'>${deliveryDetails?.nonAirportDeliveryCost}</span> will be applied for custom
-                                                delivery
+                                                <span className='font-bold'>${deliveryDetails?.nonAirportDeliveryCost}</span> will be
+                                                applied for custom delivery
                                             </div>
                                         </label>
                                     </div>
@@ -145,13 +146,15 @@ const DeliveryDetailsComponent = ({
                                 {deliveryDetails?.deliveryToAirport ? (
                                     <>
                                         {isAirportDeliveryChoosen ? (
-                                            <p className='flex items-center  font-medium text-green-500   '>Airport delivery Charges applied</p>
+                                            <p className='flex items-center  font-medium text-green-500   '>
+                                                Airport delivery Charges applied
+                                            </p>
                                         ) : (
                                             <p className='flex items-center  font-medium text-primary   '>Do you need Airport delivery?</p>
                                         )}
                                     </>
                                 ) : null}
-                                <FaChevronDown className={`text-neutral-500   ${showAiprortDetails ? 'rotate-180' : ' rotate-0'}`} />
+                                <ChevronDown className={`text-neutral-500  ml-3 ${showAiprortDetails ? 'rotate-180' : ' rotate-0'}`} />
                             </button>
 
                             {showAiprortDetails && (
@@ -169,8 +172,8 @@ const DeliveryDetailsComponent = ({
                                                             onChange={handleAirportDeliveryCheckbox}
                                                         />
                                                         <div className='flex items-center gap-2 text-sm text-neutral-500'>
-                                                            <span className='font-bold'> ${deliveryDetails?.airportDeliveryCost}</span> will be applied for
-                                                            airport delivery
+                                                            <span className='font-bold'> ${deliveryDetails?.airportDeliveryCost}</span> will
+                                                            be applied for airport delivery
                                                         </div>
                                                     </label>
                                                 </div>

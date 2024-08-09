@@ -82,9 +82,10 @@ export async function verifyDrivingProfile(payload: any) {
             // console.log('Success response:', responseData);
 
             if (responseData.requestId) {
-                const updateIDResponse = await updateDrivingProfile(responseData.requestId);
-                // console.log('updateIDResponse', updateIDResponse);
-                return updateIDResponse;
+                return responseData;
+                // const updateIDResponse = await updateDrivingProfile(responseData.requestId);
+                // // console.log('updateIDResponse', updateIDResponse);
+                // return updateIDResponse;
             }
         } else {
             throw new Error(JSON.stringify(response.data));
@@ -126,14 +127,26 @@ export async function getVerifiedDetailsFromIDScan(requestId: string): Promise<P
                 faceMatch: faceVerificationResult.confidence,
                 addressConfidence: documentVerificationResult.verificationConfidence.address,
 
-                dmvValidation: documentVerificationResult.validationTests.find((test: any) => test.name === 'DMVValidation')?.statusString || 'Not Available',
-                dmvReason: documentVerificationResult.validationTests.find((test: any) => test.name === 'DMNVValidation')?.reason || 'Not Available',
+                dmvValidation:
+                    documentVerificationResult.validationTests.find((test: any) => test.name === 'DMVValidation')?.statusString ||
+                    'Not Available',
+                dmvReason:
+                    documentVerificationResult.validationTests.find((test: any) => test.name === 'DMNVValidation')?.reason ||
+                    'Not Available',
 
-                addressValidation: documentVerificationResult.validationTests.find((test: any) => test.name === 'AddressValidation')?.statusString || 'Not Available',
-                addressReason: documentVerificationResult.validationTests.find((test: any) => test.name === 'AddressValidation')?.reason || 'Not Available',
+                addressValidation:
+                    documentVerificationResult.validationTests.find((test: any) => test.name === 'AddressValidation')?.statusString ||
+                    'Not Available',
+                addressReason:
+                    documentVerificationResult.validationTests.find((test: any) => test.name === 'AddressValidation')?.reason ||
+                    'Not Available',
 
-                identiFraudValidation: documentVerificationResult.validationTests.find((test: any) => test.name === 'IdentiFraudValidation')?.statusString || 'Not Available',
-                identiFraudReason: documentVerificationResult.validationTests.find((test: any) => test.name === 'IdentiFraudValidation')?.reason || 'Not Available'
+                identiFraudValidation:
+                    documentVerificationResult.validationTests.find((test: any) => test.name === 'IdentiFraudValidation')?.statusString ||
+                    'Not Available',
+                identiFraudReason:
+                    documentVerificationResult.validationTests.find((test: any) => test.name === 'IdentiFraudValidation')?.reason ||
+                    'Not Available'
             };
 
             // Extract personal information
