@@ -50,6 +50,7 @@ export default function page({ params }: { params: { tripId: string } }) {
                             swapRequestDetails={swapRequestDetails}
                             originalStartDate={new Date(tripData.starttime)}
                             originalEndDate={new Date(tripData.endtime)}
+                            zipCode={tripData.vehzipcode}
                         />
                     )}
 
@@ -91,12 +92,13 @@ export default function page({ params }: { params: { tripId: string } }) {
             </div>
 
             {/* Bottom Mobile Actions */}
-            <div className='lg:hidden fixed bottom-0 left-0 right-0 flex justify-around  z-10 bg-background  px-4 py-2 shadow-[0px_0px_9px_0px_#00000024]'>
+            <div className='lg:hidden fixed bottom-0 left-0 right-0 flex justify-around flex-wrap gap-3 z-10 bg-background  px-4 py-2 shadow-[0px_0px_9px_0px_#00000024]'>
                 {swapRequestDetails && (
                     <SwapComponent
                         swapRequestDetails={swapRequestDetails}
                         originalStartDate={new Date(tripData.starttime)}
                         originalEndDate={new Date(tripData.endtime)}
+                        zipCode={tripData.vehzipcode}
                     />
                 )}
 

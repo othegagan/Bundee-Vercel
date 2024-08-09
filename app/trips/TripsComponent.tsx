@@ -96,7 +96,7 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                         {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
                                         <div className='text-14 font-medium text-muted-foreground  '>{trip?.vehicleNumber}</div>
                                     </div>
-                                    <div className='flex-center mt-2 justify-between'>
+                                    <div className='flex-center mt-2 justify-between gap-6'>
                                         <StatusBadge status={trip.status} type='trip' />
                                         {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}
                                     </div>
@@ -155,7 +155,7 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                         {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
                                     </div>
 
-                                    <div className='flex-center justify-between'>
+                                    <div className='flex-center justify-between flex-wrap gap-2'>
                                         <div className='text-14 font-medium text-muted-foreground'>{trip?.vehicleNumber}</div>
                                         <StatusBadge status={trip.status} type='trip' />
                                         {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}

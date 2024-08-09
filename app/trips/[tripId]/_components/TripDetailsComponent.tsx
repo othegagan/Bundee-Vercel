@@ -58,9 +58,7 @@ export default function TripDetailsComponent({
                         ) : (
                             <StatusBadge status={trip.status.toLowerCase()} type='trip' />
                         )}
-                        {trip.swapDetails && trip.swapDetails.length > 0 && (
-                            <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' className='ml-auto' />
-                        )}
+                        
                     </div>
 
                     <div className='hidden lg:block'>
