@@ -6,9 +6,12 @@ import { extractBase64Image } from '@/lib/utils';
 import IDVC from '@idscan/idvc2';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import './idScan.css';
+// import './idScan.css';
 import { verifyDrivingProfile } from '@/hooks/useDrivingProfile';
 import { CircleCheck } from 'lucide-react';
+import { getSession } from '@/lib/auth';
+import Link from 'next/link';
+import '@idscan/idvc2/dist/css/idvc.css';
 
 function useUpdateDriverProfile() {
     const router = useRouter();
@@ -24,13 +27,14 @@ function useUpdateDriverProfile() {
         router.push(url);
     };
 
-    const updateDriverProfile = async (payload: any, token: string) => {
+    const updateDriverProfile = async (payload: any, token?: string) => {
         setIsUpdatingDB(true);
         setErrorUpdatingDB('');
         setSuccess(false);
 
         try {
-            const userId = Number(decryptingData(token));
+            const session = await getSession();
+            const userId = Number(decryptingData(token)) || session?.userId;
             const response = await verifyDrivingProfile(payload, userId);
 
             if (response.success) {
@@ -50,9 +54,37 @@ function useUpdateDriverProfile() {
     return { isUpdatingDB, errorUpdatingDB, success, updateDriverProfile };
 }
 
+export function processIDScanData(data: any) {
+    const frontStep = data.steps.find((item: any) => item.type === 'front');
+    const pdfStep = data.steps.find((item: any) => item.type === 'pdf');
+    const faceStep = data.steps.find((item: any) => item.type === 'face');
+
+    if (!frontStep || !pdfStep || !faceStep) {
+        throw new Error('One or more required steps (front, pdf, face) are missing.');
+    }
+
+    const frontImageBase64 = extractBase64Image(frontStep.img);
+    const backImageBase64 = extractBase64Image(pdfStep.img);
+    const faceImageBase64 = extractBase64Image(faceStep.img);
+
+    const [trackStringData, barcodeParams] = (pdfStep.trackString || '').split('.');
+    const captureMethod = `${+frontStep.isAuto}${+pdfStep.isAuto}${+faceStep.isAuto}`;
+
+    return {
+        frontImageBase64,
+        backOrSecondImageBase64: backImageBase64,
+        faceImageBase64,
+        documentType: 1,
+        trackString: { data: trackStringData || '', barcodeParams: barcodeParams || '' },
+        overriddenSettings: { isOCREnabled: true, isBackOrSecondImageProcessingEnabled: true, isFaceMatchEnabled: true },
+        metadata: { captureMethod }
+    };
+}
+
 export default function IDScanComponent() {
     const searchParams = useSearchParams();
     const token = searchParams.get('token') || '';
+    const callback = searchParams.get('callbackUrl') || '';
     const [isProcessStarted, setIsProcessStarted] = useState(false);
     const [processError, setProcessError] = useState('');
     const [idvcInstance, setIdvcInstance] = useState<any>(null);
@@ -122,7 +154,7 @@ export default function IDScanComponent() {
             submit: async (data: any) => {
                 idvcInstance.showSpinner(true);
                 try {
-                    const payload = processData(data);
+                    const payload = processIDScanData(data);
                     await updateDriverProfile(payload, token);
                 } catch (error) {
                     setProcessError(error instanceof Error ? error.message : 'An error occurred during processing');
@@ -146,37 +178,6 @@ export default function IDScanComponent() {
         setProcessError('');
         removeCssFile();
     };
-
-    function processData(data: any) {
-        const frontStep = data.steps.find((item: any) => item.type === 'front');
-        const pdfStep = data.steps.find((item: any) => item.type === 'pdf');
-        const faceStep = data.steps.find((item: any) => item.type === 'face');
-
-        if (!frontStep || !pdfStep || !faceStep) {
-            throw new Error('One or more required steps (front, pdf, face) are missing.');
-        }
-
-        const frontImageBase64 = extractBase64Image(frontStep.img);
-        const backImageBase64 = extractBase64Image(pdfStep.img);
-        const faceImageBase64 = extractBase64Image(faceStep.img);
-
-        const [trackStringData, barcodeParams] = (pdfStep.trackString || '').split('.');
-        const captureMethod = `${+frontStep.isAuto}${+pdfStep.isAuto}${+faceStep.isAuto}`;
-
-        return {
-            frontImageBase64,
-            backOrSecondImageBase64: backImageBase64,
-            faceImageBase64,
-            documentType: 1,
-            trackString: { data: trackStringData || '', barcodeParams: barcodeParams || '' },
-            overriddenSettings: { isOCREnabled: true, isBackOrSecondImageProcessingEnabled: true, isFaceMatchEnabled: true },
-            metadata: { captureMethod }
-        };
-    }
-
-    if (!token) {
-        return <div className='text-center text-red-500 my-20'>No User Token Provided. Please try again.</div>;
-    }
 
     return (
         <ClientOnly>
@@ -218,6 +219,12 @@ export default function IDScanComponent() {
                     <div className=' mt-4 text-center flex flex-col items-center justify-center gap-6 my-10 max-w-2xl'>
                         <CircleCheck className='text-green-500 size-10' />
                         <p>Your driving licence has been successfully added to your profile.</p>
+
+                        {callback && (
+                            <Link href={callback} className='mt-4  p-2 bg-black text-white rounded-md hover:bg-black/80'>
+                                OK, Go Back
+                            </Link>
+                        )}
                     </div>
                 )}
             </div>

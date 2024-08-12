@@ -30,11 +30,10 @@ export const useVerifiedDrivingProfile = () => {
                 if (!userResponse.success || !userResponse.data) {
                     throw new Error('Failed to fetch user data');
                 }
-
                 const user = userResponse.data;
                 const driverProfile = user.driverProfiles?.[0];
-                const isDrivingProfileVerified = !!driverProfile?.personaEnquiryId;
-                const drivingProfileId = driverProfile?.personaEnquiryId || null;
+                const isDrivingProfileVerified = !!driverProfile?.idScanRequestID;
+                const drivingProfileId = driverProfile?.idScanRequestID || null;
 
                 if (drivingProfileId) {
                     try {
@@ -79,6 +78,8 @@ export async function verifyDrivingProfile(payload: any, userID?: number) {
 
         if (response.status === 200) {
             const responseData = response.data;
+
+            console.log('responseData', responseData);
 
             if (responseData.requestId) {
                 const updateIDResponse = await updateDrivingProfile(responseData.requestId, userID);

@@ -37,7 +37,7 @@ self.addEventListener('push', e => {
                     ...newData.data,
                     ...newData.notification,
                 };
-                delete newData.notification;
+                newData.notification = undefined;
                 return newData;
             },
         },
@@ -66,7 +66,7 @@ messaging.onBackgroundMessage(payload => {
 });
 
 self.addEventListener('notificationclick', event => {
-    if (event?.notification?.data && event?.notification?.data?.link) {
+    if (event?.notification?.data?.link) {
         self.clients.openWindow(event.notification.data.link);
     }
 

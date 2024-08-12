@@ -1,9 +1,8 @@
 'use client';
 
 import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
-import { getSession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
-import { getUserByEmail, getUserByPhoneNumber, updateProfile } from '@/server/userOperations';
+import { updateUserPhoneNumber } from '@/server/userOperations';
 import { PhoneAuthProvider, RecaptchaVerifier, getAuth, linkWithCredential, unlink, updatePhoneNumber } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
@@ -44,6 +43,7 @@ export default function PhoneNumberVerificationDialog() {
             // console.log('verifyId', verifyId);
         } catch (error) {
             console.log(error);
+            setOTPError(error.message);
             handleAuthError(error.code || error.message);
         }
     };
@@ -77,51 +77,21 @@ export default function PhoneNumberVerificationDialog() {
                 await updatePhoneNumber(currentUser, credential);
             }
 
-            const session = await getSession();
-            const userResponse = await getUserByEmail(session.email);
-            // console.log(userResponse);
-
-            if (userResponse.success) {
-                const db_data = userResponse.data.userResponse;
-                const updatePayload = {
-                    address_1: db_data.address_1 || '',
-                    address_2: db_data.address_2 || '',
-                    address_3: db_data.address_3 || '',
-                    city: db_data.city || '',
-                    country: db_data.country || '',
-                    postcode: db_data.postcode || '',
-                    state: db_data.state || '',
-                    driverlisense: db_data.driverlisense || '',
-                    firstname: db_data.firstname || '',
-                    middlename: '',
-                    lastname: db_data.lastname || '',
-                    iduser: db_data.iduser,
-                    language: 'NA',
-                    userimage: db_data.userimage || '',
-                    vehicleowner: false,
-
-                    mobilePhone: `+${phoneNumber}`,
-                    isPhoneVarified: true,
-                    isEmailVarified: true,
-                    fromValue: 'completeProfile',
-                };
-                const response = await updateProfile(updatePayload);
-                if (response.success) {
-                    setPhoneNumber('');
-                    setVerificationId('');
-                    setVerificationSent(false);
-                    toast({
-                        description: 'Phone number updated successfully',
-                        duration: 3000,
-                    });
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 600);
-                } else {
-                    throw new Error(response.message);
-                }
+            const mobilePhone = `+${phoneNumber}`;
+            const response = await updateUserPhoneNumber(mobilePhone);
+            if (response.success) {
+                setPhoneNumber('');
+                setVerificationId('');
+                setVerificationSent(false);
+                toast({
+                    description: 'Phone number updated successfully',
+                    duration: 3000
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 600);
             } else {
-                throw new Error(userResponse.message);
+                throw new Error(response.message);
             }
         } catch (error: any) {
             console.log(error);
@@ -137,7 +107,7 @@ export default function PhoneNumberVerificationDialog() {
         const errorMap = getFirebaseErrorMessage(error);
         setPhoneNumber('');
         setOTPError(errorMap);
-        console.log(otpError);
+        console.log(errorMap);
     };
 
     function openModal() {
@@ -168,7 +138,11 @@ export default function PhoneNumberVerificationDialog() {
                                 New Phone Number:
                             </Label>
                             <PhoneNumber setPhone={setPhoneNumber} phone={phoneNumber} />
-                            <Button type='button' className='ml-auto w-fit' onClick={handleSendVerificationCode} disabled={!phoneNumber || verificationSent}>
+                            <Button
+                                type='button'
+                                className='ml-auto w-fit'
+                                onClick={handleSendVerificationCode}
+                                disabled={!phoneNumber || verificationSent}>
                                 {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
                             </Button>
                         </>

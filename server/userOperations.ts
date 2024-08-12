@@ -7,7 +7,7 @@ export async function getBundeeToken(firebaseToken: string) {
     try {
         const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/login';
         const payload = {
-            authToken: firebaseToken,
+            authToken: firebaseToken
         };
 
         const response = await http.post(url, payload);
@@ -24,7 +24,7 @@ export async function getUserByEmail(email: string) {
 
         const payload = {
             channelName: process.env.CHANNEL_NAME,
-            email: email,
+            email: email
         };
 
         const response = await http.post(url, payload);
@@ -40,7 +40,7 @@ export async function getUserByPhoneNumber(phoneNumber: string) {
 
         const payload = {
             channelName: process.env.CHANNEL_NAME,
-            mobilePhone: phoneNumber,
+            mobilePhone: phoneNumber
         };
 
         const response = await http.post(url, payload);
@@ -57,7 +57,7 @@ export async function getRecentlyViewedVehicles() {
 
         const payload = {
             fromvalue: 'userId',
-            id: session.userId,
+            id: session.userId
         };
 
         const response = await http.post(url, payload);
@@ -74,7 +74,7 @@ export async function clearRecentlyViewedVehicles() {
 
         const payload = {
             userid: session.userId,
-            isactive: false,
+            isactive: false
         };
 
         const response = await http.post(url, payload);
@@ -99,6 +99,24 @@ export async function updateProfile(payload: any) {
     }
 }
 
+export async function updateUserPhoneNumber(mobilePhone: string) {
+    try {
+        const session = await getSession();
+        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/updateUserPhoneNumber';
+
+        const payload = {
+            mobilePhone: mobilePhone,
+            isPhoneVarified: true,
+            iduser: session.userId
+        };
+
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 export async function updateInsuranceProfile(payload: any) {
     try {
         const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/createDriverProfile';
@@ -116,7 +134,7 @@ export async function deleteAccount() {
         const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/deleteUser';
         const payload = {
             email: session.email,
-            iduser: Number(session.userId),
+            iduser: Number(session.userId)
         };
         const response = await http.post(url, payload);
         return handleResponse(response.data);
@@ -132,7 +150,7 @@ export async function wishlistHandler(vehicleId: number, isfavourite: boolean) {
         const payload = {
             userid: session.userId,
             vehicleid: vehicleId,
-            isfavourite: isfavourite,
+            isfavourite: isfavourite
         };
 
         const response = await http.post(url, payload);
@@ -148,7 +166,7 @@ export async function startTripByDriver(tripid: number) {
         const payload = {
             tripid: tripid,
             changedBy: 'USER',
-            comments: 'Trip started from driver',
+            comments: 'Trip started from driver'
         };
         const response = await http.post(url, payload);
         return handleResponse(response.data);
@@ -162,7 +180,7 @@ export async function getAllUserWishlistedVehicles() {
         const session = await getSession();
         const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/getWishListByUserId';
         const payload = {
-            userid: session.userId,
+            userid: session.userId
         };
         const response = await http.post(url, payload);
         return handleResponse(response.data);
