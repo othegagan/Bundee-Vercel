@@ -172,3 +172,16 @@ export function sortImagesByIsPrimary(images: any[]) {
         return a.orderNumber - b.orderNumber;
     });
 }
+
+/**
+ * Helper function to extract the Base64 image from the image string.
+ * @param imgStr The image string to extract the Base64 image from.
+ * @returns The Base64 image content.
+ */
+export function extractBase64Image(imgStr: string): string {
+    const base64Match = imgStr.match(/:image\/(jpeg|png);base64,(.+)/);
+    if (!base64Match || base64Match.length < 3) {
+        throw new Error('Invalid image format or missing Base64 content.');
+    }
+    return base64Match[2];
+}

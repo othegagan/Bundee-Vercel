@@ -110,7 +110,7 @@ export async function createTripReservation(payload: any) {
         console.log('Reservation Payload :', modifiedPayload);
         const response = await http.post(url, modifiedPayload);
         console.log(' Reservation response', response.data);
-        if (response.data.errorCode == 0) {
+        if (response.data.errorCode === '0') {
             return {
                 success: true,
                 data: response.data,
@@ -134,7 +134,7 @@ export async function createTripExtension(payload: any) {
         console.log('Trip extension Payload :', modifiedPayload);
         const response = await http.post(url, modifiedPayload);
         console.log(' Extension response', response.data);
-        if (response.data.errorCode == 0) {
+        if (response.data.errorCode === '0') {
             return {
                 success: true,
                 data: response.data,
@@ -158,7 +158,7 @@ export async function createTripReduction(payload: any) {
         console.log('Trip reduction Payload :', modifiedPayload);
         const response = await http.post(url, modifiedPayload);
         console.log(' Reduction response', response.data);
-        if (response.data.errorCode == 0) {
+        if (response.data.errorCode === '0') {
             return {
                 success: true,
                 data: response.data,

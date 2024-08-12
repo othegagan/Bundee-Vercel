@@ -66,7 +66,7 @@ export const useVerifiedDrivingProfile = () => {
     });
 };
 
-export async function verifyDrivingProfile(payload: any) {
+export async function verifyDrivingProfile(payload: any, userID: number) {
     try {
         const verifyUrl = 'https://dvs2.idware.net/api/v4/verify';
 
@@ -79,13 +79,10 @@ export async function verifyDrivingProfile(payload: any) {
 
         if (response.status === 200) {
             const responseData = response.data;
-            // console.log('Success response:', responseData);
 
             if (responseData.requestId) {
-                return responseData;
-                // const updateIDResponse = await updateDrivingProfile(responseData.requestId);
-                // // console.log('updateIDResponse', updateIDResponse);
-                // return updateIDResponse;
+                const updateIDResponse = await updateDrivingProfile(responseData.requestId, userID);
+                return updateIDResponse;
             }
         } else {
             throw new Error(JSON.stringify(response.data));
