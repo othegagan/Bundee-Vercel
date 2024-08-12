@@ -4,7 +4,6 @@ import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog
 import { verifyDrivingProfile } from '@/hooks/useDrivingProfile';
 import { IDScanErrorResponse } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { CircleCheck } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';

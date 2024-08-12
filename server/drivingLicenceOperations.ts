@@ -8,10 +8,11 @@ export async function updateDrivingProfile(requestId: string, userID: number) {
         const session = await getSession();
         const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/createDriverProfile`;
         const payload = {
-            personaEnquiryId: requestId,
             userId: userID || session.userId,
+            idScanRequestID: requestId,
+            isVerified: true,
         };
-        
+
         const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {

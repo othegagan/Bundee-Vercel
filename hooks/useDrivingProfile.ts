@@ -66,7 +66,7 @@ export const useVerifiedDrivingProfile = () => {
     });
 };
 
-export async function verifyDrivingProfile(payload: any, userID: number) {
+export async function verifyDrivingProfile(payload: any, userID?: number) {
     try {
         const verifyUrl = 'https://dvs2.idware.net/api/v4/verify';
 
