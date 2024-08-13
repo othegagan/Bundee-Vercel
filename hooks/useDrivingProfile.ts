@@ -11,7 +11,7 @@ export async function profileVerifiedStatus() {
     const userResponse = await getUserByEmail(session.email);
 
     if (userResponse.success) {
-        const isPersonaVerified = !!userResponse.data?.driverProfiles[0]?.personaEnquiryId;
+        const isPersonaVerified = !!userResponse.data?.driverProfiles[0]?.idScanRequestID;
         return isPersonaVerified;
     }
 }
