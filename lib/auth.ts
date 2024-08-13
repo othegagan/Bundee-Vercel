@@ -7,12 +7,13 @@ import { type NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { JSONparsefy } from "./utils";
 import { JWTExpired } from "jose/errors";
+import { redirect } from "next/navigation";
 
 const secretKey = process.env.SECRET_KEY;
 const cookieName =
     process.env.NODE_ENV === "production" ? "bundee-session" : "dev_session";
-const EXPIRY_IN_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
-const REFRESH_THRESHOLD_MS = 1 * 24 * 60 * 60 * 1000; // 1 day in milliseconds
+const EXPIRY_IN_MS = 15 * 24 * 60 * 60 * 1000; // 15 days in milliseconds
+const REFRESH_THRESHOLD_MS = 5 * 24 * 60 * 60 * 1000; // 5 days in milliseconds
 
 const key = new TextEncoder().encode(secretKey);
 
@@ -20,7 +21,7 @@ export async function encrypt(payload: any) {
     return await new SignJWT(payload)
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("7d") // Set expiration to 7 days
+        .setExpirationTime("15d") // Set expiration to 15 days
         .sign(key);
 }
 
@@ -104,7 +105,6 @@ export async function getSession(): Promise<SessionData> {
 }
 
 async function refreshSession(sessionData: SessionData): Promise<SessionData> {
-    console.log("Refreshing session");
     return await createSession({
         userData: sessionData,
         authToken: sessionData.authToken,
@@ -119,6 +119,8 @@ export async function destroySession() {
         secure: true,
         path: "/",
     });
+
+    redirect("/");
 }
 
 export const saveDeviceUUID = async () => {

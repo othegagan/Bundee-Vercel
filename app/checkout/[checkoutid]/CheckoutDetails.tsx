@@ -3,8 +3,9 @@
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { CheckoutCardSkeleton } from '@/components/skeletons/skeletons';
 import { Separator } from '@/components/ui/separator';
+import { getSession } from '@/lib/auth';
 import { formatDateAndTime } from '@/lib/utils';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import secureLocalStorage from 'react-secure-storage';
 
 export function useCheckoutDetails() {
@@ -15,12 +16,15 @@ export function useCheckoutDetails() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const session = await getSession();
                 const data = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
-                if (!data) {
+
+                if (data && session.isLoggedIn) {
+                    setData(data);
+                } else {
                     setError(true);
                     return;
                 }
-                setData(data);
             } catch (error) {
                 console.error(error);
             } finally {
