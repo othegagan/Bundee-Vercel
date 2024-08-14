@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 export default function DrivingLicenceDialog() {
     const router = useRouter();
-    const { isOpen, isUpdate, onOpen, onClose } = useDrivingLicenceDialog();
+    const { isOpen, isUpdate, onOpen, onClose, onUpdate } = useDrivingLicenceDialog();
 
     function handleRedirect() {
         router.push(`/idscan?callbackUrl=${encodeURIComponent(window.location.href)}`);
@@ -16,6 +16,7 @@ export default function DrivingLicenceDialog() {
 
     function closeModal() {
         onClose();
+        onUpdate(false);
     }
 
     return (
@@ -41,7 +42,7 @@ export default function DrivingLicenceDialog() {
                         Cancel
                     </Button>
 
-                    <Button type='submit' onClick={handleRedirect}  variant='black'>
+                    <Button type='button' onClick={handleRedirect}  variant='black'>
                         {isUpdate ? 'Update Driving License' : 'Verify Driving License'}
                     </Button>
                 </div>

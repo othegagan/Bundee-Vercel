@@ -6,12 +6,10 @@ import { extractBase64Image } from '@/lib/utils';
 import IDVC from '@idscan/idvc2';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-// import './idScan.css';
 import { verifyDrivingProfile } from '@/hooks/useDrivingProfile';
 import { CircleCheck } from 'lucide-react';
 import { getSession } from '@/lib/auth';
 import Link from 'next/link';
-import '@idscan/idvc2/dist/css/idvc.css';
 
 function useUpdateDriverProfile() {
     const router = useRouter();
@@ -92,19 +90,37 @@ export default function IDScanComponent() {
     const { updateDriverProfile, isUpdatingDB, errorUpdatingDB, success } = useUpdateDriverProfile();
 
     useEffect(() => {
+        // Function to load the CSS file
+        const loadCssFile = () => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdn.jsdelivr.net/npm/@idscan/idvc2/dist/css/idvc.css'; // Use the full path to the CSS file
+            link.id = 'idvcCss';
+            document.head.appendChild(link);
+            cssLinkRef.current = link;
+        };
+
+        // Function to handle chunk errors
         const handleChunkError = (e: ErrorEvent) => {
             if (e.message.includes('Loading chunk')) {
                 setProcessError('An error occurred while loading the application. Please reload the page.');
             }
         };
 
+        // Load the CSS file
+        loadCssFile();
+
+        // Add event listener for chunk errors
         window.addEventListener('error', handleChunkError);
+
+        // Cleanup function
         return () => {
             window.removeEventListener('error', handleChunkError);
             removeCssFile();
         };
     }, []);
 
+    // Function to remove the CSS file
     const removeCssFile = () => {
         if (cssLinkRef.current) {
             document.head.removeChild(cssLinkRef.current);

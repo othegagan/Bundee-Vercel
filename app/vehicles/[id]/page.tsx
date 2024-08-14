@@ -5,7 +5,6 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { VehiclesDetailsSkeleton, shimmer } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
@@ -28,8 +27,15 @@ import PriceDisplayComponent from './PriceDisplayComponent';
 import VehicleDetailsComponent from './VehicleDetailsComponent';
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 
-export default function SingleVehicleDetails({ params, searchParams }: { params: { id: string }; searchParams: any }) {
+export default function SingleVehicleDetails({
+    params,
+    searchParams
+}: {
+    params: { id: string };
+    searchParams: any;
+}) {
     const loginModal = useLoginDialog();
+    const drivingLicenceDialog = useDrivingLicenceDialog();
     const { addToWishlistHandler, removeFromWishlistHandler, isItemWishlisted } = useWishlist(params.id);
     const { isLoading: datesLoading, isError: datesError } = useAvailabilityDates(params.id, null);
     const [selectedDatesError, setSelectedDatesError] = useState(false);
@@ -48,8 +54,6 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
     const [isPriceError, setIsPriceError] = useState(false);
     const [priceErrorMessage, setPriceErrorMessage] = useState(null);
 
-    const [showDrivingLicenceModal, setShowDrivingLicenceModal] = useState(false);
-
     const [userAuthenticated, setUserAuthenticated] = useState(false);
 
     const [startDate, setStartDate] = useQueryState('startDate', {
@@ -63,8 +67,14 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
     const todayDate = new Date(`${startDate}T${getCurrentTimeRounded()}`);
 
-    const [startTime, setStartTime] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
-    const [endTime, setEndTime] = useQueryState('endTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
+    const [startTime, setStartTime] = useQueryState('startTime', {
+        defaultValue: getCurrentTimeRounded() || '10:00:00',
+        history: 'replace'
+    });
+    const [endTime, setEndTime] = useQueryState('endTime', {
+        defaultValue: getCurrentTimeRounded() || '10:00:00',
+        history: 'replace'
+    });
 
     const [isAirportDeliveryChoosen, setIsAirportDeliveryChoosen] = useState(false);
     const [isCustoumDelivery, setIsCustoumDelivery] = useState(false);
@@ -175,7 +185,11 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
         const isVerified = await profileVerifiedStatus();
         const deductionfrequencyconfigid = isVerified ? deductionConfigData.deductioneventconfigid : 1;
-        isVerified ? setShowDrivingLicenceModal(false) : setShowDrivingLicenceModal(true);
+        if (!isVerified) {
+            drivingLicenceDialog.isUpdate = false;
+            drivingLicenceDialog.onOpen();
+            return;
+        }
 
         try {
             const delivery = isAirportDeliveryChoosen ? true : !!isCustoumDelivery;
@@ -183,7 +197,11 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
             const deliveryDetails = extractFirstDeliveryDetails(vehicleBusinessConstraints);
 
-            const deliveryCost = isAirportDeliveryChoosen ? deliveryDetails?.airportDeliveryCost : isCustoumDelivery ? deliveryDetails?.nonAirportDeliveryCost : 0;
+            const deliveryCost = isAirportDeliveryChoosen
+                ? deliveryDetails?.airportDeliveryCost
+                : isCustoumDelivery
+                  ? deliveryDetails?.nonAirportDeliveryCost
+                  : 0;
 
             const checkoutDetails = {
                 userId: session.userId,
@@ -228,7 +246,7 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                 Statesurchargeamount: priceCalculatedList.stateSurchargeAmount
             };
 
-            console.log(checkoutDetails);
+            // console.log(checkoutDetails);
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
 
             if (!isVerified) {
@@ -250,7 +268,9 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
 
     function extractFirstDeliveryDetails(constraintsArray: any[]) {
         try {
-            const firstDeliveryDetails = constraintsArray.find((constraint: { constraintName: string }) => constraint.constraintName === 'DeliveryDetails');
+            const firstDeliveryDetails = constraintsArray.find(
+                (constraint: { constraintName: string }) => constraint.constraintName === 'DeliveryDetails'
+            );
 
             if (firstDeliveryDetails) {
                 const { deliveryToAirport, airportDeliveryCost, nonAirportDeliveryCost } = JSON.parse(firstDeliveryDetails.constraintValue);
@@ -358,7 +378,9 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 {!priceLoading && !priceCalculatedList && !isPriceError ? (
                                     <div className='mt-1 flex gap-2'>
                                         <IoInformationCircleOutline className='text-destructive' />
-                                        <p className='text-sm font-normal text-destructive'>Invalid Dates. Please select different dates.</p>
+                                        <p className='text-sm font-normal text-destructive'>
+                                            Invalid Dates. Please select different dates.
+                                        </p>
                                     </div>
                                 ) : null}
                             </div>
@@ -385,13 +407,18 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 </>
                             )}
 
-                            <p className='text-14 text-neutral-600'>You will not be charged until the host accepts the reservation request.</p>
+                            <p className='text-14 text-neutral-600'>
+                                You will not be charged until the host accepts the reservation request.
+                            </p>
 
                             <div className=''>
                                 {priceLoading ? (
                                     <div className={`h-8 w-full rounded-md bg-neutral-200 ${shimmer}`} />
                                 ) : isPriceError ? null : (
-                                    <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChoosen={isAirportDeliveryChoosen} />
+                                    <PriceDisplayComponent
+                                        pricelist={priceCalculatedList}
+                                        isAirportDeliveryChoosen={isAirportDeliveryChoosen}
+                                    />
                                 )}
                             </div>
 
@@ -399,14 +426,22 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                                 type='button'
                                 size='lg'
                                 className='mt-5 flex w-full'
-                                disabled={!!error || priceLoading || isPriceError || !priceCalculatedList || datesLoading || datesError || selectedDatesError}
+                                disabled={
+                                    !!error ||
+                                    priceLoading ||
+                                    isPriceError ||
+                                    !priceCalculatedList ||
+                                    datesLoading ||
+                                    datesError ||
+                                    selectedDatesError
+                                }
                                 loading={priceLoading}
                                 loadingText=''
                                 onClick={() => {
                                     if (isCustoumDelivery && !customDeliveryLocation) {
                                         toast({
                                             duration: 4000,
-                                            className: 'bg-red-400 text-white',
+                                            variant: 'destructive',
                                             title: 'Please enter a custom delivery location.',
                                             description: 'The custom delivery location is required for this trip.'
                                         });
@@ -425,49 +460,8 @@ export default function SingleVehicleDetails({ params, searchParams }: { params:
                             </Button>
                         </div>
                     </div>
-
-                    <DrivingLicenceModal setShowDrivingLicenceModal={setShowDrivingLicenceModal} showDrivingLicenceModal={showDrivingLicenceModal} />
                 </div>
             </ClientOnly>
         </>
-    );
-}
-
-function DrivingLicenceModal({ showDrivingLicenceModal, setShowDrivingLicenceModal }) {
-    const drivingLicenseDialog = useDrivingLicenceDialog();
-    return (
-        <Dialog
-            title=' Driving licence verification'
-            description=''
-            isOpen={showDrivingLicenceModal}
-            onInteractOutside={false}
-            openDialog={() => {
-                setShowDrivingLicenceModal(true);
-            }}
-            closeDialog={() => {
-                setShowDrivingLicenceModal(false);
-            }}>
-            <DialogBody>
-                <p className='mt-4 max-w-2xl text-sm leading-snug text-neutral-500'>
-                    Your driving license has not yet been verified. <br />
-                    Please verify it.
-                </p>
-            </DialogBody>
-            <DialogFooter>
-                <Button type='button' size='sm' onClick={() => setShowDrivingLicenceModal(false)} variant='outline' className='w-full md:w-fit'>
-                    Back
-                </Button>
-
-                <Button
-                    type='button'
-                    variant='black'
-                    onClick={() => {
-                        drivingLicenseDialog.isUpdate = false;
-                        drivingLicenseDialog.onOpen();
-                    }}>
-                    Continue Verification
-                </Button>
-            </DialogFooter>
-        </Dialog>
     );
 }

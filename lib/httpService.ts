@@ -3,7 +3,7 @@ import { destroySession, getSession } from './auth';
 
 const authAxios = (): AxiosInstance => {
     const instance = axios.create({
-        timeout: 25000,
+        timeout: 60000,
     });
 
     instance.interceptors.request.use(

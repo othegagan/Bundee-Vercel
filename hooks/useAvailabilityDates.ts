@@ -1,6 +1,5 @@
 import { getAvailabilityDatesByVehicleId } from '@/server/vehicleOperations';
 import { useEffect, useState } from 'react';
-import useTabFocusEffect from './useTabFocusEffect';
 
 const useAvailabilityDates = (vehicleId: any, tripid: any) => {
     const [unformattedDates, setUnformattedDates] = useState(null);
