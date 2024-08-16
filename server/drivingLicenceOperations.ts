@@ -13,7 +13,10 @@ export async function updateDrivingProfile(requestId: string, userID: number) {
             isVerified: true,
         };
 
+        console.log("createDriverProfile payload", payload);
+
         const response = await http.post(url, payload);
+        console.log("create driver profile response", response.data);
         return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
