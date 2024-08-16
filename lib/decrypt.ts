@@ -13,10 +13,6 @@ export const encryptingData = (userId) => {
         });
         const encryptedText = encrypted.toString();
 
-        if (process.env.NODE_ENV === "development") {
-            console.log("Encrypted Text:", encryptedText);
-        }
-
         return encryptedText;
     } catch (error) {
         console.error("Encryption Error:", error);
@@ -27,16 +23,13 @@ export const encryptingData = (userId) => {
 // Function to decrypt data
 export const decryptingData = (cipherText) => {
     try {
+        if (!cipherText) return null;
         const decrypted = CryptoJS.AES.decrypt(cipherText, key, {
             iv: iv,
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7,
         });
         const decryptedString = CryptoJS.enc.Utf8.stringify(decrypted);
-
-        if (process.env.NODE_ENV === "development") {
-            console.log("Decrypted Text:", decryptedString);
-        }
 
         return decryptedString;
     } catch (error) {

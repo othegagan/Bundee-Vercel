@@ -1,15 +1,15 @@
 'use client';
 
 import ClientOnly from '@/components/ClientOnly';
+import { verifyDrivingProfile } from '@/hooks/useDrivingProfile';
+import { getSession } from '@/lib/auth';
 import { decryptingData } from '@/lib/decrypt';
 import { extractBase64Image } from '@/lib/utils';
 import IDVC from '@idscan/idvc2';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import { verifyDrivingProfile } from '@/hooks/useDrivingProfile';
 import { CircleCheck } from 'lucide-react';
-import { getSession } from '@/lib/auth';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 function useUpdateDriverProfile() {
     const router = useRouter();
@@ -25,14 +25,15 @@ function useUpdateDriverProfile() {
         router.push(url);
     };
 
-    const updateDriverProfile = async (payload: any, token?: string) => {
+    const updateDriverProfile = async (payload: any, decrpytedUserId?: string) => {
         setIsUpdatingDB(true);
         setErrorUpdatingDB('');
         setSuccess(false);
 
         try {
             const session = await getSession();
-            const userId = Number(decryptingData(token)) || session?.userId;
+            const userId = Number(decrpytedUserId) || session?.userId;
+
             const response = await verifyDrivingProfile(payload, userId);
 
             if (response.success) {
@@ -79,10 +80,8 @@ export function processIDScanData(data: any) {
     };
 }
 
-export default function IDScanComponent() {
-    const searchParams = useSearchParams();
-    const token = searchParams.get('token') || '';
-    const callback = searchParams.get('callbackUrl') || '';
+export default function IDScanComponent({ searchParams }) {
+    const callback = searchParams?.callbackUrl || '';
     const [isProcessStarted, setIsProcessStarted] = useState(false);
     const [processError, setProcessError] = useState('');
     const [idvcInstance, setIdvcInstance] = useState<any>(null);
@@ -171,7 +170,8 @@ export default function IDScanComponent() {
                 idvcInstance.showSpinner(true);
                 try {
                     const payload = processIDScanData(data);
-                    await updateDriverProfile(payload, token);
+                    const decrpytedUserId = decryptingData(searchParams.token.toString().trim());
+                    await updateDriverProfile(payload, decrpytedUserId);
                 } catch (error) {
                     setProcessError(error instanceof Error ? error.message : 'An error occurred during processing');
                 } finally {
