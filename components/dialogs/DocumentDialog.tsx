@@ -37,7 +37,7 @@ export default function DocumentDialog() {
             openDialog={openModal}
             className='lg:min-h-[500px] lg:max-w-4xl'>
             <DialogBody className='flex flex-col p-2   '>
-                <PDFViewerComponent link={uri} />
+                <PDFViewerComponent url={uri} />
 
                 {documentModal.invoicePDFLink ? (
                     <Link
