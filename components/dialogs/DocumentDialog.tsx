@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 
 const PDFViewerComponent = dynamic(() => import('../custom/PDFViewer'), {
-    ssr: false,
+    ssr: false
 });
 
 import useDocumentDialog from '@/hooks/dialogHooks/useDocumentDialog';
@@ -36,8 +36,10 @@ export default function DocumentDialog() {
             closeDialog={closeModal}
             openDialog={openModal}
             className='lg:min-h-[500px] lg:max-w-4xl'>
-            <DialogBody className='flex flex-col p-2   '>
-                <PDFViewerComponent url={uri} />
+            <DialogBody className='flex flex-col    '>
+                <div className='h-[70dvh] w-full'>
+                    <PDFViewerComponent url={uri} />
+                </div>
 
                 {documentModal.invoicePDFLink ? (
                     <Link
