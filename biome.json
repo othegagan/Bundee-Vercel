@@ -1,6 +1,9 @@
 {
     "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
     "organizeImports": { "enabled": true },
+    "files": {
+        "ignore": [".biome/cache", "next.config.js", "node_modules/*", "public/*", ".next/*", "next-env.d.ts"]
+    },
     "linter": {
         "enabled": true,
         "rules": {
@@ -21,7 +24,7 @@
                 "noUnusedImports": "warn"
             },
             "style": {
-                "useTemplate": "off",
+                "useTemplate": "warn",
                 "useImportType": "off",
                 "noUselessElse": "info"
             },
@@ -38,14 +41,13 @@
         "indentStyle": "space",
         "lineWidth": 140,
         "lineEnding": "lf",
-        "attributePosition": "auto",
-        "ignore": [".biome/cache", "./next.config.js", "./node_modules", "./public", ".next"]
+        "attributePosition": "auto"
     },
     "javascript": {
         "formatter": {
             "indentWidth": 4,
             "indentStyle": "space",
-            "lineWidth": 140,
+            "lineWidth": 160,
             "lineEnding": "lf",
             "arrowParentheses": "always",
             "bracketSameLine": true,

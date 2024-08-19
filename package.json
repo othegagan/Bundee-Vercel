@@ -10,7 +10,10 @@
         "prod": "copy  .env.prod .env.local && next dev",
         "build:dev": "cp  .env.dev .env.local  &&  next build",
         "build:qa": "  copy .env.qa .env.local  && next build",
-        "build:prod": "cp  .env.prod .env.local  &&  next build"
+        "build:prod": "cp  .env.prod .env.local  &&  next build",
+        "lint-biome": "biome check .",
+        "lint-biome:fix": "biome check --write --unsafe .",
+        "precommit": "lint-staged"
     },
     "dependencies": {
         "@headlessui/react": "^2.1.2",
@@ -97,9 +100,14 @@
         "@types/react-dom": "^18.3.0",
         "@types/tz-lookup": "^6.1.2",
         "@types/zipcode-to-timezone": "^0.0.2",
+        "lint-staged": "^15.2.9",
         "autoprefixer": "^10.4.20",
         "postcss": "^8.4.40",
         "tailwindcss": "^3.4.7",
         "typescript": "^5.5.4"
+    },
+    "lint-staged": {
+        "*.{js,json,jsx,ts,tsx}": ["prettier --write", "biome check --write --unsafe"],
+        "*.{css,html,md,mdx,yml,yaml}": ["prettier --write"]
     }
 }
