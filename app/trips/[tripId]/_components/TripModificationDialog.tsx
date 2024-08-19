@@ -259,6 +259,7 @@ export default function TripModificationDialog({ tripData }) {
         setPriceError('');
         setPriceLoading(false);
         setDateSelectionError('');
+        setIsInitialLoad(true);
     }
 
     function handleSubmit() {
