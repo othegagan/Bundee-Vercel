@@ -12,6 +12,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
 
     const drivingLicenseFlag = trip.isLicenseVerified;
     const isPhoneVerifiedFlag = trip.isPhoneVarified;
+    const insuranceFlag = false;
 
     return (
         <div className='flex flex-col gap-2'>
@@ -20,8 +21,12 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
             {/* Driving Licence */}
             <div className='flex items-center justify-between'>
                 <div className='text-md w-fit flex-center gap-2'>
-                    {!drivingLicenseFlag ? <RxQuestionMarkCircled className='text-yellow-500 size-5' /> : <IoCheckmarkCircleOutline className='text-green-500 size-5' />} Driving
-                    Licence
+                    {!drivingLicenseFlag ? (
+                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                    ) : (
+                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    )}{' '}
+                    Driving Licence
                 </div>
                 {!drivingLicenseFlag ? (
                     <button
@@ -46,20 +51,42 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                 )}
             </div>
 
+            {/* Insurance */}
+            <div className='flex items-center justify-between'>
+                <div className='text-md w-fit flex-center gap-2'>
+                    {!insuranceFlag ? (
+                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                    ) : (
+                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    )}{' '}
+                    Insurance
+                </div>
+                <button
+                    type='button'
+                    className='text-md underline underline-offset-2'>
+                    Coming Soon
+                </button>
+            </div>
+
             {/* Rental Agreement */}
             <div className='flex items-center justify-between'>
                 <div className='text-md w-fit flex-center gap-2'>
-                    {!trip.isRentalAgreed ? <RxQuestionMarkCircled className='text-yellow-500 size-5' /> : <IoCheckmarkCircleOutline className='text-green-500 size-5' />} Rental
-                    Agreement
+                    {!trip.isRentalAgreed ? (
+                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                    ) : (
+                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    )}{' '}
+                    Rental Agreement
                 </div>
-                {!trip.isRentalAgreed && ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(trip.status.toLowerCase()) === -1 && (
-                    <DocumentHandlerComponent
-                        isRentalAgreed={trip.isRentalAgreed}
-                        tripId={trip.tripid}
-                        rentalAgrrementUrl={trip.rentalAgrrementUrl}
-                        rentalAgreedDate={trip.rentalAgreedDate}
-                    />
-                )}
+                {!trip.isRentalAgreed &&
+                    ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(trip.status.toLowerCase()) === -1 && (
+                        <DocumentHandlerComponent
+                            isRentalAgreed={trip.isRentalAgreed}
+                            tripId={trip.tripid}
+                            rentalAgrrementUrl={trip.rentalAgrrementUrl}
+                            rentalAgreedDate={trip.rentalAgreedDate}
+                        />
+                    )}
                 {trip.isRentalAgreed && (
                     <DocumentHandlerComponent
                         isRentalAgreed={trip.isRentalAgreed}
@@ -73,8 +100,12 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
             {/* Phone Number */}
             <div className='flex items-center justify-between'>
                 <div className='text-md w-fit flex-center gap-2'>
-                    {!isPhoneVerifiedFlag ? <RxQuestionMarkCircled className='text-yellow-500 size-5' /> : <IoCheckmarkCircleOutline className='text-green-500 size-5' />} Phone
-                    Number
+                    {!isPhoneVerifiedFlag ? (
+                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                    ) : (
+                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                    )}{' '}
+                    Phone Number
                 </div>
                 {!isPhoneVerifiedFlag ? (
                     <button
