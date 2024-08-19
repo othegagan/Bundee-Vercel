@@ -14,7 +14,6 @@ export default function RentalAgreementCheckBox() {
         try {
             setLoading(true);
             const response: any = await updateRentalAgreement(documentDialog.tripId);
-            console.log(response);
             if (response.success) {
                 documentDialog.onClose();
                 window.location.reload();

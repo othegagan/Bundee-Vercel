@@ -79,7 +79,7 @@ export async function verifyDrivingProfile(payload: any, userID?: number) {
         if (response.status === 200) {
             const responseData = response.data;
 
-            console.log('responseData', responseData);
+            // console.log('responseData', responseData);
 
             if (responseData.requestId) {
                 const updateIDResponse = await updateDrivingProfile(responseData.requestId, userID);

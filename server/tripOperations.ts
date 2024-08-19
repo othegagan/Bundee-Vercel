@@ -64,7 +64,7 @@ export async function cancelReservation(tripid: number) {
             tripid: tripid,
         };
         const response = await http.post(url, payload);
-        console.log('cancelReservation ', response.data);
+        // console.log('cancelReservation ', response.data);
         return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);

@@ -46,7 +46,6 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                 const { id: setUpId, status, payment_method } = setupIntent;
 
                 if (status === 'succeeded') {
-                    console.log(setUpId, status, payment_method);
 
                     const payload = {
                         ...data,
@@ -87,7 +86,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                             }
                         }
                     }
-                    console.log('Reservation payload', payload);
+                    // console.log('Reservation payload', payload);
                     const response = await createTripReservation(payload);
                     // console.log(response);
 
