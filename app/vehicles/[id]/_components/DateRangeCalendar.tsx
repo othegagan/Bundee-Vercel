@@ -1,6 +1,7 @@
 'use client';
 
 import ClientOnly from '@/components/ClientOnly';
+import { DateSelectSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/extension/button';
 import {
     CalendarCell,
@@ -9,7 +10,7 @@ import {
     CalendarGridHeader,
     CalendarHeaderCell,
     CalendarHeading,
-    RangeCalendar,
+    RangeCalendar
 } from '@/components/ui/extension/calendar';
 import { DatePickerContent, DateRangePicker } from '@/components/ui/extension/date-picker';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
@@ -17,16 +18,24 @@ import { cn } from '@/lib/utils';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Group } from 'react-aria-components';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { useMediaQuery } from 'react-responsive';
-import { DateSelectSkeleton } from '../../../components/skeletons/skeletons';
 
-const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setSelectedDatesError }: any) => {
+interface DateRangeCalendarProps {
+    vehicleid: number;
+    setStartDate: any;
+    setEndDate: any;
+    startDate: any;
+    endDate: any;
+    setDatesSelectionError: any;
+}
+
+const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setDatesSelectionError }: DateRangeCalendarProps) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(startDate),
-        end: parseDate(endDate),
+        end: parseDate(endDate)
     });
 
     const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid, null);
@@ -37,7 +46,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
     }
 
     if (datesError) {
-        setSelectedDatesError(true);
+        setDatesSelectionError(true);
         return <div>Something went wrong</div>;
     }
 
@@ -84,8 +93,6 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
 
     errorMessage = getErrorMessage(dates);
 
-    setSelectedDatesError(isInvalid);
-
     function onDateSelect(item) {
         setDates(item);
         setStartDate(format(item.start.toDate(getLocalTimeZone()), 'yyyy-MM-dd'));
@@ -95,6 +102,8 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
     // Check if the current time is above 9PM and if so, add an extra day to the minimum date
     const isPast9PM = new Date().getHours() >= 21;
     const minValueDate = today(getLocalTimeZone()).add({ days: isPast9PM ? 1 : 0 });
+
+    setDatesSelectionError(isInvalid);
 
     return (
         <div>
@@ -107,7 +116,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
                             variant='outline'
                             className={cn(
                                 'mt-2 flex w-full cursor-pointer items-center justify-start rounded-md  border border-gray-200 px-3 py-2 text-left text-sm font-normal  ',
-                                !dates && 'text-muted-foreground',
+                                !dates && 'text-muted-foreground'
                             )}>
                             <CalendarIcon className='mr-2 h-4 w-4' />
                             {dates?.end ? (

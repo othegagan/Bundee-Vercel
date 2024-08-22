@@ -6,7 +6,8 @@ import { useQueryState } from 'next-usequerystate';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
-import Map, { FullscreenControl, type MapRef, Marker, Popup, ScaleControl } from 'react-map-gl';
+import  { FullscreenControl, type MapRef, Marker, Popup, ScaleControl } from 'react-map-gl';
+import {Map as MapGL} from 'react-map-gl';
 import { Button } from '../ui/button';
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
@@ -83,7 +84,6 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                             <circle cx='218' cy='222' r='160' fill='white' />
                         </svg>
 
-                        {/* <Pin className='size-7 cursor-pointer text-blue-500' /> */}
                     </div>
                 );
 
@@ -152,7 +152,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                 </Button>
             )}
 
-            <Map
+            <MapGL
                 {...viewState}
                 mapStyle='mapbox://styles/mapbox/streets-v9'
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
@@ -247,7 +247,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                         </div>
                     </Popup>
                 )}
-            </Map>
+            </MapGL>
         </div>
     );
 }

@@ -2,7 +2,7 @@ import { debounce } from '@/components/search_box/LocationSearchBox';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMapboxData } from '@/hooks/useMapboxData';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const DEBOUNCE_TIME = 300;
 

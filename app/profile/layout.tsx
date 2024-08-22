@@ -1,12 +1,13 @@
 'use client';
 import BoxContainer from '@/components/BoxContainer';
-import { toast } from '@/components/ui/use-toast';
+
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateProfile } from '@/server/userOperations';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type React from 'react';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
     const pathName = usePathname();
@@ -40,11 +41,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         const file = event.target.files[0];
         if (file) {
             if (file.size > 1048576) {
-                toast({
-                    duration: 4000,
-                    variant: 'destructive',
-                    description: 'Please select an image size less than 1 MB.'
-                });
+                toast.error('Please select an image size less than 1 MB.');
                 return;
             }
 
@@ -82,17 +79,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
                         const updateResponse = await updateProfile(payload);
                         if (updateResponse.success) {
-                            toast({
-                                duration: 3000,
-                                variant: 'success',
-                                description: 'Profile photo updated successful.'
-                            });
+                            toast.success('Profile photo updated successful.');
                         } else {
-                            toast({
-                                duration: 3000,
-                                variant: 'destructive',
-                                description: 'Something went wrong, Try again.'
-                            });
+                            toast.error('Something went wrong, Try again.');
                         }
                     }
                 } catch (error) {

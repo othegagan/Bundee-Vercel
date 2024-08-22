@@ -2,12 +2,11 @@
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { getSession } from '@/lib/auth';
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { FaFileUpload } from 'react-icons/fa';
-import { FiPaperclip } from 'react-icons/fi';
 import { LuLoader2 } from 'react-icons/lu';
 import { MdDeleteForever } from 'react-icons/md';
 
@@ -47,24 +46,14 @@ const TripImageVideoUploadComponent = ({ tripid, userId, hostId, driverTripStart
                 if (file.size <= 2 * 1024 * 1024) {
                     // Max size of 2MB
                     if (existingFileNames.includes(fileName)) {
-                        toast({
-                            duration: 4000,
-                            className: 'bg-red-500 text-white border-0',
-                            title: 'Please select a different file.',
-                            description: `File ${file.name} is a duplicate and won't be uploaded.`,
-                        });
+                        toast.error(`File ${file.name} is a duplicate and won't be uploaded.`);
                     } else {
                         // Check if the file is an image or video
                         if (file.type.includes('image/') || file.type.includes('video/')) {
                             existingFileNames.push(fileName); // Add file name to array
                             allowedFiles.push(file);
                         } else {
-                            toast({
-                                duration: 4000,
-                                className: 'bg-red-400 text-white',
-                                title: 'Invalid file type.',
-                                description: `File ${file.name} is not supported. Only images and videos are allowed.`,
-                            });
+                            toast.error(`File ${file.name} is not supported. Only images and videos are allowed.`);
                         }
                     }
                 } else {
@@ -73,22 +62,12 @@ const TripImageVideoUploadComponent = ({ tripid, userId, hostId, driverTripStart
             });
 
             if (allowedFiles.length + fileList.length + Number(driverTripStartingBlobs.length || 0) > 10) {
-                toast({
-                    duration: 4000,
-                    variant: 'destructive',
-                    title: 'Max file limit reached!.',
-                    description: 'You can upload a maximum of 10 files.',
-                });
+                toast.error('You can upload a maximum of 10 files.');
                 return;
             }
 
             if (exceededSizeFiles.length > 0) {
-                toast({
-                    duration: 4000,
-                    variant: 'destructive',
-                    title: 'Max size limit reached!.',
-                    description: "Some files exceed the maximum size limit (2MB) and won't be uploaded.",
-                });
+                toast.error("Some files exceed the maximum size limit (2MB) and won't be uploaded.");
                 return;
             }
 
@@ -132,7 +111,7 @@ const TripImageVideoUploadComponent = ({ tripid, userId, hostId, driverTripStart
                 storageRef: '',
                 caption: captions[index],
                 userId: userId,
-                video: file.type.includes('video'),
+                video: file.type.includes('video')
             };
             formData.append('json', JSON.stringify(jsonData));
             formData.append('hostid', hostId);
@@ -141,7 +120,7 @@ const TripImageVideoUploadComponent = ({ tripid, userId, hostId, driverTripStart
             return axios.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Add the desired headers here
-                    bundee_auth_token: session.authToken,
+                    bundee_auth_token: session.authToken
                 },
                 onUploadProgress: (progressEvent) => {
                     const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
@@ -150,18 +129,13 @@ const TripImageVideoUploadComponent = ({ tripid, userId, hostId, driverTripStart
                         updatedProgress[index] = progress;
                         return updatedProgress;
                     });
-                },
+                }
             });
         });
 
         try {
             await Promise.all(uploadRequests);
-            toast({
-                duration: 3000,
-                className: 'bg-green-500 text-white',
-                title: 'Uploaded successfully!.',
-                description: 'All files uploaded successfully!.',
-            });
+            toast.success('All files uploaded successfully!.');
             setFileList([]);
             setCaptions([]);
             setUploadProgress([]);

@@ -3,11 +3,11 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateInsuranceProfile, updateProfile } from '@/server/userOperations';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdVerified } from 'react-icons/md';
 import AddressSearchBox from './AddressSearchBox';
 
@@ -34,7 +34,7 @@ const ProfilePage = () => {
         insuranceCompany: '',
         insuranceNumber: '',
         isPhoneVarified: false,
-        isEmailVarified: true,
+        isEmailVarified: true
     });
 
     const [activeSection, setActiveSection] = useState<any>(null);
@@ -81,7 +81,7 @@ const ProfilePage = () => {
                     isEmailVarified: true,
                     isPhoneVarified: data.isPhoneVarified,
                     insuranceCompany: insuranceData ? insuranceData.insuranceCompany : '',
-                    insuranceNumber: insuranceData ? insuranceData.insuranceNumber : '',
+                    insuranceNumber: insuranceData ? insuranceData.insuranceNumber : ''
                 });
             }
         } catch (error) {
@@ -92,7 +92,7 @@ const ProfilePage = () => {
     const handleInputChange = (key, value) => {
         setSavedData((prevData) => ({
             ...prevData,
-            [key]: value,
+            [key]: value
         }));
     };
 
@@ -119,7 +119,7 @@ const ProfilePage = () => {
             userimage: savedData.userimage || '',
             isEmailVarified: true,
             isPhoneVarified: savedData.isPhoneVarified,
-            fromValue: 'completeProfile',
+            fromValue: 'completeProfile'
         };
 
         try {
@@ -127,27 +127,15 @@ const ProfilePage = () => {
             const response = await updateProfile(updatePayload);
             // console.log(response);
             if (response.success) {
-                toast({
-                    duration: 3000,
-                    variant: 'success',
-                    description: 'Profile  updated successful.',
-                });
+                toast.success('Profile  updated successful.');
                 fetchData();
                 handleCancelClick();
             } else {
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Failed to update your profile.',
-                });
+                toast.error('Failed to update your profile.');
             }
         } catch (error) {
             console.log('error updating details', error);
-            toast({
-                duration: 3000,
-                variant: 'destructive',
-                description: 'Failed to update your profile.',
-            });
+            toast.error('Failed to update your profile.');
         } finally {
             setProcessing(false);
         }
@@ -161,32 +149,21 @@ const ProfilePage = () => {
             userId: Number(session.userId),
             insuranceUrl: '',
             insuranceCompany: savedData.insuranceCompany,
-            insuranceNumber: savedData.insuranceNumber,
+            insuranceNumber: savedData.insuranceNumber
         };
         try {
             const response = await updateInsuranceProfile(body);
             if (response.success) {
-                toast({
-                    duration: 3000,
-                    variant: 'success',
-                    description: 'Insurance details updated successful.',
-                });
+                toast.success('Insurance details updated successful.');
+
                 fetchData();
                 handleCancelClick();
             } else {
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Failed to update your insurance details.',
-                });
+                toast.error('Failed to update your insurance details.');
             }
         } catch (error) {
             console.log('error updating details', error);
-            toast({
-                duration: 3000,
-                variant: 'destructive',
-                description: 'Failed to update your insurance details.',
-            });
+            toast.error('Failed to update your insurance details.');
         } finally {
             setProcessing(false);
         }
@@ -515,5 +492,5 @@ const stateList = [
     { id: 47, name: 'Washington', abbreviation: 'WA' },
     { id: 48, name: 'West Virginia', abbreviation: 'WV' },
     { id: 49, name: 'Wisconsin', abbreviation: 'WI' },
-    { id: 50, name: 'Wyoming', abbreviation: 'WY' },
+    { id: 50, name: 'Wyoming', abbreviation: 'WY' }
 ];

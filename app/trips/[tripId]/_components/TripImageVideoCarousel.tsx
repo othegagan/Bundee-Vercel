@@ -1,6 +1,6 @@
 'use client';
 
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { toTitleCase } from '@/lib/utils';
 import { deleteImageVideoUploaded } from '@/server/tripOperations';
 import { format } from 'date-fns';
@@ -12,25 +12,13 @@ const TripImageVideoCarousel = ({ images, uploadedBy }) => {
             const response: any = await deleteImageVideoUploaded(id);
 
             if (response.success) {
-                toast({
-                    duration: 3000,
-                    variant: 'success',
-                    description: 'Image/Video Deleted successfully!.'
-                });
+                toast.success('Image/Video Deleted successfully!.');
                 window.location.reload();
             } else {
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Something went wrong deleting the image/video!.'
-                });
+                toast.error('Something went wrong deleting the image/video!.');
             }
         } catch (error) {
-            toast({
-                duration: 3000,
-                variant: 'destructive',
-                description: 'Something went wrong deleting the image/video!.'
-            });
+            toast.error('Something went wrong deleting the image/video!.');
             console.log(error);
         }
     };

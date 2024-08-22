@@ -8,7 +8,7 @@ import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-import { toast } from '../ui/use-toast';
+import { toast } from 'sonner';
 
 export default function TripReviewDialog() {
     const [rating, setRating] = useState(0);
@@ -24,19 +24,11 @@ export default function TripReviewDialog() {
             const response = await addTripReview(hostId, tripId, rating, comments, vehicleId);
 
             if (response.success) {
-                toast({
-                    duration: 4000,
-                    variant: 'success',
-                    description: 'Trip Review Added successfully',
-                });
+                toast.success('Trip Review Added successfully');
                 closeModal();
                 window.location.reload();
             } else {
-                toast({
-                    duration: 4000,
-                    variant: 'destructive',
-                    description: 'Something went wrong. Try again..!',
-                });
+                toast.error('Something went wrong. Try again..!');
             }
         } catch (error) {
             console.log(error.message);

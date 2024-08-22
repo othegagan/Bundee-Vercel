@@ -10,7 +10,7 @@ import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
 import PhoneNumber from '../ui/phone-number';
-import { toast } from '../ui/use-toast';
+import { toast } from 'sonner';
 
 export default function PhoneNumberVerificationDialog() {
     // console.log(auth.currentUser);
@@ -83,10 +83,7 @@ export default function PhoneNumberVerificationDialog() {
                 setPhoneNumber('');
                 setVerificationId('');
                 setVerificationSent(false);
-                toast({
-                    description: 'Phone number updated successfully',
-                    duration: 3000
-                });
+                toast.success('Phone number updated successfully');
                 setTimeout(() => {
                     window.location.reload();
                 }, 600);
@@ -138,11 +135,7 @@ export default function PhoneNumberVerificationDialog() {
                                 New Phone Number:
                             </Label>
                             <PhoneNumber setPhone={setPhoneNumber} phone={phoneNumber} />
-                            <Button
-                                type='button'
-                                className='ml-auto w-fit'
-                                onClick={handleSendVerificationCode}
-                                disabled={!phoneNumber || verificationSent}>
+                            <Button type='button' className='ml-auto w-fit' onClick={handleSendVerificationCode} disabled={!phoneNumber || verificationSent}>
                                 {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
                             </Button>
                         </>

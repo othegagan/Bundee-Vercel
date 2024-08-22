@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { startTripByDriver } from '@/server/userOperations';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function StartTripComponent({ starttime, tripid }) {
     const [tripStarting, setTripStarting] = useState(false);
@@ -25,11 +25,7 @@ export default function StartTripComponent({ starttime, tripid }) {
             if (response.success) {
                 window.location.reload();
             } else {
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Something went wrong in starting the trip',
-                });
+                toast.error('Something went wrong in starting the trip');
                 throw new Error(response.message);
             }
         } catch (error) {

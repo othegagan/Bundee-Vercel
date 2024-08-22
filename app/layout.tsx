@@ -15,7 +15,7 @@ import PhoneNumberVerificationDialog from '@/components/dialogs/PhoneNumberVerif
 import RegisterModal from '@/components/dialogs/RegisterDialog';
 import TripReviewDialog from '@/components/dialogs/TripReviewDialog';
 import Navbar from '@/components/navigation/Navbar';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from 'sonner';
 import Providers from '@/lib/providers';
 import CarFilters from './vehicles/CarFilters';
 
@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </HideComponentInFrame>
 
                     {children}
-                    <Toaster />
+                    <Toaster position='bottom-right' closeButton={true} duration={4000} richColors className={`${inter.className}`} />
                     <div className='mt-auto'>
                         <HideInIFrame>
                             <Footer />

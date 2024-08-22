@@ -5,7 +5,7 @@ import { ChatSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import { auth } from '@/lib/firebase';
 import { formatDateAndTime, getFullAddress } from '@/lib/utils';
@@ -39,11 +39,7 @@ export default function MessagePage({ params }) {
                 }
             } catch (error) {
                 console.error('Error retrieving token:', error);
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Failed to retrieve token. Please reload the page and try again.'
-                });
+                toast.error('Failed to retrieve token. Please reload the page and try again.');
             }
         }
         fetchToken();
@@ -86,11 +82,7 @@ export default function MessagePage({ params }) {
         },
         onError: (error) => {
             console.error('Error sending message:', error);
-            toast({
-                duration: 3000,
-                variant: 'destructive',
-                description: 'Failed to send message. Please try again.'
-            });
+            toast.error('Failed to send message. Please try again.');
         }
     });
 
@@ -152,7 +144,7 @@ export default function MessagePage({ params }) {
 function Message({ message, tripData }) {
     const authorImage = {
         [AUTHOR_TYPE.SYSTEM]: '/images/robot.png',
-        [AUTHOR_TYPE.HOST]: tripData.hostImage ||'/images/dummy_avatar.png'
+        [AUTHOR_TYPE.HOST]: tripData.hostImage || '/images/dummy_avatar.png'
     };
 
     const isClientMessage = message.author === AUTHOR_TYPE.CLIENT;
@@ -196,9 +188,7 @@ function Message({ message, tripData }) {
                     <span>{message.message}</span>
 
                     {images.length > 0 ? (
-                        <div className='relative max-w-md sm:overflow-hidden  md:max-w-lg md:rounded-lg'>
-                            <EmblaCarousel slides={images} />
-                        </div>
+                        <EmblaCarousel slides={images} variant='sm' />
                     ) : (
                         <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
                             <img
@@ -209,7 +199,7 @@ function Message({ message, tripData }) {
                         </div>
                     )}
 
-                    <p className='text-16 font-semibold capitalize'>
+                    <p className='text-16 font-semibold capitalize -mt-5'>
                         {tripData?.vehmake} {tripData?.vehmodel} {tripData?.vehyear}
                     </p>
 

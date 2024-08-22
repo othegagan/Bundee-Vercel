@@ -1,10 +1,10 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { destroySession } from '@/lib/auth';
 import { deleteAccount } from '@/server/userOperations';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const DeleteAccountComponent = () => {
     const [open, setOpen] = useState(false);
@@ -22,18 +22,11 @@ const DeleteAccountComponent = () => {
                 await destroySession();
             } else {
                 closeDialog();
-                toast({
-                    duration: 4000,
-                    variant: 'destructive',
-                    description: 'Failed to delete the account',
-                });
+                toast.error('Failed to delete the account');
             }
         } catch (error) {
-            toast({
-                duration: 4000,
-                variant: 'destructive',
-                description: 'Failed to delete the account',
-            });
+            toast.error('Failed to delete the account');
+
             console.log('Failed to delete the account', error);
         } finally {
             closeDialog();

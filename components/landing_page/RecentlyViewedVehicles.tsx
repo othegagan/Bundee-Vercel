@@ -8,7 +8,7 @@ import { FaStar } from 'react-icons/fa6';
 import BoxContainer from '../BoxContainer';
 import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
-import { toast } from '../ui/use-toast';
+import { toast } from 'sonner';
 
 export default function RecentlyViewedVehicles() {
     const [recentlyViewedData, setRecentlyViewedData] = useState([]);
@@ -18,17 +18,9 @@ export default function RecentlyViewedVehicles() {
         const status = await clearRecentlyViewedVehicles();
         if (status.success) {
             setRecentlyViewedData([]);
-            toast({
-                duration: 4000,
-                variant: 'success',
-                description: 'Your vehicle viewing history has been cleared.',
-            });
+            toast.success('Your vehicle viewing history has been cleared.');
         } else {
-            toast({
-                duration: 4000,
-                variant: 'destructive',
-                description: 'Oops, Something went wrong and try again.',
-            });
+            toast.error('Oops, Something went wrong and try again.');
         }
     }
 

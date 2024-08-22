@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 export const shimmer =
     'relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.5s_infinite] before:bg-gradient-to-r before:from-transparent before:via-black/10 before:to-transparent';
@@ -33,23 +33,42 @@ export function VehiclesCardsSkeleton({ className, columns }: VehicleCardSkeleto
 
 export function VehiclesDetailsSkeleton() {
     return (
-        <div className='container min-h-[65dvh]'>
-            <div className='mt-3 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8'>
-                <div className='col-span-4 space-y-4 lg:col-span-2'>
+        <div className='container min-h-[65dvh] p-4'>
+            <div className='grid grid-cols-1 gap-6 lg:grid-cols-3'>
+                {/* Left column */}
+                <div className='lg:col-span-2 space-y-4'>
                     <div className={`relative h-[300px] rounded-xl bg-neutral-200 ${shimmer}`} />
 
                     <div className='h-8 w-full rounded-lg bg-neutral-200' />
-                    <div className='h-4 w-2/3 rounded-lg bg-neutral-200' />
-                    <div className='h-4 w-1/3 rounded-lg bg-neutral-200' />
+                    <div className='grid grid-cols-2 gap-4'>
+                        <div className='space-y-2'>
+                            <div className='h-4 w-full rounded-lg bg-neutral-200' />
+                            <div className='h-4 w-full rounded-lg bg-neutral-200' />
+                            <div className='h-4 w-2/3 rounded-lg bg-neutral-200' />
+                        </div>
+                        <div className='space-y-2'>
+                            <div className='h-4 w-full rounded-lg bg-neutral-200' />
+                            <div className='h-4 w-2/3 rounded-lg bg-neutral-200' />
+                        </div>
+                    </div>
+                    <div className='h-20 w-full rounded-lg bg-neutral-200' />
                 </div>
 
-                <div className='col-span-1 flex flex-col gap-3'>
-                    <div className={`relative h-[200px] rounded-xl bg-neutral-200 ${shimmer}`} />
-                    <br />
-                    <div className='flex gap-3'>
-                        <div className='h-10 w-2/3 rounded-lg bg-neutral-200' />
-                        <div className='h-10 w-1/3 rounded-lg bg-neutral-200' />
+                {/* Right column */}
+                <div className='space-y-4'>
+                    <div className='h-8 w-full rounded-lg bg-neutral-200' />
+                    <div className='h-10 w-full rounded-lg bg-neutral-200' />
+                    <div className='space-y-2'>
+                        <div className='h-4 w-full rounded-lg bg-neutral-200' />
+                        <div className='h-4 w-2/3 rounded-lg bg-neutral-200' />
                     </div>
+                    <div className='h-10 w-full rounded-lg bg-neutral-200' />
+                    <div className='space-y-2'>
+                        <div className='h-4 w-full rounded-lg bg-neutral-200' />
+                        <div className='h-4 w-2/3 rounded-lg bg-neutral-200' />
+                    </div>
+                    <div className='h-20 w-full rounded-lg bg-neutral-200' />
+                    <div className='h-10 w-full rounded-lg bg-neutral-200' />
                 </div>
             </div>
         </div>

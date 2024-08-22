@@ -1,10 +1,12 @@
-import { toast } from '@/components/ui/use-toast';
-import { getAllUserWishlistedVehicles, wishlistHandler } from '@/server/userOperations';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
-import useTabFocusEffect from './useTabFocusEffect';
+import { toast } from "sonner";
+import {
+    getAllUserWishlistedVehicles,
+    wishlistHandler,
+} from "@/server/userOperations";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
-const useWishlist = (id?: string) => {
+const useWishlist = (vehicleId?: number) => {
     const [isItemWishlisted, setIsItemWishlisted] = useState(false);
 
     const addToWishlistHandler = async (vehicleId: number) => {
@@ -13,23 +15,15 @@ const useWishlist = (id?: string) => {
             const response = await wishlistHandler(vehicleId, true);
             if (response.success) {
                 setIsItemWishlisted(true);
-                toast({
-                    duration: 2500,
-                    variant: 'default',
-                    description: 'Vehicle added to the wishlist',
-                });
+                toast.success("Vehicle added to the wishlist");
                 refetch();
                 // window.location.reload();
             } else {
-                toast({
-                    duration: 2500,
-                    variant: 'destructive',
-                    description: 'Something went wrong while adding to wishlist',
-                });
+                toast.error("Something went wrong while adding to wishlist");
                 setIsItemWishlisted(false);
             }
         } catch (error) {
-            console.error('Error adding to wishlist:', error);
+            console.error("Error adding to wishlist:", error);
         }
     };
 
@@ -39,43 +33,40 @@ const useWishlist = (id?: string) => {
         try {
             const response = await wishlistHandler(vehicleId, false);
             if (response.success) {
-                toast({
-                    duration: 2500,
-                    variant: 'default',
-                    description: 'Vehicle removed form the wishlist',
-                });
+                toast.success("Vehicle removed form the wishlist");
                 refetch();
                 // window.location.reload();
             } else {
-                toast({
-                    duration: 2500,
-                    variant: 'destructive',
-                    description: 'Something went wrong while removing from wishlist',
-                });
+                toast.error(
+                    "Something went wrong while removing from wishlist"
+                );
                 setIsItemWishlisted(false);
             }
         } catch (error) {
-            console.error('Error removing from wishlist:', error);
+            console.error("Error removing from wishlist:", error);
         }
     };
 
-    const fetchData = async (id?: string) => {
+    const fetchData = async (vehicleId?: number) => {
         try {
             const response = await getAllUserWishlistedVehicles();
 
             if (response.success && response.data.customervehicleresponse) {
-                const VehicleIsInWishlist = response.data.customervehicleresponse.find((vehicle: { id: string }) => vehicle.id == id);
+                const VehicleIsInWishlist =
+                    response.data.customervehicleresponse.find(
+                        (vehicle: { id: number }) => vehicle.id === vehicleId
+                    );
                 setIsItemWishlisted(VehicleIsInWishlist);
             } else {
                 throw new Error(response.message);
             }
         } catch (error) {
-            console.error('Error fetching data', error);
+            console.error("Error fetching data", error);
         }
     };
 
     useEffect(() => {
-        fetchData(id);
+        fetchData(vehicleId);
     }, []);
 
     const {
@@ -84,7 +75,7 @@ const useWishlist = (id?: string) => {
         error,
         refetch,
     } = useQuery({
-        queryKey: ['wishlist'],
+        queryKey: ["wishlist"],
         queryFn: async () => getAllUserWishlistedVehicles(),
         refetchOnWindowFocus: true,
         staleTime: 1000,

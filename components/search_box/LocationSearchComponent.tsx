@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
 import { addDays, differenceInMinutes, format, isToday } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
@@ -19,11 +19,11 @@ const LocationSearchComponent = ({ searchCity }: any) => {
 
     const [startDateQuery, setStartDateQuery] = useQueryState('startDate', {
         defaultValue: format(getCurrentDatePlusHours(3) || new Date(), 'yyyy-MM-dd'),
-        history: 'replace',
+        history: 'replace'
     });
     const [endDateQuery, setEndDateQuery] = useQueryState('endDate', {
         defaultValue: format(addDays(getCurrentDatePlusHours(3) || new Date(), 2), 'yyyy-MM-dd'),
-        history: 'replace',
+        history: 'replace'
     });
 
     const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
@@ -54,12 +54,9 @@ const LocationSearchComponent = ({ searchCity }: any) => {
             const endTimeFormatted = format(new Date(fullEndDate), 'hh:mm a');
             const startDateFormatted = format(new Date(fullStartDate), 'PPP');
             const endDateFormatted = format(new Date(fullEndDate), 'PPP');
-            toast({
-                duration: 4500,
-                variant: 'destructive',
-                title: 'Date Selection Error',
-                description: `Drop off date (${endDateFormatted}, ${endTimeFormatted}) cannot be earlier than start date (${startDateFormatted}, ${startTimeFormatted}).`,
-            });
+            toast.error(
+                `Drop off date (${endDateFormatted}, ${endTimeFormatted}) cannot be earlier than start date (${startDateFormatted}, ${startTimeFormatted}).`
+            );
             return;
         }
 

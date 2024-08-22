@@ -4,23 +4,23 @@ import TimeSelect from '@/components/custom/TimeSelect';
 import LocationSearchBox from '@/components/search_box/LocationSearchBox';
 import SearchCalendar from '@/components/search_box/SearchCalendar';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
 import { getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
 import { addDays, differenceInMinutes, format, isToday } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function HostPageSearchBox() {
     const router = useRouter();
 
     const [startDateQuery, setStartDateQuery] = useQueryState('startDate', {
         defaultValue: format(getCurrentDatePlusHours(3) || new Date(), 'yyyy-MM-dd'),
-        history: 'replace',
+        history: 'replace'
     });
     const [endDateQuery, setEndDateQuery] = useQueryState('endDate', {
         defaultValue: format(addDays(getCurrentDatePlusHours(3) || new Date(), 2), 'yyyy-MM-dd'),
-        history: 'replace',
+        history: 'replace'
     });
 
     const [startTimeQuery, setStartTimeQuery] = useQueryState('startTime', { defaultValue: getCurrentTimeRounded() || '10:00:00', history: 'replace' });
@@ -59,12 +59,9 @@ export default function HostPageSearchBox() {
             const endTimeFormatted = format(new Date(fullEndDate), 'hh:mm a');
             const startDateFormatted = format(new Date(fullStartDate), 'PPP');
             const endDateFormatted = format(new Date(fullEndDate), 'PPP');
-            toast({
-                duration: 4500,
-                variant: 'destructive',
-                title: 'Date Selection Error',
-                description: `Drop off date (${endDateFormatted}, ${endTimeFormatted}) cannot be earlier than start date (${startDateFormatted}, ${startTimeFormatted}).`,
-            });
+            toast.error(
+                `Drop off date (${endDateFormatted}, ${endTimeFormatted}) cannot be earlier than start date (${startDateFormatted}, ${startTimeFormatted}).`
+            );
             return;
         }
 

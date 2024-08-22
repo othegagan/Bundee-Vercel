@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { cancelReservation } from '@/server/tripOperations';
 import { X } from 'lucide-react';
 import { useState } from 'react';
@@ -24,21 +24,14 @@ const CancelTripComponent = ({ tripId }: any) => {
             const response = await cancelReservation(tripId);
             if (response.success) {
                 closeModal();
-                toast({
-                    duration: 3000,
-                    variant: 'success',
-                    description: 'Trip cancellation completed.',
-                });
+                toast.success('Trip cancellation completed.');
+
                 window.location.reload();
             } else {
                 closeModal();
                 // alert('something went wrong, please try again');
                 // window.location.reload();
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Something went wrong, please try again.',
-                });
+                toast.error('Something went wrong, please try again.');
                 throw new Error(response.message);
             }
         } catch (error) {

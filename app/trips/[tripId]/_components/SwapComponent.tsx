@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { formatDateAndTime, toTitleCase } from '@/lib/utils';
 import { swapRequest } from '@/server/tripOperations';
 import { getVehicleAllDetailsByVechicleId } from '@/server/vehicleOperations';
@@ -33,11 +33,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
                     setVehicleDetails(data.vehicleAllDetails?.[0]);
                     setVehicleImages(data.vehicleAllDetails?.[0]?.imageresponse);
                 } else {
-                    toast({
-                        duration: 3000,
-                        variant: 'destructive',
-                        description: 'Something went wrong.'
-                    });
+                    toast.error('Something went wrong.');
                     throw new Error(response.message);
                 }
             } catch (error) {
@@ -68,11 +64,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
             if (response.success) {
                 window.location.reload();
             } else {
-                toast({
-                    duration: 3000,
-                    variant: 'destructive',
-                    description: 'Something went wrong.'
-                });
+                toast.error('Something went wrong.');
                 throw new Error(response.message);
             }
         } catch (error) {

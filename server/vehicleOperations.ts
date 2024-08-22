@@ -5,7 +5,7 @@ import { http, handleResponse } from '@/lib/httpService';
 
 export async function searchVehiclesAvailability(searchQuery: any) {
     try {
-        const url = process.env.AVAILABILITY_BASEURL + '/v1/availability/getByZipCode';
+        const url = `${process.env.AVAILABILITY_BASEURL}/v1/availability/getByZipCode`;
         // console.log('Serach Payload', searchQuery);
         const response = await http.post(url, searchQuery);
         // console.log(response.data)
@@ -22,7 +22,7 @@ export async function searchVehiclesAvailability(searchQuery: any) {
 
 export async function searchVehiclesByLatitudeAndLongitude(searchQuery: any) {
     try {
-        const url = process.env.AVAILABILITY_BASEURL + '/v1/availability/searchVehiclesByLatitudeAndLongitude';
+        const url = `${process.env.AVAILABILITY_BASEURL}/v1/availability/searchVehiclesByLatitudeAndLongitude`;
         // console.log('Serach Payload', searchQuery);
         const response = await http.post(url, searchQuery);
         // console.log(response.data)
@@ -40,7 +40,7 @@ export async function searchVehiclesByLatitudeAndLongitude(searchQuery: any) {
 export async function getVehicleAllDetailsByVechicleId(vechicleId: number) {
     try {
         const session = await getSession();
-        const url = process.env.AVAILABILITY_BASEURL + '/v1/availability/getVehiclesnFeaturesById';
+        const url = `${process.env.AVAILABILITY_BASEURL}/v1/availability/getVehiclesnFeaturesById`;
         const payload = {
             vehicleid: vechicleId,
             userId: session.userId || '',
@@ -56,6 +56,7 @@ export async function getVehicleAllDetailsByVechicleId(vechicleId: number) {
 export async function addToRecentlyViewedHistory(vehicleid: number) {
     try {
         const session = await getSession();
+        // biome-ignore lint/style/useTemplate: <explanation>
         const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/updateCustomerActivity';
         const payload = {
             userid: session.userId || '',
@@ -75,7 +76,7 @@ export async function addToRecentlyViewedHistory(vehicleid: number) {
 
 export async function getAvailabilityDatesByVehicleId(vehicleid: number, tripid: number) {
     try {
-        const url = process.env.AVAILABILITY_BASEURL + '/v1/availability/getAvailabilityDatesByVehicleId';
+        const url = `${process.env.AVAILABILITY_BASEURL}/v1/availability/getAvailabilityDatesByVehicleId`;
         const payload = tripid
             ? {
                   reservationId: tripid,

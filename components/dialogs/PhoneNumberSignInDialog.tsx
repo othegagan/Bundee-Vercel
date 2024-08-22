@@ -16,7 +16,7 @@ import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
 import PhoneNumber from '../ui/phone-number';
-import { toast } from '../ui/use-toast';
+import { toast } from 'sonner';
 
 export default function PhoneNumberSignInDialog() {
     const router = useRouter();
@@ -99,7 +99,7 @@ export default function PhoneNumberSignInDialog() {
             }
         } catch (error) {
             console.error(error);
-            toast({ variant: 'destructive', description: 'Wrong OTP!' });
+            toast.error('Wrong OTP!');
             setVerificationCode('');
         } finally {
             setVerifying(false);
