@@ -199,7 +199,7 @@ function Message({ message, tripData }) {
                         </div>
                     )}
 
-                    <p className='text-16 font-semibold capitalize -mt-5'>
+                    <p className='text-16 font-semibold capitalize '>
                         {tripData?.vehmake} {tripData?.vehmodel} {tripData?.vehyear}
                     </p>
 

@@ -19,7 +19,9 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
     const [vehicleDetails, setVehicleDetails] = useState(null);
     const [vehicleImages, setVehicleImages] = useState(null);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+
+    const [rejectPorcessing, setRejectPorcessing] = useState(false);
+    const [acceptPorcessing, setAcceptPorcessing] = useState(false);
 
     async function getSwapVehicleDetails() {
         setSwapDataLoading(true);
@@ -59,7 +61,12 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
         };
 
         try {
-            setLoading(true);
+            if (statuscode === 'SWAPACC') {
+                setAcceptPorcessing(true);
+            } else {
+                setRejectPorcessing(true);
+            }
+
             const response = await swapRequest(data);
             if (response.success) {
                 window.location.reload();
@@ -71,7 +78,8 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
             console.error('Error updating the swap Request', error);
             setError(error);
         } finally {
-            setLoading(false);
+            setAcceptPorcessing(false);
+            setRejectPorcessing(false);
             setSwapRequestedModalOpen(false);
         }
     };
@@ -79,13 +87,15 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
     function openModal() {
         setSwapRequestedModalOpen(true);
         document.body.style.overflow = 'hidden';
-        setLoading(false);
+        setAcceptPorcessing(false);
+        setRejectPorcessing(false);
     }
 
     function closeModal() {
         setSwapRequestedModalOpen(false);
         document.body.style.overflow = '';
-        setLoading(false);
+        setAcceptPorcessing(false);
+        setRejectPorcessing(false);
     }
 
     return (
@@ -187,7 +197,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
                                     onClick={() => {
                                         handleSwapAcceptOrReject('SWAPREJ');
                                     }}
-                                    loading={loading}>
+                                    loading={rejectPorcessing}>
                                     No, Reject
                                 </Button>
                                 <Button
@@ -196,7 +206,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
                                         handleSwapAcceptOrReject('SWAPACC');
                                     }}
                                     disabled={!!error}
-                                    loading={loading}>
+                                    loading={acceptPorcessing}>
                                     Yes, Accept
                                 </Button>
                             </footer>
