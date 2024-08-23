@@ -33,13 +33,13 @@ interface DateRangeCalendarProps {
     zipCode: any;
 }
 
-const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setDatesSelectionError }: DateRangeCalendarProps) => {
+const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setDatesSelectionError, zipCode }: DateRangeCalendarProps) => {
     const [dates, setDates] = useState<any>({
         start: parseDate(startDate),
         end: parseDate(endDate)
     });
 
-    const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid, null);
+    const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid, null, zipCode);
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
 
     if (datesLoading) {

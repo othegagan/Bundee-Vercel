@@ -16,7 +16,7 @@ const useAvailabilityDates = (vehicleId: any, tripid: any, zipCode?:any) => {
             const response = await getAvailabilityDatesByVehicleId(vehicleId, tripid);
             if (response.success) {
                 const data = response.data;
-                console.log("data", data.unAvailabilityDate)
+                // console.log("data", data.unAvailabilityDate)
                 const bloackedDates = convertDates(data.unAvailabilityDate);
                 setUnavailableDates(bloackedDates || []);
                 setUnformattedDates(data.unAvailabilityDate);
@@ -50,10 +50,11 @@ const useAvailabilityDates = (vehicleId: any, tripid: any, zipCode?:any) => {
         const result: string[] = [];
 
         for (const dateStr of unAvailabilityDate) {
-            const converted = formatDateAndTime(dateStr, zipCode, 'yyyy-MM-DD');
+            // console.log("zipCode", zipCode)
+            const converted = formatDateAndTime(dateStr, zipCode, 'YYYY-MM-DD');
             result.push(converted);
             // console.log("dateStr", dateStr)
-            // console.log("converted", converted)
+            console.log("converted", converted)
             // const currentDate = new Date(dateStr);
             // currentDate.setDate(currentDate.getDate()); // Subtract one day
 
