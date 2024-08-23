@@ -30,6 +30,7 @@ interface DateRangeCalendarProps {
     startDate: any;
     endDate: any;
     setDatesSelectionError: any;
+    zipCode: any;
 }
 
 const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setDatesSelectionError }: DateRangeCalendarProps) => {
@@ -50,7 +51,9 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
         return <div>Something went wrong</div>;
     }
 
+    console.log("unavailableDates", unavailableDates)
     const blockedDates = unavailableDates.map((date) => [parseDate(date), parseDate(date)]) || [];
+    // console.log("blockedDates", blockedDates)
 
     const isDateUnavailable = (date) => blockedDates.some(([start, end]) => date.compare(start) >= 0 && date.compare(end) <= 0);
 

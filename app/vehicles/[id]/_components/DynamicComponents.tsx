@@ -200,6 +200,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 startDate={format(new Date(`${startDate}T00:00:00`), 'yyyy-MM-dd')}
                 endDate={format(new Date(`${endDate}T00:00:00`), 'yyyy-MM-dd')}
                 setDatesSelectionError={setDatesSelectionError}
+                zipCode={vehicleDetails?.zipcode}
             />
 
             {/* {!priceLoading && !priceCalculatedList && !isPriceError ? <ErrorMessage message={priceErrorMessage} /> : null} */}
@@ -312,17 +313,17 @@ const checkStartTime = (startDate, startTime) => {
     // Parse the start date and time
     const start = new Date(`${startDate}T${startTime}`);
 
-    console.log('start', start);
-    console.log('currentHour', currentHour);
+    // console.log('start', start);
+    // console.log('currentHour', currentHour);
 
     // If current time is after 7PM (19:00)
     if (currentHour >= 19) {
         const nextDay = new Date(now);
-        console.log('nextDay', nextDay);
+        // console.log('nextDay', nextDay);
         nextDay.setDate(nextDay.getDate() + 1);
         nextDay.setHours(12, 0, 0, 0); // Set to 12:00 PM next day
 
-        console.log(isBefore(start, nextDay));
+        // console.log(isBefore(start, nextDay));
 
         const formattedNextDay = format(nextDay, 'P hh:mm a');
 

@@ -1,7 +1,8 @@
+import { formatDateAndTime } from '@/lib/utils';
 import { getAvailabilityDatesByVehicleId } from '@/server/vehicleOperations';
 import { useEffect, useState } from 'react';
 
-const useAvailabilityDates = (vehicleId: any, tripid: any) => {
+const useAvailabilityDates = (vehicleId: any, tripid: any, zipCode?:any) => {
     const [unformattedDates, setUnformattedDates] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
@@ -15,6 +16,7 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
             const response = await getAvailabilityDatesByVehicleId(vehicleId, tripid);
             if (response.success) {
                 const data = response.data;
+                console.log("data", data.unAvailabilityDate)
                 const bloackedDates = convertDates(data.unAvailabilityDate);
                 setUnavailableDates(bloackedDates || []);
                 setUnformattedDates(data.unAvailabilityDate);
@@ -48,11 +50,15 @@ const useAvailabilityDates = (vehicleId: any, tripid: any) => {
         const result: string[] = [];
 
         for (const dateStr of unAvailabilityDate) {
-            const currentDate = new Date(dateStr);
-            currentDate.setDate(currentDate.getDate()); // Subtract one day
+            const converted = formatDateAndTime(dateStr, zipCode, 'yyyy-MM-DD');
+            result.push(converted);
+            // console.log("dateStr", dateStr)
+            // console.log("converted", converted)
+            // const currentDate = new Date(dateStr);
+            // currentDate.setDate(currentDate.getDate()); // Subtract one day
 
-            const formattedDate = currentDate.toISOString().split('T')[0];
-            result.push(formattedDate);
+            // const formattedDate = currentDate.toISOString().split('T')[0];
+            // result.push(formattedDate);
         }
 
         return result;
