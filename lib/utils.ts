@@ -56,16 +56,15 @@ export function convertToTuroDate(dateString: string, zipCode: string) {
     return convertedCarDate;
 }
 
-export function convertToCarTimeZoneISO(date?: string, time?: string, zipCode?: string, datetime?: string) {
-    if (datetime) {
-        const timeZone = getTimeZoneByZipcode(zipCode);
-        const converedCarDate = parseZonedDateTime(`${datetime}[${timeZone}]`).toAbsoluteString();
-
-        return converedCarDate;
-    }
-    const dateString = `${date}T${time}`;
+/**
+ *  Converts a date and time to the car's time zone
+ * @param datetime - Date and time in the format of 'yyyy-MM-ddTHH:mm:ss'
+ * @param zipCode - Zip code of the vehicle
+ * @returns Date and time in the format of 'yyyy-MM-ddTHH:mm:ss[timeZone]'
+ */
+export function convertToCarTimeZoneISO(datetime: string, zipCode: string) {
     const timeZone = getTimeZoneByZipcode(zipCode);
-    const converedCarDate = parseZonedDateTime(`${dateString}[${timeZone}]`).toAbsoluteString();
+    const converedCarDate = parseZonedDateTime(`${datetime}[${timeZone}]`).toAbsoluteString();
 
     return converedCarDate;
 }

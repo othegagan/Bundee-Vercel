@@ -72,7 +72,7 @@ export async function verifyDrivingProfile(payload: any, userID?: number) {
         const response = await axios.post(verifyUrl, payload, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_IDSCAN_BEARER_TOKEN
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_IDSCAN_BEARER_TOKEN}`
             }
         });
 

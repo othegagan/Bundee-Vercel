@@ -29,7 +29,6 @@ interface DynamicComponentsProps {
 }
 
 export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetails, bussinessConstraints }: DynamicComponentsProps) {
-
     const searchParams = useSearchParams();
 
     const [startDate, setStartDate] = useQueryState('startDate', {
@@ -140,8 +139,8 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 authorizationpercentage: priceCalculatedList.authPercentage,
                 authorizationamount: priceCalculatedList.authAmount,
                 perDayAmount: priceCalculatedList.pricePerDay,
-                startTime: convertToCarTimeZoneISO(startDate, startTime, vehicleDetails?.zipcode),
-                endTime: convertToCarTimeZoneISO(endDate, endTime, vehicleDetails?.zipcode),
+                startTime: convertToCarTimeZoneISO(`${startDate}T${startTime}`, vehicleDetails?.zipcode),
+                endTime: convertToCarTimeZoneISO(`${endDate}T${endTime}`, vehicleDetails?.zipcode),
                 totalDays: priceCalculatedList.numberOfDays,
                 taxAmount: priceCalculatedList.taxAmount,
                 tripTaxAmount: priceCalculatedList.tripTaxAmount,

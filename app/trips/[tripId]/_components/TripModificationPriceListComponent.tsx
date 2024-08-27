@@ -31,8 +31,8 @@ export default function TripModificationPriceListComponent({
     if (isExtension) differenceAmount = priceCalculatedList?.tripTaxAmount - originalTripTaxAmount;
     else differenceAmount = originalTripTaxAmount - priceCalculatedList?.tripTaxAmount;
 
-    const formattedStartDate = formatDateAndTime(convertToCarTimeZoneISO(newStartDate, newStartTime, zipCode), zipCode);
-    const formattedEndDate = formatDateAndTime(convertToCarTimeZoneISO(newEndDate, newEndTime, zipCode), zipCode);
+    const formattedStartDate = formatDateAndTime(convertToCarTimeZoneISO(`${newStartDate}T${newStartTime}`, zipCode), zipCode);
+    const formattedEndDate = formatDateAndTime(convertToCarTimeZoneISO(`${newEndDate}T${newEndTime}`, zipCode), zipCode);
 
     return (
         <div className='w-full space-y-2'>

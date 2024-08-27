@@ -29,14 +29,14 @@ export async function POST(req: NextRequest) {
             } else if (startTS || endTS) {
                 const start = startTS ? splitDateTime(startTS) : { date: startDate, time: startTime };
                 const end = endTS ? splitDateTime(endTS) : { date: endDate, time: endTime };
-                zoneStartDateTime = convertToCarTimeZoneISO(start.date, start.time, zipCode);
-                zoneEndDateTime = convertToCarTimeZoneISO(end.date, end.time, zipCode);
+                zoneStartDateTime = convertToCarTimeZoneISO(`${start.date}T${start.time}`, zipCode);
+                zoneEndDateTime = convertToCarTimeZoneISO(`${end.date}T${end.time}`, zipCode);
             } else if (tripST || tripET) {
                 zoneStartDateTime = formatDateAndTime(tripST, zipCode);
                 zoneEndDateTime = formatDateAndTime(tripET, zipCode);
             } else {
-                zoneStartDateTime = convertToCarTimeZoneISO(startDate, startTime, zipCode);
-                zoneEndDateTime = convertToCarTimeZoneISO(endDate, endTime, zipCode);
+                zoneStartDateTime = convertToCarTimeZoneISO(`${startDate}T${startTime}`, zipCode);
+                zoneEndDateTime = convertToCarTimeZoneISO(`${endDate}T${endTime}`, zipCode);
             }
         }
 
@@ -49,16 +49,16 @@ export async function POST(req: NextRequest) {
             pickupTime: startTime,
             dropTime: endTime,
             turoST,
-            turoET,
+            turoET
         };
 
         return NextResponse.json(
             {
                 success: true,
                 message: 'Successfully converted to vehicle specified time zone',
-                data: responseData,
+                data: responseData
             },
-            { status: 200 },
+            { status: 200 }
         );
     } catch (error) {
         console.error(error);
@@ -66,9 +66,9 @@ export async function POST(req: NextRequest) {
             {
                 success: false,
                 message: `Failed to convert the dates : ${error}`,
-                data: null,
+                data: null
             },
-            { status: 500 },
+            { status: 500 }
         );
     }
 }

@@ -30,13 +30,13 @@ const useTripModification = () => {
         newEndDate: string,
         newStartTime: string,
         newEndTime: string,
-        priceCalculatedList: any,
+        priceCalculatedList: any
     ) => {
         const tripDetails = {
             tripid: tripData.tripid,
             userId: String(userId),
-            startTime: convertToCarTimeZoneISO(newStartDate, newStartTime, tripData.vehzipcode),
-            endTime: convertToCarTimeZoneISO(newEndDate, newEndTime, tripData.vehzipcode),
+            startTime: convertToCarTimeZoneISO(`${newStartDate}T${newStartTime}`, tripData.vehzipcode),
+            endTime: convertToCarTimeZoneISO(`${newEndDate}T${newEndTime}`, tripData.vehzipcode),
             pickupTime: newStartTime,
             dropTime: newEndTime,
             totalDays: String(priceCalculatedList.numberOfDays),
@@ -51,7 +51,7 @@ const useTripModification = () => {
             isPaymentChanged: true,
             Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
-            ...priceCalculatedList,
+            ...priceCalculatedList
         };
 
         if (type === 'reduction') {
@@ -78,7 +78,7 @@ const useTripModification = () => {
             'stateSurchargeTax',
             'totalAmount',
             'tripAmount',
-            'upcharges',
+            'upcharges'
         ];
 
         fieldsToRemove.forEach((field) => delete tripDetails[field]);
@@ -93,7 +93,7 @@ const useTripModification = () => {
         newEndDate: string,
         newStartTime: string,
         newEndTime: string,
-        priceCalculatedList: any,
+        priceCalculatedList: any
     ) => {
         try {
             setSubmitting(true);
@@ -131,7 +131,7 @@ const useTripModification = () => {
         submitted,
         success,
         handleReduction,
-        handleExtension,
+        handleExtension
     };
 };
 
@@ -159,7 +159,7 @@ export default function TripModificationDialog({ tripData }) {
         unavailableDates,
         unformattedDates,
         minDays,
-        maxDays,
+        maxDays
     } = useAvailabilityDates(tripData.vehicleId, tripData.tripid);
 
     const [dateSelectionError, setDateSelectionError] = useState('');
@@ -224,11 +224,11 @@ export default function TripModificationDialog({ tripData }) {
 
             const payload = {
                 vehicleid: tripData.vehicleId,
-                startTime: convertToCarTimeZoneISO(newStartDate, newStartTime, tripData.vehzipcode),
-                endTime: convertToCarTimeZoneISO(newEndDate, newEndTime, tripData.vehzipcode),
+                startTime: convertToCarTimeZoneISO(`${newStartDate}T${newStartTime}`, tripData.vehzipcode),
+                endTime: convertToCarTimeZoneISO(`${newEndDate}T${newEndTime}`, tripData.vehzipcode),
                 airportDelivery: tripData.airportDelivery,
                 customDelivery: tripData.delivery,
-                hostid: tripData.hostid,
+                hostid: tripData.hostid
             };
 
             // console.log(payload);
