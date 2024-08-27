@@ -9,7 +9,7 @@ export async function getTrips(fromValue: string) {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/getActiveTripById';
         const payload = {
             fromValue: fromValue || 'useridbookings',
-            id: session.userId,
+            id: session.userId
         };
 
         const response = await http.post(url, payload);
@@ -24,7 +24,7 @@ export async function getTripDetailsbyId(tripid: number) {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/getActiveTripById';
         const payload = {
             fromValue: 'tripid',
-            id: tripid,
+            id: tripid
         };
         const response = await http.post(url, payload);
         return handleResponse(response.data);
@@ -38,7 +38,7 @@ export async function updateRentalAgreement(tripid: number) {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/updateRentalAgreement';
         const payload = {
             tripId: tripid,
-            isRentalAgreed: true,
+            isRentalAgreed: true
         };
         const response = await http.post(url, payload);
         return handleResponse(response.data);
@@ -59,12 +59,30 @@ export async function swapRequest(payload: any) {
 
 export async function cancelReservation(tripid: number) {
     try {
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/updateReservationCancelled';
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/updateReservationCancelled`;
         const payload = {
-            tripid: tripid,
+            tripid: tripid
         };
         const response = await http.post(url, payload);
         // console.log('cancelReservation ', response.data);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+export async function endReservation(tripid: number) {
+    try {
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/updateReservationCompleted`;
+        const payload = {
+            tripid: tripid,
+            comments: '',
+            paymentCategoryId: '',
+            captureAmount: 0,
+            changedBy: 'DRIVER'
+        };
+        console.log("payload", payload)
+        const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
@@ -78,19 +96,19 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
         const headersList = {
             Accept: '*/*',
             Authorization: `Bearer ${firebaseToken}`,
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         };
 
         const payload = {
             tripId: Number(tripid),
-            count: 1000,
+            count: 1000
         };
 
         const response = await fetch(url, {
             method: 'POST',
             headers: headersList,
             body: JSON.stringify(payload),
-            cache: 'no-cache',
+            cache: 'no-cache'
         });
 
         if (!response.ok) {
@@ -103,7 +121,7 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
             .map((item) => ({
                 author: item.author,
                 message: item.body,
-                deliveryDate: item.dateUpdated, // Adjust as needed
+                deliveryDate: item.dateUpdated // Adjust as needed
             }))
             .reverse();
 
@@ -115,24 +133,24 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
 
 export async function sendMessageToHost(tripid: number, messageBody: string, firebaseToken: string) {
     try {
-        const url = process.env.CHAT_SERVICE_BASEURL + '/clientSendMessage';
+        const url = `${process.env.CHAT_SERVICE_BASEURL}/clientSendMessage`;
 
         const headersList = {
             Accept: '*/*',
             Authorization: `Bearer ${firebaseToken}`,
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         };
 
         const payload = {
             tripId: tripid,
-            message: messageBody,
+            message: messageBody
         };
 
         const response = await fetch(url, {
             method: 'POST',
             headers: headersList,
             body: JSON.stringify(payload),
-            cache: 'no-cache',
+            cache: 'no-cache'
         });
 
         if (!response.ok) {
@@ -142,7 +160,7 @@ export async function sendMessageToHost(tripid: number, messageBody: string, fir
         const data = await response.json();
 
         const res_client = {
-            success: true,
+            success: true
         };
 
         return res_client;
@@ -155,7 +173,7 @@ export async function deleteImageVideoUploaded(id: number) {
     try {
         const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/deleteMediaFile';
         const payload = {
-            id,
+            id
         };
         const response = await http.post(url, payload);
         return handleResponse(response.data);
@@ -175,7 +193,7 @@ export async function addTripReview(hostId: number, tripId: number, rating: numb
             comments: comments,
             userId: session.userId,
             vehicleid: vehicleId,
-            reservationID: tripId,
+            reservationID: tripId
         };
 
         const response = await http.post(url, payload);

@@ -44,22 +44,13 @@ const useAvailabilityDates = (vehicleId: any, tripid: any, zipCode?:any) => {
         fetchData();
     }, [vehicleId]);
 
-    // useTabFocusEffect(fetchData, [vehicleId]);
 
     function convertDates(unAvailabilityDate: string[]): string[] {
         const result: string[] = [];
 
         for (const dateStr of unAvailabilityDate) {
-            // console.log("zipCode", zipCode)
             const converted = formatDateAndTime(dateStr, zipCode, 'YYYY-MM-DD');
             result.push(converted);
-            // console.log("dateStr", dateStr)
-            console.log("converted", converted)
-            // const currentDate = new Date(dateStr);
-            // currentDate.setDate(currentDate.getDate()); // Subtract one day
-
-            // const formattedDate = currentDate.toISOString().split('T')[0];
-            // result.push(formattedDate);
         }
 
         return result;

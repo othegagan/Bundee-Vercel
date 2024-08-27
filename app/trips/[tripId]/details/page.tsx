@@ -13,6 +13,7 @@ import TripDetailsComponent from '../_components/TripDetailsComponent';
 import TripModificationDialog from '../_components/TripModificationDialog';
 import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import MessagePage from '../message/page';
+import EndTripComponent from '../_components/EndTripComponent';
 
 export default function page({ params }: { params: { tripId: string } }) {
     if (!params.tripId) {
@@ -60,6 +61,8 @@ export default function page({ params }: { params: { tripId: string } }) {
                         <CancelTripComponent tripId={tripData.tripid} />
                     )}
 
+                    {tripData.status.toLowerCase() === 'started' && <EndTripComponent tripId={Number(params.tripId)} />}
+
                     {!tripData.isRentalAgreed &&
                         ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripData.status.toLowerCase()) !== -1 && (
                             <>
@@ -105,8 +108,10 @@ export default function page({ params }: { params: { tripId: string } }) {
                 {tripData.status.toLowerCase() === 'completed' && tripRating.length === 0 && <TripReviewDialogTrigger tripData={tripData} />}
 
                 {['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripData.status.toLowerCase()) === -1 && (
-                    <CancelTripComponent tripId={tripData.tripid} />
+                    <CancelTripComponent tripId={Number(params.tripId)} />
                 )}
+
+                {tripData.status.toLowerCase() === 'started' && <EndTripComponent tripId={Number(params.tripId)} />}
 
                 {!tripData.isRentalAgreed && ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(tripData.status.toLowerCase()) !== -1 && (
                     <>

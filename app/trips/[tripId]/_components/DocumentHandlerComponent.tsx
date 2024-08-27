@@ -3,8 +3,6 @@
 import { Button } from '@/components/ui/button';
 import useDocumentDialog from '@/hooks/dialogHooks/useDocumentDialog';
 import { formatDate } from 'date-fns';
-import { FileDown } from 'lucide-react';
-import React from 'react';
 
 interface DocumentHandlerComponentProps {
     isRentalAgreed: boolean;
