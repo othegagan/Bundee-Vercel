@@ -149,7 +149,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 pickupTime: startTime,
                 dropTime: endTime,
                 comments: 'Request to book',
-                address1: delivery ? customDeliveryLocation : vehicleDetails?.address1 || '',
+                address1: '',
                 address2: '',
                 cityName: '',
                 country: '',
