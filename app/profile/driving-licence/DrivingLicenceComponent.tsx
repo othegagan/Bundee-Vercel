@@ -29,7 +29,7 @@ const DrivingLicenceComponent = () => {
 
 export default DrivingLicenceComponent;
 
-function VerifiedDetailsComponent({ personalInfo, images , scores}) {
+function VerifiedDetailsComponent({ personalInfo, images, scores }) {
     const drivingLicenseDialog = useDrivingLicenceDialog();
 
     return (

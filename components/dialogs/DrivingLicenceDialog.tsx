@@ -1,9 +1,9 @@
 'use client';
 
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
+import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
-import { useRouter } from 'next/navigation';
 
 export default function DrivingLicenceDialog() {
     const router = useRouter();
@@ -38,11 +38,11 @@ export default function DrivingLicenceDialog() {
                 )}
 
                 <div className='flex justify-end gap-x-4'>
-                    <Button type='button' onClick={closeModal}  variant='outline'>
+                    <Button type='button' onClick={closeModal} variant='outline'>
                         Cancel
                     </Button>
 
-                    <Button type='button' onClick={handleRedirect}  variant='black'>
+                    <Button type='button' onClick={handleRedirect} variant='black'>
                         {isUpdate ? 'Update Driving License' : 'Verify Driving License'}
                     </Button>
                 </div>
@@ -50,4 +50,3 @@ export default function DrivingLicenceDialog() {
         </Dialog>
     );
 }
-

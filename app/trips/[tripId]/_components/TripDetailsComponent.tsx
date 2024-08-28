@@ -58,7 +58,6 @@ export default function TripDetailsComponent({
                         ) : (
                             <StatusBadge status={trip.status.toLowerCase()} type='trip' />
                         )}
-                        
                     </div>
 
                     <div className='hidden lg:block'>

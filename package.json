@@ -12,7 +12,7 @@
         "build:qa": "  copy .env.qa .env.local  && next build",
         "build:prod": "cp  .env.prod .env.local  &&  next build",
         "lint-biome": "biome check .",
-        "lint-biome:fix": "biome check --write --unsafe .",
+        "lint-fix": "biome check --write --unsafe .",
         "precommit": "lint-staged"
     },
     "dependencies": {
@@ -108,12 +108,7 @@
         "typescript": "^5.5.4"
     },
     "lint-staged": {
-        "*.{js,json,jsx,ts,tsx}": [
-            "prettier --write",
-            "biome check --write --unsafe"
-        ],
-        "*.{css,html,md,mdx,yml,yaml}": [
-            "prettier --write"
-        ]
+        "*.{js,json,jsx,ts,tsx}": ["prettier --write", "biome check --write --unsafe"],
+        "*.{css,html,md,mdx,yml,yaml}": ["prettier --write"]
     }
 }

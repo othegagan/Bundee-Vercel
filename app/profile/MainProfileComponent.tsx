@@ -3,12 +3,12 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
 import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateInsuranceProfile, updateProfile } from '@/server/userOperations';
 import { useEffect, useState } from 'react';
 import { MdVerified } from 'react-icons/md';
+import { toast } from 'sonner';
 import AddressSearchBox from './AddressSearchBox';
 
 const ProfilePage = () => {

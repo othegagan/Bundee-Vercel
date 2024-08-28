@@ -56,7 +56,7 @@ const Slider = React.forwardRef(({ className, min, max, step, formatLabel, value
                         className='absolute text-center'
                         style={{
                             left: `calc(${((value - min) / (max - min)) * 100}% - 10px)`,
-                            top: `14px`,
+                            top: '14px'
                         }}>
                         <span className='whitespace-nowrap text-sm'>{formatLabel ? formatLabel(value) : value}</span>
                     </div>

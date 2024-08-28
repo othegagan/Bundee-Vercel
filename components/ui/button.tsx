@@ -18,21 +18,21 @@ const buttonVariants = cva(
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
                 success: 'bg-green-500 text-white  disabled:pointer-events-none disabled:opacity-90 hover:bg-green-500/80',
-                yellow: 'bg-yellow-400 text-black shadow-sm hover:bg-yellow-500',
+                yellow: 'bg-yellow-400 text-black shadow-sm hover:bg-yellow-500'
             },
             size: {
                 default: 'h-9 px-4 py-2',
                 xs: 'h-6 px-2 py-1 text-[10px]',
                 sm: 'h-8 rounded-md px-3 text-xs',
                 lg: 'h-10 rounded-md px-8',
-                icon: 'h-9 w-9',
-            },
+                icon: 'h-9 w-9'
+            }
         },
         defaultVariants: {
             variant: 'default',
-            size: 'default',
-        },
-    },
+            size: 'default'
+        }
+    }
 );
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
@@ -56,7 +56,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 </>
             </Comp>
         );
-    },
+    }
 );
 Button.displayName = 'Button';
 

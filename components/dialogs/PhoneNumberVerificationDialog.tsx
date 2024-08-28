@@ -5,12 +5,12 @@ import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { updateUserPhoneNumber } from '@/server/userOperations';
 import { PhoneAuthProvider, RecaptchaVerifier, getAuth, linkWithCredential, unlink, updatePhoneNumber } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
 import PhoneNumber from '../ui/phone-number';
-import { toast } from 'sonner';
 
 export default function PhoneNumberVerificationDialog() {
     // console.log(auth.currentUser);

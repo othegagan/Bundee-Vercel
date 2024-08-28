@@ -2,11 +2,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMapboxData } from '@/hooks/useMapboxData';
-import { fetchDataFromMapboxWithForwardGeocoding } from '@/server/mapbox';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { useQueryState } from 'next-usequerystate';
-import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const DEBOUNCE_TIME = 300;
 
@@ -83,7 +79,7 @@ const AddressSearchBox = ({ address1, setSavedData }) => {
                                                     address1: item.address1,
                                                     city: item.city,
                                                     state: item.state,
-                                                    postcode: item.zipcode,
+                                                    postcode: item.zipcode
                                                 }));
                                                 clearTimeout(blurTimeoutId);
                                             }}>

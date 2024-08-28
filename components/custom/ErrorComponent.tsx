@@ -1,4 +1,3 @@
-
 interface ErrorComponentProps {
     message?: string;
     variant?: 'vehicleSearch' | 'vehicleDetials' | 'checkout' | 'trips' | 'bookingDetails';

@@ -51,7 +51,7 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
         return <div>Something went wrong</div>;
     }
 
-    console.log("unavailableDates", unavailableDates)
+    console.log('unavailableDates', unavailableDates);
     const blockedDates = unavailableDates.map((date) => [parseDate(date), parseDate(date)]) || [];
     // console.log("blockedDates", blockedDates)
 

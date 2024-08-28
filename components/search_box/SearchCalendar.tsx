@@ -8,7 +8,7 @@ import {
     CalendarGridHeader,
     CalendarHeaderCell,
     CalendarHeading,
-    RangeCalendar,
+    RangeCalendar
 } from '@/components/ui/extension/calendar';
 import { DatePickerContent, DateRangePicker } from '@/components/ui/extension/date-picker';
 import { cn } from '@/lib/utils';
@@ -30,7 +30,7 @@ interface SearchCalendarProps {
 export default function SearchCalendar({ setStartDate, setEndDate, startDate, endDate }: SearchCalendarProps) {
     const [dates, setDates] = useState<any>({
         start: parseDate(startDate),
-        end: parseDate(endDate),
+        end: parseDate(endDate)
     });
 
     function onDateSelect(item) {
@@ -53,7 +53,7 @@ export default function SearchCalendar({ setStartDate, setEndDate, startDate, en
                         variant='outline'
                         className={cn(
                             'flex w-full cursor-pointer items-center justify-start rounded-md  border border-gray-200 px-3 py-2 text-left text-sm font-normal  ',
-                            !dates && 'text-muted-foreground',
+                            !dates && 'text-muted-foreground'
                         )}>
                         {dates?.end ? (
                             <div className='flex w-full items-center  justify-between'>

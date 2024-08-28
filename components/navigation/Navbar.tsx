@@ -7,11 +7,11 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 import { PiTruck } from 'react-icons/pi';
 import Container from '../BoxContainer';
 import ClientOnly from '../ClientOnly';
+import { HideComponent } from '../custom/HideWrapper';
 import Logo from '../landing_page/Logo';
 import LoginSignupButtons from './LoginSignupButtons';
 import NotificationsComponent from './Notifications';
 import UserMenu from './UserMenu';
-import { HideComponent } from '../custom/HideWrapper';
 
 const Navbar = async () => {
     const session = await getSession();
@@ -23,7 +23,7 @@ const Navbar = async () => {
         { label: 'Wishlist', icon: <IoMdHeartEmpty className='mr-2 h-4 w-4' />, link: '/wishlist', visible: !!session?.isLoggedIn },
         { label: 'Terms & Conditions', icon: <IoDocumentTextOutline className='mr-2 h-4 w-4' />, link: '/terms', visible: true },
         { label: "FAQ's", icon: <IoDocumentTextOutline className='mr-2 h-4 w-4' />, link: '/#faqs', visible: true },
-        { label: 'Privacy Policy', icon: <GoShieldCheck className='mr-2 h-4 w-4' />, link: '/privacy', visible: true },
+        { label: 'Privacy Policy', icon: <GoShieldCheck className='mr-2 h-4 w-4' />, link: '/privacy', visible: true }
     ];
 
     return (

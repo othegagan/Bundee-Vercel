@@ -1,6 +1,6 @@
-import { toast } from 'sonner';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import AddressSearchBox from './AddressSearchBox';
 
 interface DeliveryDetailsComponentProps {

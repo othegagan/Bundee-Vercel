@@ -1,25 +1,25 @@
 'use client';
 
+import TimeSelect from '@/components/custom/TimeSelect';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
+import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
+import useAvailabilityDates from '@/hooks/useAvailabilityDates';
+import { profileVerifiedStatus } from '@/hooks/useDrivingProfile';
 import usePriceCalculation from '@/hooks/usePriceCalculation';
+import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
 import { addDays, format, isBefore, isToday } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import DeliveryDetailsComponent from './DeliveryDetailsComponent';
-import DateRangeCalendar from './DateRangeCalendar';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import TimeSelect from '@/components/custom/TimeSelect';
-import { Skeleton } from '@/components/ui/skeleton';
-import PriceDisplayComponent from './PriceDisplayComponent';
-import { Button } from '@/components/ui/button';
-import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
-import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
-import { getSession } from '@/lib/auth';
-import { profileVerifiedStatus } from '@/hooks/useDrivingProfile';
-import { toast } from 'sonner';
 import secureLocalStorage from 'react-secure-storage';
+import { toast } from 'sonner';
+import DateRangeCalendar from './DateRangeCalendar';
+import DeliveryDetailsComponent from './DeliveryDetailsComponent';
+import PriceDisplayComponent from './PriceDisplayComponent';
 
 interface DynamicComponentsProps {
     vehicleId: number;

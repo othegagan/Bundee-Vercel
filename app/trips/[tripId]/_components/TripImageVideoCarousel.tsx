@@ -1,10 +1,10 @@
 'use client';
 
-import { toast } from 'sonner';
 import { toTitleCase } from '@/lib/utils';
 import { deleteImageVideoUploaded } from '@/server/tripOperations';
 import { format } from 'date-fns';
 import { FiTrash2 } from 'react-icons/fi';
+import { toast } from 'sonner';
 
 const TripImageVideoCarousel = ({ images, uploadedBy }) => {
     const deleteImage = async (id: any) => {

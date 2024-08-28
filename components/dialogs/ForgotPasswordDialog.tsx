@@ -14,7 +14,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
 const schema = z.object({
-    email: z.string({ message: 'Email is required' }).email({ message: 'Invalid email address' }).optional(),
+    email: z.string({ message: 'Email is required' }).email({ message: 'Invalid email address' }).optional()
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -32,10 +32,10 @@ export default function ForgotPasswordDialog() {
         handleSubmit,
         setError,
         reset,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting }
     } = useForm<FormFields>({
         resolver: zodResolver(schema),
-        mode: 'onSubmit',
+        mode: 'onSubmit'
     });
 
     const onSubmit: SubmitHandler<FormFields | any> = async (data) => {

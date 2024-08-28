@@ -6,11 +6,11 @@ import { VehiclesDetailsSkeleton } from '@/components/skeletons/skeletons';
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import { useVehicleDetails } from '@/hooks/useVehicleDetails';
+import { getFullAddress } from '@/lib/utils';
+import { FaLocationDot } from 'react-icons/fa6';
+import DynamicComponents from './_components/DynamicComponents';
 import VehicleDetails from './_components/VehicleDetails';
 import { WishlistButton } from './_components/WishlistButton';
-import { FaLocationDot } from 'react-icons/fa6';
-import { getFullAddress } from '@/lib/utils';
-import DynamicComponents from './_components/DynamicComponents';
 
 interface Props {
     params: { id: string };
@@ -73,7 +73,12 @@ export default function page({ params, searchParams }: Props) {
                                 </p>
                             </div>
 
-                            <DynamicComponents vehicleId={vehicleDetails.id} vehicleDetails={vehicleDetails} hostDetails={vehicleHostDetails} bussinessConstraints={vehicleBusinessConstraints} />
+                            <DynamicComponents
+                                vehicleId={vehicleDetails.id}
+                                vehicleDetails={vehicleDetails}
+                                hostDetails={vehicleHostDetails}
+                                bussinessConstraints={vehicleBusinessConstraints}
+                            />
                         </div>
                     </div>
                 </div>

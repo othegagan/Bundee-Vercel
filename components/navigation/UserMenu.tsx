@@ -5,7 +5,7 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { useRouter } from 'next/navigation';
 import LogoutButton from './LogoutButton';

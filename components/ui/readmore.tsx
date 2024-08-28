@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
-import { Inter, Poppins } from 'next/font/google';
-import React, { useState } from 'react';
+import { Inter } from 'next/font/google';
+import { useState } from 'react';
 import { Button } from './button';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });

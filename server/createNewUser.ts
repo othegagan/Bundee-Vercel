@@ -4,7 +4,7 @@ import { http, handleResponse } from '@/lib/httpService';
 
 export async function createNewUser({ firstname, lastname, email, mobilephone }) {
     try {
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/createUser';
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/createUser`;
 
         const payload = {
             firstname: firstname,
@@ -12,7 +12,7 @@ export async function createNewUser({ firstname, lastname, email, mobilephone })
             email: email,
             userRole: 'Driver',
             channelName: process.env.CHANNEL_NAME,
-            mobilephone: mobilephone,
+            mobilephone: mobilephone
         };
 
         const response = await http.post(url, payload);

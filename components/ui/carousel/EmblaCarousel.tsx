@@ -4,9 +4,9 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { NextButton, PrevButton, usePrevNextButtons } from './EmblaCarouselArrowButtons';
 import { SelectedSnapDisplay, useSelectedSnapDisplay } from './EmblaCarouselSelectedSnapDisplay';
 import './embla.css';
+import { cn } from '@/lib/utils';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
-import { cn } from '@/lib/utils';
 
 type PropType = {
     slides: any[];

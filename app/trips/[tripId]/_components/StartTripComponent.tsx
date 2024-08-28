@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
 import { startTripByDriver } from '@/server/userOperations';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function StartTripComponent({ starttime, tripid }) {
     const [tripStarting, setTripStarting] = useState(false);

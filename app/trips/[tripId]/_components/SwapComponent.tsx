@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
-import { toast } from 'sonner';
 import { formatDateAndTime, toTitleCase } from '@/lib/utils';
 import { swapRequest } from '@/server/tripOperations';
 import { getVehicleAllDetailsByVechicleId } from '@/server/vehicleOperations';
@@ -11,6 +10,7 @@ import { CalendarIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaLocationDot, FaStar } from 'react-icons/fa6';
+import { toast } from 'sonner';
 import { StatusBadge } from '../../TripsComponent';
 
 const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate, zipCode }: any) => {

@@ -15,8 +15,8 @@ import PhoneNumberVerificationDialog from '@/components/dialogs/PhoneNumberVerif
 import RegisterModal from '@/components/dialogs/RegisterDialog';
 import TripReviewDialog from '@/components/dialogs/TripReviewDialog';
 import Navbar from '@/components/navigation/Navbar';
-import { Toaster } from 'sonner';
 import Providers from '@/lib/providers';
+import { Toaster } from 'sonner';
 import CarFilters from './vehicles/CarFilters';
 
 const DocumentModal = dynamic(() => import('@/components/dialogs/DocumentDialog'), { ssr: false });

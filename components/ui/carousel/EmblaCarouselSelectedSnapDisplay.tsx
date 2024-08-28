@@ -26,7 +26,7 @@ export const useSelectedSnapDisplay = (emblaApi: EmblaCarouselType | undefined):
 
     return {
         selectedSnap,
-        snapCount,
+        snapCount
     };
 };
 

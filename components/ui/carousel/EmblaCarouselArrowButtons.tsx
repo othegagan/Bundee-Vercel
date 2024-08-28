@@ -39,7 +39,7 @@ export const usePrevNextButtons = (emblaApi: EmblaCarouselType | undefined): Use
         prevBtnDisabled,
         nextBtnDisabled,
         onPrevButtonClick,
-        onNextButtonClick,
+        onNextButtonClick
     };
 };
 

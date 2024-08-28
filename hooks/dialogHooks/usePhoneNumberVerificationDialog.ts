@@ -11,7 +11,7 @@ const usePhoneNumberVerificationDialog = create<PhoneNumberVerificationDialogSto
     onOpen: () => {
         set({ isOpen: true });
     },
-    onClose: () => set({ isOpen: false }),
+    onClose: () => set({ isOpen: false })
 }));
 
 export default usePhoneNumberVerificationDialog;

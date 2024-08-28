@@ -30,9 +30,7 @@ const Footer = () => {
                             <p className='font-semibold text-gray-800 '>Available Locations</p>
                             <div className='mt-2 flex flex-col items-start space-y-2 font-light  md:font-normal'>
                                 <p>
-                                    <Link href='/vehicles?city=Austin,%20Texas,%20United%20States&latitude=-97.7437&longitude=30.271129'>
-                                        Austin Texas
-                                    </Link>
+                                    <Link href='/vehicles?city=Austin,%20Texas,%20United%20States&latitude=-97.7437&longitude=30.271129'>Austin Texas</Link>
                                 </p>
                             </div>
                         </div>
@@ -42,14 +40,10 @@ const Footer = () => {
 
                             <div className='mt-2 flex flex-col items-start space-y-2 font-light  md:font-normal'>
                                 <p>
-                                    <Link href='/vehicles?city=Dallas,%20Texas,%20United%20States&latitude=-96.796856&longitude=32.776272'>
-                                        Dallas,TX
-                                    </Link>
+                                    <Link href='/vehicles?city=Dallas,%20Texas,%20United%20States&latitude=-96.796856&longitude=32.776272'>Dallas,TX</Link>
                                 </p>
                                 <p>
-                                    <Link href="/vehicles?city=Houston,%20Texas,%20United%20States&latitude=-95.367697&longitude=29.758938'">
-                                        Houston, TX
-                                    </Link>
+                                    <Link href="/vehicles?city=Houston,%20Texas,%20United%20States&latitude=-95.367697&longitude=29.758938'">Houston, TX</Link>
                                 </p>
                                 <p>
                                     <Link href='/vehicles?city=San%20Antonio,%20Texas,%20United%20States&latitude=-98.495141&longitude=29.4246'>
@@ -64,9 +58,7 @@ const Footer = () => {
 
                             <div className='mt-2 flex flex-col items-start space-y-2 font-light  md:font-normal'>
                                 <p>
-                                    <Link href='/vehicles?city=Austin,%20Texas,%20United%20States&latitude=-97.7437&longitude=30.271129'>
-                                        Book a Vehicle
-                                    </Link>
+                                    <Link href='/vehicles?city=Austin,%20Texas,%20United%20States&latitude=-97.7437&longitude=30.271129'>Book a Vehicle</Link>
                                 </p>
 
                                 <p>
@@ -92,9 +84,7 @@ const Footer = () => {
 
                     <div className='hidden flex-col items-center justify-between sm:flex-row md:flex'>
                         <Logo />
-                        <p className='mt-4 text-sm text-gray-500 sm:mt-0 '>
-                            © Copyright {new Date().getFullYear()}. MyBundee All Rights Reserved.
-                        </p>
+                        <p className='mt-4 text-sm text-gray-500 sm:mt-0 '>© Copyright {new Date().getFullYear()}. MyBundee All Rights Reserved.</p>
                     </div>
 
                     {/* For Mobile */}

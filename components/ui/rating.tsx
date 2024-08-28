@@ -8,7 +8,6 @@ interface RatingProps {
 }
 
 const Rating: React.FC<RatingProps> = ({ rating, setRating }) => {
-
     const handleMouseLeave = () => {
         setRating(0);
     };
@@ -20,12 +19,7 @@ const Rating: React.FC<RatingProps> = ({ rating, setRating }) => {
     return (
         <div className='flex items-center gap-2'>
             {[...Array(5)].map((_, index) => (
-                <Star
-                    key={index}
-                    index={index}
-                    filled={rating > index}
-                    onClick={() => handleClick(index)}
-                />
+                <Star key={index} index={index} filled={rating > index} onClick={() => handleClick(index)} />
             ))}
         </div>
     );

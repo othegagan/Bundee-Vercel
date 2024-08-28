@@ -1,6 +1,5 @@
 import { format } from 'date-fns';
 import Link from 'next/link';
-import React from 'react';
 
 export default function TripPoliciesComponent({ starttime, cancellationDays }: { starttime: string; cancellationDays?: number }) {
     const calFreeCancellationDate = () => {

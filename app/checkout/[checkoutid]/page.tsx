@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import ErrorComponent from "@/components/custom/ErrorComponent";
-import { CheckoutCardSkeleton, CheckoutDetailsSkeleton } from "@/components/skeletons/skeletons";
-import BackButton from "../../../components/custom/BackButton";
-import CheckoutDetails, { useCheckoutDetails } from "./CheckoutDetails";
-import StripePaymentComponent from "./StripePaymentComponent";
+import ErrorComponent from '@/components/custom/ErrorComponent';
+import { CheckoutCardSkeleton, CheckoutDetailsSkeleton } from '@/components/skeletons/skeletons';
+import BackButton from '../../../components/custom/BackButton';
+import CheckoutDetails, { useCheckoutDetails } from './CheckoutDetails';
+import StripePaymentComponent from './StripePaymentComponent';
 
 export default function page() {
     const { loading, error } = useCheckoutDetails();

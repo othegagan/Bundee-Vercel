@@ -5,10 +5,10 @@ import { clearRecentlyViewedVehicles, getRecentlyViewedVehicles } from '@/server
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa6';
+import { toast } from 'sonner';
 import BoxContainer from '../BoxContainer';
 import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
-import { toast } from 'sonner';
 
 export default function RecentlyViewedVehicles() {
     const [recentlyViewedData, setRecentlyViewedData] = useState([]);

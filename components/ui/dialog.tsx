@@ -42,7 +42,7 @@ function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = 
         <div
             className={cn(
                 'fixed inset-0 z-[100] flex items-end bg-black/50 backdrop-blur-[1px] sm:items-center sm:justify-center',
-                isOpen ? 'animate-in fade-in-0' : 'animate-out fade-out-0',
+                isOpen ? 'animate-in fade-in-0' : 'animate-out fade-out-0'
             )}
             onClick={handleBackdropClick}
             data-state={isOpen ? 'open' : 'closed'}>
@@ -50,7 +50,7 @@ function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = 
                 className={cn(
                     'w-full transform overflow-hidden rounded-t-lg bg-white px-6 py-4 transition-all ease-in-out sm:m-4 sm:max-w-xl sm:rounded-lg',
                     isOpen ? 'animate-in zoom-in-95' : 'animate-out zoom-out-95 slide-out-to-bottom-1/2',
-                    className,
+                    className
                 )}
                 role='dialog'>
                 <div className='mb-4 flex flex-col space-y-1.5 text-left sm:mb-6'>

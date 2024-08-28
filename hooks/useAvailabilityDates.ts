@@ -2,7 +2,7 @@ import { formatDateAndTime } from '@/lib/utils';
 import { getAvailabilityDatesByVehicleId } from '@/server/vehicleOperations';
 import { useEffect, useState } from 'react';
 
-const useAvailabilityDates = (vehicleId: any, tripid: any, zipCode?:any) => {
+const useAvailabilityDates = (vehicleId: any, tripid: any, zipCode?: any) => {
     const [unformattedDates, setUnformattedDates] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
@@ -43,7 +43,6 @@ const useAvailabilityDates = (vehicleId: any, tripid: any, zipCode?:any) => {
     useEffect(() => {
         fetchData();
     }, [vehicleId]);
-
 
     function convertDates(unAvailabilityDate: string[]): string[] {
         const result: string[] = [];

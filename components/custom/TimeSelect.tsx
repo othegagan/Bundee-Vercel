@@ -29,7 +29,7 @@ const TimeSelect = ({ onChange, defaultValue, label, className, disableLimitTime
 
     const labelVariants = {
         sm: 'text-xs',
-        md: 'text-14',
+        md: 'text-14'
     };
 
     return (

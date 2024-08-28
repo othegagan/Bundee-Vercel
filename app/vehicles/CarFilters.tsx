@@ -6,10 +6,9 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Slider } from '@/components/ui/slider';
 import useCarFilterDialog from '@/hooks/dialogHooks/useCarFilterDialog';
 import { toTitleCase } from '@/lib/utils';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsBatteryCharging } from 'react-icons/bs';
 import { PiGasCan } from 'react-icons/pi';
-import { VscSettings } from 'react-icons/vsc';
 
 interface CarFiltersProps {
     carDetails: any[];
@@ -37,7 +36,7 @@ const CarFilters = () => {
 
     const fuelTypes = [
         { icon: <PiGasCan className='h-5 w-5' />, text: 'gasoline' },
-        { icon: <BsBatteryCharging className='h-5 w-5' />, text: 'electric' },
+        { icon: <BsBatteryCharging className='h-5 w-5' />, text: 'electric' }
     ];
     const ratings = [1, 2, 3, 4, 5];
 

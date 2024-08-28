@@ -35,9 +35,9 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
             const paymentRes = await stripe.confirmSetup({
                 elements,
                 confirmParams: {
-                    return_url: 'https://your-website.com/confirmation',
+                    return_url: 'https://your-website.com/confirmation'
                 },
-                redirect: 'if_required',
+                redirect: 'if_required'
             });
 
             const { setupIntent, error } = paymentRes;
@@ -46,7 +46,6 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                 const { id: setUpId, status, payment_method } = setupIntent;
 
                 if (status === 'succeeded') {
-
                     const payload = {
                         ...data,
                         stripePaymentToken: 'NA',
@@ -58,7 +57,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         isCustomerTokenNew: 'NA',
                         totalDays: String(data.numberOfDays),
                         tripamount: String(data.tripAmount),
-                        userId: String(data.userId),
+                        userId: String(data.userId)
                     };
 
                     const keysToRemove = [
@@ -76,7 +75,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         'upcharges',
                         'stateSurchargeAmount',
                         'stateSurchargeTax',
-                        'hostid',
+                        'hostid'
                     ];
 
                     if (keysToRemove) {

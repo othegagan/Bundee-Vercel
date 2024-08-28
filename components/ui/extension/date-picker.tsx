@@ -57,5 +57,5 @@ export {
     _DatePickerButton as DatePickerButton,
     _DatePickerContent as DatePickerContent,
     _DateRangePicker as DateRangePicker,
-    _DateRangePickerButton as DateRangePickerButton,
+    _DateRangePickerButton as DateRangePickerButton
 };

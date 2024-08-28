@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { getSession } from "@/lib/auth";
-import { handleResponse, http } from "@/lib/httpService";
+import { getSession } from '@/lib/auth';
+import { http, handleResponse } from '@/lib/httpService';
 
 export async function updateDrivingProfile(requestId: string, userID: number) {
     try {
@@ -10,7 +10,7 @@ export async function updateDrivingProfile(requestId: string, userID: number) {
         const payload = {
             userId: userID || session.userId,
             idScanRequestID: requestId,
-            isVerified: true,
+            isVerified: true
         };
 
         const response = await http.post(url, payload);

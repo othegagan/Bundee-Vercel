@@ -46,7 +46,7 @@ const extractDataFromJson = (data: any) => {
             placeName,
             latitude,
             longitude,
-            isAirport,
+            isAirport
         };
 
         locationSuggestionsFromMapBox.push(locationSuggestion);
@@ -73,7 +73,7 @@ const extractAddressFromJson = (data: any) => {
             address1,
             city,
             state,
-            zipcode,
+            zipcode
         };
         addressSuggestionsFromMapBox.push(locationSuggestion);
     }

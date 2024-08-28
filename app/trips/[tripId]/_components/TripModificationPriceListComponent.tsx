@@ -24,7 +24,7 @@ export default function TripModificationPriceListComponent({
     newStartTime,
     newEndTime,
     originalTripTaxAmount,
-    isExtension,
+    isExtension
 }: TripModificationPriceListComponentProps) {
     let differenceAmount = 0;
 
@@ -199,7 +199,7 @@ export default function TripModificationPriceListComponent({
                                 priceCalculatedList?.concessionFee +
                                     priceCalculatedList?.stateSurchargeAmount +
                                     priceCalculatedList?.registrationRecoveryFee +
-                                    priceCalculatedList?.tripFee,
+                                    priceCalculatedList?.tripFee
                             )}
                         </div>
                     </div>
@@ -222,7 +222,7 @@ export default function TripModificationPriceListComponent({
                 <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>
                     <p className='text-14 font-bold'>Trip Cost Difference</p>
                     <p className='text-14 font-bold'>
-                        {roundToTwoDecimalPlaces(Number(differenceAmount)) == 0 ? '' : isExtension ? '+' : '-'} $
+                        {roundToTwoDecimalPlaces(Number(differenceAmount)) === 0 ? '' : isExtension ? '+' : '-'} $
                         {Math.abs(Number(roundToTwoDecimalPlaces(Number(differenceAmount))))}
                     </p>
                 </div>

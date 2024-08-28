@@ -4,7 +4,7 @@ import { CheckoutCardSkeleton } from '@/components/skeletons/skeletons';
 import getStripe from '@/lib/get-stripejs';
 import { createSetUpIntent } from '@/server/checkout';
 import { Elements } from '@stripe/react-stripe-js';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CheckoutForm from './CheckoutForm';
 
 const StripePaymentComponent = () => {
@@ -42,9 +42,9 @@ const StripePaymentComponent = () => {
                         appearance: {
                             variables: {
                                 colorIcon: '#de6400',
-                                fontFamily: 'Inter, Roboto, Open Sans, Segoe UI, sans-serif',
-                            },
-                        },
+                                fontFamily: 'Inter, Roboto, Open Sans, Segoe UI, sans-serif'
+                            }
+                        }
                     }}>
                     <CheckoutForm customerId={customerId} />
                 </Elements>

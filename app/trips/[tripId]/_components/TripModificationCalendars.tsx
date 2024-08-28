@@ -7,7 +7,7 @@ import {
     CalendarGridBody,
     CalendarGridHeader,
     CalendarHeaderCell,
-    CalendarHeading,
+    CalendarHeading
 } from '@/components/ui/extension/calendar';
 import { DatePicker, DatePickerButton, DatePickerContent } from '@/components/ui/extension/date-picker';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
@@ -32,7 +32,7 @@ export function TripModificationStartDateCalendar({
     setDate,
     isTripStarted,
     setIsInitialLoad,
-    isDisabled,
+    isDisabled
 }: TripModificationCalendarProps) {
     const [value, setValue] = useState(parseDate(date));
 
@@ -79,7 +79,7 @@ export function TripModificationEndDateCalendar({
     newStartDate,
     isTripStarted,
     setIsInitialLoad,
-    isDisabled,
+    isDisabled
 }: TripModificationCalendarProps) {
     const [value, setValue] = useState(parseDate(date));
 

@@ -17,7 +17,7 @@ const useTripReviewDialog = create<TripReviewDialogStore>((set) => ({
     tripData: null,
     setTripData: (data: any) => {
         set({ tripData: data });
-    },
+    }
 }));
 
 export default useTripReviewDialog;

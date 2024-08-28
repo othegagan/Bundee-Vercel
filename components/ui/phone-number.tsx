@@ -1,6 +1,4 @@
 'use client';
-
-import React from 'react';
 import PhoneInput from 'react-phone-input-2';
 import './phone-number-input-style.css';
 

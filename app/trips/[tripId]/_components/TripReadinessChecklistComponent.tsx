@@ -1,10 +1,10 @@
 'use client';
 
+import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { RxQuestionMarkCircled } from 'react-icons/rx';
 import DocumentHandlerComponent from './DocumentHandlerComponent';
-import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 
 export default function TripReadinessChecklistComponent({ trip }: any) {
     const phoneNumberDialog = usePhoneNumberVerificationDialog();
@@ -61,9 +61,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                     )}{' '}
                     Insurance
                 </div>
-                <button
-                    type='button'
-                    className='text-md underline underline-offset-2'>
+                <button type='button' className='text-md underline underline-offset-2'>
                     Coming Soon
                 </button>
             </div>
@@ -78,15 +76,14 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                     )}{' '}
                     Rental Agreement
                 </div>
-                {!trip.isRentalAgreed &&
-                    ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(trip.status.toLowerCase()) === -1 && (
-                        <DocumentHandlerComponent
-                            isRentalAgreed={trip.isRentalAgreed}
-                            tripId={trip.tripid}
-                            rentalAgrrementUrl={trip.rentalAgrrementUrl}
-                            rentalAgreedDate={trip.rentalAgreedDate}
-                        />
-                    )}
+                {!trip.isRentalAgreed && ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(trip.status.toLowerCase()) === -1 && (
+                    <DocumentHandlerComponent
+                        isRentalAgreed={trip.isRentalAgreed}
+                        tripId={trip.tripid}
+                        rentalAgrrementUrl={trip.rentalAgrrementUrl}
+                        rentalAgreedDate={trip.rentalAgreedDate}
+                    />
+                )}
                 {trip.isRentalAgreed && (
                     <DocumentHandlerComponent
                         isRentalAgreed={trip.isRentalAgreed}

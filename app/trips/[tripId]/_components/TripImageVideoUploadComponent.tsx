@@ -2,13 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
-import { toast } from 'sonner';
 import { getSession } from '@/lib/auth';
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { FaFileUpload } from 'react-icons/fa';
 import { LuLoader2 } from 'react-icons/lu';
 import { MdDeleteForever } from 'react-icons/md';
+import { toast } from 'sonner';
 
 interface TripImageVideoUploadComponentProps {
     tripid: number;

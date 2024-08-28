@@ -31,7 +31,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
                     'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50',
                     props.mode === 'range'
                         ? '[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md'
-                        : '[&:has([aria-selected])]:rounded-md',
+                        : '[&:has([aria-selected])]:rounded-md'
                 ),
                 day: cn(buttonVariants({ variant: 'ghost' }), 'h-8 w-8 p-0 font-normal aria-selected:opacity-100'),
                 day_range_start: 'day-range-start',
@@ -44,11 +44,11 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
                 day_disabled: 'text-muted-foreground opacity-50',
                 day_range_middle: 'aria-selected:bg-accent aria-selected:text-accent-foreground',
                 day_hidden: 'invisible',
-                ...classNames,
+                ...classNames
             }}
             components={{
                 IconLeft: ({ ...props }) => <ChevronLeftIcon className='h-4 w-4' />,
-                IconRight: ({ ...props }) => <ChevronRightIcon className='h-4 w-4' />,
+                IconRight: ({ ...props }) => <ChevronRightIcon className='h-4 w-4' />
             }}
             {...props}
         />

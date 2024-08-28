@@ -15,10 +15,9 @@ import {
     CalendarGridHeaderProps,
     CalendarGridProps,
     CalendarHeaderCell,
-    CalendarHeaderCellProps,
     Heading,
     RangeCalendar,
-    RangeCalendarStateContext,
+    RangeCalendarStateContext
 } from 'react-aria-components';
 
 import { cn } from '@/lib/utils';
@@ -37,7 +36,7 @@ const _CalendarHeading = ({ ...props }: React.HTMLAttributes<HTMLHeadElement>) =
                 className={cn(
                     buttonVariants({ variant: 'outline' }),
                     'h-7 w-7 bg-transparent p-0 opacity-50 data-[hovered]:opacity-100',
-                    'absolute right-1 text-popover-foreground',
+                    'absolute right-1 text-popover-foreground'
                 )}>
                 <ChevronRightIcon className='h-4 w-4' />
             </Button>
@@ -46,7 +45,7 @@ const _CalendarHeading = ({ ...props }: React.HTMLAttributes<HTMLHeadElement>) =
                 className={cn(
                     buttonVariants({ variant: 'outline' }),
                     'h-7 w-7 bg-transparent p-0 opacity-50 data-[hovered]:opacity-100',
-                    'absolute left-1 text-popover-foreground',
+                    'absolute left-1 text-popover-foreground'
                 )}>
                 <ChevronLeftIcon className='h-4 w-4' />
             </Button>
@@ -69,7 +68,7 @@ const _CalendarGridBody = ({ className, ...props }: CalendarGridBodyProps) => (
         className={cn(
             '[&>tr>td]:p-0 [&>tr]:mt-2 [&>tr]:flex [&>tr]:w-full',
             '[&>tr>td:first-child>div]:rounded-l-md [&>tr>td:last-child>div]:rounded-r-md',
-            className,
+            className
         )}
         {...props}
     />
@@ -92,7 +91,7 @@ const _CalendarCell = ({ className, date, ...props }: CalendarCellProps) => {
                         'rounded-md bg-primary text-primary-foreground data-[focused]:bg-primary data-[hovered]:bg-primary data-[focused]:text-primary-foreground data-[hovered]:text-primary-foreground',
                     values.isOutsideMonth &&
                         'text-muted-foreground opacity-50 data-[selected]:bg-accent/50 data-[selected]:text-muted-foreground data-[selected]:opacity-30',
-                    typeof className === 'function' ? className(values) : className,
+                    typeof className === 'function' ? className(values) : className
                 )
             }
             date={date}
@@ -109,5 +108,5 @@ export {
     _CalendarGridHeader as CalendarGridHeader,
     _CalendarHeaderCell as CalendarHeaderCell,
     _CalendarHeading as CalendarHeading,
-    _RangeCalendar as RangeCalendar,
+    _RangeCalendar as RangeCalendar
 };

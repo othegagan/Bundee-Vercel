@@ -5,7 +5,6 @@ import { ChatSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import { auth } from '@/lib/firebase';
 import { formatDateAndTime, getFullAddress } from '@/lib/utils';
@@ -14,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { Send } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 const AUTHOR_TYPE = {
     SYSTEM: 'system',

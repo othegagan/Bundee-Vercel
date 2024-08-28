@@ -10,7 +10,7 @@ const firebaseConfig = {
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APPID
 };
 
 const app = initializeApp(firebaseConfig);
@@ -34,7 +34,7 @@ export function getFirebaseErrorMessage(code: string) {
         'auth/invalid-verification-code': 'Invalid OTP. Please enter a valid OTP.',
         'auth/provider-already-linked': 'Account already linked with phone number',
         'auth/account-exists-with-different-credential': 'Phone number as been linked with another account. Please try again with different phone number.',
-        default: 'An error occurred. Please try again.',
+        default: 'An error occurred. Please try again.'
     };
     return errorMap[code] || errorMap.default;
 }

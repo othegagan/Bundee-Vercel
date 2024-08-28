@@ -9,11 +9,11 @@ export interface SessionData {
 
 export const defaultSession: SessionData = {
     isLoggedIn: false,
-    email: "",
+    email: '',
     userId: null,
     isPhoneVerified: false,
     isPersonaVerified: false,
-    authToken: "",
+    authToken: ''
 };
 
 export interface Vehicle {

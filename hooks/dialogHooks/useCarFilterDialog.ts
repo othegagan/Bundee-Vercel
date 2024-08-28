@@ -35,7 +35,7 @@ const useCarFilterDialog = create<CarFilterDialogStore>((set) => ({
     },
     setIsLoading: (flag: boolean) => {
         set({ isLoading: flag });
-    },
+    }
 }));
 
 export default useCarFilterDialog;

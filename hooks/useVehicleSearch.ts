@@ -61,7 +61,7 @@ const useVehicleSearch = () => {
                 isAirport,
                 isMapSearch,
                 userId: session.userId || '',
-                hostId: Number(hostid) || 0,
+                hostId: Number(hostid) || 0
             };
 
             const mapsearchPayload = {
@@ -76,7 +76,7 @@ const useVehicleSearch = () => {
                 isAirport,
                 userId: session.userId || '',
                 hostId: Number(hostid) || 0,
-                isMapSearch: isMapSearch,
+                isMapSearch: isMapSearch
             };
 
             const payload = isMapSearch === 'true' ? mapsearchPayload : searchPayload;

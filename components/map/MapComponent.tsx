@@ -6,8 +6,8 @@ import { useQueryState } from 'next-usequerystate';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
-import  { FullscreenControl, type MapRef, Marker, Popup, ScaleControl } from 'react-map-gl';
-import {Map as MapGL} from 'react-map-gl';
+import { FullscreenControl, type MapRef, Marker, Popup, ScaleControl } from 'react-map-gl';
+import { Map as MapGL } from 'react-map-gl';
 import { Button } from '../ui/button';
 
 export default function MapComponent({ filteredCars, searchQuery }: { filteredCars: any[]; searchQuery: string }) {
@@ -83,7 +83,6 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                             />
                             <circle cx='218' cy='222' r='160' fill='white' />
                         </svg>
-
                     </div>
                 );
 

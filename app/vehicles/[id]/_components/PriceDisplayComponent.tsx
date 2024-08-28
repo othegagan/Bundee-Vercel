@@ -146,7 +146,7 @@ const PriceDisplayComponent = ({ pricelist, isAirportDeliveryChoosen }: { pricel
                         <div className=' font-medium'>
                             $
                             {roundToTwoDecimalPlaces(
-                                pricelist.concessionFee + pricelist.stateSurchargeAmount + pricelist.registrationRecoveryFee + pricelist?.tripFee,
+                                pricelist.concessionFee + pricelist.stateSurchargeAmount + pricelist.registrationRecoveryFee + pricelist?.tripFee
                             )}
                         </div>
                     </div>

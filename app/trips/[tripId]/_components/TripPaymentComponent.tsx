@@ -146,7 +146,7 @@ export default function TripPaymentComponent({ pricelist, trip }: { pricelist: a
                         <div className='text-md font-medium'>
                             $
                             {roundToTwoDecimalPlaces(
-                                pricelist.concessionFee + pricelist.Statesurchargeamount + pricelist.registrationRecoveryFee + pricelist?.tripFee,
+                                pricelist.concessionFee + pricelist.Statesurchargeamount + pricelist.registrationRecoveryFee + pricelist?.tripFee
                             )}
                         </div>
                     </div>

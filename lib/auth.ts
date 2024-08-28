@@ -1,17 +1,16 @@
-"use server";
-import "server-only";
-import { type SessionData, defaultSession } from "@/types";
-import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
-import { type NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
-import { JSONparsefy } from "./utils";
-import { JWTExpired } from "jose/errors";
-import { redirect } from "next/navigation";
+'use server';
+import 'server-only';
+import { type SessionData, defaultSession } from '@/types';
+import { SignJWT, jwtVerify } from 'jose';
+import { JWTExpired } from 'jose/errors';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { type NextRequest, NextResponse } from 'next/server';
+import { v4 as uuidv4 } from 'uuid';
+import { JSONparsefy } from './utils';
 
 const secretKey = process.env.SECRET_KEY;
-const cookieName =
-    process.env.NODE_ENV === "production" ? "bundee-session" : "dev_session";
+const cookieName = process.env.NODE_ENV === 'production' ? 'bundee-session' : 'dev_session';
 const EXPIRY_IN_MS = 15 * 24 * 60 * 60 * 1000; // 15 days in milliseconds
 const REFRESH_THRESHOLD_MS = 5 * 24 * 60 * 60 * 1000; // 5 days in milliseconds
 
@@ -19,24 +18,24 @@ const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any) {
     return await new SignJWT(payload)
-        .setProtectedHeader({ alg: "HS256" })
+        .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
-        .setExpirationTime("15d") // Set expiration to 15 days
+        .setExpirationTime('15d') // Set expiration to 15 days
         .sign(key);
 }
 
 export async function decrypt(input: string): Promise<any> {
     try {
         const { payload } = await jwtVerify(input, key, {
-            algorithms: ["HS256"],
+            algorithms: ['HS256']
         });
         return payload;
     } catch (error) {
         if (error instanceof JWTExpired) {
             throw error; // Re-throw JWTExpired to be caught in calling function
         }
-        console.error("Error decrypting token:", error);
-        throw new Error("Invalid token");
+        console.error('Error decrypting token:', error);
+        throw new Error('Invalid token');
     }
 }
 
@@ -45,10 +44,7 @@ interface CreateSessionProps {
     authToken?: string;
 }
 
-export async function createSession({
-    userData,
-    authToken,
-}: CreateSessionProps) {
+export async function createSession({ userData, authToken }: CreateSessionProps) {
     const expires = new Date(Date.now() + EXPIRY_IN_MS);
 
     const sessionData: SessionData = {
@@ -57,7 +53,7 @@ export async function createSession({
         userId: userData?.iduser,
         authToken: authToken,
         isPhoneVerified: false,
-        isPersonaVerified: false,
+        isPersonaVerified: false
     };
 
     // Create the session
@@ -67,9 +63,9 @@ export async function createSession({
     cookies().set(cookieName, session, {
         expires,
         httpOnly: true,
-        sameSite: "none",
+        sameSite: 'none',
         secure: true,
-        path: "/",
+        path: '/'
     });
 
     return sessionData;
@@ -95,10 +91,10 @@ export async function getSession(): Promise<SessionData> {
         return sessionData;
     } catch (error) {
         if (error instanceof JWTExpired) {
-            console.log("Session token has expired");
+            console.log('Session token has expired');
             await destroySession();
         } else {
-            console.error("Error decrypting session:", error);
+            console.error('Error decrypting session:', error);
         }
         return defaultSession;
     }
@@ -107,35 +103,35 @@ export async function getSession(): Promise<SessionData> {
 async function refreshSession(sessionData: SessionData): Promise<SessionData> {
     return await createSession({
         userData: sessionData,
-        authToken: sessionData.authToken,
+        authToken: sessionData.authToken
     });
 }
 
 export async function destroySession() {
-    cookies().set(cookieName, "", {
+    cookies().set(cookieName, '', {
         expires: new Date(0),
         httpOnly: true,
-        sameSite: "none",
+        sameSite: 'none',
         secure: true,
-        path: "/",
+        path: '/'
     });
 
-    redirect("/");
+    redirect('/');
 }
 
 export const saveDeviceUUID = async () => {
     const uuid = uuidv4();
-    cookies().set("deviceUUID", uuid, {
-        sameSite: "none",
+    cookies().set('deviceUUID', uuid, {
+        sameSite: 'none',
         secure: true,
-        path: "/",
-        maxAge: 365 * 24 * 60 * 60, // 1 year
+        path: '/',
+        maxAge: 365 * 24 * 60 * 60 // 1 year
     });
     return uuid;
 };
 
 export const getDeviceUUID = async () => {
-    const UUID = cookies().get("deviceUUID");
+    const UUID = cookies().get('deviceUUID');
     if (UUID?.value) {
         return UUID.value;
     }
@@ -157,23 +153,23 @@ export async function updateSession(request: NextRequest) {
             value: await encrypt(parsed),
             httpOnly: true,
             expires: newExpires,
-            sameSite: "none",
+            sameSite: 'none',
             secure: true,
-            path: "/",
+            path: '/'
         });
         return res;
     } catch (error) {
-        console.error("Error updating session:", error);
+        console.error('Error updating session:', error);
         // If there's an error, clear the invalid session
         const res = NextResponse.next();
         res.cookies.set({
             name: cookieName,
-            value: "",
+            value: '',
             httpOnly: true,
             expires: new Date(0),
-            sameSite: "none",
+            sameSite: 'none',
             secure: true,
-            path: "/",
+            path: '/'
         });
         return res;
     }

@@ -7,13 +7,13 @@ import { Button } from '@/components/ui/button';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import Link from 'next/link';
 import CancelTripComponent from '../_components/CancelTripComponent';
+import EndTripComponent from '../_components/EndTripComponent';
 import StartTripComponent from '../_components/StartTripComponent';
 import SwapComponent from '../_components/SwapComponent';
 import TripDetailsComponent from '../_components/TripDetailsComponent';
 import TripModificationDialog from '../_components/TripModificationDialog';
 import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import MessagePage from '../message/page';
-import EndTripComponent from '../_components/EndTripComponent';
 
 export default function page({ params }: { params: { tripId: string } }) {
     if (!params.tripId) {

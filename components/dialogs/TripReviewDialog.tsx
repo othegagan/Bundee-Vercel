@@ -4,11 +4,11 @@ import Rating from '@/components/ui/rating';
 import useTripReviewDialog from '@/hooks/dialogHooks/useTripReviewDialog';
 import { addTripReview } from '@/server/tripOperations';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-import { toast } from 'sonner';
 
 export default function TripReviewDialog() {
     const [rating, setRating] = useState(0);

@@ -1,7 +1,7 @@
-import { decryptingData } from "@/lib/decrypt";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { verifyDrivingProfile } from "./useDrivingProfile";
+import { decryptingData } from '@/lib/decrypt';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { verifyDrivingProfile } from './useDrivingProfile';
 
 export function useUpdateDriverProfile() {
     const router = useRouter();

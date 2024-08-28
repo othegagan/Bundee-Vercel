@@ -6,7 +6,7 @@ import { http, handleResponse } from '@/lib/httpService';
 export async function getTrips(fromValue: string) {
     try {
         const session = await getSession();
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/getActiveTripById';
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/getActiveTripById`;
         const payload = {
             fromValue: fromValue || 'useridbookings',
             id: session.userId
@@ -21,7 +21,7 @@ export async function getTrips(fromValue: string) {
 
 export async function getTripDetailsbyId(tripid: number) {
     try {
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/getActiveTripById';
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/getActiveTripById`;
         const payload = {
             fromValue: 'tripid',
             id: tripid
@@ -35,7 +35,7 @@ export async function getTripDetailsbyId(tripid: number) {
 
 export async function updateRentalAgreement(tripid: number) {
     try {
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/updateRentalAgreement';
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/updateRentalAgreement`;
         const payload = {
             tripId: tripid,
             isRentalAgreed: true
@@ -49,7 +49,7 @@ export async function updateRentalAgreement(tripid: number) {
 
 export async function swapRequest(payload: any) {
     try {
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createSwapRequest';
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/createSwapRequest`;
         const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {
@@ -81,7 +81,7 @@ export async function endReservation(tripid: number) {
             captureAmount: 0,
             changedBy: 'DRIVER'
         };
-        console.log("payload", payload)
+        console.log('payload', payload);
         const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {
@@ -91,7 +91,7 @@ export async function endReservation(tripid: number) {
 
 export async function getTripChatHistory(tripid: number, firebaseToken: string) {
     try {
-        const url = process.env.CHAT_SERVICE_BASEURL + '/getAllChatHistory';
+        const url = `${process.env.CHAT_SERVICE_BASEURL}/getAllChatHistory`;
 
         const headersList = {
             Accept: '*/*',
@@ -171,7 +171,7 @@ export async function sendMessageToHost(tripid: number, messageBody: string, fir
 
 export async function deleteImageVideoUploaded(id: number) {
     try {
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/deleteMediaFile';
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/deleteMediaFile`;
         const payload = {
             id
         };
@@ -185,7 +185,7 @@ export async function deleteImageVideoUploaded(id: number) {
 export async function addTripReview(hostId: number, tripId: number, rating: number, comments: string, vehicleId: number) {
     try {
         const session = await getSession();
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/createTripReview';
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/createTripReview`;
         const payload = {
             hostID: hostId,
             tripid: tripId,

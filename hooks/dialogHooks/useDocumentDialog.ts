@@ -27,7 +27,7 @@ const useDocumentDialog = create<DocumentDialogStore>((set) => ({
     setTripId: (tripId: number) => set({ tripId: tripId }),
     setIsAgreementAcceptedOn: (value: string) => set({ isAgreementAcceptedOn: value }),
     setRentalAgreementPDFLink: (value: string) => set({ rentalAgreementPDFLink: value }),
-    setInvoicePDFLink: (value: string) => set({ invoicePDFLink: value }),
+    setInvoicePDFLink: (value: string) => set({ invoicePDFLink: value })
 }));
 
 export default useDocumentDialog;

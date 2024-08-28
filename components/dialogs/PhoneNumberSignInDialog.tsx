@@ -10,13 +10,13 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
+import { toast } from 'sonner';
 import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
 import PhoneNumber from '../ui/phone-number';
-import { toast } from 'sonner';
 
 export default function PhoneNumberSignInDialog() {
     const router = useRouter();

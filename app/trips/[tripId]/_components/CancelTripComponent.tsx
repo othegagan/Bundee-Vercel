@@ -2,10 +2,10 @@
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import { toast } from 'sonner';
 import { cancelReservation } from '@/server/tripOperations';
 import { X } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const CancelTripComponent = ({ tripId }: any) => {
     const [isModalOpen, setIsModalOpen] = useState(false);

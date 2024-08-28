@@ -5,7 +5,7 @@ import { http, handleResponse } from '@/lib/httpService';
 
 export async function getBundeeToken(firebaseToken: string) {
     try {
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/login';
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/login`;
         const payload = {
             authToken: firebaseToken
         };
@@ -20,7 +20,7 @@ export async function getBundeeToken(firebaseToken: string) {
 
 export async function getUserByEmail(email: string) {
     try {
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/getUserByEmail';
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/getUserByEmail`;
 
         const payload = {
             channelName: process.env.CHANNEL_NAME,
@@ -36,7 +36,7 @@ export async function getUserByEmail(email: string) {
 
 export async function getUserByPhoneNumber(phoneNumber: string) {
     try {
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/getUserByPhoneNumber';
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/getUserByPhoneNumber`;
 
         const payload = {
             channelName: process.env.CHANNEL_NAME,
@@ -53,7 +53,7 @@ export async function getUserByPhoneNumber(phoneNumber: string) {
 export async function getRecentlyViewedVehicles() {
     try {
         const session = await getSession();
-        const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/getCustomerActivityById';
+        const url = `${process.env.HOST_SERVICES_BASEURL}/v1/vehicle/getCustomerActivityById`;
 
         const payload = {
             fromvalue: 'userId',
@@ -70,7 +70,7 @@ export async function getRecentlyViewedVehicles() {
 export async function clearRecentlyViewedVehicles() {
     try {
         const session = await getSession();
-        const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/softUpdateCustomerActivity';
+        const url = `${process.env.HOST_SERVICES_BASEURL}/v1/vehicle/softUpdateCustomerActivity`;
 
         const payload = {
             userid: session.userId,
@@ -87,7 +87,7 @@ export async function clearRecentlyViewedVehicles() {
 export async function updateProfile(payload: any) {
     try {
         // old one '/v1/user/updateUser';
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/updateUserWithImage';
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/updateUserWithImage`;
 
         // console.log(payload);
         const response = await http.post(url, payload);
@@ -102,7 +102,7 @@ export async function updateProfile(payload: any) {
 export async function updateUserPhoneNumber(mobilePhone: string) {
     try {
         const session = await getSession();
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/updateUserPhoneNumber';
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/updateUserPhoneNumber`;
 
         const payload = {
             mobilePhone: mobilePhone,
@@ -119,7 +119,7 @@ export async function updateUserPhoneNumber(mobilePhone: string) {
 
 export async function updateInsuranceProfile(payload: any) {
     try {
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/createDriverProfile';
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/createDriverProfile`;
 
         const response = await http.post(url, payload);
         return handleResponse(response.data);
@@ -131,7 +131,7 @@ export async function updateInsuranceProfile(payload: any) {
 export async function deleteAccount() {
     try {
         const session = await getSession();
-        const url = process.env.USER_MANAGEMENT_BASEURL + '/v1/user/deleteUser';
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/deleteUser`;
         const payload = {
             email: session.email,
             iduser: Number(session.userId)
@@ -146,7 +146,7 @@ export async function deleteAccount() {
 export async function wishlistHandler(vehicleId: number, isfavourite: boolean) {
     try {
         const session = await getSession();
-        const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/updateCustomerWishList';
+        const url = `${process.env.HOST_SERVICES_BASEURL}/v1/vehicle/updateCustomerWishList`;
         const payload = {
             userid: session.userId,
             vehicleid: vehicleId,
@@ -162,7 +162,7 @@ export async function wishlistHandler(vehicleId: number, isfavourite: boolean) {
 
 export async function startTripByDriver(tripid: number) {
     try {
-        const url = process.env.BOOKING_SERVICES_BASEURL + '/v1/booking/updateReservationStart';
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/updateReservationStart`;
         const payload = {
             tripid: tripid,
             changedBy: 'USER',
@@ -178,7 +178,7 @@ export async function startTripByDriver(tripid: number) {
 export async function getAllUserWishlistedVehicles() {
     try {
         const session = await getSession();
-        const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/getWishListByUserId';
+        const url = `${process.env.HOST_SERVICES_BASEURL}/v1/vehicle/getWishListByUserId`;
         const payload = {
             userid: session.userId
         };

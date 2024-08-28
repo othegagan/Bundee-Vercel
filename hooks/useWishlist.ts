@@ -1,10 +1,7 @@
-import { toast } from "sonner";
-import {
-    getAllUserWishlistedVehicles,
-    wishlistHandler,
-} from "@/server/userOperations";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { getAllUserWishlistedVehicles, wishlistHandler } from '@/server/userOperations';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 const useWishlist = (vehicleId?: number) => {
     const [isItemWishlisted, setIsItemWishlisted] = useState(false);
@@ -15,15 +12,15 @@ const useWishlist = (vehicleId?: number) => {
             const response = await wishlistHandler(vehicleId, true);
             if (response.success) {
                 setIsItemWishlisted(true);
-                toast.success("Vehicle added to the wishlist");
+                toast.success('Vehicle added to the wishlist');
                 refetch();
                 // window.location.reload();
             } else {
-                toast.error("Something went wrong while adding to wishlist");
+                toast.error('Something went wrong while adding to wishlist');
                 setIsItemWishlisted(false);
             }
         } catch (error) {
-            console.error("Error adding to wishlist:", error);
+            console.error('Error adding to wishlist:', error);
         }
     };
 
@@ -33,17 +30,15 @@ const useWishlist = (vehicleId?: number) => {
         try {
             const response = await wishlistHandler(vehicleId, false);
             if (response.success) {
-                toast.success("Vehicle removed form the wishlist");
+                toast.success('Vehicle removed form the wishlist');
                 refetch();
                 // window.location.reload();
             } else {
-                toast.error(
-                    "Something went wrong while removing from wishlist"
-                );
+                toast.error('Something went wrong while removing from wishlist');
                 setIsItemWishlisted(false);
             }
         } catch (error) {
-            console.error("Error removing from wishlist:", error);
+            console.error('Error removing from wishlist:', error);
         }
     };
 
@@ -52,16 +47,13 @@ const useWishlist = (vehicleId?: number) => {
             const response = await getAllUserWishlistedVehicles();
 
             if (response.success && response.data.customervehicleresponse) {
-                const VehicleIsInWishlist =
-                    response.data.customervehicleresponse.find(
-                        (vehicle: { id: number }) => vehicle.id === vehicleId
-                    );
+                const VehicleIsInWishlist = response.data.customervehicleresponse.find((vehicle: { id: number }) => vehicle.id === vehicleId);
                 setIsItemWishlisted(VehicleIsInWishlist);
             } else {
                 throw new Error(response.message);
             }
         } catch (error) {
-            console.error("Error fetching data", error);
+            console.error('Error fetching data', error);
         }
     };
 
@@ -73,12 +65,12 @@ const useWishlist = (vehicleId?: number) => {
         data: wishlistResponse,
         isLoading: loading,
         error,
-        refetch,
+        refetch
     } = useQuery({
-        queryKey: ["wishlist"],
+        queryKey: ['wishlist'],
         queryFn: async () => getAllUserWishlistedVehicles(),
         refetchOnWindowFocus: true,
-        staleTime: 1000,
+        staleTime: 1000
     });
 
     return {
@@ -87,7 +79,7 @@ const useWishlist = (vehicleId?: number) => {
         removeFromWishlistHandler,
         loading,
         error,
-        wishlistResponse,
+        wishlistResponse
     };
 };
 

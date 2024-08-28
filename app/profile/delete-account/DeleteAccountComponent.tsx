@@ -1,10 +1,10 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import { toast } from 'sonner';
 import { destroySession } from '@/lib/auth';
 import { deleteAccount } from '@/server/userOperations';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const DeleteAccountComponent = () => {
     const [open, setOpen] = useState(false);

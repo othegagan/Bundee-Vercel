@@ -96,7 +96,7 @@ export default function LoginDialog() {
                     if (response.success) {
                         const payload: any = {
                             userData: response.data.userResponse,
-                            authToken: authTokenResponse.authToken,
+                            authToken: authTokenResponse.authToken
                         };
                         await createSession(payload);
                         closeModal();
@@ -109,7 +109,7 @@ export default function LoginDialog() {
                         firstname: result.user.displayName,
                         lastname: '',
                         email: result.user.email,
-                        mobilephone: result.user.phoneNumber,
+                        mobilephone: result.user.phoneNumber
                     };
 
                     const createUserResponse = await createNewUser(dataToCreateUser);

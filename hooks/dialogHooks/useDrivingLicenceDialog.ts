@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface DrivingLicenceDialogStore {
     isOpen: boolean;
@@ -15,7 +15,7 @@ const useDrivingLicenceDialog = create<DrivingLicenceDialogStore>((set) => ({
         set({ isOpen: true });
     },
     onClose: () => set({ isOpen: false }),
-    onUpdate: (value: boolean) => set({ isUpdate: value }),
+    onUpdate: (value: boolean) => set({ isUpdate: value })
 }));
 
 export default useDrivingLicenceDialog;

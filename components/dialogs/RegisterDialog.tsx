@@ -34,12 +34,12 @@ const RegisterSchema = z
             .regex(passwordRegex, { message: 'Password must contain at least one number and one special character' }),
         confirmPassword: z.string({ message: 'Confirm Password is required' }),
         acceptTerms: z.boolean().refine((val) => val === true, {
-            message: 'You must accept the terms and privacy statements',
-        }),
+            message: 'You must accept the terms and privacy statements'
+        })
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: 'Passwords must match',
-        path: ['confirmPassword'],
+        path: ['confirmPassword']
     });
 
 type FormFields = z.infer<typeof RegisterSchema>;
@@ -65,10 +65,10 @@ export default function RegisterDialog() {
         handleSubmit,
         setError,
         reset,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting }
     } = useForm<FormFields>({
         resolver: zodResolver(RegisterSchema),
-        mode: 'onChange',
+        mode: 'onChange'
     });
 
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
@@ -94,7 +94,7 @@ export default function RegisterDialog() {
                 firstname: firstName,
                 lastname: lastName,
                 email,
-                mobilephone: `+${phoneNumber}`,
+                mobilephone: `+${phoneNumber}`
             };
 
             // Create user in your database
@@ -133,7 +133,7 @@ export default function RegisterDialog() {
                 if (userResponse.success) {
                     const payload = {
                         userData: userResponse.data.userResponse,
-                        authToken: authTokenResponse.authToken,
+                        authToken: authTokenResponse.authToken
                     };
                     closeModal();
                     await createSession(payload);
@@ -146,7 +146,7 @@ export default function RegisterDialog() {
                     firstname: user.displayName,
                     lastname: '',
                     email: user.email,
-                    mobilephone: user.phoneNumber,
+                    mobilephone: user.phoneNumber
                 };
 
                 const createUserResponse = await createNewUser(newUserPayload);
@@ -198,14 +198,14 @@ export default function RegisterDialog() {
                                     <Label htmlFor='firstName'>
                                         First Name <span>*</span>
                                     </Label>
-                                    <Input  type='text' id='firstName' {...register('firstName')} />
+                                    <Input type='text' id='firstName' {...register('firstName')} />
                                     <FormError message={errors.firstName?.message} />
                                 </div>
                                 <div className='space-y-2'>
                                     <Label htmlFor='lastName'>
                                         Last Name <span>*</span>
                                     </Label>
-                                    <Input  type='text' id='lastName' {...register('lastName')} />
+                                    <Input type='text' id='lastName' {...register('lastName')} />
                                     <FormError message={errors.lastName?.message} />
                                 </div>
                             </div>
@@ -214,7 +214,7 @@ export default function RegisterDialog() {
                                 <Label htmlFor='email'>
                                     Email <span>*</span>
                                 </Label>
-                                <Input  type='email' id='email' {...register('email')} />
+                                <Input type='email' id='email' {...register('email')} />
                                 <FormError message={errors.email?.message} />
                             </div>
 

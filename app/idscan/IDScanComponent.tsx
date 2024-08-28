@@ -202,8 +202,8 @@ export default function IDScanComponent({ searchParams }) {
                     <>
                         <h3 className='text-2xl font-bold mb-4'>License Verification</h3>
                         <p className='text-center max-w-2xl mb-6'>
-                            Please have your license ready and enable camera permissions. <br className='hidden lg:block' /> Click the start
-                            button to begin the verification process.
+                            Please have your license ready and enable camera permissions. <br className='hidden lg:block' /> Click the start button to begin the
+                            verification process.
                         </p>
                     </>
                 )}
@@ -222,10 +222,7 @@ export default function IDScanComponent({ searchParams }) {
                 {(processError || errorUpdatingDB) && (
                     <div className='text-red-500 mt-4 text-center'>
                         <p>{processError || errorUpdatingDB}</p>
-                        <button
-                            type='button'
-                            onClick={resetProcess}
-                            className='mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'>
+                        <button type='button' onClick={resetProcess} className='mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'>
                             Retry
                         </button>
                     </div>

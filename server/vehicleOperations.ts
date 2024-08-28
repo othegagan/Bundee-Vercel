@@ -12,7 +12,7 @@ export async function searchVehiclesAvailability(searchQuery: any) {
         return {
             data: response.data,
             success: true,
-            message: ' Search done',
+            message: ' Search done'
         };
         // return handleResponse(response.data);
     } catch (error: any) {
@@ -29,7 +29,7 @@ export async function searchVehiclesByLatitudeAndLongitude(searchQuery: any) {
         return {
             data: response.data,
             success: true,
-            message: ' Search done',
+            message: ' Search done'
         };
         // return handleResponse(response.data);
     } catch (error: any) {
@@ -43,7 +43,7 @@ export async function getVehicleAllDetailsByVechicleId(vechicleId: number) {
         const url = `${process.env.AVAILABILITY_BASEURL}/v1/availability/getVehiclesnFeaturesById`;
         const payload = {
             vehicleid: vechicleId,
-            userId: session.userId || '',
+            userId: session.userId || ''
         };
 
         const response = await http.post(url, payload);
@@ -64,7 +64,7 @@ export async function addToRecentlyViewedHistory(vehicleid: number) {
             startdate: '2024-01-01',
             enddate: '2024-01-01',
             lattitude: '30.271129',
-            longitude: '-97.7437',
+            longitude: '-97.7437'
         };
         // console.log(payload)
         const response = await http.post(url, payload);
@@ -80,7 +80,7 @@ export async function getAvailabilityDatesByVehicleId(vehicleid: number, tripid:
         const payload = tripid
             ? {
                   reservationId: tripid,
-                  vehicleid: vehicleid,
+                  vehicleid: vehicleid
               }
             : { vehicleid: vehicleid };
 

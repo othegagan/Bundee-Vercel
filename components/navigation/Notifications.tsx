@@ -8,7 +8,6 @@ import { BellIcon } from '@heroicons/react/24/outline';
 import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import PushNotifications from '../landing_page/PushNotifications';
 import { Button } from '../ui/button';
 
 export default function NotificationsComponent() {
