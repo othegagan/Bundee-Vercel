@@ -47,7 +47,7 @@ export const http = {
 export const handleResponse = (response: any) => {
     const codes = response.codes || [];
     const successCode = codes.find((code: any) => code.key === 'SUCCESS');
-    if (successCode.key === 'SUCCESS' && response.errorCode === 0) {
+    if (successCode.key === 'SUCCESS' && response.errorCode === '0') {
         return { success: true, data: response, message: response.errorMessage };
     }
     if (response.errorCode === '1') {
