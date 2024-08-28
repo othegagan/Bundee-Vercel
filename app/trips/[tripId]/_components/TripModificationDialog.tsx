@@ -228,7 +228,8 @@ export default function TripModificationDialog({ tripData }) {
                 endTime: convertToCarTimeZoneISO(`${newEndDate}T${newEndTime}`, tripData.vehzipcode),
                 airportDelivery: tripData.airportDelivery,
                 customDelivery: tripData.delivery,
-                hostid: tripData.hostid
+                hostid: tripData.hostid,
+                tripid: tripData.tripid
             };
 
             // console.log(payload);

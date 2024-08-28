@@ -47,7 +47,8 @@ const usePriceCalculation = ({
                     endTime: new Date(`${endDate}T${endTime}`).toISOString(),
                     airportDelivery: isAirportDelivery,
                     customDelivery: isCustomDelivery,
-                    hostid: hostId
+                    hostid: hostId,
+                    tripid: 0
                 };
 
                 const responseData: any = await calculatePrice(payload);
