@@ -1,8 +1,8 @@
 'use client';
 
 import { getSession } from '@/lib/auth';
-import { updateDrivingProfile } from '@/server/drivingLicenceOperations';
 import { getUserByEmail } from '@/server/userOperations';
+import { PrasedData, VerifiedDrivingProfileResult } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -11,8 +11,8 @@ export async function profileVerifiedStatus() {
     const userResponse = await getUserByEmail(session.email);
 
     if (userResponse.success) {
-        const isPersonaVerified = !!userResponse.data?.driverProfiles[0]?.idScanRequestID;
-        return isPersonaVerified;
+        const isDrivingLicenceVerified = !!userResponse.data?.driverProfiles[0]?.isVerified;
+        return isDrivingLicenceVerified;
     }
 }
 
@@ -64,38 +64,6 @@ export const useVerifiedDrivingProfile = () => {
         staleTime: 30 * 1000
     });
 };
-
-export async function verifyDrivingProfile(payload: any, userID?: number) {
-    try {
-        const verifyUrl = 'https://dvs2.idware.net/api/v4/verify';
-
-        const response = await axios.post(verifyUrl, payload, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${process.env.NEXT_PUBLIC_IDSCAN_BEARER_TOKEN}`
-            }
-        });
-
-        if (response.status === 200) {
-            const responseData = response.data;
-
-            // console.log('responseData', responseData);
-
-            if (responseData.requestId) {
-                const updateIDResponse = await updateDrivingProfile(responseData.requestId, userID);
-                return updateIDResponse;
-            }
-        } else {
-            throw new Error(JSON.stringify(response.data));
-        }
-    } catch (error: any) {
-        if (error.response) {
-            throw new Error(JSON.stringify(error.response.data));
-        }
-        console.log('Error verifying driving profile:', error);
-        throw new Error(error.message);
-    }
-}
 
 export async function getVerifiedDetailsFromIDScan(requestId: string): Promise<PrasedData> {
     try {
@@ -160,38 +128,4 @@ export async function getVerifiedDetailsFromIDScan(requestId: string): Promise<P
     } catch (error) {
         console.error(error);
     }
-}
-
-interface PrasedData {
-    images: {
-        selfie: string;
-        front: string;
-        back: string;
-    };
-    scores: {
-        documentConfidence: number;
-        antiSpoofing: number;
-        faceMatch: number;
-        addressConfidence: number;
-        dmvValidation: string;
-        dmvReason: string;
-        addressValidation: string;
-        addressReason: string;
-        identiFraudValidation: string;
-        identiFraudReason: string;
-    };
-    personalInfo: {
-        fullName: string;
-        dob: string;
-        expires: string;
-        fullAddress: string;
-        class: string;
-        gender: string;
-        drivingLicenceNumber: string;
-    };
-}
-
-interface VerifiedDrivingProfileResult {
-    isDrivingProfileVerified: boolean;
-    verifiedDetails: any | null;
 }

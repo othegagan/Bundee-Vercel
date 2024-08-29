@@ -188,3 +188,13 @@ export async function getAllUserWishlistedVehicles() {
         throw new Error(error.message);
     }
 }
+
+export async function updateDrivingLicence(payload: any) {
+    try {
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/createDriverProfile`;
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}

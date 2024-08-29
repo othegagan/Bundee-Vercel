@@ -33,7 +33,7 @@ export default function RentalAgreementCheckBox() {
                 <input type='checkbox' id='terms1' className='accent-black' checked={checked} onChange={(e) => setChecked(e.target.checked)} />
                 <div className='grid gap-1.5 leading-none tracking-normal'>
                     <label htmlFor='terms1' className='text-sm font-medium leading-none tracking-normal'>
-                        I have read and agree to MyBundee's Rental Agreement.
+                        I have read and agree to <span className='hidden md:block'>MyBundee's Rental</span> agreement.
                     </label>
                 </div>
             </div>
@@ -49,10 +49,11 @@ export default function RentalAgreementCheckBox() {
                 <Button
                     type='button'
                     disabled={loading || !checked}
+                    loading={loading}
                     onClick={() => {
                         agreeToRentalAgreement();
                     }}>
-                    {loading ? <div className='loader' /> : 'Agree'}
+                    Agree
                 </Button>
             </div>
         </div>

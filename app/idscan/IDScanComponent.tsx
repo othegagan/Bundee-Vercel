@@ -1,12 +1,13 @@
 'use client';
 
 import ClientOnly from '@/components/ClientOnly';
-import { verifyDrivingProfile } from '@/hooks/useDrivingProfile';
+import { useIdVerification } from '@/hooks/useIdVerification';
 import { getSession } from '@/lib/auth';
 import { decryptingData } from '@/lib/decrypt';
 import { extractBase64Image } from '@/lib/utils';
+import { updateDrivingLicence } from '@/server/userOperations';
 import IDVC from '@idscan/idvc2';
-import { CircleCheck } from 'lucide-react';
+import { CircleCheck, CircleX } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -14,112 +15,89 @@ import { useEffect, useRef, useState } from 'react';
 function useUpdateDriverProfile() {
     const router = useRouter();
     const [isUpdatingDB, setIsUpdatingDB] = useState(false);
-    const [errorUpdatingDB, setErrorUpdatingDB] = useState('');
+    const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
+    const { verifyDrivingLicence, isVerifying, error: verificationError } = useIdVerification();
+    const [isApproved, setIsApproved] = useState(false);
 
     const updateURL = (status: 'true' | 'false') => {
         const params = new URLSearchParams(window.location.search);
         params.set('drivinglicenseverified', status);
-
         const url = `${window.location.pathname}?${params.toString()}`;
         router.push(url);
     };
 
-    const updateDriverProfile = async (payload: any, decrpytedUserId?: string) => {
+    const updateDriverProfile = async (idScanPayload: any, decryptedUserId?: string) => {
         setIsUpdatingDB(true);
-        setErrorUpdatingDB('');
+        setError(null);
         setSuccess(false);
 
         try {
             const session = await getSession();
-            const userId = Number(decrpytedUserId) || session?.userId;
+            const userId = Number(decryptedUserId) || session.userId;
 
-            const response = await verifyDrivingProfile(payload, userId);
+            const { isApproved, requestId } = await verifyDrivingLicence(idScanPayload, userId);
 
-            if (response.success) {
+            const updatePayload = {
+                userId: userId,
+                idScanRequestID: requestId,
+                isVerified: isApproved
+            };
+
+            const updateIDResponse = await updateDrivingLicence(updatePayload);
+            if (updateIDResponse.success) {
                 setSuccess(true);
                 updateURL('true');
             } else {
-                throw new Error(response.message || 'Failed to update driving profile');
+                throw new Error(updateIDResponse.message || 'Failed to update driving profile');
             }
+            setIsApproved(isApproved);
+
+            isApproved ? updateURL('true') : updateURL('false');
         } catch (error) {
-            setErrorUpdatingDB(error instanceof Error ? error.message : 'An error occurred while updating your driving profile');
+            setError(error instanceof Error ? error.message : 'An error occurred while updating your driving profile');
             updateURL('false');
         } finally {
             setIsUpdatingDB(false);
         }
     };
 
-    return { isUpdatingDB, errorUpdatingDB, success, updateDriverProfile };
+    return { isUpdatingDB, error: error || verificationError, success, updateDriverProfile, isVerifying, isApproved };
 }
 
-export function processIDScanData(data: any) {
-    const frontStep = data.steps.find((item: any) => item.type === 'front');
-    const pdfStep = data.steps.find((item: any) => item.type === 'pdf');
-    const faceStep = data.steps.find((item: any) => item.type === 'face');
-
-    if (!frontStep || !pdfStep || !faceStep) {
-        throw new Error('One or more required steps (front, pdf, face) are missing.');
-    }
-
-    const frontImageBase64 = extractBase64Image(frontStep.img);
-    const backImageBase64 = extractBase64Image(pdfStep.img);
-    const faceImageBase64 = extractBase64Image(faceStep.img);
-
-    const [trackStringData, barcodeParams] = (pdfStep.trackString || '').split('.');
-    const captureMethod = `${+frontStep.isAuto}${+pdfStep.isAuto}${+faceStep.isAuto}`;
-
-    return {
-        frontImageBase64,
-        backOrSecondImageBase64: backImageBase64,
-        faceImageBase64,
-        documentType: 1,
-        trackString: { data: trackStringData || '', barcodeParams: barcodeParams || '' },
-        overriddenSettings: { isOCREnabled: true, isBackOrSecondImageProcessingEnabled: true, isFaceMatchEnabled: true },
-        metadata: { captureMethod }
-    };
-}
-
-export default function IDScanComponent({ searchParams }) {
+export default function IDScanComponent({ searchParams }: { searchParams: { callbackUrl?: string; token?: string } }) {
     const callback = searchParams?.callbackUrl || '';
     const [isProcessStarted, setIsProcessStarted] = useState(false);
     const [processError, setProcessError] = useState('');
     const [idvcInstance, setIdvcInstance] = useState<any>(null);
     const cssLinkRef = useRef<HTMLLinkElement | null>(null);
-    const { updateDriverProfile, isUpdatingDB, errorUpdatingDB, success } = useUpdateDriverProfile();
+    const { updateDriverProfile, isUpdatingDB, error, success, isVerifying, isApproved } = useUpdateDriverProfile();
 
     useEffect(() => {
-        // Function to load the CSS file
         const loadCssFile = () => {
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = 'https://cdn.jsdelivr.net/npm/@idscan/idvc2/dist/css/idvc.css'; // Use the full path to the CSS file
+            link.href = 'https://cdn.jsdelivr.net/npm/@idscan/idvc2/dist/css/idvc.css';
             link.id = 'idvcCss';
             document.head.appendChild(link);
             cssLinkRef.current = link;
         };
 
-        // Function to handle chunk errors
         const handleChunkError = (e: ErrorEvent) => {
             if (e.message.includes('Loading chunk')) {
                 setProcessError('An error occurred while loading the application. Please reload the page.');
             }
         };
 
-        // Load the CSS file
         loadCssFile();
-
-        // Add event listener for chunk errors
         window.addEventListener('error', handleChunkError);
 
-        // Cleanup function
         return () => {
             window.removeEventListener('error', handleChunkError);
             removeCssFile();
         };
     }, []);
 
-    // Function to remove the CSS file
     const removeCssFile = () => {
         if (cssLinkRef.current) {
             document.head.removeChild(cssLinkRef.current);
@@ -169,9 +147,33 @@ export default function IDScanComponent({ searchParams }) {
             submit: async (data: any) => {
                 idvcInstance.showSpinner(true);
                 try {
-                    const payload = processIDScanData(data);
-                    const decrpytedUserId = decryptingData(searchParams.token.toString().trim());
-                    await updateDriverProfile(payload, decrpytedUserId);
+                    const frontStep = data.steps.find((item: any) => item.type === 'front');
+                    const pdfStep = data.steps.find((item: any) => item.type === 'pdf');
+                    const faceStep = data.steps.find((item: any) => item.type === 'face');
+
+                    if (!frontStep || !pdfStep || !faceStep) {
+                        throw new Error('One or more required steps (front, pdf, face) are missing.');
+                    }
+
+                    const frontImageBase64 = extractBase64Image(frontStep.img);
+                    const backImageBase64 = extractBase64Image(pdfStep.img);
+                    const faceImageBase64 = extractBase64Image(faceStep.img);
+
+                    const [trackStringData, barcodeParams] = (pdfStep.trackString || '').split('.');
+                    const captureMethod = `${+frontStep.isAuto}${+pdfStep.isAuto}${+faceStep.isAuto}`;
+
+                    const payload = {
+                        frontImageBase64,
+                        backOrSecondImageBase64: backImageBase64,
+                        faceImageBase64,
+                        documentType: 1,
+                        trackString: { data: trackStringData || '', barcodeParams: barcodeParams || '' },
+                        overriddenSettings: { isOCREnabled: true, isBackOrSecondImageProcessingEnabled: true, isFaceMatchEnabled: true },
+                        metadata: { captureMethod }
+                    };
+
+                    const decryptedUserId = searchParams.token ? decryptingData(searchParams.token.toString().trim()) : undefined;
+                    await updateDriverProfile(payload, decryptedUserId);
                 } catch (error) {
                     setProcessError(error instanceof Error ? error.message : 'An error occurred during processing');
                 } finally {
@@ -197,8 +199,8 @@ export default function IDScanComponent({ searchParams }) {
 
     return (
         <ClientOnly>
-            <div className={`flex flex-col items-center  p-5 h-[100dvh] overflow-x-hidden ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
-                {!isProcessStarted && !isUpdatingDB && !success && (
+            <div className={`flex flex-col items-center p-5 h-[100dvh] overflow-x-hidden ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
+                {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && (
                     <>
                         <h3 className='text-2xl font-bold mb-4'>License Verification</h3>
                         <p className='text-center max-w-2xl mb-6'>
@@ -210,31 +212,35 @@ export default function IDScanComponent({ searchParams }) {
                 {!success && (
                     <div
                         id='videoCapturingEl'
-                        className={`w-full max-w-[500px] my-5 bg-white rounded-md relative ${isProcessStarted && !isUpdatingDB && !success ? 'h-full' : 'h-0'}`}
+                        className={`w-full max-w-[500px] my-5 bg-white rounded-md relative ${isProcessStarted && !isUpdatingDB && !isVerifying && !success ? 'h-full' : 'h-0'}`}
                     />
                 )}
-                {!isProcessStarted && !isUpdatingDB && !success && (
+                {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && (
                     <button type='button' onClick={startIDVCProcess} className='idScan-btn' style={{ maxWidth: '400px' }}>
                         Start License Verification
                     </button>
                 )}
 
-                {(processError || errorUpdatingDB) && (
-                    <div className='text-red-500 mt-4 text-center'>
-                        <p>{processError || errorUpdatingDB}</p>
-                        <button type='button' onClick={resetProcess} className='mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'>
-                            Retry
-                        </button>
+                {(processError || error) && (
+                    <div className='mt-4 text-center flex flex-col items-center justify-center gap-6 my-10 max-w-2xl'>
+                        <CircleX className='text-red-500 size-10' />
+                        <p>{processError || error}</p>
+
+                        {callback && (
+                            <Link href={callback} className='mt-4 p-2 bg-black text-white rounded-md hover:bg-black/80'>
+                                OK, Go Back
+                            </Link>
+                        )}
                     </div>
                 )}
 
-                {success && (
-                    <div className=' mt-4 text-center flex flex-col items-center justify-center gap-6 my-10 max-w-2xl'>
+                {success && isApproved && (
+                    <div className='mt-4 text-center flex flex-col items-center justify-center gap-6 my-10 max-w-2xl'>
                         <CircleCheck className='text-green-500 size-10' />
                         <p>Your driving licence has been successfully added to your profile.</p>
 
                         {callback && (
-                            <Link href={callback} className='mt-4  p-2 bg-black text-white rounded-md hover:bg-black/80'>
+                            <Link href={callback} className='mt-4 p-2 bg-black text-white rounded-md hover:bg-black/80'>
                                 OK, Go Back
                             </Link>
                         )}

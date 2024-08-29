@@ -34,3 +34,37 @@ export interface IDScanErrorResponse {
     multipleErrors?: IDScanErrorResponse[];
     traceId?: string;
 }
+
+export interface PrasedData {
+    images: {
+        selfie: string;
+        front: string;
+        back: string;
+    };
+    scores: {
+        documentConfidence: number;
+        antiSpoofing: number;
+        faceMatch: number;
+        addressConfidence: number;
+        dmvValidation: string;
+        dmvReason: string;
+        addressValidation: string;
+        addressReason: string;
+        identiFraudValidation: string;
+        identiFraudReason: string;
+    };
+    personalInfo: {
+        fullName: string;
+        dob: string;
+        expires: string;
+        fullAddress: string;
+        class: string;
+        gender: string;
+        drivingLicenceNumber: string;
+    };
+}
+
+export interface VerifiedDrivingProfileResult {
+    isDrivingProfileVerified: boolean;
+    verifiedDetails: any | null;
+}
