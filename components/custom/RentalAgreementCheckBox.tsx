@@ -30,12 +30,10 @@ export default function RentalAgreementCheckBox() {
     return (
         <div className='mt-5 flex w-full  flex-col flex-wrap  gap-3'>
             <div className='items-top flex space-x-2 md:ml-20'>
-                <input type='checkbox' id='terms1' className='accent-black' checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-                <div className='grid gap-1.5 leading-none tracking-normal'>
-                    <label htmlFor='terms1' className='text-sm font-medium leading-none tracking-normal'>
-                        I have read and agree to <span className='hidden md:block'>MyBundee's Rental</span> agreement.
-                    </label>
-                </div>
+                <input type='checkbox' id='terms1' className='accent-black size-5' checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+                <label htmlFor='terms1' className='text-sm font-medium leading-none tracking-normal flex  items-center gap-1'>
+                    I have read and agree to <span className='hidden md:block text-black'>MyBundee's Rental</span> agreement.
+                </label>
             </div>
             <div className=' flex flex-wrap items-center justify-end gap-3'>
                 <Button
