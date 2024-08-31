@@ -74,6 +74,9 @@ export function formatDateAndTime(date: string, zipCode: string, format = 'ddd, 
     const endTimeUTC = moment.utc(date);
     const timeZone = getTimeZoneByZipcode(zipCode);
     const timeInTimeZone = endTimeUTC.tz(timeZone);
+    if (format === 'default') {
+        return timeInTimeZone.format('YYYY-MM-DD');
+    }
 
     return timeInTimeZone.format(format || 'ddd, MMM DD YYYY | h:mm A z');
 }

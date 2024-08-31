@@ -166,8 +166,8 @@ export default function TripModificationDialog({ tripData }) {
 
     // Initialization
     useEffect(() => {
-        setNewStartDate(format(convertToCarDate(tripData.starttime, tripData?.vehzipcode), 'yyyy-MM-dd'));
-        setNewEndDate(format(convertToCarDate(tripData.endtime, tripData?.vehzipcode), 'yyyy-MM-dd'));
+        setNewStartDate(formatDateAndTime(tripData.starttime, tripData?.vehzipcode, 'default'));
+        setNewEndDate(formatDateAndTime(tripData.endtime, tripData?.vehzipcode, 'default'));
         setNewStartTime(formatTime(tripData.starttime, tripData?.vehzipcode));
         setNewEndTime(formatTime(tripData.endtime, tripData?.vehzipcode));
     }, []);
@@ -261,6 +261,10 @@ export default function TripModificationDialog({ tripData }) {
         setPriceLoading(false);
         setDateSelectionError('');
         setIsInitialLoad(true);
+        setNewStartDate(formatDateAndTime(tripData.starttime, tripData?.vehzipcode, 'default'));
+        setNewEndDate(formatDateAndTime(tripData.endtime, tripData?.vehzipcode, 'default'));
+        setNewStartTime(formatTime(tripData.starttime, tripData?.vehzipcode));
+        setNewEndTime(formatTime(tripData.endtime, tripData?.vehzipcode));
     }
 
     function handleSubmit() {
@@ -331,7 +335,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 <TripModificationStartDateCalendar
                                                     unavailableDates={unavailableDates}
                                                     isTripStarted={tripData.status.toLowerCase() === 'started'}
-                                                    date={convertToCarDate(tripData.starttime, tripData?.vehzipcode)}
+                                                    date={newStartDate}
                                                     setDate={setNewStartDate}
                                                     setIsInitialLoad={setIsInitialLoad}
                                                     isDisabled={tripData.status.toLowerCase() === 'started'}
@@ -354,7 +358,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 <label className='text-14 font-semibold'>New End Date</label>
                                                 <TripModificationEndDateCalendar
                                                     unavailableDates={unavailableDates}
-                                                    date={convertToCarDate(tripData.endtime, tripData?.vehzipcode)}
+                                                    date={newEndDate}
                                                     setDate={setNewEndDate}
                                                     isTripStarted={tripData.status.toLowerCase() === 'started'}
                                                     setIsInitialLoad={setIsInitialLoad}
