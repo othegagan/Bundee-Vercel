@@ -94,7 +94,7 @@ export default function TripDetailsComponent({
             <TripPaymentComponent pricelist={trip?.tripPaymentTokens[0]} trip={trip} />
 
             {/* Readiness Checklist Section */}
-            <TripReadinessChecklistComponent trip={trip} />
+            {trip.status.toLowerCase() !== 'completed' && <TripReadinessChecklistComponent trip={trip} />}
 
             {/* Trip Media */}
             <div className='flex flex-col gap-2'>

@@ -4,7 +4,7 @@ import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog
 import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { RxQuestionMarkCircled } from 'react-icons/rx';
-import DocumentHandlerComponent from './DocumentHandlerComponent';
+import { RentalAgreementHandler } from './DocumentHandlerComponent';
 
 export default function TripReadinessChecklistComponent({ trip }: any) {
     const phoneNumberDialog = usePhoneNumberVerificationDialog();
@@ -77,7 +77,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                     Rental Agreement
                 </div>
                 {!trip.isRentalAgreed && ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(trip.status.toLowerCase()) === -1 && (
-                    <DocumentHandlerComponent
+                    <RentalAgreementHandler
                         isRentalAgreed={trip.isRentalAgreed}
                         tripId={trip.tripid}
                         rentalAgrrementUrl={trip.rentalAgrrementUrl}
@@ -85,7 +85,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                     />
                 )}
                 {trip.isRentalAgreed && (
-                    <DocumentHandlerComponent
+                    <RentalAgreementHandler
                         isRentalAgreed={trip.isRentalAgreed}
                         tripId={trip.tripid}
                         rentalAgrrementUrl={trip.rentalAgrrementUrl}

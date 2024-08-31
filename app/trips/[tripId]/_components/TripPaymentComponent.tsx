@@ -3,14 +3,14 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { roundToTwoDecimalPlaces } from '@/lib/utils';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import DocumentHandlerComponent from './DocumentHandlerComponent';
+import { InvoiceHandlerComponent } from './DocumentHandlerComponent';
 
 export default function TripPaymentComponent({ pricelist, trip }: { pricelist: any; trip: any }) {
     return (
         <div className='flex flex-col gap-2'>
             <div className='flex items-center justify-between'>
                 <div className='text-md font-bold '>Payment</div>
-                {trip.invoiceUrl && <DocumentHandlerComponent isRentalAgreed={trip.isRentalAgreed} tripId={trip.tripid} invoiceUrl={trip.invoiceUrl} />}
+                {trip.invoiceUrl && <InvoiceHandlerComponent invoiceUrl={trip.invoiceUrl} />}
             </div>
 
             <div className='w-full space-y-1 mt-2'>
