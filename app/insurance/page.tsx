@@ -11,7 +11,7 @@ const M1LinkWidget = () => {
         script.src = 'https://api-stg.measureone.com/v3/js/m1-link-2021042000.js';
         script.async = true;
         document.body.appendChild(script);
-  
+
         script.onload = () => {
             if (widgetRef.current) {
                 const config = {
@@ -50,6 +50,7 @@ const M1LinkWidget = () => {
 
     return (
         <div>
+            {/* @ts-ignore */}
             <m1-link ref={widgetRef} />
         </div>
     );
