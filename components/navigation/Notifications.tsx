@@ -129,7 +129,7 @@ function NotificationItem({ data }) {
                         {formatDistanceToNow(new Date(data.createdDate), { includeSeconds: false })} ago
                     </span>
                 </p>
-                <p className='mt-2 text-xs font-normal text-muted-foreground'>{data?.message}</p>
+                <p className='mt-2 text-xs font-normal text-muted-foreground line-clamp-3'>{data?.message}</p>
             </div>
         </Link>
     );
