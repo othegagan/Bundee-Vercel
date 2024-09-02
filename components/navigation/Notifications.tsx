@@ -129,10 +129,7 @@ function NotificationItem({ data }) {
                         {formatDistanceToNow(new Date(data.createdDate), { includeSeconds: false })} ago
                     </span>
                 </p>
-                <p className='mt-2 text-xs font-normal text-muted-foreground'>
-                    {!data?.isRentalStatus && `${data?.message}. `}
-                    {data?.rentalAgreementStatus && ['RECAN', 'RECANREQ', 'REREJ'].indexOf(data?.statusCode) === -1 ? ` ${data?.rentalAgreementStatus}` : ''}
-                </p>
+                <p className='mt-2 text-xs font-normal text-muted-foreground'>{data?.message}</p>
             </div>
         </Link>
     );

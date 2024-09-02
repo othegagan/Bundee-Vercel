@@ -6,7 +6,7 @@ import { http, handleResponse } from '@/lib/httpService';
 export async function getAllNotifications() {
     try {
         const session = await getSession();
-        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/getNotification`;
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/inAppNotificationsForDriver`;
         const payload = {
             id: session.userId,
             fromValue: 'allusernotification'
