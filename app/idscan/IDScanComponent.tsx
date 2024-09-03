@@ -118,18 +118,21 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
         const idvcInstance = new IDVC({
             el: 'videoCapturingEl',
             licenseKey: process.env.NEXT_PUBLIC_IDSCAN_LICENSE_KEY,
-            networkUrl: 'networks/',
-            chunkPublicPath: '/networks/',
+            // networkUrl: 'networks/',
+            // chunkPublicPath: '/networks/',
             resizeUploadedImage: 1200,
             fixFrontOrientAfterUpload: false,
             autoContinue: false,
             isShowDocumentTypeSelect: false,
-            useCDN: false,
+            useCDN: true,
             isShowGuidelinesButton: false,
             showSubmitBtn: true,
             language: 'en',
             realFaceMode: 'auto',
             processingImageFormat: 'jpeg',
+            autocaptureDelay: 2000,
+            //@ts-ignore
+            useHeic: true,
             documentTypes: [
                 {
                     type: 'ID',
@@ -200,7 +203,7 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
     return (
         <ClientOnly>
             <div className={`flex flex-col items-center p-5 h-[100dvh] overflow-x-hidden ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
-                {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && (
+                {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && !error && (
                     <>
                         <h3 className='text-2xl font-bold mb-4'>License Verification</h3>
                         <p className='text-center max-w-2xl mb-6'>
@@ -209,13 +212,15 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                         </p>
                     </>
                 )}
-                {!success && (
+
+                {!success && !error && (
                     <div
                         id='videoCapturingEl'
-                        className={`w-full max-w-[500px] my-5 bg-white rounded-md relative ${isProcessStarted && !isUpdatingDB && !isVerifying && !success ? 'h-full' : 'h-0'}`}
+                        className={`w-full max-w-[500px] my-5 bg-white rounded-md relative ${isProcessStarted && !isUpdatingDB && !isVerifying && !success ? '' : 'h-0'}`}
                     />
                 )}
-                {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && (
+
+                {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && !error && (
                     <button type='button' onClick={startIDVCProcess} className='idScan-btn' style={{ maxWidth: '400px' }}>
                         Start License Verification
                     </button>
@@ -226,15 +231,21 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                         <CircleX className='text-red-500 size-10' />
                         <p>{processError || error}</p>
 
-                        {callback && (
-                            <Link href={callback} className='mt-4 p-2 bg-black text-white rounded-md hover:bg-black/80'>
-                                OK, Go Back
-                            </Link>
+                        {callback ? (
+                            <div className='flex gap-6 items-center'>
+                                <Link href={callback} className=' p-2 border text-black rounded-md hover:bg-black/10'>
+                                    OK, Go Back
+                                </Link>
+                            </div>
+                        ) : (
+                            <button type='button' onClick={startIDVCProcess} className='idScan-btn' style={{ maxWidth: '400px' }}>
+                                Re-Start License Verification
+                            </button>
                         )}
                     </div>
                 )}
 
-                {success && isApproved && (
+                {success && isApproved && !error && (
                     <div className='mt-4 text-center flex flex-col items-center justify-center gap-6 my-10 max-w-2xl'>
                         <CircleCheck className='text-green-500 size-10' />
                         <p>Your driving licence has been successfully added to your profile.</p>
