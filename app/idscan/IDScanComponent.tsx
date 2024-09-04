@@ -238,8 +238,14 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                                 </Link>
                             </div>
                         ) : (
-                            <button type='button' onClick={startIDVCProcess} className='idScan-btn' style={{ maxWidth: '400px' }}>
-                                Re-Start License Verification
+                            <button
+                                type='button'
+                                onClick={() => {
+                                    window.close();
+                                }}
+                                className='idScan-btn'
+                                style={{ maxWidth: '400px' }}>
+                                OK, Go Back
                             </button>
                         )}
                     </div>
@@ -250,10 +256,20 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                         <CircleCheck className='text-green-500 size-10' />
                         <p>Your driving licence has been successfully added to your profile.</p>
 
-                        {callback && (
+                        {callback ? (
                             <Link href={callback} className='mt-4 p-2 bg-black text-white rounded-md hover:bg-black/80'>
                                 OK, Go Back
                             </Link>
+                        ) : (
+                            <button
+                                type='button'
+                                onClick={() => {
+                                    window.close();
+                                }}
+                                className='idScan-btn'
+                                style={{ maxWidth: '400px' }}>
+                                OK, Go Back
+                            </button>
                         )}
                     </div>
                 )}
