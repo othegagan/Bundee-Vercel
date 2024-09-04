@@ -241,7 +241,13 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                             <button
                                 type='button'
                                 onClick={() => {
-                                    window.close();
+                                    // @ts-ignore
+                                    if (window?.FlutterWebView) {
+                                        // @ts-ignore
+                                        window?.FlutterWebView.postMessage('close');
+                                    } else {
+                                        window.close(); // Fallback for normal browsers
+                                    }
                                 }}
                                 className='idScan-btn'
                                 style={{ maxWidth: '400px' }}>
@@ -264,7 +270,13 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                             <button
                                 type='button'
                                 onClick={() => {
-                                    window.close();
+                                    // @ts-ignore
+                                    if (window?.FlutterWebView) {
+                                        // @ts-ignore
+                                        window?.FlutterWebView.postMessage('close');
+                                    } else {
+                                        window.close(); // Fallback for normal browsers
+                                    }
                                 }}
                                 className='idScan-btn'
                                 style={{ maxWidth: '400px' }}>
