@@ -1,6 +1,7 @@
 'use client';
 
 import ClientOnly from '@/components/ClientOnly';
+import { Button } from '@/components/ui/button';
 import { useIdVerification } from '@/hooks/useIdVerification';
 import { getSession } from '@/lib/auth';
 import { decryptingData } from '@/lib/decrypt';
@@ -137,9 +138,9 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                 {
                     type: 'ID',
                     steps: [
-                        { type: 'front', name: 'Document Front', mode: { uploader: true, video: true } },
-                        { type: 'pdf', name: 'Document PDF417 Barcode', mode: { uploader: true, video: true } },
-                        { type: 'face', name: 'Face', mode: { uploader: true, video: true } }
+                        { type: 'front', name: 'Document Front', mode: { uploader: false, video: true } },
+                        { type: 'pdf', name: 'Document PDF417 Barcode', mode: { uploader: false, video: true } },
+                        { type: 'face', name: 'Face', mode: { uploader: false, video: true } }
                     ]
                 }
             ],
@@ -238,21 +239,9 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                                 </Link>
                             </div>
                         ) : (
-                            <button
-                                type='button'
-                                onClick={() => {
-                                    // @ts-ignore
-                                    if (window?.FlutterWebView) {
-                                        // @ts-ignore
-                                        window?.FlutterWebView.postMessage('close');
-                                    } else {
-                                        window.close(); // Fallback for normal browsers
-                                    }
-                                }}
-                                className='idScan-btn'
-                                style={{ maxWidth: '400px' }}>
-                                OK, Go Back
-                            </button>
+                            <Button variant='black' onClick={startIDVCProcess}>
+                                Retry
+                            </Button>
                         )}
                     </div>
                 )}
@@ -260,28 +249,18 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                 {success && isApproved && !error && (
                     <div className='mt-4 text-center flex flex-col items-center justify-center gap-6 my-10 max-w-2xl'>
                         <CircleCheck className='text-green-500 size-10' />
-                        <p>Your driving licence has been successfully added to your profile.</p>
 
                         {callback ? (
-                            <Link href={callback} className='mt-4 p-2 bg-black text-white rounded-md hover:bg-black/80'>
-                                OK, Go Back
-                            </Link>
+                            <>
+                                <p>Your driving licence has been successfully added to your profile.</p>
+                                <Link href={callback} className='mt-4 p-2 bg-black text-white rounded-md hover:bg-black/80'>
+                                    OK, Go Back
+                                </Link>
+                            </>
                         ) : (
-                            <button
-                                type='button'
-                                onClick={() => {
-                                    // @ts-ignore
-                                    if (window?.FlutterWebView) {
-                                        // @ts-ignore
-                                        window?.FlutterWebView.postMessage('close');
-                                    } else {
-                                        window.close(); // Fallback for normal browsers
-                                    }
-                                }}
-                                className='idScan-btn'
-                                style={{ maxWidth: '400px' }}>
-                                OK, Go Back
-                            </button>
+                            <>
+                                <p>Thanks for verifying your driving license with MyBundee. Please return to the mobile app to proceed further.</p>
+                            </>
                         )}
                     </div>
                 )}

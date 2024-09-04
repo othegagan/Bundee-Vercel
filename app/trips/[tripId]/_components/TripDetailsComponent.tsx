@@ -24,8 +24,6 @@ interface TripVehicleDetailsComponentProps {
 
 export default function TripDetailsComponent({
     tripData: trip,
-    driverUploadedImages,
-    hostUploadedImages,
     hostName,
     hostImage,
     hostPhoneNumber,
@@ -94,7 +92,7 @@ export default function TripDetailsComponent({
             <TripPaymentComponent pricelist={trip?.tripPaymentTokens[0]} trip={trip} />
 
             {/* Readiness Checklist Section */}
-            {trip.status.toLowerCase() !== 'completed' && <TripReadinessChecklistComponent trip={trip} />}
+            {trip.status.toLowerCase() !== 'completed' && trip.status.toLowerCase() !== 'cancelled' && <TripReadinessChecklistComponent trip={trip} />}
 
             {/* Trip Media */}
             <div className='flex flex-col gap-2'>
