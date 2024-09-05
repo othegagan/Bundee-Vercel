@@ -239,7 +239,7 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                                 </Link>
                             </div>
                         ) : (
-                            <Button variant='black' onClick={startIDVCProcess}>
+                            <Button variant='black' onClick={()=>{window.location.reload()}}>
                                 Retry
                             </Button>
                         )}
