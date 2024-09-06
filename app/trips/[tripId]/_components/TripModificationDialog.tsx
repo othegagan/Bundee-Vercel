@@ -51,7 +51,7 @@ const useTripModification = () => {
             isPaymentChanged: true,
             Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
-            changedby:'USER',
+            changedby: 'USER',
             ...priceCalculatedList
         };
 
@@ -154,6 +154,8 @@ export default function TripModificationDialog({ tripData }) {
 
     const { submitting, submitted, handleReduction, handleExtension, success } = useTripModification();
 
+    const { isAirportDeliveryChoosen, isCustomDeliveryChoosen } = determineDeliveryType(tripData);
+
     const {
         isLoading: unavailabilitDatesLoading,
         isError,
@@ -227,13 +229,13 @@ export default function TripModificationDialog({ tripData }) {
                 vehicleid: tripData.vehicleId,
                 startTime: convertToCarTimeZoneISO(`${newStartDate}T${newStartTime}`, tripData.vehzipcode),
                 endTime: convertToCarTimeZoneISO(`${newEndDate}T${newEndTime}`, tripData.vehzipcode),
-                airportDelivery: tripData.airportDelivery,
-                customDelivery: tripData.delivery,
+                airportDelivery: isAirportDeliveryChoosen,
+                customDelivery: isCustomDeliveryChoosen,
                 hostid: tripData.hostid,
                 tripid: tripData.tripid
             };
 
-            // console.log(payload);
+            console.log(payload);
             const responseData = await calculatePrice(payload);
 
             if (responseData.success) {
@@ -266,6 +268,9 @@ export default function TripModificationDialog({ tripData }) {
         setNewEndDate(formatDateAndTime(tripData.endtime, tripData?.vehzipcode, 'default'));
         setNewStartTime(formatTime(tripData.starttime, tripData?.vehzipcode));
         setNewEndTime(formatTime(tripData.endtime, tripData?.vehzipcode));
+        if (submitted) {
+            window.location.reload();
+        }
     }
 
     function handleSubmit() {
@@ -405,6 +410,7 @@ export default function TripModificationDialog({ tripData }) {
                                                         zipCode={tripData?.vehzipcode}
                                                         originalTripTaxAmount={tripData?.tripPaymentTokens[0]?.tripTaxAmount}
                                                         isExtension={isExtension}
+                                                        isAirportDeliveryChoosen={isAirportDeliveryChoosen}
                                                     />
                                                 )}
                                             </>
@@ -492,4 +498,22 @@ export function splitFormattedDateAndTime(input: string) {
             {timePart}
         </>
     );
+}
+
+export function determineDeliveryType(trip: any) {
+    // Destructure the delivery options from trip
+    let { airportDelivery: isAirportDeliveryChoosen, delivery: isCustomDeliveryChoosen } = trip;
+
+    // Logic to handle conditions for airportDelivery and delivery
+    if (isAirportDeliveryChoosen && isCustomDeliveryChoosen) {
+        // If both are true, set airportDelivery to true and delivery to false
+        isAirportDeliveryChoosen = true;
+        isCustomDeliveryChoosen = false;
+    } else if (isCustomDeliveryChoosen && !isAirportDeliveryChoosen) {
+        // If delivery is true and airportDelivery is false, keep delivery as true and airportDelivery as false
+        isCustomDeliveryChoosen = true;
+        isAirportDeliveryChoosen = false;
+    }
+
+    return { isAirportDeliveryChoosen, isCustomDeliveryChoosen };
 }

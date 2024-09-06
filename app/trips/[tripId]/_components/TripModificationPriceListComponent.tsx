@@ -14,6 +14,7 @@ interface TripModificationPriceListComponentProps {
     newEndTime: string;
     originalTripTaxAmount: number;
     isExtension: boolean;
+    isAirportDeliveryChoosen: boolean;
 }
 
 export default function TripModificationPriceListComponent({
@@ -24,7 +25,8 @@ export default function TripModificationPriceListComponent({
     newStartTime,
     newEndTime,
     originalTripTaxAmount,
-    isExtension
+    isExtension,
+    isAirportDeliveryChoosen
 }: TripModificationPriceListComponentProps) {
     let differenceAmount = 0;
 
@@ -79,7 +81,7 @@ export default function TripModificationPriceListComponent({
                                         <div className='space-y-1'>
                                             {priceCalculatedList?.delivery > 0 && (
                                                 <div className='flex items-center justify-between'>
-                                                    <div className='text-14'>Custom Delivery fee</div>
+                                                    <div className='text-14'>{isAirportDeliveryChoosen ? 'Airport Delivery fee' : 'Custom Delivery fee'}</div>
                                                     <div className='text-14 font-medium'>${roundToTwoDecimalPlaces(priceCalculatedList?.delivery)}</div>
                                                 </div>
                                             )}

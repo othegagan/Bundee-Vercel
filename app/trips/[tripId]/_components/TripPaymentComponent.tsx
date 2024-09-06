@@ -4,8 +4,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { roundToTwoDecimalPlaces } from '@/lib/utils';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { InvoiceHandlerComponent } from './DocumentHandlerComponent';
+import { determineDeliveryType } from './TripModificationDialog';
 
 export default function TripPaymentComponent({ pricelist, trip }: { pricelist: any; trip: any }) {
+    const { isAirportDeliveryChoosen } = determineDeliveryType(trip);
+
     return (
         <div className='flex flex-col gap-2'>
             <div className='flex items-center justify-between'>
@@ -75,7 +78,7 @@ export default function TripPaymentComponent({ pricelist, trip }: { pricelist: a
                                         <div className='space-y-1'>
                                             {pricelist?.deliveryCost > 0 && (
                                                 <div className='flex items-center justify-between'>
-                                                    <div className='text-sm'>Custom Delivery fee</div>
+                                                    <div className='text-sm'> {isAirportDeliveryChoosen ? 'Airport Delivery Fee' : 'Custom Delivery Fee'}</div>
                                                     <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.deliveryCost)}</div>
                                                 </div>
                                             )}
