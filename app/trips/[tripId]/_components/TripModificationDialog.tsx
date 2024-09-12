@@ -51,7 +51,7 @@ const useTripModification = () => {
             isPaymentChanged: true,
             Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
             Statesurchargetax: priceCalculatedList.stateSurchargeTax,
-            changedby: 'USER',
+            changedBy: 'USER',
             ...priceCalculatedList
         };
 
