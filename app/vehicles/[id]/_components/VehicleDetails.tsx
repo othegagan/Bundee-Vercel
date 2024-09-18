@@ -141,17 +141,17 @@ function MileageConstraints({ mileageConstraints }: any) {
     );
 }
 
-function Highlights({ vehicleDetails }: any) {
-    const isValidDetail = (detail: any) => detail && detail !== 'Not Applicable' && detail !== 'NA';
+function Highlights({ vehicleDetails }: { vehicleDetails: any }) {
+    const isValidDetail = (detail: any) => detail && !['Not Applicable', 'NA', 'N/A', 'null', null].includes(detail);
 
     const highlights = [
         { key: 'trim', label: vehicleDetails.trim },
         { key: 'fueltypeprimary', label: vehicleDetails.fueltypeprimary },
         { key: 'bodyclass', label: vehicleDetails.bodyclass },
-        { key: 'doors', label: `${vehicleDetails.doors} Doors` },
+        { key: 'doors', label: isValidDetail(vehicleDetails.doors) ? `${vehicleDetails.doors} Doors` : null },
         { key: 'drivetype', label: vehicleDetails.drivetype },
         { key: 'wlectrificationlevel', label: vehicleDetails.wlectrificationlevel },
-        { key: 'seatingCapacity', label: `${vehicleDetails.seatingCapacity} Seats` }
+        { key: 'seatingCapacity', label: isValidDetail(vehicleDetails.seatingCapacity) ? `${vehicleDetails.seatingCapacity} Seats` : null }
     ];
 
     return (
@@ -159,7 +159,7 @@ function Highlights({ vehicleDetails }: any) {
             <p className='font-bold'>Highlights</p>
             <ul className='text-15 list-disc space-y-2 pl-4'>
                 {highlights
-                    .filter((item) => isValidDetail(item.label))
+                    .filter((item) => isValidDetail(item.label)) // Only show valid details
                     .map((item, index) => (
                         <li key={index}>{item.label}</li>
                     ))}

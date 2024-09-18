@@ -49,7 +49,7 @@ export default function CheckoutDetails() {
     return (
         <div className='space-y-4'>
             <div className='rounded-lg sm:overflow-hidden'>
-                <img src={image} className='max-h-fit min-w-full' alt='Vehicle' />
+                <img src={image || '/images/image_not_available.png'} className='max-h-fit min-w-full' alt='Vehicle' />
             </div>
             <h2 className='text-2xl font-bold '>{name}</h2>
 

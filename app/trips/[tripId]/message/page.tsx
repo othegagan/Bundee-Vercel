@@ -192,7 +192,7 @@ function Message({ message, tripData }) {
                     ) : (
                         <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
                             <img
-                                src='../images/image_not_available.png'
+                                src='/images/image_not_available.png'
                                 alt='image_not_found'
                                 className='h-full w-full min-w-full object-cover md:rounded-md'
                             />

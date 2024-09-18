@@ -19,7 +19,7 @@ import secureLocalStorage from 'react-secure-storage';
 import { toast } from 'sonner';
 import DateRangeCalendar from './DateRangeCalendar';
 import DeliveryDetailsComponent from './DeliveryDetailsComponent';
-import PriceDisplayComponent from './PriceDisplayComponent';
+import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 
 interface DynamicComponentsProps {
     vehicleId: number;
@@ -134,7 +134,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 name: `${vehicleDetails?.make} ${vehicleDetails?.model} ${vehicleDetails?.year}`,
                 image: vehicleDetails?.imageresponse[0]?.imagename,
                 type: 'reservation',
-                deductionfrequencyconfigid,
+                deductionfrequencyconfigid: 1,
                 paymentauthorizationconfigid: deductionConfigData.authorizationConfigId,
                 authorizationpercentage: priceCalculatedList.authPercentage,
                 authorizationamount: priceCalculatedList.authAmount,
@@ -232,7 +232,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 {priceLoading ? (
                     <Skeleton className='h-8 w-full rounded-md bg-neutral-200 animate-pulse' />
                 ) : isPriceError ? null : (
-                    <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChoosen={isAirportDeliveryChoosen} />
+                    <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChosen={isAirportDeliveryChoosen} />
                 )}
             </div>
 

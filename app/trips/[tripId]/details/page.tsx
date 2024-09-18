@@ -6,7 +6,6 @@ import { TripsDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import Link from 'next/link';
-import { useMemo } from 'react';
 import CancelTripComponent from '../_components/CancelTripComponent';
 import EndTripComponent from '../_components/EndTripComponent';
 import StartTripComponent from '../_components/StartTripComponent';

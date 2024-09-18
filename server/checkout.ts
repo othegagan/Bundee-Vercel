@@ -2,10 +2,16 @@
 
 import { getSession } from '@/lib/auth';
 import { http } from '@/lib/httpService';
+import Stripe from 'stripe';
+
+// Initialize Stripe with secret key
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2024-06-20',
+    typescript: true
+});
 
 export async function createSetUpIntent() {
     try {
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
         const session = await getSession();
 
         let customerId = '';
@@ -54,7 +60,7 @@ export async function createTripReservation(payload: any) {
         return {
             success: false,
             data: null,
-            message: `Failed to create Reservation${response.data.errorMessage}`
+            message: 'Failed to create Reservation'
         };
     } catch (error: any) {
         throw new Error(error.message);

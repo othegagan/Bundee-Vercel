@@ -402,7 +402,7 @@ export default function TripModificationDialog({ tripData }) {
                                             <>
                                                 {priceCalculatedList && !dateSelectionError && (
                                                     <TripModificationPriceListComponent
-                                                        priceCalculatedList={priceCalculatedList}
+                                                        pricelist={priceCalculatedList}
                                                         newStartDate={newStartDate}
                                                         newEndDate={newEndDate}
                                                         newStartTime={newStartTime}

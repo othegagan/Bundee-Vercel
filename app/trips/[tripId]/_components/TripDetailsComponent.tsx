@@ -7,10 +7,10 @@ import Link from 'next/link';
 import { StatusBadge } from '../../TripsComponent';
 import TripImageVideoCarousel from './TripImageVideoCarousel';
 import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
-import { splitFormattedDateAndTime } from './TripModificationDialog';
-import TripPaymentComponent from './TripPaymentComponent';
+import { determineDeliveryType, splitFormattedDateAndTime } from './TripModificationDialog';
 import TripPoliciesComponent from './TripPoliciesComponent';
 import TripReadinessChecklistComponent from './TripReadinessChecklistComponent';
+import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 
 interface TripVehicleDetailsComponentProps {
     tripData: any;
@@ -22,19 +22,15 @@ interface TripVehicleDetailsComponentProps {
     isFetching: boolean;
 }
 
-export default function TripDetailsComponent({
-    tripData: trip,
-    hostName,
-    hostImage,
-    hostPhoneNumber,
-    isFetching
-}: TripVehicleDetailsComponentProps) {
+export default function TripDetailsComponent({ tripData: trip, hostName, hostImage, hostPhoneNumber, isFetching }: TripVehicleDetailsComponentProps) {
     const images: any[] = sortImagesByIsPrimary(trip?.vehicleImages ?? []);
+
+    const { isAirportDeliveryChoosen } = determineDeliveryType(trip);
 
     return (
         <div className='space-y-5 lg:space-y-10'>
             <div className='flex gap-3 md:gap-4'>
-                <div className='flex-center size-28 h-20 md:size-36  overflow-hidden rounded-md select-none'>
+                <div className='flex-center size-28 h-20 md:h-36 md:w-56 overflow-hidden rounded-md select-none'>
                     <img
                         src={images[0]?.imagename || '/images/image_not_available.png'}
                         alt={toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
@@ -89,7 +85,7 @@ export default function TripDetailsComponent({
             </div>
 
             {/* Payment Section */}
-            <TripPaymentComponent pricelist={trip?.tripPaymentTokens[0]} trip={trip} />
+            <PriceDisplayComponent pricelist={trip?.tripPaymentTokens[0]} isAirportDeliveryChoosen={isAirportDeliveryChoosen} invoiceUrl={trip.invoiceUrl} />
 
             {/* Readiness Checklist Section */}
             {trip.status.toLowerCase() !== 'completed' && trip.status.toLowerCase() !== 'cancelled' && <TripReadinessChecklistComponent trip={trip} />}
