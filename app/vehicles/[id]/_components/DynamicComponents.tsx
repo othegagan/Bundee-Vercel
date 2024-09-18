@@ -232,7 +232,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 {priceLoading ? (
                     <Skeleton className='h-8 w-full rounded-md bg-neutral-200 animate-pulse' />
                 ) : isPriceError ? null : (
-                    <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChosen={isAirportDeliveryChoosen} />
+                    <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChoosen={isAirportDeliveryChoosen} />
                 )}
             </div>
 
