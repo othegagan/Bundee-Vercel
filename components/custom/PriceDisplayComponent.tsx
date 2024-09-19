@@ -66,7 +66,7 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                 {pricelist?.tripFee > 0 && (
                     <PriceItem
                         label='Trip Fee'
-                        value={pricelist.concessionCalculated + pricelist.Statesurchargeamount + pricelist.registrationRecoveryFee + pricelist?.tripFee}>
+                        value={pricelist?.concessionCalculated + pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount + pricelist?.registrationRecoveryFee + pricelist?.tripFee}>
                         <InfoPopover
                             title='Trip Fee'
                             content={
@@ -78,10 +78,10 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                                         </div>
                                     )}
 
-                                    {pricelist?.Statesurchargeamount > 0 && (
+                                    {pricelist?.Statesurchargeamount > 0 || pricelist?.stateSurchargeAmount > 0 && (
                                         <div className='flex items-center justify-between'>
                                             <div className='text-sm'>State Surcharge </div>
-                                            <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.Statesurchargeamount)}</div>
+                                            <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount)}</div>
                                         </div>
                                     )}
 
