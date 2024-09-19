@@ -142,7 +142,7 @@ function MileageConstraints({ mileageConstraints }: any) {
 }
 
 function Highlights({ vehicleDetails }: { vehicleDetails: any }) {
-    const isValidDetail = (detail: any) => detail && !['Not Applicable', 'NA', 'N/A', 'null', null].includes(detail);
+    const isValidDetail = (detail: any) => detail && !['Not Applicable', 'NA', 'N/A', 'null', null, '0', 0, ""].includes(detail);
 
     const highlights = [
         { key: 'trim', label: vehicleDetails.trim },
