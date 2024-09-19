@@ -15,7 +15,7 @@ import {
 import { DatePickerContent, DateRangePicker } from '@/components/ui/extension/date-picker';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { cn } from '@/lib/utils';
-import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
+import { getLocalTimeZone, parseDateTime, today } from '@internationalized/date';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { useState } from 'react';
@@ -31,12 +31,26 @@ interface DateRangeCalendarProps {
     endDate: any;
     setDatesSelectionError: any;
     zipCode: any;
+    startTime: any;
+    endTime: any;
+    totalDays?: any;
 }
 
-const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, endDate, setDatesSelectionError, zipCode }: DateRangeCalendarProps) => {
+const DateRangeCalendar = ({
+    vehicleid,
+    setStartDate,
+    setEndDate,
+    startDate,
+    endDate,
+    setDatesSelectionError,
+    zipCode,
+    startTime,
+    endTime,
+    totalDays
+}: DateRangeCalendarProps) => {
     const [dates, setDates] = useState<any>({
-        start: parseDate(startDate),
-        end: parseDate(endDate)
+        start: parseDateTime(`${startDate}T${startTime}`),
+        end: parseDateTime(`${endDate}T${endTime}`)
     });
 
     const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid, null, zipCode);
@@ -51,8 +65,8 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
         return <div>Something went wrong</div>;
     }
 
-    console.log('unavailableDates', unavailableDates);
-    const blockedDates = unavailableDates.map((date) => [parseDate(date), parseDate(date)]) || [];
+    // console.log('unavailableDates', unavailableDates);
+    const blockedDates = unavailableDates.map((date) => [parseDateTime(date), parseDateTime(date)]) || [];
     // console.log("blockedDates", blockedDates)
 
     const isDateUnavailable = (date) => blockedDates.some(([start, end]) => date.compare(start) >= 0 && date.compare(end) <= 0);
@@ -82,12 +96,11 @@ const DateRangeCalendar = ({ vehicleid, setStartDate, setEndDate, startDate, end
             return 'Selected start date cannot be earlier than today.';
         }
 
-        const daysDifference = (dates.end.toDate(getLocalTimeZone()) - dates.start.toDate(getLocalTimeZone())) / (24 * 60 * 60 * 1000);
-        if (minDays !== 0 && daysDifference + 1 < minDays) {
+        if (minDays !== 0 && totalDays < minDays) {
             return `This car has a minimum trip length requirement of ${minDays} days. Please extend your trip days.`;
         }
 
-        if (maxDays !== 0 && daysDifference + 1 > maxDays) {
+        if (maxDays !== 0 && totalDays > maxDays) {
             return `This car has a maximum trip length requirement of ${maxDays} days. Please reduce your trip days.`;
         }
 

@@ -200,6 +200,9 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 endDate={format(new Date(`${endDate}T00:00:00`), 'yyyy-MM-dd')}
                 setDatesSelectionError={setDatesSelectionError}
                 zipCode={vehicleDetails?.zipcode}
+                startTime={startTime}
+                endTime={endTime}
+                totalDays={priceCalculatedList?.numberOfDays }
             />
 
             {/* {!priceLoading && !priceCalculatedList && !isPriceError ? <ErrorMessage message={priceErrorMessage} /> : null} */}

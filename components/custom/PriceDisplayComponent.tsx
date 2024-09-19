@@ -22,7 +22,7 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                 {/* Rental Charges */}
                 {pricelist?.charges > 0 && (
                     <PriceItem
-                        label={`Rental ($${pricelist?.pricePerDay || pricelist?.perdayamount} x ${pricelist?.numberOfDays || pricelist?.totaldays} ${pricelist?.numberOfDays === 1 ? 'day' : 'days'})`}
+                        label={`Rental ($${pricelist?.pricePerDay || pricelist?.perdayamount} x ${pricelist?.numberOfDays || pricelist?.totaldays} ${pricelist?.numberOfDays === 1 ||pricelist?.totaldays === 1 ? 'day' : 'days'})`}
                         value={pricelist?.charges}
                     />
                 )}
