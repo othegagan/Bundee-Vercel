@@ -75,8 +75,8 @@ const DateRangeCalendar = ({
     const isDateUnavailableEnd = blockedDates.length > 0 && isDateUnavailable(dates.end);
 
     const isInvalid =
-        (minDays !== 0 && dates.end.compare(dates.start) + 1 < minDays) ||
-        (maxDays !== 0 && dates.end.compare(dates.start) + 1 > maxDays) ||
+        (minDays !== 0 && totalDays < minDays) ||
+        (maxDays !== 0 && totalDays > maxDays) ||
         isDateUnavailableStart ||
         isDateUnavailableEnd;
 
