@@ -184,7 +184,7 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                         </Button>
                                     )} */}
                                 <Button
-                                    onClick={() => router.push(`/trips/${trip.tripid}/message`)}
+                                    onClick={() => router.push(`/trips/${trip.tripid}/details?messages=true`)}
                                     variant='link'
                                     className='ml-auto px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
                                     <img src='/icons/chat.svg' alt='chat' width={18} height={18} />

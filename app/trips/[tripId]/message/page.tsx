@@ -1,6 +1,5 @@
 'use client';
 
-import BackButton from '@/components/custom/BackButton';
 import { ChatSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
@@ -98,10 +97,10 @@ export default function MessagePage({ params }) {
     }, [sendMessageMutation.isPending]);
 
     return (
-        <div className='rounded-lg px-4  text-card-foreground md:shadow-sm md:border lg:py-4'>
-            <div className='flex items-center justify-start pb-2 border-b lg:hidden'>
+        <div className='rounded-lg   text-card-foreground md:shadow-sm lg:border lg:pb-4 md:px-4'>
+            {/* <div className='flex items-center justify-start pb-2 border-b lg:hidden'>
                 <BackButton />
-            </div>
+            </div> */}
 
             <p className='hidden text-md lg:block font-bold'>Messages</p>
             <div className='h-[calc(90dvh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-240px)]' ref={chatWindowRef}>
@@ -191,11 +190,7 @@ function Message({ message, tripData }) {
                         <EmblaCarousel slides={images} variant='sm' />
                     ) : (
                         <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
-                            <img
-                                src='/images/image_not_available.png'
-                                alt='image_not_found'
-                                className='h-full w-full min-w-full object-cover md:rounded-md'
-                            />
+                            <img src='/images/image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
                         </div>
                     )}
 

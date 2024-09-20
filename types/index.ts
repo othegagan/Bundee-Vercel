@@ -68,3 +68,22 @@ export interface VerifiedDrivingProfileResult {
     isDrivingProfileVerified: boolean;
     verifiedDetails: any | null;
 }
+
+export interface TripData {
+    tripid: string;
+    status: string;
+    starttime: string;
+    endtime: string;
+    vehzipcode: string;
+    isRentalAgreed: boolean;
+    isLicenseVerified: boolean;
+    isPhoneVarified: boolean;
+    swapDetails: any[];
+    driverTripStartingBlobs: string[];
+    hostTripStartingBlobs: string[];
+    hostFirstName: string;
+    hostLastName: string;
+    hostPhoneNumber: string;
+    hostImage: string;
+    [key: string]: any;
+}

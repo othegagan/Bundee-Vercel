@@ -5,7 +5,8 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import { TripsDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { useTripDetails } from '@/hooks/useTripDetails';
-import Link from 'next/link';
+import { useQueryState } from 'next-usequerystate';
+import { useMediaQuery } from 'react-responsive';
 import CancelTripComponent from '../_components/CancelTripComponent';
 import EndTripComponent from '../_components/EndTripComponent';
 import StartTripComponent from '../_components/StartTripComponent';
@@ -14,33 +15,18 @@ import TripDetailsComponent from '../_components/TripDetailsComponent';
 import TripModificationDialog from '../_components/TripModificationDialog';
 import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import MessagePage from '../message/page';
+import { TripData } from '@/types';
 
-interface TripData {
-    tripid: string;
-    status: string;
-    starttime: string;
-    endtime: string;
-    vehzipcode: string;
-    isRentalAgreed: boolean;
-    isLicenseVerified: boolean;
-    isPhoneVarified: boolean;
-    swapDetails: any[];
-    driverTripStartingBlobs: string[];
-    hostTripStartingBlobs: string[];
-    hostFirstName: string;
-    hostLastName: string;
-    hostPhoneNumber: string;
-    hostImage: string;
-    [key: string]: any;
-}
 
-interface PageProps {
-    params: { tripId: string };
-}
 
 export default function page({ params }: { params: { tripId: string } }) {
     const { tripId } = params;
     const { data: response, isLoading, error, isFetching } = useTripDetails(tripId);
+
+    const [showMessage, setShowMessage] = useQueryState('messages', { defaultValue: 'false', history: 'replace' });
+    const isMessageVisible = showMessage === 'true';
+
+    const isTabletOrLarger = useMediaQuery({ query: '(min-width: 1023px)' });
 
     // Early return if tripId is missing
     if (!tripId) return <ErrorComponent message='Trip ID is required.' />;
@@ -84,16 +70,21 @@ export default function page({ params }: { params: { tripId: string } }) {
             {/* Header Section */}
             <div className='flex items-center justify-between col-span-1 lg:col-span-5'>
                 <BackButton />
-                <Link href={`/trips/${tripId}/message`} role='tab' className='block lg:hidden' aria-label='Messages'>
-                    <Button variant='outline' className='text-primary border-primary' size='sm'>
-                        Messages
-                    </Button>
-                </Link>
+
+                <Button
+                    variant='outline'
+                    className='text-primary border-primary lg:hidden'
+                    size='sm'
+                    onClick={() => setShowMessage(isMessageVisible ? 'false' : 'true')}
+                    aria-label='Toggle messages'>
+                    {isMessageVisible ? 'Details' : 'Messages'}
+                </Button>
+
                 <div className='ml-auto gap-10 items-center justify-between hidden lg:flex'>{renderActionButtons()}</div>
             </div>
 
             {/* Trip Details Section */}
-            <div className='flex flex-col col-span-1 lg:col-span-3'>
+            <div className={`flex flex-col col-span-1 lg:col-span-3 ${isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
                 <TripDetailsComponent
                     tripData={tripData}
                     driverUploadedImages={tripData.driverTripStartingBlobs}
@@ -105,13 +96,14 @@ export default function page({ params }: { params: { tripId: string } }) {
                 />
             </div>
 
-            {/* Messages Section for Desktop */}
-            <div className='hidden lg:flex flex-col col-span-2'>
+            {/* Messages Section */}
+            <div className={`flex flex-col col-span-1 lg:col-span-2 ${!isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
                 <MessagePage params={params} />
             </div>
 
             {/* Bottom Mobile Actions */}
-            <div className='lg:hidden fixed bottom-0 left-0 right-0 flex justify-around flex-wrap gap-3 z-10 bg-background px-4 py-2 shadow-[0px_0px_9px_0px_#00000024]'>
+            <div
+                className={`lg:hidden fixed bottom-0 left-0 right-0 flex justify-around flex-wrap gap-3 z-10 bg-background px-4 py-2 shadow-[0px_0px_9px_0px_#00000024] ${isMessageVisible ? 'hidden' : 'block'}`}>
                 {renderActionButtons()}
             </div>
         </div>
