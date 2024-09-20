@@ -122,16 +122,16 @@ const LocationSearchComponent = ({ searchCity }: any) => {
             {/* Mobile View */}
             {pathname !== '/' ? (
                 <>
-                    <button type='button' className='rounded-md border bg-white p-2 shadow-sm md:hidden' onClick={openModal}>
-                        <div className=''>{searchCity ? searchCity : null}</div>
+                    <button type='button' className='rounded-md border bg-white p-2 shadow-sm md:hidden w-full' onClick={openModal}>
+                        <div className='truncate max-w-[300px]'>{searchCity ? searchCity : null}</div>
                         <div className='mt-1 flex items-center justify-between text-xs text-neutral-500'>
                             <div className=''>
-                                {startDateQuery ? format(new Date(`${startDateQuery}T00:00:00`), 'PPP') : null} |{/* @ts-ignore */}
+                                {startDateQuery ? format(new Date(`${startDateQuery}T00:00:00`), 'PP') : null} | {/* @ts-ignore */}
                                 {startTimeQuery ? format(new Date(0, 0, 0, ...startTimeQuery.split(':')), 'h:mm a') : null}
                             </div>
-                            <div>--</div>
+                            <div>-</div>
                             <div className=''>
-                                {endDateQuery ? format(new Date(`${endDateQuery}T00:00:00`), 'PPP') : null} |{/* @ts-ignore */}
+                                {endDateQuery ? format(new Date(`${endDateQuery}T00:00:00`), 'PP') : null} | {/* @ts-ignore */}
                                 {endTimeQuery ? format(new Date(0, 0, 0, ...endTimeQuery.split(':')), 'h:mm a') : null}
                             </div>
                         </div>

@@ -52,7 +52,7 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                             content={
                                 <div className='flex items-center justify-between'>
                                     <div className='text-sm'> {isAirportDeliveryChoosen ? 'Airport Delivery Fee' : 'Custom Delivery Fee'}</div>
-                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.deliveryCost)}</div>
+                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.delivery || pricelist?.deliveryCost)}</div>
                                 </div>
                             }
                         />

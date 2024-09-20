@@ -155,7 +155,7 @@ export function TripsCardsSkeleton() {
 
 export function CheckoutCardSkeleton() {
     return (
-        <div className='flex flex-col gap-2 pt-2 lg:w-[400px]'>
+        <div className='flex flex-col gap-2 pt-2 lg:w-[400px] w-full'>
             <div className='col-span-4 space-y-4 lg:col-span-1'>
                 <div className={`relative h-10  rounded-lg bg-neutral-200 ${shimmer}`} />
                 <div className=' flex gap-9'>
@@ -174,7 +174,7 @@ export function CheckoutCardSkeleton() {
 
 export function CheckoutDetailsSkeleton() {
     return (
-        <div className='mt-4 min-w-[300px] space-y-4'>
+        <div className='mt-4 min-w-[300px] space-y-4 w-full'>
             <div className={`relative h-36 rounded-lg  bg-neutral-200 lg:w-[400px] ${shimmer}`} />
             <div className={`relative h-10 w-[80%]  rounded-md bg-neutral-200 ${shimmer}`} />
 

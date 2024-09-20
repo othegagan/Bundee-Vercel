@@ -94,11 +94,11 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         secureLocalStorage.removeItem('checkOutInfo');
                         setTimeout(() => {
                             window.location.href = '/checkout/success';
-                        }, 1200);
+                        }, 1000);
                     } else {
                         setPayment({ status: 'error' });
                         const errorMessage = response?.message ? response.message : 'Unknown error occurred.';
-                        setErrorMessage(`Payment failed. Please try again. ${errorMessage}`);
+                        setErrorMessage(`Payment failed. ${errorMessage}`);
                         secureLocalStorage.removeItem('checkOutInfo');
                         setTimeout(() => {
                             window.location.href = '/checkout/failure';
@@ -107,7 +107,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                 } else {
                     console.log(error);
                     setPayment({ status: 'error' });
-                    setErrorMessage('Payment failed. Please try again.');
+                    setErrorMessage('Stripe Payment failed. Please try again.');
                 }
             } else {
                 console.log(error);

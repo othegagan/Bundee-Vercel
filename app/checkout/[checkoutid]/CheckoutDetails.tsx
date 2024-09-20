@@ -1,7 +1,7 @@
 'use client';
 
 import ErrorComponent from '@/components/custom/ErrorComponent';
-import { CheckoutCardSkeleton } from '@/components/skeletons/skeletons';
+import { CheckoutDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Separator } from '@/components/ui/separator';
 import { getSession } from '@/lib/auth';
 import { formatDateAndTime } from '@/lib/utils';
@@ -17,6 +17,7 @@ export function useCheckoutDetails() {
         const fetchData = async () => {
             try {
                 const session = await getSession();
+
                 const data = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
 
                 if (data && session.isLoggedIn) {
@@ -42,25 +43,25 @@ export default function CheckoutDetails() {
 
     if (error) return <ErrorComponent />;
 
-    if (loading) return <CheckoutCardSkeleton />;
+    if (loading) return <CheckoutDetailsSkeleton />;
 
     const { name, image, zipCode, startTime, endTime, totalDays, tripamount, taxAmount, tripTaxAmount } = data;
 
     return (
-        <div className='space-y-4'>
-            <div className='rounded-lg sm:overflow-hidden'>
+        <div className='mt-4 min-w-[300px] space-y-4'>
+            <div className='rounded-lg overflow-hidden'>
                 <img src={image || '/images/image_not_available.png'} className='max-h-fit min-w-full' alt='Vehicle' />
             </div>
             <h2 className='text-2xl font-bold '>{name}</h2>
 
             <ul className='grid gap-3'>
-                <li className='flex items-center justify-between'>
-                    <span className='text-muted-foreground'>Trip Start Date</span>
-                    <span>{formatDateAndTime(startTime, zipCode)}</span>
+                <li className='text-14 flex flex-col sm:flex-row md:items-center sm:justify-between'>
+                    <div className='text-muted-foreground'>Trip Start Date</div>
+                    <div>{formatDateAndTime(startTime, zipCode)}</div>
                 </li>
-                <li className='flex items-center justify-between'>
-                    <span className='text-muted-foreground'>Trip End Date</span>
-                    <span>{formatDateAndTime(endTime, zipCode)}</span>
+                <li className='text-14 flex flex-col sm:flex-row md:items-center sm:justify-between'>
+                    <div className='text-muted-foreground'>Trip End Date</div>
+                    <div>{formatDateAndTime(endTime, zipCode)}</div>
                 </li>
             </ul>
             <Separator className='my-2' />
