@@ -98,12 +98,7 @@ export default function MessagePage({ params }) {
 
     return (
         <div className='rounded-lg   text-card-foreground md:shadow-sm lg:border lg:pb-4 md:px-4'>
-            {/* <div className='flex items-center justify-start pb-2 border-b lg:hidden'>
-                <BackButton />
-            </div> */}
-
-            <p className='hidden text-md lg:block font-bold'>Messages</p>
-            <div className='h-[calc(90dvh-100px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-240px)]' ref={chatWindowRef}>
+            <div className='h-[calc(90dvh-120px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-180px)]' ref={chatWindowRef}>
                 {loadingMessages ? (
                     <ChatSkeleton />
                 ) : (

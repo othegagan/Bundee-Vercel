@@ -17,8 +17,6 @@ import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import MessagePage from '../message/page';
 import { TripData } from '@/types';
 
-
-
 export default function page({ params }: { params: { tripId: string } }) {
     const { tripId } = params;
     const { data: response, isLoading, error, isFetching } = useTripDetails(tripId);
@@ -30,7 +28,12 @@ export default function page({ params }: { params: { tripId: string } }) {
 
     // Early return if tripId is missing
     if (!tripId) return <ErrorComponent message='Trip ID is required.' />;
-    if (isLoading) return <TripsDetailsSkeleton />;
+    if (isLoading)
+        return (
+            <div className='min-h-[100dvh] py-4'>
+                <TripsDetailsSkeleton />
+            </div>
+        );
     if (error || !response?.success) return <ErrorComponent />;
 
     // Memoized data for optimization
@@ -66,39 +69,44 @@ export default function page({ params }: { params: { tripId: string } }) {
     );
 
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-5 gap-4 px-4 pb-20 lg:gap-y-6 lg:gap-x-10'>
-            {/* Header Section */}
-            <div className='flex items-center justify-between col-span-1 lg:col-span-5'>
-                <BackButton />
+        <div className='flex-grow container'>
+            <div className='grid grid-cols-1 lg:grid-cols-5 gap-4  lg:gap-x-10'>
+                {/* Header Section */}
+                <div className='pt-4 lg:pt-0 flex items-center justify-between col-span-1 lg:col-span-5'>
+                    <BackButton />
+                    <Button
+                        variant='outline'
+                        className='text-primary border-primary lg:hidden'
+                        size='sm'
+                        onClick={() => setShowMessage(isMessageVisible ? 'false' : 'true')}
+                        aria-label='Toggle messages'>
+                        {isMessageVisible ? 'Details' : 'Messages'}
+                    </Button>
+                    <div className='ml-auto gap-10 items-center justify-between hidden lg:flex'>{renderActionButtons()}</div>
+                </div>
 
-                <Button
-                    variant='outline'
-                    className='text-primary border-primary lg:hidden'
-                    size='sm'
-                    onClick={() => setShowMessage(isMessageVisible ? 'false' : 'true')}
-                    aria-label='Toggle messages'>
-                    {isMessageVisible ? 'Details' : 'Messages'}
-                </Button>
+                {/* Main Content Area */}
+                <div className='col-span-1 lg:col-span-5 flex flex-col lg:flex-row gap-6 lg:gap-16'>
+                    {/* Trip Details Section */}
+                    <div className={`lg:w-3/5 overflow-y-auto ${isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
+                        <TripDetailsComponent
+                            tripData={tripData}
+                            driverUploadedImages={tripData.driverTripStartingBlobs}
+                            hostUploadedImages={tripData.hostTripStartingBlobs}
+                            hostName={`${tripData.hostFirstName} ${tripData.hostLastName}`.trim()}
+                            hostPhoneNumber={tripData.hostPhoneNumber || ''}
+                            hostImage={tripData.hostImage || ''}
+                            isFetching={isFetching}
+                        />
+                    </div>
 
-                <div className='ml-auto gap-10 items-center justify-between hidden lg:flex'>{renderActionButtons()}</div>
-            </div>
-
-            {/* Trip Details Section */}
-            <div className={`flex flex-col col-span-1 lg:col-span-3 ${isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
-                <TripDetailsComponent
-                    tripData={tripData}
-                    driverUploadedImages={tripData.driverTripStartingBlobs}
-                    hostUploadedImages={tripData.hostTripStartingBlobs}
-                    hostName={`${tripData.hostFirstName} ${tripData.hostLastName}`.trim()}
-                    hostPhoneNumber={tripData.hostPhoneNumber || ''}
-                    hostImage={tripData.hostImage || ''}
-                    isFetching={isFetching}
-                />
-            </div>
-
-            {/* Messages Section */}
-            <div className={`flex flex-col col-span-1 lg:col-span-2 ${!isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
-                <MessagePage params={params} />
+                    {/* Messages Section */}
+                    <div className={`lg:w-2/5 h-full ${!isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
+                        <div className='sticky top-20 bg-background  '>
+                            <MessagePage params={params} />
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Bottom Mobile Actions */}

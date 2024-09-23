@@ -28,7 +28,7 @@ export default function TripDetailsComponent({ tripData: trip, hostName, hostIma
     const { isAirportDeliveryChoosen } = determineDeliveryType(trip);
 
     return (
-        <div className='space-y-5 lg:space-y-10'>
+        <div className='space-y-5 lg:space-y-10 pb-10'>
             <div className='flex gap-3 md:gap-4'>
                 <div className='flex-center size-28 h-20 md:h-36 md:w-56 overflow-hidden rounded-md select-none'>
                     <img

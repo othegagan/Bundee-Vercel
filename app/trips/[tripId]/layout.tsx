@@ -8,5 +8,5 @@ export default async function layout({ children }: { children: React.ReactNode }
     if (!session.isLoggedIn) {
         return <ErrorComponent message='Oops, it seems you are not logged in. Please log in.' />;
     }
-    return <div className='py-4 md:container '>{children}</div>;
+    return <div className='min-h-screen flex flex-col'>{children}</div>;
 }

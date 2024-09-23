@@ -1,6 +1,5 @@
 'use client';
 
-import ClientOnly from '@/components/ClientOnly';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { VehiclesDetailsSkeleton } from '@/components/skeletons/skeletons';
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
@@ -46,43 +45,43 @@ export default function page({ params, searchParams }: Props) {
     const vehicleBusinessConstraints = vehicleDetailsResponse.data?.vehicleBusinessConstraints || null;
 
     return (
-        <>
-            <ClientOnly>
-                <div className='py-4 pb-6 md:container'>
-                    <div className='grid grid-cols-1 gap-6 md:gap-6 lg:grid-cols-3'>
-                        <div className='flex flex-col items-start lg:col-span-2'>
-                            <VehicleDetails
-                                vehicleDetails={vehicleDetails}
-                                vehicleHostDetails={vehicleHostDetails}
-                                vehicleBusinessConstraints={vehicleBusinessConstraints}
-                                wishlistButton={<WishlistButton vehicleId={vehicleDetails.id} variant='sm' />}
-                            />
+        <main className='flex-grow py-6'>
+            <div className='md:container md:mx-auto md:px-4 flex flex-col lg:flex-row gap-8'>
+                {/* Left scrollable content */}
+                <div className='lg:w-2/3 overflow-y-auto'>
+                    <VehicleDetails
+                        vehicleDetails={vehicleDetails}
+                        vehicleHostDetails={vehicleHostDetails}
+                        vehicleBusinessConstraints={vehicleBusinessConstraints}
+                        wishlistButton={<WishlistButton vehicleId={vehicleDetails.id} variant='sm' />}
+                    />
+                </div>
+
+                {/* Right sticky content */}
+                <div className='lg:w-1/3'>
+                    <div className='sticky top-20 space-y-6 px-4 md:px-0'>
+                        <div className='flex justify-between items-center'>
+                            <h2 className='text-2xl font-bold'>{`$${vehicleDetails?.price_per_hr} / day`}</h2>
+                            <WishlistButton vehicleId={vehicleDetails.id} variant='lg' />
                         </div>
 
-                        <div className='container  mt-4 flex flex-col gap-6 border-t border-neutral-200 pt-4 md:border-0 lg:row-span-3 lg:mt-0'>
-                            <div className='flex justify-between'>
-                                <h2 className='tracking-tight'>{`$${vehicleDetails?.price_per_hr} / day`}</h2>
-                                <WishlistButton vehicleId={vehicleDetails.id} variant='lg' />
-                            </div>
-
-                            <div className='flex w-full flex-col gap-2'>
-                                <div className='text-[15px] font-semibold'>Vehicle Location</div>
-                                <p className='text-14 flex items-center rounded-md border px-3 py-2'>
-                                    <FaLocationDot className='mr-2 size-5' />
-                                    {getFullAddress({ vehicleDetails })}
-                                </p>
-                            </div>
-
-                            <DynamicComponents
-                                vehicleId={vehicleDetails.id}
-                                vehicleDetails={vehicleDetails}
-                                hostDetails={vehicleHostDetails}
-                                bussinessConstraints={vehicleBusinessConstraints}
-                            />
+                        <div className='flex w-full flex-col gap-2'>
+                            <div className='text-[15px] font-semibold'>Vehicle Location</div>
+                            <p className='text-14 flex items-center rounded-md border px-3 py-2'>
+                                <FaLocationDot className='mr-2 size-5' />
+                                {getFullAddress({ vehicleDetails })}
+                            </p>
                         </div>
+
+                        <DynamicComponents
+                            vehicleId={vehicleDetails.id}
+                            vehicleDetails={vehicleDetails}
+                            hostDetails={vehicleHostDetails}
+                            bussinessConstraints={vehicleBusinessConstraints}
+                        />
                     </div>
                 </div>
-            </ClientOnly>
-        </>
+            </div>
+        </main>
     );
 }
