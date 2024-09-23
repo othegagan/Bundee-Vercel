@@ -69,7 +69,7 @@ export default function NotificationsComponent() {
                         // <div className='absolute -end-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] font-medium text-white'>
                         //     {notReadMessages.length}
                         // </div>
-                        <span className='absolute right-2 top-1 flex size-3'>
+                        <span className='absolute top-1 right-2 flex size-3'>
                             {ping && <span className='absolute inline-flex size-full animate-ping rounded-full bg-orange-500' />}
                             <span className='relative inline-flex size-3 rounded-full bg-primary' />
                         </span>
@@ -78,9 +78,9 @@ export default function NotificationsComponent() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-[310px]'>
                 <div className='mt-1 flex justify-between gap-3 p-1'>
-                    <p className='text-sm font-bold text-foreground'>Notifications</p>
+                    <p className='font-bold text-foreground text-sm'>Notifications</p>
                     {!loading && notReadMessages.length > 0 && (
-                        <button type='button' className='cursor-pointer select-none text-xs text-muted-foreground' onClick={markAsRead}>
+                        <button type='button' className='cursor-pointer select-none text-muted-foreground text-xs' onClick={markAsRead}>
                             Mark all as read
                         </button>
                     )}
@@ -98,7 +98,7 @@ export default function NotificationsComponent() {
                                 <p className='my-3 text-center text-xs'>No notifications yet</p>
                             </div>
                         ) : (
-                            <ScrollArea className='border-1 flex max-h-60 w-[300px] select-none flex-col rounded-lg p-1'>
+                            <ScrollArea className='flex max-h-60 w-[300px] select-none flex-col rounded-lg border-1 p-1'>
                                 {notificationsData.map((message) => (
                                     <NotificationItem key={message.id} data={message} />
                                 ))}
@@ -115,21 +115,21 @@ function NotificationItem({ data }) {
     return (
         <Link href={`/trips/${data.tripId}/details`}>
             <div className='my-1 w-full rounded-md border px-2 py-1 hover:bg-gray-50'>
-                <p className='flex flex-wrap items-center justify-between text-sm font-medium text-foreground'>
+                <p className='flex flex-wrap items-center justify-between font-medium text-foreground text-sm'>
                     <span className='text-primary underline underline-offset-2'>
                         {data.branchResponses[0]?.make} {data.branchResponses[0]?.model} {data.branchResponses[0]?.year}
                     </span>
                     {data.viewed === false && (
-                        <span className='font-normalme-2 -mt-1 ml-2 rounded bg-green-100 px-2.5 py-0.5 text-[10px] text-green-800 dark:bg-green-900 dark:text-green-300'>
+                        <span className='-mt-1 ml-2 rounded bg-green-100 px-2.5 py-0.5 font-normalme-2 text-[10px] text-green-800 dark:bg-green-900 dark:text-green-300'>
                             New
                         </span>
                     )}
 
-                    <span className='text-xs font-normal text-muted-foreground'>
+                    <span className='font-normal text-muted-foreground text-xs'>
                         {formatDistanceToNow(new Date(data.createdDate), { includeSeconds: false })} ago
                     </span>
                 </p>
-                <p className='mt-2 text-xs font-normal text-muted-foreground line-clamp-3'>{data?.message}</p>
+                <p className='mt-2 line-clamp-3 font-normal text-muted-foreground text-xs'>{data?.message}</p>
             </div>
         </Link>
     );

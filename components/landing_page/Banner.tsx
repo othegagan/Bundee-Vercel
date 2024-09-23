@@ -10,7 +10,7 @@ const Banner = () => {
                     <div className='py-10 sm:py-16 lg:py-24 2xl:pl-24'>
                         <div className='grid grid-cols-1 items-center gap-y-12 lg:grid-cols-2 lg:gap-x-8 2xl:gap-x-20'>
                             <div>
-                                <h2 className='text-3xl font-bold leading-tight  sm:text-4xl lg:text-5xl lg:leading-tight'>Drive like a local</h2>
+                                <h2 className='font-bold text-3xl leading-tight sm:text-4xl lg:text-5xl lg:leading-tight'>Drive like a local</h2>
                                 <p className='mt-4 text-base '>
                                     Step into the world of MyBundee, where you can discover a diverse range of vehicles tailored to your interests. Embark on a
                                     journey to explore and experience your dream destinations.
@@ -28,7 +28,7 @@ const Banner = () => {
                             </div>
 
                             <div className='relative '>
-                                <img className='relative mx-auto w-full max-w-lg  ' src='./images/banner-circle.png' alt='App screenshot' />
+                                <img className='relative mx-auto w-full max-w-lg ' src='./images/banner-circle.png' alt='App screenshot' />
                             </div>
                         </div>
                     </div>

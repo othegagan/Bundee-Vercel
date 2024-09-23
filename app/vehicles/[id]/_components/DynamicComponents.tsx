@@ -1,5 +1,6 @@
 'use client';
 
+import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -19,7 +20,6 @@ import secureLocalStorage from 'react-secure-storage';
 import { toast } from 'sonner';
 import DateRangeCalendar from './DateRangeCalendar';
 import DeliveryDetailsComponent from './DeliveryDetailsComponent';
-import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 
 interface DynamicComponentsProps {
     vehicleId: number;
@@ -202,7 +202,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 zipCode={vehicleDetails?.zipcode}
                 startTime={startTime}
                 endTime={endTime}
-                totalDays={priceCalculatedList?.numberOfDays }
+                totalDays={priceCalculatedList?.numberOfDays}
             />
 
             {/* {!priceLoading && !priceCalculatedList && !isPriceError ? <ErrorMessage message={priceErrorMessage} /> : null} */}
@@ -233,7 +233,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
 
             <div>
                 {priceLoading ? (
-                    <Skeleton className='h-8 w-full rounded-md bg-neutral-200 animate-pulse' />
+                    <Skeleton className='h-8 w-full animate-pulse rounded-md bg-neutral-200' />
                 ) : isPriceError ? null : (
                     <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChoosen={isAirportDeliveryChoosen} />
                 )}
@@ -259,7 +259,7 @@ function ErrorMessage({ message }) {
     return (
         <div className='mt-1 flex gap-2'>
             <IoInformationCircleOutline className='text-destructive' />
-            <p className='text-sm font-normal text-destructive'>{message}</p>
+            <p className='font-normal text-destructive text-sm'>{message}</p>
         </div>
     );
 }

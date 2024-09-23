@@ -20,7 +20,6 @@ export default function StartTripComponent({ starttime, tripid, zipCode }: { sta
             const convertedToVehicleTimeZone = formatDateAndTime(starttime, zipCode, 'YYYY-MM-DDTHH:mm:ss');
             // console.log('Converted Start Time:', convertedToVehicleTimeZone);
 
-
             const tripStartTime = Date.parse(convertedToVehicleTimeZone);
 
             // Validate the parsed start time
@@ -74,7 +73,7 @@ export default function StartTripComponent({ starttime, tripid, zipCode }: { sta
             disabled={tripStarting}
             variant='link'
             size='lg'
-            className='flex items-center gap-2 text-green-500 hover:text-green-600 p-0 font-semibold'>
+            className='flex items-center gap-2 p-0 font-semibold text-green-500 hover:text-green-600'>
             {tripStarting ? (
                 <div className='loader' />
             ) : (

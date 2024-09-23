@@ -49,17 +49,17 @@ export default function CheckoutDetails() {
 
     return (
         <div className='mt-4 min-w-[300px] space-y-4'>
-            <div className='rounded-lg overflow-hidden'>
+            <div className='overflow-hidden rounded-lg'>
                 <img src={image || '/images/image_not_available.png'} className='max-h-fit min-w-full' alt='Vehicle' />
             </div>
-            <h2 className='text-2xl font-bold '>{name}</h2>
+            <h2 className='font-bold text-2xl '>{name}</h2>
 
             <ul className='grid gap-3'>
-                <li className='text-14 flex flex-col sm:flex-row md:items-center sm:justify-between'>
+                <li className='flex flex-col text-14 sm:flex-row sm:justify-between md:items-center'>
                     <div className='text-muted-foreground'>Trip Start Date</div>
                     <div>{formatDateAndTime(startTime, zipCode)}</div>
                 </li>
-                <li className='text-14 flex flex-col sm:flex-row md:items-center sm:justify-between'>
+                <li className='flex flex-col text-14 sm:flex-row sm:justify-between md:items-center'>
                     <div className='text-muted-foreground'>Trip End Date</div>
                     <div>{formatDateAndTime(endTime, zipCode)}</div>
                 </li>

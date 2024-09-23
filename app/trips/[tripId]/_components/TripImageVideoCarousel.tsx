@@ -23,12 +23,12 @@ const TripImageVideoCarousel = ({ images, uploadedBy }) => {
         }
     };
     return (
-        <div className='grid grid-cols-2 gap-4 md:grid-cols-3 overflow-x-auto'>
+        <div className='grid grid-cols-2 gap-4 overflow-x-auto md:grid-cols-3'>
             {images.map((item) => (
-                <div className='custom-shadow h-fit  rounded-lg  hover:shadow-md ' key={item.id}>
-                    <div className=' relative  overflow-hidden rounded-t-md  w-full h-32'>
+                <div className='custom-shadow h-fit rounded-lg hover:shadow-md ' key={item.id}>
+                    <div className=' relative h-32 w-full overflow-hidden rounded-t-md'>
                         {uploadedBy === 'driver' && (
-                            <div className='absolute top-2 right-2 bg-background p-1 rounded-md cursor-pointer'>
+                            <div className='absolute top-2 right-2 cursor-pointer rounded-md bg-background p-1'>
                                 <FiTrash2 className=' text-lg text-red-500' onClick={() => deleteImage(item.id)} />
                             </div>
                         )}
@@ -46,7 +46,7 @@ const TripImageVideoCarousel = ({ images, uploadedBy }) => {
 
                     <div className=' flex h-fit flex-wrap items-center justify-between p-3'>
                         <div className=' flex flex-col flex-wrap'>
-                            {item?.caption && <p className=' text-sm text-neutral-700'>{toTitleCase(item.caption)}</p>}
+                            {item?.caption && <p className=' text-neutral-700 text-sm'>{toTitleCase(item.caption)}</p>}
                             <span className='text-[11px] text-neutral-500'>Uploaded on {format(new Date(item.createdDate), 'PP, p')} </span>
                         </div>
                     </div>

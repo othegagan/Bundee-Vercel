@@ -104,9 +104,9 @@ export default function FileUploader({ onFileSelect, setError, maxFileSize = 2 *
     };
 
     return (
-        <div className={`w-full grid grid-cols-1 gap-4 md:gap-6 ${files.length > 0 ? 'md:grid-cols-2' : ''}`}>
+        <div className={`grid w-full grid-cols-1 gap-4 md:gap-6 ${files.length > 0 ? 'md:grid-cols-2' : ''}`}>
             <div
-                className={`relative flex min-h-44 h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-4 text-center transition duration-150 ease-in-out ${
+                className={`relative flex h-full min-h-44 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-4 text-center transition duration-150 ease-in-out ${
                     isDragging ? 'border-primary bg-primary/10' : 'border-2 border-neutral-200 bg-muted hover:border-primary hover:bg-primary/5'
                 }`}
                 onDragEnter={onDragEnter}
@@ -114,18 +114,18 @@ export default function FileUploader({ onFileSelect, setError, maxFileSize = 2 *
                 onDrop={onDrop}
                 onClick={() => fileInputRef.current?.click()}>
                 <Upload className='h-10 w-10 text-muted-foreground' />
-                <p className='mt-2 text-sm text-muted-foreground'>Click to upload or drag and drop</p>
-                <p className='text-xs text-muted-foreground'>Max. File Size: {maxFileSize / (1024 * 1024)}MB</p>
+                <p className='mt-2 text-muted-foreground text-sm'>Click to upload or drag and drop</p>
+                <p className='text-muted-foreground text-xs'>Max. File Size: {maxFileSize / (1024 * 1024)}MB</p>
                 <input ref={fileInputRef} type='file' accept='image/*, video/*' multiple onChange={onFileDrop} className='hidden' />
             </div>
 
             {files.length > 0 && (
-                <div className='space-y-2 max-h-72 overflow-y-auto'>
+                <div className='max-h-72 space-y-2 overflow-y-auto'>
                     {files.map((file, index) => (
                         <div key={index} className='flex items-center justify-between gap-2 text-sm'>
                             <div className='flex items-center gap-2'>
                                 {previews[index] && <Image src={previews[index]} alt={file.name} width={100} height={80} className='rounded object-cover' />}
-                                <span className='truncate max-w-[150px]'>{file.name}</span>
+                                <span className='max-w-[150px] truncate'>{file.name}</span>
                             </div>
                             <Button size='icon' variant='ghost' onClick={() => removeFile(index)}>
                                 <Trash className='h-4 w-4' />

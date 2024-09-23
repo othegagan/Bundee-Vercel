@@ -31,7 +31,7 @@ export default function DrivingLicenceDialog() {
                 {isUpdate ? (
                     <p>Update driving license.</p>
                 ) : (
-                    <p className='mt-4 text-sm leading-snug text-neutral-600'>
+                    <p className='mt-4 text-neutral-600 text-sm leading-snug'>
                         Your driving license has not yet been verified. <br />
                         Please verify it.
                     </p>

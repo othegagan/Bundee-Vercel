@@ -15,7 +15,7 @@ const WishlistComponent = () => {
     return (
         <BoxContainer className='mb-6 py-6'>
             <div className='flex flex-col gap-1 pb-2'>
-                <h3 className='ml-2 text-2xl font-bold leading-6 text-gray-900'>Wishlist</h3>
+                <h3 className='ml-2 font-bold text-2xl text-gray-900 leading-6'>Wishlist</h3>
             </div>
             <MainComponent />
         </BoxContainer>
@@ -52,7 +52,7 @@ const WishlistCard = ({ car, removeFromWishlistHandler }) => {
     };
 
     return (
-        <div className='group h-fit rounded-lg  border bg-white hover:shadow'>
+        <div className='group h-fit rounded-lg border bg-white hover:shadow'>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>
                 <Link
                     href={`/vehicles/${car.vehicleid}`}
@@ -67,22 +67,22 @@ const WishlistCard = ({ car, removeFromWishlistHandler }) => {
                         <img
                             src='./images/image_not_available.png'
                             alt='image_not_found'
-                            className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
+                            className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out lg:h-full lg:w-full'
                         />
                     )}
                 </Link>
 
                 <div className='absolute bottom-2 left-1 inline-flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
                     <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
-                    <span className=' text-sm text-neutral-700'>
+                    <span className=' text-neutral-700 text-sm'>
                         {car?.rating} • ({car?.tripCount} {car?.tripCount === 1 ? 'Trip' : 'Trips'})
                     </span>
                 </div>
             </div>
 
             <div className='mt-1 flex items-center justify-between p-3'>
-                <Link href={`/vehicles/${car.vehicleid}`} className='cursor-pointer truncate  text-neutral-800'>
-                    <p className='text-lg font-semibold text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
+                <Link href={`/vehicles/${car.vehicleid}`} className='cursor-pointer truncate text-neutral-800'>
+                    <p className='font-semibold text-lg text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
                 </Link>
 
                 <Button onClick={handleRemoveFromWishlist} className='flex' variant='ghost' size='icon'>

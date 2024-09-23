@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <meta name='description' content='' />
                 <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
             </head>
-            <body className={`${inter.className} flex min-h-screen  w-full flex-col`}>
+            <body className={`${inter.className} flex min-h-screen w-full flex-col`}>
                 <Providers>
                     <ClientOnly>
                         <LoginDialog />

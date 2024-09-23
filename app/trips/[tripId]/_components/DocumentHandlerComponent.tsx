@@ -18,7 +18,7 @@ export function RentalAgreementHandler({ isRentalAgreed, rentalAgrrementUrl, ren
         return (
             <Button
                 variant='link'
-                className='p-0 text-md font-normal underline underline-offset-2 text-foreground'
+                className='p-0 font-normal text-foreground text-md underline underline-offset-2'
                 onClick={() => {
                     documentModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
                     documentModal.setIsAgreementAcceptedOn(formatDate(new Date(rentalAgreedDate), 'PP, h:mm a'));
@@ -32,7 +32,7 @@ export function RentalAgreementHandler({ isRentalAgreed, rentalAgrrementUrl, ren
     return (
         <Button
             variant='link'
-            className='p-0 text-md font-normal underline underline-offset-2 text-foreground'
+            className='p-0 font-normal text-foreground text-md underline underline-offset-2'
             onClick={() => {
                 documentModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
                 documentModal.setTripId(tripId);
@@ -50,7 +50,7 @@ export function InvoiceHandlerComponent({ invoiceUrl }: any) {
         return (
             <Button
                 variant='link'
-                className='p-0 text-sm font-normal underline underline-offset-2 text-foreground'
+                className='p-0 font-normal text-foreground text-sm underline underline-offset-2'
                 onClick={() => {
                     documentModal.setInvoicePDFLink(invoiceUrl);
                     documentModal.onOpen();

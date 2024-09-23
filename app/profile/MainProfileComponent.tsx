@@ -172,9 +172,9 @@ const ProfilePage = () => {
     return (
         <div className='mx-auto mt-8 flex flex-col gap-6 md:gap-10'>
             <div className='space-y-4'>
-                <div className='border-b-2 border-neutral-900/10 pb-2'>
+                <div className='border-neutral-900/10 border-b-2 pb-2'>
                     <div className='flex items-center justify-between'>
-                        <h2 className=' text-base font-semibold leading-7'>Name</h2>
+                        <h2 className=' font-semibold text-base leading-7'>Name</h2>
                         {activeSection !== 'name' ? (
                             <Button
                                 variant='outline'
@@ -235,9 +235,9 @@ const ProfilePage = () => {
             </div>
 
             <div className='space-y-4'>
-                <div className='border-b-2 border-neutral-900/10 pb-2'>
+                <div className='border-neutral-900/10 border-b-2 pb-2'>
                     <div className='flex items-center justify-between'>
-                        <h2 className=' text-base font-semibold leading-7'> Phone Number</h2>
+                        <h2 className=' font-semibold text-base leading-7'> Phone Number</h2>
                         {activeSection !== 'phoneNumber' ? (
                             <Button
                                 variant='outline'
@@ -267,8 +267,8 @@ const ProfilePage = () => {
             </div>
 
             <div className='space-y-4'>
-                <div className='border-b-2 border-neutral-900/10 pb-2'>
-                    <h2 className=' text-base font-semibold leading-7'>Email</h2>
+                <div className='border-neutral-900/10 border-b-2 pb-2'>
+                    <h2 className=' font-semibold text-base leading-7'>Email</h2>
                     <div>
                         {savedData.email}
                         {savedData.email && (
@@ -281,9 +281,9 @@ const ProfilePage = () => {
             </div>
 
             <div className='space-y-4'>
-                <div className='border-b-2 border-neutral-900/10 pb-2'>
+                <div className='border-neutral-900/10 border-b-2 pb-2'>
                     <div className='flex items-center justify-between'>
-                        <h2 className=' text-base font-semibold leading-7'>Address Details</h2>
+                        <h2 className=' font-semibold text-base leading-7'>Address Details</h2>
                         {activeSection !== 'address' ? (
                             <Button
                                 variant='outline'
@@ -375,9 +375,9 @@ const ProfilePage = () => {
             </div>
 
             <div className='space-y-4'>
-                <div className='border-b-2 border-neutral-900/10 pb-2'>
+                <div className='border-neutral-900/10 border-b-2 pb-2'>
                     <div className='flex items-center justify-between'>
-                        <h2 className=' text-base font-semibold leading-7'>Insurance Details</h2>
+                        <h2 className=' font-semibold text-base leading-7'>Insurance Details</h2>
                         {activeSection !== 'insurance' ? (
                             <Button
                                 variant='outline'

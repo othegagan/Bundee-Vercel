@@ -4,7 +4,7 @@ interface ContainerProps {
 }
 
 const BoxContainer: React.FC<ContainerProps> = ({ children, className }) => {
-    return <div className={`container  ${className}`}>{children}</div>;
+    return <div className={`container ${className}`}>{children}</div>;
 };
 
 export default BoxContainer;

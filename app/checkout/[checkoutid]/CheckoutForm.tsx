@@ -164,7 +164,7 @@ const PaymentStatus = ({ status, errorMessage }: { status: string; errorMessage?
                             <IoWarning className='h-5 w-5 text-red-400' />
                         </div>
                         <div className='ml-3'>
-                            <p className='text-sm font-medium text-red-800'>{errorMessage}</p>
+                            <p className='font-medium text-red-800 text-sm'>{errorMessage}</p>
                         </div>
                     </div>
                 </div>

@@ -36,7 +36,7 @@ const DeleteAccountComponent = () => {
 
     return (
         <div>
-            <p className='mt-6 max-w-2xl text-sm leading-snug text-neutral-500'>
+            <p className='mt-6 max-w-2xl text-neutral-500 text-sm leading-snug'>
                 We are sorry to see you go. Are you sure you want to delete your MyBundee account? Please be advised if you choose to proceed, your account
                 closure will be irreversible.
             </p>

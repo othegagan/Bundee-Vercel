@@ -59,17 +59,17 @@ const ChangePasswordComponent = () => {
     };
 
     return (
-        <div className='w-ful mt-12 flex h-screen justify-start'>
+        <div className='mt-12 flex h-screen w-ful justify-start'>
             {errorOccuredInresetMailSent === false && !resetMailSent && (
                 <div className='w-full'>
                     <div className='mt-10'>
                         <div className='w-full'>
-                            <label className='text-sm font-medium leading-6 text-gray-900'>Email address</label>
+                            <label className='font-medium text-gray-900 text-sm leading-6'>Email address</label>
                             <div className='mt-2'>
                                 <Input id='email' name='email' type='email' required value={email} disabled className='' />
                             </div>
                         </div>
-                        {error && <p className='mt-2 text-sm text-red-500'>{error}</p>}
+                        {error && <p className='mt-2 text-red-500 text-sm'>{error}</p>}
 
                         <div className='flex justify-end'>
                             <Button onClick={firebasereestPasswordHandler} variant='black' className='my-5'>
@@ -82,7 +82,7 @@ const ChangePasswordComponent = () => {
 
             {errorOccuredInresetMailSent === true && !resetMailSent && (
                 <div className='w-full'>
-                    <h2 className='mt-10 text-left text-2xl font-bold leading-9 tracking-tight text-gray-900'>Something went wrong.</h2>
+                    <h2 className='mt-10 text-left font-bold text-2xl text-gray-900 leading-9 tracking-tight'>Something went wrong.</h2>
                     <p className=' mt-4 text-left text-gray-600'>We have encounter some problem resting your password, please try again</p>
                 </div>
             )}

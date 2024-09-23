@@ -52,16 +52,16 @@ export default function SearchCalendar({ setStartDate, setEndDate, startDate, en
                     <Button
                         variant='outline'
                         className={cn(
-                            'flex w-full cursor-pointer items-center justify-start rounded-md  border border-gray-200 px-3 py-2 text-left text-sm font-normal  ',
+                            'flex w-full cursor-pointer items-center justify-start rounded-md border border-gray-200 px-3 py-2 text-left font-normal text-sm ',
                             !dates && 'text-muted-foreground'
                         )}>
                         {dates?.end ? (
-                            <div className='flex w-full items-center  justify-between'>
-                                <div className='flex w-full items-center  justify-start'>
+                            <div className='flex w-full items-center justify-between'>
+                                <div className='flex w-full items-center justify-start'>
                                     <CalendarIcon className='mr-1 size-4' /> {format(dates.start.toDate(getLocalTimeZone()), 'LLL dd, y')}
                                 </div>
                                 <GoDash />
-                                <div className='flex w-full items-center  justify-end'>
+                                <div className='flex w-full items-center justify-end'>
                                     <CalendarIcon className='mr-1 size-4' /> {format(dates.end.toDate(getLocalTimeZone()), 'LLL dd, y')}
                                 </div>
                             </div>

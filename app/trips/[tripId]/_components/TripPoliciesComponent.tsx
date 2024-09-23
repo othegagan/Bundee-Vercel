@@ -9,12 +9,12 @@ export default function TripPoliciesComponent({ starttime, cancellationDays }: {
     };
 
     return (
-        <div className='flex flex-col gap-2 w-full'>
-            <div className='text-md font-bold '>Policies</div>
+        <div className='flex w-full flex-col gap-2'>
+            <div className='font-bold text-md '>Policies</div>
 
             {/* Free Cancellation Date */}
-            <div className='flex gap-2 items-center justify-between w-full'>
-                <div className='text-md w-fit flex flex-col  gap-1'>
+            <div className='flex w-full items-center justify-between gap-2'>
+                <div className='flex w-fit flex-col gap-1 text-md'>
                     <p className='text-14 lg:text-16'>Cancelation Policy</p>
                     <p className='text-12 lg:text-14'>Free Cancellation until {format(calFreeCancellationDate(), 'PPP')}</p>
                 </div>
@@ -23,8 +23,8 @@ export default function TripPoliciesComponent({ starttime, cancellationDays }: {
                 </Link>
             </div>
 
-            <div className='flex gap-2 items-center justify-between w-fullD'>
-                <div className='text-md w-fit flex flex-col  gap-2'>
+            <div className='flex w-fullD items-center justify-between gap-2'>
+                <div className='flex w-fit flex-col gap-2 text-md'>
                     <p className='text-14 lg:text-16'>Vehicle Policy</p>
                 </div>
                 <Link href={'/privacy'} className='underline underline-offset-2'>

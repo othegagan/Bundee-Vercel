@@ -74,7 +74,7 @@ export default function DeliveryDetailsComponent({
     if (!deliveryDetails) return null;
 
     return (
-        <div className='flex-2 flex w-full flex-col gap-2 '>
+        <div className='flex w-full flex-2 flex-col gap-2 '>
             <div className='flex flex-col gap-5'>
                 <DeliveryOption
                     label='Do you need Custom delivery?'
@@ -89,7 +89,7 @@ export default function DeliveryDetailsComponent({
                     additionalContent={
                         isCustoumDeliveryChoosen && (
                             <>
-                                <p className='my-2 text-xs font-bold'>Delivery Location</p>
+                                <p className='my-2 font-bold text-xs'>Delivery Location</p>
                                 <AddressSearchBox setCustomDeliveryLocation={setCustomDeliveryLocation} />
                             </>
                         )
@@ -107,7 +107,7 @@ export default function DeliveryDetailsComponent({
                         onCheckboxChange={handleAirportDeliveryCheckbox}
                         checkboxChecked={isAirportDeliveryChoosen}
                         costLabel={`$${deliveryDetails.airportDeliveryCost} will be applied for airport delivery`}
-                        additionalContent={<p className='my-1 text-xs font-bold'>Delivery Location: {city}</p>}
+                        additionalContent={<p className='my-1 font-bold text-xs'>Delivery Location: {city}</p>}
                     />
                 )}
             </div>
@@ -128,9 +128,9 @@ const DeliveryOption = ({
     additionalContent
 }) => (
     <div className='w-full rounded-md border border-gray-200 px-3 py-2'>
-        <button type='button' className='flex cursor-pointer select-none justify-between w-full items-center' onClick={onToggle}>
+        <button type='button' className='flex w-full cursor-pointer select-none items-center justify-between' onClick={onToggle}>
             <p className={`flex items-center font-medium ${isSelected ? 'text-green-500' : 'text-primary'}`}>{isSelected ? appliedLabel : label}</p>
-            <ChevronDown className={`size-5 ml-auto text-neutral-500 ${showDetails ? 'rotate-180' : 'rotate-0'}`} />
+            <ChevronDown className={`ml-auto size-5 text-neutral-500 ${showDetails ? 'rotate-180' : 'rotate-0'}`} />
         </button>
         {showDetails && (
             <>
@@ -147,7 +147,7 @@ const CheckboxWithLabel = ({ id, checked, onChange, label }) => (
     <div className='flex select-none gap-3'>
         <label htmlFor={id} className='flex cursor-pointer items-center gap-2'>
             <input id={id} type='checkbox' className='h-5 w-5' checked={checked} onChange={onChange} />
-            <div className='flex items-center gap-2 text-sm text-neutral-500'>
+            <div className='flex items-center gap-2 text-neutral-500 text-sm'>
                 <span className='font-bold'>{label}</span>
             </div>
         </label>

@@ -5,6 +5,7 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import { TripsDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { useTripDetails } from '@/hooks/useTripDetails';
+import { TripData } from '@/types';
 import { useQueryState } from 'next-usequerystate';
 import { useMediaQuery } from 'react-responsive';
 import CancelTripComponent from '../_components/CancelTripComponent';
@@ -15,7 +16,6 @@ import TripDetailsComponent from '../_components/TripDetailsComponent';
 import TripModificationDialog from '../_components/TripModificationDialog';
 import TripReviewDialogTrigger from '../_components/TripReviewDialogTrigger';
 import MessagePage from '../message/page';
-import { TripData } from '@/types';
 
 export default function page({ params }: { params: { tripId: string } }) {
     const { tripId } = params;
@@ -69,26 +69,26 @@ export default function page({ params }: { params: { tripId: string } }) {
     );
 
     return (
-        <div className='flex-grow container'>
-            <div className='grid grid-cols-1 lg:grid-cols-5 gap-4  lg:gap-x-10'>
+        <div className='container flex-grow'>
+            <div className='grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-x-10'>
                 {/* Header Section */}
-                <div className='pt-4 lg:pt-0 flex items-center justify-between col-span-1 lg:col-span-5'>
+                <div className='col-span-1 flex items-center justify-between pt-4 lg:col-span-5 lg:pt-0'>
                     <BackButton />
                     <Button
                         variant='outline'
-                        className='text-primary border-primary lg:hidden'
+                        className='border-primary text-primary lg:hidden'
                         size='sm'
                         onClick={() => setShowMessage(isMessageVisible ? 'false' : 'true')}
                         aria-label='Toggle messages'>
                         {isMessageVisible ? 'Details' : 'Messages'}
                     </Button>
-                    <div className='ml-auto gap-10 items-center justify-between hidden lg:flex'>{renderActionButtons()}</div>
+                    <div className='ml-auto hidden items-center justify-between gap-10 lg:flex'>{renderActionButtons()}</div>
                 </div>
 
                 {/* Main Content Area */}
-                <div className='col-span-1 lg:col-span-5 flex flex-col lg:flex-row gap-6 lg:gap-16'>
+                <div className='col-span-1 flex flex-col gap-6 lg:col-span-5 lg:flex-row lg:gap-16'>
                     {/* Trip Details Section */}
-                    <div className={`lg:w-3/5 overflow-y-auto ${isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
+                    <div className={`overflow-y-auto lg:w-3/5 ${isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
                         <TripDetailsComponent
                             tripData={tripData}
                             driverUploadedImages={tripData.driverTripStartingBlobs}
@@ -101,8 +101,8 @@ export default function page({ params }: { params: { tripId: string } }) {
                     </div>
 
                     {/* Messages Section */}
-                    <div className={`lg:w-2/5 h-full ${!isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
-                        <div className='sticky top-20 bg-background  '>
+                    <div className={`h-full lg:w-2/5 ${!isMessageVisible && !isTabletOrLarger ? 'hidden' : 'block'}`}>
+                        <div className='sticky top-20 bg-background '>
                             <MessagePage params={params} />
                         </div>
                     </div>
@@ -111,7 +111,7 @@ export default function page({ params }: { params: { tripId: string } }) {
 
             {/* Bottom Mobile Actions */}
             <div
-                className={`lg:hidden fixed bottom-0 left-0 right-0 flex justify-around flex-wrap gap-3 z-10 bg-background px-4 py-2 shadow-[0px_0px_9px_0px_#00000024] ${isMessageVisible ? 'hidden' : 'block'}`}>
+                className={`fixed right-0 bottom-0 left-0 z-10 flex flex-wrap justify-around gap-3 bg-background px-4 py-2 shadow-[0px_0px_9px_0px_#00000024] lg:hidden ${isMessageVisible ? 'hidden' : 'block'}`}>
                 {renderActionButtons()}
             </div>
         </div>

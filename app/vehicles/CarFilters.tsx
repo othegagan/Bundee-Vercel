@@ -171,7 +171,7 @@ const CarFilters = () => {
             <Dialog isOpen={useCarFilter.isOpen} closeDialog={closeModal} className='lg:max-w-5xl' title='Filters'>
                 <DialogBody>
                     <div className='grid grid-cols-1 gap-5 lg:grid-cols-2'>
-                        <div className='  select-none space-y-3  md:space-y-5 md:border-r'>
+                        <div className=' select-none space-y-3 md:space-y-5 md:border-r'>
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Sort By Price</Label>
                                 <RadioGroup defaultValue='relevance' className=' flex items-center gap-4'>
@@ -228,7 +228,7 @@ const CarFilters = () => {
                                     {Array.from(new Set(useCarFilter.carDetails.map((car) => car.make.toLowerCase()))).map((make: any, index) => (
                                         <div
                                             key={index}
-                                            className={`flex  w-fit cursor-pointer  items-center  rounded-md text-xs font-medium md:text-sm ${
+                                            className={`flex w-fit cursor-pointer items-center rounded-md font-medium text-xs md:text-sm ${
                                                 selectedMakes.includes(make) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input
@@ -246,14 +246,14 @@ const CarFilters = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='  select-none space-y-3  md:space-y-5 '>
+                        <div className=' select-none space-y-3 md:space-y-5 '>
                             <div className='flex flex-col gap-4 pb-3'>
                                 <Label>Fuel Type</Label>
                                 <div className='flex flex-wrap gap-4'>
                                     {fuelTypes.map((fuelType, index) => (
                                         <div
                                             key={index}
-                                            className={`flex  w-fit cursor-pointer  items-center  rounded-md text-sm font-medium ${
+                                            className={`flex w-fit cursor-pointer items-center rounded-md font-medium text-sm ${
                                                 selectedFuelTypes.includes(fuelType.text) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input
@@ -280,7 +280,7 @@ const CarFilters = () => {
                                     {ratings.map((rating, index) => (
                                         <div
                                             key={index}
-                                            className={`flex  w-fit cursor-pointer  items-center  rounded-md text-sm font-medium ${
+                                            className={`flex w-fit cursor-pointer items-center rounded-md font-medium text-sm ${
                                                 selectedRatings.includes(rating) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input
@@ -305,7 +305,7 @@ const CarFilters = () => {
                                     {seatings.map((seating, index) => (
                                         <div
                                             key={index}
-                                            className={`flex w-fit cursor-pointer items-center rounded-md text-sm font-medium ${
+                                            className={`flex w-fit cursor-pointer items-center rounded-md font-medium text-sm ${
                                                 seatingCapacityFilters.includes(String(seating)) ? 'bg-primary/80 text-white' : 'bg-black/5 text-neutral-900'
                                             }`}>
                                             <input

@@ -1,8 +1,8 @@
 'use client';
 
+import BackButton from '@/components/custom/BackButton';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { CheckoutCardSkeleton, CheckoutDetailsSkeleton } from '@/components/skeletons/skeletons';
-import BackButton from '@/components/custom/BackButton';
 import CheckoutDetails, { useCheckoutDetails } from './CheckoutDetails';
 import StripePaymentComponent from './StripePaymentComponent';
 
@@ -13,7 +13,7 @@ export default function page() {
 
     // Shared layout structure
     const Layout = ({ children }: { children: React.ReactNode }) => (
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:max-w-4xl w-full container md:pt-10 py-6 md:gap-6 px-4'>
+        <div className='container grid w-full grid-cols-1 gap-4 px-4 py-6 md:max-w-4xl md:grid-cols-2 md:gap-6 md:pt-10'>
             <div className='md:border-r md:pr-6'>
                 <div className='mb-6'>
                     <BackButton />
@@ -21,7 +21,7 @@ export default function page() {
                 </div>
             </div>
             <div>
-                <h2 className='mb-6 text-2xl font-bold'>Pay with card</h2>
+                <h2 className='mb-6 font-bold text-2xl'>Pay with card</h2>
                 {loading ? <CheckoutCardSkeleton /> : <StripePaymentComponent />}
             </div>
         </div>

@@ -19,11 +19,11 @@ export default function TripsComponent() {
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
     return (
         <BoxContainer className='mb-6'>
-            <div className='flex flex-col mx-auto gap-1 border-b  md:flex-row md:items-center md:justify-center select-none'>
+            <div className='mx-auto flex select-none flex-col gap-1 border-b md:flex-row md:items-center md:justify-center'>
                 <div
                     role='tablist'
                     aria-orientation='horizontal'
-                    className='mt-4 grid  w-fit mx-auto max-w-lg grid-cols-2 items-center justify-center gap-10 rounded-lg    text-muted-foreground'
+                    className='mx-auto mt-4 grid w-fit max-w-lg grid-cols-2 items-center justify-center gap-10 rounded-lg text-muted-foreground'
                     data-orientation='horizontal'>
                     {[
                         { id: 0, title: 'Trips' },
@@ -34,8 +34,7 @@ export default function TripsComponent() {
                             onClick={() => setTabSelectedIndex(id)}
                             type='button'
                             role='tab'
-                            className={`inline-flex items-center justify-center whitespace-nowrap  px-3 py-2 text-md font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:underline
-                    ${tabSelectedIndex === id ? 'text-primary font-bold text-lg  ' : 'font-medium text-muted-foreground'}`}>
+                            className={`inline-flex items-center justify-center whitespace-nowrap px-3 py-2 font-medium text-md ring-offset-background transition-all hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${tabSelectedIndex === id ? 'font-bold text-lg text-primary ' : 'font-medium text-muted-foreground'}`}>
                             {title}
                         </button>
                     ))}
@@ -74,15 +73,15 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
     }
 
     return (
-        <div className='mt-6 grid w-full grid-cols-1 max-w-4xl mx-auto '>
+        <div className='mx-auto mt-6 grid w-full max-w-4xl grid-cols-1 '>
             {tripsResponse.data?.activetripresponse.map((trip: any) => {
                 if (isTabletOrLarger) {
                     return (
                         <Link
                             key={trip.tripid}
                             href={`/trips/${trip.tripid}/details`}
-                            className='flex flex-1 w-full gap-4 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:py-3'>
-                            <div className='flex-center size-32 h-full overflow-hidden rounded-md'>
+                            className='flex w-full flex-1 gap-4 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:py-3'>
+                            <div className='size-32 h-full flex-center overflow-hidden rounded-md'>
                                 <img
                                     src={trip.vehicleImages[0]?.imagename || '/images/image_not_available.png'}
                                     alt={`${trip.vehmake} ${trip.vehmodel}`}
@@ -91,18 +90,18 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                             </div>
 
                             <div className='flex w-full flex-1 flex-col gap-2 '>
-                                <div className='flex  w-full items-center justify-between'>
-                                    <div className='text-[18px]  truncate max-w-[200px] font-bold md:max-w-sm'>
+                                <div className='flex w-full items-center justify-between'>
+                                    <div className='max-w-[200px] truncate font-bold text-[18px] md:max-w-sm'>
                                         {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
-                                        <div className='text-14 font-medium text-muted-foreground  '>{trip?.vehicleNumber}</div>
+                                        <div className='font-medium text-14 text-muted-foreground '>{trip?.vehicleNumber}</div>
                                     </div>
-                                    <div className='flex-center mt-2 justify-between gap-6'>
+                                    <div className='mt-2 flex-center justify-between gap-6'>
                                         <StatusBadge status={trip.status} type='trip' />
                                         {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}
                                     </div>
                                 </div>
 
-                                <div className='flex w-full gap-2 items-center'>
+                                <div className='flex w-full items-center gap-2'>
                                     <CalendarDays className='size-4 ' />
                                     <div className='text-14 '>
                                         {formatDateAndTime(trip?.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
@@ -110,12 +109,12 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                     </div>
                                 </div>
 
-                                <div className='flex-center text-14  justify-start gap-2'>
+                                <div className='flex-center justify-start gap-2 text-14'>
                                     <MapPin className='size-4 ' />
-                                    <p className=' max-w-[300px] md:max-w-[400px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
+                                    <p className=' max-w-[300px] truncate md:max-w-[400px]'>{getFullAddress({ tripDetails: trip })}</p>
                                 </div>
 
-                                <div className='flex items-center justify-end gap-10 pl-1.5 -mt-6'>
+                                <div className='-mt-6 flex items-center justify-end gap-10 pl-1.5'>
                                     {/* {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
                                         <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
                                             <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
@@ -125,7 +124,7 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                     <Button
                                         onClick={() => router.push(`/trips/${trip.tripid}/details`)}
                                         variant='link'
-                                        className='px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
+                                        className='flex items-center gap-2 px-0 font-semibold text-secondary-foreground'>
                                         <img src='/icons/chat.svg' alt='chat' width={18} height={18} />
                                         Message Host
                                     </Button>
@@ -140,9 +139,9 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                         key={trip.tripid}
                         href={`/trips/${trip.tripid}/details`}
                         className='flex gap-2 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:p-2'>
-                        <div className='flex flex-1 flex-col md:flex-row gap-2 text-nowrap'>
+                        <div className='flex flex-1 flex-col gap-2 text-nowrap md:flex-row'>
                             <div className='flex gap-3 md:gap-4'>
-                                <div className='flex-center size-28 h-16 overflow-hidden rounded-md select-none'>
+                                <div className='size-28 h-16 flex-center select-none overflow-hidden rounded-md'>
                                     <img
                                         src={trip.vehicleImages[0]?.imagename || '/images/image_not_available.png'}
                                         alt={`${trip.vehmake} ${trip.vehmodel}`}
@@ -151,19 +150,19 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 </div>
 
                                 <div className='flex flex-1 flex-col '>
-                                    <div className='text-16  truncate max-w-[200px] font-semibold md:max-w-sm'>
+                                    <div className='max-w-[200px] truncate font-semibold text-16 md:max-w-sm'>
                                         {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
                                     </div>
 
-                                    <div className='flex-center justify-between flex-wrap gap-2'>
-                                        <div className='text-14 font-medium text-muted-foreground'>{trip?.vehicleNumber}</div>
+                                    <div className='flex-center flex-wrap justify-between gap-2'>
+                                        <div className='font-medium text-14 text-muted-foreground'>{trip?.vehicleNumber}</div>
                                         <StatusBadge status={trip.status} type='trip' />
                                         {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}
                                     </div>
                                 </div>
                             </div>
 
-                            <div className='flex w-full gap-2 items-center'>
+                            <div className='flex w-full items-center gap-2'>
                                 <CalendarDays className='size-5 text-muted-foreground' />
                                 <div className='text-14 '>
                                     {formatDateAndTime(trip.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
@@ -171,12 +170,12 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 </div>
                             </div>
 
-                            <div className='flex-center text-14 mt-1.5 justify-start gap-2'>
+                            <div className='mt-1.5 flex-center justify-start gap-2 text-14'>
                                 <MapPin className='size-5 text-muted-foreground' />
                                 <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
                             </div>
 
-                            <div className='flex items-center w-full justify-between '>
+                            <div className='flex w-full items-center justify-between '>
                                 {/* {['approved', 'started', 'requested'].indexOf(trip.status.toLowerCase()) !== -1 && (
                                         <Button variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
                                             <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
@@ -186,7 +185,7 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 <Button
                                     onClick={() => router.push(`/trips/${trip.tripid}/details?messages=true`)}
                                     variant='link'
-                                    className='ml-auto px-0 flex gap-2 items-center text-secondary-foreground font-semibold'>
+                                    className='ml-auto flex items-center gap-2 px-0 font-semibold text-secondary-foreground'>
                                     <img src='/icons/chat.svg' alt='chat' width={18} height={18} />
                                     Message Host
                                 </Button>
@@ -216,7 +215,7 @@ export const StatusBadge = ({ status, type, className }: { type: 'trip' | 'swap'
     const statusText = getStatusText(type, status);
 
     return (
-        <div className={cn('text-12 capitalize inline-flex items-center whitespace-nowrap  px-2.5 py-1.5 font-bold bg-[#0A4AC61A]', className)}>
+        <div className={cn('inline-flex items-center whitespace-nowrap bg-[#0A4AC61A] px-2.5 py-1.5 font-bold text-12 capitalize', className)}>
             {statusText}
         </div>
     );

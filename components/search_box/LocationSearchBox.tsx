@@ -50,10 +50,10 @@ const LocationSearchBox = () => {
         <div>
             <div className='relative '>
                 <div className='relative'>
-                    <MagnifyingGlassIcon className='pointer-events-none absolute left-2 top-2 h-5 w-5 text-neutral-400' aria-hidden='true' />
+                    <MagnifyingGlassIcon className='pointer-events-none absolute top-2 left-2 h-5 w-5 text-neutral-400' aria-hidden='true' />
                     <Input
                         type='text'
-                        className='pl-9 pr-4 font-normal text-foreground placeholder:text-muted-foreground/80'
+                        className='pr-4 pl-9 font-normal text-foreground placeholder:text-muted-foreground/80'
                         value={inputValue}
                         onChange={handleInputChange}
                         placeholder='Austin, Texas'
@@ -72,7 +72,7 @@ const LocationSearchBox = () => {
 
                 <div
                     className={`'z-[997] absolute mt-1 min-w-[300px] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md ${
-                        show && inputValue ? 'scale-1  opacity-100' : 'scale-0  opacity-0'
+                        show && inputValue ? 'scale-1 opacity-100' : 'scale-0 opacity-0'
                     }`}
                     role='presentation'>
                     <p className='mb-1 text-[11px] text-neutral-400'>Suggestions</p>
@@ -90,7 +90,7 @@ const LocationSearchBox = () => {
                                     <p className='my-6 text-center text-xs'>No Suggestions</p>
                                 </div>
                             ) : (
-                                <ScrollArea className='border-1 flex max-h-60 w-full select-none flex-col rounded-lg p-1'>
+                                <ScrollArea className='flex max-h-60 w-full select-none flex-col rounded-lg border-1 p-1'>
                                     {locationSuggestions.map((item: any, index: number) => (
                                         <div
                                             className='relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-[13px] outline-none hover:bg-neutral-200 hover:text-accent-foreground '

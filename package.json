@@ -13,7 +13,8 @@
         "build:prod": "cp  .env.prod .env.local  &&  next build",
         "lint-biome": "biome check .",
         "lint-fix": "biome check --write --unsafe .",
-        "precommit": "lint-staged"
+        "precommit": "lint-staged",
+        "prepare": "husky"
     },
     "dependencies": {
         "@headlessui/react": "^2.1.6",
@@ -102,17 +103,12 @@
         "@types/zipcode-to-timezone": "^0.0.2",
         "autoprefixer": "^10.4.20",
         "lint-staged": "^15.2.10",
+        "husky": "^9.1.6",
         "postcss": "^8.4.45",
         "tailwindcss": "^3.4.10",
         "typescript": "^5.6.2"
     },
     "lint-staged": {
-        "*.{js,json,jsx,ts,tsx}": [
-            "prettier --write",
-            "biome check --write --unsafe"
-        ],
-        "*.{css,html,md,mdx,yml,yaml}": [
-            "prettier --write"
-        ]
+        "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": ["biome check --write --no-errors-on-unmatched"]
     }
 }

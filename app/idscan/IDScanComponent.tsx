@@ -203,11 +203,11 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
 
     return (
         <ClientOnly>
-            <div className={`flex flex-col items-center p-5 h-[100dvh] overflow-x-hidden ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
+            <div className={`flex h-[100dvh] flex-col items-center overflow-x-hidden p-5 ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
                 {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && !error && (
                     <>
-                        <h3 className='text-2xl font-bold mb-4'>License Verification</h3>
-                        <p className='text-center max-w-2xl mb-6'>
+                        <h3 className='mb-4 font-bold text-2xl'>License Verification</h3>
+                        <p className='mb-6 max-w-2xl text-center'>
                             Please have your license ready and enable camera permissions. <br className='hidden lg:block' /> Click the start button to begin the
                             verification process.
                         </p>
@@ -217,7 +217,7 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                 {!success && !error && (
                     <div
                         id='videoCapturingEl'
-                        className={`w-full max-w-[500px] my-5 bg-white rounded-md relative ${isProcessStarted && !isUpdatingDB && !isVerifying && !success ? '' : 'h-0'}`}
+                        className={`relative my-5 w-full max-w-[500px] rounded-md bg-white ${isProcessStarted && !isUpdatingDB && !isVerifying && !success ? '' : 'h-0'}`}
                     />
                 )}
 
@@ -228,18 +228,22 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                 )}
 
                 {(processError || error) && (
-                    <div className='mt-4 text-center flex flex-col items-center justify-center gap-6 my-10 max-w-2xl'>
-                        <CircleX className='text-red-500 size-10' />
+                    <div className='my-10 mt-4 flex max-w-2xl flex-col items-center justify-center gap-6 text-center'>
+                        <CircleX className='size-10 text-red-500' />
                         <p>{processError || error}</p>
 
                         {callback ? (
-                            <div className='flex gap-6 items-center'>
-                                <Link href={callback} className=' p-2 border text-black rounded-md hover:bg-black/10'>
+                            <div className='flex items-center gap-6'>
+                                <Link href={callback} className=' rounded-md border p-2 text-black hover:bg-black/10'>
                                     OK, Go Back
                                 </Link>
                             </div>
                         ) : (
-                            <Button variant='black' onClick={()=>{window.location.reload()}}>
+                            <Button
+                                variant='black'
+                                onClick={() => {
+                                    window.location.reload();
+                                }}>
                                 Retry
                             </Button>
                         )}
@@ -247,13 +251,13 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                 )}
 
                 {success && isApproved && !error && (
-                    <div className='mt-4 text-center flex flex-col items-center justify-center gap-6 my-10 max-w-2xl'>
-                        <CircleCheck className='text-green-500 size-10' />
+                    <div className='my-10 mt-4 flex max-w-2xl flex-col items-center justify-center gap-6 text-center'>
+                        <CircleCheck className='size-10 text-green-500' />
 
                         {callback ? (
                             <>
                                 <p>Your driving licence has been successfully added to your profile.</p>
-                                <Link href={callback} className='mt-4 p-2 bg-black text-white rounded-md hover:bg-black/80'>
+                                <Link href={callback} className='mt-4 rounded-md bg-black p-2 text-white hover:bg-black/80'>
                                     OK, Go Back
                                 </Link>
                             </>

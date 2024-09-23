@@ -116,16 +116,16 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
                         <div className='flex flex-col gap-3'>
                             {swapRequestDetails.message ? (
                                 <div className=' mb-4'>
-                                    <p className='text-sm font-medium'>Message from host</p>
+                                    <p className='font-medium text-sm'>Message from host</p>
 
                                     <div className='mt-1 rounded-3xl rounded-tl-none bg-primary/10 p-4'>
-                                        <p className='text-xs text-black'>{swapRequestDetails.message}</p>
+                                        <p className='text-black text-xs'>{swapRequestDetails.message}</p>
                                     </div>
                                 </div>
                             ) : null}
 
                             {vehicleDetails && (
-                                <div className=' rounded-md  '>
+                                <div className=' rounded-md '>
                                     <div className='group relative cursor-pointer select-none rounded-md border border-neutral-200 bg-white'>
                                         {vehicleImages?.length > 0 ? (
                                             <div className='relative sm:overflow-hidden md:rounded-lg '>
@@ -141,22 +141,22 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
                                             </div>
                                         )}
                                         <div className='flex w-full flex-col gap-2 p-3 md:flex-row md:items-center md:justify-between'>
-                                            <p className='select-text p-0 text-sm font-bold text-neutral-900 '>
+                                            <p className='select-text p-0 font-bold text-neutral-900 text-sm '>
                                                 {toTitleCase(vehicleDetails?.make)} {vehicleDetails?.model} {vehicleDetails?.year}
                                             </p>
 
                                             <div className='flex items-center gap-1'>
-                                                <p className='text-xs font-medium text-neutral-900 '>{vehicleDetails?.rating}</p>
+                                                <p className='font-medium text-neutral-900 text-xs '>{vehicleDetails?.rating}</p>
 
                                                 <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
-                                                <p className='text-xs font-medium text-neutral-900 '>({vehicleDetails?.tripcount} Trips)</p>
+                                                <p className='font-medium text-neutral-900 text-xs '>({vehicleDetails?.tripcount} Trips)</p>
                                             </div>
                                         </div>
 
                                         <div className='flex gap-1 p-3 pt-0'>
                                             <FaLocationDot className='-ml-1 inline-block h-4 w-4 text-orange-500' />
 
-                                            <p className='text-xs font-medium  '>
+                                            <p className='font-medium text-xs '>
                                                 {vehicleDetails?.cityname}, {vehicleDetails?.state}
                                             </p>
                                         </div>
@@ -165,9 +165,9 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
                             )}
 
                             <div className='flex flex-col gap-2'>
-                                <p className='text-sm font-medium'>Trip Dates </p>
+                                <p className='font-medium text-sm'>Trip Dates </p>
 
-                                <div className='inline-flex h-9 w-full  items-center whitespace-nowrap rounded-md border border-input bg-transparent px-4 py-2 text-sm font-medium shadow-sm transition-colors  hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring'>
+                                <div className='inline-flex h-9 w-full items-center whitespace-nowrap rounded-md border border-input bg-transparent px-4 py-2 font-medium text-sm shadow-sm transition-colors hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring'>
                                     <CalendarIcon className='mr-2 h-4 w-4' />
                                     {error ? (
                                         <span className='text-red-500'>{error}</span>
@@ -191,7 +191,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
                                 </div>
                             </div>
 
-                            <footer className='mt-4 flex items-center  justify-end  gap-4 '>
+                            <footer className='mt-4 flex items-center justify-end gap-4 '>
                                 <Button
                                     variant='outline'
                                     onClick={() => {
@@ -212,7 +212,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
                             </footer>
                         </div>
                     ) : (
-                        <p className='py-6 text-center text-base font-bold'>Swap details Loading...</p>
+                        <p className='py-6 text-center font-bold text-base'>Swap details Loading...</p>
                     )}
                 </DialogBody>
             </Dialog>

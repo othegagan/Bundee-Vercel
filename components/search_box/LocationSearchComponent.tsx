@@ -76,20 +76,20 @@ const LocationSearchComponent = ({ searchCity }: any) => {
     return (
         <>
             <div
-                className={` z-[55] md:sticky ${pathname === '/' ? 'md:top-[3.75rem]' : ''} select-none   bg-white  md:block ${pathname === '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
-                <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12  lg:grid-cols-12'>
+                className={` z-[55] md:sticky ${pathname === '/' ? 'md:top-[3.75rem]' : ''} select-none bg-white md:block ${pathname === '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
+                <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12 lg:grid-cols-12'>
                     <div className='col-span-2 md:col-span-6 lg:col-span-4'>
-                        <div className='flex w-full flex-col gap-1  '>
-                            <label className='mb-1 inline-flex text-xs font-semibold'>
+                        <div className='flex w-full flex-col gap-1 '>
+                            <label className='mb-1 inline-flex font-semibold text-xs'>
                                 Search By City
-                                <span className='inline-block text-xs font-semibold text-neutral-800 sm:hidden lg:block'>, Place and Zipcode</span>
+                                <span className='inline-block font-semibold text-neutral-800 text-xs sm:hidden lg:block'>, Place and Zipcode</span>
                             </label>
                             <LocationSearchBox />
                         </div>
                     </div>
                     <div className='col-span-2 md:col-span-6 lg:col-span-3'>
                         <div className='flex w-full flex-col gap-1 '>
-                            <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
+                            <label className='mb-1 font-semibold text-xs'>Pickup & Drop Dates</label>
                             <SearchCalendar startDate={startDateQuery} setStartDate={setStartDateQuery} endDate={endDateQuery} setEndDate={setEndDateQuery} />
                         </div>
                     </div>
@@ -122,9 +122,9 @@ const LocationSearchComponent = ({ searchCity }: any) => {
             {/* Mobile View */}
             {pathname !== '/' ? (
                 <>
-                    <button type='button' className='rounded-md border bg-white p-2 shadow-sm md:hidden w-full' onClick={openModal}>
-                        <div className='truncate max-w-[300px]'>{searchCity ? searchCity : null}</div>
-                        <div className='mt-1 flex items-center justify-between text-xs text-neutral-500'>
+                    <button type='button' className='w-full rounded-md border bg-white p-2 shadow-sm md:hidden' onClick={openModal}>
+                        <div className='max-w-[300px] truncate'>{searchCity ? searchCity : null}</div>
+                        <div className='mt-1 flex items-center justify-between text-neutral-500 text-xs'>
                             <div className=''>
                                 {startDateQuery ? format(new Date(`${startDateQuery}T00:00:00`), 'PP') : null} | {/* @ts-ignore */}
                                 {startTimeQuery ? format(new Date(0, 0, 0, ...startTimeQuery.split(':')), 'h:mm a') : null}
@@ -139,16 +139,16 @@ const LocationSearchComponent = ({ searchCity }: any) => {
 
                     <Dialog isOpen={showModal} closeDialog={closeModal} openDialog={openModal}>
                         <DialogBody>
-                            <div className='grid grid-cols-2 gap-5 md:grid-cols-12  lg:grid-cols-12'>
+                            <div className='grid grid-cols-2 gap-5 md:grid-cols-12 lg:grid-cols-12'>
                                 <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                                     <div className='flex w-full flex-col gap-1 '>
-                                        <label className='mb-1 text-xs font-semibold'>Search By City, Place and Zipcode</label>
+                                        <label className='mb-1 font-semibold text-xs'>Search By City, Place and Zipcode</label>
                                         <LocationSearchBox />
                                     </div>
                                 </div>
                                 <div className='col-span-2 md:col-span-6 lg:col-span-3'>
                                     <div className='flex w-full flex-col gap-1 '>
-                                        <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
+                                        <label className='mb-1 font-semibold text-xs'>Pickup & Drop Dates</label>
                                         <SearchCalendar
                                             startDate={startDateQuery}
                                             setStartDate={setStartDateQuery}

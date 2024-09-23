@@ -169,14 +169,14 @@ export default function LoginDialog() {
                     <div className='flex flex-col items-center gap-4'>
                         <Logo className='scale-[1.3]' />
 
-                        <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700 '>Log In with MyBundee account</span>
+                        <span className='mb-4 ml-4 font-semibold text-neutral-700 text-xl '>Log In with MyBundee account</span>
                     </div>
                     <form
                         onSubmit={(event) => {
                             event.preventDefault(); // Prevents the default form submission behavior
                             handleLogin(event);
                         }}>
-                        <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
+                        <label htmlFor='email' className='block font-medium text-gray-700 text-sm'>
                             Email address <span>*</span>
                         </label>
                         <div className='mt-1'>
@@ -190,7 +190,7 @@ export default function LoginDialog() {
                                 onChange={(e) => setUserEmail(e.target.value)}
                             />
                         </div>
-                        <label htmlFor='password' className='mt-4 block text-sm font-medium text-gray-700'>
+                        <label htmlFor='password' className='mt-4 block font-medium text-gray-700 text-sm'>
                             Password <span>*</span>
                         </label>
                         <div className='relative'>
@@ -199,7 +199,7 @@ export default function LoginDialog() {
                                 onClick={() => {
                                     setShowPassword(!showPassword);
                                 }}
-                                className='absolute right-2 top-1 cursor-pointer p-2 text-xs'>
+                                className='absolute top-1 right-2 cursor-pointer p-2 text-xs'>
                                 {showPassword ? <FaEye /> : <FaEyeSlash />}
                             </button>
                             <div className='mt-1'>
@@ -217,7 +217,7 @@ export default function LoginDialog() {
 
                         <button
                             type='button'
-                            className='ml-auto mt-3 w-fit cursor-pointer text-sm font-medium text-primary hover:underline'
+                            className='mt-3 ml-auto w-fit cursor-pointer font-medium text-primary text-sm hover:underline'
                             onClick={() => {
                                 closeModal();
                                 forgotPasswordDialog.onOpen();
@@ -232,7 +232,7 @@ export default function LoginDialog() {
                                         <IoWarning className='h-5 w-5 text-red-400' />
                                     </div>
                                     <div className='ml-3'>
-                                        <p className='text-sm font-medium text-red-800'>{authError}</p>
+                                        <p className='font-medium text-red-800 text-sm'>{authError}</p>
                                     </div>
                                 </div>
                             </div>
@@ -251,12 +251,12 @@ export default function LoginDialog() {
                                 googleSignIn();
                             }}
                             variant='outline'
-                            className='flex w-full gap-4  py-5'>
+                            className='flex w-full gap-4 py-5'>
                             <span>Continue with </span>
                             <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
                         </Button>
 
-                        <Button onClick={openPhoneLogin} type='button' variant='outline' className='flex w-full  gap-3 py-5'>
+                        <Button onClick={openPhoneLogin} type='button' variant='outline' className='flex w-full gap-3 py-5'>
                             <span>Log In with Phone</span>
                             <FaPhone className='hidden size-4 scale-95 md:block' />
                         </Button>
@@ -265,7 +265,7 @@ export default function LoginDialog() {
                     <div className='mt-4 flex flex-col gap-2'>
                         <p className='mt-1 text-base'>
                             Don't have an account?
-                            <button type='button' onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
+                            <button type='button' onClick={onToggle} className='mx-1 cursor-pointer font-medium text-base text-primary hover:underline'>
                                 Sign up
                             </button>
                             here

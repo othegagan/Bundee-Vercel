@@ -3,9 +3,9 @@ import Link from 'next/link';
 const Terms = () => {
     return (
         <section>
-            <div className='prose-base prose prose-h3:text-black prose-a:font-semibold  prose-a:text-accent-300 hover:prose-a:text-black mx-auto mb-10 max-w-5xl px-8 text-sm text-neutral-600 lg:mb-20'>
-                <div className=' mx-auto pb-10 pt-14'>
-                    <h1 className='-ml-2 text-3xl font-extrabold text-foreground md:text-5xl'>Terms and Conditions</h1>
+            <div className='prose-base prose mx-auto mb-10 max-w-5xl px-8 prose-a:font-semibold prose-a:text-accent-300 prose-h3:text-black text-neutral-600 text-sm hover:prose-a:text-black lg:mb-20'>
+                <div className=' mx-auto pt-14 pb-10'>
+                    <h1 className='-ml-2 font-extrabold text-3xl text-foreground md:text-5xl'>Terms and Conditions</h1>
                 </div>
 
                 <p className=' my-3 font-medium text-neutral-700'>Last updated: 1st July 2023</p>
@@ -54,7 +54,7 @@ const Terms = () => {
 
                 <ul className='space-y-4'>
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>
                             1. The Site is a Venue and We are Not a Party to any Rental Agreement or other Transaction Between Users of the Site.
                         </h2>
 
@@ -105,7 +105,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>2. Limited License to Use the Site.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>2. Limited License to Use the Site.</h2>
                         <p>
                             Users are granted a limited, revocable non-exclusive license to access the Site and the content and services provided on the Site
                             solely for the purpose of advertising a rental car, searching for a rental car, purchasing or researching (for the purpose of
@@ -116,7 +116,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>3. Unauthorized Uses of the Site.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>3. Unauthorized Uses of the Site.</h2>
                         <p>
                             The license to use the Site only extends to the uses expressly described herein. The license to use the Site granted to users in
                             these Terms does not include any right of collection, aggregation, copying, scraping, duplication, display or any derivative use of
@@ -179,7 +179,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>4. Proprietary Rights and Downloading of Information from the Site.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>4. Proprietary Rights and Downloading of Information from the Site.</h2>
                         <p>
                             The Site and all content and information on the Site are protected by copyright as a collective work and/or compilation, under
                             applicable U.S. and international copyright laws and conventions and database rights. You agree to abide by any and all copyright
@@ -193,7 +193,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>5. Your E-mail Address and Data. Our Privacy Policy. Data Transmittal.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>5. Your E-mail Address and Data. Our Privacy Policy. Data Transmittal.</h2>
                         <p>
                             When you provide your e-mail address, name or other information to us in connection with your use or access to the Site, any service
                             or tool provided on the Site or otherwise, you agree to allow the Site and its affiliated websites to add your e-mail address, name
@@ -222,7 +222,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>6. Identity Verification.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>6. Identity Verification.</h2>
                         <p>
                             User verification on the Internet is difficult and we cannot, and do not assume any responsibility for, the confirmation of each
                             user's purported identity. We encourage you to communicate directly with a driver or member through the tools available on the Site,
@@ -256,7 +256,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>
                             7. Limitations on Communications and Use of Other Users’ Information. No Spam.
                         </h2>
                         <p>
@@ -283,7 +283,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>
                             8. Responsibility for Rental Car Listings, Reviews and Other User-contributed content. Participation in Interactive Forums.
                         </h2>
                         <p>
@@ -366,7 +366,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>9. Service Fee Payable by Drivers and choice of currency.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>9. Service Fee Payable by Drivers and choice of currency.</h2>
                         <p>
                             We charge a service fee payable by drivers who book a rental car on the Site via the Site checkout. The service fee covers the use
                             of the Site, including such features as 24/7 user support, and is calculated as a variable percentage of the total reservation
@@ -388,7 +388,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>10. Social Media or Third-Party Websites.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>10. Social Media or Third-Party Websites.</h2>
                         <p>
                             If the Site offers a tool or service that allows us to access or use any profile or other information about you that you have
                             provided to Facebook or another third-party website (each a “Social Media Site”) and you decide to use such tool or service, you
@@ -404,7 +404,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>11. Translations and Maps.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>11. Translations and Maps.</h2>
                         <p>
                             If any user-contributed content created by members or users is translated for display on the Site or any site of any affiliate of
                             MyBundee, we cannot guarantee the accuracy or quality of such translation and the user is solely responsible for the review,
@@ -416,7 +416,7 @@ const Terms = () => {
                         </p>
                     </li>
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>12. Notification of Infringement. DMCA Policy.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>12. Notification of Infringement. DMCA Policy.</h2>
                         <p>
                             We respect the intellectual property rights of others, and MyBundee does not permit, condone or tolerate the posting of any content
                             on the Site that infringes any person's copyright. MyBundee will terminate, in appropriate circumstances, a member or driver who is
@@ -430,7 +430,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>13. Unsolicited Ideas and Feedback.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>13. Unsolicited Ideas and Feedback.</h2>
                         <p>
                             From time to time, users submit to us ideas or suggestions pertaining to our business, such as ideas for new or improved products or
                             technologies, website or tool enhancements, processes, materials, marketing plans or new product names. We are under no obligation
@@ -451,7 +451,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>14. Software Available on the Site.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>14. Software Available on the Site.</h2>
                         <p>
                             The Site is controlled and operated by MyBundee or an affiliate of MyBundee in the United States. Software available on the Site
                             (the “Software”) is subject to United States export controls. No Software available on the Site or software available on any other
@@ -472,12 +472,12 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>15. Roadside Assistance</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>15. Roadside Assistance</h2>
                         <p>MyBundee does not offer roadside assistance</p>
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>16. Links to Third-Party Sites</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>16. Links to Third-Party Sites</h2>
                         <p>
                             This Site may contain links and pointers to other Internet sites, resources and sponsors of the Site. Links to and from the Site to
                             other third-party sites, maintained by third parties, do not constitute an endorsement by us of any third parties, the third-party
@@ -488,7 +488,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>17. Limitation of Liability.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>17. Limitation of Liability.</h2>
                         <p>
                             IN NO EVENT WILL MYBUNDEE, OR ITS PARENT COMPANY, SUBSIDIARIES, AFFILIATES, OFFICERS, DIRECTORS, CONSULTANTS, AGENTS AND/OR
                             EMPLOYEES (COLLECTIVELY, THE “BUNDEE GROUP”), OR ANY THIRD-PARTY PROVIDER OF A SERVICE OR TOOL OFFERED ON ANY SITE OF A MEMBER OF
@@ -508,7 +508,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>18. Disclaimers.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>18. Disclaimers.</h2>
                         <p>
                             THE SITE, INCLUDING ALL CONTENT, SOFTWARE, FUNCTIONS, MATERIALS AND INFORMATION MADE AVAILABLE ON OR ACCESSED THROUGH THE SITE, IS
                             PROVIDED “AS IS.“ TO THE FULLEST EXTENT PERMISSIBLE BY LAW, WE MAKE NO REPRESENTATIONS OR WARRANTIES OF ANY KIND WHATSOEVER FOR THE
@@ -533,7 +533,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>19. Release. Indemnification.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>19. Release. Indemnification.</h2>
                         <p>
                             IN THE EVENT THAT YOU HAVE A DISPUTE WITH ONE OR MORE OTHER USERS OF THE SITE (INCLUDING, WITHOUT LIMITATION, ANY DISPUTE BETWEEN
                             USERS REGARDING ANY TRANSACTION OR USER-CONTRIBUTED CONTENT) OR ANY THIRD PARTY PROVIDER OR ANY THIRD PARTY WEBSITE THAT MAY BE
@@ -562,7 +562,7 @@ const Terms = () => {
                     </li>
 
                     <li className='space-y-3'>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>20. Disputes. Arbitration.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>20. Disputes. Arbitration.</h2>
                         <p>
                             Please read this Section carefully. It requires that any and all claims be resolved by binding arbitration or in small claims court,
                             and it prevents you from pursuing a class action or similar proceeding in any forum. Arbitration is required if your country of
@@ -675,7 +675,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>21. Additional Terms and Conditions Applicable to Online Trip.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>21. Additional Terms and Conditions Applicable to Online Trip.</h2>
                         <p>
                             In addition to being bound by the other terms set forth herein, users and members who use MyBundee.com or any other tool provided by
                             us or a third-party provider on the Site enabling users to book and/or pay for the rental of cars online on one or more of the Sites
@@ -706,7 +706,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>22. Responsibility for Rental Car and Driver Liability.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>22. Responsibility for Rental Car and Driver Liability.</h2>
                         <p>
                             Users are solely responsible for obtaining insurance coverage sufficient to protect their rental cars and drivers or their trip, as
                             applicable. Members agree that they have or will obtain the appropriate insurance coverage sufficient to cover the rental of the
@@ -717,7 +717,7 @@ const Terms = () => {
                     </li>
 
                     <li className=' space-y-3'>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>23. GENERAL</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>23. GENERAL</h2>
                         <p>
                             To Contact Us for any reason, users can visit help. MyBundee.com. <br /> These Terms are governed by the Federal Arbitration Act, 9
                             U.S.C. § 1 et seq. (“FAA”), AAA Rules, federal arbitration law, and for U.S. residents, the laws of the state in which you reside
@@ -798,7 +798,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>
                             24. Member Eligibility. Accuracy of Information. Listing Practice Requirements.
                         </h2>
                         <p>
@@ -827,7 +827,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>25. Additional Member Representations.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>25. Additional Member Representations.</h2>
 
                         <p>
                             Each member represents and covenants that: (i) it owns and/or has all necessary rights and authority to offer for rent and to rent
@@ -846,7 +846,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>26. Appearance in Search Results.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>26. Appearance in Search Results.</h2>
                         <p>
                             We cannot guarantee that your listing will appear in any specific order in search results on the Site. Search order will fluctuate
                             based on a variety of factors such as search parameters, subscription level purchased, listing quality, how frequently a calendar is
@@ -863,7 +863,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>27. Content, Layout and Copy.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>27. Content, Layout and Copy.</h2>
                         <p>
                             All content and copy edits submitted by members are subject to review and approval by us in our sole discretion. We reserve the
                             right to refuse to publish any content that we determine in our sole discretion does not meet these Terms or is otherwise
@@ -877,7 +877,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>28. Photographs.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>28. Photographs.</h2>
                         <p>
                             Photographs should depict the rental car as the main subject of the photograph and may not include children or adults if you do not
                             have their legal consent or any information or images that would violate the privacy rights, intellectual property rights (including
@@ -898,7 +898,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>29. Uses of Our Trademarks or Logos.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>29. Uses of Our Trademarks or Logos.</h2>
                         <p>
                             There are limited ways in which a member may use our trademarks or logos in connection with a listing without specific prior written
                             authorization. The following are general guidelines. It is usually permissible for you to refer to MyBundee or the name of one of
@@ -920,7 +920,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>30. Hypertext Links.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>30. Hypertext Links.</h2>
                         <p>
                             We reserve the right to refuse hypertext links to, or addresses of, other web sites from members' pages, and to remove links or web
                             addresses without notice at our sole discretion. Further, we reserve the right to charge for hypertext links at any time.
@@ -928,7 +928,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>31. Substitution of Rental Cars</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>31. Substitution of Rental Cars</h2>
                         <p>
                             Each listing must relate to an individual and uniquely identified rental car. This means that: The rental car in a listing may not
                             be substituted for another rental without our consent. We may approve a request in our discretion if the rental car manager's
@@ -942,7 +942,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>32. Payment Method Requirements. Bank and Credit Card Fees.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>32. Payment Method Requirements. Bank and Credit Card Fees.</h2>
                         <p>
                             No member may request any driver to mail cash, or utilize any instant-cash wire transfer service such as Western Union or MoneyGram
                             in payment for all or part of a rental car transaction. Any violation of this term or any other unacceptable payment methods that
@@ -957,7 +957,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>33. Subscription Payments. Automatic Renewal of Subscription Payments.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>33. Subscription Payments. Automatic Renewal of Subscription Payments.</h2>
                         <p>
                             Payment for subscription listings must be made to us in U.S. Dollars paid either by major credit or debit card, PayPal, or a check
                             drawn on a U.S. bank. For any subscription paid for by credit card or PayPal, such subscription shall automatically renew at the
@@ -990,7 +990,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>34. Subscription Term and Refund Requests.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>34. Subscription Term and Refund Requests.</h2>
                         <p>
                             All subscription listings are sold to run the full term that is chosen by the member. The term starts on the date that the member
                             submits the full or initial (as applicable) payment and expires one year thereafter. For example, for an annual subscription term,
@@ -1006,7 +1006,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>35. Additional Terms Applicable to Pay-PerTrip Listings.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>35. Additional Terms Applicable to Pay-PerTrip Listings.</h2>
                         <p>
                             For all pay-per-trip listings, the terms and conditions in effect at the time a trip is accepted will govern and supersede any prior
                             agreement between us and you with respect to your use of the Site. <br />
@@ -1023,7 +1023,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>36. Distribution of Listings to Third Party Websites.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>36. Distribution of Listings to Third Party Websites.</h2>
                         <p>
                             To enable members to obtain broader distribution of their rental cars, we may provide your listing information and content, or
                             otherwise provide for the distribution of your listing on a third party website. Additional terms and conditions may apply to such
@@ -1032,7 +1032,7 @@ const Terms = () => {
                     </li>
 
                     <li>
-                        <h2 className='my-6 text-xl font-bold text-neutral-900'>37. Termination of Listings. Other Remedies.</h2>
+                        <h2 className='my-6 font-bold text-neutral-900 text-xl'>37. Termination of Listings. Other Remedies.</h2>
                         <p>
                             If, in our sole discretion, any member submits unsuitable material to our Site or into our database, is not abiding by local rental
                             regulations, misuses the Site or our online system or is in material breach of these Terms, we reserve the right to limit the

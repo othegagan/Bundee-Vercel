@@ -76,25 +76,25 @@ export default function RecentlyViewedVehicles() {
                                     </div>
 
                                     <div className=' p-2'>
-                                        <p className=' text-sm  font-bold text-neutral-900'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
+                                        <p className=' font-bold text-neutral-900 text-sm'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</p>
                                         <div className='flex h-auto items-center justify-between '>
                                             <div className='flex gap-2'>
-                                                {car.rating ? <p className='text-xs font-medium text-neutral-900 '>{car.rating}</p> : <>{car.rating}</>}
+                                                {car.rating ? <p className='font-medium text-neutral-900 text-xs '>{car.rating}</p> : <>{car.rating}</>}
                                                 {car.tripCount !== 0 && (
                                                     <div className='mt-1 inline-flex gap-2'>
                                                         <FaStar className=' size-4 text-yellow-400' />
-                                                        <span className='text-xs font-medium text-neutral-900  '>
+                                                        <span className='font-medium text-neutral-900 text-xs '>
                                                             ({car.tripCount} {car.tripCount === 1 ? 'Trip' : 'Trips'})
                                                         </span>
                                                     </div>
                                                 )}
                                                 {car.tripCount === 0 && (
-                                                    <span className=' rounded-md bg-green-50 px-2  py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20'>
+                                                    <span className=' rounded-md bg-green-50 px-2 py-1 font-medium text-green-700 text-xs ring-1 ring-green-600/20 ring-inset'>
                                                         New
                                                     </span>
                                                 )}
                                             </div>
-                                            <p className='text-xs font-bold text-neutral-900'>${car.vehiclePrice}/ Day</p>
+                                            <p className='font-bold text-neutral-900 text-xs'>${car.vehiclePrice}/ Day</p>
                                         </div>
                                     </div>
                                 </div>

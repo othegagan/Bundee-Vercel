@@ -20,7 +20,7 @@ export default function VehicleDetails({ vehicleDetails, vehicleBusinessConstrai
     return (
         <>
             {vehicleImages.length > 0 ? (
-                <div className=' max-h-56 md:max-h-80 relative'>
+                <div className=' relative max-h-56 md:max-h-80'>
                     <EmblaCarousel slides={vehicleImages} />
                     {wishlistButton}
                 </div>
@@ -34,7 +34,7 @@ export default function VehicleDetails({ vehicleDetails, vehicleBusinessConstrai
                 <VehicleMakeModelYear vehicleDetails={vehicleDetails} />
 
                 <div className='space-y-6'>
-                    <div className='grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2'>
+                    <div className='grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6'>
                         <Highlights vehicleDetails={vehicleDetails} />
 
                         <MileageConstraints mileageConstraints={mileageConstraints} />
@@ -64,8 +64,8 @@ function VehicleMakeModelYear({ vehicleDetails }: any) {
     const tripText = tripcount ? `${tripcount} Trips` : 'No Trips';
 
     return (
-        <div className='flex gap-4 flex-col md:flex-row md:gap-16'>
-            <h2 className='tracking-tight capitalize'>{fullName}</h2>
+        <div className='flex flex-col gap-4 md:flex-row md:gap-16'>
+            <h2 className='capitalize tracking-tight'>{fullName}</h2>
             <div className='flex items-center gap-2'>
                 <div className='flex items-center gap-2'>
                     <StarFilledIcon className='size-6 text-yellow-400' />
@@ -85,7 +85,7 @@ function HostDetails({ hostDetails }: any) {
     return (
         <div className='flex flex-col gap-2'>
             <p className='font-bold'>Hosted By</p>
-            <div className='relative  flex items-center gap-x-4'>
+            <div className='relative flex items-center gap-x-4'>
                 <img
                     src={hostDetails.userimage || '/images/dummy_avatar.png'}
                     alt={hostDetails.firstname}
@@ -121,12 +121,12 @@ function MileageConstraints({ mileageConstraints }: any) {
                                 return (
                                     <div key={index} className='flex flex-wrap gap-4'>
                                         <div className='rounded-md bg-muted p-4'>
-                                            <p className='mb-2  font-medium'>Daily Mileage Limit</p>
-                                            <p className='text-sm font-bold'>{mileageConstraintData.mileageLimit} miles</p>
+                                            <p className='mb-2 font-medium'>Daily Mileage Limit</p>
+                                            <p className='font-bold text-sm'>{mileageConstraintData.mileageLimit} miles</p>
                                         </div>
                                         <div className='rounded-md bg-muted p-4'>
-                                            <p className='mb-2  font-medium'>Additional Cost/Mile</p>
-                                            <p className='text-sm font-bold'>${mileageConstraintData.extraMileageCost}</p>
+                                            <p className='mb-2 font-medium'>Additional Cost/Mile</p>
+                                            <p className='font-bold text-sm'>${mileageConstraintData.extraMileageCost}</p>
                                         </div>
                                     </div>
                                 );
@@ -142,7 +142,7 @@ function MileageConstraints({ mileageConstraints }: any) {
 }
 
 function Highlights({ vehicleDetails }: { vehicleDetails: any }) {
-    const isValidDetail = (detail: any) => detail && !['Not Applicable', 'NA', 'N/A', 'null', null, '0', 0, ""].includes(detail);
+    const isValidDetail = (detail: any) => detail && !['Not Applicable', 'NA', 'N/A', 'null', null, '0', 0, ''].includes(detail);
 
     const highlights = [
         { key: 'trim', label: vehicleDetails.trim },
@@ -157,7 +157,7 @@ function Highlights({ vehicleDetails }: { vehicleDetails: any }) {
     return (
         <div className='space-y-3'>
             <p className='font-bold'>Highlights</p>
-            <ul className='text-15 list-disc space-y-2 pl-4'>
+            <ul className='list-disc space-y-2 pl-4 text-15'>
                 {highlights
                     .filter((item) => isValidDetail(item.label)) // Only show valid details
                     .map((item, index) => (

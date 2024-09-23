@@ -29,7 +29,7 @@ const _RangeCalendar = RangeCalendar;
 
 const _CalendarHeading = ({ ...props }: React.HTMLAttributes<HTMLHeadElement>) => (
     <header className='relative flex items-center justify-center pt-1' {...props}>
-        <Heading className='text-sm font-medium' />
+        <Heading className='font-medium text-sm' />
         <div className='flex items-center'>
             <Button
                 slot='next'
@@ -60,7 +60,7 @@ const _CalendarGrid = ({ className, weekdayStyle = 'short', ...props }: Calendar
 const _CalendarGridHeader = ({ className, ...props }: CalendarGridHeaderProps) => <CalendarGridHeader className={cn('[&>tr]:flex', className)} {...props} />;
 
 const _CalendarHeaderCell = ({ className, ...props }: any) => (
-    <CalendarHeaderCell className={cn('w-8 rounded-md text-[0.8rem] font-normal text-muted-foreground', className)} {...props} />
+    <CalendarHeaderCell className={cn('w-8 rounded-md font-normal text-[0.8rem] text-muted-foreground', className)} {...props} />
 );
 
 const _CalendarGridBody = ({ className, ...props }: CalendarGridBodyProps) => (
@@ -82,7 +82,7 @@ const _CalendarCell = ({ className, date, ...props }: CalendarCellProps) => {
             className={(values) =>
                 cn(
                     'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm transition-colors data-[disabled]:pointer-events-none data-[hovered]:bg-accent data-[hovered]:text-accent-foreground data-[disabled]:opacity-50',
-                    'h-8 w-8 p-0 font-normal outline-none transition-none data-[unavailable]:cursor-not-allowed  data-[invalid]:bg-red-500   data-[invalid]:text-red-300 data-[unavailable]:line-through data-[selected]:opacity-100  data-[unavailable]:opacity-90',
+                    'h-8 w-8 p-0 font-normal outline-none transition-none data-[unavailable]:cursor-not-allowed data-[invalid]:bg-red-500 data-[invalid]:text-red-300 data-[unavailable]:line-through data-[selected]:opacity-100 data-[unavailable]:opacity-90',
                     date.compare(today(getLocalTimeZone())) === 0 && 'bg-accent text-accent-foreground',
                     values.isDisabled && 'text-muted-foreground opacity-50',
                     values.isFocusVisible && values.isFocused && 'outline-none ring-2 ring-ring ring-offset-2',

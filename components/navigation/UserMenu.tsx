@@ -21,7 +21,7 @@ export default function UserMenu({ menuItems, isLoggedIn }: UserMenuProps) {
         <div>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <button type='button' className='inline-flex rounded-md p-2 text-black transition-all duration-200  hover:bg-gray-100 focus:bg-gray-100'>
+                    <button type='button' className='inline-flex rounded-md p-2 text-black transition-all duration-200 hover:bg-gray-100 focus:bg-gray-100'>
                         <svg className='block h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M4 8h16M4 16h16' />
                         </svg>

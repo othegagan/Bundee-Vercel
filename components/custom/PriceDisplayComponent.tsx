@@ -14,7 +14,7 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
     return (
         <div className='flex flex-col gap-2'>
             <div className='flex items-center justify-between'>
-                <div className='text-md font-bold '>Payment</div>
+                <div className='font-bold text-md '>Payment</div>
                 {invoiceUrl && <InvoiceHandlerComponent invoiceUrl={invoiceUrl} />}
             </div>
 
@@ -22,7 +22,7 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                 {/* Rental Charges */}
                 {pricelist?.charges > 0 && (
                     <PriceItem
-                        label={`Rental ($${pricelist?.pricePerDay || pricelist?.perdayamount} x ${pricelist?.numberOfDays || pricelist?.totaldays} ${pricelist?.numberOfDays === 1 ||pricelist?.totaldays === 1 ? 'day' : 'days'})`}
+                        label={`Rental ($${pricelist?.pricePerDay || pricelist?.perdayamount} x ${pricelist?.numberOfDays || pricelist?.totaldays} ${pricelist?.numberOfDays === 1 || pricelist?.totaldays === 1 ? 'day' : 'days'})`}
                         value={pricelist?.charges}
                     />
                 )}
@@ -37,7 +37,7 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                                     <div className='text-sm'>
                                         {pricelist?.numberOfDaysDiscount} Day Discount applied -{roundToTwoDecimalPlaces(pricelist?.discountPercentage)} %
                                     </div>
-                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
+                                    <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
                                 </div>
                             }
                         />
@@ -52,7 +52,7 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                             content={
                                 <div className='flex items-center justify-between'>
                                     <div className='text-sm'> {isAirportDeliveryChoosen ? 'Airport Delivery Fee' : 'Custom Delivery Fee'}</div>
-                                    <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.delivery || pricelist?.deliveryCost)}</div>
+                                    <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.delivery || pricelist?.deliveryCost)}</div>
                                 </div>
                             }
                         />
@@ -66,7 +66,10 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                 {pricelist?.tripFee > 0 && (
                     <PriceItem
                         label='Trip Fee'
-                        value={pricelist?.concessionCalculated + pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount + pricelist?.registrationRecoveryFee + pricelist?.tripFee}>
+                        value={
+                            pricelist?.concessionCalculated + pricelist?.Statesurchargeamount ||
+                            pricelist?.stateSurchargeAmount + pricelist?.registrationRecoveryFee + pricelist?.tripFee
+                        }>
                         <InfoPopover
                             title='Trip Fee'
                             content={
@@ -74,28 +77,31 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                                     {pricelist?.concessionCalculated > 0 && (
                                         <div className='flex items-center justify-between'>
                                             <div className='text-sm'>Airport concession recovery fee</div>
-                                            <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.concessionCalculated)}</div>
+                                            <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.concessionCalculated)}</div>
                                         </div>
                                     )}
 
-                                    {pricelist?.Statesurchargeamount > 0 || pricelist?.stateSurchargeAmount > 0 && (
-                                        <div className='flex items-center justify-between'>
-                                            <div className='text-sm'>State Surcharge </div>
-                                            <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount)}</div>
-                                        </div>
-                                    )}
+                                    {pricelist?.Statesurchargeamount > 0 ||
+                                        (pricelist?.stateSurchargeAmount > 0 && (
+                                            <div className='flex items-center justify-between'>
+                                                <div className='text-sm'>State Surcharge </div>
+                                                <div className='font-medium text-sm'>
+                                                    ${roundToTwoDecimalPlaces(pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount)}
+                                                </div>
+                                            </div>
+                                        ))}
 
                                     {pricelist?.registrationRecoveryFee > 0 && (
                                         <div className='flex items-center justify-between'>
                                             <div className='text-sm'>Vehicle licensing recovery fee </div>
-                                            <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.registrationRecoveryFee)}</div>
+                                            <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.registrationRecoveryFee)}</div>
                                         </div>
                                     )}
 
                                     {pricelist?.tripFee > 0 && (
                                         <div className='flex items-center justify-between'>
                                             <div className='text-sm'>Platform fee </div>
-                                            <div className='text-sm font-medium'>${roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
+                                            <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
                                         </div>
                                     )}
                                 </>

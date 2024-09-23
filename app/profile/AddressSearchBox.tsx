@@ -48,7 +48,7 @@ const AddressSearchBox = ({ address1, setSavedData }) => {
 
                 <div
                     className={`'z-[997] absolute mt-1 min-w-[300px] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md ${
-                        show && inputValue ? 'scale-1  opacity-100' : 'scale-0  opacity-0'
+                        show && inputValue ? 'scale-1 opacity-100' : 'scale-0 opacity-0'
                     }`}
                     role='presentation'>
                     <p className='mb-1 text-[11px] text-neutral-400'>Suggestions</p>
@@ -66,7 +66,7 @@ const AddressSearchBox = ({ address1, setSavedData }) => {
                                     <p className='my-6 text-center text-xs'>No Suggestions</p>
                                 </div>
                             ) : (
-                                <ScrollArea className='border-1 flex max-h-60 w-full select-none flex-col rounded-lg p-1'>
+                                <ScrollArea className='flex max-h-60 w-full select-none flex-col rounded-lg border-1 p-1'>
                                     {locationSuggestions.map((item: any, index: number) => (
                                         <div
                                             className='relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-[13px] outline-none hover:bg-neutral-200 hover:text-accent-foreground '

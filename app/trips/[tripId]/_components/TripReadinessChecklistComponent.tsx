@@ -16,15 +16,15 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
 
     return (
         <div className='flex flex-col gap-2'>
-            <div className='text-md font-bold '>Readiness Checklist</div>
+            <div className='font-bold text-md '>Readiness Checklist</div>
 
             {/* Driving Licence */}
             <div className='flex items-center justify-between'>
-                <div className='text-md w-fit flex-center gap-2'>
+                <div className='w-fit flex-center gap-2 text-md'>
                     {!drivingLicenseFlag ? (
-                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                        <RxQuestionMarkCircled className='size-5 text-yellow-500' />
                     ) : (
-                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                        <IoCheckmarkCircleOutline className='size-5 text-green-500' />
                     )}{' '}
                     Driving Licence
                 </div>
@@ -53,11 +53,11 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
 
             {/* Insurance */}
             <div className='flex items-center justify-between'>
-                <div className='text-md w-fit flex-center gap-2'>
+                <div className='w-fit flex-center gap-2 text-md'>
                     {!insuranceFlag ? (
-                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                        <RxQuestionMarkCircled className='size-5 text-yellow-500' />
                     ) : (
-                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                        <IoCheckmarkCircleOutline className='size-5 text-green-500' />
                     )}{' '}
                     Insurance
                 </div>
@@ -68,11 +68,11 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
 
             {/* Rental Agreement */}
             <div className='flex items-center justify-between'>
-                <div className='text-md w-fit flex-center gap-2'>
+                <div className='w-fit flex-center gap-2 text-md'>
                     {!trip.isRentalAgreed ? (
-                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                        <RxQuestionMarkCircled className='size-5 text-yellow-500' />
                     ) : (
-                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                        <IoCheckmarkCircleOutline className='size-5 text-green-500' />
                     )}{' '}
                     Rental Agreement
                 </div>
@@ -96,11 +96,11 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
 
             {/* Phone Number */}
             <div className='flex items-center justify-between'>
-                <div className='text-md w-fit flex-center gap-2'>
+                <div className='w-fit flex-center gap-2 text-md'>
                     {!isPhoneVerifiedFlag ? (
-                        <RxQuestionMarkCircled className='text-yellow-500 size-5' />
+                        <RxQuestionMarkCircled className='size-5 text-yellow-500' />
                     ) : (
-                        <IoCheckmarkCircleOutline className='text-green-500 size-5' />
+                        <IoCheckmarkCircleOutline className='size-5 text-green-500' />
                     )}{' '}
                     Phone Number
                 </div>

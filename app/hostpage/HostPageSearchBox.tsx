@@ -81,20 +81,20 @@ export default function HostPageSearchBox() {
 
     return (
         <>
-            <div className='rounded-md bg-white  shadow-md'>
-                <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12  lg:grid-cols-12'>
+            <div className='rounded-md bg-white shadow-md'>
+                <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12 lg:grid-cols-12'>
                     <div className='col-span-2 md:col-span-6 lg:col-span-4'>
-                        <div className='flex w-full flex-col gap-1  '>
-                            <label className='mb-1 inline-flex text-xs font-semibold'>
+                        <div className='flex w-full flex-col gap-1 '>
+                            <label className='mb-1 inline-flex font-semibold text-xs'>
                                 Search By City
-                                <span className='inline-block text-xs font-semibold text-neutral-800 sm:hidden lg:block'>, Place and Zipcode</span>
+                                <span className='inline-block font-semibold text-neutral-800 text-xs sm:hidden lg:block'>, Place and Zipcode</span>
                             </label>
                             <LocationSearchBox />
                         </div>
                     </div>
                     <div className='col-span-2 md:col-span-6 lg:col-span-3'>
                         <div className='flex w-full flex-col gap-1 '>
-                            <label className='mb-1 text-xs font-semibold'>Pickup & Drop Dates</label>
+                            <label className='mb-1 font-semibold text-xs'>Pickup & Drop Dates</label>
                             <SearchCalendar startDate={startDateQuery} setStartDate={setStartDateQuery} endDate={endDateQuery} setEndDate={setEndDateQuery} />
                         </div>
                     </div>

@@ -46,9 +46,9 @@ export default function page({ params, searchParams }: Props) {
 
     return (
         <main className='flex-grow py-6'>
-            <div className='md:container md:mx-auto md:px-4 flex flex-col lg:flex-row gap-8'>
+            <div className='flex flex-col gap-8 md:container md:mx-auto md:px-4 lg:flex-row'>
                 {/* Left scrollable content */}
-                <div className='lg:w-2/3 overflow-y-auto'>
+                <div className='overflow-y-auto lg:w-2/3'>
                     <VehicleDetails
                         vehicleDetails={vehicleDetails}
                         vehicleHostDetails={vehicleHostDetails}
@@ -60,14 +60,14 @@ export default function page({ params, searchParams }: Props) {
                 {/* Right sticky content */}
                 <div className='lg:w-1/3'>
                     <div className='sticky top-20 space-y-6 px-4 md:px-0'>
-                        <div className='flex justify-between items-center'>
-                            <h2 className='text-2xl font-bold'>{`$${vehicleDetails?.price_per_hr} / day`}</h2>
+                        <div className='flex items-center justify-between'>
+                            <h2 className='font-bold text-2xl'>{`$${vehicleDetails?.price_per_hr} / day`}</h2>
                             <WishlistButton vehicleId={vehicleDetails.id} variant='lg' />
                         </div>
 
                         <div className='flex w-full flex-col gap-2'>
-                            <div className='text-[15px] font-semibold'>Vehicle Location</div>
-                            <p className='text-14 flex items-center rounded-md border px-3 py-2'>
+                            <div className='font-semibold text-[15px]'>Vehicle Location</div>
+                            <p className='flex items-center rounded-md border px-3 py-2 text-14'>
                                 <FaLocationDot className='mr-2 size-5' />
                                 {getFullAddress({ vehicleDetails })}
                             </p>

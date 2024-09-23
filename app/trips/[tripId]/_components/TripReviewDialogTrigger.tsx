@@ -8,7 +8,7 @@ export default function TripReviewDialogTrigger({ tripData }: { tripData: any })
     return (
         <Button
             variant='yellow'
-            className='  w-fit ml-auto  px-10'
+            className=' ml-auto w-fit px-10'
             onClick={() => {
                 tripReviewDialog.onOpen();
                 tripReviewDialog.setTripData(tripData);

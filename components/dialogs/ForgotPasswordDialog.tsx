@@ -90,7 +90,7 @@ export default function ForgotPasswordDialog() {
                             loginDialog.onOpen();
                         }}
                         variant='secondary'
-                        className='ml-auto mt-6'>
+                        className='mt-6 ml-auto'>
                         Back to login
                     </Button>
                 </div>
@@ -102,7 +102,7 @@ export default function ForgotPasswordDialog() {
                         </Label>
                         <div className='mt-1'>
                             <Input id='email' {...register('email')} placeholder='name@example.com' />
-                            <p className='mt-2 text-xs font-medium text-destructive'>{errors.email?.message}</p>
+                            <p className='mt-2 font-medium text-destructive text-xs'>{errors.email?.message}</p>
                         </div>
 
                         <Button type='submit' className='mt-3 w-full' disabled={isSubmitting} loading={isSubmitting} loadingText='Sending...'>
@@ -121,7 +121,7 @@ export default function ForgotPasswordDialog() {
                     </button>
                 </form>
             )}
-            {errorMessage && <p className='mt-2 text-xs font-medium text-destructive'>{errorMessage}</p>}
+            {errorMessage && <p className='mt-2 font-medium text-destructive text-xs'>{errorMessage}</p>}
         </Dialog>
     );
 }

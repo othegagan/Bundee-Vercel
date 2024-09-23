@@ -39,7 +39,7 @@ export const SelectedSnapDisplay: React.FC<PropType> = (props) => {
     const { selectedSnap, snapCount } = props;
 
     return (
-        <div className='text-white z-10'>
+        <div className='z-10 text-white'>
             {selectedSnap + 1} / {snapCount}
         </div>
     );

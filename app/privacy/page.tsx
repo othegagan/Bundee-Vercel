@@ -3,9 +3,9 @@ import Link from 'next/link';
 const Privacy = () => {
     return (
         <section>
-            <div className='prose-base prose prose-h3:text-black prose-a:font-semibold  prose-a:text-accent-300 hover:prose-a:text-black mx-auto mb-10 max-w-5xl px-8 text-sm text-neutral-600 lg:mb-20'>
-                <div className=' mx-auto pb-10 pt-14'>
-                    <h1 className='font-display text-3xl font-extrabold text-black md:text-5xl'>Privacy Policy</h1>
+            <div className='prose-base prose mx-auto mb-10 max-w-5xl px-8 prose-a:font-semibold prose-a:text-accent-300 prose-h3:text-black text-neutral-600 text-sm hover:prose-a:text-black lg:mb-20'>
+                <div className=' mx-auto pt-14 pb-10'>
+                    <h1 className='font-display font-extrabold text-3xl text-black md:text-5xl'>Privacy Policy</h1>
                 </div>
 
                 <p className=' text-neutral-700'>
@@ -24,7 +24,7 @@ const Privacy = () => {
                     about you from these various sources.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Information We Collect Directly From You</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Information We Collect Directly From You</h2>
                 <p className='my-4 space-y-4'>
                     We may collect information about you directly from you. For example, if you create an account with us, we will collect your name, email
                     address, password, date of birth, driver's license information, mobile phone number, payment information, billing address, and photo. We
@@ -32,14 +32,14 @@ const Privacy = () => {
                     and the contents of any message you send to us through our Site.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Information We Collect About You from Third Parties</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Information We Collect About You from Third Parties</h2>
                 <p className='my-4 space-y-4'>
                     We may also collect information about you from third parties. For example, if a friend refers you to our Services or adds you as a guest, we
                     will collect your name and email address from your friend, or if a property manager provides us with information about the property's
                     tenants, we will collect the names and email addresses for those tenants.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Information We Collect Automatically Through Our Services</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Information We Collect Automatically Through Our Services</h2>
                 <p>
                     We automatically collect information about you through your use of our Services, including, without limitation, your IP address, browser
                     type, device type, operating system and version, unique device identifier, mobile network information, domain name, the website that led you
@@ -54,7 +54,7 @@ const Privacy = () => {
                     more information about how we automatically collect information about your use of our Services.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Other Information We Collect Automatically Through Our Vehicles</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Other Information We Collect Automatically Through Our Vehicles</h2>
                 <p>
                     We automatically collect information about you through your use of our vehicles, including, without limitation, the times you pick up and
                     return the car, damage before and after you use the car, mileage, speed, and battery life remaining. Similar to geolocation tracking of you
@@ -66,7 +66,7 @@ const Privacy = () => {
                     parties.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>How We Use Your Information</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>How We Use Your Information</h2>
                 <p>
                     We may use your information, including personal information, for the following purposes: Providing and Improving Our Services. To provide
                     and maintain our Services; to improve our Services; to develop new features, products, or services; to perform technical operations, such as
@@ -74,7 +74,7 @@ const Privacy = () => {
                     service and support purposes.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Marketing and Communications</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Marketing and Communications</h2>
                 <p>
                     To communicate with you about your account and use of our Services, including to send you product updates; to respond to your inquiries; to
                     provide you with news and newsletters, special offers, promotions, and other information we think may interest you; and for other
@@ -82,7 +82,7 @@ const Privacy = () => {
                     text message (SMS). Please see our section regarding Your Choices for more information about how to change your communications preferences.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Personalizing Content</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Personalizing Content</h2>
                 <p>
                     To personalize the information and content we display to you, including marketing, promotional, and sponsored content and advertising within
                     the Services. For example, if information from our App indicates that you are near a coffee shop with which we have arranged a discount for
@@ -93,7 +93,7 @@ const Privacy = () => {
                     statistical purposes.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Protecting Rights and Interests</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Protecting Rights and Interests</h2>
                 <p>
                     To protect the safety, rights, property, or security of MyBundee, the Services, any third party, or the general public; to detect, prevent,
                     or otherwise address fraud, security, or technical issues; to prevent or stop activity which MyBundee, in its sole discretion, may consider
@@ -101,14 +101,14 @@ const Privacy = () => {
                     this Privacy Policy or our Terms of Service.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Legal Compliance</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Legal Compliance</h2>
                 <p>
                     To comply with applicable legal or regulatory obligations, including as part of a judicial proceeding; to respond to a subpoena, warrant,
                     court order, or other legal process; or as part of an investigation or request, whether formal or informal, from law enforcement or a
                     governmental authority.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>How We Disclose Your Information</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>How We Disclose Your Information</h2>
                 <p>
                     We may disclose your information, including personal information, as described to you at the time of collection or disclosure or as follows:
                 </p>
@@ -179,8 +179,8 @@ const Privacy = () => {
                     </ol>
                 </div>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Cookies</h2>
-                <p className=' '>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Cookies</h2>
+                <p className=''>
                     Cookies are alphanumeric identifiers that we transfer to your computer's hard drive through your web browser for record-keeping purposes.
                     Some cookies allow us to make it easier for you to navigate our Services, while others are used to enable a faster log-in process or to
                     allow us to track your activities while using our Services. Most web browsers automatically accept cookies, but if you prefer, you can edit
@@ -190,7 +190,7 @@ const Privacy = () => {
                     you may not be able to stay logged into your account).
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Clear GIFs, pixel tags and other technologies</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Clear GIFs, pixel tags and other technologies</h2>
                 <p>
                     Clear GIFs are tiny graphics with a unique identifier, similar in function to cookies. In contrast to cookies, which are stored on your
                     computer's hard drive, clear GIFs are embedded invisibly on web pages. We may use clear GIFs (also referred to as web beacons, web bugs or
@@ -199,14 +199,14 @@ const Privacy = () => {
                     customers, to help us track email response rates, identify when our emails are viewed, and track whether our emails are forwarded.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Third-Party Analytics</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Third-Party Analytics</h2>
                 <p>
                     We may use third-party analytics companies to evaluate use of our Services. We or our service providers use these tools to help us
                     understand use of, and to improve, our Services, performance, and user experiences. These entities may use cookies and other tracking
                     technologies, such as web beacons or local storage objects (“LSOs”), to perform their services.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Do Not Track Disclosure</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Do Not Track Disclosure</h2>
                 <p>
                     Our Services do not respond to Do Not Track signals. For more information about Do Not Track signals, please click
                     <Link target='_blank' className='mx-2 text-primary underline underline-offset-2' href='http://www.allaboutdnt.com/'>
@@ -216,14 +216,14 @@ const Privacy = () => {
                     cookies). You also may opt out of interest-based advertising by following the instructions in the Interest-Based Advertising section below.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Third-Party Links</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Third-Party Links</h2>
                 <p>
                     Our Services may contain links to third-party websites and applications. Any access to and use of such linked websites and applications is
                     not governed by this Privacy Policy but instead is governed by the privacy policies of those third parties. We are not responsible for the
                     information practices of such third-party websites or applications.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Interest-Based Advertising</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Interest-Based Advertising</h2>
                 <p>
                     We may use third parties such as network advertisers to serve advertisements on our Services and on third-party websites or other media
                     (e.g., social networking platforms). This enables us and these third parties to target advertisements to you for products and services in
@@ -267,7 +267,7 @@ const Privacy = () => {
                     multiple devices you will have to opt out on each individual device.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Security</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Security</h2>
                 <p>
                     We have taken steps to help protect the personal information we collect. However, no data security measures can guarantee 100% security. You
                     should take steps to protect against unauthorized access to your device and account by, among other things, choosing a robust password that
@@ -275,7 +275,7 @@ const Privacy = () => {
                     compromised passwords or for any activity on your account via unauthorized password activity.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Your Choices</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Your Choices</h2>
                 <p>
                     Accessing, Modifying, or Deleting Your Personal Information. You may access, modify, or delete the personal information that you have
                     provided to us by logging into your account settings or emailing us at
@@ -287,7 +287,7 @@ const Privacy = () => {
                     Service we may retain information about you in order to attempt to resolve the issue before deleting it.
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Opting out of Marketing Emails</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Opting out of Marketing Emails</h2>
                 <p>
                     We may send periodic promotional emails to you. You may opt out of such communications by following the opt-out instructions contained in
                     the email. Please note that it may take up to ten (10) business days for us to process opt-out requests. If you opt out of receiving emails
@@ -297,7 +297,7 @@ const Privacy = () => {
                     privacy practices and you will have to opt out of any marketing communications from them directly
                 </p>
 
-                <h2 className='my-6 text-xl font-bold text-neutral-900'>Children</h2>
+                <h2 className='my-6 font-bold text-neutral-900 text-xl'>Children</h2>
                 <p>
                     Our Services are not targeted to children under thirteen (13) years of age and we do not knowingly collect personal information from
                     children under 13. In accordance with the Children's Online Privacy Protection Act (“COPPA”), if we discover that a child under 13 has
@@ -307,7 +307,7 @@ const Privacy = () => {
                 <br />
 
                 <div className='space-y-6'>
-                    <h1 className='my-6 text-2xl font-bold text-neutral-900'>Contact Us</h1>
+                    <h1 className='my-6 font-bold text-2xl text-neutral-900'>Contact Us</h1>
                     <p>
                         If you have questions about this Privacy Policy or the privacy aspects of our Services, please contact us at
                         <Link className='mx-2 text-primary underline underline-offset-2' href='https://mybundee.com/' target='_blank'>
@@ -315,7 +315,7 @@ const Privacy = () => {
                         </Link>
                         for any general inquiries or support-related issues. We value your feedback and are here to assist you.
                     </p>
-                    <h2 className='my-6 text-xl font-bold text-neutral-900'>Changes to this Privacy Policy</h2>
+                    <h2 className='my-6 font-bold text-neutral-900 text-xl'>Changes to this Privacy Policy</h2>
                     <p>
                         This Privacy Policy is current as of the Effective Date set forth above. We may change this Privacy Policy from time to time, so please
                         be sure to check back periodically. We will post any changes, including any material changes, to this Privacy Policy on our Site.

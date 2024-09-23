@@ -137,7 +137,7 @@ export default function PhoneNumberSignInDialog() {
                         <div className='w-full'>
                             <div className='flex flex-col items-center gap-4'>
                                 <Logo className='scale-[1.3]' />
-                                <span className='mb-4 ml-4 text-xl font-semibold text-neutral-700'>Login with MyBundee account</span>
+                                <span className='mb-4 ml-4 font-semibold text-neutral-700 text-xl'>Login with MyBundee account</span>
                             </div>
 
                             {!verificationId ? (
@@ -177,7 +177,7 @@ export default function PhoneNumberSignInDialog() {
                                             phoneNumberSignInDialog.onClose();
                                             registerDialog.onOpen();
                                         }}
-                                        className='mx-1 cursor-pointer text-base font-medium text-primary hover:underline'>
+                                        className='mx-1 cursor-pointer font-medium text-base text-primary hover:underline'>
                                         Sign up
                                     </button>
                                     here

@@ -74,11 +74,7 @@ const DateRangeCalendar = ({
     const isDateUnavailableStart = blockedDates.length > 0 && isDateUnavailable(dates.start);
     const isDateUnavailableEnd = blockedDates.length > 0 && isDateUnavailable(dates.end);
 
-    const isInvalid =
-        (minDays !== 0 && totalDays < minDays) ||
-        (maxDays !== 0 && totalDays > maxDays) ||
-        isDateUnavailableStart ||
-        isDateUnavailableEnd;
+    const isInvalid = (minDays !== 0 && totalDays < minDays) || (maxDays !== 0 && totalDays > maxDays) || isDateUnavailableStart || isDateUnavailableEnd;
 
     const currentDate = today(getLocalTimeZone());
     let errorMessage = '';
@@ -124,14 +120,14 @@ const DateRangeCalendar = ({
     return (
         <div>
             <ClientOnly>
-                <label className='text-[15px] font-semibold'>Trip Dates</label>
+                <label className='font-semibold text-[15px]'>Trip Dates</label>
 
                 <DateRangePicker aria-label='Select Date' shouldCloseOnSelect={true}>
                     <Group>
                         <Button
                             variant='outline'
                             className={cn(
-                                'mt-2 flex w-full cursor-pointer items-center justify-start rounded-md  border border-gray-200 px-3 py-2 text-left text-sm font-normal  ',
+                                'mt-2 flex w-full cursor-pointer items-center justify-start rounded-md border border-gray-200 px-3 py-2 text-left font-normal text-sm ',
                                 !dates && 'text-muted-foreground'
                             )}>
                             <CalendarIcon className='mr-2 h-4 w-4' />
@@ -180,7 +176,7 @@ const DateRangeCalendar = ({
                 {errorMessage ? (
                     <div className='mt-2 flex gap-2'>
                         <IoInformationCircleOutline className='text-destructive' />
-                        <p className='text-xs font-normal text-destructive'>{errorMessage}</p>
+                        <p className='font-normal text-destructive text-xs'>{errorMessage}</p>
                     </div>
                 ) : null}
             </ClientOnly>

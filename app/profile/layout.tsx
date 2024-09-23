@@ -108,15 +108,15 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                             <img
                                 src={image ? `${image}` : '/images/dummy_avatar.png'}
                                 alt=''
-                                className=' relative inline-block h-[100px] w-[100px] rounded-md object-cover object-center  md:h-[200px] md:w-[200px]'
+                                className=' relative inline-block h-[100px] w-[100px] rounded-md object-cover object-center md:h-[200px] md:w-[200px]'
                             />
                         </div>
                         <div className='col-span-1 flex flex-col gap-1'>
-                            {name && <h1 className='text-lg font-semibold'>{name}</h1>}
-                            {email && <p className='text-sm text-neutral-600'>{email}</p>}
+                            {name && <h1 className='font-semibold text-lg'>{name}</h1>}
+                            {email && <p className='text-neutral-600 text-sm'>{email}</p>}
                             <label
                                 htmlFor='profilePictureInput'
-                                className='mt-4 w-full cursor-pointer whitespace-nowrap  rounded-md border border-neutral-300 bg-transparent px-2 py-1 text-center text-xs'>
+                                className='mt-4 w-full cursor-pointer whitespace-nowrap rounded-md border border-neutral-300 bg-transparent px-2 py-1 text-center text-xs'>
                                 Change Profile Picture
                                 <input id='profilePictureInput' type='file' className='hidden' onChange={handleProfilePictureChange} />
                             </label>
@@ -124,13 +124,13 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                         </div>
                     </div>
 
-                    <div className='mt-7 flex  list-none items-center gap-3 overflow-y-auto'>
+                    <div className='mt-7 flex list-none items-center gap-3 overflow-y-auto'>
                         {links.map((link) => (
                             <Link
                                 key={link.id}
                                 href={link.path}
-                                className={`flex w-fit  cursor-pointer items-center whitespace-nowrap rounded-md text-sm sm:h-6 sm:px-4 sm:py-6 sm:text-base ${
-                                    pathName === link.path ? ' bg-primary p-2 text-white ' : ' bg-white hover:bg-neutral-100  '
+                                className={`flex w-fit cursor-pointer items-center whitespace-nowrap rounded-md text-sm sm:h-6 sm:px-4 sm:py-6 sm:text-base ${
+                                    pathName === link.path ? ' bg-primary p-2 text-white ' : ' bg-white hover:bg-neutral-100 '
                                 }`}>
                                 {link.name}
                             </Link>
@@ -142,7 +142,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                 </BoxContainer>
             </div>
 
-            <div className='  hidden lg:flex'>
+            <div className=' hidden lg:flex'>
                 <div className='container mx-auto max-w-screen-lg px-2'>
                     <div>
                         <div className='mb-6 rounded bg-white p-4 px-4 md:p-8'>
@@ -155,7 +155,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                     />
                                     <label
                                         htmlFor='profilePictureInput'
-                                        className='mt-4 w-full cursor-pointer  rounded-md border border-neutral-300 bg-transparent px-2 py-1 text-center'>
+                                        className='mt-4 w-full cursor-pointer rounded-md border border-neutral-300 bg-transparent px-2 py-1 text-center'>
                                         Change Profile Picture
                                         <input id='profilePictureInput' type='file' className='hidden' onChange={handleProfilePictureChange} />
                                     </label>
@@ -180,7 +180,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                                 </div>
 
                                 <div className='mx-8 lg:col-span-2'>
-                                    <h3 className='text-xl font-semibold leading-7 text-neutral-900'>
+                                    <h3 className='font-semibold text-neutral-900 text-xl leading-7'>
                                         {pathName === '/profile' && ' Profile'}
                                         {pathName === '/profile/driving-licence' && 'Driver Licence '}
                                         {pathName === '/profile/change-password' && 'Change Password'}

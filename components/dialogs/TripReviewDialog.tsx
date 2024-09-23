@@ -51,7 +51,7 @@ export default function TripReviewDialog() {
     return (
         <Dialog isOpen={tripReviewDialog.isOpen} closeDialog={closeModal} openDialog={openModal} className='lg:max-w-lg' title='Trip Review'>
             <DialogBody>
-                <main className='flex flex-col  p-2 md:p-6 md:pb-0 '>
+                <main className='flex flex-col p-2 md:p-6 md:pb-0 '>
                     <Rating rating={rating} setRating={setRating} />
                     <div className='my-4 flex flex-col gap-2'>
                         <Label> Comments</Label>

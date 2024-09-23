@@ -6,7 +6,7 @@ export default function LogoutButton() {
         <>
             <form action={destroySession} className='w-full px-2 py-1'>
                 <button className='w-full' type='submit'>
-                    <div className='flex items-center gap-2 text-sm font-medium'>
+                    <div className='flex items-center gap-2 font-medium text-sm'>
                         <TbLogout2 className='mr-2 h-4 w-4' />
                         Log out
                     </div>

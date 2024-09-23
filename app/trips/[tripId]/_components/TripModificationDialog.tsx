@@ -283,7 +283,7 @@ export default function TripModificationDialog({ tripData }) {
 
     return (
         <div>
-            <Button onClick={openModifiyDialog} variant='link' className='px-0 flex items-center gap-2 text-secondary-foreground font-semibold'>
+            <Button onClick={openModifiyDialog} variant='link' className='flex items-center gap-2 px-0 font-semibold text-secondary-foreground'>
                 <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
                 Modify Trip
             </Button>
@@ -292,7 +292,7 @@ export default function TripModificationDialog({ tripData }) {
                 isOpen={tripModificationModal.isOpen}
                 closeDialog={closeModifyDialog}
                 onInteractOutside={false}
-                className={` ${submitted ? 'lg:max-w-2xl' : 'md:max-w-3xl lg:max-w-6xl lg:p-8 lg:px-10'}`}
+                className={`${submitted ? 'lg:max-w-2xl' : 'md:max-w-3xl lg:max-w-6xl lg:p-8 lg:px-10'}`}
                 title={submitted ? '' : 'Modify Trip Date Time'}
                 description={!submitted ? '' : ''}>
                 {!submitted ? (
@@ -301,7 +301,7 @@ export default function TripModificationDialog({ tripData }) {
                             <div className='mb-2 flex w-full flex-col-reverse items-start gap-4 lg:flex-row lg:justify-between'>
                                 <div className='space-y-1'>
                                     <p className='text-16'>Please select new dates and times for the trip below</p>
-                                    <p className='text-14 flex items-center gap-2 text-neutral-500'>
+                                    <p className='flex items-center gap-2 text-14 text-neutral-500'>
                                         {' '}
                                         <IoInformationCircleOutline />
                                         Selecting new dates may change the total trip cost.
@@ -311,14 +311,14 @@ export default function TripModificationDialog({ tripData }) {
                             <div className='mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-10'>
                                 <div>
                                     <div className='space-y-3'>
-                                        <p className='text-14 font-semibold'>Current Trip Summary</p>
+                                        <p className='font-semibold text-14'>Current Trip Summary</p>
                                         <div className='flex flex-col items-center justify-center gap-4 rounded-lg bg-[#FAF7F7] p-2 '>
                                             <div className='flex w-full justify-between gap-2 '>
-                                                <p className='text-14 text-center'>
+                                                <p className='text-center text-14'>
                                                     {splitFormattedDateAndTime(formatDateAndTime(tripData.starttime, tripData.vehzipcode))}
                                                 </p>
                                                 <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
-                                                <p className='text-14 text-center'>
+                                                <p className='text-center text-14'>
                                                     {splitFormattedDateAndTime(formatDateAndTime(tripData.endtime, tripData.vehzipcode))}
                                                 </p>
                                             </div>
@@ -327,9 +327,9 @@ export default function TripModificationDialog({ tripData }) {
                                                 {tripData?.tripPaymentTokens[0]?.totaldays === 1 ? 'Day' : 'Days'}
                                             </div>
 
-                                            <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>
-                                                <p className='text-14 font-bold'>Total Rental Charges</p>
-                                                <p className='text-14 font-bold'>${roundToTwoDecimalPlaces(tripData?.tripPaymentTokens[0].tripTaxAmount)}</p>
+                                            <div className='flex w-full items-center justify-between border-black/40 border-t px-2 pt-2'>
+                                                <p className='font-bold text-14'>Total Rental Charges</p>
+                                                <p className='font-bold text-14'>${roundToTwoDecimalPlaces(tripData?.tripPaymentTokens[0].tripTaxAmount)}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -337,7 +337,7 @@ export default function TripModificationDialog({ tripData }) {
                                     <div className='mt-6 flex w-full flex-col gap-5 text-sm'>
                                         <div className=' grid grid-cols-2 gap-3 p-1'>
                                             <div className='flex w-full flex-1 flex-col gap-2'>
-                                                <label className='text-14 font-semibold'>New Start Date</label>
+                                                <label className='font-semibold text-14'>New Start Date</label>
                                                 <TripModificationStartDateCalendar
                                                     unavailableDates={unavailableDates}
                                                     isTripStarted={tripData.status.toLowerCase() === 'started'}
@@ -361,7 +361,7 @@ export default function TripModificationDialog({ tripData }) {
                                         </div>
                                         <div className=' grid grid-cols-2 gap-3 p-1'>
                                             <div className='flex w-full flex-1 flex-col gap-2'>
-                                                <label className='text-14 font-semibold'>New End Date</label>
+                                                <label className='font-semibold text-14'>New End Date</label>
                                                 <TripModificationEndDateCalendar
                                                     unavailableDates={unavailableDates}
                                                     date={newEndDate}
@@ -387,7 +387,7 @@ export default function TripModificationDialog({ tripData }) {
                                         (priceError && (
                                             <div className='mt-2 flex gap-2'>
                                                 <IoInformationCircleOutline className='text-destructive' />
-                                                <p className='text-xs font-normal text-destructive'>{dateSelectionError || priceError}</p>
+                                                <p className='font-normal text-destructive text-xs'>{dateSelectionError || priceError}</p>
                                             </div>
                                         ))}
                                 </div>

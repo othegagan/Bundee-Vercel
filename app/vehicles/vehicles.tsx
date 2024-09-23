@@ -32,11 +32,11 @@ const Vehicles = ({ searchParams }: any) => {
     return (
         <div className='h-[calc(100dvh_-_185px)] '>
             {/* Mobile View components */}
-            <div className='sticky top-0 z-40 my-2  flex w-full items-center justify-between bg-white py-1 lg:hidden'>
+            <div className='sticky top-0 z-40 my-2 flex w-full items-center justify-between bg-white py-1 lg:hidden'>
                 {loading || useCarFilter.isLoading ? (
                     <CarCountSkeleton />
                 ) : (
-                    <h1 className='text-sm font-semibold tracking-tight text-neutral-800 md:text-xl '>
+                    <h1 className='font-semibold text-neutral-800 text-sm tracking-tight md:text-xl '>
                         {useCarFilter.filteredCars.length > 0 ? `${useCarFilter.filteredCars.length}  cars found are available.` : ''}
                     </h1>
                 )}
@@ -104,11 +104,11 @@ const Vehicles = ({ searchParams }: any) => {
             {/* Desktop components */}
             <div className='hidden h-full grid-cols-1 gap-4 lg:grid lg:grid-cols-5'>
                 <div className='col-span-1 overflow-y-auto lg:col-span-3'>
-                    <div className='sticky top-0 z-40 my-2  hidden w-full justify-between bg-white py-1 lg:flex'>
+                    <div className='sticky top-0 z-40 my-2 hidden w-full justify-between bg-white py-1 lg:flex'>
                         {loading || useCarFilter.isLoading ? (
                             <CarCountSkeleton />
                         ) : (
-                            <h1 className='text-sm font-semibold tracking-tight text-neutral-800 md:text-xl '>
+                            <h1 className='font-semibold text-neutral-800 text-sm tracking-tight md:text-xl '>
                                 {useCarFilter.filteredCars.length > 0 ? `${useCarFilter.filteredCars.length}  cars found are available.` : ''}
                             </h1>
                         )}
@@ -160,7 +160,7 @@ export default Vehicles;
 export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
     const images: any = sortImagesByIsPrimary(car.imageresponse);
     return (
-        <div className='group h-fit rounded-lg  border bg-white hover:shadow-md'>
+        <div className='group h-fit rounded-lg border bg-white hover:shadow-md'>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>
                 <Link
                     href={`/vehicles/${car.id}?${searchQuery}`}
@@ -175,32 +175,32 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                         <img
                             src='./images/image_not_available.png'
                             alt='image_not_found'
-                            className='h-full w-full  object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
+                            className='h-full w-full object-cover object-center transition-all ease-in-out lg:h-full lg:w-full'
                         />
                     )}
                 </Link>
 
                 <div className='absolute bottom-2 left-1 inline-flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
                     <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
-                    <span className=' text-sm text-neutral-700'>
+                    <span className=' text-neutral-700 text-sm'>
                         {car?.rating} • ({car?.tripcount} {car?.tripcount === 1 ? 'Trip' : 'Trips'})
                     </span>
                 </div>
             </div>
 
-            <div className='mt-1 flex  justify-between p-3'>
+            <div className='mt-1 flex justify-between p-3'>
                 <div className=''>
                     <Link
                         href={`/vehicles/${car.id}?${searchQuery}`}
-                        className='cursor-pointer truncate text-base font-semibold text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</Link>
-                    <p className='mt-1 text-sm text-neutral-500'>
+                        className='cursor-pointer truncate font-semibold text-base text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</Link>
+                    <p className='mt-1 text-neutral-500 text-sm'>
                         {toTitleCase(car?.cityname)}, {toTitleCase(car?.state)}
                     </p>
                 </div>
 
                 <div className='flex flex-col items-end gap-3'>
                     <p>
-                        <span className='text-lg font-bold text-primary'>${car.price_per_hr}</span>
+                        <span className='font-bold text-lg text-primary'>${car.price_per_hr}</span>
                         <span className='text-md text-neutral-600'>/Day</span>
                     </p>
                     <div className='flex gap-2'>
@@ -208,7 +208,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <IoAirplaneSharp className='size-5 -rotate-90 text-primary' />
+                                        <IoAirplaneSharp className='-rotate-90 size-5 text-primary' />
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>Airport Delivery Available</p>

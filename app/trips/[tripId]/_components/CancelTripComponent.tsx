@@ -48,7 +48,7 @@ const CancelTripComponent = ({ tripId }: any) => {
                     openModal();
                 }}
                 variant='link'
-                className='flex items-center gap-2 text-red-500 hover:text-red-600 p-0 font-semibold'
+                className='flex items-center gap-2 p-0 font-semibold text-red-500 hover:text-red-600'
                 size='lg'>
                 <X className='size-4' />
                 Cancel trip

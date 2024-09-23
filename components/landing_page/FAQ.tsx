@@ -43,7 +43,7 @@ export default function FAQ() {
     return (
         <>
             <div id='faqs' className='mx-auto my-10 w-full max-w-2xl px-4 py-16 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8'>
-                <div className='justify-center bg-white p-4 text-center  text-3xl font-bold text-black'>Frequently Asked Questions</div>
+                <div className='justify-center bg-white p-4 text-center font-bold text-3xl text-black'>Frequently Asked Questions</div>
                 <Accordion type='single' collapsible className='mt-10 w-full'>
                     {data.FAQs.map((faq, index) => (
                         <AccordionItem key={`item-${index}`} value={`item-${index}`}>

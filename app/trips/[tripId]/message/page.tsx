@@ -97,8 +97,8 @@ export default function MessagePage({ params }) {
     }, [sendMessageMutation.isPending]);
 
     return (
-        <div className='rounded-lg   text-card-foreground md:shadow-sm lg:border lg:pb-4 md:px-4'>
-            <div className='h-[calc(90dvh-120px)] pt-2  space-y-4 overflow-y-auto lg:h-[calc(97dvh-180px)]' ref={chatWindowRef}>
+        <div className='rounded-lg text-card-foreground md:px-4 md:shadow-sm lg:border lg:pb-4'>
+            <div className='h-[calc(90dvh-120px)] space-y-4 overflow-y-auto pt-2 lg:h-[calc(97dvh-180px)]' ref={chatWindowRef}>
                 {loadingMessages ? (
                     <ChatSkeleton />
                 ) : (
@@ -149,7 +149,7 @@ function Message({ message, tripData }) {
 
     if (isClientMessage) {
         return (
-            <div className='ml-auto flex w-max max-w-[75%] flex-col gap-2 rounded-lg rounded-br-none bg-primary/40 px-3 py-2 text-sm font-medium'>
+            <div className='ml-auto flex w-max max-w-[75%] flex-col gap-2 rounded-lg rounded-br-none bg-primary/40 px-3 py-2 font-medium text-sm'>
                 {message?.message}
                 <p className='flex items-center justify-end text-[10px] '> {format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
             </div>
@@ -163,7 +163,7 @@ function Message({ message, tripData }) {
                     <img src={authorImage[message.author]} alt={message.author} width={32} height={32} className='mr-2 size-8 rounded-full border' />
                 )}
 
-                <div className='flex flex-col gap-2 rounded-lg rounded-tl-none bg-[#E1EFFE] px-3 py-2 text-sm font-medium'>
+                <div className='flex flex-col gap-2 rounded-lg rounded-tl-none bg-[#E1EFFE] px-3 py-2 font-medium text-sm'>
                     {message.message}
                     <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
                 </div>
@@ -189,7 +189,7 @@ function Message({ message, tripData }) {
                         </div>
                     )}
 
-                    <p className='text-16 font-semibold capitalize '>
+                    <p className='font-semibold text-16 capitalize '>
                         {tripData?.vehmake} {tripData?.vehmodel} {tripData?.vehyear}
                     </p>
 
@@ -202,13 +202,13 @@ function Message({ message, tripData }) {
                     </div>
 
                     <div className='text-12'>
-                        Pickup & Return :<span className='font-medium capitalize text-gray-800'>{getFullAddress({ tripDetails: tripData })}</span>
+                        Pickup & Return :<span className='font-medium text-gray-800 capitalize'>{getFullAddress({ tripDetails: tripData })}</span>
                     </div>
 
                     <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
                 </div>
             ) : (
-                <div className='flex flex-col gap-2 rounded-lg rounded-tl-none bg-muted px-3 py-2 text-sm font-medium'>
+                <div className='flex flex-col gap-2 rounded-lg rounded-tl-none bg-muted px-3 py-2 font-medium text-sm'>
                     {message.message}
                     <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
                 </div>

@@ -44,7 +44,7 @@ const TimeSelect = ({ onChange, defaultValue, label, className, disableLimitTime
                         <SelectItem
                             key={time.value}
                             value={time.value}
-                            className='cursor-pointer disabled:!hidden'
+                            className='disabled:!hidden cursor-pointer'
                             disabled={disableLimitTime && time.value < disableLimitTime}>
                             {time.label}
                         </SelectItem>

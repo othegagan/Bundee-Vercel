@@ -88,7 +88,7 @@ export default function TripImageVideoUploadComponent({ tripid, userId, hostId, 
 
     return (
         <>
-            <Button variant='link' className='text-md font-normal underline underline-offset-2 px-0 text-foreground' onClick={openDialog}>
+            <Button variant='link' className='px-0 font-normal text-foreground text-md underline underline-offset-2' onClick={openDialog}>
                 Upload media
             </Button>
 
@@ -102,12 +102,12 @@ export default function TripImageVideoUploadComponent({ tripid, userId, hostId, 
                 <DialogBody>
                     <FileUploader onFileSelect={handleFileSelect} setError={setError} />
                 </DialogBody>
-                <DialogFooter className='flex md:justify-between flex-col md:flex-row'>
+                <DialogFooter className='flex flex-col md:flex-row md:justify-between'>
                     {error && <div className='text-red-400'>{error}</div>}
 
                     <Button
                         onClick={uploadFiles}
-                        className='bg-black text-white hover:bg-black/90 ml-auto'
+                        className='ml-auto bg-black text-white hover:bg-black/90'
                         disabled={isUploading || files.length === 0}
                         loading={isUploading}
                         loadingText='Uploading...'>

@@ -4,9 +4,9 @@ import BoxContainer from '../BoxContainer';
 export default function BundeeBranding() {
     return (
         <BoxContainer className='py-6 md:py-10'>
-            <div className='grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-2'>
+            <div className='grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6'>
                 <div className='flex flex-col gap-3'>
-                    <h2 className='tracking-tight font-bold'>
+                    <h2 className='font-bold tracking-tight'>
                         Fiat Electric <br /> Collection: Drive <span className='text-green-500'>Green</span>
                     </h2>
                     <p>
@@ -17,7 +17,7 @@ export default function BundeeBranding() {
 
                 <div className=' flex flex-row sm:flex-wrap '>
                     <div className='flex w-full flex-row-reverse flex-wrap sm:w-1/2 lg:flex-row'>
-                        <div className='w-full p-1  lg:w-1/2'>
+                        <div className='w-full p-1 lg:w-1/2'>
                             <Image
                                 alt='gallery'
                                 width={0}
@@ -29,7 +29,7 @@ export default function BundeeBranding() {
                                 src='https://fiat.b-cdn.net/FT623338.jpeg'
                             />
                         </div>
-                        <div className='w-full p-1  lg:w-1/2'>
+                        <div className='w-full p-1 lg:w-1/2'>
                             <Image
                                 alt='gallery'
                                 width={0}

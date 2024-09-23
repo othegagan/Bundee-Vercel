@@ -36,7 +36,7 @@ export default function DocumentDialog() {
             closeDialog={closeModal}
             openDialog={openModal}
             className='lg:min-h-[500px] lg:max-w-4xl'>
-            <DialogBody className='flex flex-col    '>
+            <DialogBody className='flex flex-col '>
                 <div className='h-[70dvh] w-full'>
                     <PDFViewerComponent url={uri} />
                 </div>
@@ -45,13 +45,13 @@ export default function DocumentDialog() {
                     <Link
                         href={documentModal.invoicePDFLink}
                         download
-                        className='ml-auto mt-4 flex w-fit cursor-pointer items-center justify-center gap-4 rounded-md bg-orange-400 px-10 py-2 text-center text-sm font-medium tracking-tight text-white'>
+                        className='mt-4 ml-auto flex w-fit cursor-pointer items-center justify-center gap-4 rounded-md bg-orange-400 px-10 py-2 text-center font-medium text-sm text-white tracking-tight'>
                         <Download className='size-4' /> Download Invoice
                     </Link>
                 ) : (
                     <div>
                         {documentModal.isAgreementAcceptedOn ? (
-                            <label htmlFor='terms1' className='ml-6 mt-4 text-sm font-medium leading-none tracking-normal'>
+                            <label htmlFor='terms1' className='mt-4 ml-6 font-medium text-sm leading-none tracking-normal'>
                                 MyBundee's Rental Agreement accepted on <br className='md:hidden' /> {documentModal.isAgreementAcceptedOn}
                             </label>
                         ) : (

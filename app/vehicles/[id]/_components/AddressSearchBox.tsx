@@ -45,8 +45,8 @@ const AddressSearchBox = ({ setCustomDeliveryLocation }: any) => {
             />
 
             <div
-                className={`absolute  z-10 mt-1 max-h-56 w-full overflow-auto rounded-md  border-t  bg-white p-1 px-2 py-1.5 text-xs font-medium  text-foreground shadow-lg transition-opacity ease-in-out ${
-                    show && inputValue ? 'scale-1  opacity-100' : 'scale-0  opacity-0'
+                className={`absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md border-t bg-white p-1 px-2 py-1.5 font-medium text-foreground text-xs shadow-lg transition-opacity ease-in-out ${
+                    show && inputValue ? 'scale-1 opacity-100' : 'scale-0 opacity-0'
                 }`}
                 role='presentation'>
                 <p className='mb-1 text-[11px] text-neutral-400'>Suggestions</p>

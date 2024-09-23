@@ -38,12 +38,12 @@ export default function TripModificationPriceListComponent({
 
     return (
         <div className='w-full space-y-2'>
-            <p className='text-14 font-semibold'>New Trip Summary</p>
-            <div className='flex flex-col  justify-center gap-3 rounded-lg bg-[#FAF7F7] p-4 '>
+            <p className='font-semibold text-14'>New Trip Summary</p>
+            <div className='flex flex-col justify-center gap-3 rounded-lg bg-[#FAF7F7] p-4 '>
                 <div className='flex w-full justify-between gap-2 p-4'>
-                    <p className='text-14 text-center'>{splitFormattedDateAndTime(formattedStartDate)}</p>
+                    <p className='text-center text-14'>{splitFormattedDateAndTime(formattedStartDate)}</p>
                     <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
-                    <p className='text-14 text-center'>{splitFormattedDateAndTime(formattedEndDate)}</p>
+                    <p className='text-center text-14'>{splitFormattedDateAndTime(formattedEndDate)}</p>
                 </div>
 
                 {pricelist?.numberOfDays > 0 && (
@@ -82,7 +82,7 @@ export default function TripModificationPriceListComponent({
                                             {pricelist?.delivery > 0 && (
                                                 <div className='flex items-center justify-between'>
                                                     <div className='text-14'>{isAirportDeliveryChoosen ? 'Airport Delivery fee' : 'Custom Delivery fee'}</div>
-                                                    <div className='text-14 font-medium'>${roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
+                                                    <div className='font-medium text-14'>${roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                                                 </div>
                                             )}
                                         </div>
@@ -90,7 +90,7 @@ export default function TripModificationPriceListComponent({
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <div className='text-14 font-medium'>${roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
+                        <div className='font-medium text-14'>${roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
                     </div>
                 )}
 
@@ -125,7 +125,7 @@ export default function TripModificationPriceListComponent({
                                 </Popover>
                             </span>
                         </div>
-                        <div className='text-14 font-medium text-green-500'>${roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
+                        <div className='font-medium text-14 text-green-500'>${roundToTwoDecimalPlaces(pricelist?.discountAmount)}</div>
                     </div>
                 )}
 
@@ -136,10 +136,7 @@ export default function TripModificationPriceListComponent({
                     </div>
                 )}
 
-                {(pricelist?.tripFee > 0 ||
-                    pricelist?.concessionFee > 0 ||
-                    pricelist?.statesurchargeamount > 0 ||
-                    pricelist?.registrationRecoveryFee > 0) && (
+                {(pricelist?.tripFee > 0 || pricelist?.concessionFee > 0 || pricelist?.statesurchargeamount > 0 || pricelist?.registrationRecoveryFee > 0) && (
                     <div className='flex items-center justify-between gap-2 px-2 '>
                         <div className='flex items-center gap-1'>
                             <p className='text-14'>Trip Fee</p>
@@ -159,25 +156,21 @@ export default function TripModificationPriceListComponent({
                                                 {pricelist?.concessionCalculated > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-14'>Airport concession recovery fee</div>
-                                                        <div className='text-14 font-medium'>
-                                                            ${roundToTwoDecimalPlaces(pricelist?.concessionCalculated)}
-                                                        </div>
+                                                        <div className='font-medium text-14'>${roundToTwoDecimalPlaces(pricelist?.concessionCalculated)}</div>
                                                     </div>
                                                 )}
 
                                                 {pricelist?.stateSurchargeAmount > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-14'>State Surcharge </div>
-                                                        <div className='text-14 font-medium'>
-                                                            ${roundToTwoDecimalPlaces(pricelist?.stateSurchargeAmount)}
-                                                        </div>
+                                                        <div className='font-medium text-14'>${roundToTwoDecimalPlaces(pricelist?.stateSurchargeAmount)}</div>
                                                     </div>
                                                 )}
 
                                                 {pricelist?.registrationRecoveryFee > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-14'>Vehicle licensing recovery fee </div>
-                                                        <div className='text-14 font-medium'>
+                                                        <div className='font-medium text-14'>
                                                             ${roundToTwoDecimalPlaces(pricelist?.registrationRecoveryFee)}
                                                         </div>
                                                     </div>
@@ -186,7 +179,7 @@ export default function TripModificationPriceListComponent({
                                                 {pricelist?.tripFee > 0 && (
                                                     <div className='flex items-center justify-between'>
                                                         <div className='text-14'>Platform fee </div>
-                                                        <div className='text-14 font-medium'>${roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
+                                                        <div className='font-medium text-14'>${roundToTwoDecimalPlaces(pricelist?.tripFee)}</div>
                                                     </div>
                                                 )}
                                             </div>
@@ -198,10 +191,7 @@ export default function TripModificationPriceListComponent({
                         <div className='text-14 '>
                             $
                             {roundToTwoDecimalPlaces(
-                                pricelist?.concessionFee +
-                                    pricelist?.stateSurchargeAmount +
-                                    pricelist?.registrationRecoveryFee +
-                                    pricelist?.tripFee
+                                pricelist?.concessionFee + pricelist?.stateSurchargeAmount + pricelist?.registrationRecoveryFee + pricelist?.tripFee
                             )}
                         </div>
                     </div>
@@ -215,15 +205,15 @@ export default function TripModificationPriceListComponent({
                 )}
 
                 {pricelist?.tripTaxAmount > 0 && (
-                    <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>
-                        <p className='text-14 font-bold'> New Rental Charges</p>
-                        <p className='text-14 font-bold'>${roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</p>
+                    <div className='flex w-full items-center justify-between border-black/40 border-t px-2 pt-2'>
+                        <p className='font-bold text-14'> New Rental Charges</p>
+                        <p className='font-bold text-14'>${roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</p>
                     </div>
                 )}
 
-                <div className='flex w-full items-center justify-between border-t border-black/40 px-2 pt-2'>
-                    <p className='text-14 font-bold'>Trip Cost Difference</p>
-                    <p className='text-14 font-bold'>
+                <div className='flex w-full items-center justify-between border-black/40 border-t px-2 pt-2'>
+                    <p className='font-bold text-14'>Trip Cost Difference</p>
+                    <p className='font-bold text-14'>
                         {roundToTwoDecimalPlaces(Number(differenceAmount)) === 0 ? '' : isExtension ? '+' : '-'} $
                         {Math.abs(Number(roundToTwoDecimalPlaces(Number(differenceAmount))))}
                     </p>

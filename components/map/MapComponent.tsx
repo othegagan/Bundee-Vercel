@@ -75,7 +75,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                     </svg>
                 ) : (
                     <div className='relative flex flex-col items-center justify-center'>
-                        <div className='grouped-marker-count text-md absolute top-1 font-semibold'>{group.length}</div>
+                        <div className='grouped-marker-count absolute top-1 font-semibold text-md'>{group.length}</div>
                         <svg width='436' height='624' viewBox='0 0 436 624' fill='none' xmlns='http://www.w3.org/2000/svg' className='size-10 cursor-pointer'>
                             <path
                                 d='M218 0C97.4771 0 0 97.656 0 218.4C0 382.2 218 624 218 624C218 624 436 382.2 436 218.4C436 97.656 338.523 0 218 0Z'
@@ -146,7 +146,7 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
     return (
         <div className='relative h-full w-full'>
             {viewChanged && (
-                <Button variant='black' disabled={loading} size='sm' className='absolute left-[40%] top-2  z-40' onClick={searchThisArea}>
+                <Button variant='black' disabled={loading} size='sm' className='absolute top-2 left-[40%] z-40' onClick={searchThisArea}>
                     {loading ? <div className='loader' /> : 'Search this area'}
                 </Button>
             )}
@@ -172,18 +172,18 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                             setCarsPopInfo(null);
                         }}
                         className=' rounded-lg'>
-                        <Link href={`/vehicles/${carPopInfo?.id}?${searchQuery}`} className='flex flex-col  border-0 outline-none focus:border-0'>
+                        <Link href={`/vehicles/${carPopInfo?.id}?${searchQuery}`} className='flex flex-col border-0 outline-none focus:border-0'>
                             <img width='100%' src={carPopInfo?.imageresponse[0]?.imagename} className='rounded-md ' alt={`${carPopInfo?.make}`} />
-                            <div className='mt-1 text-sm font-semibold'>{`${toTitleCase(carPopInfo?.make)} ${carPopInfo?.model.toLocaleUpperCase()} ${carPopInfo?.year}`}</div>
+                            <div className='mt-1 font-semibold text-sm'>{`${toTitleCase(carPopInfo?.make)} ${carPopInfo?.model.toLocaleUpperCase()} ${carPopInfo?.year}`}</div>
                             <div className='-mb-1 flex justify-between gap-2'>
-                                <div className='inline-flex  items-center rounded-lg bg-white'>
+                                <div className='inline-flex items-center rounded-lg bg-white'>
                                     <FaStar className='mr-2 size-3 text-yellow-400' />
                                     <span className=' text-neutral-700'>
                                         {carPopInfo?.rating} • ({carPopInfo?.tripcount} {carPopInfo?.tripcount === 1 ? 'Trip' : 'Trips'})
                                     </span>
                                 </div>
                                 <p>
-                                    <span className='text-lg font-bold text-primary'>${carPopInfo?.price_per_hr}</span>
+                                    <span className='font-bold text-lg text-primary'>${carPopInfo?.price_per_hr}</span>
                                     <span className='text-md text-neutral-600'>/Day</span>
                                 </p>
                             </div>
@@ -203,12 +203,12 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                         style={{ maxWidth: '350px' }}
                         className=' w-[400px] rounded-lg'>
                         <p>{carsPopInfo.length} cars are available here.</p>
-                        <div className='border-1 flex max-h-60 w-full select-none flex-col overflow-y-auto   rounded-lg'>
+                        <div className='flex max-h-60 w-full select-none flex-col overflow-y-auto rounded-lg border-1'>
                             {carsPopInfo.map((car: any, index) => (
                                 <Link
                                     key={index}
                                     href={`/vehicles/${car?.id}?${searchQuery}`}
-                                    className='my-1 grid grid-cols-3 gap-2 rounded-md border  hover:bg-neutral-200/70'>
+                                    className='my-1 grid grid-cols-3 gap-2 rounded-md border hover:bg-neutral-200/70'>
                                     <div className='aspect-video h-16 w-full border'>
                                         {car?.imageresponse[0]?.imagename ? (
                                             <img
@@ -220,23 +220,23 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                                             <img
                                                 src='./images/image_not_available.png'
                                                 alt='image_not_found'
-                                                className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out  lg:h-full lg:w-full'
+                                                className='h-full w-full scale-[0.7] object-cover object-center transition-all ease-in-out lg:h-full lg:w-full'
                                             />
                                         )}
                                     </div>
 
                                     <div className='col-span-2 flex flex-col'>
-                                        <div className='mt-1 text-sm font-semibold'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</div>
+                                        <div className='mt-1 font-semibold text-sm'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</div>
 
                                         <div className='-mb-1 flex justify-between gap-2 pr-2'>
-                                            <div className='inline-flex  items-center rounded-lg'>
+                                            <div className='inline-flex items-center rounded-lg'>
                                                 <FaStar className='mr-2 size-3 text-yellow-400' />
                                                 <span className=' text-neutral-700'>
                                                     {car?.rating} • ({car?.tripcount} {car?.tripcount === 1 ? 'Trip' : 'Trips'})
                                                 </span>
                                             </div>
                                             <p>
-                                                <span className='text-md font-bold text-primary'>${car?.price_per_hr}</span>
+                                                <span className='font-bold text-md text-primary'>${car?.price_per_hr}</span>
                                                 <span className='text-md text-neutral-600 '>/Day</span>
                                             </p>
                                         </div>

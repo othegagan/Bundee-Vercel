@@ -36,8 +36,8 @@ const MainComponent: FC<WishlistButtonProps> = ({ vehicleId, variant }) => {
     return (
         <div
             className={cn(
-                ' size-10  cursor-pointer rounded-md bg-white  flex items-center justify-center border',
-                variant === 'sm' ? 'absolute right-[3%] top-[6%] lg:hidden' : 'hidden lg:flex'
+                ' flex size-10 cursor-pointer items-center justify-center rounded-md border bg-white',
+                variant === 'sm' ? 'absolute top-[6%] right-[3%] lg:hidden' : 'hidden lg:flex'
             )}>
             <button type='button' onClick={() => (isItemWishlisted ? removeFromWishlistHandler(vehicleId) : addToWishlistHandler(vehicleId))}>
                 <Heart fill={isItemWishlisted ? 'red' : 'none'} className='size-7 text-red-500' />

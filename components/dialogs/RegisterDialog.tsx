@@ -233,9 +233,9 @@ export default function RegisterDialog() {
                                 <div className='relative'>
                                     <Input type={showPassword ? 'text' : 'password'} id='password' {...register('password')} />
                                     {showPassword ? (
-                                        <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className='absolute right-2 top-2.5 cursor-pointer' />
+                                        <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className='absolute top-2.5 right-2 cursor-pointer' />
                                     ) : (
-                                        <FaEye onClick={() => setShowPassword(!showPassword)} className='absolute right-2 top-2.5 cursor-pointer' />
+                                        <FaEye onClick={() => setShowPassword(!showPassword)} className='absolute top-2.5 right-2 cursor-pointer' />
                                     )}
                                 </div>
                                 <FormError message={errors.password?.message} />
@@ -250,12 +250,12 @@ export default function RegisterDialog() {
                                     {showConfirmPassword ? (
                                         <FaEyeSlash
                                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                            className='absolute right-2 top-2.5 cursor-pointer'
+                                            className='absolute top-2.5 right-2 cursor-pointer'
                                         />
                                     ) : (
                                         <FaEye
                                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                            className='absolute right-2 top-2.5 cursor-pointer'
+                                            className='absolute top-2.5 right-2 cursor-pointer'
                                         />
                                     )}
                                 </div>
@@ -305,7 +305,7 @@ export default function RegisterDialog() {
                                 googleSignIn();
                             }}
                             variant='outline'
-                            className='flex w-full gap-4  py-5'>
+                            className='flex w-full gap-4 py-5'>
                             <span>Continue with </span>
                             <img className='h-5 w-5' src='https://www.svgrepo.com/show/475656/google-color.svg' loading='lazy' alt='google logo' />
                         </Button>
@@ -313,7 +313,7 @@ export default function RegisterDialog() {
                         <div className='mt-4 flex flex-col gap-2'>
                             <p className='mt-1 '>
                                 Already have an account?
-                                <button type='button' onClick={onToggle} className='mx-1 cursor-pointer text-base font-medium text-primary  hover:underline'>
+                                <button type='button' onClick={onToggle} className='mx-1 cursor-pointer font-medium text-base text-primary hover:underline'>
                                     Log In
                                 </button>
                             </p>
@@ -346,4 +346,4 @@ export default function RegisterDialog() {
     );
 }
 
-const FormError = ({ message }) => <p className='text-xs font-medium text-red-400'>{message}</p>;
+const FormError = ({ message }) => <p className='font-medium text-red-400 text-xs'>{message}</p>;

@@ -67,16 +67,16 @@ const Available_Locations = () => {
                                     style={{ width: '100%', height: '100%' }}
                                     className='h-full w-full object-cover object-center transition-all ease-in-out group-hover:scale-110 group-hover:opacity-80 lg:h-full lg:w-full'
                                 />
-                                <div className='absolute inset-x-4 top-32  overflow-hidden rounded-lg  '>
+                                <div className='absolute inset-x-4 top-32 overflow-hidden rounded-lg '>
                                     <div className='ml-auto w-fit whitespace-nowrap'>
                                         {location.isactive && (
-                                            <p className='mb-6 rounded-full bg-primary p-2 px-4 text-xs font-medium text-white md:px-4 md:py-2 md:text-sm md:font-semibold'>
+                                            <p className='mb-6 rounded-full bg-primary p-2 px-4 font-medium text-white text-xs md:px-4 md:py-2 md:font-semibold md:text-sm'>
                                                 {location.button_text}
                                             </p>
                                         )}
 
                                         {!location.isactive && (
-                                            <p className='mb-6 rounded-full bg-green-500 p-2 px-4 text-xs font-medium text-white md:px-4 md:py-2 md:text-sm md:font-semibold'>
+                                            <p className='mb-6 rounded-full bg-green-500 p-2 px-4 font-medium text-white text-xs md:px-4 md:py-2 md:font-semibold md:text-sm'>
                                                 {location.button_text}
                                             </p>
                                         )}

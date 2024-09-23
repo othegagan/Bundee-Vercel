@@ -34,17 +34,17 @@ function VerifiedDetailsComponent({ personalInfo, images, scores }) {
 
     return (
         <div>
-            <p className='mt-4 max-w-2xl text-sm leading-snug text-neutral-500'>
+            <p className='mt-4 max-w-2xl text-neutral-500 text-sm leading-snug'>
                 Your driving license details are verified. <br /> Please make sure that the details are correct. If not, please update them.
             </p>
-            <div className='mt-6 border-t border-neutral-100'>
+            <div className='mt-6 border-neutral-100 border-t'>
                 <dl className='divide-y divide-neutral-100'>
                     <Field label='Full name'>{personalInfo.fullName}</Field>
                     <Field label='Date of Birth'>{personalInfo.dob}</Field>
                     <Field label='Address'>{personalInfo.fullAddress}</Field>
                     <Field label='Driving Licence Number'>{personalInfo.drivingLicenceNumber}</Field>
                     <Field label='Expires on'>{personalInfo.expires}</Field>
-                    <dd className='flex flex-col gap-4 pt-4 text-sm text-neutral-900 sm:col-span-2  sm:flex-row'>
+                    <dd className='flex flex-col gap-4 pt-4 text-neutral-900 text-sm sm:col-span-2 sm:flex-row'>
                         <Attachment photoUrl={images.selfie} altText='Driver photo' description='Driver Selfie' />
                         <Attachment photoUrl={images.front} altText='Driving Licence Front photo' description='Driving License Front photo' />
                         <Attachment photoUrl={images.back} altText='Driving Licence Back photo' description='Driving License Back photo' />
@@ -71,7 +71,7 @@ function UnverifiedComponent() {
     const drivingLicenseDialog = useDrivingLicenceDialog();
     return (
         <div className='mt-12 flex flex-col gap-3'>
-            <p className='mt-4 max-w-2xl text-sm leading-snug text-neutral-500'>Your driving license has not yet been verified. Please verify it.</p>
+            <p className='mt-4 max-w-2xl text-neutral-500 text-sm leading-snug'>Your driving license has not yet been verified. Please verify it.</p>
             <div className='mt-6 flex justify-end'>
                 <Button
                     type='button'
@@ -89,8 +89,8 @@ function UnverifiedComponent() {
 
 const Attachment = ({ photoUrl, altText, description }) => (
     <div className='flex flex-col gap-1 md:w-[40%]'>
-        <div className='aspect-h-1 aspect-w-1 lg:aspect-none w-full overflow-hidden rounded-md bg-gray-200 lg:h-32 lg:w-[200px] '>
-            <img src={`data:image/jpeg;base64,${photoUrl}`} alt={altText} className='h-full w-full object-cover objectbg-center' />
+        <div className='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none lg:h-32 lg:w-[200px] '>
+            <img src={`data:image/jpeg;base64,${photoUrl}`} alt={altText} className='objectbg-center h-full w-full object-cover' />
         </div>
         <p className='text-center text-[12px]'>{description}</p>
     </div>
@@ -98,7 +98,7 @@ const Attachment = ({ photoUrl, altText, description }) => (
 
 const Field = ({ label, children }: { label: string; children: any }) => (
     <div className='px-2 py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
-        <dt className='text-sm font-medium leading-6 text-neutral-900'>{label}</dt>
-        <dd className='mt-1 text-sm leading-6 text-neutral-700 sm:col-span-2 sm:mt-0'>{children}</dd>
+        <dt className='font-medium text-neutral-900 text-sm leading-6'>{label}</dt>
+        <dd className='mt-1 text-neutral-700 text-sm leading-6 sm:col-span-2 sm:mt-0'>{children}</dd>
     </div>
 );
