@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { getSession } from '@/lib/auth';
-import { getUserByEmail } from '@/server/userOperations';
-import { PrasedData, VerifiedDrivingProfileResult } from '@/types';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { getSession } from "@/lib/auth";
+import { getUserByEmail } from "@/server/userOperations";
+import { PrasedData, VerifiedDrivingProfileResult } from "@/types";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export async function profileVerifiedStatus() {
     const session = await getSession();
@@ -18,21 +18,21 @@ export async function profileVerifiedStatus() {
 
 export const useVerifiedDrivingProfile = () => {
     return useQuery<VerifiedDrivingProfileResult, Error>({
-        queryKey: ['drivingProfile'],
+        queryKey: ["drivingProfile"],
         queryFn: async (): Promise<VerifiedDrivingProfileResult> => {
             try {
                 const session = await getSession();
                 if (!session.email) {
-                    throw new Error('User not authenticated');
+                    throw new Error("User not authenticated");
                 }
 
                 const userResponse = await getUserByEmail(session.email);
                 if (!userResponse.success || !userResponse.data) {
-                    throw new Error('Failed to fetch user data');
+                    throw new Error("Failed to fetch user data");
                 }
                 const user = userResponse.data;
                 const driverProfile = user.driverProfiles?.[0];
-                const isDrivingProfileVerified = !!driverProfile?.idScanRequestID;
+                const isDrivingProfileVerified = driverProfile?.isVerified;
                 const drivingProfileId = driverProfile?.idScanRequestID || null;
 
                 if (drivingProfileId) {
@@ -40,28 +40,28 @@ export const useVerifiedDrivingProfile = () => {
                         const verifiedDetails = await getVerifiedDetailsFromIDScan(drivingProfileId);
                         return {
                             isDrivingProfileVerified,
-                            verifiedDetails
+                            verifiedDetails,
                         };
                     } catch (error) {
-                        console.error('Failed to fetch verified details:', error);
+                        console.error("Failed to fetch verified details:", error);
                         return {
                             isDrivingProfileVerified,
-                            verifiedDetails: null
+                            verifiedDetails: null,
                         };
                     }
                 }
 
                 return {
                     isDrivingProfileVerified,
-                    verifiedDetails: null
+                    verifiedDetails: null,
                 };
             } catch (error) {
-                console.error('Error in useVerifiedDrivingProfile:', error);
+                console.error("Error in useVerifiedDrivingProfile:", error);
                 throw error;
             }
         },
         refetchOnWindowFocus: true,
-        staleTime: 30 * 1000
+        staleTime: 30 * 1000,
     });
 };
 
@@ -70,20 +70,21 @@ export async function getVerifiedDetailsFromIDScan(requestId: string): Promise<P
         const url = `https://dvs2.idware.net/api/v3/Request/${requestId}/result`;
         const response = await axios.get(url, {
             headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${process.env.NEXT_PUBLIC_IDSCAN_BEARER_TOKEN}`
-            }
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_IDSCAN_BEARER_TOKEN}`,
+            },
         });
 
         if (response.status === 200) {
             const { verificationResult, request } = response.data;
+
             const { document, documentVerificationResult, faceVerificationResult } = verificationResult;
 
             // Extract images
             const images = {
                 selfie: request.content.faceImageBase64,
                 front: request.content.frontImageBase64,
-                back: request.content.backOrSecondImageBase64
+                back: request.content.backOrSecondImageBase64,
             };
 
             // Extract scores
@@ -93,17 +94,17 @@ export async function getVerifiedDetailsFromIDScan(requestId: string): Promise<P
                 faceMatch: faceVerificationResult.confidence,
                 addressConfidence: documentVerificationResult.verificationConfidence.address,
 
-                dmvValidation: documentVerificationResult.validationTests.find((test: any) => test.name === 'DMVValidation')?.statusString || 'Not Available',
-                dmvReason: documentVerificationResult.validationTests.find((test: any) => test.name === 'DMNVValidation')?.reason || 'Not Available',
+                dmvValidation: documentVerificationResult.validationTests.find((test: any) => test.name === "DMVValidation")?.statusString || "Not Available",
+                dmvReason: documentVerificationResult.validationTests.find((test: any) => test.name === "DMNVValidation")?.reason || "Not Available",
 
                 addressValidation:
-                    documentVerificationResult.validationTests.find((test: any) => test.name === 'AddressValidation')?.statusString || 'Not Available',
-                addressReason: documentVerificationResult.validationTests.find((test: any) => test.name === 'AddressValidation')?.reason || 'Not Available',
+                    documentVerificationResult.validationTests.find((test: any) => test.name === "AddressValidation")?.statusString || "Not Available",
+                addressReason: documentVerificationResult.validationTests.find((test: any) => test.name === "AddressValidation")?.reason || "Not Available",
 
                 identiFraudValidation:
-                    documentVerificationResult.validationTests.find((test: any) => test.name === 'IdentiFraudValidation')?.statusString || 'Not Available',
+                    documentVerificationResult.validationTests.find((test: any) => test.name === "IdentiFraudValidation")?.statusString || "Not Available",
                 identiFraudReason:
-                    documentVerificationResult.validationTests.find((test: any) => test.name === 'IdentiFraudValidation')?.reason || 'Not Available'
+                    documentVerificationResult.validationTests.find((test: any) => test.name === "IdentiFraudValidation")?.reason || "Not Available",
             };
 
             // Extract personal information
@@ -114,13 +115,13 @@ export async function getVerifiedDetailsFromIDScan(requestId: string): Promise<P
                 fullAddress: `${document.address}, ${document.city}, ${document.state} ${document.zip}`,
                 class: document.class,
                 gender: document.gender,
-                drivingLicenceNumber: document.id
+                drivingLicenceNumber: document.id,
             };
 
             return {
                 images,
                 scores,
-                personalInfo
+                personalInfo,
             };
         }
 
