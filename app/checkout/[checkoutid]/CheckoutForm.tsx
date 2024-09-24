@@ -35,7 +35,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
             const paymentRes = await stripe.confirmSetup({
                 elements,
                 confirmParams: {
-                    return_url: 'https://your-website.com/confirmation'
+                    return_url: 'https://www.mybundee.com/'
                 },
                 redirect: 'if_required'
             });

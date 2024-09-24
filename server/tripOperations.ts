@@ -26,6 +26,7 @@ export async function getTripDetailsbyId(tripid: number) {
             fromValue: 'tripid',
             id: tripid
         };
+        console.log('Triggered');
         const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {
@@ -194,6 +195,22 @@ export async function addTripReview(hostId: number, tripId: number, rating: numb
             userId: session.userId,
             vehicleid: vehicleId,
             reservationID: tripId
+        };
+
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+export async function changeCardForTrip(tripid: number, paymentMethodIDToken: string) {
+    try {
+        const session = await getSession();
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/changeCard`;
+        const payload = {
+            tripid: tripid,
+            paymentMethodIDToken: paymentMethodIDToken
         };
 
         const response = await http.post(url, payload);

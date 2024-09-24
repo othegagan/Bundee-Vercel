@@ -9,6 +9,7 @@ import { TripData } from '@/types';
 import { useQueryState } from 'next-usequerystate';
 import { useMediaQuery } from 'react-responsive';
 import CancelTripComponent from '../_components/CancelTripComponent';
+import CardChangeDialog from '../_components/CardChangeDialog';
 import EndTripComponent from '../_components/EndTripComponent';
 import StartTripComponent from '../_components/StartTripComponent';
 import SwapComponent from '../_components/SwapComponent';
@@ -54,9 +55,9 @@ export default function page({ params }: { params: { tripId: string } }) {
                 />
             )}
 
-            {status === 'completed' && tripRating.length === 0 && <TripReviewDialogTrigger tripData={tripData} />}
+            {!['cancelled', 'completed', 'rejected', 'cancellation requested'].includes(status) && <CardChangeDialog tripId={Number(tripData.tripid)} />}
 
-            {!['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].includes(status) && <CancelTripComponent tripId={tripData.tripid} />}
+            {status === 'completed' && tripRating.length === 0 && <TripReviewDialogTrigger tripData={tripData} />}
 
             {status === 'started' && <EndTripComponent tripId={Number(tripId)} />}
 
@@ -65,6 +66,8 @@ export default function page({ params }: { params: { tripId: string } }) {
             )}
 
             {['approved', 'started', 'requested'].includes(status) && <TripModificationDialog tripData={tripData} />}
+
+            {!['started', 'cancelled', 'completed', 'rejected', 'cancellation requested'].includes(status) && <CancelTripComponent tripId={tripData.tripid} />}
         </>
     );
 

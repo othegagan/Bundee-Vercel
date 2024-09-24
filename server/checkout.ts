@@ -10,6 +10,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     typescript: true
 });
 
+// method get last 4 difits of a card with stripe payment method id
+export async function getCardLast4Digits(paymentMethodId: string) {
+    try {
+        const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
+        return paymentMethod.card.last4;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 export async function createSetUpIntent() {
     try {
         const session = await getSession();
@@ -54,13 +64,13 @@ export async function createTripReservation(payload: any) {
             return {
                 success: true,
                 data: response.data,
-                message: `Reservation created successfully${response.data.errorMessage}`
+                message: `Reservation created successfully. ${response.data.errorMessage}`
             };
         }
         return {
             success: false,
             data: null,
-            message: 'Failed to create Reservation'
+            message: `Failed to create Reservation. ${response.data.errorMessage}`
         };
     } catch (error: any) {
         throw new Error(error.message);

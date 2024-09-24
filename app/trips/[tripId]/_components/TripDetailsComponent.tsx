@@ -45,7 +45,6 @@ export default function TripDetailsComponent({ tripData: trip, hostName, hostIma
                         {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
                     </Link>
                     <div className='font-normal text-14 text-muted-foreground lg:text-xl'>{trip?.vehicleNumber}</div>
-
                     <div className='mt-3 flex-center justify-between'>
                         {isFetching ? (
                             <Skeleton className='h-8 w-28 rounded-lg bg-neutral-200' />
@@ -53,7 +52,6 @@ export default function TripDetailsComponent({ tripData: trip, hostName, hostIma
                             <StatusBadge status={trip.status.toLowerCase()} type='trip' />
                         )}
                     </div>
-
                     <div className='hidden lg:block'>
                         <HostDetails hostName={hostName} hostImage={hostImage} hostPhoneNumber={hostPhoneNumber} />
                     </div>
