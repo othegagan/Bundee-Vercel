@@ -153,9 +153,9 @@ export function TripsCardsSkeleton() {
     );
 }
 
-export function CheckoutCardSkeleton() {
+export function CheckoutCardSkeleton({ className }: { className?: string }) {
     return (
-        <div className='flex w-full flex-col gap-2 pt-2 lg:w-[400px]'>
+        <div className={cn('flex w-full flex-col gap-2 pt-2 lg:w-[400px]', className)}>
             <div className='col-span-4 space-y-4 lg:col-span-1'>
                 <div className={`relative h-10 rounded-lg bg-neutral-200 ${shimmer}`} />
                 <div className=' flex gap-9'>

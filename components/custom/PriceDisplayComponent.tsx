@@ -60,36 +60,41 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                 )}
 
                 {/* Short Notice Fee */}
-                {pricelist?.upcharges > 0 && <PriceItem label='Short notice rental fee' value={pricelist?.upcharges} />}
+                {(pricelist?.upCharges || pricelist?.upcharges) > 0 && (
+                    <PriceItem label='Short notice rental fee' value={pricelist?.upCharges || pricelist?.upcharges} />
+                )}
 
                 {/* Trip Fee */}
                 {pricelist?.tripFee > 0 && (
                     <PriceItem
                         label='Trip Fee'
                         value={
-                            pricelist?.concessionCalculated + pricelist?.Statesurchargeamount ||
-                            pricelist?.stateSurchargeAmount + pricelist?.registrationRecoveryFee + pricelist?.tripFee
+                            (pricelist?.concessionCalculated || pricelist?.concessionFee) +
+                            (pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount) +
+                            pricelist?.registrationRecoveryFee +
+                            pricelist?.tripFee
                         }>
                         <InfoPopover
                             title='Trip Fee'
                             content={
                                 <>
-                                    {pricelist?.concessionCalculated > 0 && (
+                                    {(pricelist?.concessionCalculated || pricelist?.concessionFee) > 0 && (
                                         <div className='flex items-center justify-between'>
                                             <div className='text-sm'>Airport concession recovery fee</div>
-                                            <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.concessionCalculated)}</div>
+                                            <div className='font-medium text-sm'>
+                                                ${roundToTwoDecimalPlaces(pricelist?.concessionCalculated || pricelist?.concessionFee)}
+                                            </div>
                                         </div>
                                     )}
 
-                                    {pricelist?.Statesurchargeamount > 0 ||
-                                        (pricelist?.stateSurchargeAmount > 0 && (
-                                            <div className='flex items-center justify-between'>
-                                                <div className='text-sm'>State Surcharge </div>
-                                                <div className='font-medium text-sm'>
-                                                    ${roundToTwoDecimalPlaces(pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount)}
-                                                </div>
+                                    {(pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount) > 0 && (
+                                        <div className='flex items-center justify-between'>
+                                            <div className='text-sm'>State Surcharge </div>
+                                            <div className='font-medium text-sm'>
+                                                ${roundToTwoDecimalPlaces(pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount)}
                                             </div>
-                                        ))}
+                                        </div>
+                                    )}
 
                                     {pricelist?.registrationRecoveryFee > 0 && (
                                         <div className='flex items-center justify-between'>

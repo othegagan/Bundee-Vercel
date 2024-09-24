@@ -8,6 +8,7 @@ import useTripModificationDialog from '@/hooks/dialogHooks/useTripModificationDi
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { getSession } from '@/lib/auth';
 import { convertToCarDate, convertToCarTimeZoneISO, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
+import { ModificationIcon } from '@/public/icons';
 import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { calculatePrice } from '@/server/priceCalculation';
 import { differenceInHours, format, isBefore, isEqual, isWithinInterval, parseISO } from 'date-fns';
@@ -284,7 +285,7 @@ export default function TripModificationDialog({ tripData }) {
     return (
         <div>
             <Button onClick={openModifiyDialog} variant='link' className='flex items-center gap-2 px-0 font-semibold text-secondary-foreground'>
-                <img src='/icons/edit_document.svg' alt='edit' width={18} height={18} />
+                <ModificationIcon className='size-5' />
                 Modify Trip
             </Button>
 
