@@ -1,6 +1,7 @@
 'use client';
 
 import Logo from '@/components/landing_page/Logo';
+import PhoneInput from '@/components/ui/phone-input';
 import usePhoneNumberSignInDialog from '@/hooks/dialogHooks/usePhoneNumberSignInDialog';
 import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession } from '@/lib/auth';
@@ -16,7 +17,6 @@ import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
-import PhoneNumber from '../ui/phone-number';
 
 export default function PhoneNumberSignInDialog() {
     const router = useRouter();
@@ -55,7 +55,7 @@ export default function PhoneNumberSignInDialog() {
 
         setLoading(true);
         try {
-            const response = await getUserByPhoneNumber(`+${phoneNumber}`);
+            const response = await getUserByPhoneNumber(phoneNumber);
             if (response.success) {
                 initiatePhoneSignIn();
             } else {
@@ -71,7 +71,7 @@ export default function PhoneNumberSignInDialog() {
 
     const initiatePhoneSignIn = () => {
         const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
-        signInWithPhoneNumber(auth, `+${phoneNumber}`, appVerifier)
+        signInWithPhoneNumber(auth, phoneNumber, appVerifier)
             .then((confirmationResult: any) => {
                 // @ts-ignore
                 window.confirmationResult = confirmationResult;
@@ -89,7 +89,7 @@ export default function PhoneNumberSignInDialog() {
             // @ts-ignore
             const confirmationResult = window.confirmationResult;
             const res = await confirmationResult.confirm(verificationCode);
-            const response = await getUserByPhoneNumber(`+${phoneNumber}`);
+            const response = await getUserByPhoneNumber(phoneNumber);
             if (response.success) {
                 await createSession({ userData: response.data.userResponse });
                 closeModal();
@@ -145,8 +145,17 @@ export default function PhoneNumberSignInDialog() {
                                     <Label htmlFor='phoneNumber' className='mt-6'>
                                         Phone Number:
                                     </Label>
-                                    <PhoneNumber setPhone={setPhoneNumber} phone={phoneNumber} />
-                                    <Button type='button' className='ml-auto w-full' onClick={handleSendVerificationCode} disabled={!phoneNumber || loading}>
+                                    <PhoneInput
+                                        value={phoneNumber}
+                                        onRawValueChange={(rawValue) => {
+                                            setPhoneNumber(rawValue);
+                                        }}
+                                    />
+                                    <Button
+                                        type='button'
+                                        className='ml-auto w-full'
+                                        onClick={handleSendVerificationCode}
+                                        disabled={phoneNumber.length < 12 || loading}>
                                         {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : 'Send Verification Code'}
                                     </Button>
                                 </div>

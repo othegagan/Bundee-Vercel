@@ -10,7 +10,7 @@ import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
 import { Label } from '../ui/label';
-import PhoneNumber from '../ui/phone-number';
+import PhoneInput from '../ui/phone-input';
 
 export default function PhoneNumberVerificationDialog() {
     // console.log(auth.currentUser);
@@ -36,7 +36,7 @@ export default function PhoneNumberVerificationDialog() {
             const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
 
             const phoneAuthProvider = new PhoneAuthProvider(auth);
-            const verifyId = await phoneAuthProvider.verifyPhoneNumber(`+${phoneNumber}`, appVerifier);
+            const verifyId = await phoneAuthProvider.verifyPhoneNumber(phoneNumber, appVerifier);
 
             setVerificationId(verifyId);
             setVerificationSent(true); // Set flag to indicate verification code has been sent
@@ -77,8 +77,7 @@ export default function PhoneNumberVerificationDialog() {
                 await updatePhoneNumber(currentUser, credential);
             }
 
-            const mobilePhone = `+${phoneNumber}`;
-            const response = await updateUserPhoneNumber(mobilePhone);
+            const response = await updateUserPhoneNumber(phoneNumber);
             if (response.success) {
                 setPhoneNumber('');
                 setVerificationId('');
@@ -134,7 +133,12 @@ export default function PhoneNumberVerificationDialog() {
                             <Label htmlFor='phoneNumber' className='mt-6'>
                                 New Phone Number:
                             </Label>
-                            <PhoneNumber setPhone={setPhoneNumber} phone={phoneNumber} />
+                            <PhoneInput
+                                value={phoneNumber}
+                                onRawValueChange={(rawValue) => {
+                                    setPhoneNumber(rawValue);
+                                }}
+                            />
                             <Button type='button' className='ml-auto w-fit' onClick={handleSendVerificationCode} disabled={!phoneNumber || verificationSent}>
                                 {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
                             </Button>

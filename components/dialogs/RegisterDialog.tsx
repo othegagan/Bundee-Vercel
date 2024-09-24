@@ -1,5 +1,6 @@
 'use client';
 
+import PhoneInput from '@/components/ui/phone-input';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession, destroySession } from '@/lib/auth';
@@ -18,8 +19,6 @@ import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import PhoneNumber from '../ui/phone-number';
-
 export const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
 
 const RegisterSchema = z
@@ -94,7 +93,7 @@ export default function RegisterDialog() {
                 firstname: firstName,
                 lastname: lastName,
                 email,
-                mobilephone: `+${phoneNumber}`
+                mobilephone: phoneNumber
             };
 
             // Create user in your database
@@ -222,7 +221,12 @@ export default function RegisterDialog() {
                                 <Label htmlFor='email'>
                                     Phone Number <span>*</span>
                                 </Label>
-                                <PhoneNumber setPhone={setPhoneNumber} phone={phoneNumber} />
+                                <PhoneInput
+                                    value={phoneNumber}
+                                    onRawValueChange={(rawValue) => {
+                                        setPhoneNumber(rawValue);
+                                    }}
+                                />
                                 <FormError message={errors.phoneNumber?.message} />
                             </div>
 
