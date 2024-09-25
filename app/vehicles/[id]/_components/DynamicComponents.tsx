@@ -143,7 +143,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 endTime: convertToCarTimeZoneISO(`${endDate}T${endTime}`, vehicleDetails?.zipcode),
                 totalDays: priceCalculatedList.numberOfDays,
                 taxAmount: priceCalculatedList.taxAmount,
-                tripTaxAmount: priceCalculatedList.tripTaxAmount,
+                tripTaxAmount: priceCalculatedList?.tripTaxAmount,
                 totalamount: priceCalculatedList.totalAmount,
                 tripamount: priceCalculatedList.tripAmount,
                 pickupTime: startTime,

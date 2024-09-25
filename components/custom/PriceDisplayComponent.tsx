@@ -26,7 +26,6 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                         value={pricelist?.charges}
                     />
                 )}
-
                 {/* Discount */}
                 {pricelist?.numberOfDaysDiscount > 0 && pricelist?.discountAmount > 0 && (
                     <PriceItem label='Discount' value={pricelist?.discountAmount}>
@@ -43,7 +42,6 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                         />
                     </PriceItem>
                 )}
-
                 {/* Additional Services */}
                 {(pricelist?.delivery > 0 || pricelist?.deliveryCost > 0) && (
                     <PriceItem label='Additional services chosen' value={pricelist?.delivery || pricelist?.deliveryCost}>
@@ -58,12 +56,10 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                         />
                     </PriceItem>
                 )}
-
                 {/* Short Notice Fee */}
                 {(pricelist?.upCharges || pricelist?.upcharges) > 0 && (
                     <PriceItem label='Short notice rental fee' value={pricelist?.upCharges || pricelist?.upcharges} />
                 )}
-
                 {/* Trip Fee */}
                 {pricelist?.tripFee > 0 && (
                     <PriceItem
@@ -114,34 +110,25 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                         />
                     </PriceItem>
                 )}
-
                 {/* Sales Taxes */}
                 {pricelist?.taxAmount > 0 && (
                     <PriceItem label={`Sales Taxes (${roundToTwoDecimalPlaces(pricelist?.taxPercentage)}%)`} value={pricelist?.taxAmount} />
                 )}
-
                 {/* Refund Amount */}
                 {pricelist?.refundAmount > 0 && <PriceItem label='Refund ' value={pricelist?.refundAmount} />}
-
-                {/* Registration Fee */}
-                {pricelist?.registrationFee > 0 && <PriceItem label='Registration Fee ' value={pricelist?.registrationFee} />}
-
+                Registration Fee
+                {/* {pricelist?.registrationFee > 0 && <PriceItem label='Registration Fee ' value={pricelist?.registrationFee} />} */}
                 {/* Average Rental Days */}
-                {pricelist?.averageRentalDays > 0 && <PriceItem label='Average rental days ' value={pricelist?.averageRentalDays} />}
-
+                {/* {pricelist?.averageRentalDays > 0 && <PriceItem label='Average rental days ' value={pricelist?.averageRentalDays} />} */}
                 {/* Extra Mileage Cost */}
                 {pricelist?.extraMileageCost > 0 && (
                     <PriceItem label={`Extra mile cost (${roundToTwoDecimalPlaces(pricelist?.extraMilage)} miles)`} value={pricelist?.extraMileageCost} />
                 )}
-
                 {/* Late Fee */}
                 {pricelist?.lateFee > 0 && <PriceItem label='Late Fee' value={pricelist?.lateFee} />}
-
                 {/* Extra Day Charges */}
                 {pricelist?.extraDayCharges > 0 && <PriceItem label='Extra Day charges' value={pricelist?.extraDayCharges} />}
-
                 <hr />
-
                 {/* Total Rental Charge */}
                 {pricelist?.tripTaxAmount > 0 && (
                     <div className='flex items-center justify-between font-bold'>

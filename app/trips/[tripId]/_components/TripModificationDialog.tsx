@@ -199,7 +199,7 @@ export default function TripModificationDialog({ tripData }) {
 
                                             <div className='flex w-full items-center justify-between border-black/40 border-t px-2 pt-2'>
                                                 <p className='font-bold text-14'>Total Rental Charges</p>
-                                                <p className='font-bold text-14'>${roundToTwoDecimalPlaces(tripData?.tripPaymentTokens[0].tripTaxAmount)}</p>
+                                                <p className='font-bold text-14'>${roundToTwoDecimalPlaces(tripData?.tripPaymentTokens[0]?.tripTaxAmount)}</p>
                                             </div>
                                         </div>
                                     </div>

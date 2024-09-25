@@ -47,7 +47,7 @@ export default function useTripModification() {
                 dropTime: newEndTime,
                 totalDays: String(priceCalculatedList.numberOfDays),
                 taxAmount: priceCalculatedList.taxAmount,
-                tripTaxAmount: priceCalculatedList.tripTaxAmount,
+                tripTaxAmount: priceCalculatedList?.tripTaxAmount,
                 totalamount: priceCalculatedList.totalAmount,
                 tripamount: String(priceCalculatedList.tripAmount),
                 upCharges: priceCalculatedList.upcharges,
