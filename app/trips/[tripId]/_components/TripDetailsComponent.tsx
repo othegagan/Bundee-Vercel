@@ -2,13 +2,13 @@
 
 import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatDateAndTime, getFullAddress, sortImagesByIsPrimary, toTitleCase } from '@/lib/utils';
+import { determineDeliveryType, formatDateAndTime, getFullAddress, sortImagesByIsPrimary, toTitleCase } from '@/lib/utils';
 import { MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { StatusBadge } from '../../TripsComponent';
 import TripImageVideoCarousel from './TripImageVideoCarousel';
 import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
-import { determineDeliveryType, splitFormattedDateAndTime } from './TripModificationDialog';
+import { splitFormattedDateAndTime } from './TripModificationDialog';
 import TripPoliciesComponent from './TripPoliciesComponent';
 import TripReadinessChecklistComponent from './TripReadinessChecklistComponent';
 
@@ -28,7 +28,7 @@ export default function TripDetailsComponent({ tripData: trip, hostName, hostIma
     const { isAirportDeliveryChoosen } = determineDeliveryType(trip);
 
     return (
-        <div className='space-y-5 pb-10 lg:space-y-10'>
+        <div className='space-y-5 pb-20 lg:space-y-10'>
             <div className='flex gap-3 md:gap-4'>
                 <div className='size-28 h-20 flex-center select-none overflow-hidden rounded-md md:h-36 md:w-56'>
                     <img

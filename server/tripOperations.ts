@@ -26,7 +26,6 @@ export async function getTripDetailsbyId(tripid: number) {
             fromValue: 'tripid',
             id: tripid
         };
-        console.log('Triggered');
         const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {

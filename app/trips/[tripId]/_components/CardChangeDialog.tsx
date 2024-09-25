@@ -127,8 +127,6 @@ function CardChangeFormSubmit({ customerId, tripId, closeModal }: CardChangeForm
             if (setupIntent) {
                 const { payment_method } = setupIntent;
 
-                console.log(payment_method);
-
                 const changeResponse = await changeCardForTrip(tripId, payment_method as string);
 
                 if (changeResponse.success) {

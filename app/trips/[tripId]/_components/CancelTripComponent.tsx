@@ -31,7 +31,7 @@ const CancelTripComponent = ({ tripId }: any) => {
                 closeModal();
                 // alert('something went wrong, please try again');
                 // window.location.reload();
-                toast.error('Something went wrong, please try again.');
+                toast.error(`Something went wrong, please try again.${response.message}`);
                 throw new Error(response.message);
             }
         } catch (error) {

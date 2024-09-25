@@ -39,15 +39,15 @@ export default function TripModificationPriceListComponent({
     return (
         <div className='w-full space-y-2'>
             <p className='font-semibold text-14'>New Trip Summary</p>
-            <div className='flex flex-col justify-center gap-3 rounded-lg bg-[#FAF7F7] p-4 '>
-                <div className='flex w-full justify-between gap-2 p-4'>
+            <div className='flex flex-col justify-center gap-3 rounded-lg bg-[#FAF7F7] p-2 '>
+                <div className='flex w-full justify-between gap-2 p-4 pb-0'>
                     <p className='text-center text-14'>{splitFormattedDateAndTime(formattedStartDate)}</p>
                     <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
                     <p className='text-center text-14'>{splitFormattedDateAndTime(formattedEndDate)}</p>
                 </div>
 
                 {pricelist?.numberOfDays > 0 && (
-                    <div className='mt-6 flex items-center justify-between gap-2 px-2'>
+                    <div className='flex items-center justify-between gap-2 px-2'>
                         <p className='text-14'>Trip Duration</p>
                         <p className='text-14'>
                             {pricelist.numberOfDays} {pricelist.numberOfDays === 1 ? 'Day' : 'Days'}
@@ -95,13 +95,13 @@ export default function TripModificationPriceListComponent({
                 )}
 
                 {pricelist?.numberOfDaysDiscount > 0 && (
-                    <div className='items-centerpt-1 flex justify-between gap-2 px-2'>
+                    <div className='flex items-center justify-between gap-2 px-2 '>
                         <div className='flex items-center gap-1 text-xs'>
                             <p className='text-14'>Discount</p>
                             <span>
                                 <Popover>
                                     <PopoverTrigger asChild>
-                                        <Button variant='ghost' className=' h-fit w-fit p-0' type='button'>
+                                        <Button variant='ghost' className=' flex h-fit w-fit items-center p-0' type='button'>
                                             <IoInformationCircleOutline className='size-5 text-neutral-600' />
                                         </Button>
                                     </PopoverTrigger>
@@ -143,7 +143,7 @@ export default function TripModificationPriceListComponent({
                             <span>
                                 <Popover>
                                     <PopoverTrigger asChild>
-                                        <Button variant='ghost' className=' h-fit w-fit p-0' type='button'>
+                                        <Button variant='ghost' className=' flex h-fit w-fit items-center p-0' type='button'>
                                             <IoInformationCircleOutline className='size-5 text-neutral-600' />
                                         </Button>
                                     </PopoverTrigger>

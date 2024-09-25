@@ -187,3 +187,26 @@ export function extractBase64Image(imgStr: string): string {
     }
     return base64Match[2];
 }
+
+/**
+ * Helper function to determing the delivery type based on the delivery options selected.
+ * @param trip The trip object containing the delivery options.
+ * @returns An object containing the delivery type and the respective boolean values.
+ */
+export function determineDeliveryType(trip: any) {
+    // Destructure the delivery options from trip
+    let { airportDelivery: isAirportDeliveryChoosen, delivery: isCustomDeliveryChoosen } = trip;
+
+    // Logic to handle conditions for airportDelivery and delivery
+    if (isAirportDeliveryChoosen && isCustomDeliveryChoosen) {
+        // If both are true, set airportDelivery to true and delivery to false
+        isAirportDeliveryChoosen = true;
+        isCustomDeliveryChoosen = false;
+    } else if (isCustomDeliveryChoosen && !isAirportDeliveryChoosen) {
+        // If delivery is true and airportDelivery is false, keep delivery as true and airportDelivery as false
+        isCustomDeliveryChoosen = true;
+        isAirportDeliveryChoosen = false;
+    }
+
+    return { isAirportDeliveryChoosen, isCustomDeliveryChoosen };
+}

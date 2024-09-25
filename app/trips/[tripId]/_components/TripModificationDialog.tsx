@@ -3,139 +3,19 @@
 import TimeSelect from '@/components/custom/TimeSelect';
 import { PriceCalculatedListSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogBody } from '@/components/ui/dialog';
 import useTripModificationDialog from '@/hooks/dialogHooks/useTripModificationDialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import { getSession } from '@/lib/auth';
-import { convertToCarDate, convertToCarTimeZoneISO, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
+import { convertToCarDate, convertToCarTimeZoneISO, determineDeliveryType, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { ModificationIcon } from '@/public/icons';
-import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { calculatePrice } from '@/server/priceCalculation';
 import { differenceInHours, format, isBefore, isEqual, isWithinInterval, parseISO } from 'date-fns';
-import { CircleCheck, CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { TripModificationEndDateCalendar, TripModificationStartDateCalendar } from './TripModificationCalendars';
+import TripModificationCardChangeComponent from './TripModificationCardChangeComponent';
 import TripModificationPriceListComponent from './TripModificationPriceListComponent';
-
-const useTripModification = () => {
-    const [submitting, setSubmitting] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
-
-    const createPayloadForCheckout = (
-        type: string,
-        userId: number,
-        tripData: any,
-        newStartDate: string,
-        newEndDate: string,
-        newStartTime: string,
-        newEndTime: string,
-        priceCalculatedList: any
-    ) => {
-        const tripDetails = {
-            tripid: tripData.tripid,
-            userId: String(userId),
-            startTime: convertToCarTimeZoneISO(`${newStartDate}T${newStartTime}`, tripData.vehzipcode),
-            endTime: convertToCarTimeZoneISO(`${newEndDate}T${newEndTime}`, tripData.vehzipcode),
-            pickupTime: newStartTime,
-            dropTime: newEndTime,
-            totalDays: String(priceCalculatedList.numberOfDays),
-            taxAmount: priceCalculatedList.taxAmount,
-            tripTaxAmount: priceCalculatedList.tripTaxAmount,
-            totalamount: priceCalculatedList.totalAmount,
-            tripamount: String(priceCalculatedList.tripAmount),
-            upCharges: priceCalculatedList.upcharges,
-            deliveryCost: priceCalculatedList.delivery,
-            perDayAmount: priceCalculatedList.pricePerDay,
-            extreaMilageCost: 0,
-            isPaymentChanged: true,
-            Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
-            Statesurchargetax: priceCalculatedList.stateSurchargeTax,
-            changedBy: 'USER',
-            ...priceCalculatedList
-        };
-
-        if (type === 'reduction') {
-            tripDetails.paymentauthorizationconfigid = 1;
-            tripDetails.authorizationpercentage = priceCalculatedList.authPercentage;
-            tripDetails.authorizationamount = priceCalculatedList.authAmount;
-            tripDetails.comments = '';
-        } else if (type === 'extension') {
-            tripDetails.deductionfrequencyconfigid = 1;
-            tripDetails.paymentauthorizationconfigid = 1;
-            tripDetails.authorizationpercentage = priceCalculatedList.authPercentage;
-            tripDetails.authorizationamount = priceCalculatedList.authAmount;
-            tripDetails.comments = '';
-        }
-
-        const fieldsToRemove = [
-            'authAmount',
-            'authPercentage',
-            'delivery',
-            'hostPriceMap',
-            'numberOfDays',
-            'pricePerDay',
-            'stateSurchargeAmount',
-            'stateSurchargeTax',
-            'totalAmount',
-            'tripAmount',
-            'upcharges'
-        ];
-
-        fieldsToRemove.forEach((field) => delete tripDetails[field]);
-
-        return tripDetails;
-    };
-
-    const handleTripModification = async (
-        type: string,
-        tripData: any,
-        newStartDate: string,
-        newEndDate: string,
-        newStartTime: string,
-        newEndTime: string,
-        priceCalculatedList: any
-    ) => {
-        try {
-            setSubmitting(true);
-            const session = await getSession();
-            const payload = createPayloadForCheckout(type, session.userId, tripData, newStartDate, newEndDate, newStartTime, newEndTime, priceCalculatedList);
-
-            // console.log(payload);
-
-            const response = type === 'reduction' ? await createTripReduction(payload) : await createTripExtension(payload);
-
-            // console.log(`Trip ${type === 'reduction' ? 'Reduction' : 'Extension'} Response`, response);
-
-            if (response.success) {
-                setSuccess(true);
-            } else {
-                setSuccess(false);
-            }
-        } catch (error) {
-            console.error(error);
-            setSuccess(false);
-        } finally {
-            setSubmitting(false);
-            setSubmitted(true);
-        }
-    };
-
-    const handleReduction = (tripData: any, newStartDate: any, newEndDate: any, newStartTime: any, newEndTime: any, priceCalculatedList: any) =>
-        handleTripModification('reduction', tripData, newStartDate, newEndDate, newStartTime, newEndTime, priceCalculatedList);
-
-    const handleExtension = (tripData: any, newStartDate: any, newEndDate: any, newStartTime: any, newEndTime: any, priceCalculatedList: any) =>
-        handleTripModification('extension', tripData, newStartDate, newEndDate, newStartTime, newEndTime, priceCalculatedList);
-
-    return {
-        submitting,
-        submitted,
-        success,
-        handleReduction,
-        handleExtension
-    };
-};
+import TripModificationResult from './TripModificationResult';
 
 export default function TripModificationDialog({ tripData }) {
     const tripModificationModal = useTripModificationDialog();
@@ -152,8 +32,6 @@ export default function TripModificationDialog({ tripData }) {
     const [priceLoading, setPriceLoading] = useState(false);
     const [priceCalculatedList, setPriceCalculatedList] = useState(null);
     const [priceError, setPriceError] = useState('');
-
-    const { submitting, submitted, handleReduction, handleExtension, success } = useTripModification();
 
     const { isAirportDeliveryChoosen, isCustomDeliveryChoosen } = determineDeliveryType(tripData);
 
@@ -258,28 +136,20 @@ export default function TripModificationDialog({ tripData }) {
     }
 
     function closeModifyDialog() {
-        tripModificationModal.onClose();
-        setIsExtension(false);
-        setPriceCalculatedList(null);
-        setPriceError('');
-        setPriceLoading(false);
-        setDateSelectionError('');
-        setIsInitialLoad(true);
-        setNewStartDate(formatDateAndTime(tripData.starttime, tripData?.vehzipcode, 'default'));
-        setNewEndDate(formatDateAndTime(tripData.endtime, tripData?.vehzipcode, 'default'));
-        setNewStartTime(formatTime(tripData.starttime, tripData?.vehzipcode));
-        setNewEndTime(formatTime(tripData.endtime, tripData?.vehzipcode));
-        if (submitted) {
-            window.location.reload();
-        }
-    }
-
-    function handleSubmit() {
-        if (isExtension) {
-            handleExtension(tripData, newStartDate, newEndDate, newStartTime, newEndTime, priceCalculatedList);
-        } else {
-            handleReduction(tripData, newStartDate, newEndDate, newStartTime, newEndTime, priceCalculatedList);
-        }
+        // tripModificationModal.onClose();
+        // setIsExtension(false);
+        // setPriceCalculatedList(null);
+        // setPriceError('');
+        // setPriceLoading(false);
+        // setDateSelectionError('');
+        // setIsInitialLoad(true);
+        // setNewStartDate(formatDateAndTime(tripData.starttime, tripData?.vehzipcode, 'default'));
+        // setNewEndDate(formatDateAndTime(tripData.endtime, tripData?.vehzipcode, 'default'));
+        // setNewStartTime(formatTime(tripData.starttime, tripData?.vehzipcode));
+        // setNewEndTime(formatTime(tripData.endtime, tripData?.vehzipcode));
+        // if (submitted) {
+        // }
+        window.location.reload();
     }
 
     return (
@@ -293,10 +163,10 @@ export default function TripModificationDialog({ tripData }) {
                 isOpen={tripModificationModal.isOpen}
                 closeDialog={closeModifyDialog}
                 onInteractOutside={false}
-                className={`${submitted ? 'lg:max-w-2xl' : 'md:max-w-3xl lg:max-w-6xl lg:p-8 lg:px-10'}`}
-                title={submitted ? '' : 'Modify Trip Date Time'}
-                description={!submitted ? '' : ''}>
-                {!submitted ? (
+                className={`${tripModificationModal.submitted ? 'lg:max-w-2xl' : 'lg:max-w-[1330px] lg:p-8 lg:px-10'}`}
+                title={tripModificationModal.submitted ? '' : 'Modify Trip Date Time'}
+                description={!tripModificationModal.submitted ? 'Selecting new dates may change the total trip cost.' : ''}>
+                {!tripModificationModal.submitted ? (
                     <>
                         <DialogBody>
                             <div className='mb-2 flex w-full flex-col-reverse items-start gap-4 lg:flex-row lg:justify-between'>
@@ -309,7 +179,7 @@ export default function TripModificationDialog({ tripData }) {
                                     </p>
                                 </div>
                             </div>
-                            <div className='mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-10'>
+                            <div className='mt-4 grid grid-cols-1 gap-4 md:gap-7 lg:grid-cols-3'>
                                 <div>
                                     <div className='space-y-3'>
                                         <p className='font-semibold text-14'>Current Trip Summary</p>
@@ -393,93 +263,55 @@ export default function TripModificationDialog({ tripData }) {
                                         ))}
                                 </div>
 
-                                {!priceError ? (
-                                    <div>
-                                        {priceLoading ? (
-                                            <div className='mt-4 text-center'>
-                                                <PriceCalculatedListSkeleton />
-                                            </div>
-                                        ) : (
-                                            <>
-                                                {priceCalculatedList && !dateSelectionError && (
-                                                    <TripModificationPriceListComponent
-                                                        pricelist={priceCalculatedList}
-                                                        newStartDate={newStartDate}
-                                                        newEndDate={newEndDate}
-                                                        newStartTime={newStartTime}
-                                                        newEndTime={newEndTime}
-                                                        zipCode={tripData?.vehzipcode}
-                                                        originalTripTaxAmount={tripData?.tripPaymentTokens[0]?.tripTaxAmount}
-                                                        isExtension={isExtension}
-                                                        isAirportDeliveryChoosen={isAirportDeliveryChoosen}
-                                                    />
-                                                )}
-                                            </>
-                                        )}
-                                    </div>
-                                ) : null}
+                                <div>
+                                    {!priceError ? (
+                                        <div>
+                                            {priceLoading ? (
+                                                <div className='mt-4 text-center'>
+                                                    <PriceCalculatedListSkeleton />
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    {priceCalculatedList && !dateSelectionError && (
+                                                        <TripModificationPriceListComponent
+                                                            pricelist={priceCalculatedList}
+                                                            newStartDate={newStartDate}
+                                                            newEndDate={newEndDate}
+                                                            newStartTime={newStartTime}
+                                                            newEndTime={newEndTime}
+                                                            zipCode={tripData?.vehzipcode}
+                                                            originalTripTaxAmount={tripData?.tripPaymentTokens[0]?.tripTaxAmount}
+                                                            isExtension={isExtension}
+                                                            isAirportDeliveryChoosen={isAirportDeliveryChoosen}
+                                                        />
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
+                                    ) : null}
+                                </div>
+
+                                <div className='flex flex-col gap-4 '>
+                                    <TripModificationCardChangeComponent
+                                        tripId={tripData.tripid}
+                                        closeModifyDialog={closeModifyDialog}
+                                        newEndDate={newEndDate}
+                                        newEndTime={newEndTime}
+                                        newStartDate={newStartDate}
+                                        newStartTime={newStartTime}
+                                        type={isExtension ? 'extension' : 'reduction'}
+                                        priceLoading={priceLoading}
+                                        dateSelectionError={dateSelectionError}
+                                        priceError={priceError}
+                                        priceCalculatedList={priceCalculatedList}
+                                        vehzipcode={tripData.vehzipcode}
+                                    />
+                                </div>
                             </div>
                         </DialogBody>
-                        <DialogFooter>
-                            <Button type='button' onClick={closeModifyDialog} variant='outline'>
-                                Keep Current & Close
-                            </Button>
-                            <Button
-                                type='button'
-                                onClick={handleSubmit}
-                                loading={submitting}
-                                disabled={priceLoading || !priceCalculatedList || Boolean(priceError) || submitting}
-                                className={`bg-primary ${dateSelectionError || priceLoading ? 'cursor-not-allowed opacity-50' : ''}`}>
-                                Save Changes
-                            </Button>
-                        </DialogFooter>
                     </>
                 ) : (
-                    <>
-                        {success ? (
-                            <>
-                                <DialogBody>
-                                    <div className='grid grid-cols-1 place-items-center space-y-4'>
-                                        <CircleCheck className='size-20 text-green-500' />
-                                        <h3 className=' text-center'>Trip modification submitted</h3>
-                                        <p className='text-lg'>Enjoy your journey with us!</p>
-
-                                        <Button
-                                            className='mt-2'
-                                            type='button'
-                                            onClick={() => {
-                                                closeModifyDialog();
-                                                window.location.reload();
-                                            }}
-                                            variant='outline'>
-                                            Return To Trip
-                                        </Button>
-                                    </div>
-                                </DialogBody>
-                            </>
-                        ) : (
-                            <>
-                                <DialogBody>
-                                    <div className='grid grid-cols-1 place-items-center space-y-4'>
-                                        <CircleX className='size-20 text-red-500' />
-                                        <h3 className=' text-center'>Trip modification failed</h3>
-                                        {/* <p className='text-lg'>Enjoy your journey with us!</p> */}
-
-                                        <Button
-                                            className='mt-2'
-                                            type='button'
-                                            onClick={() => {
-                                                closeModifyDialog();
-                                                window.location.reload();
-                                            }}
-                                            variant='outline'>
-                                            Return To Trip
-                                        </Button>
-                                    </div>
-                                </DialogBody>
-                            </>
-                        )}
-                    </>
+                    <TripModificationResult success={tripModificationModal.success} onClose={closeModifyDialog} />
                 )}
             </Dialog>
         </div>
@@ -499,22 +331,4 @@ export function splitFormattedDateAndTime(input: string) {
             {timePart}
         </>
     );
-}
-
-export function determineDeliveryType(trip: any) {
-    // Destructure the delivery options from trip
-    let { airportDelivery: isAirportDeliveryChoosen, delivery: isCustomDeliveryChoosen } = trip;
-
-    // Logic to handle conditions for airportDelivery and delivery
-    if (isAirportDeliveryChoosen && isCustomDeliveryChoosen) {
-        // If both are true, set airportDelivery to true and delivery to false
-        isAirportDeliveryChoosen = true;
-        isCustomDeliveryChoosen = false;
-    } else if (isCustomDeliveryChoosen && !isAirportDeliveryChoosen) {
-        // If delivery is true and airportDelivery is false, keep delivery as true and airportDelivery as false
-        isCustomDeliveryChoosen = true;
-        isAirportDeliveryChoosen = false;
-    }
-
-    return { isAirportDeliveryChoosen, isCustomDeliveryChoosen };
 }
