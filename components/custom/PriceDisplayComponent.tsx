@@ -120,6 +120,15 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                     <PriceItem label={`Sales Taxes (${roundToTwoDecimalPlaces(pricelist?.taxPercentage)}%)`} value={pricelist?.taxAmount} />
                 )}
 
+                {/* Refund Amount */}
+                {pricelist?.refundAmount > 0 && <PriceItem label='Refund ' value={pricelist?.refundAmount} />}
+
+                {/* Registration Fee */}
+                {pricelist?.registrationFee > 0 && <PriceItem label='Registration Fee ' value={pricelist?.registrationFee} />}
+
+                {/* Average Rental Days */}
+                {pricelist?.averageRentalDays > 0 && <PriceItem label='Average rental days ' value={pricelist?.averageRentalDays} />}
+
                 {/* Extra Mileage Cost */}
                 {pricelist?.extraMileageCost > 0 && (
                     <PriceItem label={`Extra mile cost (${roundToTwoDecimalPlaces(pricelist?.extraMilage)} miles)`} value={pricelist?.extraMileageCost} />
