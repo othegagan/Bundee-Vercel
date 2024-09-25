@@ -58,6 +58,7 @@ export default function useTripModification() {
                 Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
                 Statesurchargetax: priceCalculatedList.stateSurchargeTax,
                 changedBy: 'USER',
+                ...priceCalculatedList,
                 paymentauthorizationconfigid: 1,
                 deductionfrequencyconfigid: 1,
                 authorizationpercentage: priceCalculatedList.authPercentage,

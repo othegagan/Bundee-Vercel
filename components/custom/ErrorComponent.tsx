@@ -22,8 +22,8 @@ const ErrorComponent = ({ message }: ErrorComponentProps) => {
                 {message ? (
                     <p className='mt-5 text-neutral-600 lg:text-lg'>{message}</p>
                 ) : (
-                    <p className='mt-5 text-neutral-600 lg:text-lg'>
-                        Oops something went wrong. Try to refresh this page or <br /> feel free to contact us if the problem presists.
+                    <p className='mt-5 text-balance text-neutral-600 lg:text-lg'>
+                        Oops something went wrong. Try to refresh this page or feel free to contact us if the problem presists.
                     </p>
                 )}
             </div>
