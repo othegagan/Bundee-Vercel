@@ -223,7 +223,7 @@ function TripModificationSubmitWithCardComponent({
             <Status status={payment.status} errorMessage={errorMessage} />
             <div className='mt-auto flex items-center justify-end gap-4'>
                 <Button type='button' onClick={closeModifyDialog} variant='outline'>
-                    Close
+                    Keep Current & Close
                 </Button>
                 <Button
                     type='button'

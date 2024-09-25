@@ -164,11 +164,10 @@ export default function TripModificationDialog({ tripData }) {
                 closeDialog={closeModifyDialog}
                 onInteractOutside={false}
                 className={`${tripModificationModal.submitted ? 'lg:max-w-2xl' : 'lg:max-w-[1330px] lg:p-8 lg:px-10'}`}
-                title={tripModificationModal.submitted ? '' : 'Modify Trip Date Time'}
-                description={!tripModificationModal.submitted ? 'Selecting new dates may change the total trip cost.' : ''}>
+                title={tripModificationModal.submitted ? '' : 'Modify Trip Date Time'}>
                 {!tripModificationModal.submitted ? (
                     <>
-                        <DialogBody>
+                        <DialogBody className='-mt-2'>
                             <div className='mb-2 flex w-full flex-col-reverse items-start gap-4 lg:flex-row lg:justify-between'>
                                 <div className='space-y-1'>
                                     <p className='text-16'>Please select new dates and times for the trip below</p>
@@ -206,7 +205,7 @@ export default function TripModificationDialog({ tripData }) {
                                     </div>
 
                                     <div className='mt-6 flex w-full flex-col gap-5 text-sm'>
-                                        <div className=' grid grid-cols-2 gap-3 p-1'>
+                                        <div className=' flex items-center gap-3 p-1'>
                                             <div className='flex w-full flex-1 flex-col gap-2'>
                                                 <label className='font-semibold text-14'>New Start Date</label>
                                                 <TripModificationStartDateCalendar
@@ -230,7 +229,7 @@ export default function TripModificationDialog({ tripData }) {
                                                 }}
                                             />
                                         </div>
-                                        <div className=' grid grid-cols-2 gap-3 p-1'>
+                                        <div className=' flex items-center gap-3 p-1'>
                                             <div className='flex w-full flex-1 flex-col gap-2'>
                                                 <label className='font-semibold text-14'>New End Date</label>
                                                 <TripModificationEndDateCalendar
