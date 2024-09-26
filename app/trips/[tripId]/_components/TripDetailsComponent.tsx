@@ -86,7 +86,9 @@ export default function TripDetailsComponent({ tripData: trip, hostName, hostIma
             <PriceDisplayComponent pricelist={trip?.tripPaymentTokens[0]} isAirportDeliveryChoosen={isAirportDeliveryChoosen} invoiceUrl={trip.invoiceUrl} />
 
             {/* Readiness Checklist Section */}
-            {trip.status.toLowerCase() !== 'completed' && trip.status.toLowerCase() !== 'cancelled' && <TripReadinessChecklistComponent trip={trip} />}
+            {trip.status.toLowerCase() !== 'completed' && trip.status.toLowerCase() !== 'cancelled' && trip.status.toLowerCase() !== 'rejected' && (
+                <TripReadinessChecklistComponent trip={trip} />
+            )}
 
             {/* Trip Media */}
             <div className='flex flex-col gap-2'>
