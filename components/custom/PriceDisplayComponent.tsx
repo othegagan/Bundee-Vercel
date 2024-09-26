@@ -8,9 +8,10 @@ interface PriceDisplayComponentProps {
     pricelist: any;
     isAirportDeliveryChoosen: boolean;
     invoiceUrl?: string;
+    deliveryCost?: number;
 }
 
-export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoosen, invoiceUrl }: PriceDisplayComponentProps) {
+export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoosen, invoiceUrl, deliveryCost = 0 }: PriceDisplayComponentProps) {
     return (
         <div className='flex flex-col gap-2'>
             <div className='flex items-center justify-between'>
@@ -43,14 +44,14 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                     </PriceItem>
                 )}
                 {/* Additional Services */}
-                {(pricelist?.delivery > 0 || pricelist?.deliveryCost > 0) && (
-                    <PriceItem label='Additional services chosen' value={pricelist?.delivery || pricelist?.deliveryCost}>
+                {(pricelist?.deliveryCost > 0 || pricelist?.delivery > 0) && (
+                    <PriceItem label='Additional services chosen' value={pricelist?.deliveryCost || pricelist?.delivery}>
                         <InfoPopover
                             title='Additional services chosen'
                             content={
                                 <div className='flex items-center justify-between'>
                                     <div className='text-sm'> {isAirportDeliveryChoosen ? 'Airport Delivery Fee' : 'Custom Delivery Fee'}</div>
-                                    <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.delivery || pricelist?.deliveryCost)}</div>
+                                    <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.deliveryCost || pricelist?.delivery)}</div>
                                 </div>
                             }
                         />

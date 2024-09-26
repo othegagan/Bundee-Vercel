@@ -108,7 +108,6 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
 
             // 4. Check if user has a valid driving licence
             const isVerified = await profileVerifiedStatus();
-            const deductionfrequencyconfigid = isVerified ? deductionConfigData.deductioneventconfigid : 1;
             if (!isVerified) {
                 drivingLicenceDialog.isUpdate = false;
                 drivingLicenceDialog.onOpen();

@@ -1,6 +1,7 @@
 'use client';
 
 import ErrorComponent from '@/components/custom/ErrorComponent';
+import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 import { CheckoutDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Separator } from '@/components/ui/separator';
 import { getSession } from '@/lib/auth';
@@ -45,12 +46,13 @@ export default function CheckoutDetails() {
 
     if (loading) return <CheckoutDetailsSkeleton />;
 
-    const { name, image, zipCode, startTime, endTime, totalDays, tripamount, taxAmount, tripTaxAmount } = data;
+    const { name, image, zipCode, startTime, endTime, airportDelivery } = data;
+    console.log(data);
 
     return (
         <div className='mt-4 min-w-[300px] space-y-4'>
-            <div className='overflow-hidden rounded-lg'>
-                <img src={image || '/images/image_not_available.png'} className='max-h-fit min-w-full' alt='Vehicle' />
+            <div className=' max-h-56 w-full overflow-hidden rounded-md'>
+                <img src={image || '/images/image_not_available.png'} className='h-full w-full object-cover object-center md:rounded-md' alt='Vehicle' />
             </div>
             <h2 className='font-bold text-2xl '>{name}</h2>
 
@@ -65,27 +67,7 @@ export default function CheckoutDetails() {
                 </li>
             </ul>
             <Separator className='my-2' />
-            <ul className='grid gap-3'>
-                <li className='flex items-center justify-between'>
-                    <span className=' text-muted-foreground'>Trip Duration</span>
-                    <span>
-                        {totalDays} {totalDays === 1 ? 'Day' : 'Days'}
-                    </span>
-                </li>
-                <li className='flex items-center justify-between'>
-                    <span className=' text-muted-foreground'>Trip Amount</span>
-                    <span>${tripamount.toFixed(2)}</span>
-                </li>
-                <li className='flex items-center justify-between'>
-                    <span className=' text-muted-foreground'>Tax</span>
-                    <span>${taxAmount.toFixed(2)}</span>
-                </li>
-                <Separator />
-                <li className='flex items-center justify-between font-semibold'>
-                    <span className='text-lg'>Total Amount</span>
-                    <span>${tripTaxAmount.toFixed(2)}</span>
-                </li>
-            </ul>
+            <PriceDisplayComponent pricelist={data} isAirportDeliveryChoosen={airportDelivery} />
         </div>
     );
 }
