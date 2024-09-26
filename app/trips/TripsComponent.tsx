@@ -9,13 +9,13 @@ import { cn, formatDateAndTime, getFullAddress, toTitleCase } from '@/lib/utils'
 import { getTrips } from '@/server/tripOperations';
 import { useQuery } from '@tanstack/react-query';
 import { CalendarDays, MapPin } from 'lucide-react';
+import { useQueryState } from 'next-usequerystate';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 export default function TripsComponent() {
-    const [tabSelectedIndex, setTabSelectedIndex] = useState(0);
+    const [tabSelectedIndex, setTabSelectedIndex] = useQueryState('', { defaultValue: 'active', history: 'replace' });
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
     return (
         <BoxContainer className='mb-6'>
@@ -26,15 +26,15 @@ export default function TripsComponent() {
                     className='mx-auto mt-4 grid w-fit max-w-lg grid-cols-2 items-center justify-center gap-10 rounded-lg text-muted-foreground'
                     data-orientation='horizontal'>
                     {[
-                        { id: 0, title: 'Trips' },
-                        { id: 1, title: 'Past Trips' }
-                    ].map(({ id, title }) => (
+                        { id: 0, tab: 'active', title: 'Trips' },
+                        { id: 1, tab: 'past', title: 'Past Trips' }
+                    ].map(({ id, title, tab }) => (
                         <button
                             key={id}
-                            onClick={() => setTabSelectedIndex(id)}
+                            onClick={() => setTabSelectedIndex(tab)}
                             type='button'
                             role='tab'
-                            className={`inline-flex items-center justify-center whitespace-nowrap px-3 py-2 font-medium text-md ring-offset-background transition-all hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${tabSelectedIndex === id ? 'font-bold text-lg text-primary ' : 'font-medium text-muted-foreground'}`}>
+                            className={`inline-flex items-center justify-center whitespace-nowrap px-3 py-2 font-medium text-md ring-offset-background transition-all hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${tabSelectedIndex === tab ? 'font-bold text-lg text-primary ' : 'font-medium text-muted-foreground'}`}>
                             {title}
                         </button>
                     ))}
@@ -45,7 +45,7 @@ export default function TripsComponent() {
     );
 }
 
-const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedIndex: number; isTabletOrLarger: boolean }) => {
+const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedIndex: string; isTabletOrLarger: boolean }) => {
     const router = useRouter();
 
     const {
@@ -53,8 +53,8 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
         isLoading: loading,
         error
     } = useQuery({
-        queryKey: ['trips', { endpoint: tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory' }],
-        queryFn: async () => getTrips(tabSelectedIndex === 0 ? 'useridbookings' : 'useridhistory'),
+        queryKey: ['trips', { endpoint: tabSelectedIndex === 'active' ? 'useridbookings' : 'useridhistory' }],
+        queryFn: async () => getTrips(tabSelectedIndex === 'active' ? 'useridbookings' : 'useridhistory'),
         refetchOnWindowFocus: true
     });
 
