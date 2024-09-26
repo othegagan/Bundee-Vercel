@@ -1,6 +1,6 @@
 'use client';
 
-import { http } from '@/lib/httpService';
+import { http, handleResponse } from '@/lib/httpService';
 import { logger } from '@/server/checkout';
 
 export async function createTripReservation(payload: any) {
@@ -88,6 +88,23 @@ export async function createTripReduction(payload: any) {
             data: null,
             message: `Failed to create trip reduction :${response.data.errorMessage}`
         };
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+export async function cancelReservation(tripid: number) {
+    try {
+        // console.log('Trip reduction Payload :', modifiedPayload);
+        await logger('Trip Cancellation Payload  :', tripid);
+
+        const url = `${process.env.NEXT_PUBLIC_BOOKING_SERVICES_BASEURL}/v1/booking/updateReservationCancelled`;
+        const payload = {
+            tripid: tripid
+        };
+        const response = await http.post(url, payload);
+        // console.log('cancelReservation ', response.data);
+        return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
     }

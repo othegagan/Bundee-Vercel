@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import { cancelReservation } from '@/server/tripOperations';
+import { cancelReservation } from '@/hooks/useCheckout';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';

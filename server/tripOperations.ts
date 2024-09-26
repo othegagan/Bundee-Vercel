@@ -57,20 +57,6 @@ export async function swapRequest(payload: any) {
     }
 }
 
-export async function cancelReservation(tripid: number) {
-    try {
-        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/updateReservationCancelled`;
-        const payload = {
-            tripid: tripid
-        };
-        const response = await http.post(url, payload);
-        // console.log('cancelReservation ', response.data);
-        return handleResponse(response.data);
-    } catch (error: any) {
-        throw new Error(error.message);
-    }
-}
-
 export async function endReservation(tripid: number) {
     try {
         const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/updateReservationCompleted`;

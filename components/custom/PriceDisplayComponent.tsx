@@ -115,7 +115,7 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                     <PriceItem label={`Sales Taxes (${roundToTwoDecimalPlaces(pricelist?.taxPercentage)}%)`} value={pricelist?.taxAmount} />
                 )}
                 {/* Refund Amount */}
-                {pricelist?.refundAmount > 0 && <PriceItem label='Refund ' value={pricelist?.refundAmount} />}
+                {pricelist?.refundAmount > 0 && <PriceItem label='Refund ' value={pricelist?.refundAmount} sign='-' />}
 
                 {/* Extra Mileage Cost */}
                 {pricelist?.extraMileageCost > 0 && (
@@ -158,14 +158,14 @@ function InfoPopover({ title, content }: { title: string; content: JSX.Element }
     );
 }
 
-function PriceItem({ label, value, children }: { label: string; value: number; children?: JSX.Element }) {
+function PriceItem({ label, value, sign = '', children }: { label: string; value: number; sign?: '' | '-'; children?: JSX.Element }) {
     return (
         <div className='flex items-center justify-between'>
             <div className='flex items-center gap-1'>
                 {label}
                 {children}
             </div>
-            <div className={`font-medium ${label === 'Discount' && 'text-green-500'}`}>{value > 0 && `$${roundToTwoDecimalPlaces(value)}`}</div>
+            <div className={`font-medium ${label === 'Discount' && 'text-green-500'}`}>{value > 0 && `${sign} $${roundToTwoDecimalPlaces(value)}`}</div>
         </div>
     );
 }
