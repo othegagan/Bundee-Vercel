@@ -1,11 +1,13 @@
+'use client';
+
 import { http } from '@/lib/httpService';
 import { logger } from '@/server/checkout';
-import { env } from '@/types/env';
 
 export async function createTripReservation(payload: any) {
     try {
-        const url = `${env.BOOKING_SERVICES_BASEURL}/v1/booking/createReservation`;
-        const modifiedPayload = { ...payload, channelName: env.CHANNEL_NAME };
+        const url = `${process.env.NEXT_PUBLIC_BOOKING_SERVICES_BASEURL}/v1/booking/createReservation`;
+        console.log(url);
+        const modifiedPayload = { ...payload, channelName: process.env.NEXT_PUBLIC_CHANNEL_NAME };
 
         // console.log('Reservation Payload', modifiedPayload);
         await logger('Reservation Payload', modifiedPayload);
@@ -33,8 +35,8 @@ export async function createTripReservation(payload: any) {
 
 export async function createTripExtension(payload: any) {
     try {
-        const url = `${env.BOOKING_SERVICES_BASEURL}/v2/booking/createTripModificationExtension`;
-        const modifiedPayload = { ...payload, channelName: env.CHANNEL_NAME };
+        const url = `${process.env.NEXT_PUBLIC_BOOKING_SERVICES_BASEURL}/v2/booking/createTripModificationExtension`;
+        const modifiedPayload = { ...payload, channelName: process.env.NEXT_PUBLIC_CHANNEL_NAME };
 
         // console.log('Trip extension Payload :', modifiedPayload);
         await logger('Trip extension Payload :', modifiedPayload);
@@ -63,8 +65,8 @@ export async function createTripExtension(payload: any) {
 
 export async function createTripReduction(payload: any) {
     try {
-        const url = `${env.BOOKING_SERVICES_BASEURL}/v2/booking/createTripModificationReduction`;
-        const modifiedPayload = { ...payload, channelName: env.CHANNEL_NAME };
+        const url = `${process.env.NEXT_PUBLIC_BOOKING_SERVICES_BASEURL}/v2/booking/createTripModificationReduction`;
+        const modifiedPayload = { ...payload, channelName: process.env.NEXT_PUBLIC_CHANNEL_NAME };
 
         // console.log('Trip reduction Payload :', modifiedPayload);
         await logger('Trip reduction Payload :', modifiedPayload);

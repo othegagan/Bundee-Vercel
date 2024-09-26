@@ -54,4 +54,5 @@ export async function createSetUpIntent() {
 
 export async function logger(message: string, payload: any) {
     console.log(`${message} :`, payload);
+    return null;
 }
