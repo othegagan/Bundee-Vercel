@@ -23,15 +23,14 @@ const CancelTripComponent = ({ tripId }: any) => {
             setLoading(true);
             const response = await cancelReservation(tripId);
             if (response.success) {
-                closeModal();
                 toast.success('Trip cancellation completed.');
-
                 window.location.reload();
+                closeModal();
             } else {
                 closeModal();
                 // alert('something went wrong, please try again');
                 // window.location.reload();
-                toast.error(`Something went wrong, please try again.${response.message}`);
+                toast.error(`Something went wrong, please try again. ${response.message}`);
                 throw new Error(response.message);
             }
         } catch (error) {
