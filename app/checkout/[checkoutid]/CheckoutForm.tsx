@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { createTripReservation } from '@/server/checkout';
+import { createTripReservation } from '@/hooks/useCheckout';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import type { StripeError } from '@stripe/stripe-js';
 import type React from 'react';

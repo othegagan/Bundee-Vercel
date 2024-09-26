@@ -1,7 +1,6 @@
 'use server';
 
 import { getSession } from '@/lib/auth';
-import { http } from '@/lib/httpService';
 import Stripe from 'stripe';
 
 // Initialize Stripe with secret key
@@ -53,74 +52,6 @@ export async function createSetUpIntent() {
     }
 }
 
-export async function createTripReservation(payload: any) {
-    try {
-        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/createReservation`;
-        const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
-        console.log('Reservation Payload :', modifiedPayload);
-        const response = await http.post(url, modifiedPayload);
-        console.log(' Reservation response', response.data);
-        if (response.data.errorCode === '0') {
-            return {
-                success: true,
-                data: response.data,
-                message: `Reservation created successfully. ${response.data.errorMessage}`
-            };
-        }
-        return {
-            success: false,
-            data: null,
-            message: `Failed to create Reservation. ${response.data.errorMessage}`
-        };
-    } catch (error: any) {
-        throw new Error(error.message);
-    }
-}
-
-export async function createTripExtension(payload: any) {
-    try {
-        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v2/booking/createTripModificationExtension`;
-        const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
-        console.log('Trip extension Payload :', modifiedPayload);
-        const response = await http.post(url, modifiedPayload);
-        console.log(' Extension response', response.data);
-        if (response.data.errorCode === '0') {
-            return {
-                success: true,
-                data: response.data,
-                message: 'Trip extension created successfully'
-            };
-        }
-        return {
-            success: false,
-            data: null,
-            message: 'Failed to create trip extension'
-        };
-    } catch (error: any) {
-        throw new Error(error.message);
-    }
-}
-
-export async function createTripReduction(payload: any) {
-    try {
-        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v2/booking/createTripModificationReduction`;
-        const modifiedPayload = { ...payload, channelName: process.env.CHANNEL_NAME };
-        console.log('Trip reduction Payload :', modifiedPayload);
-        const response = await http.post(url, modifiedPayload);
-        console.log(' Reduction response', response.data);
-        if (response.data.errorCode === '0') {
-            return {
-                success: true,
-                data: response.data,
-                message: 'Trip reduction created successfully'
-            };
-        }
-        return {
-            success: false,
-            data: null,
-            message: 'Failed to create trip reduction'
-        };
-    } catch (error: any) {
-        throw new Error(error.message);
-    }
+export async function logger(message: string, payload: any) {
+    console.log(`${message} :`, payload);
 }

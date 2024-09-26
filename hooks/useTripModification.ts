@@ -1,6 +1,6 @@
+import { createTripExtension, createTripReduction } from '@/hooks/useCheckout';
 import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO } from '@/lib/utils';
-import { createTripExtension, createTripReduction } from '@/server/checkout';
 import { useState } from 'react';
 import useTripModificationDialog from './dialogHooks/useTripModificationDialog';
 
