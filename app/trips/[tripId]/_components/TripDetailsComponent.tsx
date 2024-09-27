@@ -59,7 +59,7 @@ export default function TripDetailsComponent({
                         ) : (
                             <div className='flex items-center gap-2'>
                                 <StatusBadge status={trip.status.toLowerCase()} type='trip' />
-                                <StatusBadge status={swapStatus.toLowerCase()} type='swap' />
+                                {swapStatus && <StatusBadge status={swapStatus.toLowerCase()} type='swap' />}
                             </div>
                         )}
                     </div>

@@ -101,7 +101,7 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
         <div>
             {/* <p className='mt-4 whitespace-nowrap font-bold '>Swap Status</p> */}
             <div className='flex justify-between'>
-                {swapRequestDetails?.statuscode.toLowerCase() === 'swappr' && (
+                {swapRequestDetails?.statuscode?.toLowerCase() === 'swappr' && (
                     <Button onClick={getSwapVehicleDetails} variant='ghost' className='underline underline-offset-4'>
                         See Swap Details
                     </Button>
