@@ -20,7 +20,7 @@ export default function VehicleDetails({ vehicleDetails, vehicleBusinessConstrai
     return (
         <>
             {vehicleImages.length > 0 ? (
-                <div className=' relative max-h-56 md:max-h-80'>
+                <div className=' relative '>
                     <EmblaCarousel slides={vehicleImages} />
                     {wishlistButton}
                 </div>
@@ -65,7 +65,7 @@ function VehicleMakeModelYear({ vehicleDetails }: any) {
 
     return (
         <div className='flex flex-col gap-4 md:flex-row md:gap-16'>
-            <h2 className='capitalize tracking-tight'>{fullName}</h2>
+            <h2 className='text-[1.5rem] capitalize tracking-tight'>{fullName}</h2>
             <div className='flex items-center gap-2'>
                 <div className='flex items-center gap-2'>
                     <StarFilledIcon className='size-6 text-yellow-400' />

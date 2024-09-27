@@ -19,7 +19,6 @@
     padding-left: var(--slide-spacing);
 }
 
-
 .embla__button {
     appearance: none;
     background-color: transparent;
@@ -44,5 +43,26 @@
     color: var(--detail-high-contrast);
 }
 
+.embla-thumbs {
+    --thumbs-slide-spacing: 0.8rem;
+    --thumbs-slide-height: 6rem;
+    margin-top: var(--thumbs-slide-spacing);
+}
 
+.embla-thumbs__container {
+    display: flex;
+    flex-direction: row;
+    margin-left: calc(var(--thumbs-slide-spacing) * -1);
+}
 
+.embla-thumbs__slide {
+    flex: 0 0 22%;
+    min-width: 0;
+    padding-left: var(--thumbs-slide-spacing);
+}
+
+@media (min-width: 576px) {
+    .embla-thumbs__slide {
+        flex: 0 0 15%;
+    }
+}

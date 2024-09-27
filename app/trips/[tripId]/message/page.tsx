@@ -2,7 +2,6 @@
 
 import { ChatSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
-import EmblaCarousel from '@/components/ui/carousel/EmblaCarousel';
 import { Input } from '@/components/ui/input';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import { auth } from '@/lib/firebase';
@@ -181,13 +180,13 @@ function Message({ message, tripData }) {
                 <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm'>
                     <span>{message.message}</span>
 
-                    {images.length > 0 ? (
-                        <EmblaCarousel slides={images} variant='sm' />
-                    ) : (
-                        <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
-                            <img src='/images/image_not_available.png' alt='image_not_found' className='h-full w-full min-w-full object-cover md:rounded-md' />
-                        </div>
-                    )}
+                    <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
+                        <img
+                            src={images[0]?.imagename || '/images/image_not_available.png'}
+                            alt='image_not_found'
+                            className='h-full w-full min-w-full object-cover md:rounded-md'
+                        />
+                    </div>
 
                     <p className='font-semibold text-16 capitalize '>
                         {tripData?.vehmake} {tripData?.vehmodel} {tripData?.vehyear}
