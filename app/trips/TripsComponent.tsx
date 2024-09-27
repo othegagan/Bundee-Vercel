@@ -81,7 +81,7 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                             key={trip.tripid}
                             href={`/trips/${trip.tripid}/details`}
                             className='flex w-full flex-1 gap-4 border-b p-1 hover:cursor-pointer hover:rounded-md hover:bg-neutral-100 md:py-3'>
-                            <div className='size-32 h-full flex-center overflow-hidden rounded-md'>
+                            <div className='h-28 w-44 flex-center overflow-hidden rounded-md'>
                                 <img
                                     src={trip.vehicleImages[0]?.imagename || '/images/image_not_available.png'}
                                     alt={`${trip.vehmake} ${trip.vehmodel}`}

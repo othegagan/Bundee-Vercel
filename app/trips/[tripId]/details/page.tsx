@@ -100,6 +100,7 @@ export default function page({ params }: { params: { tripId: string } }) {
                             hostPhoneNumber={tripData.hostPhoneNumber || ''}
                             hostImage={tripData.hostImage || ''}
                             isFetching={isFetching}
+                            swapStatus={swapRequestDetails?.statuscode}
                         />
                     </div>
 

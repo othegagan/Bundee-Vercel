@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTripDetails } from '@/hooks/useTripDetails';
 import { auth } from '@/lib/firebase';
-import { formatDateAndTime, getFullAddress } from '@/lib/utils';
+import { formatDateAndTime, getFullAddress, sortImagesByIsPrimary } from '@/lib/utils';
 import { getTripChatHistory, sendMessageToHost } from '@/server/tripOperations';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
@@ -144,7 +144,7 @@ function Message({ message, tripData }) {
 
     const isHostMessage = message.author === AUTHOR_TYPE.HOST;
 
-    const images = tripData?.vehicleImages;
+    const images = sortImagesByIsPrimary(tripData?.vehicleImages ?? []);
 
     if (isClientMessage) {
         return (
@@ -180,11 +180,11 @@ function Message({ message, tripData }) {
                 <div className='flex flex-col gap-2 rounded-lg bg-muted px-3 py-2 text-sm'>
                     <span>{message.message}</span>
 
-                    <div className=' embla__slide max-h-80 overflow-hidden md:rounded-md'>
+                    <div className=' embla__slide max-h-40 overflow-hidden rounded-md'>
                         <img
                             src={images[0]?.imagename || '/images/image_not_available.png'}
                             alt='image_not_found'
-                            className='h-full w-full min-w-full object-cover md:rounded-md'
+                            className='h-full w-full min-w-full rounded-md object-cover'
                         />
                     </div>
 

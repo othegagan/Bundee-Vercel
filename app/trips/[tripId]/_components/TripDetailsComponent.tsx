@@ -20,9 +20,17 @@ interface TripVehicleDetailsComponentProps {
     hostPhoneNumber: string | '';
     hostImage: string | '';
     isFetching: boolean;
+    swapStatus?: string;
 }
 
-export default function TripDetailsComponent({ tripData: trip, hostName, hostImage, hostPhoneNumber, isFetching }: TripVehicleDetailsComponentProps) {
+export default function TripDetailsComponent({
+    tripData: trip,
+    hostName,
+    hostImage,
+    hostPhoneNumber,
+    isFetching,
+    swapStatus
+}: TripVehicleDetailsComponentProps) {
     const images: any[] = sortImagesByIsPrimary(trip?.vehicleImages ?? []);
 
     const { isAirportDeliveryChoosen } = determineDeliveryType(trip);
@@ -45,11 +53,14 @@ export default function TripDetailsComponent({ tripData: trip, hostName, hostIma
                         {toTitleCase(`${trip.vehmake} ${trip.vehmodel} ${trip.vehyear}`)}
                     </Link>
                     <div className='font-normal text-14 text-muted-foreground lg:text-xl'>{trip?.vehicleNumber}</div>
-                    <div className='mt-3 flex-center justify-between'>
+                    <div className='my-2 flex-center justify-between'>
                         {isFetching ? (
                             <Skeleton className='h-8 w-28 rounded-lg bg-neutral-200' />
                         ) : (
-                            <StatusBadge status={trip.status.toLowerCase()} type='trip' />
+                            <div className='flex items-center gap-2'>
+                                <StatusBadge status={trip.status.toLowerCase()} type='trip' />
+                                <StatusBadge status={swapStatus.toLowerCase()} type='swap' />
+                            </div>
                         )}
                     </div>
                     <div className='hidden lg:block'>

@@ -11,7 +11,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { FaLocationDot, FaStar } from 'react-icons/fa6';
 import { toast } from 'sonner';
-import { StatusBadge } from '../../TripsComponent';
 
 const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate, zipCode }: any) => {
     const [swapRequestedModalOpen, setSwapRequestedModalOpen] = useState(false);
@@ -102,7 +101,6 @@ const SwapComponent = ({ swapRequestDetails, originalStartDate, originalEndDate,
         <div>
             {/* <p className='mt-4 whitespace-nowrap font-bold '>Swap Status</p> */}
             <div className='flex justify-between'>
-                <StatusBadge status={swapRequestDetails?.statuscode.toLowerCase()} type='swap' />
                 {swapRequestDetails?.statuscode.toLowerCase() === 'swappr' && (
                     <Button onClick={getSwapVehicleDetails} variant='ghost' className='underline underline-offset-4'>
                         See Swap Details

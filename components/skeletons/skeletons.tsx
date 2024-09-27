@@ -217,6 +217,10 @@ export function ChatSkeleton() {
                 <div className={`${shimmer} h-10 w-[200px] rounded-lg rounded-tl-none bg-neutral-200 `} />
             </div>
 
+            <div className='flex flex-row-reverse items-start gap-4 '>
+                <div className={`${shimmer} h-12 w-[200px] rounded-lg rounded-br-none bg-neutral-200 `} />
+            </div>
+
             <div className='hidden flex-row-reverse items-start gap-4 lg:flex '>
                 <div className={`${shimmer} h-8 w-[50%] rounded-lg rounded-br-none bg-neutral-200 `} />
             </div>
