@@ -40,9 +40,8 @@ export async function getTripDetailsbyId(tripid: number) {
                     message: 'Unauthorized access..!'
                 };
             }
-        } else {
-            return tripResponse;
         }
+        return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
     }
