@@ -29,13 +29,15 @@ export default function page({ params }: { params: { tripId: string } }) {
 
     // Early return if tripId is missing
     if (!tripId) return <ErrorComponent message='Trip ID is required.' />;
+
     if (isLoading)
         return (
             <div className='min-h-[100dvh] py-4'>
                 <TripsDetailsSkeleton />
             </div>
         );
-    if (error || !response?.success) return <ErrorComponent />;
+
+    if (error || !response?.success) return <ErrorComponent message={error?.message || response.message} />;
 
     // Memoized data for optimization
     const tripData: TripData = response?.data?.activetripresponse[0];

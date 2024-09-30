@@ -21,13 +21,28 @@ export async function getTrips(fromValue: string) {
 
 export async function getTripDetailsbyId(tripid: number) {
     try {
+        const session = await getSession();
         const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/getActiveTripById`;
         const payload = {
             fromValue: 'tripid',
             id: tripid
         };
         const response = await http.post(url, payload);
-        return handleResponse(response.data);
+
+        const tripResponse = handleResponse(response.data);
+
+        if (tripResponse.success) {
+            const userIdInResponse = tripResponse.data.activetripresponse[0].userid;
+            if (userIdInResponse !== session.userId) {
+                return {
+                    success: false,
+                    data: null,
+                    message: 'Unauthorized access..!'
+                };
+            }
+        } else {
+            return tripResponse;
+        }
     } catch (error: any) {
         throw new Error(error.message);
     }
