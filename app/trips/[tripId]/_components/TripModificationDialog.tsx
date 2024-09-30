@@ -42,7 +42,7 @@ export default function TripModificationDialog({ tripData }) {
         unformattedDates,
         minDays,
         maxDays
-    } = useAvailabilityDates(tripData.vehicleId, tripData.tripid);
+    } = useAvailabilityDates(tripData.vehicleId, tripData.reservationid);
 
     const [dateSelectionError, setDateSelectionError] = useState('');
 
@@ -114,7 +114,7 @@ export default function TripModificationDialog({ tripData }) {
                 tripid: tripData.tripid
             };
 
-            console.log(payload);
+            // console.log(payload);
             const responseData = await calculatePrice(payload);
 
             if (responseData.success) {
