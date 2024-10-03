@@ -133,12 +133,10 @@ const DeliveryOption = ({
             <ChevronDown className={`ml-auto size-5 text-neutral-500 ${showDetails ? 'rotate-180' : 'rotate-0'}`} />
         </button>
         {showDetails && (
-            <>
-                <div className='flex flex-col gap-3 py-2'>
-                    <CheckboxWithLabel id={checkboxId} checked={checkboxChecked} onChange={onCheckboxChange} label={costLabel} />
-                    {additionalContent}
-                </div>
-            </>
+            <div className='flex flex-col gap-3 py-2'>
+                <CheckboxWithLabel id={checkboxId} checked={checkboxChecked} onChange={onCheckboxChange} label={costLabel} />
+                {additionalContent}
+            </div>
         )}
     </div>
 );

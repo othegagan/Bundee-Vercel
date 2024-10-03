@@ -47,8 +47,7 @@ const AddressSearchBox = ({ setCustomDeliveryLocation }: any) => {
             <div
                 className={`absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md border-t bg-white p-1 px-2 py-1.5 font-medium text-foreground text-xs shadow-lg transition-opacity ease-in-out ${
                     show && inputValue ? 'scale-1 opacity-100' : 'scale-0 opacity-0'
-                }`}
-                role='presentation'>
+                }`}>
                 <p className='mb-1 text-[11px] text-neutral-400'>Suggestions</p>
 
                 {loading && (
@@ -60,7 +59,7 @@ const AddressSearchBox = ({ setCustomDeliveryLocation }: any) => {
 
                 {error && <p className='my-3 text-center text-xs'>{error}</p>}
 
-                <div role='group'>
+                <div>
                     {locationSuggestions.map((item: any, index: number) => (
                         <div
                             className='relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-[13px] outline-none hover:bg-neutral-200 hover:text-accent-foreground '

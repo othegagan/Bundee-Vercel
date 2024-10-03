@@ -5,7 +5,7 @@ import ErrorComponent from '@/components/custom/ErrorComponent';
 import { TripsDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { useTripDetails } from '@/hooks/useTripDetails';
-import { TripData } from '@/types';
+import type { TripData } from '@/types';
 import { useQueryState } from 'next-usequerystate';
 import { useMediaQuery } from 'react-responsive';
 import CancelTripComponent from '../_components/CancelTripComponent';

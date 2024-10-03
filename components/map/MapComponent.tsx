@@ -101,7 +101,8 @@ export default function MapComponent({ filteredCars, searchQuery }: { filteredCa
                         } else {
                             setCarPopInfo(group[0]);
                         }
-                    }}>
+                    }}
+                >
                     {markerIcon}
                 </Marker>
             );

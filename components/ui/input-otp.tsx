@@ -2,7 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import OtpInput, { OTPInputProps } from 'react-otp-input';
+import OtpInput, { type OTPInputProps } from 'react-otp-input';
 
 type OtpOptions = Omit<OTPInputProps, 'renderInput'>;
 

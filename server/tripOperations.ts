@@ -79,7 +79,7 @@ export async function endReservation(tripid: number) {
             comments: '',
             paymentCategoryId: '',
             captureAmount: 0,
-            changedBy: 'DRIVER'
+            changedBy: 'USER'
         };
         console.log('payload', payload);
         const response = await http.post(url, payload);

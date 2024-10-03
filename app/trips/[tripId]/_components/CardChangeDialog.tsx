@@ -9,7 +9,7 @@ import { CardChangeIcon } from '@/public/icons';
 import { createSetUpIntent } from '@/server/checkout';
 import { changeCardForTrip } from '@/server/tripOperations';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { StripeError } from '@stripe/stripe-js';
+import type { StripeError } from '@stripe/stripe-js';
 import { AlertCircleIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';

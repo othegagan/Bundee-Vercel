@@ -21,7 +21,6 @@ export default function TripsComponent() {
         <BoxContainer className='mb-6'>
             <div className='mx-auto flex select-none flex-col gap-1 border-b md:flex-row md:items-center md:justify-center'>
                 <div
-                    role='tablist'
                     aria-orientation='horizontal'
                     className='mx-auto mt-4 grid w-fit max-w-lg grid-cols-2 items-center justify-center gap-10 rounded-lg text-muted-foreground'
                     data-orientation='horizontal'>

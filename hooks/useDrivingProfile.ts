@@ -2,7 +2,7 @@
 
 import { getSession } from '@/lib/auth';
 import { getUserByEmail } from '@/server/userOperations';
-import { PrasedData, VerifiedDrivingProfileResult } from '@/types';
+import type { PrasedData, VerifiedDrivingProfileResult } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 

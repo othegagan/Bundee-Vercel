@@ -216,17 +216,14 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 <TimeSelect label='Trip End Time' onChange={setEndTime} defaultValue={endTime} />
             </div>
 
-            {isPriceError && (
-                <>
-                    {priceErrorMessage === 'Error: Wrong Dates' ? (
-                        <ErrorMessage message='You have chosen wrong date format' />
-                    ) : priceErrorMessage === 'Error: Reservation not allowed for previous dates' ? (
-                        <ErrorMessage message='Trip not allowed for previous dates' />
-                    ) : (
-                        <ErrorMessage message='Something went wrong in calculating prices.' />
-                    )}
-                </>
-            )}
+            {isPriceError &&
+                (priceErrorMessage === 'Error: Wrong Dates' ? (
+                    <ErrorMessage message='You have chosen wrong date format' />
+                ) : priceErrorMessage === 'Error: Reservation not allowed for previous dates' ? (
+                    <ErrorMessage message='Trip not allowed for previous dates' />
+                ) : (
+                    <ErrorMessage message='Something went wrong in calculating prices.' />
+                ))}
 
             <p className='text-14 text-neutral-600'>You will not be charged until the host accepts the reservation request.</p>
 

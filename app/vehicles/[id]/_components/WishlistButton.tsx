@@ -2,7 +2,7 @@ import useWishlist from '@/hooks/useWishlist';
 import { getSession } from '@/lib/auth';
 import { cn } from '@/lib/utils';
 import { Heart } from 'lucide-react';
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 interface WishlistButtonProps {
     vehicleId: number;

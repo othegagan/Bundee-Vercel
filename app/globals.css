@@ -152,7 +152,7 @@
 }
 
 .placeholder-item::before {
-    content: "";
+    content: '';
     z-index: 9999;
     display: block;
     position: absolute;
@@ -160,11 +160,7 @@
     top: 0;
     height: 100%;
     width: 50px;
-    background-image: linear-gradient(
-        to right,
-        rgba(144, 144, 144, 0),
-        rgb(224, 231, 233)
-    );
+    background-image: linear-gradient(to right, rgba(144, 144, 144, 0), rgb(224, 231, 233));
     animation: load 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
@@ -195,8 +191,7 @@ td button[disabled] {
 .loader {
     width: 40px;
     aspect-ratio: 2;
-    --_g: no-repeat
-        radial-gradient(circle closest-side, #ffffff94 90%, #dcdcdc00);
+    --_g: no-repeat radial-gradient(circle closest-side, #ffffff94 90%, #dcdcdc00);
     background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
     background-size: calc(100% / 3) 50%;
     animation: l3 1s infinite linear;
@@ -376,16 +371,10 @@ td button[disabled] {
     --el-color-neutral-light-7: #b2b2b2;
     --el-color-neutral-light-8: #cccccc;
     --el-color-neutral-light-9: #e5e5e5;
-    --el-box-shadow-lighter: 0px 2px 3px 0px rgba(0, 0, 0, 0.48),
-        0px 0px 2px 0px rgba(0, 0, 0, 0.48);
-    --el-box-shadow-light: 0px 2px 12px 0px rgba(0, 0, 0, 0.64),
-        0px 1px 4px 0px rgba(0, 0, 0, 0.48);
-    --el-box-shadow: 0px 8px 15px 0px rgba(0, 0, 0, 0.64),
-        0px 2px 12px 0px rgba(0, 0, 0, 0.64),
-        0px 1px 4px 0px rgba(0, 0, 0, 0.48);
-    --el-box-shadow-dark: 0px 25px 48px 0px rgba(0, 0, 0, 0.64),
-        0px 2px 12px 0px rgba(0, 0, 0, 0.48),
-        0px 1px 4px 0px rgba(0, 0, 0, 0.48);
+    --el-box-shadow-lighter: 0px 2px 3px 0px rgba(0, 0, 0, 0.48), 0px 0px 2px 0px rgba(0, 0, 0, 0.48);
+    --el-box-shadow-light: 0px 2px 12px 0px rgba(0, 0, 0, 0.64), 0px 1px 4px 0px rgba(0, 0, 0, 0.48);
+    --el-box-shadow: 0px 8px 15px 0px rgba(0, 0, 0, 0.64), 0px 2px 12px 0px rgba(0, 0, 0, 0.64), 0px 1px 4px 0px rgba(0, 0, 0, 0.48);
+    --el-box-shadow-dark: 0px 25px 48px 0px rgba(0, 0, 0, 0.64), 0px 2px 12px 0px rgba(0, 0, 0, 0.48), 0px 1px 4px 0px rgba(0, 0, 0, 0.48);
     --btn-border-radius-big: 8px;
     --btn-border-radius-small: 4px;
     --border-color-base: #dcdfe6;
@@ -470,7 +459,7 @@ td button[disabled] {
 }
 
 .message-box__container > .message-box__text::before {
-    content: "Document Type";
+    content: 'Document Type';
     visibility: visible;
     position: absolute;
     top: 0;

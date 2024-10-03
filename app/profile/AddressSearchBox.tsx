@@ -49,8 +49,7 @@ const AddressSearchBox = ({ address1, setSavedData }) => {
                 <div
                     className={`'z-[997] absolute mt-1 min-w-[300px] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md ${
                         show && inputValue ? 'scale-1 opacity-100' : 'scale-0 opacity-0'
-                    }`}
-                    role='presentation'>
+                    }`}>
                     <p className='mb-1 text-[11px] text-neutral-400'>Suggestions</p>
 
                     {loading ? (

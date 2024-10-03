@@ -52,8 +52,7 @@ function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = 
                     'w-full transform overflow-hidden rounded-t-lg bg-white px-6 py-4 transition-all ease-in-out sm:m-4 sm:max-w-xl sm:rounded-lg',
                     isOpen ? 'zoom-in-95 animate-in' : 'zoom-out-95 slide-out-to-bottom-1/2 animate-out',
                     className
-                )}
-                role='dialog'>
+                )}>
                 <div className='mb-4 flex flex-col space-y-1.5 text-left sm:mb-6'>
                     <h2 id='radix-:rg:' className='text-left font-semibold text-lg leading-none tracking-tight'>
                         {title}

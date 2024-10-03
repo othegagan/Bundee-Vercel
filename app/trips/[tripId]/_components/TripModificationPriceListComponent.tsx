@@ -214,7 +214,7 @@ export default function TripModificationPriceListComponent({
                 <div className='flex w-full items-center justify-between border-black/40 border-t px-2 pt-2'>
                     <p className='font-bold text-14'>Trip Cost Difference</p>
                     <p className='font-bold text-14'>
-                        {roundToTwoDecimalPlaces(Number(differenceAmount)) === 0 ? '' : isExtension ? '+' : '-'} $
+                        {Math.round(differenceAmount) === 0 ? '' : isExtension ? '+' : '-'} $
                         {Math.abs(Number(roundToTwoDecimalPlaces(Number(differenceAmount))))}
                     </p>
                 </div>

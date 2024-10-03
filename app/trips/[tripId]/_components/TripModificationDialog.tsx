@@ -83,9 +83,9 @@ export default function TripModificationDialog({ tripData }) {
             }
 
             // Check for any unavailable dates within the new date range
-            const unAvailabilityDates = unformattedDates.map((date) => parseISO(date));
+            const unAvailabilityDates = unformattedDates?.map((date) => parseISO(date));
 
-            const hasUnavailableDate = unAvailabilityDates.some((date) => isWithinInterval(date, { start: parsedNewStartDate, end: parsedNewEndDate }));
+            const hasUnavailableDate = unAvailabilityDates?.some((date) => isWithinInterval(date, { start: parsedNewStartDate, end: parsedNewEndDate }));
 
             if (hasUnavailableDate) {
                 throw new Error('Some dates are unavailable. Please adjust your selection.');
@@ -114,7 +114,7 @@ export default function TripModificationDialog({ tripData }) {
                 tripid: tripData.tripid
             };
 
-            // console.log(payload);
+            console.log(payload);
             const responseData = await calculatePrice(payload);
 
             if (responseData.success) {
@@ -324,10 +324,10 @@ export function splitFormattedDateAndTime(input: string) {
     }
     const [datePart, timePart] = parts;
     return (
-        <>
+        <div>
             {datePart}
             <br />
             {timePart}
-        </>
+        </div>
     );
 }

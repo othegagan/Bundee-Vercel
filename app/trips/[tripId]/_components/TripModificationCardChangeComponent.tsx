@@ -6,7 +6,7 @@ import useTripModification from '@/hooks/useTripModification';
 import getStripe from '@/lib/get-stripejs';
 import { createSetUpIntent } from '@/server/checkout';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { StripeError } from '@stripe/stripe-js';
+import type { StripeError } from '@stripe/stripe-js';
 import { AlertCircleIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 

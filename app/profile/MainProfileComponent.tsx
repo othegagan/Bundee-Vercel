@@ -362,12 +362,12 @@ const ProfilePage = () => {
                     ) : (
                         <div>
                             <div>
-                                {savedData.address1 && <>{`${savedData.address1},`} </>}
-                                {savedData.address2 && <>{`${savedData.address2}, `} </>}
-                                {savedData.city && <>{`${savedData.city}, `} </>}
-                                {savedData.state && <>{`${savedData.state}, `} </>}
-                                {savedData.postcode && <>{`${savedData.postcode}, `} </>}
-                                {savedData.country && <>{savedData.country} </>}
+                                {savedData.address1 && `${savedData.address1},`}
+                                {savedData.address2 && `${savedData.address2}, `}
+                                {savedData.city && `${savedData.city}, `}
+                                {savedData.state && `${savedData.state}, `}
+                                {savedData.postcode && `${savedData.postcode}, `}
+                                {savedData.country && savedData.country}
                             </div>
                         </div>
                     )}

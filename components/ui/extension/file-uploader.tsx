@@ -3,7 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { Trash, Upload } from 'lucide-react';
 import Image from 'next/image';
-import React, { useCallback, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 interface FileUploaderProps {
     setError: any;

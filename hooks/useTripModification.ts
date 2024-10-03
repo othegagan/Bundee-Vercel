@@ -85,6 +85,7 @@ export default function useTripModification() {
 
             const response = type === 'reduction' ? await createTripReduction(payload) : await createTripExtension(payload);
 
+            console.log('Extensionresponse', response);
             if (response.success) {
                 setSuccess(true);
                 tripModificationModal.setSuccess(true);

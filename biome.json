@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
     "organizeImports": {
         "enabled": true
     },
@@ -11,13 +11,12 @@
         "rules": {
             "recommended": true,
             "a11y": {
-                "all": true,
                 "noSvgWithoutTitle": "off",
                 "noPositiveTabindex": "off",
-                "useKeyWithClickEvents": "off"
+                "useKeyWithClickEvents": "off",
+                "noLabelWithoutControl": "off"
             },
             "complexity": {
-                "all": true,
                 "noForEach": "off",
                 "useLiteralKeys": "info",
                 "noMultipleSpacesInRegularExpressionLiterals": "warn",
@@ -43,7 +42,7 @@
             },
             "style": {
                 "useTemplate": "warn",
-                "useImportType": "off",
+                "useImportType": "info",
                 "noUselessElse": "info",
                 "noNonNullAssertion": "off"
             },
