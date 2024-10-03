@@ -15,7 +15,7 @@ import {
 import { DatePickerContent, DateRangePicker } from '@/components/ui/extension/date-picker';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { cn } from '@/lib/utils';
-import { getLocalTimeZone, parseDateTime, today } from '@internationalized/date';
+import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { useState } from 'react';
@@ -49,8 +49,8 @@ const DateRangeCalendar = ({
     totalDays
 }: DateRangeCalendarProps) => {
     const [dates, setDates] = useState<any>({
-        start: parseDateTime(`${startDate}T${startTime}`),
-        end: parseDateTime(`${endDate}T${endTime}`)
+        start: parseDate(`${startDate}`),
+        end: parseDate(`${endDate}`)
     });
 
     const { isLoading: datesLoading, isError: datesError, unavailableDates, minDays, maxDays } = useAvailabilityDates(vehicleid, null, zipCode);
@@ -65,11 +65,9 @@ const DateRangeCalendar = ({
         return <div>Something went wrong</div>;
     }
 
-    // console.log('unavailableDates', unavailableDates);
-    const blockedDates = unavailableDates.map((date) => [parseDateTime(date), parseDateTime(date)]) || [];
-    // console.log("blockedDates", blockedDates)
+    const blockedDates = unavailableDates.map((date) => [parseDate(date), parseDate(date)]) || [];
 
-    const isDateUnavailable = (date) => blockedDates.some(([start, end]) => date.compare(start) >= 0 && date.compare(end) <= 0);
+    const isDateUnavailable = (date) => blockedDates.some((interval) => date.compare(interval[0]) >= 0 && date.compare(interval[1]) <= 0);
 
     const isDateUnavailableStart = blockedDates.length > 0 && isDateUnavailable(dates.start);
     const isDateUnavailableEnd = blockedDates.length > 0 && isDateUnavailable(dates.end);
@@ -132,9 +130,9 @@ const DateRangeCalendar = ({
                             )}>
                             <CalendarIcon className='mr-2 h-4 w-4' />
                             {dates?.end ? (
-                                <>
+                                <div>
                                     {format(dates.start.toDate(getLocalTimeZone()), 'LLL dd, y')} - {format(dates.end.toDate(getLocalTimeZone()), 'LLL dd, y')}
-                                </>
+                                </div>
                             ) : (
                                 <span>Pick a date</span>
                             )}

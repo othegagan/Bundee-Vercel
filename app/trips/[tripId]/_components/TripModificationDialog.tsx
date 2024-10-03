@@ -42,7 +42,7 @@ export default function TripModificationDialog({ tripData }) {
         unformattedDates,
         minDays,
         maxDays
-    } = useAvailabilityDates(tripData.vehicleId, tripData.reservationid);
+    } = useAvailabilityDates(tripData.vehicleId, tripData.reservationid, tripData?.vehzipcode);
 
     const [dateSelectionError, setDateSelectionError] = useState('');
 
