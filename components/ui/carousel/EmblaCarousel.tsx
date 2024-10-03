@@ -50,11 +50,11 @@ export default function EmblaCarousel({ slides, thumbsVisible = true }: EmblaCar
     }, [emblaApi, onSelect]);
 
     return (
-        <section className={cn('embla relative w-full ', !thumbsVisible && 'md:max-h-72')}>
+        <section className={cn('embla relative w-full ', !thumbsVisible && 'md:max-h-80')}>
             <div className='overflow-hidden md:rounded-md' ref={emblaRef}>
                 <div className='embla__container'>
                     {slides.map((s, index) => (
-                        <div className={cn('embla__slide max-h-44 w-full overflow-hidden md:max-h-72 md:rounded-md')} key={index}>
+                        <div className={cn('embla__slide max-h-44 w-full overflow-hidden md:max-h-80 md:rounded-md')} key={index}>
                             <img key={index} src={s.imagename} className='h-full w-full object-cover object-center md:rounded-md' alt={`vehicle ${index}`} />
                         </div>
                     ))}
@@ -104,7 +104,7 @@ export function Thumb(props: ThumbProp) {
         <button
             onClick={onClick}
             type='button'
-            className={'embla-thumbs__slide max-h-16 overflow-hidden rounded-md'.concat(selected ? ' embla-thumbs__slide--selected' : '')}>
+            className={'embla-thumbs__slide max-h-16 select-none overflow-hidden rounded-md'.concat(selected ? ' embla-thumbs__slide--selected' : '')}>
             <img src={imagename} className='h-full w-full rounded-md object-cover object-center' alt={`thumbnail ${index}`} />
         </button>
     );
