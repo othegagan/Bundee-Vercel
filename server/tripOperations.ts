@@ -118,7 +118,7 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
         const data = await response.json();
 
         const messageData = data.messages
-            .map((item) => ({
+            .map((item: any) => ({
                 author: item.author,
                 message: item.body,
                 deliveryDate: item.dateUpdated // Adjust as needed
@@ -210,6 +210,21 @@ export async function changeCardForTrip(tripid: number, paymentMethodIDToken: st
         const payload = {
             tripid: tripid,
             paymentMethodIDToken: paymentMethodIDToken
+        };
+
+        const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+export async function getDriverSpecificTripOnDashboard() {
+    try {
+        const session = await getSession();
+        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/getDriverSpecificTrips`;
+        const payload = {
+            userId: session.userId
         };
 
         const response = await http.post(url, payload);

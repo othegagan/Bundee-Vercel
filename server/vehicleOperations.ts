@@ -47,6 +47,8 @@ export async function getVehicleAllDetailsByVechicleId(vechicleId: number) {
         };
 
         const response = await http.post(url, payload);
+
+        await addToRecentlyViewedHistory(vechicleId);
         return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
@@ -56,8 +58,7 @@ export async function getVehicleAllDetailsByVechicleId(vechicleId: number) {
 export async function addToRecentlyViewedHistory(vehicleid: number) {
     try {
         const session = await getSession();
-        // biome-ignore lint/style/useTemplate: <explanation>
-        const url = process.env.HOST_SERVICES_BASEURL + '/v1/vehicle/updateCustomerActivity';
+        const url = `${process.env.HOST_SERVICES_BASEURL}/v1/vehicle/updateCustomerActivity`;
         const payload = {
             userid: session.userId || '',
             vehicleid: vehicleid,

@@ -8,7 +8,7 @@ const locations = [
     {
         id: 1,
         isactive: true,
-        location: 'Austin,Texas,USA',
+        location: 'Austin, Texas',
         disabled: false,
         button_text: 'Search Now',
         imageUrl:
@@ -18,7 +18,7 @@ const locations = [
     {
         id: 2,
         isactive: false,
-        location: 'Dallas,Texas,USA',
+        location: 'Dallas, Texas',
         disabled: false,
         button_text: 'Coming Soon',
         imageUrl: 'https://www.tshaonline.org/images/handbook/entries/DD/dallas_skyline.jpg',
@@ -27,7 +27,7 @@ const locations = [
     {
         id: 3,
         isactive: false,
-        location: 'Houston,Texas,USA',
+        location: 'Houston, Texas',
         disabled: false,
         button_text: 'Coming Soon',
         imageUrl:
@@ -37,8 +37,8 @@ const locations = [
     {
         id: 4,
         isactive: false,
-        location: 'San Antonio, Texas, USA',
-        disabled: true,
+        location: 'San Antonio, Texas',
+        disabled: false,
         button_text: 'Coming Soon',
         imageUrl:
             'https://media.istockphoto.com/id/1292013336/photo/river-walk-in-san-antonio-city-downtown-skyline-cityscape-of-texas-usa.jpg?s=612x612&w=0&k=20&c=FnzOc9hVq6aNpE7450iIRYYbKpJqDdE4hbY78SKgUY8=',
@@ -46,50 +46,37 @@ const locations = [
     }
 ];
 
-const Available_Locations = () => {
+export default function Available_Locations() {
     return (
-        <>
-            <BoxContainer className='py-6'>
-                <div className='flex justify-between'>
-                    <h3>Available Locations</h3>
-                </div>
-
-                <div className='mt-6 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
-                    {locations.map((location) => (
-                        <Link href={location.link} className='group relative cursor-pointer' key={location.id}>
-                            <div className='aspect-video h-44 w-full overflow-hidden rounded-md bg-neutral-200 shadow-md lg:aspect-square'>
-                                <Image
-                                    src={location.imageUrl}
-                                    alt={location.location}
-                                    width={0}
-                                    height={0}
-                                    sizes='100vw'
-                                    style={{ width: '100%', height: '100%' }}
-                                    className='h-full w-full object-cover object-center transition-all ease-in-out group-hover:scale-110 group-hover:opacity-80 lg:h-full lg:w-full'
-                                />
-                                <div className='absolute inset-x-4 top-32 overflow-hidden rounded-lg '>
-                                    <div className='ml-auto w-fit whitespace-nowrap'>
-                                        {location.isactive && (
-                                            <p className='mb-6 rounded-full bg-primary p-2 px-4 font-medium text-white text-xs md:px-4 md:py-2 md:font-semibold md:text-sm'>
-                                                {location.button_text}
-                                            </p>
-                                        )}
-
-                                        {!location.isactive && (
-                                            <p className='mb-6 rounded-full bg-green-500 p-2 px-4 font-medium text-white text-xs md:px-4 md:py-2 md:font-semibold md:text-sm'>
-                                                {location.button_text}
-                                            </p>
-                                        )}
-                                    </div>
+        <BoxContainer className='py-6'>
+            <h2 className='m\b-4 font-bold text-2xl'>Search by City</h2>
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+                {locations.map((location) => (
+                    <Link href={location.link} className='group relative cursor-pointer overflow-hidden rounded-md' key={location.id}>
+                        <div className='aspect-video h-44 w-full bg-neutral-200 shadow-md lg:aspect-square'>
+                            <Image
+                                src={location.imageUrl}
+                                alt={location.location}
+                                layout='fill'
+                                objectFit='cover'
+                                className='transition-all ease-in-out group-hover:scale-110 group-hover:opacity-80'
+                            />
+                            <div className='absolute inset-0 flex flex-col justify-between p-4'>
+                                <div className='self-end'>
+                                    {location.isactive ? (
+                                        <span className='rounded-full bg-primary px-3 py-1 font-semibold text-white text-xs'>{location.button_text}</span>
+                                    ) : (
+                                        <span className='rounded-full bg-primary/70 px-3 py-1 font-semibold text-white text-xs'>{location.button_text}</span>
+                                    )}
+                                </div>
+                                <div className='absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black to-transparent p-4'>
+                                    <h3 className='font-semibold text-lg text-white'>{location.location}</h3>
                                 </div>
                             </div>
-                            <p className='mt-2'>{location.location}</p>
-                        </Link>
-                    ))}
-                </div>
-            </BoxContainer>
-        </>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </BoxContainer>
     );
-};
-
-export default Available_Locations;
+}

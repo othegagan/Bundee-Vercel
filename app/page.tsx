@@ -6,6 +6,7 @@ import FAQ from '@/components/landing_page/FAQ';
 import HeroSection from '@/components/landing_page/HeroSection';
 import PushNotifications from '@/components/landing_page/PushNotifications';
 import RecentlyViewedVehicles from '@/components/landing_page/RecentlyViewedVehicles';
+import UpcomingAndOngiongTrips from '@/components/landing_page/UpcomingAndOngoingTrips';
 import { getSession } from '@/lib/auth';
 
 export default async function Page() {
@@ -16,6 +17,7 @@ export default async function Page() {
             {session.isLoggedIn && <PushNotifications />}
 
             <HideInIFrame>
+                <UpcomingAndOngiongTrips />
                 <Available_Locations />
                 {session.isLoggedIn && <RecentlyViewedVehicles />}
                 <Banner />

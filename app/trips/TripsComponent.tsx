@@ -198,7 +198,8 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
 };
 
 export const StatusBadge = ({ status, type, className }: { type: 'trip' | 'swap'; status: string; className?: string }) => {
-    const statusTexts = {
+    if (!status) return null;
+    const statusTexts: any = {
         swap: {
             swappr: 'Swap Proposal Requested',
             swaprej: 'Swap Proposal Rejected',
