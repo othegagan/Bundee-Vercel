@@ -215,7 +215,7 @@ export const StatusBadge = ({ status, type, className }: { type: 'trip' | 'swap'
     const statusText = getStatusText(type, status);
 
     return (
-        <div className={cn('inline-flex items-center whitespace-nowrap bg-[#0A4AC61A] px-2.5 py-1.5 font-bold text-12 capitalize', className)}>
+        <div className={cn('inline-flex w-fit items-center whitespace-nowrap bg-[#0A4AC61A] px-2.5 py-1.5 font-bold text-12 capitalize', className)}>
             {statusText}
         </div>
     );
