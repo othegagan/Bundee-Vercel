@@ -10,7 +10,7 @@ export default function DrivingLicenceDialog() {
     const { isOpen, isUpdate, onOpen, onClose, onUpdate } = useDrivingLicenceDialog();
 
     function handleRedirect() {
-        router.push(`/idscan?callbackUrl=${encodeURIComponent(window.location.href)}`);
+        router.push(`/driving_licence_verification?callbackUrl=${encodeURIComponent(window.location.href)}`);
         closeModal();
     }
 

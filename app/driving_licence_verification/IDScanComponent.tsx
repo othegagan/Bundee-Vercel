@@ -206,9 +206,9 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
             <div className={`flex h-[100dvh] flex-col items-center overflow-x-hidden p-5 ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
                 {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && !error && (
                     <>
-                        <h3 className='mb-4 font-bold text-2xl'>License Verification</h3>
+                        <h3 className='mb-4 font-bold text-2xl'>Licence Verification</h3>
                         <p className='mb-6 max-w-2xl text-center'>
-                            Please have your license ready and enable camera permissions. <br className='hidden lg:block' /> Click the start button to begin the
+                            Please have your licence ready and enable camera permissions. <br className='hidden lg:block' /> Click the start button to begin the
                             verification process.
                         </p>
                     </>
@@ -223,7 +223,7 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
 
                 {!isProcessStarted && !isUpdatingDB && !isVerifying && !success && !error && (
                     <button type='button' onClick={startIDVCProcess} className='idScan-btn' style={{ maxWidth: '400px' }}>
-                        Start License Verification
+                        Start Licence Verification
                     </button>
                 )}
 
@@ -263,7 +263,7 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                             </>
                         ) : (
                             <>
-                                <p>Thanks for verifying your driving license with MyBundee. Please return to the mobile app to proceed further.</p>
+                                <p>Thanks for verifying your driving licence with MyBundee. Please return to the mobile app to proceed further.</p>
                             </>
                         )}
                     </div>

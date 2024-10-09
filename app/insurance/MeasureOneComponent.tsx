@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 
-const url = 'https://bundee-auxillary-services-f6f2fbbfbrc2e3g9.centralus-01.azurewebsites.net/api/v1/insurance/datarequests/new';
+const url = 'https://bundee-auxiliary-services-dev.azurewebsites.net/api/v1/insurance/datarequests/new';
 
 export default function MeasureOneComponent({ searchParams }: { searchParams: { callbackUrl?: string; token?: string } }) {
     const widgetRef = useRef(null);

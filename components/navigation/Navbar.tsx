@@ -27,7 +27,7 @@ const Navbar = async () => {
     ];
 
     return (
-        <HideComponent hideOnlyInRouter={['/idscan', '/insurance']}>
+        <HideComponent hideOnlyInRouter={['/driving_licence_verification', '/insurance']}>
             <header className=' sticky top-0 z-[10] select-none bg-white py-2.5 shadow-sm'>
                 <Container>
                     <nav className='flex items-center justify-between '>
