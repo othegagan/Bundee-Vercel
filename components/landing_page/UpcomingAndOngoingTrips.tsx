@@ -15,8 +15,8 @@ export default async function UpcomingAndOngiongTrips() {
 
     if (!response.success) return null;
 
-    const upcomingTrips = response.data.driverUpcomingTripsResponses;
-    const ongoingTrips = response.data.driverOnGoingTripResponse;
+    const upcomingTrips = response.data?.driverUpcomingTripsResponses || [];
+    const ongoingTrips = response.data?.driverOnGoingTripResponse || [];
 
     return (
         <BoxContainer className='space-y-2'>

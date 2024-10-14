@@ -47,10 +47,10 @@ export const http = {
 export const handleResponse = (response: any) => {
     const codes = response.codes || [];
     const successCode = codes.find((code: any) => code.key === 'SUCCESS');
-    if (successCode.key === 'SUCCESS' && response.errorCode === '0') {
+    if (successCode?.key === 'SUCCESS' && response?.errorCode === '0') {
         return { success: true, data: response, message: response.errorMessage };
     }
-    if (response.errorCode === '1') {
+    if (response?.errorCode === '1') {
         return { success: false, data: null, message: response.errorMessage };
     }
     const errorCodes = codes.map((code: any) => code.key).join(', ');
