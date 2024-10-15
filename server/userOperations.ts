@@ -198,3 +198,15 @@ export async function updateDrivingLicence(payload: any) {
         throw new Error(error.message);
     }
 }
+
+export async function generateInsuranceVerificationLink() {
+    try {
+        const session = await getSession();
+        const url = `${process.env.AUXILIARY_SERVICE_BASEURL}/api/v1/insurance/datarequests/generate_invitation_link`;
+        console.log('url', url);
+        const response = await http.get(`${url}?userId=${session.userId}`);
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}

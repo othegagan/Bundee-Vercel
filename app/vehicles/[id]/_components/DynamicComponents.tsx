@@ -163,13 +163,17 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 upCharges: priceCalculatedList.upcharges,
                 extreaMilageCost: 0,
                 Statesurchargetax: priceCalculatedList.stateSurchargeTax,
-                Statesurchargeamount: priceCalculatedList.stateSurchargeAmount
+                Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
+
+                plate: vehicleDetails.number || '',
+                hostDetails: hostDetails,
+                location
             };
 
             // console.log('checkoutDetails', checkoutDetails);
 
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
-            window.location.href = `/checkout/${vehicleId}`;
+            window.location.href = '/checkout/driving-licence';
             setProcessing(false);
         } catch (error) {
             console.log(error);

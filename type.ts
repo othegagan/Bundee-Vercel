@@ -12,6 +12,7 @@ declare namespace NodeJS {
         HOST_SERVICES_BASEURL: string;
         BOOKING_SERVICES_BASEURL: string;
         AVAILABILITY_BASEURL: string;
+        AUXILIARY_SERVICE_BASEURL: string;
         FALLBACK_BUNDEE_AUTH_TOKEN: string;
 
         MAPBOX_BASE_URL: string;

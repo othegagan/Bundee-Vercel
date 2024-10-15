@@ -155,7 +155,7 @@ export function TripsCardsSkeleton() {
 
 export function CheckoutCardSkeleton({ className }: { className?: string }) {
     return (
-        <div className={cn('flex w-full flex-col gap-2 pt-2 lg:w-[400px]', className)}>
+        <div className={cn('flex w-full flex-col gap-2 pt-2 ', className)}>
             <div className='col-span-4 space-y-4 lg:col-span-1'>
                 <div className={`relative h-10 rounded-lg bg-neutral-200 ${shimmer}`} />
                 <div className=' flex gap-9'>
@@ -247,6 +247,25 @@ export function TripsDetailsSkeleton() {
                     <ChatSkeleton />
                 </div>
             </div>
+        </div>
+    );
+}
+
+export function CheckoutDrivingLicenceSkeleton() {
+    return (
+        <div className='mt-4 flex w-full min-w-[300px] flex-col gap-4 md:gap-7'>
+            <div className={`relative h-8 w-[60%] rounded-md bg-neutral-200 ${shimmer}`} />
+            <div className='space-y-2'>
+                <div className={`relative h-8 rounded-md bg-neutral-200 ${shimmer}`} />
+                <div className={`relative h-8 w-[70%] rounded-md bg-neutral-200 ${shimmer}`} />
+            </div>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6'>
+                <div className={`relative h-12 rounded-md bg-neutral-200 ${shimmer}`} />
+                <div className={`relative h-12 rounded-md bg-neutral-200 ${shimmer}`} />
+                <div className={`relative h-12 rounded-md bg-neutral-200 ${shimmer}`} />
+            </div>
+            <div className={`relative h-10 rounded-md bg-neutral-200 ${shimmer}`} />
+            <div className={`relative h-10 rounded-md bg-neutral-200 ${shimmer}`} />
         </div>
     );
 }

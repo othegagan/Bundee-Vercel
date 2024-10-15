@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { FaRegCheckCircle } from 'react-icons/fa';
 import { IoWarning } from 'react-icons/io5';
 import secureLocalStorage from 'react-secure-storage';
-import { useCheckoutDetails } from './CheckoutDetails';
+import { useCheckoutDetails } from '../useCheckoutDetails';
 
 export default function CheckoutForm({ customerId }: { customerId: string }) {
     const [payment, setPayment] = useState<{
@@ -75,7 +75,9 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         'upcharges',
                         'stateSurchargeAmount',
                         'stateSurchargeTax',
-                        'hostid'
+                        'hostid',
+                        'plate',
+                        'hostDetails'
                     ];
 
                     if (keysToRemove) {
@@ -93,7 +95,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         setPayment({ status: 'succeeded' });
                         secureLocalStorage.removeItem('checkOutInfo');
                         setTimeout(() => {
-                            window.location.href = '/checkout/success';
+                            window.location.href = '/checkout/complete?success=true';
                         }, 1000);
                     } else {
                         setPayment({ status: 'error' });
@@ -101,7 +103,7 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         setErrorMessage(`Payment failed. ${errorMessage}`);
                         secureLocalStorage.removeItem('checkOutInfo');
                         setTimeout(() => {
-                            window.location.href = '/checkout/failure';
+                            window.location.href = '/checkout/complete?success=false';
                         }, 2500);
                     }
                 } else {
@@ -125,29 +127,27 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-3'>
-                <div className=''>
-                    <PaymentElement />
-                </div>
-                <PaymentStatus status={payment.status} errorMessage={errorMessage} />
-                <Button
-                    variant={payment.status === 'succeeded' ? 'success' : 'black'}
-                    className='mt-1 h-10 w-full'
-                    type='submit'
-                    disabled={!['initial', 'error'].includes(payment.status) || !stripe || payment.status === 'succeeded'}
-                    loadingText='Processing...'
-                    loading={['processing', 'requires_payment_method', 'requires_confirmation'].includes(payment.status)}>
-                    {payment.status === 'succeeded' ? (
-                        <span className='flex items-center gap-2'>
-                            <FaRegCheckCircle className='' /> Transaction Completed
-                        </span>
-                    ) : (
-                        <span>Pay Now</span>
-                    )}
-                </Button>
-            </form>
-        </>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-3'>
+            <div className=''>
+                <PaymentElement />
+            </div>
+            <PaymentStatus status={payment.status} errorMessage={errorMessage} />
+            <Button
+                variant={payment.status === 'succeeded' ? 'success' : 'black'}
+                className='mt-1 h-10 w-full'
+                type='submit'
+                disabled={!['initial', 'error'].includes(payment.status) || !stripe || payment.status === 'succeeded'}
+                loadingText='Processing...'
+                loading={['processing', 'requires_payment_method', 'requires_confirmation'].includes(payment.status)}>
+                {payment.status === 'succeeded' ? (
+                    <span className='flex items-center gap-2'>
+                        <FaRegCheckCircle className='' /> Transaction Completed
+                    </span>
+                ) : (
+                    <span>Pay Now</span>
+                )}
+            </Button>
+        </form>
     );
 }
 

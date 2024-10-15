@@ -1,7 +1,7 @@
 'use client';
 
 import { getSession } from '@/lib/auth';
-import { getUserByEmail } from '@/server/userOperations';
+import { generateInsuranceVerificationLink, getUserByEmail } from '@/server/userOperations';
 import type { PrasedData, VerifiedDrivingProfileResult } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -61,7 +61,7 @@ export const useVerifiedDrivingProfile = () => {
             }
         },
         refetchOnWindowFocus: true,
-        staleTime: 30 * 1000
+        staleTime: 10 * 1000
     });
 };
 
@@ -130,3 +130,27 @@ export async function getVerifiedDetailsFromIDScan(requestId: string): Promise<P
         console.error(error);
     }
 }
+
+export const useInsuranceDetails = () => {
+    return useQuery({
+        queryKey: ['insuranceDetails'],
+        queryFn: async () => {
+            const session = await getSession();
+            return getUserByEmail(session.email);
+        },
+        refetchOnWindowFocus: true,
+        staleTime: 10 * 1000
+    });
+};
+
+export const useGenerateInsuranceVerificationLink = () => {
+    return useQuery({
+        queryKey: ['generateInsuranceVerificationLink'],
+        queryFn: async () => {
+            return generateInsuranceVerificationLink();
+        },
+        refetchOnWindowFocus: false,
+        staleTime: 3 * 1000,
+        enabled: false
+    });
+};
