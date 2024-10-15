@@ -7,7 +7,6 @@ import { CheckoutDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { formatDateAndTime } from '@/lib/utils';
 import { format } from 'date-fns';
-import { MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useCheckoutDetails } from '../useCheckoutDetails';
 
@@ -53,10 +52,10 @@ export default function SummaryPage() {
                             <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
                             <p className='text-center font-semibold text-14'>{splitFormattedDateAndTime(formatDateAndTime(endTime, zipCode))}</p>
                         </div>
-                        <div className='w-full flex-center justify-center gap-2 border-t py-2 text-14'>
+                        {/* <div className='w-full flex-center justify-center gap-2 border-t py-2 text-14'>
                             <MapPin className='size-5 text-muted-foreground' />
-                            {/* <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p> */}
-                        </div>
+                            <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
+                        </div> */}
                     </div>
                     {/* Price Breakdown */}
                     <PriceDisplayComponent pricelist={data} isAirportDeliveryChoosen={airportDelivery} />
