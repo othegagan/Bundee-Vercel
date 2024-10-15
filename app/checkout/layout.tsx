@@ -14,7 +14,7 @@ export default function CheckoutLayout({
     return (
         <ClientOnly>
             <Stepper />
-            <div className='container mx-auto max-w-4xl p-4'>{children}</div>
+            <div className='container mx-auto max-w-4xl pb-10'>{children}</div>
         </ClientOnly>
     );
 }
@@ -35,7 +35,7 @@ function Stepper() {
     }, [pathname]);
 
     return (
-        <div className='mx-auto w-11/12 px-4 py-10 lg:max-w-3xl'>
+        <div className='mx-auto w-11/12 px-4 py-6 lg:max-w-3xl'>
             <div className='relative flex items-center justify-between'>
                 {/* Background line */}
                 <div className='absolute top-3 right-0 left-0 mx-10 h-0.5 bg-neutral-200 ' />
@@ -53,7 +53,7 @@ function Stepper() {
                     const isActive = index === currentStepIndex;
 
                     return (
-                        <div key={step.link} className='relative z-10 flex flex-col items-center'>
+                        <div key={step.link} className='relative flex flex-col items-center'>
                             <div
                                 className={`flex h-6 w-6 items-center justify-center rounded-full ${isCompleted || isActive ? 'bg-primary' : 'border-2 border-neutral-300 bg-white'}`}>
                                 {isCompleted ? (

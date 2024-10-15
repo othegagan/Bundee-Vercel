@@ -20,8 +20,8 @@ export default async function UpcomingAndOngiongTrips() {
 
     return (
         <BoxContainer className='space-y-2'>
-            <UpcomingTrips upcomingTrips={upcomingTrips} />
             <OngoingTrips ongoingTrips={ongoingTrips} />
+            <UpcomingTrips upcomingTrips={upcomingTrips} />
         </BoxContainer>
     );
 }

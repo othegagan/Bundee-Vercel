@@ -10,7 +10,7 @@ import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { profileVerifiedStatus } from '@/hooks/useDrivingProfile';
 import usePriceCalculation from '@/hooks/usePriceCalculation';
 import { getSession } from '@/lib/auth';
-import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded } from '@/lib/utils';
+import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded, getFullAddress } from '@/lib/utils';
 import { addDays, format, isBefore, isToday } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useSearchParams } from 'next/navigation';
@@ -167,7 +167,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
 
                 plate: vehicleDetails.number || '',
                 hostDetails: hostDetails,
-                location
+                location: getFullAddress({ vehicleDetails: vehicleDetails })
             };
 
             // console.log('checkoutDetails', checkoutDetails);

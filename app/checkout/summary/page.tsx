@@ -7,6 +7,7 @@ import { CheckoutDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { formatDateAndTime } from '@/lib/utils';
 import { format } from 'date-fns';
+import { MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useCheckoutDetails } from '../useCheckoutDetails';
 
@@ -17,7 +18,7 @@ export default function SummaryPage() {
 
     if (loading) return <CheckoutDetailsSkeleton />;
 
-    const { name, image, zipCode, startTime, endTime, airportDelivery, totalDays, hostDetails, plate } = data;
+    const { name, image, zipCode, startTime, endTime, airportDelivery, totalDays, hostDetails, plate, location } = data;
 
     return (
         <div className='flex flex-col gap-6'>
@@ -40,7 +41,7 @@ export default function SummaryPage() {
                 <div className='space-y-5 lg:w-1/2'>
                     {/* Duration */}
 
-                    <div className='flex w-full flex-col items-stretch justify-around gap-2 rounded-lg bg-primary/10 '>
+                    <div className='flex w-full flex-col items-stretch justify-around gap-2 rounded-lg bg-primary/10 pb-3'>
                         <div className='w-full pt-2 text-center text-14'>
                             Trip duration:{' '}
                             <span className='font-semibold'>
@@ -52,17 +53,17 @@ export default function SummaryPage() {
                             <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
                             <p className='text-center font-semibold text-14'>{splitFormattedDateAndTime(formatDateAndTime(endTime, zipCode))}</p>
                         </div>
-                        {/* <div className='w-full flex-center justify-center gap-2 border-t py-2 text-14'>
+                        <div className='w-full flex-center justify-center gap-2 border-t py-2 text-14'>
                             <MapPin className='size-5 text-muted-foreground' />
-                            <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
-                        </div> */}
+                            <p className=' max-w-[300px] truncate'>{location}</p>
+                        </div>
                     </div>
                     {/* Price Breakdown */}
                     <PriceDisplayComponent pricelist={data} isAirportDeliveryChoosen={airportDelivery} />
                 </div>
             </div>
             {/* Confirm Button */}
-            <div className='mt-6 w-full'>
+            <div className=' w-full'>
                 <Link href='/checkout/payment'>
                     <Button className='w-full' size='lg'>
                         Confirm Booking

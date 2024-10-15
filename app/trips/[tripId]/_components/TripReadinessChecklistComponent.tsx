@@ -2,9 +2,12 @@
 
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
+import { useGenerateInsuranceVerificationLink } from '@/hooks/useDrivingProfile';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { RxQuestionMarkCircled } from 'react-icons/rx';
+import { toast } from 'sonner';
 import { RentalAgreementHandler } from './DocumentHandlerComponent';
+import InsuranceViewDetailsDialog from './InsuranceViewDetailsDialog';
 
 export default function TripReadinessChecklistComponent({ trip }: any) {
     const phoneNumberDialog = usePhoneNumberVerificationDialog();
@@ -12,7 +15,8 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
 
     const drivingLicenseFlag = trip.isLicenseVerified;
     const isPhoneVerifiedFlag = trip.isPhoneVarified;
-    const insuranceFlag = false;
+    const insuranceFlag = trip.isInsuranceVerified && trip.insuranceStatus.toLowerCase() === 'verified';
+    const insuranceStatus = trip.insuranceStatus.toLowerCase();
 
     return (
         <div className='flex flex-col gap-2'>
@@ -61,9 +65,15 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                     )}{' '}
                     Insurance
                 </div>
-                <button type='button' className='text-md underline underline-offset-2'>
-                    Coming Soon
-                </button>
+                {insuranceStatus === 'inprogress' && (
+                    <button type='button' className='text-md ' disabled>
+                        In Progress
+                    </button>
+                )}
+
+                {insuranceStatus === 'verified' && <InsuranceViewDetailsDialog />}
+
+                {(insuranceStatus === 'notverified' || insuranceStatus === 'failed') && <InsuranceVerificationLinkGenerateButton />}
             </div>
 
             {/* Rental Agreement */}
@@ -125,5 +135,28 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                 )}
             </div>
         </div>
+    );
+}
+
+function InsuranceVerificationLinkGenerateButton() {
+    const { refetch: generateLink, data: linkResponse, isLoading: isGeneratingLink, error: linkError } = useGenerateInsuranceVerificationLink();
+
+    const handleReVerify = async () => {
+        try {
+            const result = await generateLink();
+            if (result.data?.success && result.data?.data?.uri) {
+                window.open(result.data.data.uri, '_blank');
+            } else {
+                throw new Error('Failed to generate verification link');
+            }
+        } catch (err) {
+            toast.error('Failed to generate verification link');
+        }
+    };
+
+    return (
+        <button type='button' onClick={handleReVerify} disabled={isGeneratingLink} className='text-md underline underline-offset-2'>
+            {isGeneratingLink ? 'Generating Link...' : 'Verify Insurance'}
+        </button>
     );
 }

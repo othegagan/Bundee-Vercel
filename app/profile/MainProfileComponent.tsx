@@ -3,9 +3,12 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { stateList } from '@/constants';
 import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
+import { useGenerateInsuranceVerificationLink, useInsuranceDetails } from '@/hooks/useDrivingProfile';
 import { getSession } from '@/lib/auth';
 import { getUserByEmail, updateInsuranceProfile, updateProfile } from '@/server/userOperations';
+import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { MdVerified } from 'react-icons/md';
 import { toast } from 'sonner';
@@ -378,62 +381,8 @@ const ProfilePage = () => {
                 <div className='border-neutral-900/10 border-b-2 pb-2'>
                     <div className='flex items-center justify-between'>
                         <h2 className=' font-semibold text-base leading-7'>Insurance Details</h2>
-                        {activeSection !== 'insurance' ? (
-                            <Button
-                                variant='outline'
-                                size='sm'
-                                disabled={activeSection !== null}
-                                className={activeSection === 'insurance' ? 'cursor-not-allowed ' : ''}
-                                onClick={() => handleEditClick('insurance')}>
-                                Edit
-                            </Button>
-                        ) : (
-                            <Button variant='secondary' size='sm' onClick={handleCancelClick}>
-                                Cancel
-                            </Button>
-                        )}
                     </div>
-                    {activeSection === 'insurance' ? (
-                        <div className='mt-5 flex flex-col gap-4'>
-                            <div className='grid grid-cols-1 gap-4 gap-y-2 pr-5 text-sm md:max-w-md md:grid-cols-4 '>
-                                <div className='md:col-span-2'>
-                                    <Label>Carrier Name</Label>
-                                    <Input
-                                        type='text'
-                                        value={savedData.insuranceCompany}
-                                        onChange={(e) => {
-                                            handleInputChange('insuranceCompany', e.target.value);
-                                        }}
-                                    />
-                                </div>
-
-                                <div className='md:col-span-2'>
-                                    <Label>Insurance Number</Label>
-                                    <Input
-                                        type='text'
-                                        value={savedData.insuranceNumber}
-                                        onChange={(e) => {
-                                            handleInputChange('insuranceNumber', e.target.value);
-                                        }}
-                                    />
-                                </div>
-                            </div>
-
-                            <Button className='max-w-fit' type='button' disabled={processing} variant='black' onClick={handleInsuranceSubmit}>
-                                {processing ? (
-                                    <p>
-                                        <div className='loader' />
-                                    </p>
-                                ) : (
-                                    <>Save</>
-                                )}
-                            </Button>
-                        </div>
-                    ) : (
-                        <div>
-                            {savedData.insuranceCompany} - {savedData.insuranceNumber}
-                        </div>
-                    )}
+                    <InsuranceContent />
                 </div>
             </div>
         </div>
@@ -442,55 +391,103 @@ const ProfilePage = () => {
 
 export default ProfilePage;
 
-const stateList = [
-    { id: 1, name: 'Alabama', abbreviation: 'AL' },
-    { id: 2, name: 'Alaska', abbreviation: 'AK' },
-    { id: 3, name: 'Arizona', abbreviation: 'AZ' },
-    { id: 4, name: 'Arkansas', abbreviation: 'AR' },
-    { id: 5, name: 'California', abbreviation: 'CA' },
-    { id: 6, name: 'Colorado', abbreviation: 'CO' },
-    { id: 7, name: 'Connecticut', abbreviation: 'CT' },
-    { id: 8, name: 'Delaware', abbreviation: 'DE' },
-    { id: 9, name: 'Florida', abbreviation: 'FL' },
-    { id: 10, name: 'Georgia', abbreviation: 'GA' },
-    { id: 11, name: 'Hawaii', abbreviation: 'HI' },
-    { id: 12, name: 'Idaho', abbreviation: 'ID' },
-    { id: 13, name: 'Illinois', abbreviation: 'IL' },
-    { id: 14, name: 'Indiana', abbreviation: 'IN' },
-    { id: 15, name: 'Iowa', abbreviation: 'IA' },
-    { id: 16, name: 'Kansas', abbreviation: 'KS' },
-    { id: 17, name: 'Kentucky', abbreviation: 'KY' },
-    { id: 18, name: 'Louisiana', abbreviation: 'LA' },
-    { id: 19, name: 'Maine', abbreviation: 'ME' },
-    { id: 20, name: 'Maryland', abbreviation: 'MD' },
-    { id: 21, name: 'Massachusetts', abbreviation: 'MA' },
-    { id: 22, name: 'Michigan', abbreviation: 'MI' },
-    { id: 23, name: 'Minnesota', abbreviation: 'MN' },
-    { id: 24, name: 'Mississippi', abbreviation: 'MS' },
-    { id: 25, name: 'Missouri', abbreviation: 'MO' },
-    { id: 26, name: 'Montana', abbreviation: 'MT' },
-    { id: 27, name: 'Nebraska', abbreviation: 'NE' },
-    { id: 28, name: 'Nevada', abbreviation: 'NV' },
-    { id: 29, name: 'New Hampshire', abbreviation: 'NH' },
-    { id: 30, name: 'New Jersey', abbreviation: 'NJ' },
-    { id: 31, name: 'New Mexico', abbreviation: 'NM' },
-    { id: 32, name: 'New York', abbreviation: 'NY' },
-    { id: 33, name: 'North Carolina', abbreviation: 'NC' },
-    { id: 34, name: 'North Dakota', abbreviation: 'ND' },
-    { id: 35, name: 'Ohio', abbreviation: 'OH' },
-    { id: 36, name: 'Oklahoma', abbreviation: 'OK' },
-    { id: 37, name: 'Oregon', abbreviation: 'OR' },
-    { id: 38, name: 'Pennsylvania', abbreviation: 'PA' },
-    { id: 39, name: 'Rhode Island', abbreviation: 'RI' },
-    { id: 40, name: 'South Carolina', abbreviation: 'SC' },
-    { id: 41, name: 'South Dakota', abbreviation: 'SD' },
-    { id: 42, name: 'Tennessee', abbreviation: 'TN' },
-    { id: 43, name: 'Texas', abbreviation: 'TX' },
-    { id: 44, name: 'Utah', abbreviation: 'UT' },
-    { id: 45, name: 'Vermont', abbreviation: 'VT' },
-    { id: 46, name: 'Virginia', abbreviation: 'VA' },
-    { id: 47, name: 'Washington', abbreviation: 'WA' },
-    { id: 48, name: 'West Virginia', abbreviation: 'WV' },
-    { id: 49, name: 'Wisconsin', abbreviation: 'WI' },
-    { id: 50, name: 'Wyoming', abbreviation: 'WY' }
-];
+function InsuranceContent() {
+    const { data: response, isLoading, error } = useInsuranceDetails();
+
+    if (isLoading) {
+        return null;
+    }
+
+    if (error || !response?.success) {
+        return <div>{error?.message || 'Error fetching insurance details'}</div>;
+    }
+
+    const insuranceDetails = response.data?.insuranceDetails[0];
+
+    if (!insuranceDetails) {
+        return (
+            <div className='flex justify-between'>
+                <p>Insurance Not verified</p> <InsuranceVerificationLinkGenerateButton />{' '}
+            </div>
+        );
+    }
+
+    if (insuranceDetails.verifiedStatus === 'notVerified' || insuranceDetails.verifiedStatus === 'failed') {
+        return (
+            <div className='flex justify-between'>
+                <p>Insurance Not verified</p> <InsuranceVerificationLinkGenerateButton />{' '}
+            </div>
+        );
+    }
+
+    if (insuranceDetails.verifiedStatus === 'inProgress') {
+        return <div>Insurance verification in progress</div>;
+    }
+
+    return (
+        <div className='divide-y divide-gray-100'>
+            <Field label='Carrier'>{insuranceDetails.insuranceProvider.name}</Field>
+            <Field label='Policy Number'>{insuranceDetails.policyNumber}</Field>
+            <Field label='Policy Validity'>
+                {format(insuranceDetails.startDate, 'PP')} - {format(insuranceDetails.expiryDate, 'PP')}
+            </Field>
+
+            <Field label='Insureds'> {insuranceDetails.policyHolders.map((holder) => holder.name).join(' / ')}</Field>
+
+            <Field label='Coverages'>
+                <ul className='space-y-2 text-sm'>
+                    <li>
+                        <span className='font-semibold'>Bodily Injury:</span>
+                        <span>
+                            {' '}
+                            ${insuranceDetails.coverages.bodilyInjury.perPerson} / ${insuranceDetails.coverages.bodilyInjury.perAccident}
+                        </span>
+                    </li>
+                    <li>
+                        <span className='font-semibold'>Property Damage:</span>
+                        <span> ${insuranceDetails.coverages.propertyDamage.perAccident}</span>
+                    </li>
+                    <li>
+                        <span className='font-semibold'>Collision:</span>
+                        <span> Deductible: ${insuranceDetails.coverages.collision.deductible}</span>
+                    </li>
+                    <li>
+                        <span className='font-semibold'>Comprehensive:</span> Deductible: ${insuranceDetails.coverages.comprehensive.deductible}
+                    </li>
+                </ul>
+            </Field>
+        </div>
+    );
+}
+
+function Field({ label, children }: { label: string; children: any }) {
+    return (
+        <div className='px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+            <dt className='font-medium text-sm leading-6'>{label}</dt>
+            <dd className='mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0'>{children}</dd>
+        </div>
+    );
+}
+
+function InsuranceVerificationLinkGenerateButton() {
+    const { refetch: generateLink, data: linkResponse, isLoading: isGeneratingLink, error: linkError } = useGenerateInsuranceVerificationLink();
+
+    const handleReVerify = async () => {
+        try {
+            const result = await generateLink();
+            if (result.data?.success && result.data?.data?.uri) {
+                window.open(result.data.data.uri, '_blank');
+            } else {
+                throw new Error('Failed to generate verification link');
+            }
+        } catch (err) {
+            toast.error('Failed to generate verification link');
+        }
+    };
+
+    return (
+        <Button variant='outline' size='sm' onClick={handleReVerify} disabled={isGeneratingLink}>
+            {isGeneratingLink ? 'Generating Link...' : 'Verify Insurance'}
+        </Button>
+    );
+}

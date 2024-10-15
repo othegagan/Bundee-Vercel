@@ -77,7 +77,8 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         'stateSurchargeTax',
                         'hostid',
                         'plate',
-                        'hostDetails'
+                        'hostDetails',
+                        'location'
                     ];
 
                     if (keysToRemove) {

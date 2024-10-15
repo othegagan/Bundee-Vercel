@@ -24,11 +24,11 @@ export default function InsurancePage() {
         return <NotVerifiedDetails />;
     }
 
-    if (insuranceDetails.verifiedStatus === 'notVerified' || insuranceDetails.verifiedStatus === 'failed') {
+    if (insuranceDetails.verifiedStatus.toLowerCase() === 'notverified' || insuranceDetails.verifiedStatus.toLowerCase() === 'failed') {
         return <NotVerifiedDetails />;
     }
 
-    if (insuranceDetails.verifiedStatus === 'inProgress') {
+    if (insuranceDetails.verifiedStatus.toLowerCase() === 'inprogress') {
         return <InProgressDetails />;
     }
 
