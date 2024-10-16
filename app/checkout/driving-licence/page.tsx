@@ -17,8 +17,6 @@ export default function DrivingLicensePage() {
 
     const { isDrivingProfileVerified, verifiedDetails } = response || {};
 
-    const { personalInfo } = verifiedDetails;
-
     // Driving licence not verified
     if (!isDrivingProfileVerified || !verifiedDetails) {
         return (
@@ -44,6 +42,8 @@ export default function DrivingLicensePage() {
             </div>
         );
     }
+
+    const { personalInfo } = verifiedDetails;
 
     // Driving licence verified
     return (
