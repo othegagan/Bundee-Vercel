@@ -7,7 +7,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import { profileVerifiedStatus } from '@/hooks/useDrivingProfile';
 import usePriceCalculation from '@/hooks/usePriceCalculation';
 import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded, getFullAddress } from '@/lib/utils';
@@ -107,13 +106,13 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
             }
 
             // 4. Check if user has a valid driving licence
-            const isVerified = await profileVerifiedStatus();
-            if (!isVerified) {
-                drivingLicenceDialog.isUpdate = false;
-                drivingLicenceDialog.onOpen();
-                setProcessing(false);
-                return null;
-            }
+            // const isVerified = await profileVerifiedStatus();
+            // if (!isVerified) {
+            //     drivingLicenceDialog.isUpdate = false;
+            //     drivingLicenceDialog.onOpen();
+            //     setProcessing(false);
+            //     return null;
+            // }
 
             const delivery = isAirportDeliveryChoosen ? true : !!isCustoumDeliveryChoosen;
             const airportDelivery = !!isAirportDeliveryChoosen;
