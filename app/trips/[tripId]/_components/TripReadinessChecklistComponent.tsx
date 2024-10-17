@@ -15,8 +15,8 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
 
     const drivingLicenseFlag = trip.isLicenseVerified;
     const isPhoneVerifiedFlag = trip.isPhoneVarified;
-    const insuranceFlag = trip.isInsuranceVerified && trip.insuranceStatus.toLowerCase() === 'verified';
-    const insuranceStatus = trip.insuranceStatus.toLowerCase();
+    const insuranceFlag = trip.isInsuranceVerified && trip.insuranceStatus?.toLowerCase() === 'verified';
+    const insuranceStatus = trip.insuranceStatus?.toLowerCase();
 
     return (
         <div className='flex flex-col gap-2'>
