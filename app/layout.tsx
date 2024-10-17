@@ -8,6 +8,7 @@ import './globals.css';
 import ClientOnly from '@/components/ClientOnly';
 import { HideComponentInFrame, HideInIFrame } from '@/components/custom/HideWrapper';
 import DrivingLicenceDialog from '@/components/dialogs/DrivingLicenceDialog';
+import FirstPhoneNumberVerificationDialog from '@/components/dialogs/FirstPhoneNumberVerificationDialog';
 import ForgotPasswordDialg from '@/components/dialogs/ForgotPasswordDialog';
 import LoginDialog from '@/components/dialogs/LoginDialog';
 import PhoneNumberSignInDialog from '@/components/dialogs/PhoneNumberSignInDialog';
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <LoginDialog />
                         <RegisterModal />
                         <PhoneNumberVerificationDialog />
+                        <FirstPhoneNumberVerificationDialog />
                         <PhoneNumberSignInDialog />
                         <TripReviewDialog />
                         <CarFilters />

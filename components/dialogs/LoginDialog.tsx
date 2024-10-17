@@ -4,6 +4,7 @@ import Logo from '@/components/landing_page/Logo';
 import useForgotPasswordDialog from '@/hooks/dialogHooks/useForgotPasswordDialog';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import usePhoneNumberSignInDialog from '@/hooks/dialogHooks/usePhoneNumberSignInDialog';
+import { useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession, destroySession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
@@ -24,6 +25,8 @@ export default function LoginDialog() {
     const registerDialog = useRegisterDialog();
     const forgotPasswordDialog = useForgotPasswordDialog();
     const phoneNumberSignInDialog = usePhoneNumberSignInDialog();
+    const phoneNumberVerificationDialog = useFirstPhoneNumberVerificationDialog();
+
     const [showPassword, setShowPassword] = useState(true);
     const [userEmail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -52,6 +55,14 @@ export default function LoginDialog() {
                     const response: any = await getUserByEmail(user.email);
                     if (response.success) {
                         const userResponse = response.data.userResponse;
+
+                        if (!userResponse.isPhoneVarified) {
+                            closeModal();
+                            phoneNumberVerificationDialog.onOpen();
+                            phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
+                            phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
+                            return;
+                        }
                         await createSession({ userData: userResponse, authToken: authTokenResponse.authToken });
                         closeModal();
                         // router.refresh();

@@ -15,9 +15,10 @@ interface DialogProps {
     onInteractOutside?: boolean;
     title?: string;
     description?: string;
+    showCloseButton?: boolean;
 }
 
-function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = true, title, description, ...props }: DialogProps) {
+function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = true, showCloseButton = true, title, description, ...props }: DialogProps) {
     useEffect(() => {
         const body = document.body;
         if (isOpen) {
@@ -62,13 +63,15 @@ function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = 
                     </p>
                 </div>
 
-                <button
-                    type='button'
-                    className='absolute top-4 right-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none'
-                    onClick={closeDialog}>
-                    <X className='size-5' />
-                    <span className='sr-only'>Close</span>
-                </button>
+                {showCloseButton && (
+                    <button
+                        type='button'
+                        className='absolute top-4 right-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none'
+                        onClick={closeDialog}>
+                        <X className='size-5' />
+                        <span className='sr-only'>Close</span>
+                    </button>
+                )}
                 <div>{children}</div>
             </div>
         </div>

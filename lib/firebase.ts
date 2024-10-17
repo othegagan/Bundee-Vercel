@@ -34,6 +34,7 @@ export function getFirebaseErrorMessage(code: string) {
         'auth/invalid-verification-code': 'Invalid OTP. Please enter a valid OTP.',
         'auth/provider-already-linked': 'Account already linked with phone number',
         'auth/account-exists-with-different-credential': 'Phone number as been linked with another account. Please try again with different phone number.',
+        'auth/invalid-app-credential': 'An error in app credentials',
         default: 'An error occurred. Please try again.'
     };
     return errorMap[code] || errorMap.default;

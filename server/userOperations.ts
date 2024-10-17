@@ -99,7 +99,7 @@ export async function updateProfile(payload: any) {
     }
 }
 
-export async function updateUserPhoneNumber(mobilePhone: string) {
+export async function updateUserPhoneNumber(mobilePhone: string, userId?: number) {
     try {
         const session = await getSession();
         const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/updateUserPhoneNumber`;
@@ -107,7 +107,7 @@ export async function updateUserPhoneNumber(mobilePhone: string) {
         const payload = {
             mobilePhone: mobilePhone,
             isPhoneVarified: true,
-            iduser: session.userId
+            iduser: userId || session.userId
         };
 
         const response = await http.post(url, payload);
