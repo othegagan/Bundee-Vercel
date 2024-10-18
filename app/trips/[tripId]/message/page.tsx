@@ -205,7 +205,7 @@ export default function MessagePage({ params }) {
                         className='px-3'
                         disabled={(!inputMessage.trim() && !file) || sendMessageMutation.isPending}
                         loading={sendMessageMutation.isPending}>
-                        <Send className='size-4' />
+                        {!sendMessageMutation.isPending && <Send className='size-4' />}
                         <span className='sr-only'>Send</span>
                     </Button>
                 </div>
