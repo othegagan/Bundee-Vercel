@@ -126,13 +126,15 @@ function NotVerifiedDetails() {
                 <Button type='button' onClick={handleReVerify} disabled={isGeneratingLink}>
                     {isGeneratingLink ? 'Generating Link...' : 'Verify Insurance'}
                 </Button>
-                <Button className='w-full' variant='outline'>
-                    I don't have insurance
-                </Button>
+
+                <Link href='/checkout/summary' className='w-full'>
+                    <Button className='w-full' variant='outline'>
+                        I don't have insurance
+                    </Button>
+                </Link>
 
                 <Link href='/checkout/summary' className='w-full'>
                     <Button className='w-full' variant='ghost'>
-                        {' '}
                         Skip for Now
                     </Button>
                 </Link>
