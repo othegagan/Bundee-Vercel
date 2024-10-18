@@ -1,7 +1,7 @@
 'use client';
 
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
-import usePhoneNumberVerificationDialog from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
+import { usePhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { useGenerateInsuranceVerificationLink } from '@/hooks/useDrivingProfile';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { RxQuestionMarkCircled } from 'react-icons/rx';
