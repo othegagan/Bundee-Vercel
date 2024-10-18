@@ -91,7 +91,8 @@ export default function MessagePage({ params }) {
                 };
 
                 try {
-                    const response = await axios.post('https://bundee-chatservice-dev.azurewebsites.net/sendMediaMessage', formData, config);
+                    const url = `${process.env.NEXT_PUBLIC_CHAT_SERVICE_BASEURL}/sendMediaMessage`;
+                    const response = await axios.post(url, formData, config);
                     return {
                         success: true
                     };

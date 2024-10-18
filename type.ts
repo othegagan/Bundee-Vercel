@@ -7,7 +7,7 @@ declare namespace NodeJS {
         NEXT_PUBLIC_SECURE_LOCAL_STORAGE_HASH_KEY: string;
         NEXT_PUBLIC_SECURE_LOCAL_STORAGE_PREFIX: string;
 
-        CHAT_SERVICE_BASEURL: string;
+        NEXT_PUBLIC_CHAT_SERVICE_BASEURL: string;
         USER_MANAGEMENT_BASEURL: string;
         HOST_SERVICES_BASEURL: string;
         BOOKING_SERVICES_BASEURL: string;
