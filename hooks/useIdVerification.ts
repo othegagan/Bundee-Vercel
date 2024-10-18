@@ -13,6 +13,7 @@ interface VerificationPayload {
 
 interface VerificationResult {
     requestId: string;
+    expiryDate: string;
     documentVerificationResult: { documentConfidence: number };
     faceMatchVerificationResult: { faceMatchConfidence: number };
     antiSpoofingVerificationResult: { antiSpoofingFaceImageConfidence: number };
@@ -36,7 +37,7 @@ export function useIdVerification() {
         setVerificationResult(null);
 
         try {
-            const response = await axios.post<VerificationResult>(VERIFY_URL, payload, {
+            const response = await axios.post(VERIFY_URL, payload, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${process.env.NEXT_PUBLIC_IDSCAN_BEARER_TOKEN}`
@@ -58,7 +59,9 @@ export function useIdVerification() {
                 setError('Verification failed: The provided documents did not meet the required confidence thresholds.');
             }
 
-            return { isApproved, requestId: response.data.requestId };
+            const expiryDate = response.data.document.expires ? new Date(response.data.document.expires).toLocaleDateString() : null;
+
+            return { isApproved, requestId: response.data.requestId, expiryDate };
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setError(`API Error: ${error.response?.data?.message || error.message}`);

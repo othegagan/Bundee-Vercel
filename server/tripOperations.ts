@@ -121,49 +121,12 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
             .map((item: any) => ({
                 author: item.author,
                 message: item.body,
-                deliveryDate: item.dateUpdated // Adjust as needed
+                deliveryDate: item.dateUpdated,
+                mediaUrl: item.attributes?.mediaUrl || null
             }))
             .reverse();
 
         return messageData;
-    } catch (error: any) {
-        throw new Error(error.message);
-    }
-}
-
-export async function sendMessageToHost(tripid: number, messageBody: string, firebaseToken: string) {
-    try {
-        const url = `${process.env.CHAT_SERVICE_BASEURL}/clientSendMessage`;
-
-        const headersList = {
-            Accept: '*/*',
-            Authorization: `Bearer ${firebaseToken}`,
-            'Content-Type': 'application/json'
-        };
-
-        const payload = {
-            tripId: tripid,
-            message: messageBody
-        };
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: headersList,
-            body: JSON.stringify(payload),
-            cache: 'no-cache'
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        const res_client = {
-            success: true
-        };
-
-        return res_client;
     } catch (error: any) {
         throw new Error(error.message);
     }

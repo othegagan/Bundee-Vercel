@@ -37,12 +37,13 @@ function useUpdateDriverProfile() {
             const session = await getSession();
             const userId = Number(decryptedUserId) || session.userId;
 
-            const { isApproved, requestId } = await verifyDrivingLicence(idScanPayload, userId);
+            const { isApproved, requestId, expiryDate } = await verifyDrivingLicence(idScanPayload, userId);
 
             const updatePayload = {
                 userId: userId,
                 idScanRequestID: requestId,
-                isVerified: isApproved
+                isVerified: isApproved,
+                expiryDate: expiryDate
             };
 
             const updateIDResponse = await updateDrivingLicence(updatePayload);

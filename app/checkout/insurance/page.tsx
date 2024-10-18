@@ -87,11 +87,11 @@ function InProgressDetails() {
     return (
         <div className='flex flex-col gap-6'>
             <h2 className='font-bold text-xl'>Insurance Details</h2>
-            <p>We've found your insurance information is under verification. Please countinue.</p>
+            <p>We've found your insurance information is under verification. Please Continue.</p>
 
             <div className='mt-10 flex flex-col gap-5'>
                 <Link href='/checkout/summary' className='w-full'>
-                    <Button className='w-full'> Countinue</Button>
+                    <Button className='w-full'> Continue</Button>
                 </Link>
             </div>
         </div>

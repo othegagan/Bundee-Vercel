@@ -1,3 +1,6 @@
+'use client';
+
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
@@ -5,7 +8,7 @@ import * as React from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 
 const buttonVariants = cva(
-    'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 select-none transition active:scale-[.95] ',
+    'inline-flex gap-2 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 disabled:cursor-not-allowed select-none cursor-pointer active:scale-95',
     {
         variants: {
             variant: {
@@ -17,8 +20,8 @@ const buttonVariants = cva(
                 green: 'bg-green-500 text-white shadow-sm hover:bg-green-500/80',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
-                success: 'bg-green-500 text-white  disabled:pointer-events-none disabled:opacity-90 hover:bg-green-500/80',
-                yellow: 'bg-yellow-400 text-black shadow-sm hover:bg-yellow-500'
+                success:
+                    'bg-green-500 text-white disabled:pointer-events-none disabled:opacity-90 hover:bg-green-500/80 dark:bg-green-700 dark:hover:bg-green-600'
             },
             size: {
                 default: 'h-9 px-4 py-2',
@@ -39,21 +42,52 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     asChild?: boolean;
     loading?: boolean;
     loadingText?: string;
+    tooltip?: string | null;
+    loadingPosition?: 'left' | 'right';
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, loading, loadingText, children, ...props }, ref) => {
+    ({ className, type = 'button', variant, size, asChild = false, loading, loadingText, tooltip, loadingPosition = 'left', children, ...props }, ref) => {
         const Comp = asChild ? Slot : 'button';
+
+        const renderContent = () => {
+            if (loading) {
+                return (
+                    <>
+                        {loadingPosition === 'left' && <ImSpinner2 className={cn('size-5 animate-spin', children && 'mr-2')} />}
+                        {loadingText ? loadingText : children}
+                        {loadingPosition === 'right' && <ImSpinner2 className={cn('size-5 animate-spin', children && 'ml-2')} />}
+                    </>
+                );
+            }
+            return children;
+        };
+
+        if (tooltip) {
+            return (
+                <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Comp className={cn(buttonVariants({ variant, size, className }))} disabled={loading} ref={ref} {...props}>
+                                <>
+                                    {loading && (
+                                        <>
+                                            <ImSpinner2 className={cn('size-5 animate-spin', children && 'mr-2')} /> {loadingText ? loadingText : children}
+                                        </>
+                                    )}
+                                    {!loading && children}
+                                </>
+                            </Comp>
+                        </TooltipTrigger>
+                        <TooltipContent>{tooltip}</TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            );
+        }
+
         return (
             <Comp className={cn(buttonVariants({ variant, size, className }))} disabled={loading} ref={ref} {...props}>
-                <>
-                    {loading && (
-                        <>
-                            <ImSpinner2 className={cn('size-5 animate-spin', children && 'mr-2')} /> {loadingText ? loadingText : children}
-                        </>
-                    )}
-                    {!loading && children}
-                </>
+                {renderContent()}
             </Comp>
         );
     }
