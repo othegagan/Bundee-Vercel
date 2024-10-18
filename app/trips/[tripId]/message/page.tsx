@@ -45,7 +45,6 @@ const useAuthToken = () => {
 
 export default function MessagePage({ params }) {
     const token = useAuthToken();
-    console.log(token);
     const [inputMessage, setInputMessage] = useState('');
     const tripId = Number(params.tripId);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
