@@ -1,3 +1,4 @@
+import { convertToCarTimeZoneISO } from '@/lib/utils';
 import { calculatePrice } from '@/server/priceCalculation';
 import { useEffect, useState } from 'react';
 
@@ -10,6 +11,7 @@ interface PriceCalculationInput {
     isAirportDelivery: boolean;
     isCustomDelivery: boolean;
     hostId: string | null;
+    zipCode: string | null;
 }
 
 interface PriceCalculationOutput {
@@ -28,7 +30,8 @@ const usePriceCalculation = ({
     endTime,
     isAirportDelivery,
     isCustomDelivery,
-    hostId
+    hostId,
+    zipCode
 }: PriceCalculationInput): PriceCalculationOutput => {
     const [priceCalculatedList, setPriceCalculatedList] = useState<any>(null);
     const [deductionConfigData, setDeductionConfigData] = useState<any>(null);
@@ -43,8 +46,8 @@ const usePriceCalculation = ({
                 setPriceLoading(true);
                 const payload: any = {
                     vehicleid: vehicleId,
-                    startTime: new Date(`${startDate}T${startTime}`).toISOString(),
-                    endTime: new Date(`${endDate}T${endTime}`).toISOString(),
+                    startTime: convertToCarTimeZoneISO(`${startDate}T${startTime}`, zipCode),
+                    endTime: convertToCarTimeZoneISO(`${endDate}T${endTime}`, zipCode),
                     airportDelivery: isAirportDelivery,
                     customDelivery: isCustomDelivery,
                     hostid: hostId,

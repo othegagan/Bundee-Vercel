@@ -62,7 +62,8 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
         endTime: endTime,
         isAirportDelivery: isAirportDeliveryChoosen,
         isCustomDelivery: isCustoumDeliveryChoosen,
-        hostId: hostDetails?.hostID
+        hostId: hostDetails?.hostID,
+        zipCode: vehicleDetails?.zipcode
     });
 
     const { isLoading: datesLoading, isError: datesError } = useAvailabilityDates(vehicleId, null);
