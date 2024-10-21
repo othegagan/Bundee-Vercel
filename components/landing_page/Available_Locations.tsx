@@ -48,17 +48,16 @@ const locations = [
 
 export default function Available_Locations() {
     return (
-        <BoxContainer className='py-6'>
+        <BoxContainer className='space-y-3 py-6'>
             <h2 className='m\b-4 font-bold text-2xl'>Search by City</h2>
-            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+            <div className='grid grid-cols-1 gap-5 md:grid-cols-4'>
                 {locations.map((location) => (
                     <Link href={location.link} className='group relative cursor-pointer overflow-hidden rounded-md' key={location.id}>
                         <div className='aspect-video h-44 w-full bg-neutral-200 shadow-md lg:aspect-square'>
                             <Image
                                 src={location.imageUrl}
                                 alt={location.location}
-                                layout='fill'
-                                objectFit='cover'
+                                fill
                                 className='transition-all ease-in-out group-hover:scale-110 group-hover:opacity-80'
                             />
                             <div className='absolute inset-0 flex flex-col justify-between p-4'>

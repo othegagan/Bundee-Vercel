@@ -166,7 +166,7 @@ export default function TripModificationDialog({ tripData }) {
                 className={`${tripModificationModal.submitted ? 'lg:max-w-2xl' : 'lg:max-w-[1330px] lg:p-8 lg:px-10'}`}
                 title={tripModificationModal.submitted ? '' : 'Modify Trip Date Time'}>
                 {!tripModificationModal.submitted ? (
-                    <DialogBody className='-mt-2'>
+                    <DialogBody className='-mt-2 overflow-auto'>
                         <div className='mb-2 flex w-full flex-col-reverse items-start gap-4 lg:flex-row lg:justify-between'>
                             <div className='space-y-1'>
                                 <p className='text-16'>Please select new dates and times for the trip below</p>

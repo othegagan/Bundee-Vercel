@@ -34,12 +34,12 @@ const Navbar = async () => {
                         <Logo />
 
                         <div className='flex items-center gap-3'>
-                            {!session?.isLoggedIn && (
+                            {!session.isLoggedIn && !session.userId && (
                                 <ClientOnly>
                                     <LoginSignupButtons />
                                 </ClientOnly>
                             )}
-                            {session?.isLoggedIn && session?.email && (
+                            {session.isLoggedIn && session.email && (
                                 <ClientOnly>
                                     <p className='hidden text-xs sm:block'>{session?.email}</p>
                                     <NotificationsComponent />

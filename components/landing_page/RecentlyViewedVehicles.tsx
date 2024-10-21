@@ -53,9 +53,9 @@ export default function RecentlyViewedVehicles() {
     }
 
     return (
-        <BoxContainer className='py-6'>
+        <BoxContainer className='space-y-2'>
             <ClientOnly>
-                <div className='flex w-full justify-between'>
+                <div className='flex items-center justify-between'>
                     <h3>Recently Viewed</h3>
                     <Button onClick={handleClearRecentlyViewedVehicles} variant='secondary'>
                         Clear All
@@ -63,7 +63,7 @@ export default function RecentlyViewedVehicles() {
                 </div>
 
                 <div className='w-full'>
-                    <div className='mt-4 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
+                    <div className='mt-4 grid grid-cols-1 gap-5 md:grid-cols-4'>
                         {recentlyViewedData.map((car: any) => (
                             <Link className='rounded-md bg-white shadow ' key={car.id} href={`/vehicles/${car.vehicleid}`}>
                                 <div className='group relative cursor-pointer' key={car.id}>

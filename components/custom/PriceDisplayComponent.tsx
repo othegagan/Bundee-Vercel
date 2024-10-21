@@ -66,10 +66,10 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                     <PriceItem
                         label='Trip Fee'
                         value={
-                            (pricelist?.concessionCalculated || pricelist?.concessionFee) +
-                            (pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount) +
-                            pricelist?.registrationRecoveryFee +
-                            pricelist?.tripFee
+                            (pricelist?.concessionCalculated || pricelist?.concessionFee || 0) +
+                            (pricelist?.Statesurchargeamount || pricelist?.stateSurchargeAmount || 0) +
+                            (pricelist?.registrationRecoveryFee || 0) +
+                            (pricelist?.tripFee || 0)
                         }>
                         <InfoPopover
                             title='Trip Fee'
