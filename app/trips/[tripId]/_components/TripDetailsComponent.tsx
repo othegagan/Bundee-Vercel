@@ -9,7 +9,6 @@ import { StatusBadge } from '../../TripsComponent';
 import TripImageVideoCarousel from './TripImageVideoCarousel';
 import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
 import { splitFormattedDateAndTime } from './TripModificationDialog';
-import TripPoliciesComponent from './TripPoliciesComponent';
 import TripReadinessChecklistComponent from './TripReadinessChecklistComponent';
 
 interface TripVehicleDetailsComponentProps {
@@ -117,7 +116,7 @@ export default function TripDetailsComponent({
             </div>
 
             {/* Policies */}
-            {trip.status.toLowerCase() === 'requested' && <TripPoliciesComponent starttime={trip.starttime} cancellationDays={trip.cancellationDays} />}
+            {/* {trip.status.toLowerCase() === 'requested' && <TripPoliciesComponent starttime={trip.starttime} cancellationDays={trip.cancellationDays} />} */}
         </div>
     );
 }

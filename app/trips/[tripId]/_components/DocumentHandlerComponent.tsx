@@ -1,45 +1,44 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import useDocumentDialog from '@/hooks/dialogHooks/useDocumentDialog';
 import { formatDate } from 'date-fns';
 
 interface RentalAgreementHandlerProps {
     isRentalAgreed: boolean;
     tripId: number;
-    rentalAgrrementUrl?: string | null;
+    rentalAgreementUrl?: string | null;
     rentalAgreedDate?: string | null;
 }
 
-export function RentalAgreementHandler({ isRentalAgreed, rentalAgrrementUrl, rentalAgreedDate, tripId }: RentalAgreementHandlerProps) {
+export function RentalAgreementHandler({ isRentalAgreed, rentalAgreementUrl, rentalAgreedDate, tripId }: RentalAgreementHandlerProps) {
     const documentModal = useDocumentDialog();
 
     if (isRentalAgreed) {
         return (
-            <Button
-                variant='link'
+            <button
+                type='button'
                 className='p-0 font-normal text-foreground text-md underline underline-offset-2'
                 onClick={() => {
-                    documentModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
+                    documentModal.setRentalAgreementPDFLink(rentalAgreementUrl);
                     documentModal.setIsAgreementAcceptedOn(formatDate(new Date(rentalAgreedDate), 'PP, h:mm a'));
                     documentModal.onOpen();
                 }}>
                 View
-            </Button>
+            </button>
         );
     }
 
     return (
-        <Button
-            variant='link'
+        <button
+            type='button'
             className='p-0 font-normal text-foreground text-md underline underline-offset-2'
             onClick={() => {
-                documentModal.setRentalAgreementPDFLink(rentalAgrrementUrl);
+                documentModal.setRentalAgreementPDFLink(rentalAgreementUrl);
                 documentModal.setTripId(tripId);
                 documentModal.onOpen();
             }}>
             Accept
-        </Button>
+        </button>
     );
 }
 
@@ -48,15 +47,15 @@ export function InvoiceHandlerComponent({ invoiceUrl }: any) {
 
     if (invoiceUrl) {
         return (
-            <Button
-                variant='link'
+            <button
+                type='button'
                 className='p-0 font-normal text-foreground text-sm underline underline-offset-2'
                 onClick={() => {
                     documentModal.setInvoicePDFLink(invoiceUrl);
                     documentModal.onOpen();
                 }}>
                 Download Invoice
-            </Button>
+            </button>
         );
     }
 }

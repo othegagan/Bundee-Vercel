@@ -86,7 +86,7 @@ export default function PhoneInput({ value: valueProp, defaultCountry = 'US', cl
         <div className={cn('flex gap-2', className)}>
             <Popover open={openCommand} onOpenChange={setOpenCommand} modal={true}>
                 <PopoverTrigger asChild>
-                    <Button variant='outline' role='combobox' aria-expanded={openCommand} className='w-max items-center justify-between whitespace-nowrap'>
+                    <Button variant='outline' aria-expanded={openCommand} className='w-max items-center justify-between whitespace-nowrap'>
                         {selectedCountry?.image ? (
                             <div className=' h-5 w-7 overflow-hidden rounded'>
                                 <img

@@ -90,7 +90,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                     <RentalAgreementHandler
                         isRentalAgreed={trip.isRentalAgreed}
                         tripId={trip.tripid}
-                        rentalAgrrementUrl={trip.rentalAgrrementUrl}
+                        rentalAgreementUrl={trip.rentalAgrrementUrl}
                         rentalAgreedDate={trip.rentalAgreedDate}
                     />
                 )}
@@ -98,7 +98,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                     <RentalAgreementHandler
                         isRentalAgreed={trip.isRentalAgreed}
                         tripId={trip.tripid}
-                        rentalAgrrementUrl={trip.rentalAgrrementUrl}
+                        rentalAgreementUrl={trip.rentalAgrrementUrl}
                         rentalAgreedDate={trip.rentalAgreedDate}
                     />
                 )}
