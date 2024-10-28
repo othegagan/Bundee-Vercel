@@ -70,10 +70,10 @@ export default function PhoneNumberVerificationDialog() {
             const response = await updateUserPhoneNumber(phoneNumber, phoneNumberVerificationDialog.userId);
             if (response.success) {
                 const authToken = phoneNumberVerificationDialog.authToken;
-                const userResponse = response.data.userResponse;
-                await createSession({ userData: userResponse, authToken });
+                const userResponses = response.data.userResponses;
+                await createSession({ userData: userResponses, authToken });
                 toast.success('Phone number verified successfully');
-                resetModal();
+                closeModal();
             } else {
                 setOTPError('Error updating phone number to profile');
             }
