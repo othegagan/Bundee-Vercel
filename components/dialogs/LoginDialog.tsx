@@ -57,10 +57,10 @@ export default function LoginDialog() {
                         const userResponse = response.data.userResponse;
 
                         if (!userResponse.isPhoneVarified) {
-                            closeModal();
-                            phoneNumberVerificationDialog.onOpen();
                             phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
                             phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
+                            closeModal();
+                            phoneNumberVerificationDialog.onOpen();
                             return;
                         }
                         await createSession({ userData: userResponse, authToken: authTokenResponse.authToken });

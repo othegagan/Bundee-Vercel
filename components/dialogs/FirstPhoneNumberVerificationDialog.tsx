@@ -3,7 +3,7 @@
 import { useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { createSession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
-import { getUserByEmail, updateUserPhoneNumber } from '@/server/userOperations';
+import { updateUserPhoneNumber } from '@/server/userOperations';
 import { PhoneAuthProvider, RecaptchaVerifier, getAuth, linkWithCredential, unlink, updatePhoneNumber } from 'firebase/auth';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -15,7 +15,7 @@ import PhoneInput from '../ui/phone-input';
 
 export default function PhoneNumberVerificationDialog() {
     const phoneNumberVerificationDialog = useFirstPhoneNumberVerificationDialog();
-    const [phoneNumber, setPhoneNumber] = useState(phoneNumberVerificationDialog.phoneNumber || '');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationId, setVerificationId] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
     const [verificationSent, setVerificationSent] = useState(false);
@@ -69,19 +69,16 @@ export default function PhoneNumberVerificationDialog() {
 
             const response = await updateUserPhoneNumber(phoneNumber);
             if (response.success) {
-                const getUserResponse = await getUserByEmail(currentUser.email);
                 const authToken = phoneNumberVerificationDialog.authToken;
-                if (getUserResponse.success) {
-                    const userResponse = getUserResponse.data.userResponse;
-                    await createSession({ userData: userResponse, authToken });
-                }
+                const userResponse = response.data.userResponse;
+                await createSession({ userData: userResponse, authToken });
                 toast.success('Phone number verified successfully');
                 resetModal();
             } else {
                 throw new Error(response.message);
             }
         } catch (error: any) {
-            console.log(error);
+            console.log('Error :', error);
             handleAuthError(error.code);
             console.error('Error verifying code:', error.code);
         } finally {
