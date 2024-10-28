@@ -8,6 +8,8 @@ interface PhoneNumberVerificationDialogStore {
     setPhoneNumber: (number: string) => void;
     authToken?: string;
     setAuthToken?: (token: string) => void;
+    userId?: number;
+    setUserId?: (userId: number) => void;
 }
 
 const usePhoneNumberVerificationDialog = create<PhoneNumberVerificationDialogStore>((set) => ({
@@ -26,6 +28,7 @@ const useFirstPhoneNumberVerificationDialog = create<PhoneNumberVerificationDial
     isOpen: false,
     phoneNumber: '',
     authToken: '',
+    userId: 0,
     onOpen: () => {
         set({ isOpen: true });
     },
@@ -35,6 +38,9 @@ const useFirstPhoneNumberVerificationDialog = create<PhoneNumberVerificationDial
     },
     setAuthToken: (token: string) => {
         set({ authToken: token });
+    },
+    setUserId: (userId: number) => {
+        set({ userId: userId });
     }
 }));
 

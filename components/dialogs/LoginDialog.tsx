@@ -58,6 +58,7 @@ export default function LoginDialog() {
 
                         if (!userResponse.isPhoneVarified) {
                             phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
+                            phoneNumberVerificationDialog.setUserId(userResponse.iduser);
                             phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
                             closeModal();
                             phoneNumberVerificationDialog.onOpen();

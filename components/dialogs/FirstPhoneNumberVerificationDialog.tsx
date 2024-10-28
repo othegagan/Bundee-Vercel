@@ -67,7 +67,7 @@ export default function PhoneNumberVerificationDialog() {
                 await updatePhoneNumber(currentUser, credential);
             }
 
-            const response = await updateUserPhoneNumber(phoneNumber);
+            const response = await updateUserPhoneNumber(phoneNumber, phoneNumberVerificationDialog.userId);
             if (response.success) {
                 const authToken = phoneNumberVerificationDialog.authToken;
                 const userResponse = response.data.userResponse;
@@ -75,7 +75,7 @@ export default function PhoneNumberVerificationDialog() {
                 toast.success('Phone number verified successfully');
                 resetModal();
             } else {
-                throw new Error(response.message);
+                setOTPError('Error updating phone number to profile');
             }
         } catch (error: any) {
             console.log('Error :', error);
