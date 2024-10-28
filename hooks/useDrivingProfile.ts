@@ -61,7 +61,7 @@ export const useVerifiedDrivingProfile = () => {
             }
         },
         refetchOnWindowFocus: true,
-        staleTime: 10 * 1000
+        staleTime: 6 * 1000
     });
 };
 
@@ -139,7 +139,7 @@ export const useInsuranceDetails = () => {
             return getUserByEmail(session.email);
         },
         refetchOnWindowFocus: true,
-        staleTime: 10 * 1000
+        staleTime: 6 * 1000
     });
 };
 

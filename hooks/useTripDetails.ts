@@ -6,6 +6,6 @@ export const useTripDetails = (tripId: number | string) => {
         queryKey: ['tripDetails', { tripId }],
         queryFn: async () => getTripDetailsbyId(Number(tripId)),
         refetchOnWindowFocus: true,
-        staleTime: 10 * 1000
+        staleTime: 6 * 1000
     });
 };
