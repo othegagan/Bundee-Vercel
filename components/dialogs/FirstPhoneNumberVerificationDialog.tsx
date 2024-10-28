@@ -139,7 +139,7 @@ export default function PhoneNumberVerificationDialog() {
                         </>
                     ) : (
                         <div className='flex flex-col gap-4'>
-                            <Label htmlFor='verificationCode'>Verification Code:</Label>
+                            <Label htmlFor='verificationCode'>Verification Code</Label>
                             <OtpStyledInput
                                 numInputs={6}
                                 inputType='number'
@@ -152,7 +152,7 @@ export default function PhoneNumberVerificationDialog() {
                                         }, 200);
                                     }
                                 }}
-                                className='flex w-fit justify-center'
+                                className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                             />
                             <Button type='button' onClick={handleVerifyCode} disabled={verificationCode.length !== 6 || verifying} loading={verifying}>
                                 Verify Code

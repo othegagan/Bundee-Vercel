@@ -131,7 +131,7 @@ export default function PhoneNumberVerificationDialog() {
                     {!verificationId ? (
                         <>
                             <Label htmlFor='phoneNumber' className='mt-6'>
-                                New Phone Number:
+                                New Phone Number
                             </Label>
                             <PhoneInput
                                 value={phoneNumber}
@@ -144,17 +144,15 @@ export default function PhoneNumberVerificationDialog() {
                             </Button>
                         </>
                     ) : (
-                        <div className='flex flex-col gap-4'>
-                            <Label htmlFor='verificationCode'>Verification Code:</Label>
-
+                        <div className='flex flex-col items-center gap-4 lg:mt-6'>
+                            <Label htmlFor='verificationCode'>Verification Code</Label>
                             <OtpStyledInput
                                 numInputs={6}
                                 inputType='number'
                                 value={verificationCode}
                                 onChange={(value) => setVerificationCode(value)}
-                                className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px] '
+                                className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                             />
-
                             <Button
                                 type='button'
                                 className='w-fit'

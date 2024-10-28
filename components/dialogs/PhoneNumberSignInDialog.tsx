@@ -133,7 +133,7 @@ export default function PhoneNumberSignInDialog() {
         <Dialog isOpen={phoneNumberSignInDialog.isOpen} closeDialog={closeModal} className='lg:max-w-lg'>
             <DialogBody>
                 <ClientOnly>
-                    <main className='flex items-center justify-center p-2 md:p-6'>
+                    <main className='flex items-center justify-center md:p-6'>
                         <div className='w-full'>
                             <div className='flex flex-col items-center gap-4'>
                                 <Logo className='scale-[1.3]' />
@@ -141,9 +141,9 @@ export default function PhoneNumberSignInDialog() {
                             </div>
 
                             {!verificationId ? (
-                                <div className='space-y-6'>
+                                <div className='flex flex-col gap-4'>
                                     <Label htmlFor='phoneNumber' className='mt-6'>
-                                        Phone Number:
+                                        Phone Number
                                     </Label>
                                     <PhoneInput
                                         value={phoneNumber}
@@ -160,16 +160,16 @@ export default function PhoneNumberSignInDialog() {
                                     </Button>
                                 </div>
                             ) : (
-                                <div className='flex flex-col gap-4'>
-                                    <Label htmlFor='verificationCode'>Verification Code:</Label>
+                                <div className='flex flex-col items-center gap-4 lg:mt-6'>
+                                    <Label htmlFor='verificationCode'>Verification Code</Label>
                                     <OtpStyledInput
                                         numInputs={6}
                                         inputType='number'
                                         value={verificationCode}
                                         onChange={setVerificationCode}
-                                        className='flex w-fit justify-center overflow-x-hidden lg:max-w-[200px]'
+                                        className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                                     />
-                                    <Button type='button' disabled={verificationCode.length !== 6 || verifying} onClick={onOTPVerify}>
+                                    <Button type='button' className='w-full' disabled={verificationCode.length !== 6 || verifying} onClick={onOTPVerify}>
                                         {verifying ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : 'Verify Code'}
                                     </Button>
                                 </div>
