@@ -229,8 +229,6 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                     <ErrorMessage message='Something went wrong in calculating prices.' />
                 ))}
 
-            <p className='text-14 text-neutral-600'>You will not be charged until the host accepts the reservation request.</p>
-
             <div>
                 {priceLoading ? (
                     <Skeleton className='h-8 w-full animate-pulse rounded-md bg-neutral-200' />
@@ -238,6 +236,10 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                     <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChoosen={isAirportDeliveryChoosen} />
                 )}
             </div>
+
+            <p className='text-14 text-neutral-600'>
+                You will be refunded any amount charged on your card in the event that the host does not accept your reservation.
+            </p>
 
             <ProcessedToBookButton
                 error={error}

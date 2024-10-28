@@ -3,7 +3,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import '@/styles/globals.css';
 
 import ClientOnly from '@/components/ClientOnly';
 import { HideComponentInFrame, HideInIFrame } from '@/components/custom/HideWrapper';

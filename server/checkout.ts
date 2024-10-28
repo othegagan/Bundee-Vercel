@@ -52,6 +52,15 @@ export async function createSetUpIntent() {
     }
 }
 
+export async function getPaymentMethodDetials(paymentMethodId: string) {
+    try {
+        const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
+        return paymentMethod.card.funding;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 export async function logger(message: string, payload: any) {
     console.log(`${message} :`, payload);
     return null;
