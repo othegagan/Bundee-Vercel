@@ -159,8 +159,12 @@ export default Vehicles;
 
 export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
     const images: any = sortImagesByIsPrimary(car.imageresponse);
+
+    const ratingText = car?.rating ? car?.rating.toFixed(1) : '1.0';
+    const tripText = car?.tripcount ? `${car?.tripcount}  ${car?.tripcount > 1 ? 'trips' : 'trip'}` : null;
+
     return (
-        <div className='group h-fit rounded-lg border bg-white hover:shadow-md'>
+        <div className='group h-auto rounded-lg border bg-white hover:shadow-md'>
             <div className='relative flex items-end overflow-hidden rounded-t-lg '>
                 <Link
                     href={`/vehicles/${car.id}?${searchQuery}`}
@@ -183,13 +187,13 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                 <div className='absolute bottom-2 left-1 inline-flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
                     <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
                     <span className=' text-neutral-700 text-sm'>
-                        {car?.rating} • ({car?.tripcount} {car?.tripcount === 1 ? 'Trip' : 'Trips'})
+                        {ratingText} {tripText ? `(${tripText})` : null}
                     </span>
                 </div>
             </div>
 
             <div className='mt-1 flex justify-between p-3'>
-                <div className=''>
+                <div className='flex flex-col justify-between'>
                     <Link
                         href={`/vehicles/${car.id}?${searchQuery}`}
                         className='cursor-pointer truncate font-semibold text-base text-neutral-800'>{`${toTitleCase(car?.make)} ${car?.model.toLocaleUpperCase()} ${car?.year}`}</Link>
@@ -208,7 +212,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <IoAirplaneSharp className='-rotate-90 size-5 text-primary' />
+                                        <IoAirplaneSharp className='-rotate-90 size-4 text-primary' />
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>Airport Delivery Available</p>
@@ -220,7 +224,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <MdOutlineDiscount className='size-5 text-green-500' />
+                                        <MdOutlineDiscount className='size-4 text-green-500' />
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>Discount Available</p>

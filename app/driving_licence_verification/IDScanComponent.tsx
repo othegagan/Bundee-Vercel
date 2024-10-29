@@ -139,9 +139,9 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
                 {
                     type: 'ID',
                     steps: [
-                        { type: 'front', name: 'Document Front', mode: { uploader: false, video: true } },
-                        { type: 'pdf', name: 'Document PDF417 Barcode', mode: { uploader: false, video: true } },
-                        { type: 'face', name: 'Face', mode: { uploader: false, video: true } }
+                        { type: 'front', name: 'Document Front', mode: { uploader: true, video: true } },
+                        { type: 'pdf', name: 'Document PDF417 Barcode', mode: { uploader: true, video: true } },
+                        { type: 'face', name: 'Face', mode: { uploader: true, video: true } }
                     ]
                 }
             ],

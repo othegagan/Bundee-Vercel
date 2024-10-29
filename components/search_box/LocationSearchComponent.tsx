@@ -123,7 +123,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
             {pathname !== '/' ? (
                 <>
                     <button type='button' className='w-full rounded-md border bg-white p-2 shadow-sm md:hidden' onClick={openModal}>
-                        <div className='max-w-[300px] truncate'>{searchCity ? searchCity : null}</div>
+                        <div className='mx-auto max-w-[300px] truncate text-center'>{searchCity ? searchCity : null}</div>
                         <div className='mt-1 flex items-center justify-between text-neutral-500 text-xs'>
                             <div className=''>
                                 {startDateQuery ? format(new Date(`${startDateQuery}T00:00:00`), 'PP') : null} | {/* @ts-ignore */}

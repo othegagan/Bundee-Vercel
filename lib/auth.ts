@@ -11,7 +11,7 @@ import { JSONparsefy } from './utils';
 
 const secretKey = process.env.SECRET_KEY;
 const cookieName = process.env.NODE_ENV === 'production' ? 'bundee-session' : 'dev_session';
-const EXPIRY_IN_MS = 15 * 24 * 60 * 60 * 1000; // 15 days in milliseconds
+const EXPIRY_IN_MS = 60 * 24 * 60 * 60 * 1000; // 60 days in milliseconds
 const REFRESH_THRESHOLD_MS = 5 * 24 * 60 * 60 * 1000; // 5 days in milliseconds
 
 const key = new TextEncoder().encode(secretKey);
@@ -20,7 +20,7 @@ export async function encrypt(payload: any) {
     return await new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
-        .setExpirationTime('15d') // Set expiration to 15 days
+        .setExpirationTime('60d') // Set expiration to 15 days
         .sign(key);
 }
 

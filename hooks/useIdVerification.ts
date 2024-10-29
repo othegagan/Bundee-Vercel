@@ -59,7 +59,7 @@ export function useIdVerification() {
                 setError('Verification failed: The provided documents did not meet the required confidence thresholds.');
             }
 
-            const expiryDate = response.data.document.expires ? new Date(response.data.document.expires).toLocaleDateString() : null;
+            const expiryDate = response.data.document.expires ? new Date(response.data.document.expires).toISOString() : null;
 
             return { isApproved, requestId: response.data.requestId, expiryDate };
         } catch (error) {
