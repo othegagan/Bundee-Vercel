@@ -1,4 +1,4 @@
-import { StatusBadge } from '@/app/trips/TripsComponent';
+import { StatusBadge } from '@/app/(root)/trips/TripsComponent';
 import { getSession } from '@/lib/auth';
 import { formatDateAndTime, getFullAddress, toTitleCase } from '@/lib/utils';
 import { getDriverSpecificTripOnDashboard } from '@/server/tripOperations';
@@ -13,6 +13,8 @@ export default async function UpcomingAndOngiongTrips() {
 
     const response = await getDriverSpecificTripOnDashboard();
 
+    if (!response) return null;
+
     if (!response.success) return null;
 
     const upcomingTrips = response.data?.driverUpcomingTripsResponses || [];
@@ -20,9 +22,27 @@ export default async function UpcomingAndOngiongTrips() {
 
     return (
         <BoxContainer className='space-y-2'>
-            <OngoingTrips ongoingTrips={ongoingTrips} />
-            <UpcomingTrips upcomingTrips={upcomingTrips} />
+            {/* <OngoingTrips ongoingTrips={ongoingTrips} />
+            <UpcomingTrips upcomingTrips={upcomingTrips} /> */}
+            <YourTrips upcomingTrips={upcomingTrips} ongoingTrips={ongoingTrips} />
         </BoxContainer>
+    );
+}
+
+function YourTrips({ upcomingTrips, ongoingTrips }: { upcomingTrips: any[]; ongoingTrips: any[] }) {
+    if (!upcomingTrips.length && !ongoingTrips.length) return null;
+    return (
+        <div className='space-y-3 py-4'>
+            <h3>Your Trips</h3>
+            <div className='grid grid-cols-1 gap-5 md:grid-cols-4'>
+                {ongoingTrips?.map((trip: any) => (
+                    <TripCard key={trip.tripId} trip={trip} />
+                ))}
+                {upcomingTrips?.map((trip: any) => (
+                    <TripCard key={trip.tripId} trip={trip} />
+                ))}
+            </div>
+        </div>
     );
 }
 

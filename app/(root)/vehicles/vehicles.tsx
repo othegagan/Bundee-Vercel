@@ -23,11 +23,33 @@ const Vehicles = ({ searchParams }: any) => {
     const useCarFilter = useCarFilterDialog();
     const [show, setShow] = useState(false);
 
+    // Initialize previous search parameters as null to detect initial load
+    const [prevSearchParams, setPrevSearchParams] = useState(null);
+
     useScrollToTopOnLoad(loading);
 
     useEffect(() => {
-        searchVehicles();
-    }, [searchParams]);
+        // Check for initial load or changes in specific fields
+        const isInitialLoad = prevSearchParams === null;
+        const hasChanged =
+            !isInitialLoad &&
+            (prevSearchParams.city !== searchParams.city ||
+                prevSearchParams.latitude !== searchParams.latitude ||
+                prevSearchParams.longitude !== searchParams.longitude ||
+                prevSearchParams.startDate !== searchParams.startDate ||
+                prevSearchParams.endDate !== searchParams.endDate ||
+                prevSearchParams.startTime !== searchParams.startTime ||
+                prevSearchParams.endTime !== searchParams.endTime ||
+                prevSearchParams.isAirport !== searchParams.isAirport ||
+                prevSearchParams.isMapSearch !== searchParams.isMapSearch);
+
+        // Trigger the search on initial load or if any relevant fields have changed
+        if (isInitialLoad || hasChanged) {
+            searchVehicles();
+            // Update previous search params to current ones
+            setPrevSearchParams(searchParams);
+        }
+    }, [searchParams, prevSearchParams, searchVehicles]);
 
     return (
         <div className='h-[calc(100dvh_-_185px)] '>
@@ -184,7 +206,7 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                     )}
                 </Link>
 
-                <div className='absolute bottom-2 left-1 inline-flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
+                <div className='absolute bottom-2 left-1 flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
                     <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
                     <span className=' text-neutral-700 text-sm'>
                         {ratingText} {tripText ? `(${tripText})` : null}

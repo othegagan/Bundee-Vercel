@@ -1,6 +1,6 @@
 'use client';
 
-import { splitFormattedDateAndTime } from '@/app/trips/[tripId]/_components/TripModificationDialog';
+import { splitFormattedDateAndTime } from '@/app/(root)/trips/[tripId]/_components/TripModificationDialog';
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 import { CheckoutDetailsSkeleton } from '@/components/skeletons/skeletons';
@@ -30,7 +30,7 @@ export default function SummaryPage() {
             <div className='flex flex-col gap-6 lg:flex-row'>
                 {/* Car Image */}
                 <div className='space-y-4 lg:w-1/2'>
-                    <img src={image || '/images/image_not_available.png'} alt='Mercedes-Benz' className='w-full rounded-lg object-cover' />
+                    <img src={image || '/images/image_not_available.png'} alt='Mercedes-Benz' className='max-h-48 w-full rounded-lg object-cover' />
                     <div>
                         <h3 className='font-semibold text-lg capitalize'>{name}</h3>
                         <div className='mb-3 text-gray-500 text-sm uppercase'>{plate}</div>
@@ -41,14 +41,14 @@ export default function SummaryPage() {
                 <div className='space-y-5 lg:w-1/2'>
                     {/* Duration */}
 
-                    <div className='flex w-full flex-col items-stretch justify-around gap-2 rounded-lg bg-primary/10 pb-3'>
+                    <div className='flex w-full flex-col items-stretch justify-around gap-2 rounded-lg bg-primary/10 pb-3 lg:gap-4'>
                         <div className='w-full pt-2 text-center text-14'>
                             Trip duration:{' '}
                             <span className='font-semibold'>
                                 ({totalDays} {totalDays === 1 ? 'Day' : 'Days'})
                             </span>
                         </div>
-                        <div className='flex w-full justify-around gap-2 lg:justify-around lg:px-16'>
+                        <div className='flex w-full justify-around gap-2 lg:justify-around lg:px-8'>
                             <p className='text-center font-semibold text-14'>{splitFormattedDateAndTime(formatDateAndTime(startTime, zipCode))}</p>
                             <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
                             <p className='text-center font-semibold text-14'>{splitFormattedDateAndTime(formatDateAndTime(endTime, zipCode))}</p>

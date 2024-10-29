@@ -19,7 +19,7 @@ const HeroSection = () => {
             />
             <section className=' h-[50dvh] py-16 sm:py-16 lg:py-24'>
                 <Container>
-                    <LocationSearchComponent />
+                    <LocationSearchComponent isOnVehiclesPage={false} />
                 </Container>
             </section>
         </div>

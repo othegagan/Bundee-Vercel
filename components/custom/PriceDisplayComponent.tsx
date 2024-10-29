@@ -1,4 +1,4 @@
-import { InvoiceHandlerComponent } from '@/app/trips/[tripId]/_components/DocumentHandlerComponent';
+import { InvoiceHandlerComponent } from '@/app/(root)/trips/[tripId]/_components/DocumentHandlerComponent';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { roundToTwoDecimalPlaces } from '@/lib/utils';

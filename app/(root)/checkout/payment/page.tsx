@@ -12,17 +12,24 @@ export default function page() {
 
     if (loading)
         return (
-            <div className='flex flex-col gap-3'>
+            <div className='flex flex-col gap-2'>
                 <h2 className='font-bold text-xl'>Payment</h2>
                 <p>Enter your card details below to complete your reservation.</p>
+                <div className='mb-4 text-muted-foreground text-xs'>
+                    In the event that your reservation is not accepted by the host, any amount charged to your card will be fully refunded.
+                </div>
                 <CheckoutCardSkeleton />
             </div>
         );
 
     return (
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-2'>
             <h2 className='font-bold text-xl'>Payment</h2>
             <p>Enter your card details below to complete your reservation.</p>
+
+            <div className='mb-4 text-muted-foreground text-xs'>
+                In the event that your reservation is not accepted by the host, any amount charged to your card will be fully refunded.
+            </div>
             <StripePaymentComponent />
         </div>
     );

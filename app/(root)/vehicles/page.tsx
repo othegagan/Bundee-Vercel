@@ -6,7 +6,7 @@ const Page = ({ searchParams }: any) => {
     return (
         <>
             <BoxContainer className='h-full w-full overflow-hidden py-6 pt-0 '>
-                <LocationSearchComponent searchCity={searchParams.city || 'Austin, Texas, United States'} />
+                <LocationSearchComponent searchCity={searchParams.city || 'Austin, Texas, United States'} isOnVehiclesPage={true} />
                 <Vehicles searchParams={searchParams} />
             </BoxContainer>
         </>

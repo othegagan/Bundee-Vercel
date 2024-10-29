@@ -7,15 +7,15 @@ type SliderProps = {
     className?: string;
     min: number;
     max: number;
-    minStepsBetweenThumbs: number;
     step: number;
     formatLabel?: (value: number) => string;
     value?: number[] | readonly number[];
     onValueChange?: (values: number[]) => void;
     resetValues?: boolean; // New prop to reset values
+    defaultValue: number[];
 };
 
-const Slider = React.forwardRef(({ className, min, max, step, formatLabel, value, onValueChange, resetValues, ...props }: SliderProps, ref) => {
+const Slider = React.forwardRef(({ className, min, max, step, formatLabel, value, onValueChange, resetValues, defaultValue, ...props }: SliderProps, ref) => {
     const initialValue = Array.isArray(value) ? value : [min, max];
     const [localValues, setLocalValues] = useState(initialValue);
     const prevResetValuesRef = useRef<boolean | undefined>(undefined);

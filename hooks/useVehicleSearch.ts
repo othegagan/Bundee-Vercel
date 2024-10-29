@@ -81,6 +81,8 @@ const useVehicleSearch = () => {
 
             const payload = isMapSearch === 'true' ? mapsearchPayload : searchPayload;
 
+            console.log('payload', payload);
+
             const response = await searchVehiclesByLatitudeAndLongitude(payload);
             if (response.success) {
                 const data = response.data.vehicleAllDetails;
