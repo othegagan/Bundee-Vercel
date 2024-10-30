@@ -16,18 +16,7 @@ export async function createTripReservation(payload: any) {
 
         // console.log(' Reservation response', response.data);
         await logger('Reservation response', response.data);
-        if (response.data.errorCode === '0') {
-            return {
-                success: true,
-                data: response.data,
-                message: `Reservation created successfully. ${response.data.errorMessage}`
-            };
-        }
-        return {
-            success: false,
-            data: null,
-            message: `Failed to create Reservation. ${response.data.errorMessage}`
-        };
+        return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
     }
@@ -46,18 +35,7 @@ export async function createTripExtension(payload: any) {
         // console.log(' Extension response', response.data);
         await logger('Trip extension response :', response.data);
 
-        if (response.data.errorCode === '0') {
-            return {
-                success: true,
-                data: response.data,
-                message: 'Trip extension created successfully'
-            };
-        }
-        return {
-            success: false,
-            data: null,
-            message: 'Failed to create trip extension'
-        };
+        return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
     }

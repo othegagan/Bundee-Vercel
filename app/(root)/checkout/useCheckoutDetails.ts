@@ -1,3 +1,4 @@
+import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import { getSession } from '@/lib/auth';
 import { useEffect, useState } from 'react';
 import secureLocalStorage from 'react-secure-storage';
@@ -7,10 +8,15 @@ export function useCheckoutDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
+    const loginDialog = useLoginDialog();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const session = await getSession();
+                if (!session.userId || !session.isLoggedIn) {
+                    loginDialog.onOpen();
+                }
 
                 const data = JSON.parse(secureLocalStorage.getItem('checkOutInfo') as any);
 

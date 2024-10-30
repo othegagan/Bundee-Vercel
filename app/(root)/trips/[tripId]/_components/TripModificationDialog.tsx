@@ -308,7 +308,7 @@ export default function TripModificationDialog({ tripData }) {
                         </div>
                     </DialogBody>
                 ) : (
-                    <TripModificationResult success={tripModificationModal.success} onClose={closeModifyDialog} />
+                    <TripModificationResult success={tripModificationModal.success} onClose={closeModifyDialog} message={tripModificationModal.message} />
                 )}
             </Dialog>
         </div>
