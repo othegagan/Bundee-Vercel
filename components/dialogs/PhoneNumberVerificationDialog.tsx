@@ -140,6 +140,8 @@ export default function PhoneNumberVerificationDialog() {
         } catch (error) {
             console.error('Error verifying code:', error);
             handleAuthError(error.code);
+            // Clear the OTP input when there's an error
+            setVerificationCode('');
         } finally {
             setIsVerifying(false);
         }
@@ -148,8 +150,12 @@ export default function PhoneNumberVerificationDialog() {
     const handleAuthError = (errorCode: string) => {
         const errorMessage = getFirebaseErrorMessage(errorCode);
         setError(errorMessage);
-        if (errorCode === 'auth/invalid-app-credential') {
+        if (errorCode === 'auth/invalid-verification-code') {
+            setError('Incorrect verification code. Please try again.');
+        } else if (errorCode === 'auth/invalid-app-credential') {
             setError('Invalid app credential. Please try again or contact support if the issue persists.');
+        } else if (errorCode === 'auth/error-code:-39') {
+            setError(`You've tried too many times in a short period of time. Please try again later.`);
         }
     };
 
@@ -185,7 +191,7 @@ export default function PhoneNumberVerificationDialog() {
                                     }}
                                 />
                             </div>
-                            <Button onClick={handleSendVerificationCode} disabled={!phoneNumber || verificationSent}>
+                            <Button onClick={handleSendVerificationCode} disabled={phoneNumber.length < 12 || verificationSent}>
                                 {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
                             </Button>
                         </>
@@ -200,11 +206,12 @@ export default function PhoneNumberVerificationDialog() {
                                 className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                             />
 
-                            <Button className='w-fit' onClick={handleVerifyCode} disabled={verificationCode.length !== 6 || isVerifying}>
-                                {isVerifying ? 'Verifying...' : 'Verify Code'}
-                            </Button>
-                            <Button onClick={handleResendCode} variant='outline' disabled={isSendingCode}>
+                            <button type='button' onClick={handleResendCode} disabled={isSendingCode} className='flex items-end'>
                                 {isSendingCode ? 'Sending...' : 'Resend Code'}
+                            </button>
+
+                            <Button className='w-full' onClick={handleVerifyCode} disabled={verificationCode.length !== 6 || isVerifying}>
+                                {isVerifying ? 'Verifying...' : 'Verify Code'}
                             </Button>
                         </div>
                     )}
