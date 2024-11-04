@@ -117,9 +117,7 @@ function NotVerifiedDetails() {
 
     return (
         <div className='flex flex-col gap-6'>
-            <h2 className='font-bold text-xl'>
-                Verify Insurance Details <span className='font-medium text-md text-muted-foreground'>(Optional)</span>
-            </h2>
+            <h2 className='font-bold text-xl'>Verify Insurance Details</h2>
             <p>You can choose to verify your insurance now. If you choose to skip now, you will be reminded before your trip starts.</p>
 
             <div className='mt-10 flex flex-col gap-5'>

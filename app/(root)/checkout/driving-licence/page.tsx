@@ -21,9 +21,7 @@ export default function DrivingLicensePage() {
     if (!isDrivingProfileVerified || !verifiedDetails) {
         return (
             <div className='flex flex-col gap-6'>
-                <h2 className='font-bold text-xl'>
-                    Verify Driver&apos;s Licence <span className='font-medium text-md text-muted-foreground'>(Optional)</span>
-                </h2>
+                <h2 className='font-bold text-xl'>Verify Driver&apos;s Licence</h2>
 
                 <p>
                     Please upload your Driver’s License so that we can verify it. If you choose to skip this step, please note that your reservation cannot be
