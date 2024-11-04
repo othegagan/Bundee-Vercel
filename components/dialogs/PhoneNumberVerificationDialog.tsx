@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import PhoneInput from '@/components/ui/phone-input';
 import { usePhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
-import { checkPhoneNumberAsLinked, updateUserPhoneNumber } from '@/server/userOperations';
+import { updateUserPhoneNumber } from '@/server/userOperations';
 import { PhoneAuthProvider, RecaptchaVerifier, getAuth, linkWithCredential, unlink, updatePhoneNumber } from 'firebase/auth';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -67,12 +67,12 @@ export default function PhoneNumberVerificationDialog() {
             setError('');
             setIsSendingCode(true);
 
-            const isPhoneLinkedResponse = await checkPhoneNumberAsLinked(phoneNumber);
+            // const isPhoneLinkedResponse = await checkPhoneNumberAsLinked(phoneNumber);
 
-            if (isPhoneLinkedResponse.success && !isPhoneLinkedResponse.data.isLinked) {
-                setError('Phone number is already linked to another account');
-                return;
-            }
+            // if (isPhoneLinkedResponse.success && !isPhoneLinkedResponse.data.isLinked) {
+            //     setError('Phone number is already linked to another account');
+            //     return;
+            // }
 
             if (!recaptchaVerifierRef.current) {
                 setupRecaptcha();
