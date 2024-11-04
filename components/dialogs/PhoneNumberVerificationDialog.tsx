@@ -177,7 +177,7 @@ export default function PhoneNumberVerificationDialog() {
     };
 
     return (
-        <Dialog isOpen={isOpen} closeDialog={closeModal} className='lg:max-w-lg' title='Update Phone Number'>
+        <Dialog isOpen={isOpen} closeDialog={closeModal} className='lg:max-w-lg' title='Phone Number Verification'>
             <DialogBody>
                 <div className='grid gap-4 py-4'>
                     {!verificationId ? (
