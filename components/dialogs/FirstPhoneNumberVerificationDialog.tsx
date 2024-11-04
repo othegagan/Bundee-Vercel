@@ -3,9 +3,9 @@
 import { useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { createSession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
-import { updateUserPhoneNumber } from '@/server/userOperations';
-import { PhoneAuthProvider, RecaptchaVerifier, getAuth, linkWithCredential, unlink, updatePhoneNumber } from 'firebase/auth';
-import { useState } from 'react';
+import { checkPhoneNumberAsLinked, updateUserPhoneNumber } from '@/server/userOperations';
+import { PhoneAuthProvider, RecaptchaVerifier, linkWithCredential, updatePhoneNumber } from 'firebase/auth';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
@@ -14,111 +14,169 @@ import { Label } from '../ui/label';
 import PhoneInput from '../ui/phone-input';
 
 export default function PhoneNumberVerificationDialog() {
-    const phoneNumberVerificationDialog = useFirstPhoneNumberVerificationDialog();
+    const { isOpen, onClose, phoneNumber: storedPhone, authToken, userId } = useFirstPhoneNumberVerificationDialog();
     const [phoneNumber, setPhoneNumber] = useState('');
     const [verificationId, setVerificationId] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
     const [verificationSent, setVerificationSent] = useState(false);
-    const [otpError, setOTPError] = useState('');
-    const [verifying, setVerifiying] = useState(false);
+    const [error, setError] = useState('');
+    const [isVerifying, setIsVerifying] = useState(false);
+    const [isSendingCode, setIsSendingCode] = useState(false);
+    const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(null);
+    const recaptchaContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (verificationCode.length === 6) {
+            handleVerifyCode();
+        }
+    }, [verificationCode]);
+
+    useEffect(() => {
+        if (isOpen) {
+            setupRecaptcha();
+        }
+        return () => {
+            if (recaptchaVerifierRef.current) {
+                recaptchaVerifierRef.current.clear();
+                recaptchaVerifierRef.current = null;
+            }
+        };
+    }, [isOpen]);
+
+    const setupRecaptcha = useCallback(() => {
+        if (recaptchaVerifierRef.current || !recaptchaContainerRef.current) return;
+
+        try {
+            recaptchaVerifierRef.current = new RecaptchaVerifier(auth, recaptchaContainerRef.current, {
+                size: 'invisible',
+                callback: () => {
+                    // reCAPTCHA solved, allow signInWithPhoneNumber.
+                },
+                'expired-callback': () => {
+                    setError('reCAPTCHA expired. Please try again.');
+                    recaptchaVerifierRef.current = null;
+                }
+            });
+        } catch (error) {
+            console.error('Error setting up reCAPTCHA:', error);
+            setError('Failed to set up reCAPTCHA. Please try again.');
+        }
+    }, []);
 
     const handleSendVerificationCode = async () => {
         try {
-            setOTPError('');
+            setError('');
+            setIsSendingCode(true);
 
-            const appVerifier = new RecaptchaVerifier(auth, 'recaptcha-container');
+            const isPhoneLinkedResponse = await checkPhoneNumberAsLinked(phoneNumber);
 
-            const phoneAuthProvider = new PhoneAuthProvider(auth);
-            const verifyId = await phoneAuthProvider.verifyPhoneNumber(phoneNumber, appVerifier);
-
-            setVerificationId(verifyId);
-            setVerificationSent(true);
-        } catch (error) {
-            console.log(error);
-            setOTPError(error.message);
-            handleAuthError(error.code || error.message);
-        }
-    };
-
-    const handleVerifyCode = async () => {
-        try {
-            setVerifiying(true);
-            setOTPError('');
-
-            if (!verificationId) {
-                console.error('No verification ID available. Please request a verification code first.');
+            if (isPhoneLinkedResponse.success && !isPhoneLinkedResponse.data.isLinked) {
+                setError('Phone number is already linked to another account');
                 return;
             }
 
+            if (!recaptchaVerifierRef.current) {
+                setupRecaptcha();
+            }
+            if (!recaptchaVerifierRef.current) {
+                throw new Error('reCAPTCHA not initialized');
+            }
+
+            const phoneAuthProvider = new PhoneAuthProvider(auth);
+            const verifyId = await phoneAuthProvider.verifyPhoneNumber(phoneNumber, recaptchaVerifierRef.current);
+
+            setVerificationId(verifyId);
+            setVerificationSent(true);
+            toast.success('Verification code sent');
+        } catch (error) {
+            console.error(error);
+            handleAuthError(error.code || error.message);
+        } finally {
+            setIsSendingCode(false);
+        }
+    };
+
+    const handleResendCode = async () => {
+        setVerificationCode('');
+        await handleSendVerificationCode();
+    };
+
+    const handleVerifyCode = async () => {
+        if (!verificationId) {
+            setError('Please request a verification code first.');
+            return;
+        }
+
+        try {
+            setIsVerifying(true);
+            setError('');
+
             const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-            const auth = getAuth();
             const currentUser = auth.currentUser;
 
-            // Check if the phone provider is already linked
+            if (!currentUser) {
+                throw new Error('No user is currently signed in.');
+            }
+
             const phoneProviderId = PhoneAuthProvider.PROVIDER_ID;
             const isPhoneLinked = currentUser.providerData.some((provider) => provider.providerId === phoneProviderId);
 
             if (!isPhoneLinked) {
-                // Link the phone number to the current user
-                const result = await linkWithCredential(currentUser, credential);
-                console.log(result);
+                await linkWithCredential(currentUser, credential);
             } else {
-                // Update the phone number directly
                 await updatePhoneNumber(currentUser, credential);
             }
 
-            const response = await updateUserPhoneNumber(phoneNumber, phoneNumberVerificationDialog.userId);
+            const response = await updateUserPhoneNumber(phoneNumber, userId);
             if (response.success) {
-                const authToken = phoneNumberVerificationDialog.authToken;
                 const userResponses = response.data.userResponses;
                 await createSession({ userData: userResponses, authToken });
                 toast.success('Phone number verified successfully');
                 closeModal();
             } else {
-                setOTPError('Error updating phone number to profile');
+                throw new Error(response.message);
             }
         } catch (error: any) {
-            console.log('Error :', error);
+            console.error('Error verifying code:', error);
             handleAuthError(error.code);
-            console.error('Error verifying code:', error.code);
+            // Clear the OTP input when there's an error
+            setVerificationCode('');
         } finally {
-            setVerifiying(false);
+            setIsVerifying(false);
         }
     };
 
-    const handleAuthError = (error: string) => {
-        const errorMap = getFirebaseErrorMessage(error);
-        setPhoneNumber('');
-        setOTPError(errorMap);
-        console.log(errorMap);
+    const handleAuthError = (errorCode: string) => {
+        const errorMessage = getFirebaseErrorMessage(errorCode);
+        setError(errorMessage);
+        if (errorCode === 'auth/invalid-verification-code') {
+            setError('Incorrect verification code. Please try again.');
+        } else if (errorCode === 'auth/invalid-app-credential') {
+            setError('Invalid app credential. Please try again or contact support if the issue persists.');
+        } else if (errorCode === 'auth/error-code:-39') {
+            setError(`You've tried too many times in a short period of time. Please try again later.`);
+        }
     };
 
-    function openModal() {
-        resetModal();
-        phoneNumberVerificationDialog.onOpen();
-    }
-
-    function closeModal() {
-        resetModal();
-        phoneNumberVerificationDialog.onClose();
-    }
-
-    function resetModal() {
+    const resetModal = () => {
         setPhoneNumber('');
-        setOTPError('');
+        setError('');
         setVerificationCode('');
         setVerificationId('');
         setVerificationSent(false);
-    }
+        if (recaptchaVerifierRef.current) {
+            recaptchaVerifierRef.current.clear();
+            recaptchaVerifierRef.current = null;
+        }
+    };
+
+    const closeModal = () => {
+        resetModal();
+        onClose();
+    };
 
     return (
-        <Dialog
-            isOpen={phoneNumberVerificationDialog.isOpen}
-            closeDialog={closeModal}
-            className='lg:max-w-lg'
-            title='Verify Phone Number'
-            onInteractOutside={false}
-            showCloseButton={false}>
+        <Dialog isOpen={isOpen} closeDialog={closeModal} className='lg:max-w-lg' title='Verify Phone Number' onInteractOutside={false} showCloseButton={false}>
             <DialogBody>
                 <div className='flex flex-col space-y-4'>
                     {!verificationId ? (
@@ -141,47 +199,25 @@ export default function PhoneNumberVerificationDialog() {
                                 numInputs={6}
                                 inputType='number'
                                 value={verificationCode}
-                                onChange={(value) => {
-                                    setVerificationCode(value);
-                                    if (verificationCode.length === 6) {
-                                        setTimeout(() => {
-                                            handleVerifyCode();
-                                        }, 200);
-                                    }
-                                }}
+                                onChange={(value) => setVerificationCode(value)}
                                 className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                             />
-                            <Button type='button' onClick={handleVerifyCode} disabled={verificationCode.length !== 6 || verifying} loading={verifying}>
-                                Verify Code
+
+                            <button type='button' onClick={handleResendCode} disabled={isSendingCode} className='flex items-end'>
+                                {isSendingCode ? 'Sending...' : 'Resend Code'}
+                            </button>
+
+                            <Button className='w-full' onClick={handleVerifyCode} disabled={verificationCode.length !== 6 || isVerifying}>
+                                {isVerifying ? 'Verifying...' : 'Verify Code'}
                             </Button>
                         </div>
                     )}
 
-                    {otpError && <p className='rounded-md bg-red-100 p-2 text-red-500'>{otpError}</p>}
-                    {!otpError && !verificationId && <div id='recaptcha-container' />}
+                    {error && <p className='rounded-md bg-red-100 p-2 text-red-500 text-sm'>{error}</p>}
+
+                    <div ref={recaptchaContainerRef} id='recaptcha-container' />
                 </div>
             </DialogBody>
         </Dialog>
-    );
-}
-
-function UnlinkPhoneNumberButton() {
-    const unLinkPhonenumber = () => {
-        const auth = getAuth();
-        unlink(auth.currentUser, 'phone')
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    return (
-        <>
-            <Button type='button' onClick={unLinkPhonenumber} variant='outline'>
-                Unlink phone
-            </Button>
-        </>
     );
 }
