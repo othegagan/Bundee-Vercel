@@ -191,7 +191,11 @@ export default function PhoneNumberVerificationDialog() {
                                     }}
                                 />
                             </div>
-                            <Button onClick={handleSendVerificationCode} disabled={phoneNumber.length < 12 || verificationSent}>
+                            <Button
+                                type='button'
+                                loading={isSendingCode}
+                                onClick={handleSendVerificationCode}
+                                disabled={phoneNumber.length < 12 || verificationSent || isSendingCode}>
                                 {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
                             </Button>
                         </>
@@ -206,7 +210,11 @@ export default function PhoneNumberVerificationDialog() {
                                 className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                             />
 
-                            <button type='button' onClick={handleResendCode} disabled={isSendingCode} className='flex items-end'>
+                            <button
+                                type='button'
+                                onClick={handleResendCode}
+                                disabled={isSendingCode}
+                                className='flex w-fit items-end underline underline-offset-2'>
                                 {isSendingCode ? 'Sending...' : 'Resend Code'}
                             </button>
 
