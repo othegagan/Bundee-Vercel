@@ -1,3 +1,4 @@
+import { http } from '@/lib/httpService';
 import { create } from 'zustand';
 
 interface PhoneNumberVerificationDialogStore {
@@ -44,4 +45,16 @@ const useFirstPhoneNumberVerificationDialog = create<PhoneNumberVerificationDial
     }
 }));
 
-export { usePhoneNumberVerificationDialog, useFirstPhoneNumberVerificationDialog };
+async function checkPhoneNumberAsLinked(phoneNumber: string) {
+    try {
+        const url = `${process.env.NEXT_PUBLIC_AUXILIARY_SERVICE_BASEURL}checkPhoneLinkedToAnyUser?phoneNumber=`;
+        const urlEncoded = encodeURIComponent(phoneNumber);
+        const combinedUrl = url + urlEncoded;
+        const response = await http.get(combinedUrl);
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+export { usePhoneNumberVerificationDialog, useFirstPhoneNumberVerificationDialog, checkPhoneNumberAsLinked };

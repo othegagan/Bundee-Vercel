@@ -2,12 +2,12 @@
 
 import PhoneInput from '@/components/ui/phone-input';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
-import { useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
+import { checkPhoneNumberAsLinked, useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession, destroySession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { createNewUser } from '@/server/createNewUser';
-import { checkPhoneNumberAsLinked, getBundeeToken, getUserByEmail } from '@/server/userOperations';
+import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup } from 'firebase/auth';
 import Link from 'next/link';

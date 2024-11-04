@@ -1,9 +1,9 @@
 'use client';
 
-import { useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
+import { checkPhoneNumberAsLinked, useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { createSession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
-import { checkPhoneNumberAsLinked, updateUserPhoneNumber } from '@/server/userOperations';
+import { updateUserPhoneNumber } from '@/server/userOperations';
 import { PhoneAuthProvider, RecaptchaVerifier, linkWithCredential, updatePhoneNumber } from 'firebase/auth';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -188,7 +188,11 @@ export default function PhoneNumberVerificationDialog() {
                                     setPhoneNumber(rawValue);
                                 }}
                             />
-                            <Button type='button' onClick={handleSendVerificationCode} disabled={phoneNumber.length < 12 || verificationSent}>
+                            <Button
+                                type='button'
+                                loading={isSendingCode}
+                                onClick={handleSendVerificationCode}
+                                disabled={phoneNumber.length < 12 || verificationSent}>
                                 {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
                             </Button>
                         </>
