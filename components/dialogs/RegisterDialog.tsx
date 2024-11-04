@@ -2,11 +2,12 @@
 
 import PhoneInput from '@/components/ui/phone-input';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
+import { useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession, destroySession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { createNewUser } from '@/server/createNewUser';
-import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
+import { checkPhoneNumberAsLinked, getBundeeToken, getUserByEmail } from '@/server/userOperations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup } from 'firebase/auth';
 import Link from 'next/link';
@@ -54,6 +55,8 @@ export default function RegisterDialog() {
 
     const [showSuccessfulSignUp, setShowSuccessfulSignUp] = useState(false);
 
+    const phoneNumberVerificationDialog = useFirstPhoneNumberVerificationDialog();
+
     const onToggle = useCallback(() => {
         closeModal();
         loginDialog.onOpen();
@@ -79,6 +82,13 @@ export default function RegisterDialog() {
 
             if (phoneNumber.replace(/\ /g, '').length < 11) {
                 setError('phoneNumber', { type: 'custom', message: 'Invalid phone number, must be 10 digits' });
+                return;
+            }
+
+            const isPhoneLinkedResponse = await checkPhoneNumberAsLinked(phoneNumber);
+
+            if (isPhoneLinkedResponse.success && !isPhoneLinkedResponse.data.isLinked) {
+                setError('phoneNumber', { type: 'custom', message: 'Phone number is already linked to another account' });
                 return;
             }
 
@@ -127,18 +137,33 @@ export default function RegisterDialog() {
             const authTokenResponse = await getBundeeToken(firebaseToken);
 
             if (authTokenResponse.authToken) {
-                const userResponse = await getUserByEmail(user.email);
+                const response = await getUserByEmail(user.email);
 
-                if (userResponse.success) {
+                if (response.success) {
+                    const userResponse = response.data.userResponse;
+
+                    if (!userResponse.isPhoneVarified) {
+                        console.log('phone number not verified');
+                        phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
+                        phoneNumberVerificationDialog.setUserId(userResponse.iduser);
+                        phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
+                        closeModal();
+                        phoneNumberVerificationDialog.onOpen();
+                        return;
+                    }
+
+                    console.log('phone number verified');
+
                     const payload = {
-                        userData: userResponse.data.userResponse,
+                        userData: response.data.userResponse,
                         authToken: authTokenResponse.authToken
                     };
+
                     closeModal();
                     await createSession(payload);
                     router.refresh();
                 } else {
-                    throw new Error(userResponse.message);
+                    throw new Error(response.message);
                 }
             } else {
                 const newUserPayload = {
@@ -151,6 +176,20 @@ export default function RegisterDialog() {
                 const createUserResponse = await createNewUser(newUserPayload);
 
                 if (createUserResponse.success) {
+                    const userResponse = createUserResponse.data.userResponses[0];
+
+                    if (!userResponse.isPhoneVarified) {
+                        console.log('phone number not verified');
+                        phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
+                        phoneNumberVerificationDialog.setUserId(userResponse.iduser);
+                        phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
+                        closeModal();
+                        phoneNumberVerificationDialog.onOpen();
+                        return;
+                    }
+
+                    console.log('phone number verified');
+
                     const newUser = createUserResponse.data.userResponses[0];
                     await createSession({ userData: newUser, authToken: authTokenResponse.authToken });
                     router.refresh();

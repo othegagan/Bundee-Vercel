@@ -11,6 +11,7 @@ import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
 import { createNewUser } from '@/server/createNewUser';
 import { getBundeeToken, getUserByEmail } from '@/server/userOperations';
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FaPhone } from 'react-icons/fa6';
@@ -21,6 +22,7 @@ import { Dialog } from '../ui/dialog';
 import { Input } from '../ui/input';
 
 export default function LoginDialog() {
+    const router = useRouter();
     const loginDialog = useLoginDialog();
     const registerDialog = useRegisterDialog();
     const forgotPasswordDialog = useForgotPasswordDialog();
@@ -92,56 +94,81 @@ export default function LoginDialog() {
         setPassword('');
     };
 
-    const googleSignIn = () => {
+    const googleSignIn = async () => {
         const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then(async (result) => {
-                // Handle successful sign-in
-                // console.log(result.user);
 
-                const firebaseToken = await result.user.getIdToken();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            const firebaseToken = await user.getIdToken();
+            const authTokenResponse = await getBundeeToken(firebaseToken);
 
-                const authTokenResponse = await getBundeeToken(firebaseToken);
+            if (authTokenResponse.authToken) {
+                const response = await getUserByEmail(user.email);
 
-                if (authTokenResponse.authToken) {
-                    const response: any = await getUserByEmail(result.user.email);
-                    if (response.success) {
-                        const payload: any = {
-                            userData: response.data.userResponse,
-                            authToken: authTokenResponse.authToken
-                        };
-                        await createSession(payload);
+                if (response.success) {
+                    const userResponse = response.data.userResponse;
+
+                    if (!userResponse.isPhoneVarified) {
+                        console.log('phone number not verified');
+                        phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
+                        phoneNumberVerificationDialog.setUserId(userResponse.iduser);
+                        phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
                         closeModal();
-                        // router.refresh();
-                    } else {
-                        throw new Error(response.message);
+                        phoneNumberVerificationDialog.onOpen();
+                        return;
                     }
-                } else {
-                    const dataToCreateUser = {
-                        firstname: result.user.displayName,
-                        lastname: '',
-                        email: result.user.email,
-                        mobilephone: result.user.phoneNumber
+
+                    console.log('phone number verified');
+
+                    const payload = {
+                        userData: response.data.userResponse,
+                        authToken: authTokenResponse.authToken
                     };
 
-                    const createUserResponse = await createNewUser(dataToCreateUser);
-
-                    if (createUserResponse.success) {
-                        const userResponse = createUserResponse.data.userResponses[0];
-                        await createSession({ userData: userResponse, authToken: authTokenResponse.authToken });
-                        // router.refresh();
-                        closeModal();
-                    } else {
-                        throw new Error('Unable to create user');
-                    }
+                    closeModal();
+                    await createSession(payload);
+                    router.refresh();
+                } else {
+                    throw new Error(response.message);
                 }
-            })
-            .catch(async (error) => {
-                // Handle sign-in error
-                handleAuthError(error);
-                console.log(error.message);
-                await destroySession();
-            });
+            } else {
+                const newUserPayload = {
+                    firstname: user.displayName,
+                    lastname: '',
+                    email: user.email,
+                    mobilephone: user.phoneNumber
+                };
+
+                const createUserResponse = await createNewUser(newUserPayload);
+
+                if (createUserResponse.success) {
+                    const userResponse = createUserResponse.data.userResponses[0];
+
+                    if (!userResponse.isPhoneVarified) {
+                        console.log('phone number not verified');
+                        phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
+                        phoneNumberVerificationDialog.setUserId(userResponse.iduser);
+                        phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
+                        closeModal();
+                        phoneNumberVerificationDialog.onOpen();
+                        return;
+                    }
+
+                    console.log('phone number verified');
+
+                    const newUser = createUserResponse.data.userResponses[0];
+                    await createSession({ userData: newUser, authToken: authTokenResponse.authToken });
+                    router.refresh();
+                    closeModal();
+                } else {
+                    throw new Error('Unable to create user');
+                }
+            }
+        } catch (error) {
+            console.error('Error during Google Sign-In:', error.message);
+            await destroySession();
+        }
     };
 
     function openModal() {
