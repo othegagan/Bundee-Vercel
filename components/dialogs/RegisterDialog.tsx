@@ -87,7 +87,7 @@ export default function RegisterDialog() {
 
             const isPhoneLinkedResponse = await checkPhoneNumberAsLinked(phoneNumber);
 
-            if (isPhoneLinkedResponse.success && !isPhoneLinkedResponse.data.isLinked) {
+            if (isPhoneLinkedResponse.success && isPhoneLinkedResponse.data.isLinked) {
                 setError('phoneNumber', { type: 'custom', message: 'Phone number is already linked to another account' });
                 return;
             }

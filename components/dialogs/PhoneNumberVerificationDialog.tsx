@@ -69,7 +69,7 @@ export default function PhoneNumberVerificationDialog() {
 
             const isPhoneLinkedResponse = await checkPhoneNumberAsLinked(phoneNumber);
 
-            if (isPhoneLinkedResponse.success && !isPhoneLinkedResponse.data.isLinked) {
+            if (isPhoneLinkedResponse.success && isPhoneLinkedResponse.data.linkedToAnyUser) {
                 setError('Phone number is already linked to another account');
                 return;
             }
