@@ -210,13 +210,13 @@ export default function PhoneNumberVerificationDialog() {
                                 className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                             />
 
-                            <button
+                            {/* <button
                                 type='button'
                                 onClick={handleResendCode}
                                 disabled={isSendingCode}
                                 className='flex w-fit items-end underline underline-offset-2'>
                                 {isSendingCode ? 'Sending...' : 'Resend Code'}
-                            </button>
+                            </button> */}
 
                             <Button className='w-full' onClick={handleVerifyCode} disabled={verificationCode.length !== 6 || isVerifying}>
                                 {isVerifying ? 'Verifying...' : 'Verify Code'}
