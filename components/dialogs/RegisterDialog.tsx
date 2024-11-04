@@ -271,14 +271,13 @@ export default function RegisterDialog() {
                                     <input type='checkbox' id='terms' className='scale-[1.1] accent-black' {...register('acceptTerms')} />
                                     <p className='select-none text-xs'>
                                         I agree to MyBundee&apos;s
-                                        <Link href='/terms' className='text-primary underline underline-offset-4'>
+                                        <Link href='/terms' className='mx-1 text-primary underline underline-offset-4'>
                                             terms
                                         </Link>
                                         and
-                                        <Link href='/privacy' className='text-primary underline underline-offset-4'>
-                                            Privacy Statements
+                                        <Link href='/privacy' className='mx-1 text-primary underline underline-offset-4'>
+                                            privacy policy
                                         </Link>
-                                        .
                                     </p>
                                 </label>
                                 <FormError message={errors.acceptTerms?.message} />

@@ -10,7 +10,7 @@ import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import usePriceCalculation from '@/hooks/usePriceCalculation';
 import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded, getFullAddress } from '@/lib/utils';
-import { addDays, format, isBefore, isToday } from 'date-fns';
+import { addDays, format, isAfter, isBefore, isToday, parseISO, set } from 'date-fns';
 import { useQueryState } from 'next-usequerystate';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
@@ -90,7 +90,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
 
             // 2. check for short notice late night reservation
 
-            const { isValid, error } = checkStartTime(startDate, startTime);
+            const { isValid, error } = validateBookingTime(`${startDate}T${startTime}`);
             if (!isValid) {
                 toast.error(error);
                 setProcessing(false);
@@ -170,7 +170,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 location: getFullAddress({ vehicleDetails: vehicleDetails })
             };
 
-            // console.log('checkoutDetails', checkoutDetails);
+            console.log('checkoutDetails', checkoutDetails);
 
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
             window.location.href = '/checkout/driving-licence';
@@ -310,42 +310,42 @@ function extractFirstDeliveryDetails(constraintsArray: any[]) {
     }
 }
 
-const checkStartTime = (startDate, startTime) => {
+function validateBookingTime(bookingDateTime: string) {
+    // Convert input to Date object if string
+    const bookingTime = typeof bookingDateTime === 'string' ? parseISO(bookingDateTime) : bookingDateTime;
+
     const now = new Date();
-    const currentHour = now.getHours();
+    const today = new Date();
+    const tomorrow = addDays(today, 1);
 
-    // Parse the start date and time
-    const start = new Date(`${startDate}T${startTime}`);
+    // Set up time boundaries
+    const todaySevenPM = set(today, { hours: 19, minutes: 0, seconds: 0, milliseconds: 0 });
+    const tomorrowNoon = set(tomorrow, { hours: 12, minutes: 0, seconds: 0, milliseconds: 0 });
+    const todayNoon = set(today, { hours: 12, minutes: 0, seconds: 0, milliseconds: 0 });
 
-    // console.log('start', start);
-    // console.log('currentHour', currentHour);
-
-    // If current time is after 7PM (19:00)
-    if (currentHour >= 19) {
-        const nextDay = new Date(now);
-        // console.log('nextDay', nextDay);
-        nextDay.setDate(nextDay.getDate() + 1);
-        nextDay.setHours(12, 0, 0, 0); // Set to 12:00 PM next day
-
-        // console.log(isBefore(start, nextDay));
-
-        const formattedNextDay = format(nextDay, 'P hh:mm a');
-
-        // If the start time is earlier than 12PM next day, return an error
-        if (isBefore(start, nextDay)) {
+    // If current time is after 7 PM
+    if (isAfter(now, todaySevenPM)) {
+        // No bookings allowed until next day noon
+        if (isBefore(bookingTime, tomorrowNoon)) {
             return {
                 isValid: false,
-                error: `The trip can't start before ${formattedNextDay} due to car preparation time.`
+                error: `The trip can't start before ${format(tomorrowNoon, 'h:mm aa')} tomorrow due to car preparation time.`
             };
         }
-        return {
-            isValid: true,
-            error: null
-        };
+    }
+    // If current time is after midnight but before noon
+    else if (isBefore(now, todayNoon) && now.getHours() < 12) {
+        // No bookings allowed until today noon
+        if (isBefore(bookingTime, todayNoon)) {
+            return {
+                isValid: false,
+                error: `The trip can't start before ${format(tomorrowNoon, 'h:mm aa')} today due to car preparation time.`
+            };
+        }
     }
 
     return {
         isValid: true,
-        error: null
+        error: 'Booking time is valid'
     };
-};
+}

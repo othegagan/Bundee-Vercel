@@ -26,8 +26,8 @@ export default function DrivingLicensePage() {
                 </h2>
 
                 <p>
-                    Verify your driver's license for a safe and compliant rental. You can choose to verify your driver's license now. <br /> If you choose to
-                    skip now, you will be reminded before your trip starts.
+                    Please upload your Driver’s License so that we can verify it. If you choose to skip this step, please note that your reservation cannot be
+                    approved, and we cannot guarantee that your car will be available at the date/time requested.
                 </p>
                 <div className='mt-10 flex flex-col gap-5'>
                     <Link href='/driving_licence_verification' className='w-full'>
