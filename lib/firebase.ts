@@ -35,6 +35,8 @@ export function getFirebaseErrorMessage(code: string) {
         'auth/provider-already-linked': 'Account already linked with phone number',
         'auth/account-exists-with-different-credential': 'Phone number as been linked with another account. Please try again with different phone number.',
         'auth/invalid-app-credential': 'An error in app credentials',
+        'auth/email-already-in-use': 'Email already in use. Please try again with a different email.',
+        'auth/network-request-failed': 'Network request failed. Please try again.',
         default: 'An error occurred. Please try again.'
     };
     return errorMap[code] || errorMap.default;
