@@ -43,7 +43,8 @@ function useUpdateDriverProfile() {
                 userId: userId,
                 idScanRequestID: requestId,
                 isVerified: isApproved,
-                expiryDate: expiryDate
+                expiryDate: expiryDate,
+                drivingLicenseStatus: isApproved ? 'verified' : 'failed'
             };
 
             const updateIDResponse = await updateDrivingLicence(updatePayload);
