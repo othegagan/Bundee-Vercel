@@ -6,10 +6,18 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
 import useTripModificationDialog from '@/hooks/dialogHooks/useTripModificationDialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
-import { convertToCarDate, convertToCarTimeZoneISO, determineDeliveryType, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
+import {
+    convertToCarDate,
+    convertToCarTimeZoneISO,
+    determineDeliveryType,
+    formatDateAndTime,
+    formatTime,
+    getCurrentTimeRounded,
+    roundToTwoDecimalPlaces
+} from '@/lib/utils';
 import { ModificationIcon } from '@/public/icons';
 import { calculatePrice } from '@/server/priceCalculation';
-import { differenceInHours, format, isBefore, isEqual, isWithinInterval, parseISO } from 'date-fns';
+import { differenceInHours, format, isBefore, isEqual, isToday, isWithinInterval, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { TripModificationEndDateCalendar, TripModificationStartDateCalendar } from './TripModificationCalendars';
@@ -222,6 +230,7 @@ export default function TripModificationDialog({ tripData }) {
                                             label='New Start Time'
                                             isDisabled={tripData.status.toLowerCase() === 'started'}
                                             defaultValue={formatTime(tripData.starttime, tripData?.vehzipcode)}
+                                            disableLimitTime={isToday(new Date()) && isToday(new Date()) ? getCurrentTimeRounded() : null}
                                             onChange={(time) => {
                                                 setNewStartTime(time);
                                                 setIsInitialLoad(false);
@@ -245,6 +254,7 @@ export default function TripModificationDialog({ tripData }) {
                                         <TimeSelect
                                             label='New End Time'
                                             defaultValue={formatTime(tripData.endtime, tripData?.vehzipcode)}
+                                            disableLimitTime={isToday(new Date()) && isToday(new Date()) ? getCurrentTimeRounded() : null}
                                             onChange={(time) => {
                                                 setNewEndTime(time);
                                                 setIsInitialLoad(false);

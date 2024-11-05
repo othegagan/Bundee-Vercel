@@ -1,7 +1,8 @@
 'use client';
 
 import { getSession } from '@/lib/auth';
-import { generateInsuranceVerificationLink, getUserByEmail } from '@/server/userOperations';
+import { http } from '@/lib/httpService';
+import { getUserByEmail } from '@/server/userOperations';
 import type { PrasedData, VerifiedDrivingProfileResult } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -147,7 +148,11 @@ export const useGenerateInsuranceVerificationLink = () => {
     return useQuery({
         queryKey: ['generateInsuranceVerificationLink'],
         queryFn: async () => {
-            return generateInsuranceVerificationLink();
+            const session = await getSession();
+            const url = `${process.env.NEXT_PUBLIC_AUXILIARY_SERVICE_BASEURL}api/v1/insurance/datarequests/generate_invitation_link`;
+            console.log('url', url);
+            const response = await http.get(`${url}?userId=${session.userId}`);
+            return response.data;
         },
         refetchOnWindowFocus: false,
         staleTime: 3 * 1000,
