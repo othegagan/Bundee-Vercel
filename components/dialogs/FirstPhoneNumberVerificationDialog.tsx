@@ -10,7 +10,6 @@ import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { OtpStyledInput } from '../ui/input-otp';
-import { Label } from '../ui/label';
 import PhoneInput from '../ui/phone-input';
 
 export default function PhoneNumberVerificationDialog() {
@@ -198,7 +197,7 @@ export default function PhoneNumberVerificationDialog() {
                         </>
                     ) : (
                         <div className='flex flex-col gap-4'>
-                            <Label htmlFor='verificationCode'>Verification Code</Label>
+                            <p className='text-center text-[15px]'>Enter the 6-digit verification code that was sent to your phone number.</p>
                             <OtpStyledInput
                                 numInputs={6}
                                 inputType='number'
@@ -206,18 +205,21 @@ export default function PhoneNumberVerificationDialog() {
                                 onChange={(value) => setVerificationCode(value)}
                                 className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                             />
-                            {/* 
-                            <button
-                                type='button'
-                                onClick={handleResendCode}
-                                disabled={isSendingCode}
-                                className='flex w-fit items-end underline underline-offset-2'>
-                                {isSendingCode ? 'Sending...' : 'Resend Code'}
-                            </button> */}
 
                             <Button className='w-full' onClick={handleVerifyCode} disabled={verificationCode.length !== 6 || isVerifying}>
                                 {isVerifying ? 'Verifying...' : 'Verify Code'}
                             </Button>
+
+                            <div className='mt-4 text-sm'>
+                                Didn't receive code?{' '}
+                                <button
+                                    type='button'
+                                    onClick={handleResendCode}
+                                    disabled={isSendingCode}
+                                    className='flex w-fit items-end text-primary underline underline-offset-2'>
+                                    {isSendingCode ? 'Sending...' : 'Resend Code'}
+                                </button>
+                            </div>
                         </div>
                     )}
 
