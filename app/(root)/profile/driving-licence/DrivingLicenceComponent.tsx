@@ -35,7 +35,7 @@ function VerifiedDetailsComponent({ personalInfo, images, scores }) {
     return (
         <div>
             <p className='mt-4 max-w-2xl text-neutral-500 text-sm leading-snug'>
-                Your driving license details are verified. <br /> Please make sure that the details are correct. If not, please update them.
+                Your driving licence details are verified. <br /> Please make sure that the details are correct. If not, please update them.
             </p>
             <div className='mt-6 border-neutral-100 border-t'>
                 <dl className='divide-y divide-neutral-100'>
@@ -46,8 +46,8 @@ function VerifiedDetailsComponent({ personalInfo, images, scores }) {
                     <Field label='Expires on'>{personalInfo.expires}</Field>
                     <dd className='flex flex-col gap-4 pt-4 text-neutral-900 text-sm sm:col-span-2 sm:flex-row'>
                         <Attachment photoUrl={images.selfie} altText='Driver photo' description='Driver Selfie' />
-                        <Attachment photoUrl={images.front} altText='Driving Licence Front photo' description='Driving License Front photo' />
-                        <Attachment photoUrl={images.back} altText='Driving Licence Back photo' description='Driving License Back photo' />
+                        <Attachment photoUrl={images.front} altText='Driving Licence Front photo' description='Driving Licence Front photo' />
+                        <Attachment photoUrl={images.back} altText='Driving Licence Back photo' description='Driving Licence Back photo' />
                     </dd>
                 </dl>
             </div>
@@ -60,7 +60,7 @@ function VerifiedDetailsComponent({ personalInfo, images, scores }) {
                         drivingLicenseDialog.isUpdate = true;
                         drivingLicenseDialog.onOpen();
                     }}>
-                    Update Driving License
+                    Update Driving Licence
                 </Button>
             </div>
         </div>
@@ -71,7 +71,7 @@ function UnverifiedComponent() {
     const drivingLicenseDialog = useDrivingLicenceDialog();
     return (
         <div className='mt-12 flex flex-col gap-3'>
-            <p className='mt-4 max-w-2xl text-neutral-500 text-sm leading-snug'>Your driving license has not yet been verified. Please verify it.</p>
+            <p className='mt-4 max-w-2xl text-neutral-500 text-sm leading-snug'>Your driving licence has not yet been verified. Please verify it.</p>
             <div className='mt-6 flex justify-end'>
                 <Button
                     type='button'
@@ -80,7 +80,7 @@ function UnverifiedComponent() {
                         drivingLicenseDialog.isUpdate = false;
                         drivingLicenseDialog.onOpen();
                     }}>
-                    Verify Driving License
+                    Verify Driving Licence
                 </Button>
             </div>
         </div>

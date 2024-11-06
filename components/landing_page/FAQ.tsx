@@ -23,7 +23,7 @@ export default function FAQ() {
             },
             {
                 question: 'What info do you need to book a car?',
-                answer: 'Once you have searched and selected a vehicle, you will need to register with us to book a vehicle.  Registering is easy.  You will also need to enter your credit card information to hold that vehicle for you as well as enter your Driver License information online.  It’s easy and takes just a few mins to complete.'
+                answer: 'Once you have searched and selected a vehicle, you will need to register with us to book a vehicle.  Registering is easy.  You will also need to enter your credit card information to hold that vehicle for you as well as enter your Driver Licence information online.  It’s easy and takes just a few mins to complete.'
             },
             {
                 question: 'What is the cancellation policy?',

@@ -20,7 +20,7 @@ export default function CheckoutLayout({
 }
 
 const checkoutSteps = [
-    { link: 'driving-licence', title: "Driver's License" },
+    { link: 'driving-licence', title: "Driver's Licence" },
     { link: 'insurance', title: 'Insurance' },
     { link: 'summary', title: 'Summary' },
     { link: 'payment', title: 'Payment' }

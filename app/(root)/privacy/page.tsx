@@ -27,7 +27,7 @@ const Privacy = () => {
                 <h2 className='my-6 font-bold text-neutral-900 text-xl'>Information We Collect Directly From You</h2>
                 <p className='my-4 space-y-4'>
                     We may collect information about you directly from you. For example, if you create an account with us, we will collect your name, email
-                    address, password, date of birth, driver's license information, mobile phone number, payment information, billing address, and photo. We
+                    address, password, date of birth, driver's licence information, mobile phone number, payment information, billing address, and photo. We
                     will also collect any other information that you provide to us through our Services. For example, we will collect your name, email address,
                     and the contents of any message you send to us through our Site.
                 </p>

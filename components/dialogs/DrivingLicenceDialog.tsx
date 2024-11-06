@@ -29,10 +29,10 @@ export default function DrivingLicenceDialog() {
             className='lg:max-w-lg'>
             <DialogBody className='flex flex-col gap-y-4'>
                 {isUpdate ? (
-                    <p>Update driving license.</p>
+                    <p>Update driving licence.</p>
                 ) : (
                     <p className='mt-4 text-neutral-600 text-sm leading-snug'>
-                        Your driving license has not yet been verified. <br />
+                        Your driving licence has not yet been verified. <br />
                         Please verify it.
                     </p>
                 )}
@@ -43,7 +43,7 @@ export default function DrivingLicenceDialog() {
                     </Button>
 
                     <Button type='button' onClick={handleRedirect} variant='black'>
-                        {isUpdate ? 'Update Driving License' : 'Verify Driving License'}
+                        {isUpdate ? 'Update Driving Licence' : 'Verify Driving Licence'}
                     </Button>
                 </div>
             </DialogBody>

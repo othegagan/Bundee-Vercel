@@ -24,7 +24,7 @@ export default function DrivingLicensePage() {
                 <h2 className='font-bold text-xl'>Verify Driver&apos;s Licence</h2>
 
                 <p>
-                    Please upload your Driver’s License so that we can verify it. If you choose to skip this step, please note that your reservation cannot be
+                    Please upload your Driver’s Licence so that we can verify it. If you choose to skip this step, please note that your reservation cannot be
                     approved, and we cannot guarantee that your car will be available at the date/time requested.
                 </p>
                 <div className='mt-10 flex flex-col gap-5'>
