@@ -5,6 +5,7 @@ import Stripe from 'stripe';
 
 // Initialize Stripe with secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    //@ts-ignore
     apiVersion: '2024-09-30.acacia',
     typescript: true
 });

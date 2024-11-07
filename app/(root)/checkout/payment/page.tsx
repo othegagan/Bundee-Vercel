@@ -18,6 +18,9 @@ export default function page() {
                 <div className='mb-4 text-muted-foreground text-xs'>
                     In the event that your reservation is not accepted by the host, any amount charged to your card will be fully refunded.
                 </div>
+                <div className='mb-4 text-muted-foreground text-xs'>
+                    Note: A refunable security deposit of $400 will be authorized on payments done through debit cards.
+                </div>
                 <CheckoutCardSkeleton />
             </div>
         );
