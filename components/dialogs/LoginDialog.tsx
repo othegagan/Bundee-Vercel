@@ -4,7 +4,6 @@ import Logo from '@/components/landing_page/Logo';
 import useForgotPasswordDialog from '@/hooks/dialogHooks/useForgotPasswordDialog';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import usePhoneNumberSignInDialog from '@/hooks/dialogHooks/usePhoneNumberSignInDialog';
-import { useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession, destroySession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
@@ -27,7 +26,6 @@ export default function LoginDialog() {
     const registerDialog = useRegisterDialog();
     const forgotPasswordDialog = useForgotPasswordDialog();
     const phoneNumberSignInDialog = usePhoneNumberSignInDialog();
-    const phoneNumberVerificationDialog = useFirstPhoneNumberVerificationDialog();
 
     const [showPassword, setShowPassword] = useState(true);
     const [userEmail, setUserEmail] = useState('');
