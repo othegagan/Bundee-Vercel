@@ -1,8 +1,6 @@
 'use client';
 
-import PhoneInput from '@/components/ui/phone-input';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
-import { checkPhoneNumberAsLinked, useFirstPhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import useRegisterDialog from '@/hooks/dialogHooks/useRegisterDialog';
 import { createSession, destroySession } from '@/lib/auth';
 import { auth, getFirebaseErrorMessage } from '@/lib/firebase';
@@ -51,11 +49,8 @@ export default function RegisterDialog() {
 
     const [showPassword, setShowPassword] = useState(true);
     const [showConfirmPassword, setShowConfirmPassword] = useState(true);
-    const [phoneNumber, setPhoneNumber] = useState('');
 
     const [showSuccessfulSignUp, setShowSuccessfulSignUp] = useState(false);
-
-    const phoneNumberVerificationDialog = useFirstPhoneNumberVerificationDialog();
 
     const onToggle = useCallback(() => {
         closeModal();
@@ -75,23 +70,6 @@ export default function RegisterDialog() {
 
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
         try {
-            if (!phoneNumber) {
-                setError('phoneNumber', { type: 'custom', message: 'Phone Number is required' });
-                return;
-            }
-
-            if (phoneNumber.replace(/\ /g, '').length < 11) {
-                setError('phoneNumber', { type: 'custom', message: 'Invalid phone number, must be 10 digits' });
-                return;
-            }
-
-            const isPhoneLinkedResponse = await checkPhoneNumberAsLinked(phoneNumber);
-
-            if (isPhoneLinkedResponse.success && isPhoneLinkedResponse.data.linkedToAnyUser) {
-                setError('phoneNumber', { type: 'custom', message: 'Phone number is already linked to another account' });
-                return;
-            }
-
             const { firstName, lastName, email, password } = data;
 
             // Create user with email and password
@@ -103,7 +81,7 @@ export default function RegisterDialog() {
                 firstname: firstName,
                 lastname: lastName,
                 email,
-                mobilephone: phoneNumber
+                mobilephone: ''
             };
 
             // Create user in your database
@@ -140,20 +118,6 @@ export default function RegisterDialog() {
                 const response = await getUserByEmail(user.email);
 
                 if (response.success) {
-                    const userResponse = response.data.userResponse;
-
-                    if (!userResponse.isPhoneVarified) {
-                        console.log('phone number not verified');
-                        phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
-                        phoneNumberVerificationDialog.setUserId(userResponse.iduser);
-                        phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
-                        closeModal();
-                        phoneNumberVerificationDialog.onOpen();
-                        return;
-                    }
-
-                    console.log('phone number verified');
-
                     const payload = {
                         userData: response.data.userResponse,
                         authToken: authTokenResponse.authToken
@@ -176,20 +140,6 @@ export default function RegisterDialog() {
                 const createUserResponse = await createNewUser(newUserPayload);
 
                 if (createUserResponse.success) {
-                    const userResponse = createUserResponse.data.userResponses[0];
-
-                    if (!userResponse.isPhoneVarified) {
-                        console.log('phone number not verified');
-                        phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
-                        phoneNumberVerificationDialog.setUserId(userResponse.iduser);
-                        phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
-                        closeModal();
-                        phoneNumberVerificationDialog.onOpen();
-                        return;
-                    }
-
-                    console.log('phone number verified');
-
                     const newUser = createUserResponse.data.userResponses[0];
                     await createSession({ userData: newUser, authToken: authTokenResponse.authToken });
                     router.refresh();
@@ -211,7 +161,6 @@ export default function RegisterDialog() {
     function closeModal() {
         registerDialog.onClose();
         setShowSuccessfulSignUp(false);
-        setPhoneNumber('');
         reset();
     }
 
@@ -226,10 +175,10 @@ export default function RegisterDialog() {
             closeDialog={() => {
                 closeModal();
             }}
-            className=' md:scale-[0.85] lg:max-w-lg'>
+            className=' lg:max-w-xl'>
             <DialogBody>
                 {!showSuccessfulSignUp && (
-                    <div>
+                    <div className='p-0.5'>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className='grid grid-cols-2 gap-4'>
                                 <div className='space-y-2'>
@@ -254,19 +203,6 @@ export default function RegisterDialog() {
                                 </Label>
                                 <Input type='email' id='email' {...register('email')} />
                                 <FormError message={errors.email?.message} />
-                            </div>
-
-                            <div className='space-y-2'>
-                                <Label htmlFor='email'>
-                                    Phone Number <span>*</span>
-                                </Label>
-                                <PhoneInput
-                                    value={phoneNumber}
-                                    onRawValueChange={(rawValue) => {
-                                        setPhoneNumber(rawValue);
-                                    }}
-                                />
-                                <FormError message={errors.phoneNumber?.message} />
                             </div>
 
                             <div className='space-y-2'>
@@ -305,7 +241,7 @@ export default function RegisterDialog() {
                                 <FormError message={errors.confirmPassword?.message} />
                             </div>
 
-                            <div className='space-y-3'>
+                            <div className='mt-4 flex flex-col gap-2 px-1'>
                                 <label className='flex items-center gap-3'>
                                     <input type='checkbox' id='terms' className='scale-[1.1] accent-black' {...register('acceptTerms')} />
                                     <p className='select-none text-xs'>
@@ -319,16 +255,17 @@ export default function RegisterDialog() {
                                         </Link>
                                     </p>
                                 </label>
-                                <FormError message={errors.acceptTerms?.message} />
 
+                                <FormError message={errors.acceptTerms?.message} />
+                                {/*
                                 <label className='flex items-center gap-3'>
                                     <input type='checkbox' id='terms' className='scale-[1.1] accent-black' checked />
                                     <p className='select-none text-xs'>I agree to receive marketing SMS messages from MyBundee.</p>
-                                </label>
+                                </label> */}
 
                                 <label className='flex items-center gap-3'>
                                     <input type='checkbox' id='terms' className='scale-[1.1] accent-black' checked />
-                                    <p className='select-none text-xs'>I agree to receive account update SMS messages from MyBundee.</p>
+                                    <p className='select-none text-xs'>I agree to receive MyBundee updates, messages, and marketing emails and SMS.</p>
                                 </label>
                             </div>
 

@@ -177,13 +177,14 @@ export default function PhoneNumberVerificationDialog() {
     };
 
     return (
-        <Dialog isOpen={isOpen} closeDialog={closeModal} className='lg:max-w-lg' title='Phone Number Verification'>
+        <Dialog isOpen={isOpen} closeDialog={closeModal} className='lg:max-w-xl' title='Phone Number Verification' onInteractOutside={false}>
             <DialogBody>
-                <div className='grid gap-4 py-4'>
+                <div className='grid gap-4'>
                     {!verificationId ? (
-                        <>
+                        <div className='flex flex-col gap-6'>
+                            <p className='text-center'>Please enter your phone number to verify and secure your account.</p>
                             <div className='grid gap-2'>
-                                <Label htmlFor='phone'>New Phone Number</Label>
+                                <Label htmlFor='phone'>Phone Number</Label>
                                 <PhoneInput
                                     value={phoneNumber}
                                     onRawValueChange={(rawValue) => {
@@ -191,6 +192,9 @@ export default function PhoneNumberVerificationDialog() {
                                     }}
                                 />
                             </div>
+
+                            {error && <p className=' text-red-500 text-sm'>{error}</p>}
+
                             <Button
                                 type='button'
                                 loading={isSendingCode}
@@ -198,35 +202,31 @@ export default function PhoneNumberVerificationDialog() {
                                 disabled={phoneNumber.length < 12 || verificationSent || isSendingCode}>
                                 {verificationSent ? 'Resend Verification Code' : 'Send Verification Code'}
                             </Button>
-                        </>
+                        </div>
                     ) : (
                         <div className='flex flex-col gap-4'>
-                            <p className='text-center text-[15px]'>Enter the 6-digit verification code that was sent to your phone number.</p>
-                            <OtpStyledInput
-                                numInputs={6}
-                                inputType='number'
-                                value={verificationCode}
-                                onChange={(value) => setVerificationCode(value)}
-                                className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
-                            />
+                            <p className='text-left text-[15px]'>
+                                We have sent a one-time code (OTP) to your phone number ending in {phoneNumber.slice(-4)}. Please enter the code to verify your
+                                account.
+                            </p>
+
+                            <OtpStyledInput numInputs={6} inputType='number' value={verificationCode} onChange={(value) => setVerificationCode(value)} />
+
+                            {error && <p className=' text-red-500 text-sm'>{error}</p>}
+
+                            <button
+                                type='button'
+                                onClick={handleResendCode}
+                                disabled={isSendingCode}
+                                className='mx-auto my-2 flex w-fit items-end underline underline-offset-2'>
+                                {isSendingCode ? 'Sending...' : 'Resend OTP'}
+                            </button>
 
                             <Button className='w-full' onClick={handleVerifyCode} disabled={verificationCode.length !== 6 || isVerifying}>
-                                {isVerifying ? 'Verifying...' : 'Verify Code'}
+                                {isVerifying ? 'Verifying...' : 'Verify Phone Number'}
                             </Button>
-
-                            <div className='mt-4 text-sm'>
-                                Didn't receive code?{' '}
-                                <button
-                                    type='button'
-                                    onClick={handleResendCode}
-                                    disabled={isSendingCode}
-                                    className='flex w-fit items-end text-primary underline underline-offset-2'>
-                                    {isSendingCode ? 'Sending...' : 'Resend Code'}
-                                </button>
-                            </div>
                         </div>
                     )}
-                    {error && <p className='rounded-md bg-red-100 p-2 text-red-500 text-sm'>{error}</p>}
 
                     <div ref={recaptchaContainerRef} id='recaptcha-container' />
                 </div>

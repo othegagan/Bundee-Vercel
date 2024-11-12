@@ -18,7 +18,7 @@ import { FaPhone } from 'react-icons/fa6';
 import { IoWarning } from 'react-icons/io5';
 import { LuLoader2 } from 'react-icons/lu';
 import { Button } from '../ui/button';
-import { Dialog } from '../ui/dialog';
+import { Dialog, DialogBody } from '../ui/dialog';
 import { Input } from '../ui/input';
 
 export default function LoginDialog() {
@@ -57,18 +57,9 @@ export default function LoginDialog() {
                     const response: any = await getUserByEmail(user.email);
                     if (response.success) {
                         const userResponse = response.data.userResponse;
-
-                        if (!userResponse.isPhoneVarified) {
-                            phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
-                            phoneNumberVerificationDialog.setUserId(userResponse.iduser);
-                            phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
-                            closeModal();
-                            phoneNumberVerificationDialog.onOpen();
-                            return;
-                        }
                         await createSession({ userData: userResponse, authToken: authTokenResponse.authToken });
+                        router.refresh();
                         closeModal();
-                        // router.refresh();
                     } else {
                         throw new Error('Error in get user', response.message);
                     }
@@ -107,20 +98,6 @@ export default function LoginDialog() {
                 const response = await getUserByEmail(user.email);
 
                 if (response.success) {
-                    const userResponse = response.data.userResponse;
-
-                    if (!userResponse.isPhoneVarified) {
-                        console.log('phone number not verified');
-                        phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
-                        phoneNumberVerificationDialog.setUserId(userResponse.iduser);
-                        phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
-                        closeModal();
-                        phoneNumberVerificationDialog.onOpen();
-                        return;
-                    }
-
-                    console.log('phone number verified');
-
                     const payload = {
                         userData: response.data.userResponse,
                         authToken: authTokenResponse.authToken
@@ -143,20 +120,6 @@ export default function LoginDialog() {
                 const createUserResponse = await createNewUser(newUserPayload);
 
                 if (createUserResponse.success) {
-                    const userResponse = createUserResponse.data.userResponses[0];
-
-                    if (!userResponse.isPhoneVarified) {
-                        console.log('phone number not verified');
-                        phoneNumberVerificationDialog.setPhoneNumber(userResponse.mobilephone);
-                        phoneNumberVerificationDialog.setUserId(userResponse.iduser);
-                        phoneNumberVerificationDialog.setAuthToken(authTokenResponse.authToken);
-                        closeModal();
-                        phoneNumberVerificationDialog.onOpen();
-                        return;
-                    }
-
-                    console.log('phone number verified');
-
                     const newUser = createUserResponse.data.userResponses[0];
                     await createSession({ userData: newUser, authToken: authTokenResponse.authToken });
                     router.refresh();
@@ -203,9 +166,9 @@ export default function LoginDialog() {
                 closeModal();
             }}
             className='lg:max-w-lg'>
-            <main className='flex items-center justify-center md:p-6 '>
+            <DialogBody className='flex items-center justify-center '>
                 <div className='w-full'>
-                    <div className='flex flex-col items-center gap-4'>
+                    <div className='mt-4 flex flex-col items-center gap-4'>
                         <Logo className='scale-[1.3]' />
 
                         <span className='mb-4 ml-4 font-semibold text-neutral-700 text-xl '>Log In with MyBundee account</span>
@@ -311,7 +274,7 @@ export default function LoginDialog() {
                         </p>
                     </div>
                 </div>
-            </main>
+            </DialogBody>
         </Dialog>
     );
 }

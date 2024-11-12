@@ -18,8 +18,8 @@ importers:
         specifier: ^3.9.0
         version: 3.9.0(react-hook-form@7.53.0(react@18.3.1))
       '@idscan/idvc2':
-        specifier: ^2.11.0
-        version: 2.11.0(webpack@5.95.0)
+        specifier: ^2.11.1
+        version: 2.11.1(webpack@5.95.0)
       '@internationalized/date':
         specifier: ^3.5.6
         version: 3.5.6
@@ -596,8 +596,8 @@ packages:
     peerDependencies:
       react-hook-form: ^7.0.0
 
-  '@idscan/idvc2@2.11.0':
-    resolution: {integrity: sha512-mS0cEHNgV0DXJtp4y+2szfxzsYF+yOgtgc+DtV5gZyk7qV3G02krLSIkPnnb3xM03u9o7QISdLC0trWGgrfmOw==}
+  '@idscan/idvc2@2.11.1':
+    resolution: {integrity: sha512-qROoEiCafyisjlJ3eg1+qgEleqMLV9JYr/r8R7QEN44knleyWH0ujB1NFbQQVMKj09aIiq63cQxXj5M/20mBVw==}
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -2264,11 +2264,6 @@ packages:
     resolution: {integrity: sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==}
     peerDependencies:
       acorn: ^8
-
-  acorn@8.12.1:
-    resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   acorn@8.14.0:
     resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
@@ -4536,7 +4531,7 @@ snapshots:
     dependencies:
       react-hook-form: 7.53.0(react@18.3.1)
 
-  '@idscan/idvc2@2.11.0(webpack@5.95.0)':
+  '@idscan/idvc2@2.11.1(webpack@5.95.0)':
     dependencies:
       '@supabase/supabase-js': 2.45.4
       animejs: 3.2.2
@@ -6665,8 +6660,6 @@ snapshots:
     dependencies:
       acorn: 8.14.0
 
-  acorn@8.12.1: {}
-
   acorn@8.14.0: {}
 
   ajv-keywords@3.5.2(ajv@6.12.6):
@@ -8380,7 +8373,7 @@ snapshots:
   terser@5.34.1:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.12.1
+      acorn: 8.14.0
       commander: 2.20.3
       source-map-support: 0.5.21
 

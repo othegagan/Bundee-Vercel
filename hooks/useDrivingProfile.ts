@@ -17,6 +17,16 @@ export async function profileVerifiedStatus() {
     }
 }
 
+export async function phoneNumberVerifiedStatus() {
+    const session = await getSession();
+    const userResponse = await getUserByEmail(session.email);
+
+    if (userResponse.success) {
+        const isPhoneNumberVerified = !!userResponse.data?.userResponse.isPhoneVarified;
+        return isPhoneNumberVerified;
+    }
+}
+
 export const useVerifiedDrivingProfile = () => {
     return useQuery<VerifiedDrivingProfileResult, Error>({
         queryKey: ['drivingProfile'],

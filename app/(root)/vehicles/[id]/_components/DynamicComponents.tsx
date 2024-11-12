@@ -4,9 +4,10 @@ import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 import TimeSelect from '@/components/custom/TimeSelect';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
+import { usePhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
+import { phoneNumberVerifiedStatus } from '@/hooks/useDrivingProfile';
 import usePriceCalculation from '@/hooks/usePriceCalculation';
 import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded, getFullAddress } from '@/lib/utils';
@@ -29,6 +30,7 @@ interface DynamicComponentsProps {
 
 export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetails, bussinessConstraints }: DynamicComponentsProps) {
     const searchParams = useSearchParams();
+    const phoneNumberVerification = usePhoneNumberVerificationDialog();
 
     const [startDate, setStartDate] = useQueryState('startDate', {
         defaultValue: format(getCurrentDatePlusHours(3) || new Date(), 'yyyy-MM-dd'),
@@ -69,7 +71,6 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
     const { isLoading: datesLoading, isError: datesError } = useAvailabilityDates(vehicleId, null);
 
     const loginModal = useLoginDialog();
-    const drivingLicenceDialog = useDrivingLicenceDialog();
 
     const [datesSelectionError, setDatesSelectionError] = useState(null);
 
@@ -106,14 +107,13 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 return;
             }
 
-            // 4. Check if user has a valid driving licence
-            // const isVerified = await profileVerifiedStatus();
-            // if (!isVerified) {
-            //     drivingLicenceDialog.isUpdate = false;
-            //     drivingLicenceDialog.onOpen();
-            //     setProcessing(false);
-            //     return null;
-            // }
+            // 4. Check if user has verified phone number
+            const isVerified = await phoneNumberVerifiedStatus();
+            if (!isVerified) {
+                phoneNumberVerification.onOpen();
+                setProcessing(false);
+                return null;
+            }
 
             const delivery = isAirportDeliveryChoosen ? true : !!isCustoumDeliveryChoosen;
             const airportDelivery = !!isAirportDeliveryChoosen;
