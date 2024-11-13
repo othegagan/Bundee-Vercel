@@ -87,3 +87,10 @@ export interface TripData {
     hostImage: string;
     [key: string]: any;
 }
+
+export type VerificationStatus = 'initializing' | 'connecting' | 'connected' | 'waiting' | 'mobile_connected' | 'verified' | 'disconnected';
+
+export interface WebSocketMessage {
+    type: 'SESSION_ID' | 'MOBILE_CONNECT' | 'VERIFY_COMPLETE' | 'MOBILE_CONNECTED' | 'VERIFICATION_COMPLETE' | 'PONG';
+    sessionId?: string;
+}
