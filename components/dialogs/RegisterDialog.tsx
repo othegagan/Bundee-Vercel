@@ -257,15 +257,15 @@ export default function RegisterDialog() {
                                 </label>
 
                                 <FormError message={errors.acceptTerms?.message} />
-                                {/*
-                                <label className='flex items-center gap-3'>
-                                    <input type='checkbox' id='terms' className='scale-[1.1] accent-black' checked />
-                                    <p className='select-none text-xs'>I agree to receive marketing SMS messages from MyBundee.</p>
-                                </label> */}
 
                                 <label className='flex items-center gap-3'>
                                     <input type='checkbox' id='terms' className='scale-[1.1] accent-black' checked />
-                                    <p className='select-none text-xs'>I agree to receive MyBundee updates, messages, and marketing emails and SMS.</p>
+                                    <p className='select-none text-xs'>I agree to receive marketing SMS messages from MyBundee.</p>
+                                </label>
+
+                                <label className='flex items-center gap-3'>
+                                    <input type='checkbox' id='terms' className='scale-[1.1] accent-black' checked />
+                                    <p className='select-none text-xs'>I agree to receive account update SMS messages from MyBundee.</p>
                                 </label>
                             </div>
 

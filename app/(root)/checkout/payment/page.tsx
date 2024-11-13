@@ -5,6 +5,8 @@ import { CheckoutCardSkeleton } from '@/components/skeletons/skeletons';
 import { useCheckoutDetails } from '../useCheckoutDetails';
 import StripePaymentComponent from './StripePaymentComponent';
 
+const depositAmount = '$250';
+
 export default function page() {
     const { loading, error } = useCheckoutDetails();
 
@@ -19,7 +21,7 @@ export default function page() {
                     In the event that your reservation is not accepted by the host, any amount charged to your card will be fully refunded.
                 </div>
                 <div className='mb-4 text-muted-foreground text-xs'>
-                    Note: A refunable security deposit of $400 will be authorized on payments done through debit cards.
+                    Note: A refunable security deposit of {depositAmount} will be authorized on payments done through debit cards.
                 </div>
                 <CheckoutCardSkeleton />
             </div>
@@ -34,7 +36,7 @@ export default function page() {
                 In the event that your reservation is not accepted by the host, any amount charged to your card will be fully refunded.
             </div>
             <div className='mb-4 text-muted-foreground text-xs'>
-                Note: A refunable security deposit of $400 will be authorized on payments done through debit cards.
+                Note: A refunable security deposit of {depositAmount} will be authorized on payments done through debit cards.
             </div>
             <StripePaymentComponent />
         </div>
