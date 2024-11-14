@@ -43,7 +43,7 @@ function Dialog({ isOpen, closeDialog, children, className, onInteractOutside = 
     return (
         <div
             className={cn(
-                'fixed inset-0 z-[100] flex items-end bg-black/50 backdrop-blur-[1px] sm:items-center sm:justify-center',
+                'fixed inset-0 z-[200] flex items-end bg-black/50 backdrop-blur-[1px] sm:items-center sm:justify-center',
                 isOpen ? 'fade-in-0 animate-in' : 'fade-out-0 animate-out'
             )}
             onClick={handleBackdropClick}

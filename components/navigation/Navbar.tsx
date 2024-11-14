@@ -7,7 +7,6 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 import { PiTruck } from 'react-icons/pi';
 import Container from '../BoxContainer';
 import ClientOnly from '../ClientOnly';
-import { HideComponent } from '../custom/HideWrapper';
 import Logo from '../landing_page/Logo';
 import LoginSignupButtons from './LoginSignupButtons';
 import NotificationsComponent from './Notifications';
@@ -27,31 +26,29 @@ const Navbar = async () => {
     ];
 
     return (
-        <HideComponent hideOnlyInRouter={['/driving_licence_verification']}>
-            <header className=' sticky top-0 z-[60] select-none bg-white py-2.5 shadow-sm'>
-                <Container>
-                    <nav className='flex items-center justify-between '>
-                        <Logo />
+        <header className=' sticky top-0 z-[10] select-none bg-white py-2.5 shadow-sm'>
+            <Container>
+                <nav className='flex items-center justify-between '>
+                    <Logo />
 
-                        <div className='flex items-center gap-3'>
-                            {!session.isLoggedIn && !session.userId && (
-                                <ClientOnly>
-                                    <LoginSignupButtons />
-                                </ClientOnly>
-                            )}
-                            {session.isLoggedIn && session.email && (
-                                <ClientOnly>
-                                    <p className='hidden text-xs sm:block'>{session?.email}</p>
-                                    <NotificationsComponent />
-                                </ClientOnly>
-                            )}
+                    <div className='flex items-center gap-3'>
+                        {!session.isLoggedIn && !session.userId && (
+                            <ClientOnly>
+                                <LoginSignupButtons />
+                            </ClientOnly>
+                        )}
+                        {session.isLoggedIn && session.email && (
+                            <ClientOnly>
+                                <p className='hidden text-xs sm:block'>{session?.email}</p>
+                                <NotificationsComponent />
+                            </ClientOnly>
+                        )}
 
-                            <UserMenu menuItems={menuItems} isLoggedIn={session?.isLoggedIn} />
-                        </div>
-                    </nav>
-                </Container>
-            </header>
-        </HideComponent>
+                        <UserMenu menuItems={menuItems} isLoggedIn={session?.isLoggedIn} />
+                    </div>
+                </nav>
+            </Container>
+        </header>
     );
 };
 

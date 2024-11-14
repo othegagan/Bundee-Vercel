@@ -76,7 +76,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
     return (
         <>
             <div
-                className={` z-[55] md:sticky ${pathname === '/' ? 'md:top-[3.75rem]' : ''} select-none bg-white md:block ${pathname === '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
+                className={` md:sticky ${pathname === '/' ? 'md:top-[3.75rem]' : ''} select-none bg-white md:block ${pathname === '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
                 <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12 lg:grid-cols-12'>
                     <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                         <div className='flex w-full flex-col gap-1 '>
