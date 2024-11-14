@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
 import useTripModificationDialog from '@/hooks/dialogHooks/useTripModificationDialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
+import { validateBookingTime } from '@/hooks/useVehicleDetails';
 import { convertToCarDate, convertToCarTimeZoneISO, determineDeliveryType, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { ModificationIcon } from '@/public/icons';
 import { calculatePrice } from '@/server/priceCalculation';
@@ -80,6 +81,13 @@ export default function TripModificationDialog({ tripData }) {
             // Check if the new start date is not before the new end date
             if (!isBefore(parsedNewStartDate, parsedNewEndDate)) {
                 throw new Error('Please select an end date that comes after the start date.');
+            }
+
+            // check for short notice late night reservation
+            const { isValid, error } = validateBookingTime(`${newStartDate}T${newStartTime}`);
+
+            if (!isValid) {
+                throw new Error(error);
             }
 
             // Check for any unavailable dates within the new date range
