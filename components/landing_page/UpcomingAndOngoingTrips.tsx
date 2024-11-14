@@ -22,8 +22,6 @@ export default async function UpcomingAndOngiongTrips() {
 
     return (
         <BoxContainer className='space-y-2'>
-            {/* <OngoingTrips ongoingTrips={ongoingTrips} />
-            <UpcomingTrips upcomingTrips={upcomingTrips} /> */}
             <YourTrips upcomingTrips={upcomingTrips} ongoingTrips={ongoingTrips} />
         </BoxContainer>
     );
@@ -35,38 +33,10 @@ function YourTrips({ upcomingTrips, ongoingTrips }: { upcomingTrips: any[]; ongo
         <div className='space-y-3 py-4'>
             <h3>Your Trips</h3>
             <div className='grid grid-cols-1 gap-5 md:grid-cols-4'>
-                {ongoingTrips?.map((trip: any) => (
+                {ongoingTrips?.slice(0, 1).map((trip: any) => (
                     <TripCard key={trip.tripId} trip={trip} />
                 ))}
-                {upcomingTrips?.map((trip: any) => (
-                    <TripCard key={trip.tripId} trip={trip} />
-                ))}
-            </div>
-        </div>
-    );
-}
-
-function UpcomingTrips({ upcomingTrips }: { upcomingTrips: any[] }) {
-    if (!upcomingTrips.length) return null;
-    return (
-        <div className='space-y-3 py-4'>
-            <h3>Upcoming Trips</h3>
-            <div className='grid grid-cols-1 gap-5 md:grid-cols-4'>
-                {upcomingTrips.map((trip: any) => (
-                    <TripCard key={trip.tripId} trip={trip} />
-                ))}
-            </div>
-        </div>
-    );
-}
-
-function OngoingTrips({ ongoingTrips }: { ongoingTrips: any[] }) {
-    if (!ongoingTrips.length) return null;
-    return (
-        <div className='space-y-3 py-4'>
-            <h3>Ongoing Trips</h3>
-            <div className='grid grid-cols-1 gap-5 md:grid-cols-4'>
-                {ongoingTrips.map((trip: any) => (
+                {upcomingTrips?.slice(0, 2).map((trip: any) => (
                     <TripCard key={trip.tripId} trip={trip} />
                 ))}
             </div>

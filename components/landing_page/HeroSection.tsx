@@ -3,8 +3,9 @@
 import Image from 'next/image';
 import Container from '../BoxContainer';
 import LocationSearchComponent from '../search_box/LocationSearchComponent';
+import TripReadinessBanner from './TripReadinessBanner';
 
-const HeroSection = () => {
+export default function HeroSection() {
     return (
         <div className='relative'>
             <Image
@@ -17,13 +18,13 @@ const HeroSection = () => {
                 className='-z-10 absolute object-cover object-top opacity-95 bg-blend-lighten'
                 priority
             />
-            <section className=' h-[50dvh] py-16 sm:py-16 lg:py-24'>
+            <section className=' h-[50dvh] py-16 pt-28 sm:py-16 lg:py-24'>
                 <Container>
                     <LocationSearchComponent isOnVehiclesPage={false} />
                 </Container>
             </section>
+
+            <TripReadinessBanner />
         </div>
     );
-};
-
-export default HeroSection;
+}
