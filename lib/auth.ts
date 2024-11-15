@@ -11,8 +11,8 @@ import { JSONparsefy } from './utils';
 
 const secretKey = process.env.SECRET_KEY;
 const cookieName = process.env.NODE_ENV === 'production' ? 'bundee-session' : 'dev_session';
-const EXPIRY_IN_MS = 60 * 24 * 60 * 60 * 1000; // 60 days in milliseconds
-const REFRESH_THRESHOLD_MS = 5 * 24 * 60 * 60 * 1000; // 5 days in milliseconds
+const EXPIRY_IN_MS = 180 * 24 * 60 * 60 * 1000;
+const REFRESH_THRESHOLD_MS = 5 * 24 * 60 * 60 * 1000;
 
 const key = new TextEncoder().encode(secretKey);
 
