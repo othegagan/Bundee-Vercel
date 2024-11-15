@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Container from '../BoxContainer';
 import LocationSearchComponent from '../search_box/LocationSearchComponent';
-import TripReadinessBanner from './TripReadinessBanner';
 
 export default function HeroSection() {
     return (
@@ -23,8 +22,6 @@ export default function HeroSection() {
                     <LocationSearchComponent isOnVehiclesPage={false} />
                 </Container>
             </section>
-
-            <TripReadinessBanner />
         </div>
     );
 }
