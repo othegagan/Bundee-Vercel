@@ -21,7 +21,7 @@ export default function page() {
                     In the event that your reservation is not accepted by the host, any amount charged to your card will be fully refunded.
                 </div>
                 <div className='mb-4 text-muted-foreground text-xs'>
-                    Note: A refunable security deposit of {depositAmount} will be authorized on payments done through debit cards.
+                    Note: A refundable security deposit of {depositAmount} will be authorized on payments done through debit cards.
                 </div>
                 <CheckoutCardSkeleton />
             </div>
@@ -36,7 +36,7 @@ export default function page() {
                 In the event that your reservation is not accepted by the host, any amount charged to your card will be fully refunded.
             </div>
             <div className='mb-4 text-muted-foreground text-xs'>
-                Note: A refunable security deposit of {depositAmount} will be authorized on payments done through debit cards.
+                Note: A refundable security deposit of {depositAmount} will be authorized on payments done through debit cards.
             </div>
             <StripePaymentComponent />
         </div>
