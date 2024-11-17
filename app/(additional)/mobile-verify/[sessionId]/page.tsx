@@ -18,7 +18,7 @@ export default function MobileVerifyPage({ params }: PageProps) {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     useEffect(() => {
-        const socketio = io(process.env.NEXT_PUBLIC_AUXILIARY_SERVICE_BASEURL);
+        const socketio = io('https://auxiliary-service.onrender.com/');
 
         socketio.on('connect', () => {
             // Notify server this is mobile connection

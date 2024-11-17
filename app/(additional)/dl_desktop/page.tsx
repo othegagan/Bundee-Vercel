@@ -14,7 +14,7 @@ export default function VerificationComponent() {
 
     useEffect(() => {
         // Connect to Socket.IO server
-        const socketio = io('https://bundee-auxiliary-services-qa.azurewebsites.net/');
+        const socketio = io('https://auxiliary-service.onrender.com/');
 
         socketio.on('connect', () => {
             setStatus('connected');
