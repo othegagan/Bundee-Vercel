@@ -1,78 +1,151 @@
+'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import { type Socket, io } from 'socket.io-client';
 
 export interface SocketMessage {
     type: string;
     sessionId?: string;
-    [key: string]: any; // For flexibility with other payloads
+    verified?: boolean;
+    [key: string]: any;
 }
 
-interface UseSocketReturn {
+interface UseSocketConnectionProps {
+    serverUrl: string;
+    isMobile: boolean;
+    sessionId?: string;
+}
+
+interface UseSocketConnectionReturn {
+    socket: Socket | null;
+    error: string;
     status: string;
-    emitEvent: (event: string, data: any) => void;
-    subscribe: (callback: (message: SocketMessage) => void) => void;
-    unsubscribe: () => void;
+    sessionId: string | null;
+    mobileUrl: string;
+    handleVerify: (isVerified: boolean) => void;
+    handleRetry: () => void;
 }
 
-export function useSocket(url: string, sessionId?: string): UseSocketReturn {
+export function useSocket({ serverUrl, isMobile, sessionId: initialSessionId }: UseSocketConnectionProps): UseSocketConnectionReturn {
     const [socket, setSocket] = useState<Socket | null>(null);
-    const [status, setStatus] = useState<string>('connecting');
-    const [onMessageCallback, setOnMessageCallback] = useState<((message: SocketMessage) => void) | null>(null);
+    const [error, setError] = useState<string>('');
+    const [status, setStatus] = useState('connecting');
+    const [sessionId, setSessionId] = useState<string | null>(initialSessionId || null);
+    const [mobileUrl, setMobileUrl] = useState('');
+    const [interactionOccurred, setInteractionOccurred] = useState(false);
 
     useEffect(() => {
-        const socketio = io(url);
+        const socketio = io(serverUrl, {
+            reconnectionAttempts: 3,
+            timeout: 10000,
+            transports: ['websocket', 'polling']
+        });
 
         socketio.on('connect', () => {
+            console.log('Connected to websocket');
             setStatus('connected');
-
-            // Emit a session-related event if sessionId is provided
-            if (sessionId) {
-                socketio.emit(
-                    'message',
-                    JSON.stringify({
-                        type: sessionId ? 'MOBILE_CONNECT' : 'DESKTOP_CONNECT',
-                        sessionId
-                    })
-                );
+            if (isMobile && sessionId) {
+                socketio.emit('message', JSON.stringify({ type: 'MOBILE_CONNECT', sessionId }));
+            } else if (!isMobile) {
+                socketio.emit('message', JSON.stringify({ type: 'DESKTOP_CONNECT' }));
             }
+        });
+
+        socketio.on('connect_error', (err) => {
+            console.error('Connection error:', err);
+            setError('Failed to connect to server. Please check your internet connection and try again.');
+            setStatus('error');
         });
 
         socketio.on('message', (data: string) => {
-            const message = JSON.parse(data) as SocketMessage;
+            try {
+                const message: SocketMessage = JSON.parse(data);
+                console.log('Received message:', message);
 
-            // Pass message to the subscribed callback, if set
-            if (onMessageCallback) {
-                onMessageCallback(message);
+                switch (message.type) {
+                    case 'SESSION_ID':
+                        if (message.sessionId) {
+                            setSessionId(message.sessionId);
+                            setStatus('waiting');
+                            setMobileUrl(`${window.location.origin}/mobile-verify/${message.sessionId}`);
+                        }
+                        break;
+                    case 'MOBILE_CONNECTED':
+                        setStatus('mobile_connected');
+                        break;
+                    case 'VERIFY_STATUS':
+                        setStatus(message.verified ? 'verified' : 'failed');
+                        break;
+                    case 'SESSION_DESTROYED':
+                        setStatus('session_destroyed');
+                        setSessionId(null);
+                        setMobileUrl('');
+                        break;
+                    case 'VERIFY_COMPLETE':
+                        setStatus('verified');
+                        break;
+                }
+            } catch (err) {
+                console.error('Error parsing message:', err);
+                setError('Invalid message format received');
             }
-        });
-
-        socketio.on('disconnect', () => {
-            setStatus('disconnected');
         });
 
         setSocket(socketio);
 
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            if (isMobile && !interactionOccurred && sessionId) {
+                socketio.emit(
+                    'message',
+                    JSON.stringify({
+                        type: 'DESTROY_SESSION',
+                        sessionId
+                    })
+                );
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
         return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
             socketio.disconnect();
         };
-    }, [url, sessionId]);
+    }, [serverUrl, isMobile, sessionId, interactionOccurred]);
 
-    const emitEvent = useCallback(
-        (event: string, data: any) => {
-            if (socket) {
-                socket.emit(event, JSON.stringify(data));
+    const handleVerify = useCallback(
+        (isVerified: boolean) => {
+            setInteractionOccurred(true);
+            if (socket && sessionId) {
+                socket.emit(
+                    'message',
+                    JSON.stringify({
+                        type: 'VERIFY_STATUS',
+                        sessionId,
+                        verified: isVerified
+                    })
+                );
+                setStatus(isVerified ? 'verified' : 'failed');
+            } else {
+                setError('No active connection to server');
             }
         },
-        [socket]
+        [socket, sessionId]
     );
 
-    const subscribe = useCallback((callback: (message: SocketMessage) => void) => {
-        setOnMessageCallback(() => callback);
-    }, []);
+    const handleRetry = useCallback(() => {
+        if (socket) {
+            setStatus('connecting');
+            setError('');
+            if (isMobile && sessionId) {
+                socket.emit('message', JSON.stringify({ type: 'MOBILE_CONNECT', sessionId }));
+            } else if (!isMobile) {
+                socket.emit('message', JSON.stringify({ type: 'DESKTOP_CONNECT' }));
+            }
+        } else {
+            window.location.reload();
+        }
+    }, [socket, isMobile, sessionId]);
 
-    const unsubscribe = useCallback(() => {
-        setOnMessageCallback(null);
-    }, []);
-
-    return { status, emitEvent, subscribe, unsubscribe };
+    return { socket, error, status, sessionId, mobileUrl, handleVerify, handleRetry };
 }

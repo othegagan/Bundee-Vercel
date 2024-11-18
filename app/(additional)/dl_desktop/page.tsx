@@ -3,93 +3,14 @@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useSocket } from '@/hooks/useSocket';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
-import { type Socket, io } from 'socket.io-client';
 
 const QRCodeSVG = dynamic(() => import('qrcode.react').then((mod) => mod.QRCodeSVG), { ssr: false });
 
-interface SocketMessage {
-    type: string;
-    sessionId?: string;
-    verified?: boolean;
-    [key: string]: any;
-}
-
 export default function DesktopVerificationComponent() {
-    const [socket, setSocket] = useState<Socket | null>(null);
-    const [error, setError] = useState<string>('');
-    const [status, setStatus] = useState('initializing');
-    const [sessionId, setSessionId] = useState<string | null>(null);
-    const [mobileUrl, setMobileUrl] = useState('');
-
-    useEffect(() => {
-        const socketio = io('https://auxiliary-service.onrender.com', {
-            reconnectionAttempts: 3,
-            timeout: 10000,
-            transports: ['websocket', 'polling']
-        });
-
-        socketio.on('connect', () => {
-            console.log('Connected to websocket');
-            setStatus('connected');
-            socketio.emit('message', JSON.stringify({ type: 'DESKTOP_CONNECT' }));
-        });
-
-        socketio.on('connect_error', (err) => {
-            console.error('Connection error:', err);
-            setError('Failed to connect to server. Please check your internet connection and try again.');
-            setStatus('error');
-        });
-
-        socketio.on('message', (data: string) => {
-            try {
-                const message: SocketMessage = JSON.parse(data);
-                console.log('Received message:', message);
-
-                switch (message.type) {
-                    case 'SESSION_ID':
-                        if (message.sessionId) {
-                            setSessionId(message.sessionId);
-                            setStatus('waiting');
-                            setMobileUrl(`${window.location.origin}/mobile-verify/${message.sessionId}`);
-                        }
-                        break;
-                    case 'MOBILE_CONNECTED':
-                        setStatus('mobile_connected');
-                        break;
-                    case 'VERIFY_STATUS':
-                        setStatus(message.verified ? 'verified' : 'failed');
-                        break;
-                    case 'SESSION_DESTROYED':
-                        setStatus('session_destroyed');
-                        setSessionId(null);
-                        setMobileUrl('');
-                        break;
-                }
-            } catch (err) {
-                console.error('Error parsing message:', err);
-                setError('Invalid message format received');
-            }
-        });
-
-        setSocket(socketio);
-
-        return () => {
-            socketio.disconnect();
-        };
-    }, []);
-
-    const handleRetry = () => {
-        if (socket) {
-            setStatus('initializing');
-            setError('');
-            socket.emit('message', JSON.stringify({ type: 'DESKTOP_CONNECT' }));
-        } else {
-            window.location.reload();
-        }
-    };
+    const { error, status, mobileUrl, handleRetry } = useSocket('https://auxiliary-service.onrender.com');
 
     return (
         <Card className='mx-auto mt-8 w-full max-w-md'>
