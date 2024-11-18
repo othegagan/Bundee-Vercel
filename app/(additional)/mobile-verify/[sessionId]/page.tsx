@@ -2,9 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import type { VerificationStatus } from '@/types';
+import { useSocket } from '@/hooks/useSocket';
 import { useEffect, useState } from 'react';
-import { type Socket, io } from 'socket.io-client';
 
 interface PageProps {
     params: {
@@ -14,47 +13,29 @@ interface PageProps {
 
 export default function MobileVerifyPage({ params }: PageProps) {
     const { sessionId } = params;
-    const [status, setStatus] = useState<VerificationStatus>('connecting');
-    const [socket, setSocket] = useState<Socket | null>(null);
+    const [status, setStatus] = useState<string>('connecting');
+
+    const { status: socketStatus, emitEvent, subscribe, unsubscribe } = useSocket('https://auxiliary-service.onrender.com/', sessionId);
 
     useEffect(() => {
-        const socketio = io('https://auxiliary-service.onrender.com/');
-
-        socketio.on('connect', () => {
-            // Notify server this is mobile connection
-            socketio.emit(
-                'message',
-                JSON.stringify({
-                    type: 'MOBILE_CONNECT',
-                    sessionId
-                })
-            );
-            setStatus('connected');
+        subscribe((message) => {
+            if (message.type === 'VERIFY_COMPLETE') {
+                setStatus('verified');
+            }
         });
-
-        socketio.on('disconnect', () => {
-            setStatus('disconnected');
-        });
-
-        setSocket(socketio);
 
         return () => {
-            socketio.disconnect();
+            unsubscribe();
         };
-    }, [sessionId]);
+    }, [subscribe, unsubscribe]);
 
-    const handleVerify = () => {
-        if (socket) {
-            // In a real app, you would perform actual verification here
-            socket.emit(
-                'message',
-                JSON.stringify({
-                    type: 'VERIFY_COMPLETE',
-                    sessionId
-                })
-            );
-            setStatus('verified');
-        }
+    const handleVerify = (isVerified: boolean) => {
+        emitEvent('message', {
+            type: 'VERIFY_STATUS',
+            sessionId,
+            verified: isVerified
+        });
+        setStatus(isVerified ? 'verified' : 'failed');
     };
 
     return (
@@ -63,16 +44,37 @@ export default function MobileVerifyPage({ params }: PageProps) {
                 <div className='space-y-4 text-center'>
                     <h2 className='font-bold text-2xl'>Mobile Verification</h2>
                     {status === 'connecting' && <p className='text-gray-600'>Connecting...</p>}
-                    {status === 'connected' && (
+                    {socketStatus === 'connected' && (
                         <div className='space-y-4'>
                             <p className='text-gray-600'>Ready to verify</p>
-                            <Button onClick={handleVerify} className='w-full'>
+                            <Button
+                                onClick={() => {
+                                    handleVerify(true);
+                                }}
+                                className='w-full'>
                                 Complete Verification
                             </Button>
                         </div>
                     )}
+
+                    {socketStatus === 'connected' && (
+                        <div className='space-y-4'>
+                            <p className='text-gray-600'>Ready to verify</p>
+                            <Button
+                                onClick={() => {
+                                    handleVerify(false);
+                                }}
+                                className='w-full'>
+                                Fail Verification
+                            </Button>
+                        </div>
+                    )}
+
                     {status === 'verified' && <p className='text-green-600'>Verification complete! You can close this page.</p>}
-                    {status === 'disconnected' && <p className='text-red-600'>Connection lost. Please try scanning the QR code again.</p>}
+
+                    {status === 'failed' && <p className='text-red-600'>Verification failed. Please try again.</p>}
+
+                    {socketStatus === 'disconnected' && <p className='text-red-600'>Connection lost. Please try scanning the QR code again.</p>}
                 </div>
             </CardContent>
         </Card>
