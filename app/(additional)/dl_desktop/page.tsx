@@ -3,12 +3,18 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSocket } from '@/hooks/useSocket';
-import { QRCodeSVG } from 'qrcode.react';
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+
+// Dynamically import QRCodeSVG with ssr: false
+const QRCodeSVG = dynamic(() => import('qrcode.react').then((mod) => mod.QRCodeSVG), {
+    ssr: false
+});
 
 export default function VerificationComponent() {
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [status, setStatus] = useState<string>('initializing');
+    const [mobileUrl, setMobileUrl] = useState<string>('');
 
     const { status: socketStatus, emitEvent, subscribe, unsubscribe } = useSocket('https://auxiliary-service.onrender.com/');
 
@@ -19,6 +25,7 @@ export default function VerificationComponent() {
                     if (message.sessionId) {
                         setSessionId(message.sessionId);
                         setStatus('waiting');
+                        setMobileUrl(`${window.location.origin}/mobile-verify/${message.sessionId}`);
                     }
                     break;
                 case 'MOBILE_CONNECTED':
@@ -38,10 +45,6 @@ export default function VerificationComponent() {
         };
     }, [subscribe, unsubscribe]);
 
-    const getMobileUrl = (): string => {
-        return `${window.location.origin}/mobile-verify/${sessionId}`;
-    };
-
     return (
         <Card className='mx-auto mt-8 w-full max-w-md'>
             <CardContent className='p-6'>
@@ -53,9 +56,7 @@ export default function VerificationComponent() {
                     {status === 'waiting' && (
                         <div className='space-y-4'>
                             <p className='text-gray-600'>Scan QR code with your mobile device to continue verification</p>
-                            <div className='flex justify-center'>
-                                <QRCodeSVG value={getMobileUrl()} size={256} />
-                            </div>
+                            <div className='flex justify-center'>{mobileUrl && <QRCodeSVG value={mobileUrl} size={256} />}</div>
                         </div>
                     )}
 
@@ -72,7 +73,7 @@ export default function VerificationComponent() {
 
                     {socketStatus === 'disconnected' && <p className='text-red-600'>Connection lost. Please refresh the page to try again.</p>}
 
-                    {getMobileUrl()}
+                    {mobileUrl && <p className='mt-4 text-gray-500 text-sm'>{mobileUrl}</p>}
                 </div>
             </CardContent>
         </Card>
