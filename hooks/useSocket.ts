@@ -34,6 +34,7 @@ export function useSocket({ serverUrl, isMobile, sessionId: initialSessionId }: 
     const [mobileUrl, setMobileUrl] = useState('');
     const [interactionOccurred, setInteractionOccurred] = useState(false);
 
+    // Store the initial session ID in a ref to avoid dependency issues
     useEffect(() => {
         const socketio = io(serverUrl, {
             reconnectionAttempts: 3,
@@ -44,8 +45,9 @@ export function useSocket({ serverUrl, isMobile, sessionId: initialSessionId }: 
         socketio.on('connect', () => {
             console.log('Connected to websocket');
             setStatus('connected');
-            if (isMobile && sessionId) {
-                socketio.emit('message', JSON.stringify({ type: 'MOBILE_CONNECT', sessionId }));
+            // Only emit if we have the necessary data
+            if (isMobile && initialSessionId) {
+                socketio.emit('message', JSON.stringify({ type: 'MOBILE_CONNECT', sessionId: initialSessionId }));
             } else if (!isMobile) {
                 socketio.emit('message', JSON.stringify({ type: 'DESKTOP_CONNECT' }));
             }
@@ -94,12 +96,12 @@ export function useSocket({ serverUrl, isMobile, sessionId: initialSessionId }: 
         setSocket(socketio);
 
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-            if (isMobile && !interactionOccurred && sessionId) {
+            if (isMobile && !interactionOccurred && initialSessionId) {
                 socketio.emit(
                     'message',
                     JSON.stringify({
                         type: 'DESTROY_SESSION',
-                        sessionId
+                        sessionId: initialSessionId
                     })
                 );
             }
@@ -111,17 +113,17 @@ export function useSocket({ serverUrl, isMobile, sessionId: initialSessionId }: 
             window.removeEventListener('beforeunload', handleBeforeUnload);
             socketio.disconnect();
         };
-    }, [serverUrl, isMobile, sessionId, interactionOccurred]);
+    }, [serverUrl, isMobile, initialSessionId]); // Remove sessionId from dependencies
 
     const handleVerify = useCallback(
         (isVerified: boolean) => {
             setInteractionOccurred(true);
-            if (socket && sessionId) {
+            if (socket && initialSessionId) {
                 socket.emit(
                     'message',
                     JSON.stringify({
                         type: 'VERIFY_STATUS',
-                        sessionId,
+                        sessionId: initialSessionId,
                         verified: isVerified
                     })
                 );
@@ -130,22 +132,28 @@ export function useSocket({ serverUrl, isMobile, sessionId: initialSessionId }: 
                 setError('No active connection to server');
             }
         },
-        [socket, sessionId]
+        [socket, initialSessionId]
     );
 
     const handleRetry = useCallback(() => {
         if (socket) {
             setStatus('connecting');
             setError('');
-            if (isMobile && sessionId) {
-                socket.emit('message', JSON.stringify({ type: 'MOBILE_CONNECT', sessionId }));
+            if (isMobile && initialSessionId) {
+                socket.emit(
+                    'message',
+                    JSON.stringify({
+                        type: 'MOBILE_CONNECT',
+                        sessionId: initialSessionId
+                    })
+                );
             } else if (!isMobile) {
                 socket.emit('message', JSON.stringify({ type: 'DESKTOP_CONNECT' }));
             }
         } else {
             window.location.reload();
         }
-    }, [socket, isMobile, sessionId]);
+    }, [socket, isMobile, initialSessionId]);
 
     return { socket, error, status, sessionId, mobileUrl, handleVerify, handleRetry };
 }
