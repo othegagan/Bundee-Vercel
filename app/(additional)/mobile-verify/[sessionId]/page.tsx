@@ -1,9 +1,11 @@
 'use client';
 
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useSocket } from '@/hooks/useSocket';
+import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { type Socket, io } from 'socket.io-client';
 
 interface PageProps {
     params: {
@@ -11,31 +13,79 @@ interface PageProps {
     };
 }
 
+interface SocketMessage {
+    type: string;
+    sessionId?: string;
+    verified?: boolean;
+    [key: string]: any;
+}
+
 export default function MobileVerifyPage({ params }: PageProps) {
     const { sessionId } = params;
+    const [socket, setSocket] = useState<Socket | null>(null);
     const [status, setStatus] = useState<string>('connecting');
-
-    const { status: socketStatus, emitEvent, subscribe, unsubscribe } = useSocket('https://auxiliary-service.onrender.com/', sessionId);
+    const [error, setError] = useState<string>('');
 
     useEffect(() => {
-        subscribe((message) => {
-            if (message.type === 'VERIFY_COMPLETE') {
-                setStatus('verified');
+        const socketio = io('http://localhost:8000', {
+            reconnectionAttempts: 3,
+            timeout: 10000,
+            transports: ['websocket', 'polling']
+        });
+
+        socketio.on('connect', () => {
+            console.log('Connected to websocket');
+            setStatus('connected');
+            socketio.emit(
+                'message',
+                JSON.stringify({
+                    type: 'MOBILE_CONNECT',
+                    sessionId
+                })
+            );
+        });
+
+        socketio.on('connect_error', (err) => {
+            console.error('Connection error:', err);
+            setError('Failed to connect to server. Please try scanning the QR code again.');
+            setStatus('error');
+        });
+
+        socketio.on('message', (data: string) => {
+            try {
+                const message: SocketMessage = JSON.parse(data);
+                console.log('Received message:', message);
+
+                if (message.type === 'VERIFY_COMPLETE') {
+                    setStatus('verified');
+                }
+            } catch (err) {
+                console.error('Error parsing message:', err);
+                setError('Invalid message format received');
             }
         });
 
+        setSocket(socketio);
+
         return () => {
-            unsubscribe();
+            socketio.disconnect();
         };
-    }, [subscribe, unsubscribe]);
+    }, [sessionId]);
 
     const handleVerify = (isVerified: boolean) => {
-        emitEvent('message', {
-            type: 'VERIFY_STATUS',
-            sessionId,
-            verified: isVerified
-        });
-        setStatus(isVerified ? 'verified' : 'failed');
+        if (socket) {
+            socket.emit(
+                'message',
+                JSON.stringify({
+                    type: 'VERIFY_STATUS',
+                    sessionId,
+                    verified: isVerified
+                })
+            );
+            setStatus(isVerified ? 'verified' : 'failed');
+        } else {
+            setError('No active connection to server');
+        }
     };
 
     return (
@@ -43,38 +93,42 @@ export default function MobileVerifyPage({ params }: PageProps) {
             <CardContent className='p-6'>
                 <div className='space-y-4 text-center'>
                     <h2 className='font-bold text-2xl'>Mobile Verification</h2>
-                    {status === 'connecting' && <p className='text-gray-600'>Connecting...</p>}
-                    {socketStatus === 'connected' && (
-                        <div className='space-y-4'>
-                            <p className='text-gray-600'>Ready to verify</p>
-                            <Button
-                                onClick={() => {
-                                    handleVerify(true);
-                                }}
-                                className='w-full'>
-                                Complete Verification
-                            </Button>
+
+                    {error && (
+                        <Alert variant='destructive'>
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
+                    )}
+
+                    {status === 'connecting' && (
+                        <div className='flex items-center justify-center space-x-2'>
+                            <Loader2 className='h-4 w-4 animate-spin' />
+                            <p className='text-muted-foreground'>Connecting to server...</p>
                         </div>
                     )}
 
-                    {socketStatus === 'connected' && (
+                    {status === 'connected' && (
                         <div className='space-y-4'>
-                            <p className='text-gray-600'>Ready to verify</p>
-                            <Button
-                                onClick={() => {
-                                    handleVerify(false);
-                                }}
-                                className='w-full'>
+                            <p className='text-muted-foreground'>Ready to verify</p>
+                            <Button onClick={() => handleVerify(true)} className='w-full'>
+                                Complete Verification
+                            </Button>
+                            <Button onClick={() => handleVerify(false)} variant='outline' className='w-full'>
                                 Fail Verification
                             </Button>
                         </div>
                     )}
 
-                    {status === 'verified' && <p className='text-green-600'>Verification complete! You can close this page.</p>}
+                    {status === 'verified' && <p className='font-semibold text-green-600'>Verification complete! You can close this page.</p>}
 
-                    {status === 'failed' && <p className='text-red-600'>Verification failed. Please try again.</p>}
+                    {status === 'failed' && (
+                        <div className='space-y-4'>
+                            <p className='text-destructive'>Verification failed.</p>
+                            <Button onClick={() => setStatus('connected')}>Try Again</Button>
+                        </div>
+                    )}
 
-                    {socketStatus === 'disconnected' && <p className='text-red-600'>Connection lost. Please try scanning the QR code again.</p>}
+                    {status === 'error' && <Button onClick={() => window.location.reload()}>Retry Connection</Button>}
                 </div>
             </CardContent>
         </Card>

@@ -1,79 +1,134 @@
 'use client';
 
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useSocket } from '@/hooks/useSocket';
+import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import { type Socket, io } from 'socket.io-client';
 
-// Dynamically import QRCodeSVG with ssr: false
-const QRCodeSVG = dynamic(() => import('qrcode.react').then((mod) => mod.QRCodeSVG), {
-    ssr: false
-});
+const QRCodeSVG = dynamic(() => import('qrcode.react').then((mod) => mod.QRCodeSVG), { ssr: false });
 
-export default function VerificationComponent() {
+interface SocketMessage {
+    type: string;
+    sessionId?: string;
+    verified?: boolean;
+    [key: string]: any;
+}
+
+export default function DesktopVerificationComponent() {
+    const [socket, setSocket] = useState<Socket | null>(null);
+    const [error, setError] = useState<string>('');
+    const [status, setStatus] = useState('initializing');
     const [sessionId, setSessionId] = useState<string | null>(null);
-    const [status, setStatus] = useState<string>('initializing');
-    const [mobileUrl, setMobileUrl] = useState<string>('');
-
-    const { status: socketStatus, emitEvent, subscribe, unsubscribe } = useSocket('https://auxiliary-service.onrender.com/');
+    const [mobileUrl, setMobileUrl] = useState('');
 
     useEffect(() => {
-        subscribe((message) => {
-            switch (message.type) {
-                case 'SESSION_ID':
-                    if (message.sessionId) {
-                        setSessionId(message.sessionId);
-                        setStatus('waiting');
-                        setMobileUrl(`${window.location.origin}/mobile-verify/${message.sessionId}`);
-                    }
-                    break;
-                case 'MOBILE_CONNECTED':
-                    setStatus('mobile_connected');
-                    break;
-                case 'VERIFICATION_COMPLETE':
-                    setStatus('verified');
-                    break;
-                case 'VERIFY_STATUS':
-                    setStatus(message.verified ? 'verified' : 'failed');
-                    break;
+        const socketio = io('http://localhost:8000', {
+            reconnectionAttempts: 3,
+            timeout: 10000,
+            transports: ['websocket', 'polling']
+        });
+
+        socketio.on('connect', () => {
+            console.log('Connected to websocket');
+            setStatus('connected');
+            socketio.emit('message', JSON.stringify({ type: 'DESKTOP_CONNECT' }));
+        });
+
+        socketio.on('connect_error', (err) => {
+            console.error('Connection error:', err);
+            setError('Failed to connect to server. Please check if the server is running.');
+            setStatus('error');
+        });
+
+        socketio.on('message', (data: string) => {
+            try {
+                const message: SocketMessage = JSON.parse(data);
+                console.log('Received message:', message);
+
+                switch (message.type) {
+                    case 'SESSION_ID':
+                        if (message.sessionId) {
+                            setSessionId(message.sessionId);
+                            setStatus('waiting');
+                            setMobileUrl(`${window.location.origin}/mobile-verify/${message.sessionId}`);
+                        }
+                        break;
+                    case 'MOBILE_CONNECTED':
+                        setStatus('mobile_connected');
+                        break;
+                    case 'VERIFY_STATUS':
+                        setStatus(message.verified ? 'verified' : 'failed');
+                        break;
+                }
+            } catch (err) {
+                console.error('Error parsing message:', err);
+                setError('Invalid message format received');
             }
         });
 
+        setSocket(socketio);
+
         return () => {
-            unsubscribe();
+            socketio.disconnect();
         };
-    }, [subscribe, unsubscribe]);
+    }, []);
+
+    const handleRetry = () => {
+        window.location.reload();
+    };
 
     return (
         <Card className='mx-auto mt-8 w-full max-w-md'>
             <CardContent className='p-6'>
-                <div className='text-center'>
-                    <h2 className='mb-4 font-bold text-2xl'>Mobile Verification</h2>
+                <div className='space-y-4 text-center'>
+                    <h2 className='font-bold text-2xl'>Desktop Verification</h2>
 
-                    {status === 'initializing' && <p className='text-gray-600'>Initializing...</p>}
+                    {error && (
+                        <Alert variant='destructive'>
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
+                    )}
+
+                    {status === 'initializing' && (
+                        <div className='flex items-center justify-center space-x-2'>
+                            <Loader2 className='h-4 w-4 animate-spin' />
+                            <p className='text-muted-foreground'>Connecting to server...</p>
+                        </div>
+                    )}
 
                     {status === 'waiting' && (
                         <div className='space-y-4'>
-                            <p className='text-gray-600'>Scan QR code with your mobile device to continue verification</p>
+                            <p className='text-muted-foreground'>Scan QR code with your mobile device to continue verification</p>
                             <div className='flex justify-center'>{mobileUrl && <QRCodeSVG value={mobileUrl} size={256} />}</div>
                         </div>
                     )}
 
-                    {status === 'mobile_connected' && <p className='text-blue-600'>Mobile device connected! Please complete verification on your phone.</p>}
+                    {status === 'mobile_connected' && <p className='text-primary'>Mobile device connected! Please complete verification on your phone.</p>}
 
                     {status === 'verified' && (
                         <div className='space-y-4'>
                             <p className='font-semibold text-green-600'>Verification completed successfully!</p>
-                            <Button onClick={() => window.location.reload()}>Start New Verification</Button>
+                            <Button onClick={handleRetry}>Start New Verification</Button>
                         </div>
                     )}
 
-                    {status === 'failed' && <p className='text-red-600'>Verification failed. Please try again.</p>}
+                    {status === 'failed' && (
+                        <div className='space-y-4'>
+                            <p className='text-destructive'>Verification failed.</p>
+                            <Button onClick={handleRetry}>Try Again</Button>
+                        </div>
+                    )}
 
-                    {socketStatus === 'disconnected' && <p className='text-red-600'>Connection lost. Please refresh the page to try again.</p>}
+                    {status === 'error' && (
+                        <div className='space-y-4'>
+                            <Button onClick={handleRetry}>Retry Connection</Button>
+                        </div>
+                    )}
 
-                    {mobileUrl && <p className='mt-4 text-gray-500 text-sm'>{mobileUrl}</p>}
+                    {mobileUrl && <p className='break-all text-muted-foreground text-sm'>{mobileUrl}</p>}
                 </div>
             </CardContent>
         </Card>
