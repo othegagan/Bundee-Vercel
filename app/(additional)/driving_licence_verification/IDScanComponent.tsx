@@ -37,7 +37,7 @@ function useUpdateDriverProfile() {
             const session = await getSession();
             const userId = Number(decryptedUserId) || session.userId;
 
-            const { isApproved, requestId, expiryDate } = await verifyDrivingLicence(idScanPayload, userId);
+            const { isApproved, requestId, expiryDate } = await verifyDrivingLicence(idScanPayload);
 
             const updatePayload = {
                 userId: userId,
@@ -121,8 +121,6 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
         const idvcInstance = new IDVC({
             el: 'videoCapturingEl',
             licenseKey: process.env.NEXT_PUBLIC_IDSCAN_LICENSE_KEY,
-            // networkUrl: 'networks/',
-            // chunkPublicPath: '/networks/',
             resizeUploadedImage: 1200,
             fixFrontOrientAfterUpload: false,
             autoContinue: false,
@@ -134,8 +132,6 @@ export default function IDScanComponent({ searchParams }: { searchParams: { call
             realFaceMode: 'auto',
             processingImageFormat: 'jpeg',
             autocaptureDelay: 2000,
-            //@ts-ignore
-            useHeic: true,
             documentTypes: [
                 {
                     type: 'ID',

@@ -20,6 +20,7 @@ interface VerificationResult {
 }
 
 const VERIFY_URL = 'https://dvs2.idware.net/api/v4/verify';
+
 const thresholds = {
     documentConfidence: 90,
     faceMatchConfidence: 90,
@@ -31,7 +32,7 @@ export function useIdVerification() {
     const [error, setError] = useState<string | null>(null);
     const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
 
-    const verifyDrivingLicence = async (payload: VerificationPayload, userId: number) => {
+    const verifyDrivingLicence = async (payload: VerificationPayload) => {
         setIsVerifying(true);
         setError(null);
         setVerificationResult(null);
@@ -56,7 +57,7 @@ export function useIdVerification() {
                 antiSpoofingFaceImageConfidence >= thresholds.antiSpoofingFaceImageConfidence;
 
             if (!isApproved) {
-                setError('Verification failed: The provided documents did not meet the required confidence thresholds.');
+                setError('The provided documents did not meet the required confidence thresholds. Please try again with clearer images.');
             }
 
             const expiryDate = response.data.document.expires ? new Date(response.data.document.expires).toISOString() : null;
