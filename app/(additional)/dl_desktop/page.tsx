@@ -95,7 +95,7 @@ export default function DesktopVerificationComponent() {
         <Card className='mx-auto mt-8 w-full max-w-md'>
             <CardContent className='p-6'>
                 <div className='space-y-4 text-center'>
-                    <h2 className='font-bold text-2xl'>Desktop Verification</h2>
+                    <h2 className='font-bold text-2xl'>Driving Licence Verification</h2>
 
                     {error && (
                         <Alert variant='destructive'>

@@ -109,7 +109,7 @@ export default function MobileVerifyPage({ params }: PageProps) {
         <Card className='mx-auto mt-8 w-full max-w-md'>
             <CardContent className='p-6'>
                 <div className='space-y-4 text-center'>
-                    <h2 className='font-bold text-2xl'>Mobile Verification</h2>
+                    <h2 className='font-bold text-2xl'>Driving Licence Verification</h2>
 
                     {error && (
                         <Alert variant='destructive'>
@@ -126,12 +126,11 @@ export default function MobileVerifyPage({ params }: PageProps) {
 
                     {status === 'connected' && (
                         <div className='space-y-4'>
-                            <p className='text-muted-foreground'>Ready to verify</p>
-                            <Button onClick={() => handleVerify(true)} className='w-full'>
-                                Complete Verification
+                            <Button onClick={() => handleVerify(true)} variant='success' className='w-full'>
+                                Success
                             </Button>
-                            <Button onClick={() => handleVerify(false)} variant='outline' className='w-full'>
-                                Fail Verification
+                            <Button onClick={() => handleVerify(false)} variant='destructive' className='w-full'>
+                                Fail
                             </Button>
                         </div>
                     )}
