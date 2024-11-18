@@ -27,7 +27,7 @@ export default function MobileVerifyPage({ params }: PageProps) {
     const [error, setError] = useState<string>('');
 
     useEffect(() => {
-        const socketio = io('http://localhost:8000', {
+        const socketio = io('https://auxiliary-service.onrender.com', {
             reconnectionAttempts: 3,
             timeout: 10000,
             transports: ['websocket', 'polling']

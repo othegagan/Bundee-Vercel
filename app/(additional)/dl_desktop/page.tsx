@@ -25,7 +25,7 @@ export default function DesktopVerificationComponent() {
     const [mobileUrl, setMobileUrl] = useState('');
 
     useEffect(() => {
-        const socketio = io('http://localhost:8000', {
+        const socketio = io('https://auxiliary-service.onrender.com', {
             reconnectionAttempts: 3,
             timeout: 10000,
             transports: ['websocket', 'polling']
