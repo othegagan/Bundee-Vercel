@@ -25,6 +25,7 @@ export default function MobileVerifyPage({ params }: PageProps) {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [status, setStatus] = useState<string>('connecting');
     const [error, setError] = useState<string>('');
+    const [interactionOccurred, setInteractionOccurred] = useState(false);
 
     useEffect(() => {
         const socketio = io('https://auxiliary-service.onrender.com', {
@@ -67,12 +68,28 @@ export default function MobileVerifyPage({ params }: PageProps) {
 
         setSocket(socketio);
 
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            if (!interactionOccurred) {
+                socketio.emit(
+                    'message',
+                    JSON.stringify({
+                        type: 'DESTROY_SESSION',
+                        sessionId
+                    })
+                );
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
         return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
             socketio.disconnect();
         };
-    }, [sessionId]);
+    }, [sessionId, interactionOccurred]);
 
     const handleVerify = (isVerified: boolean) => {
+        setInteractionOccurred(true);
         if (socket) {
             socket.emit(
                 'message',

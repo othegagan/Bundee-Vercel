@@ -39,7 +39,7 @@ export default function DesktopVerificationComponent() {
 
         socketio.on('connect_error', (err) => {
             console.error('Connection error:', err);
-            setError('Failed to connect to server. Please check if the server is running.');
+            setError('Failed to connect to server. Please check your internet connection and try again.');
             setStatus('error');
         });
 
@@ -62,6 +62,11 @@ export default function DesktopVerificationComponent() {
                     case 'VERIFY_STATUS':
                         setStatus(message.verified ? 'verified' : 'failed');
                         break;
+                    case 'SESSION_DESTROYED':
+                        setStatus('session_destroyed');
+                        setSessionId(null);
+                        setMobileUrl('');
+                        break;
                 }
             } catch (err) {
                 console.error('Error parsing message:', err);
@@ -77,7 +82,13 @@ export default function DesktopVerificationComponent() {
     }, []);
 
     const handleRetry = () => {
-        window.location.reload();
+        if (socket) {
+            setStatus('initializing');
+            setError('');
+            socket.emit('message', JSON.stringify({ type: 'DESKTOP_CONNECT' }));
+        } else {
+            window.location.reload();
+        }
     };
 
     return (
@@ -119,6 +130,13 @@ export default function DesktopVerificationComponent() {
                         <div className='space-y-4'>
                             <p className='text-destructive'>Verification failed.</p>
                             <Button onClick={handleRetry}>Try Again</Button>
+                        </div>
+                    )}
+
+                    {status === 'session_destroyed' && (
+                        <div className='space-y-4'>
+                            <p className='text-destructive'>Session was closed without verification.</p>
+                            <Button onClick={handleRetry}>Start New Verification</Button>
                         </div>
                     )}
 
