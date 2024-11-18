@@ -10,7 +10,11 @@ import dynamic from 'next/dynamic';
 const QRCodeSVG = dynamic(() => import('qrcode.react').then((mod) => mod.QRCodeSVG), { ssr: false });
 
 export default function DesktopVerificationComponent() {
-    const { error, status, mobileUrl, handleRetry } = useSocket('https://auxiliary-service.onrender.com');
+    const { error, status, mobileUrl, handleRetry } = useSocket({
+        serverUrl: 'https://auxiliary-service.onrender.com',
+        isMobile: false,
+        sessionId: null
+    });
 
     return (
         <Card className='mx-auto mt-8 w-full max-w-md'>
