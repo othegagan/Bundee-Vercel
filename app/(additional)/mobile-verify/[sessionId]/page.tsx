@@ -140,7 +140,6 @@ export default function MobileVerifyPage({ params }: PageProps) {
                     {status === 'failed' && (
                         <div className='space-y-4'>
                             <p className='text-destructive'>Verification failed.</p>
-                            <Button onClick={() => setStatus('connected')}>Try Again</Button>
                         </div>
                     )}
 
