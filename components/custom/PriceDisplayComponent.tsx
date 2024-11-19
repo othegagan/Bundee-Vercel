@@ -130,12 +130,12 @@ export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoo
                 {pricelist?.extraDayCharges > 0 && <PriceItem label='Extra Day charges' value={pricelist?.extraDayCharges} />}
                 <hr />
                 {/* Total Rental Charge */}
-                {pricelist?.tripTaxAmount > 0 && (
-                    <div className='flex items-center justify-between font-bold'>
-                        <div>Total Rental Charge</div>
-                        <div>${roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}</div>
+                <div className='flex items-center justify-between font-bold'>
+                    <div>Total Rental Charge</div>
+                    <div>
+                        {pricelist?.tripTaxAmount < 0 ? '-' : ''} ${roundToTwoDecimalPlaces(pricelist?.tripTaxAmount)}
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );
