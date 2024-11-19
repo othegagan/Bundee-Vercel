@@ -12,7 +12,7 @@ import { Dialog, DialogBody } from '../ui/dialog';
 import LocationSearchBox from './LocationSearchBox';
 import SearchCalendar from './SearchCalendar';
 
-const LocationSearchComponent = ({ searchCity }: any) => {
+const LocationSearchComponent = ({ searchCity, isOnVehiclesPage }: any) => {
     const pathname = usePathname();
     const router = useRouter();
     const [showModal, setShowModal] = useState(false);
@@ -76,7 +76,7 @@ const LocationSearchComponent = ({ searchCity }: any) => {
     return (
         <>
             <div
-                className={` md:sticky ${pathname === '/' ? 'md:top-[3.75rem]' : ''} select-none bg-white md:block ${pathname === '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
+                className={`md:sticky ${pathname === '/' ? 'md:top-[3.75rem]' : ''}${isOnVehiclesPage ? 'z-50' : ''} select-none bg-white md:block ${pathname === '/' ? 'block rounded-md' : '-mx-4 hidden'}`}>
                 <div className='grid grid-cols-2 gap-5 p-4 sm:p-4 md:grid-cols-12 lg:grid-cols-12'>
                     <div className='col-span-2 md:col-span-6 lg:col-span-4'>
                         <div className='flex w-full flex-col gap-1 '>
