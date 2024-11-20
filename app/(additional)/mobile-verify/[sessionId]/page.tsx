@@ -28,7 +28,7 @@ export default function MobileVerifyPage({ params }: PageProps) {
     const [interactionOccurred, setInteractionOccurred] = useState(false);
 
     useEffect(() => {
-        const socketio = io('https://auxiliary-service.onrender.com', {
+        const socketio = io('https://bundee-auxiliary-services-qa.azurewebsites.net', {
             reconnectionAttempts: 3,
             timeout: 10000,
             transports: ['websocket', 'polling']
