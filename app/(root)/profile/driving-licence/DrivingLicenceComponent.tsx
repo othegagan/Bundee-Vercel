@@ -4,6 +4,10 @@ import { DrivingLicenceDetailsSkeleton } from '@/components/skeletons/skeletons'
 import { Button } from '@/components/ui/button';
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import { useVerifiedDrivingProfile } from '@/hooks/useDrivingProfile';
+import { getSession } from '@/lib/auth';
+import { encryptingData } from '@/lib/decrypt';
+import { Link } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const DrivingLicenceComponent = () => {
     const { data: response, isLoading, error } = useVerifiedDrivingProfile();
@@ -30,7 +34,23 @@ const DrivingLicenceComponent = () => {
 export default DrivingLicenceComponent;
 
 function VerifiedDetailsComponent({ personalInfo, images, scores }) {
+    const [redirectUrl, setRedirectUrl] = useState<string>('');
     const drivingLicenseDialog = useDrivingLicenceDialog();
+
+    useEffect(() => {
+        async function generateRedirectUrl() {
+            try {
+                const session = await getSession();
+                const encryptUserId = encryptingData(String(session.userId));
+                const url = `/driving_licence_verification?callbackUrl=${encodeURIComponent(window.location.href)}&token=${encryptUserId}`;
+                setRedirectUrl(url);
+            } catch (error) {
+                console.error('Error generating redirect URL:', error);
+            }
+        }
+
+        generateRedirectUrl();
+    }, []);
 
     return (
         <div>
@@ -53,15 +73,11 @@ function VerifiedDetailsComponent({ personalInfo, images, scores }) {
             </div>
 
             <div className='mt-6 flex justify-end'>
-                <Button
-                    type='button'
-                    variant='black'
-                    onClick={() => {
-                        drivingLicenseDialog.isUpdate = true;
-                        drivingLicenseDialog.onOpen();
-                    }}>
-                    Update Driving Licence
-                </Button>
+                <Link href={redirectUrl}>
+                    <Button type='button' variant='black'>
+                        Update Driving Licence
+                    </Button>
+                </Link>
             </div>
         </div>
     );

@@ -76,15 +76,9 @@ export default function DrivingLicensePage() {
                 <Link href='/checkout/insurance' className='w-full'>
                     <Button className='w-full'> Confirm Driver&apos;s Licence </Button>
                 </Link>
-                <Button
-                    type='button'
-                    variant='outline'
-                    onClick={() => {
-                        drivingLicenseDialog.isUpdate = true;
-                        drivingLicenseDialog.onOpen();
-                    }}>
-                    Re-Verify
-                </Button>
+                <Link href={redirectUrl} className='w-full'>
+                    <Button className='w-full'> Re-Verify </Button>
+                </Link>
             </div>
         </div>
     );

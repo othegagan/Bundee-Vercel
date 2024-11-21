@@ -223,7 +223,7 @@ export default function DLMainComponent() {
                         </ContentWithTitle>
                     )}
 
-                    {mobileUrl && <p className='break-all text-muted-foreground text-sm'>{mobileUrl}</p>}
+                    {/* {mobileUrl && <p className='break-all text-muted-foreground text-sm'>{mobileUrl}</p>} */}
                 </div>
             </>
         );
