@@ -67,6 +67,7 @@ const AddressSearchBox = ({ setCustomDeliveryLocation }: any) => {
                             onMouseDown={() => {
                                 setShow(false);
                                 setInputValue(item.placeName);
+                                setCustomDeliveryLocation(item.placeName);
                                 clearTimeout(blurTimeoutId);
                             }}>
                             <span>{item.placeName}</span>

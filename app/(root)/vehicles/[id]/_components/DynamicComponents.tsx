@@ -127,6 +127,11 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                   ? deliveryDetails?.nonAirportDeliveryCost
                   : 0;
 
+            const airPortDeliveryAddress = searchParams.get('city') || '';
+            const deliveryLocation =
+                (isCustoumDeliveryChoosen || isAirportDeliveryChoosen) &&
+                parseDeliveryLocation(airportDelivery ? airPortDeliveryAddress : customDeliveryLocation);
+
             const checkoutDetails = {
                 userId: session.userId,
                 vehicleid: vehicleDetails.id,
@@ -149,12 +154,12 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 pickupTime: startTime,
                 dropTime: endTime,
                 comments: 'Request to book',
-                address1: '',
-                address2: '',
-                cityName: '',
-                country: '',
-                state: '',
-                zipCode: vehicleDetails?.zipcode,
+                address1: deliveryLocation?.address1 || '',
+                address2: deliveryLocation?.address2 || '',
+                cityName: deliveryLocation?.cityName || '',
+                country: deliveryLocation?.country || '',
+                state: deliveryLocation?.state || '',
+                zipCode: deliveryLocation?.zipCode || vehicleDetails?.zipcode,
                 latitude: '',
                 longitude: '',
                 ...priceCalculatedList,
@@ -309,4 +314,39 @@ function extractFirstDeliveryDetails(constraintsArray: any[]) {
     } catch (error) {
         console.log(error);
     }
+}
+
+function parseDeliveryLocation(customDeliveryLocation: string) {
+    const result = {
+        address1: '',
+        address2: '',
+        cityName: '',
+        state: '',
+        zipCode: '',
+        country: ''
+    };
+
+    // Split by commas to identify parts
+    const parts = customDeliveryLocation.split(',').map((part) => part.trim());
+
+    // Handle different formats
+    if (parts.length === 3) {
+        // Format: "Austin, Texas, United States"
+        result.cityName = parts[0];
+        const stateZip = parts[1].split(' ').filter(Boolean);
+        result.state = stateZip[0] || '';
+        result.zipCode = stateZip[1] || '';
+        result.country = parts[2];
+    } else if (parts.length === 5) {
+        // Format: "2007 Nails & Spa, 15508 W Bell Rd, Surprise, Arizona 85374, United States"
+        result.address1 = parts[0];
+        result.address2 = parts[1];
+        result.cityName = parts[2];
+        const stateZip = parts[3].split(' ').filter(Boolean);
+        result.state = stateZip[0] || '';
+        result.zipCode = stateZip[1] || '';
+        result.country = parts[4];
+    }
+
+    return result;
 }

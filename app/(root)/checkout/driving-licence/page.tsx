@@ -4,31 +4,48 @@ import { CheckoutDrivingLicenceSkeleton } from '@/components/skeletons/skeletons
 import { Button } from '@/components/ui/button';
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import { useVerifiedDrivingProfile } from '@/hooks/useDrivingProfile';
+import { getSession } from '@/lib/auth';
+import { encryptingData } from '@/lib/decrypt';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function DrivingLicensePage() {
-    const { data: response, isLoading, error } = useVerifiedDrivingProfile();
+    const [redirectUrl, setRedirectUrl] = useState<string>('');
 
+    const { data: response, isLoading } = useVerifiedDrivingProfile();
     const drivingLicenseDialog = useDrivingLicenceDialog();
+
+    const { isDrivingProfileVerified = false, verifiedDetails = null } = response || {};
+
+    useEffect(() => {
+        async function generateRedirectUrl() {
+            try {
+                const session = await getSession();
+                const encryptUserId = encryptingData(String(session.userId));
+                const url = `/driving_licence_verification?callbackUrl=${encodeURIComponent(window.location.href)}&token=${encryptUserId}`;
+                setRedirectUrl(url);
+            } catch (error) {
+                console.error('Error generating redirect URL:', error);
+            }
+        }
+
+        generateRedirectUrl();
+    }, []);
 
     if (isLoading) {
         return <CheckoutDrivingLicenceSkeleton />;
     }
 
-    const { isDrivingProfileVerified, verifiedDetails } = response || {};
-
-    // Driving licence not verified
     if (!isDrivingProfileVerified || !verifiedDetails) {
         return (
             <div className='flex flex-col gap-6'>
                 <h2 className='font-bold text-xl'>Verify Driver&apos;s Licence</h2>
-
                 <p>
                     Please upload your Driver’s Licence so that we can verify it. If you choose to skip this step, please note that your reservation cannot be
                     approved, and we cannot guarantee that your car will be available at the date/time requested.
                 </p>
                 <div className='mt-10 flex flex-col gap-5'>
-                    <Link href='/driving_licence_verification' className='w-full'>
+                    <Link href={redirectUrl} className='w-full'>
                         <Button className='w-full'> Verify Driver&apos;s Licence </Button>
                     </Link>
                     <Link href='/checkout/insurance' className='w-full'>
@@ -43,7 +60,6 @@ export default function DrivingLicensePage() {
 
     const { personalInfo } = verifiedDetails;
 
-    // Driving licence verified
     return (
         <div className='flex flex-col gap-6'>
             <h2 className='font-bold text-xl'>Confirm Driver&apos;s Licence</h2>
