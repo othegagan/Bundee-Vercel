@@ -6,14 +6,85 @@ import { useIDVCProcess } from '@/hooks/useIDVCProcess';
 import { useUpdateDriverProfile } from '@/hooks/useUpdateDriverProfile';
 import { decryptingData } from '@/lib/decrypt';
 import { extractBase64Image } from '@/lib/utils';
-import { CircleCheckIcon } from '@/public/icons';
+import { CircleCheckIcon, LogoIcon } from '@/public/icons';
 import { CircleX } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { type Socket, io } from 'socket.io-client';
 
-export default function DLMobile() {
-    const router = useRouter();
+interface SocketMessage {
+    type: string;
+    sessionId?: string;
+    verified?: boolean;
+    [key: string]: any;
+}
+
+const useMobileSocket = (sessionId: string) => {
+    const [socket, setSocket] = useState<Socket | null>(null);
+    const [status, setStatus] = useState<string>('connecting');
+    const [error, setError] = useState<string>('');
+
+    useEffect(() => {
+        const socketio = io(process.env.NEXT_PUBLIC_AUXILIARY_SERVICE_BASEURL, {
+            reconnectionAttempts: 3,
+            timeout: 10000,
+            transports: ['websocket', 'polling']
+        });
+
+        socketio.on('connect', () => {
+            console.log('Connected to WebSocket');
+            setStatus('connected');
+            socketio.emit(
+                'message',
+                JSON.stringify({
+                    type: 'MOBILE_CONNECT',
+                    sessionId
+                })
+            );
+        });
+
+        socketio.on('connect_error', (err) => {
+            console.error('Connection error:', err);
+            setError('Failed to connect to server. Please try scanning the QR code again.');
+            setStatus('error');
+        });
+
+        socketio.on('message', (data: string) => {
+            try {
+                const message: SocketMessage = JSON.parse(data);
+                console.log('Received message:', message);
+
+                if (message.type === 'VERIFY_COMPLETE') {
+                    setStatus('verified');
+                }
+            } catch (err) {
+                console.error('Error parsing message:', err);
+                setError('Invalid message format received');
+            }
+        });
+
+        setSocket(socketio);
+
+        return () => {
+            socketio.disconnect();
+        };
+    }, [sessionId]);
+
+    const emitMessage = (message: SocketMessage) => {
+        if (socket) {
+            socket.emit('message', JSON.stringify(message));
+        } else {
+            console.error('Socket not initialized');
+        }
+    };
+
+    return { status, error, emitMessage, setStatus, setError };
+};
+
+export default function MobileVerify({ sessionId }) {
     const params = useSearchParams();
+    const { status, error, emitMessage, setStatus, setError } = useMobileSocket(sessionId);
+    const [interactionOccurred, setInteractionOccurred] = useState(false);
 
     const token = params.get('token');
     const cssLinkRef = useRef<HTMLLinkElement | null>(null);
@@ -22,11 +93,31 @@ export default function DLMobile() {
 
     const { updateError, handleUpdateDriverProfile, isUpdating, isVerifying, isLicenseApproved, isUpdateSuccessful } = useUpdateDriverProfile();
 
-    const updateQueryParam = (status: 'true' | 'false') => {
-        const params = new URLSearchParams(window.location.search);
-        params.set('drivinglicenseverified', status);
-        const updatedURL = `${window.location.pathname}?${params.toString()}`;
-        router.push(updatedURL);
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            if (!interactionOccurred) {
+                emitMessage({
+                    type: 'DESTROY_SESSION',
+                    sessionId
+                });
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [interactionOccurred, emitMessage, sessionId]);
+
+    const handleVerify = (isVerified: boolean) => {
+        setInteractionOccurred(true);
+        emitMessage({
+            type: 'VERIFY_STATUS',
+            sessionId,
+            verified: isVerified
+        });
+        setStatus(isVerified ? 'verified' : 'failed');
     };
 
     useEffect(() => {
@@ -86,25 +177,31 @@ export default function DLMobile() {
             };
             const response = await handleUpdateDriverProfile(payload, decryptedUserId);
             if (response.success) {
-                updateQueryParam(response.isApproved ? 'true' : 'false');
+                handleVerify(!!response.isApproved);
             } else {
-                updateQueryParam('false');
+                handleVerify(false);
             }
             resetProcess();
         });
     };
 
-    if (!token) {
-        return <ErrorDisplay error={'No token found. Please go back to the mobile app and try again.'} />;
-    }
-
     return (
         <ClientOnly>
+            <div className='fixed top-10 left-[10%]'>
+                <LogoIcon />
+            </div>
             <div className={`flex h-[100dvh] flex-col items-center overflow-x-hidden p-5 ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
-                {!isProcessStarted && !isUpdating && !isVerifying && !isUpdateSuccessful && !updateError && (
-                    <div className='my-auto flex flex-col items-center gap-5 text-center'>
-                        <h3 className=' font-bold text-2xl'>Verify Driving Licence</h3>
-                        <p className=' max-w-2xl text-balance '>Please have your driver's license ready and make sure your camera permissions are enabled.</p>
+                {status === 'connecting' && (
+                    <div className='flex items-center justify-center space-x-2'>
+                        <img src='./images/car_loading.gif' alt='loading' className='w-52' />
+                        <h3 className='font-bold text-lg'>Connecting to server...</h3>
+                    </div>
+                )}
+
+                {!isProcessStarted && !isUpdating && !isVerifying && !isUpdateSuccessful && !updateError && status === 'connected' && (
+                    <div className='my-auto flex flex-col gap-5'>
+                        <h3 className=' font-bold text-3xl'>Verify Driving Licence</h3>
+                        <p className=' max-w-2xl '>Please have your driver's license ready and make sure your camera permissions are enabled.</p>
                         <p className='mb-6 max-w-2xl text-balance '>Click the start button to begin the verification process.</p>
                         <ProcessStartButton
                             isVisible={!isProcessStarted && !isUpdating && !isVerifying && !isUpdateSuccessful && !updateError}
@@ -120,9 +217,9 @@ export default function DLMobile() {
                     />
                 )}
 
-                <ErrorDisplay error={processError || updateError} />
+                {status === 'failed' && <ErrorDisplay error={processError || updateError} />}
 
-                <SuccessDisplay success={isUpdateSuccessful} isApproved={isLicenseApproved} />
+                <SuccessDisplay success={status === 'verified'} />
             </div>
         </ClientOnly>
     );
@@ -132,7 +229,7 @@ function ProcessStartButton({ isVisible, onStart }) {
     if (!isVisible) return null;
 
     return (
-        <Button onClick={onStart} size='lg' className='w-full max-w-[300px]'>
+        <Button onClick={onStart} size='lg' className='w-full max-w-[300px] lg:max-w-[512px]'>
             Start Licence Verification
         </Button>
     );
@@ -145,36 +242,20 @@ function ErrorDisplay({ error }) {
         <div className='my-auto flex flex-col items-center justify-center gap-6 text-center'>
             <CircleX className='size-20 text-red-500' />
 
-            <h1 className='font-bold text-2xl'>Verification failed..!</h1>
+            <h1 className='font-bold text-2xl'>Verification failed!</h1>
             <p className='max-w-[600px] text-balance'>{error}</p>
-
-            <Button
-                variant='black'
-                size='lg'
-                onClick={() => {
-                    // remove drivinglicenseverified query param
-                    const params = new URLSearchParams(window.location.search);
-                    params.delete('drivinglicenseverified');
-                    const updatedURL = `${window.location.pathname}?${params.toString()}`;
-                    window.history.replaceState({}, '', updatedURL);
-                    window.location.reload();
-                }}>
-                Retry
-            </Button>
         </div>
     );
 }
 
-function SuccessDisplay({ success, isApproved }) {
-    if (!success || !isApproved) return null;
+function SuccessDisplay({ success }) {
+    if (!success) return null;
 
     return (
         <div className='my-auto flex flex-col items-center gap-6 text-center'>
-            <CircleCheckIcon className='size-24 text-green-500' />
-            <h1 className='font-bold text-2xl'>Verification Successful..!</h1>
-            <p className='max-w-[600px] text-balance'>
-                Thanks for verifying your driving licence with MyBundee. Please return to the mobile app to proceed further.
-            </p>
+            <CircleCheckIcon className='mb-6 size-24 text-[#85A80F]' />
+            <h1 className='font-bold text-2xl'>Verification Successful!</h1>
+            <p className='max-w-[600px] text-balance'>Your documents are verified. Please switch to your desktop to and countinue.</p>
         </div>
     );
 }

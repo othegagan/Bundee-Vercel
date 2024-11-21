@@ -8,14 +8,16 @@ import { decryptingData } from '@/lib/decrypt';
 import { extractBase64Image } from '@/lib/utils';
 import { CircleCheckIcon } from '@/public/icons';
 import { CircleX } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-export default function DLMobile() {
+export default function IDScan() {
     const router = useRouter();
     const params = useSearchParams();
 
     const token = params.get('token');
+    const callbackUrl = params.get('callbackUrl');
     const cssLinkRef = useRef<HTMLLinkElement | null>(null);
 
     const { isProcessStarted, processError, startIDVCProcess, idvcInstance, resetProcess } = useIDVCProcess(cssLinkRef);
@@ -84,19 +86,10 @@ export default function DLMobile() {
                 overriddenSettings: { isOCREnabled: true, isBackOrSecondImageProcessingEnabled: true, isFaceMatchEnabled: true },
                 metadata: { captureMethod }
             };
-            const response = await handleUpdateDriverProfile(payload, decryptedUserId);
-            if (response.success) {
-                updateQueryParam(response.isApproved ? 'true' : 'false');
-            } else {
-                updateQueryParam('false');
-            }
+            await handleUpdateDriverProfile(payload, decryptedUserId);
             resetProcess();
         });
     };
-
-    if (!token) {
-        return <ErrorDisplay error={'No token found. Please go back to the mobile app and try again.'} />;
-    }
 
     return (
         <ClientOnly>
@@ -122,7 +115,7 @@ export default function DLMobile() {
 
                 <ErrorDisplay error={processError || updateError} />
 
-                <SuccessDisplay success={isUpdateSuccessful} isApproved={isLicenseApproved} />
+                <SuccessDisplay success={isUpdateSuccessful} isApproved={isLicenseApproved} callbackUrl={callbackUrl} />
             </div>
         </ClientOnly>
     );
@@ -165,16 +158,20 @@ function ErrorDisplay({ error }) {
     );
 }
 
-function SuccessDisplay({ success, isApproved }) {
+function SuccessDisplay({ success, isApproved, callbackUrl }) {
     if (!success || !isApproved) return null;
 
     return (
         <div className='my-auto flex flex-col items-center gap-6 text-center'>
             <CircleCheckIcon className='size-24 text-green-500' />
             <h1 className='font-bold text-2xl'>Verification Successful..!</h1>
-            <p className='max-w-[600px] text-balance'>
-                Thanks for verifying your driving licence with MyBundee. Please return to the mobile app to proceed further.
-            </p>
+            <p className='max-w-[600px] text-balance'>Thanks for verifying your driving licence with MyBundee.</p>
+
+            {callbackUrl && (
+                <Link href={callbackUrl} className='mt-8 rounded-md bg-black p-2 px-16 text-white hover:bg-black/80'>
+                    Go Back
+                </Link>
+            )}
         </div>
     );
 }

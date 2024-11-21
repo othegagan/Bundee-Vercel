@@ -269,3 +269,6 @@ export function CheckoutDrivingLicenceSkeleton() {
         </div>
     );
 }
+export default function QRCodeSkeleton() {
+    return <div className={`relative size-[200px] rounded-md bg-neutral-200 ${shimmer}`} />;
+}

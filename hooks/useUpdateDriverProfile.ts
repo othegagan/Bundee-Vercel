@@ -3,25 +3,19 @@
 import { useIdVerification } from '@/hooks/useIdVerification';
 import { getSession } from '@/lib/auth';
 import { updateDrivingLicence } from '@/server/userOperations';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export function useUpdateDriverProfile() {
-    const router = useRouter();
     const [isUpdating, setIsUpdating] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isUpdateSuccessful, setIsUpdateSuccessful] = useState(false);
     const { verifyDrivingLicence, isVerifying, error: verificationError } = useIdVerification();
     const [isLicenseApproved, setIsLicenseApproved] = useState(false);
 
-    const updateQueryParam = (status: 'true' | 'false') => {
-        const params = new URLSearchParams(window.location.search);
-        params.set('drivinglicenseverified', status);
-        const updatedURL = `${window.location.pathname}?${params.toString()}`;
-        router.push(updatedURL);
-    };
-
-    const handleUpdateDriverProfile = async (idScanPayload: any, decryptedUserId?: string) => {
+    const handleUpdateDriverProfile = async (
+        idScanPayload: any,
+        decryptedUserId?: string
+    ): Promise<{ success: boolean; isApproved?: boolean; error?: string }> => {
         setIsUpdating(true);
         setErrorMessage(null);
         setIsUpdateSuccessful(false);
@@ -33,26 +27,27 @@ export function useUpdateDriverProfile() {
             const { isApproved, requestId, expiryDate } = await verifyDrivingLicence(idScanPayload);
 
             const updatePayload = {
-                userId: userId,
+                userId,
                 idScanRequestID: requestId,
                 isVerified: isApproved,
-                expiryDate: expiryDate,
+                expiryDate,
                 drivingLicenseStatus: isApproved ? 'verified' : 'failed'
             };
 
             const updateResponse = await updateDrivingLicence(updatePayload);
-            if (updateResponse.success) {
-                setIsUpdateSuccessful(true);
-                updateQueryParam('true');
-            } else {
+
+            if (!updateResponse.success) {
                 throw new Error(updateResponse.message || 'Failed to update driving profile');
             }
+
+            setIsUpdateSuccessful(true);
             setIsLicenseApproved(isApproved);
 
-            updateQueryParam(isApproved ? 'true' : 'false');
+            return { success: true, isApproved };
         } catch (error) {
-            setErrorMessage(error instanceof Error ? error.message : 'An error occurred while updating your driving profile');
-            updateQueryParam('false');
+            const errorMsg = error instanceof Error ? error.message : 'An error occurred while updating your driving profile';
+            setErrorMessage(errorMsg);
+            return { success: false, error: errorMsg };
         } finally {
             setIsUpdating(false);
         }

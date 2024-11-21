@@ -2,14 +2,10 @@
 
 import dynamic from 'next/dynamic';
 
-const IDScanComponent = dynamic(() => import('./IDScanComponent'), {
+const DesktopVerificationComponent = dynamic(() => import('./DesktopVerificationComponent'), {
     ssr: false
 });
 
-export default function IDScanPage({ searchParams }: { searchParams: { [key: string]: string } }) {
-    let decodedToken = decodeURIComponent(searchParams.token);
-    // Replace spaces with the original + character
-    decodedToken = decodedToken.replace(/ /g, '+');
-
-    return <IDScanComponent searchParams={{ ...searchParams, token: decodedToken }} />;
+export default function Page() {
+    return <DesktopVerificationComponent />;
 }

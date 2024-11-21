@@ -88,9 +88,17 @@ export interface TripData {
     [key: string]: any;
 }
 
-export type VerificationStatus = 'initializing' | 'connecting' | 'connected' | 'waiting' | 'mobile_connected' | 'verified' | 'disconnected';
-
-export interface WebSocketMessage {
-    type: 'SESSION_ID' | 'MOBILE_CONNECT' | 'VERIFY_COMPLETE' | 'MOBILE_CONNECTED' | 'VERIFICATION_COMPLETE' | 'PONG';
+export interface SocketMessage {
+    type: string;
     sessionId?: string;
+    verified?: boolean;
+    [key: string]: any;
+}
+
+export interface UseSocketReturn {
+    status: string;
+    error: string;
+    sessionId: string | null;
+    mobileUrl: string;
+    retryConnection: () => void;
 }
