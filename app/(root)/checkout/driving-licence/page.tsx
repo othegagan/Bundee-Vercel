@@ -77,7 +77,10 @@ export default function DrivingLicensePage() {
                     <Button className='w-full'> Confirm Driver&apos;s Licence </Button>
                 </Link>
                 <Link href={redirectUrl} className='w-full'>
-                    <Button className='w-full'> Re-Verify </Button>
+                    <Button className='w-full' variant='outline'>
+                        {' '}
+                        Re-Verify{' '}
+                    </Button>
                 </Link>
             </div>
         </div>
