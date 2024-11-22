@@ -9,7 +9,7 @@ import { usePhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNu
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { phoneNumberVerifiedStatus } from '@/hooks/useDrivingProfile';
 import usePriceCalculation from '@/hooks/usePriceCalculation';
-import { validateBookingTime } from '@/hooks/useVehicleDetails';
+import { validateBookingTime, validateBookingTimeWithDelivery } from '@/hooks/useVehicleDetails';
 import { getSession } from '@/lib/auth';
 import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded, getFullAddress } from '@/lib/utils';
 import { addDays, format, isToday } from 'date-fns';
@@ -83,18 +83,28 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
         try {
             setProcessing(true);
 
-            // 1. Check if the driver as choosen  custom delivery location and entered a valid location
-            if (isCustoumDeliveryChoosen && !customDeliveryLocation) {
-                toast.error('Please enter custom delivery location.');
+            // 1.check for short notice late night reservation
+            const { isValid, error } = validateBookingTime(`${startDate}T${startTime}`);
+            if (!isValid) {
+                toast.error(error);
                 setProcessing(false);
                 return;
             }
 
-            // 2. check for short notice late night reservation
+            const { isValid: isValidDelivery, error: errorDelivery } = validateBookingTimeWithDelivery(
+                `${startDate}T${startTime}`,
+                isCustoumDeliveryChoosen,
+                isAirportDeliveryChoosen
+            );
+            if (!isValidDelivery) {
+                toast.error(errorDelivery);
+                setProcessing(false);
+                return;
+            }
 
-            const { isValid, error } = validateBookingTime(`${startDate}T${startTime}`);
-            if (!isValid) {
-                toast.error(error);
+            // 2. Check if the driver as choosen  custom delivery location and entered a valid location
+            if (isCustoumDeliveryChoosen && !customDeliveryLocation) {
+                toast.error('Please enter custom delivery location.');
                 setProcessing(false);
                 return;
             }
@@ -128,9 +138,18 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                   : 0;
 
             const airPortDeliveryAddress = searchParams.get('city') || '';
-            const deliveryLocation =
-                (isCustoumDeliveryChoosen || isAirportDeliveryChoosen) &&
-                parseDeliveryLocation(airportDelivery ? airPortDeliveryAddress : customDeliveryLocation);
+
+            let deliveryLocation = null;
+
+            // Check if custom delivery is chosen
+            if (isCustoumDeliveryChoosen) {
+                deliveryLocation = parseDeliveryLocation(customDeliveryLocation);
+            }
+
+            // Check if airport delivery is chosen
+            if (isAirportDeliveryChoosen) {
+                deliveryLocation = parseDeliveryLocation(airPortDeliveryAddress);
+            }
 
             const checkoutDetails = {
                 userId: session.userId,
@@ -176,7 +195,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 location: getFullAddress({ vehicleDetails: vehicleDetails })
             };
 
-            console.log('checkoutDetails', checkoutDetails);
+            // console.log('checkoutDetails', checkoutDetails);
 
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
             window.location.href = '/checkout/driving-licence';
@@ -333,7 +352,7 @@ function parseDeliveryLocation(customDeliveryLocation: string) {
     if (parts.length === 3) {
         // Format: "Austin, Texas, United States"
         result.cityName = parts[0];
-        const stateZip = parts[1].split(' ').filter(Boolean);
+        const stateZip = parts[1]?.split(' ').filter(Boolean);
         result.state = stateZip[0] || '';
         result.zipCode = stateZip[1] || '';
         result.country = parts[2];
@@ -342,7 +361,7 @@ function parseDeliveryLocation(customDeliveryLocation: string) {
         result.address1 = parts[0];
         result.address2 = parts[1];
         result.cityName = parts[2];
-        const stateZip = parts[3].split(' ').filter(Boolean);
+        const stateZip = parts[3]?.split(' ').filter(Boolean);
         result.state = stateZip[0] || '';
         result.zipCode = stateZip[1] || '';
         result.country = parts[4];

@@ -1,6 +1,6 @@
 import { getVehicleAllDetailsByVechicleId } from '@/server/vehicleOperations';
 import { useQuery } from '@tanstack/react-query';
-import { addDays, format, isAfter, isBefore, parseISO, set } from 'date-fns';
+import { add, addDays, differenceInHours, format, isAfter, isBefore, parse, parseISO, set } from 'date-fns';
 
 export const useVehicleDetails = (vehicleId: number | string) => {
     return useQuery({
@@ -48,5 +48,49 @@ export function validateBookingTime(bookingDateTime: string) {
     return {
         isValid: true,
         error: 'Booking time is valid'
+    };
+}
+
+export function validateBookingTimeWithDelivery(bookingDateTime: string, isCustomDelivery: boolean, isAirportDelivery: boolean) {
+    console.log(bookingDateTime, isCustomDelivery, isAirportDelivery);
+    // Ensure delivery conditions apply
+    if (isCustomDelivery || isAirportDelivery) {
+        const timeFormat = 'h:mm aa';
+        const dateTimeFormat = 'yyyy-MM-dd h:mm aa';
+
+        // Define restricted range times
+        const startOfRange = parse('7:00 PM', timeFormat, new Date());
+        const endOfRange = add(parse('9:00 AM', timeFormat, new Date()), { days: 1 });
+
+        // Parse given time
+        const bookingTime = parse(bookingDateTime, dateTimeFormat, new Date());
+        const now = new Date();
+
+        // Adjust for times crossing midnight
+        let adjustedBookingTime = bookingTime;
+        if (bookingTime.getHours() < 12 && adjustedBookingTime.getHours() < 12) {
+            adjustedBookingTime = add(adjustedBookingTime, { days: 1 });
+        }
+
+        // Additional condition: Check if pickup time is within 24 hours
+        if (differenceInHours(bookingTime, now) < 24) {
+            return {
+                isValid: false,
+                error: 'Vehicle delivery is not available for trips starting within 24 hours.'
+            };
+        }
+
+        // Check if the booking time falls within the restricted range
+        if ((isAfter(adjustedBookingTime, startOfRange) || isBefore(adjustedBookingTime, endOfRange)) && isCustomDelivery) {
+            return {
+                isValid: false,
+                error: `Vehicle delivery is unavailable between ${format(startOfRange, 'h:mm aa')} and ${format(endOfRange, 'h:mm aa')}.`
+            };
+        }
+    }
+
+    return {
+        isValid: true,
+        error: ''
     };
 }
