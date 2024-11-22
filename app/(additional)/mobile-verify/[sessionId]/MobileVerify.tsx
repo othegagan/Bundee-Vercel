@@ -200,9 +200,9 @@ export default function MobileVerify({ sessionId }) {
 
                 {!isProcessStarted && !isUpdating && !isVerifying && !isUpdateSuccessful && !updateError && status === 'connected' && (
                     <div className='my-auto flex flex-col gap-5'>
-                        <h3 className=' font-bold text-3xl'>Verify Driving Licence</h3>
+                        <h3 className=' font-bold text-3xl'>Verify Driver’s Licence</h3>
                         <p className=' max-w-2xl '>Please have your driver's license ready and make sure your camera permissions are enabled.</p>
-                        <p className='mb-6 max-w-2xl text-balance '>Click the start button to begin the verification process.</p>
+                        <p className='mb-6 max-w-2xl text-balance '>Click the Begin Verification button to begin the verification process.</p>
                         <ProcessStartButton
                             isVisible={!isProcessStarted && !isUpdating && !isVerifying && !isUpdateSuccessful && !updateError}
                             onStart={handleStartProcess}
@@ -229,8 +229,8 @@ function ProcessStartButton({ isVisible, onStart }) {
     if (!isVisible) return null;
 
     return (
-        <Button onClick={onStart} size='lg' className='w-full max-w-[300px] lg:max-w-[512px]'>
-            Start Licence Verification
+        <Button onClick={onStart} size='lg' className='w-full max-w-[300px] rounded-full lg:max-w-[512px]'>
+            Begin Verification
         </Button>
     );
 }

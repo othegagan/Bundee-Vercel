@@ -2,7 +2,10 @@
 
 import QRCodeSkeleton from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
+import { getSession } from '@/lib/auth';
+import { decryptingData } from '@/lib/decrypt';
 import { CircleCheckIcon, LogoIcon } from '@/public/icons';
+import { sendSMSLink } from '@/server/userOperations';
 import type { SocketMessage, UseSocketReturn } from '@/types';
 import { CircleX } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -11,6 +14,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { type Socket, io } from 'socket.io-client';
+import { toast } from 'sonner';
 import IDScan from './IDScan';
 
 const QRCodeSVG = dynamic(() => import('qrcode.react').then((mod) => mod.QRCodeSVG), { ssr: false });
@@ -133,42 +137,39 @@ export default function DLMainComponent() {
 
                     {status === 'initializing' && (
                         <ContentWithTitle>
-                            <p className='text-lg text-muted-foreground'>Scan QR code with your mobile device to continue verification.</p>
+                            <p className='max-w-[512px] text-wrap'>
+                                Please have your driver's licence ready and scan the QR code below to verify your licence on your phone.
+                            </p>
+
                             <div className='mt-6 flex justify-center lg:mt-7'>
                                 <QRCodeSkeleton />
                             </div>
 
-                            <h3 className='my-10 flex w-full items-center lg:max-w-[512px]'>
+                            <h3 className='mx-auto my-7 flex w-full items-center lg:max-w-[512px]'>
                                 <span className='h-1 flex-grow rounded bg-neutral-200' />
                                 <span className='mx-3 font-medium text-lg'>OR</span>
                                 <span className='h-1 flex-grow rounded bg-neutral-200' />
                             </h3>
 
-                            <div className='w-full lg:max-w-[512px]'>
-                                <Button variant='outline' size='lg' className='w-full rounded-full'>
-                                    Send SMS
-                                </Button>
-                            </div>
+                            <SendSMSLink />
                         </ContentWithTitle>
                     )}
 
                     {status === 'waiting' && (
                         <ContentWithTitle>
-                            <p className='text-lg text-muted-foreground'>Scan QR code with your mobile device to continue verification.</p>
+                            <p className='max-w-[512px] text-wrap'>
+                                Please have your driver's licence ready and scan the QR code below to verify your licence on your phone.
+                            </p>
+
                             <div className='mt-6 flex justify-center lg:mt-7'>{mobileUrl && <QRCodeSVG value={mobileUrl} size={200} />}</div>
 
-                            <h3 className='my-7 flex w-full items-center lg:max-w-[512px]'>
+                            <h3 className='mx-auto my-7 flex w-full items-center lg:max-w-[512px]'>
                                 <span className='h-1 flex-grow rounded bg-neutral-200' />
                                 <span className='mx-3 font-medium text-lg'>OR</span>
                                 <span className='h-1 flex-grow rounded bg-neutral-200' />
                             </h3>
 
-                            <div className='w-full lg:max-w-[512px]'>
-                                Click the button below to receive a verification link via SMS.
-                                <Button variant='outline' size='lg' className='mt-4 w-full rounded-full'>
-                                    Send SMS
-                                </Button>
-                            </div>
+                            <SendSMSLink />
                         </ContentWithTitle>
                     )}
 
@@ -232,10 +233,48 @@ export default function DLMainComponent() {
     return <IDScan />;
 }
 
+function SendSMSLink({ token }: { token?: string }) {
+    const [sending, setSending] = useState(false);
+
+    const tokenUserId = decryptingData(token?.trim() || '');
+
+    async function sendLink() {
+        try {
+            setSending(true);
+            const session = await getSession();
+            const userId = tokenUserId || session.userId;
+            const response = await sendSMSLink(userId);
+            if (response.success) {
+                toast.success('SMS sent successfully');
+            } else {
+                toast.error(`Failed to send SMS : ${response.message}`);
+            }
+        } catch (error) {
+            toast.error(`Failed to send SMS : ${error.message}`);
+        } finally {
+            setSending(false);
+        }
+    }
+
+    return (
+        <div className='mx-auto w-full lg:max-w-[512px]'>
+            Click the button below to receive a verification link via SMS.
+            <Button
+                variant='outline'
+                size='lg'
+                className='mt-4 w-full rounded-full border-primary text-primary hover:text-primary'
+                onClick={sendLink}
+                disabled={sending}>
+                {sending ? 'Sending...' : 'Send SMS'}
+            </Button>
+        </div>
+    );
+}
+
 function ContentWithTitle({ children }) {
     return (
         <div>
-            <h3 className='font-bold text-3xl'>Verify Driver’s License</h3>
+            <h3 className='font-bold text-3xl'>Verify Driver’s Licence</h3>
             {children}
         </div>
     );

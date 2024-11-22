@@ -96,9 +96,9 @@ export default function IDScan() {
             <div className={`flex h-[100dvh] flex-col items-center overflow-x-hidden p-5 ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
                 {!isProcessStarted && !isUpdating && !isVerifying && !isUpdateSuccessful && !updateError && (
                     <div className='my-auto flex flex-col items-center gap-5 text-center'>
-                        <h3 className=' font-bold text-2xl'>Verify Driving Licence</h3>
-                        <p className=' max-w-2xl text-balance '>Please have your driver's license ready and make sure your camera permissions are enabled.</p>
-                        <p className='mb-6 max-w-2xl text-balance '>Click the start button to begin the verification process.</p>
+                        <h3 className=' font-bold text-3xl'>Verify Driver’s Licence</h3>
+                        <p className=' max-w-2xl '>Please have your driver's license ready and make sure your camera permissions are enabled.</p>
+                        <p className='mb-6 max-w-2xl text-balance '>Click the Begin Verification button to begin the verification process.</p>
                         <ProcessStartButton
                             isVisible={!isProcessStarted && !isUpdating && !isVerifying && !isUpdateSuccessful && !updateError}
                             onStart={handleStartProcess}
@@ -125,12 +125,11 @@ function ProcessStartButton({ isVisible, onStart }) {
     if (!isVisible) return null;
 
     return (
-        <Button onClick={onStart} size='lg' className='w-full max-w-[300px]'>
-            Start Licence Verification
+        <Button onClick={onStart} size='lg' className='w-full max-w-[300px] rounded-full lg:max-w-[512px]'>
+            Begin Verification
         </Button>
     );
 }
-
 function ErrorDisplay({ error }) {
     if (!error) return null;
 

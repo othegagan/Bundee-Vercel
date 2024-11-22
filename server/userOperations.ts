@@ -191,8 +191,23 @@ export async function getAllUserWishlistedVehicles() {
 
 export async function updateDrivingLicence(payload: any) {
     try {
-        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/createDriverProfile`;
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/sendDrivingLiceceRemninder`;
         const response = await http.post(url, payload);
+        return handleResponse(response.data);
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+export async function sendSMSLink(userId: string | number) {
+    try {
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/sendDrivingLiceceRemninder`;
+        const payload = {
+            iduser: userId
+        };
+        console.log(payload);
+        const response = await http.post(url, payload);
+        console.log('response.data', response.data);
         return handleResponse(response.data);
     } catch (error: any) {
         throw new Error(error.message);
