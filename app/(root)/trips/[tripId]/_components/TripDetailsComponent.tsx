@@ -104,15 +104,16 @@ export default function TripDetailsComponent({
                         ({trip.tripPaymentTokens[0]?.totaldays} {trip?.tripPaymentTokens[0]?.totaldays === 1 ? 'Day' : 'Days'})
                     </span>
                 </div>
-                <div className='w-full flex-center justify-center gap-2 text-14 '>
-                    <MapPin className='size-5 text-muted-foreground' />
-                    <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
-                </div>
 
-                {(trip.delivery || trip.airportDelivery) && (
+                {trip.delivery || trip.airportDelivery ? (
                     <div className='w-full flex-center justify-center gap-2 text-14 '>
                         <MapPin className='size-5 text-muted-foreground' />
-                        <p> Delivery Location : {getFullDeliveryAddress(trip?.deliveryLocations[0])}</p>
+                        <p>Custom Delivery Location : {getFullDeliveryAddress(trip?.deliveryLocations[0])}</p>
+                    </div>
+                ) : (
+                    <div className='w-full flex-center justify-center gap-2 text-14 '>
+                        <MapPin className='size-5 text-muted-foreground' />
+                        <p className=' max-w-[300px] truncate'>{getFullAddress({ tripDetails: trip })}</p>
                     </div>
                 )}
             </div>
