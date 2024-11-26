@@ -191,7 +191,7 @@ export async function getAllUserWishlistedVehicles() {
 
 export async function updateDrivingLicence(payload: any) {
     try {
-        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/sendDrivingLiceceRemninder`;
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/createDriverProfile`;
         const response = await http.post(url, payload);
         return handleResponse(response.data);
     } catch (error: any) {
@@ -201,7 +201,7 @@ export async function updateDrivingLicence(payload: any) {
 
 export async function sendSMSLink(userId: string | number) {
     try {
-        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/sendDrivingLiceceRemninder`;
+        const url = `${process.env.USER_MANAGEMENT_BASEURL}/v1/user/sendDrivingLicenceReminder`;
         const payload = {
             iduser: userId
         };
