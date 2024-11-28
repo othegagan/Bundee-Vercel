@@ -6,7 +6,7 @@ import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog
 import { useVerifiedDrivingProfile } from '@/hooks/useDrivingProfile';
 import { getSession } from '@/lib/auth';
 import { encryptingData } from '@/lib/decrypt';
-import { Link } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const DrivingLicenceComponent = () => {

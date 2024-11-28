@@ -119,7 +119,7 @@ export default function DLMainComponent() {
                 <div className='flex h-[100dvh] flex-col items-center justify-center gap-5 overflow-x-hidden p-5 lg:gap-8'>
                     {error && (
                         <ContentWithTitle>
-                            <p className='my-10 max-w-[600px] text-balance'>{error}</p>
+                            <p className='my-10'>{error}</p>
 
                             <div className='w-full lg:max-w-[512px]'>
                                 <Button
@@ -175,7 +175,7 @@ export default function DLMainComponent() {
 
                     {status === 'mobile_connected' && (
                         <div className='flex flex-col items-center gap-3 text-center '>
-                            <img src='./images/car_loading.gif' alt='loading' className='w-52' />
+                            <CircleCheckIcon className='mb-6 size-24 text-[#85A80F]' />
                             <h3 className='font-bold text-3xl'>Connection Successful!</h3>
                             <p className=' max-w-[600px] text-lg'>
                                 Your device is now connected. Please proceed to verify your driver's license on your phone.

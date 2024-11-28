@@ -193,8 +193,9 @@ export default function MobileVerify({ sessionId }) {
             <div className={`flex h-[100dvh] flex-col items-center overflow-x-hidden p-5 ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
                 {status === 'connecting' && (
                     <div className='my-auto flex flex-col gap-5'>
-                        <img src='/images/car_loading.gif' alt='loading' className='w-52' />
-                        <h3 className='font-bold text-lg'>Connecting to server...</h3>
+                        <img src='./images/car_loading.gif' alt='loading' className='w-52' />
+                        <h3 className='font-bold text-3xl'>Connecting your device</h3>
+                        <p className=' max-w-[600px] text-lg'>Your connection is being established. </p>
                     </div>
                 )}
 
@@ -241,7 +242,6 @@ function ErrorDisplay({ error }) {
     return (
         <div className='my-auto flex flex-col items-center justify-center gap-6 text-center'>
             <CircleX className='size-20 text-red-500' />
-
             <h1 className='font-bold text-2xl'>Verification failed!</h1>
             <p className='max-w-[600px] text-balance'>{error}</p>
         </div>
