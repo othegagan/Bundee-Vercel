@@ -255,7 +255,7 @@ function SuccessDisplay({ success }) {
         <div className='my-auto flex flex-col items-center gap-6 text-center'>
             <CircleCheckIcon className='mb-6 size-24 text-[#85A80F]' />
             <h1 className='font-bold text-2xl'>Verification Successful!</h1>
-            <p className='max-w-[600px] text-balance'>Your documents are verified. Please switch to your desktop to and countinue.</p>
+            <p className='max-w-[600px] text-balance'>Your documents are verified. Please switch to your desktop to continue.</p>
         </div>
     );
 }
