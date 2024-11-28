@@ -192,8 +192,8 @@ export default function MobileVerify({ sessionId }) {
             </div>
             <div className={`flex h-[100dvh] flex-col items-center overflow-x-hidden p-5 ${isProcessStarted ? 'overflow-y-auto' : ''}`}>
                 {status === 'connecting' && (
-                    <div className='my-auto flex flex-col gap-5'>
-                        <img src='./images/car_loading.gif' alt='loading' className='w-52' />
+                    <div className='my-auto flex flex-col items-center gap-5'>
+                        <img src='/images/car_loading.gif' alt='loading' className='w-52' />
                         <h3 className='font-bold text-3xl'>Connecting your device</h3>
                         <p className=' max-w-[600px] text-lg'>Your connection is being established. </p>
                     </div>
