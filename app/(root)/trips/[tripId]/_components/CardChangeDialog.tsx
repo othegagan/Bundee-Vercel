@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody } from '@/components/ui/dialog';
 import useCardChangeDialog from '@/hooks/dialogHooks/useCardChangeDialog';
 import getStripe from '@/lib/get-stripejs';
-import { CardChangeIcon } from '@/public/icons';
 import { createSetUpIntent } from '@/server/checkout';
 import { changeCardForTrip } from '@/server/tripOperations';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
@@ -51,10 +50,12 @@ export default function CardChangeDialog({ tripId }: CardChangeDialogProps) {
 
     return (
         <>
-            <Button onClick={openModal} variant='link' className='flex items-center gap-2 p-0 font-semibold text-foreground' size='lg'>
-                <CardChangeIcon className='size-6' />
+            <button
+                type='button'
+                onClick={openModal}
+                className='flex items-center gap-2 p-0 font-semibold text-blue-600 text-foreground underline underline-offset-2'>
                 Change Card
-            </Button>
+            </button>
 
             {cardChangeDialog.isOpen && (
                 <Dialog

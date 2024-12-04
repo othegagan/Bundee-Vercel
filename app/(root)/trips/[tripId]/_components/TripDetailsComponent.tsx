@@ -3,9 +3,11 @@
 import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 import { Skeleton } from '@/components/ui/skeleton';
 import { determineDeliveryType, formatDateAndTime, getFullAddress, sortImagesByIsPrimary, toTitleCase } from '@/lib/utils';
+import { AmexLogoIcon, DiscoverLogoIcon, JCBLogoIcon, MasterCardLogoIcon, VisaLogoIcon } from '@/public/icons';
 import { MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { StatusBadge } from '../../TripsComponent';
+import CardChangeDialog from './CardChangeDialog';
 import TripImageVideoCarousel from './TripImageVideoCarousel';
 import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
 import { splitFormattedDateAndTime } from './TripModificationDialog';
@@ -119,7 +121,22 @@ export default function TripDetailsComponent({
             </div>
 
             {/* Payment Section */}
-            <PriceDisplayComponent pricelist={trip?.tripPaymentTokens[0]} isAirportDeliveryChoosen={isAirportDeliveryChoosen} invoiceUrl={trip.invoiceUrl} />
+            <PriceDisplayComponent pricelist={trip?.tripPaymentTokens[0]} isAirportDeliveryChoosen={isAirportDeliveryChoosen} invoiceUrl={trip.invoiceUrl}>
+                {trip?.cardDetails?.length > 0 && (
+                    <div className='mb-2 flex flex-wrap items-center gap-1 font-normal md:justify-between'>
+                        <div className='flex flex-wrap items-center gap-1'>
+                            Paid using
+                            <CardBrandIcon cardType={trip?.cardDetails[0]?.cardBrand} />
+                            <span className='capitalize'>{trip?.cardDetails[0]?.cardBrand}</span>(
+                            {trip?.cardDetails[0]?.cardType === 'debit' ? 'Debit Card' : 'Credit Card'}) ending
+                            <span className='text-neutral-700'>••••</span> {trip?.cardDetails[0]?.last4Digit}
+                        </div>
+                        {!['cancelled', 'completed', 'rejected', 'cancellation requested'].includes(trip.status.toLowerCase()) && (
+                            <CardChangeDialog tripId={Number(trip.tripid)} />
+                        )}
+                    </div>
+                )}
+            </PriceDisplayComponent>
 
             {/* Readiness Checklist Section */}
             {trip.status.toLowerCase() !== 'completed' && trip.status.toLowerCase() !== 'cancelled' && trip.status.toLowerCase() !== 'rejected' && (
@@ -161,4 +178,21 @@ function HostDetails({ hostName, hostImage, hostPhoneNumber }: { hostName: strin
             </div>
         </div>
     );
+}
+
+function CardBrandIcon({ cardType }: { cardType: string }) {
+    switch (cardType.toLowerCase()) {
+        case 'visa':
+            return <VisaLogoIcon className='h-5 w-6' />;
+        case 'mastercard':
+            return <MasterCardLogoIcon className='h-5 w-6' />;
+        case 'amex':
+            return <AmexLogoIcon className='h-5 w-6' />;
+        case 'discover':
+            return <DiscoverLogoIcon className='h-5 w-6' />;
+        case 'jcb':
+            return <JCBLogoIcon className='h-5 w-6' />;
+        default:
+            return null;
+    }
 }

@@ -9,14 +9,19 @@ interface PriceDisplayComponentProps {
     isAirportDeliveryChoosen: boolean;
     invoiceUrl?: string;
     deliveryCost?: number;
+    children?: React.ReactNode;
 }
 
-export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoosen, invoiceUrl, deliveryCost = 0 }: PriceDisplayComponentProps) {
+export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoosen, invoiceUrl, deliveryCost = 0, children }: PriceDisplayComponentProps) {
     return (
         <div className='flex flex-col gap-2'>
-            <div className='flex items-center justify-between'>
-                <div className='font-bold text-md '>Payment</div>
-                {invoiceUrl && <InvoiceHandlerComponent invoiceUrl={invoiceUrl} />}
+            <div className='flex flex-col gap-1.5'>
+                <div className='flex items-center justify-between'>
+                    <div className='font-bold text-md '>Payment</div>
+                    {invoiceUrl && <InvoiceHandlerComponent invoiceUrl={invoiceUrl} />}
+                </div>
+
+                {children}
             </div>
 
             <div className='w-full space-y-1'>
