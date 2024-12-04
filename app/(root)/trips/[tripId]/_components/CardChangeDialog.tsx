@@ -50,10 +50,7 @@ export default function CardChangeDialog({ tripId }: CardChangeDialogProps) {
 
     return (
         <>
-            <button
-                type='button'
-                onClick={openModal}
-                className='flex items-center gap-2 p-0 font-semibold text-blue-600 text-foreground underline underline-offset-2'>
+            <button type='button' onClick={openModal} className='flex items-center gap-2 p-0 font-semibold text-blue-600 underline underline-offset-2'>
                 Change Card
             </button>
 
