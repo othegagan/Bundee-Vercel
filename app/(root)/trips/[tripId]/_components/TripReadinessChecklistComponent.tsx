@@ -183,7 +183,7 @@ function DrivingLicencePending() {
     return (
         <>
             <button type='button' className='text-md underline underline-offset-2' onClick={openModal}>
-                Accept sdfasd
+                Accept
             </button>
 
             <Dialog isOpen={isModalOpen} openDialog={openModal} closeDialog={closeModal} title='Document Verification Pending'>
