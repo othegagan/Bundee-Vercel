@@ -1,8 +1,11 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
 import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import { usePhoneNumberVerificationDialog } from '@/hooks/dialogHooks/usePhoneNumberVerificationDialog';
 import { useGenerateInsuranceVerificationLink } from '@/hooks/useDrivingProfile';
+import { useState } from 'react';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { RxQuestionMarkCircled } from 'react-icons/rx';
 import { toast } from 'sonner';
@@ -16,7 +19,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
     const drivingLicenseFlag = trip.isLicenseVerified;
     const isPhoneVerifiedFlag = trip.isPhoneVarified;
     const insuranceFlag = trip.isInsuranceVerified && trip.insuranceStatus?.toLowerCase() === 'verified';
-    const insuranceStatus = trip.insuranceStatus?.toLowerCase();
+    const insuranceStatus = trip.insuranceStatus?.toLowerCase() || 'notverified';
 
     return (
         <div className='flex flex-col gap-2'>
@@ -29,7 +32,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                         <RxQuestionMarkCircled className='size-5 text-yellow-500' />
                     ) : (
                         <IoCheckmarkCircleOutline className='size-5 text-green-500' />
-                    )}{' '}
+                    )}
                     Driving Licence
                 </div>
                 {!drivingLicenseFlag ? (
@@ -62,7 +65,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                         <RxQuestionMarkCircled className='size-5 text-yellow-500' />
                     ) : (
                         <IoCheckmarkCircleOutline className='size-5 text-green-500' />
-                    )}{' '}
+                    )}
                     Insurance
                 </div>
                 {insuranceStatus === 'inprogress' && (
@@ -83,17 +86,23 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                         <RxQuestionMarkCircled className='size-5 text-yellow-500' />
                     ) : (
                         <IoCheckmarkCircleOutline className='size-5 text-green-500' />
-                    )}{' '}
+                    )}
                     Rental Agreement
                 </div>
-                {!trip.isRentalAgreed && ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(trip.status.toLowerCase()) === -1 && (
-                    <RentalAgreementHandler
-                        isRentalAgreed={trip.isRentalAgreed}
-                        tripId={trip.tripid}
-                        rentalAgreementUrl={trip.rentalAgrrementUrl}
-                        rentalAgreedDate={trip.rentalAgreedDate}
-                    />
-                )}
+
+                {!trip.isRentalAgreed &&
+                    ['cancelled', 'completed', 'rejected', 'cancellation requested'].indexOf(trip.status.toLowerCase()) === -1 &&
+                    (!drivingLicenseFlag ? (
+                        <DrivingLicencePending />
+                    ) : (
+                        <RentalAgreementHandler
+                            isRentalAgreed={trip.isRentalAgreed}
+                            tripId={trip.tripid}
+                            rentalAgreementUrl={trip.rentalAgrrementUrl}
+                            rentalAgreedDate={trip.rentalAgreedDate}
+                        />
+                    ))}
+
                 {trip.isRentalAgreed && (
                     <RentalAgreementHandler
                         isRentalAgreed={trip.isRentalAgreed}
@@ -111,7 +120,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                         <RxQuestionMarkCircled className='size-5 text-yellow-500' />
                     ) : (
                         <IoCheckmarkCircleOutline className='size-5 text-green-500' />
-                    )}{' '}
+                    )}
                     Phone Number
                 </div>
                 {!isPhoneVerifiedFlag ? (
@@ -158,5 +167,35 @@ function InsuranceVerificationLinkGenerateButton() {
         <button type='button' onClick={handleReVerify} disabled={isGeneratingLink} className='text-md underline underline-offset-2'>
             {isGeneratingLink ? 'Generating Link...' : 'Verify Insurance'}
         </button>
+    );
+}
+
+function DrivingLicencePending() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    function openModal() {
+        setIsModalOpen(true);
+    }
+    function closeModal() {
+        setIsModalOpen(false);
+    }
+
+    return (
+        <>
+            <button type='button' className='text-md underline underline-offset-2' onClick={openModal}>
+                Accept sdfasd
+            </button>
+
+            <Dialog isOpen={isModalOpen} openDialog={openModal} closeDialog={closeModal} title='Document Verification Pending'>
+                <DialogBody>
+                    <p>Please complete your driver's licence verification before accepting the rental agreement.</p>
+                </DialogBody>
+                <DialogFooter>
+                    <Button type='button' variant='black' size='sm' className='w-full sm:w-auto' onClick={closeModal}>
+                        OK
+                    </Button>
+                </DialogFooter>
+            </Dialog>
+        </>
     );
 }
