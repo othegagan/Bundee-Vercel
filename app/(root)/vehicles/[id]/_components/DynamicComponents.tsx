@@ -126,7 +126,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 return null;
             }
 
-            const delivery = isAirportDeliveryChoosen ? true : !!isCustoumDeliveryChoosen;
+            const delivery = !!isCustoumDeliveryChoosen;
             const airportDelivery = !!isAirportDeliveryChoosen;
 
             const deliveryDetails = extractFirstDeliveryDetails(bussinessConstraints);
@@ -182,17 +182,16 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 latitude: '',
                 longitude: '',
                 ...priceCalculatedList,
-                delivery: !!delivery,
+                delivery: delivery,
                 airportDelivery: airportDelivery,
                 deliveryCost: delivery ? deliveryCost : 0,
                 upCharges: priceCalculatedList.upcharges,
                 extreaMilageCost: 0,
                 Statesurchargetax: priceCalculatedList.stateSurchargeTax,
                 Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
-
                 plate: vehicleDetails.number || '',
                 hostDetails: hostDetails,
-                location: getFullAddress({ vehicleDetails: vehicleDetails })
+                location: delivery ? customDeliveryLocation : airportDelivery ? airPortDeliveryAddress : getFullAddress({ vehicleDetails: vehicleDetails })
             };
 
             // console.log('checkoutDetails', checkoutDetails);
