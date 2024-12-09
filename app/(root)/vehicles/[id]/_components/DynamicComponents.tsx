@@ -129,14 +129,6 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
             const delivery = !!isCustoumDeliveryChoosen;
             const airportDelivery = !!isAirportDeliveryChoosen;
 
-            const deliveryDetails = extractFirstDeliveryDetails(bussinessConstraints);
-
-            const deliveryCost = isAirportDeliveryChoosen
-                ? deliveryDetails?.airportDeliveryCost
-                : isCustoumDeliveryChoosen
-                  ? deliveryDetails?.nonAirportDeliveryCost
-                  : 0;
-
             const airPortDeliveryAddress = searchParams.get('city') || '';
 
             let deliveryLocation = null;
@@ -184,7 +176,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 ...priceCalculatedList,
                 delivery: delivery,
                 airportDelivery: airportDelivery,
-                deliveryCost: delivery ? deliveryCost : 0,
+                deliveryCost: priceCalculatedList.delivery,
                 upCharges: priceCalculatedList.upcharges,
                 extreaMilageCost: 0,
                 Statesurchargetax: priceCalculatedList.stateSurchargeTax,
@@ -194,7 +186,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 location: delivery ? customDeliveryLocation : airportDelivery ? airPortDeliveryAddress : getFullAddress({ vehicleDetails: vehicleDetails })
             };
 
-            // console.log('checkoutDetails', checkoutDetails);
+            console.log('checkoutDetails', checkoutDetails);
 
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
             window.location.href = '/checkout/driving-licence';
