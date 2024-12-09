@@ -40,18 +40,18 @@ export default function TripDetailsComponent({
         const parts: string[] = [];
 
         // Add each part of the address if it exists and is not empty
-        if (address.address1) parts.push(address.address1.trim());
-        if (address.address2) parts.push(address.address2.trim());
-        if (address.cityName) parts.push(address.cityName.trim());
-        if (address.state) parts.push(address.state.trim());
-        if (address.zipCode) parts.push(address.zipCode.trim());
-        if (address.country) parts.push(address.country.trim());
+        if (address?.address1) parts.push(address?.address1.trim());
+        if (address?.address2) parts.push(address?.address2.trim());
+        if (address?.cityName) parts.push(address?.cityName.trim());
+        if (address?.state) parts.push(address?.state.trim());
+        if (address?.zipCode) parts.push(address?.zipCode.trim());
+        if (address?.country) parts.push(address?.country.trim());
 
         // Join all the parts with a comma and space
         const fullAddress = parts.join(', ');
 
         // If the address is still empty, return a default value
-        return fullAddress || 'Address information not available';
+        return fullAddress || '';
     }
 
     return (
@@ -110,7 +110,10 @@ export default function TripDetailsComponent({
                 {trip.delivery || trip.airportDelivery ? (
                     <div className='w-full flex-center justify-center gap-2 text-14 '>
                         <MapPin className='size-5 text-muted-foreground' />
-                        <p>Custom Delivery Location : {getFullDeliveryAddress(trip?.deliveryLocations[0])}</p>
+                        <p>
+                            {trip.delivery ? 'Custom' : trip?.airportDelivery && 'Airport'} Delivery Location :{' '}
+                            {getFullDeliveryAddress(trip?.deliveryLocations?.[0])}
+                        </p>
                     </div>
                 ) : (
                     <div className='w-full flex-center justify-center gap-2 text-14 '>
