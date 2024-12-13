@@ -22,6 +22,7 @@ interface TripVehicleDetailsComponentProps {
     hostImage: string | '';
     isFetching: boolean;
     swapStatus?: string;
+    paymentSchedule?: any[] | null;
 }
 
 export default function TripDetailsComponent({
@@ -30,7 +31,8 @@ export default function TripDetailsComponent({
     hostImage,
     hostPhoneNumber,
     isFetching,
-    swapStatus
+    swapStatus,
+    paymentSchedule
 }: TripVehicleDetailsComponentProps) {
     const images: any[] = sortImagesByIsPrimary(trip?.vehicleImages ?? []);
 
@@ -124,7 +126,12 @@ export default function TripDetailsComponent({
             </div>
 
             {/* Payment Section */}
-            <PriceDisplayComponent pricelist={trip?.tripPaymentTokens[0]} isAirportDeliveryChoosen={isAirportDeliveryChoosen} invoiceUrl={trip.invoiceUrl}>
+            <PriceDisplayComponent
+                pricelist={trip?.tripPaymentTokens[0]}
+                isAirportDeliveryChoosen={isAirportDeliveryChoosen}
+                invoiceUrl={trip.invoiceUrl}
+                paymentSechudule={paymentSchedule}
+                zipCode={trip.vehzipcode}>
                 {trip?.cardDetails?.length > 0 && (
                     <div className='mb-2 flex flex-wrap items-center gap-1 font-normal md:justify-between'>
                         <div className='flex flex-wrap items-center gap-1'>

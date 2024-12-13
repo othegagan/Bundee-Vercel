@@ -203,7 +203,7 @@ export default function MobileVerify({ sessionId }) {
                     <div className='my-auto flex flex-col gap-5'>
                         <h3 className=' font-bold text-3xl'>Verify Driver’s Licence</h3>
                         <p className=' max-w-2xl '>Please have your driver's license ready and make sure your camera permissions are enabled.</p>
-                        <p className='mb-6 max-w-2xl text-balance '>Click the Begin Verification button to begin the verification process.</p>
+                        <p className='mb-6 max-w-2xl '>Click the Begin Verification button to begin the verification process.</p>
                         <ProcessStartButton
                             isVisible={!isProcessStarted && !isUpdating && !isVerifying && !isUpdateSuccessful && !updateError}
                             onStart={handleStartProcess}
@@ -230,7 +230,7 @@ function ProcessStartButton({ isVisible, onStart }) {
     if (!isVisible) return null;
 
     return (
-        <Button onClick={onStart} size='lg' className='w-full max-w-[300px] rounded-full lg:max-w-[512px]'>
+        <Button onClick={onStart} size='lg' className='mx-auto w-full max-w-[300px] rounded-full lg:max-w-[512px]'>
             Begin Verification
         </Button>
     );
@@ -255,7 +255,7 @@ function SuccessDisplay({ success }) {
         <div className='my-auto flex flex-col items-center gap-6 text-center'>
             <CircleCheckIcon className='mb-6 size-24 text-[#85A80F]' />
             <h1 className='font-bold text-2xl'>Verification Successful!</h1>
-            <p className='max-w-[600px] text-balance'>Your documents are verified. Please switch to your desktop to continue.</p>
+            <p className='max-w-[600px]'>Your documents are verified. Please switch to your desktop to continue.</p>
         </div>
     );
 }

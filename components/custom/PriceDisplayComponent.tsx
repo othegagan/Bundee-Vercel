@@ -1,4 +1,5 @@
 import { InvoiceHandlerComponent } from '@/app/(root)/trips/[tripId]/_components/DocumentHandlerComponent';
+import TripPaymentSchedule from '@/app/(root)/trips/[tripId]/_components/TripPaymentSchedule';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { roundToTwoDecimalPlaces } from '@/lib/utils';
@@ -10,15 +11,29 @@ interface PriceDisplayComponentProps {
     invoiceUrl?: string;
     deliveryCost?: number;
     children?: React.ReactNode;
+    paymentSechudule?: any[] | null;
+    zipCode: string;
 }
 
-export default function PriceDisplayComponent({ pricelist, isAirportDeliveryChoosen, invoiceUrl, deliveryCost = 0, children }: PriceDisplayComponentProps) {
+export default function PriceDisplayComponent({
+    pricelist,
+    isAirportDeliveryChoosen,
+    invoiceUrl,
+    deliveryCost = 0,
+    paymentSechudule,
+    children,
+    zipCode
+}: PriceDisplayComponentProps) {
     return (
         <div className='flex flex-col gap-2'>
             <div className='flex flex-col gap-1.5'>
                 <div className='flex items-center justify-between'>
                     <div className='font-bold text-md '>Payment</div>
-                    {invoiceUrl && <InvoiceHandlerComponent invoiceUrl={invoiceUrl} />}
+                    {invoiceUrl ? (
+                        <InvoiceHandlerComponent invoiceUrl={invoiceUrl} />
+                    ) : (
+                        <TripPaymentSchedule paymentSchedule={paymentSechudule} zipCode={zipCode} />
+                    )}
                 </div>
 
                 {children}

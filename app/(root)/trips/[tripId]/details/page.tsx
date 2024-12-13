@@ -40,6 +40,7 @@ export default function page({ params }: { params: { tripId: string } }) {
 
     // Memoized data for optimization
     const tripData: TripData = response?.data?.activetripresponse[0];
+    const paymentSchedule = response?.data?.paymentLogs || [];
     const tripRating = response?.data?.tripreview || [];
     const swapRequestDetails = tripData?.swapDetails[0];
     const status = tripData?.status?.toLowerCase() || '';
@@ -100,6 +101,7 @@ export default function page({ params }: { params: { tripId: string } }) {
                             hostImage={tripData.hostImage || ''}
                             isFetching={isFetching}
                             swapStatus={swapRequestDetails?.statuscode}
+                            paymentSchedule={paymentSchedule}
                         />
                     </div>
 
