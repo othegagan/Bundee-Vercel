@@ -2,7 +2,6 @@
 
 import { DrivingLicenceDetailsSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
-import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import { useVerifiedDrivingProfile } from '@/hooks/useDrivingProfile';
 import { getSession } from '@/lib/auth';
 import { encryptingData } from '@/lib/decrypt';
@@ -35,7 +34,6 @@ export default DrivingLicenceComponent;
 
 function VerifiedDetailsComponent({ personalInfo, images, scores }) {
     const [redirectUrl, setRedirectUrl] = useState<string>('');
-    const drivingLicenseDialog = useDrivingLicenceDialog();
 
     useEffect(() => {
         async function generateRedirectUrl() {
@@ -84,20 +82,32 @@ function VerifiedDetailsComponent({ personalInfo, images, scores }) {
 }
 
 function UnverifiedComponent() {
-    const drivingLicenseDialog = useDrivingLicenceDialog();
+    const [redirectUrl, setRedirectUrl] = useState<string>('');
+
+    useEffect(() => {
+        async function generateRedirectUrl() {
+            try {
+                const session = await getSession();
+                const encryptUserId = encryptingData(String(session.userId));
+                const url = `/driving_licence_verification?callbackUrl=${encodeURIComponent(window.location.href)}&token=${encryptUserId}`;
+                setRedirectUrl(url);
+            } catch (error) {
+                console.error('Error generating redirect URL:', error);
+            }
+        }
+
+        generateRedirectUrl();
+    }, []);
+
     return (
         <div className='mt-12 flex flex-col gap-3'>
             <p className='mt-4 max-w-2xl text-neutral-500 text-sm leading-snug'>Your driving licence has not yet been verified. Please verify it.</p>
             <div className='mt-6 flex justify-end'>
-                <Button
-                    type='button'
-                    variant='black'
-                    onClick={() => {
-                        drivingLicenseDialog.isUpdate = false;
-                        drivingLicenseDialog.onOpen();
-                    }}>
-                    Verify Driving Licence
-                </Button>
+                <Link href={redirectUrl}>
+                    <Button type='button' variant='black'>
+                        Verify Driving Licence
+                    </Button>
+                </Link>
             </div>
         </div>
     );
