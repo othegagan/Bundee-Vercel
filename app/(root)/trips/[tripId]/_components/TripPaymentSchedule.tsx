@@ -22,6 +22,8 @@ export default function TripPaymentSchedule({ paymentSchedule, zipCode }: TripPa
         setIsModalOpen(false);
     }
 
+    if (paymentSchedule?.length === 0 || !paymentSchedule) return null;
+
     return (
         <>
             <button type='button' onClick={openModal} className='flex items-center gap-2 p-0 text-blue-600 underline underline-offset-2'>
@@ -70,11 +72,11 @@ export default function TripPaymentSchedule({ paymentSchedule, zipCode }: TripPa
 function StatusBadge({ status }: { status: string }) {
     switch (status) {
         case 'Upcoming':
-            return <Badge className='rounded-sm bg-yellow-400'>Upcoming</Badge>;
+            return <Badge className='rounded-sm bg-yellow-600'>Upcoming</Badge>;
         case 'Paid':
-            return <Badge className='rounded-sm bg-green-400'>Paid</Badge>;
+            return <Badge className='rounded-sm bg-green-600'>Paid</Badge>;
         case 'Failed':
-            return <Badge className='rounded-sm bg-red-400'>Failed</Badge>;
+            return <Badge className='rounded-sm bg-red-500'>Failed</Badge>;
         default:
             return null;
     }
