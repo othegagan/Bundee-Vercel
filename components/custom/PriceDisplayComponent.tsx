@@ -12,7 +12,7 @@ interface PriceDisplayComponentProps {
     deliveryCost?: number;
     children?: React.ReactNode;
     paymentSechudule?: any[] | null;
-    zipCode: string;
+    zipCode?: string;
 }
 
 export default function PriceDisplayComponent({
