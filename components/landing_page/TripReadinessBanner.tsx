@@ -27,9 +27,9 @@ export default function TripReadinessBanner() {
                 const firstTrip = upcomingTrips[0];
                 const needsReadiness =
                     !firstTrip.isLicenseVerified ||
-                    !firstTrip.isInsuranceVerified ||
+                    // !firstTrip.isInsuranceVerified ||
                     firstTrip.isLicenseExpired ||
-                    firstTrip.isInsuranceExpired ||
+                    // firstTrip.isInsuranceExpired ||
                     !firstTrip.isMobileVerified ||
                     !firstTrip.isRentalAgreementAccepted;
 

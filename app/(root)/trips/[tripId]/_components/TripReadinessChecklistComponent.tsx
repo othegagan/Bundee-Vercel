@@ -10,7 +10,6 @@ import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import { RxQuestionMarkCircled } from 'react-icons/rx';
 import { toast } from 'sonner';
 import { RentalAgreementHandler } from './DocumentHandlerComponent';
-import InsuranceViewDetailsDialog from './InsuranceViewDetailsDialog';
 
 export default function TripReadinessChecklistComponent({ trip }: any) {
     const phoneNumberDialog = usePhoneNumberVerificationDialog();
@@ -59,7 +58,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
             </div>
 
             {/* Insurance */}
-            <div className='flex items-center justify-between'>
+            {/* <div className='flex items-center justify-between'>
                 <div className='w-fit flex-center gap-2 text-md'>
                     {!insuranceFlag ? (
                         <RxQuestionMarkCircled className='size-5 text-yellow-500' />
@@ -77,7 +76,7 @@ export default function TripReadinessChecklistComponent({ trip }: any) {
                 {insuranceStatus === 'verified' && <InsuranceViewDetailsDialog />}
 
                 {(insuranceStatus === 'notverified' || insuranceStatus === 'failed') && <InsuranceVerificationLinkGenerateButton />}
-            </div>
+            </div> */}
 
             {/* Rental Agreement */}
             <div className='flex items-center justify-between'>

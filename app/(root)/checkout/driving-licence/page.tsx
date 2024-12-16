@@ -2,7 +2,6 @@
 
 import { CheckoutDrivingLicenceSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
-import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
 import { useVerifiedDrivingProfile } from '@/hooks/useDrivingProfile';
 import { getSession } from '@/lib/auth';
 import { encryptingData } from '@/lib/decrypt';
@@ -13,7 +12,6 @@ export default function DrivingLicensePage() {
     const [redirectUrl, setRedirectUrl] = useState<string>('');
 
     const { data: response, isLoading } = useVerifiedDrivingProfile();
-    const drivingLicenseDialog = useDrivingLicenceDialog();
 
     const { isDrivingProfileVerified = false, verifiedDetails = null } = response || {};
 
@@ -48,7 +46,8 @@ export default function DrivingLicensePage() {
                     <Link href={redirectUrl} className='w-full'>
                         <Button className='w-full'> Verify Driver&apos;s Licence </Button>
                     </Link>
-                    <Link href='/checkout/insurance' className='w-full'>
+                    {/* <Link href='/checkout/insurance' className='w-full'> */}
+                    <Link href='/checkout/su' className='w-full'>
                         <Button className='w-full' variant='outline'>
                             Skip for Now
                         </Button>
@@ -73,7 +72,8 @@ export default function DrivingLicensePage() {
                 <Field label='Full name'>{personalInfo.fullName}</Field>
             </div>
             <div className='mt-10 flex flex-col gap-5'>
-                <Link href='/checkout/insurance' className='w-full'>
+                {/* <Link href='/checkout/insurance' className='w-full'> */}
+                <Link href='/checkout/summary' className='w-full'>
                     <Button className='w-full'> Confirm Driver&apos;s Licence </Button>
                 </Link>
                 <Link href={redirectUrl} className='w-full'>

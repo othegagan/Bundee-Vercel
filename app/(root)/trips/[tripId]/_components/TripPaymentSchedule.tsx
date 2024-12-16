@@ -49,8 +49,8 @@ export default function TripPaymentSchedule({ paymentSchedule, zipCode }: TripPa
                                     <TableRow key={index}>
                                         <TableCell className='font-medium'>{index + 1}</TableCell>
                                         <TableCell>$ {roundToTwoDecimalPlaces(payment.paymentAmount)}</TableCell>
-                                        <TableCell>{formatDateAndTime(payment.paymentDate, zipCode)}</TableCell>
-                                        <TableCell className='text-right'>
+                                        <TableCell>{formatDateAndTime(payment.paymentDate, zipCode, 'MMM DD YYYY, h:mm A z')}</TableCell>
+                                        <TableCell>
                                             <StatusBadge status={payment.paymentStatus} />
                                         </TableCell>
                                     </TableRow>
@@ -72,11 +72,11 @@ export default function TripPaymentSchedule({ paymentSchedule, zipCode }: TripPa
 function StatusBadge({ status }: { status: string }) {
     switch (status) {
         case 'Upcoming':
-            return <Badge className='rounded-sm bg-yellow-600'>Upcoming</Badge>;
+            return <Badge className='flex w-full items-center justify-center rounded-sm bg-yellow-600 text-center'>Upcoming</Badge>;
         case 'Paid':
-            return <Badge className='rounded-sm bg-green-600'>Paid</Badge>;
+            return <Badge className='flex w-full items-center justify-center rounded-sm bg-green-600 text-center'>Paid</Badge>;
         case 'Failed':
-            return <Badge className='rounded-sm bg-red-500'>Failed</Badge>;
+            return <Badge className='flex w-full items-center justify-center rounded-sm bg-red-500 text-center'>Failed</Badge>;
         default:
             return null;
     }
