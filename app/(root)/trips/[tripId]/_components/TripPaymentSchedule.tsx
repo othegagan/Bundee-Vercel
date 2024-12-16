@@ -41,7 +41,7 @@ export default function TripPaymentSchedule({ paymentSchedule, zipCode }: TripPa
                                     <TableHead className='w-[100px]'>Sl.No</TableHead>
                                     <TableHead>Amount</TableHead>
                                     <TableHead>Due Date</TableHead>
-                                    <TableHead className='text-right'>Status</TableHead>
+                                    <TableHead className='text-center'>Status</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
