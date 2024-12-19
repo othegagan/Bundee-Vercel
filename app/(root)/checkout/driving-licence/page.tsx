@@ -47,7 +47,7 @@ export default function DrivingLicensePage() {
                         <Button className='w-full'> Verify Driver&apos;s Licence </Button>
                     </Link>
                     {/* <Link href='/checkout/insurance' className='w-full'> */}
-                    <Link href='/checkout/su' className='w-full'>
+                    <Link href='/checkout/summary' className='w-full'>
                         <Button className='w-full' variant='outline'>
                             Skip for Now
                         </Button>
