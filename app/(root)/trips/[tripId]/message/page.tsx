@@ -80,11 +80,12 @@ export default function MessagePage({ params }) {
                 formData.append('tripId', String(tripId));
                 formData.append('message', inputMessage || '');
                 formData.append('author', 'CLIENT');
+                formData.append('password', '535dff60664c8a624e056fb739e41e623b906daf3a59840f03613bbec19b6eb3');
 
                 const config = {
                     headers: {
                         Accept: '*/*',
-                        Authorization: `Bearer ${token}`,
+                        // Authorization: `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data'
                     }
                 };
