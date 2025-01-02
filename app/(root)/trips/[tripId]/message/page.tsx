@@ -3,7 +3,6 @@
 import { ChatSkeleton } from '@/components/skeletons/skeletons';
 import { Button } from '@/components/ui/button';
 import { useTripDetails } from '@/hooks/useTripDetails';
-import { auth } from '@/lib/firebase';
 import { formatDateAndTime, getFullAddress, sortImagesByIsPrimary } from '@/lib/utils';
 import { getTripChatHistory } from '@/server/tripOperations';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -19,32 +18,7 @@ const AUTHOR_TYPE = {
     CLIENT: 'CLIENT'
 };
 
-const useAuthToken = () => {
-    const [token, setToken] = useState('');
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                try {
-                    const idToken = await user.getIdToken();
-                    setToken(idToken);
-                } catch (error) {
-                    console.error('Error retrieving token:', error);
-                    toast.error('Failed to retrieve token. Please reload the page and try again.');
-                }
-            } else {
-                setToken('');
-            }
-        });
-
-        return () => unsubscribe();
-    }, []);
-
-    return token;
-};
-
 export default function MessagePage({ params }) {
-    const token = useAuthToken();
     const [inputMessage, setInputMessage] = useState('');
     const tripId = Number(params.tripId);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -57,23 +31,23 @@ export default function MessagePage({ params }) {
     const tripData = response?.data?.activetripresponse[0];
 
     const fetchChatHistory = async () => {
-        if (tripId && token) {
-            return await getTripChatHistory(tripId, token);
+        if (tripId) {
+            return await getTripChatHistory(tripId);
         }
         return [];
     };
 
     const { data: messageList = [], isLoading: loadingMessages } = useQuery({
-        queryKey: ['chatHistory', tripId, token],
+        queryKey: ['chatHistory', tripId],
         queryFn: fetchChatHistory,
-        enabled: !!tripId && !!token,
+        enabled: !!tripId,
         refetchInterval: 8000,
         refetchOnWindowFocus: true
     });
 
     const sendMessageMutation = useMutation({
         mutationFn: async () => {
-            if ((tripId && token) || inputMessage || file) {
+            if (tripId || inputMessage || file) {
                 const formData = new FormData();
 
                 if (file) formData.append('file', file || null);
@@ -107,7 +81,7 @@ export default function MessagePage({ params }) {
         onSuccess: async () => {
             setInputMessage('');
             setFile(null);
-            await queryClient.invalidateQueries({ queryKey: ['chatHistory', tripId, token] });
+            await queryClient.invalidateQueries({ queryKey: ['chatHistory', tripId] });
             removeFile();
         },
         onError: (error) => {

@@ -89,7 +89,7 @@ export async function endReservation(tripid: number) {
     }
 }
 
-export async function getTripChatHistory(tripid: number, firebaseToken: string) {
+export async function getTripChatHistory(tripid: number) {
     try {
         const url = `${process.env.NEXT_PUBLIC_CHAT_SERVICE_BASEURL}/getAllChatHistory`;
 
