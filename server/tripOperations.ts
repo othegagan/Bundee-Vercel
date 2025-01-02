@@ -95,13 +95,13 @@ export async function getTripChatHistory(tripid: number, firebaseToken: string) 
 
         const headersList = {
             Accept: '*/*',
-            Authorization: `Bearer ${firebaseToken}`,
             'Content-Type': 'application/json'
         };
 
         const payload = {
             tripId: Number(tripid),
-            count: 1000
+            count: 1000,
+            password: '535dff60664c8a624e056fb739e41e623b906daf3a59840f03613bbec19b6eb3'
         };
 
         const response = await fetch(url, {
