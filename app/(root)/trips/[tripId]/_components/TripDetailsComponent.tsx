@@ -2,7 +2,7 @@
 
 import PriceDisplayComponent from '@/components/custom/PriceDisplayComponent';
 import { Skeleton } from '@/components/ui/skeleton';
-import { determineDeliveryType, formatDateAndTime, getFullAddress, sortImagesByIsPrimary, toTitleCase } from '@/lib/utils';
+import { formatDateAndTime, getFullAddress, sortImagesByIsPrimary, toTitleCase } from '@/lib/utils';
 import { AmexLogoIcon, DiscoverLogoIcon, JCBLogoIcon, MasterCardLogoIcon, VisaLogoIcon } from '@/public/icons';
 import { MapPin } from 'lucide-react';
 import Link from 'next/link';
@@ -35,8 +35,6 @@ export default function TripDetailsComponent({
     paymentSchedule
 }: TripVehicleDetailsComponentProps) {
     const images: any[] = sortImagesByIsPrimary(trip?.vehicleImages ?? []);
-
-    const { isAirportDeliveryChoosen } = determineDeliveryType(trip);
 
     function getFullDeliveryAddress(address: any) {
         const parts: string[] = [];
@@ -128,7 +126,7 @@ export default function TripDetailsComponent({
             {/* Payment Section */}
             <PriceDisplayComponent
                 pricelist={trip?.tripPaymentTokens[0]}
-                isAirportDeliveryChoosen={isAirportDeliveryChoosen}
+                isAirportDeliveryChoosen={trip.airportDelivery}
                 invoiceUrl={trip.invoiceUrl}
                 paymentSechudule={paymentSchedule}
                 zipCode={trip.vehzipcode}>

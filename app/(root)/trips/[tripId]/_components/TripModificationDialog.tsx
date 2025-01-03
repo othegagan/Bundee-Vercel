@@ -7,7 +7,7 @@ import { Dialog, DialogBody } from '@/components/ui/dialog';
 import useTripModificationDialog from '@/hooks/dialogHooks/useTripModificationDialog';
 import useAvailabilityDates from '@/hooks/useAvailabilityDates';
 import { validateBookingTime } from '@/hooks/useVehicleDetails';
-import { convertToCarDate, convertToCarTimeZoneISO, determineDeliveryType, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
+import { convertToCarDate, convertToCarTimeZoneISO, formatDateAndTime, formatTime, roundToTwoDecimalPlaces } from '@/lib/utils';
 import { ModificationIcon } from '@/public/icons';
 import { calculatePrice } from '@/server/priceCalculation';
 import { differenceInHours, format, isBefore, isEqual, isWithinInterval, parseISO } from 'date-fns';
@@ -33,8 +33,6 @@ export default function TripModificationDialog({ tripData }) {
     const [priceLoading, setPriceLoading] = useState(false);
     const [priceCalculatedList, setPriceCalculatedList] = useState(null);
     const [priceError, setPriceError] = useState('');
-
-    const { isAirportDeliveryChoosen, isCustomDeliveryChoosen } = determineDeliveryType(tripData);
 
     const {
         isLoading: unavailabilitDatesLoading,
@@ -116,8 +114,8 @@ export default function TripModificationDialog({ tripData }) {
                 vehicleid: tripData.vehicleId,
                 startTime: convertToCarTimeZoneISO(`${newStartDate}T${newStartTime}`, tripData.vehzipcode),
                 endTime: convertToCarTimeZoneISO(`${newEndDate}T${newEndTime}`, tripData.vehzipcode),
-                airportDelivery: isAirportDeliveryChoosen,
-                customDelivery: isCustomDeliveryChoosen,
+                airportDelivery: tripData.delivery,
+                customDelivery: tripData.airportDelivery,
                 hostid: tripData.hostid,
                 tripid: tripData.tripid
             };
@@ -288,7 +286,7 @@ export default function TripModificationDialog({ tripData }) {
                                                         zipCode={tripData?.vehzipcode}
                                                         originalTripTaxAmount={tripData?.tripPaymentTokens[0]?.tripTaxAmount}
                                                         isExtension={isExtension}
-                                                        isAirportDeliveryChoosen={isAirportDeliveryChoosen}
+                                                        isAirportDeliveryChoosen={tripData.airportDelivery}
                                                     />
                                                 )}
                                             </div>
