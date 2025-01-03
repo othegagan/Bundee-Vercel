@@ -60,18 +60,19 @@ export default function VehicleDetails({ vehicleDetails, vehicleBusinessConstrai
 function VehicleMakeModelYear({ vehicleDetails }: any) {
     const { make, model, year, rating, tripcount } = vehicleDetails;
     const fullName = `${toTitleCase(make)} ${model} ${year}`;
-    const ratingText = rating ? rating.toFixed(1) : '1.0';
-    const tripText = tripcount ? `${tripcount}  ${tripcount > 1 ? 'trips' : 'trip'}` : null;
+    const ratingText = rating ? rating.toFixed(1) : '';
+    const tripText = tripcount ? `${tripcount}  ${tripcount > 1 ? 'trips' : 'trip'}` : 'No Trips Yet';
 
     return (
         <div className='flex flex-col gap-4 md:flex-row md:gap-16'>
             <h2 className='text-[1.75rem capitalize tracking-tight'>{fullName}</h2>
-            <div className='flex items-center gap-2'>
-                <StarFilledIcon className='size-5 text-yellow-400' />
-                <span className='text-base'>
-                    {ratingText} ({tripText})
-                </span>
-            </div>
+            {ratingText && (
+                <div className='flex items-center gap-2'>
+                    <StarFilledIcon className='size-5 text-yellow-400' />
+                    <span className='text-base'>{ratingText}</span>
+                </div>
+            )}
+            <span className='text-base'>({tripText})</span>
         </div>
     );
 }
