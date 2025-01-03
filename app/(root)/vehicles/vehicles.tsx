@@ -182,8 +182,8 @@ export default Vehicles;
 export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
     const images: any = sortImagesByIsPrimary(car.imageresponse);
 
-    const ratingText = car?.rating ? car?.rating.toFixed(1) : '1.0';
-    const tripText = car?.tripcount ? `${car?.tripcount}  ${car?.tripcount > 1 ? 'trips' : 'trip'}` : null;
+    const ratingText = car?.rating ? car?.rating.toFixed(1) : null;
+    const tripText = car?.tripcount ? `${car?.tripcount}  ${car?.tripcount > 1 ? 'trips' : 'trip'}` : 'No Trips Yet';
 
     return (
         <div className='group h-auto rounded-lg border bg-white hover:shadow-md'>
@@ -207,10 +207,13 @@ export function CarCard({ car, searchQuery }: { car: any; searchQuery: any }) {
                 </Link>
 
                 <div className='absolute bottom-2 left-1 flex scale-[0.8] items-center rounded-lg bg-white p-2 shadow-md'>
-                    <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
-                    <span className=' text-neutral-700 text-sm'>
-                        {ratingText} {tripText ? `(${tripText})` : null}
-                    </span>
+                    {ratingText && (
+                        <div className='flex items-center gap-2'>
+                            <FaStar className='mr-2 h-4 w-4 text-yellow-400' />
+                            <span className=' text-neutral-700 text-sm'>{ratingText}</span>
+                        </div>
+                    )}
+                    <span className='text-neutral-700 text-sm'>({tripText})</span>
                 </div>
             </div>
 
