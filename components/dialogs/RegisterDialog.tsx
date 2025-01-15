@@ -316,7 +316,7 @@ export default function RegisterDialog() {
                                 closeModal();
                                 setShowSuccessfulSignUp(false);
                             }}>
-                            Login
+                            Log In
                         </Button>
                     </div>
                 )}

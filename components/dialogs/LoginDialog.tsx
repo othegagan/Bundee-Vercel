@@ -34,7 +34,7 @@ export default function LoginDialog() {
     const [authError, setAuthError] = useState('');
 
     const onToggle = useCallback(() => {
-        loginDialog.onClose();
+        closeModal();
         registerDialog.onOpen();
     }, [loginDialog, registerDialog]);
 
