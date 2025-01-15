@@ -347,6 +347,14 @@ function parseDeliveryLocation(customDeliveryLocation: string) {
         result.state = stateZip[0] || '';
         result.zipCode = stateZip[1] || '';
         result.country = parts[2];
+    } else if (parts.length === 4) {
+        // Format: "Streine Drive, New Bremen, Ohio 45869, United States"
+        result.address1 = parts[0];
+        result.cityName = parts[1];
+        const stateZip = parts[2]?.split(' ').filter(Boolean);
+        result.state = stateZip[0] || '';
+        result.zipCode = stateZip[1] || '';
+        result.country = parts[3];
     } else if (parts.length === 5) {
         // Format: "2007 Nails & Spa, 15508 W Bell Rd, Surprise, Arizona 85374, United States"
         result.address1 = parts[0];
