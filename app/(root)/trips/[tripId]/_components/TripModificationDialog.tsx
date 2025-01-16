@@ -81,11 +81,14 @@ export default function TripModificationDialog({ tripData }) {
                 throw new Error('Please select an end date that comes after the start date.');
             }
 
-            // check for short notice late night reservation
-            const { isValid, error } = validateBookingTime(`${newStartDate}T${newStartTime}`);
+            // Don't check if the trip status is started
+            if (!(tripData?.status.toLowerCase() === 'started')) {
+                // check for short notice late night reservation
+                const { isValid, error } = validateBookingTime(`${newStartDate}T${newStartTime}`);
 
-            if (!isValid) {
-                throw new Error(error);
+                if (!isValid) {
+                    throw new Error(error);
+                }
             }
 
             // Check for any unavailable dates within the new date range
