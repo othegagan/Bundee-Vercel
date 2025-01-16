@@ -186,7 +186,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 location: delivery ? customDeliveryLocation : airportDelivery ? airPortDeliveryAddress : getFullAddress({ vehicleDetails: vehicleDetails })
             };
 
-            console.log('checkoutDetails', checkoutDetails);
+            // console.log('checkoutDetails', checkoutDetails);
 
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
             window.location.href = '/checkout/driving-licence';

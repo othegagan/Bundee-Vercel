@@ -2,8 +2,6 @@
 
 import ErrorComponent from '@/components/custom/ErrorComponent';
 import { VehiclesDetailsSkeleton } from '@/components/skeletons/skeletons';
-import useDrivingLicenceDialog from '@/hooks/dialogHooks/useDrivingLicenceDialog';
-import useLoginDialog from '@/hooks/dialogHooks/useLoginDialog';
 import { useVehicleDetails } from '@/hooks/useVehicleDetails';
 import { getFullAddress } from '@/lib/utils';
 import { MapPin } from 'lucide-react';
@@ -18,9 +16,6 @@ interface Props {
 
 export default function page({ params, searchParams }: Props) {
     const { data: vehicleDetailsResponse, isLoading: vehicleDetailsLoading, error: vehicleDetailsError } = useVehicleDetails(params.id);
-
-    const loginModal = useLoginDialog();
-    const drivingLicenceDialog = useDrivingLicenceDialog();
 
     if (vehicleDetailsLoading) {
         return (
@@ -43,6 +38,10 @@ export default function page({ params, searchParams }: Props) {
     const vehicleDetails = vehicleDetailsResponse.data?.vehicleAllDetails?.[0];
     const vehicleHostDetails = vehicleDetailsResponse.data?.vehicleHostDetails[0] || null;
     const vehicleBusinessConstraints = vehicleDetailsResponse.data?.vehicleBusinessConstraints || null;
+
+    if (!vehicleDetails?.isActive) {
+        return <ErrorComponent message='Vehicle not found!' />;
+    }
 
     return (
         <main className='flex-grow py-6'>
