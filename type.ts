@@ -27,7 +27,6 @@ declare namespace NodeJS {
         CREATE_PAYMENT_INTENT: string;
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
 
-        PERSONA_BEARER_TOKEN: string;
         NEXT_PUBLIC_IDSCAN_BEARER_TOKEN: string;
         NEXT_PUBLIC_IDSCAN_LICENSE_KEY: string;
 

@@ -34,11 +34,11 @@ export function useUpdateDriverProfile() {
                 drivingLicenseStatus: isApproved ? 'verified' : 'failed'
             };
 
-            console.log('updatePayload', updatePayload);
+            // console.log('updatePayload', updatePayload);
 
             const updateResponse = await updateDrivingLicence(updatePayload);
 
-            console.log('updateResponse', updateResponse);
+            // console.log('updateResponse', updateResponse);
 
             if (!updateResponse.success) {
                 throw new Error(updateResponse.message || 'Failed to update driving profile');

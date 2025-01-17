@@ -24,7 +24,10 @@ const VERIFY_URL = 'https://dvs2.idware.net/api/v4/verify';
 const thresholds = {
     documentConfidence: 90,
     faceMatchConfidence: 90,
-    antiSpoofingFaceImageConfidence: 90
+    antiSpoofingFaceImageConfidence: 90,
+    addressValidation: 90,
+    dmvValidation: 90,
+    identiFraudValidation: 90
 };
 
 export function useIdVerification() {
@@ -47,14 +50,29 @@ export function useIdVerification() {
 
             setVerificationResult(response.data);
 
-            const { documentConfidence } = response.data.documentVerificationResult;
-            const { faceMatchConfidence } = response.data.faceMatchVerificationResult;
-            const { antiSpoofingFaceImageConfidence } = response.data.antiSpoofingVerificationResult;
+            const result = response.data;
+
+            const { documentVerificationResult, faceMatchVerificationResult, antiSpoofingVerificationResult } = result;
+
+            const documentConfidence = documentVerificationResult.documentConfidence >= thresholds.documentConfidence;
+            const faceMatchConfidence = faceMatchVerificationResult.faceMatchConfidence >= thresholds.faceMatchConfidence;
+            const antiSpoofingConfidence = antiSpoofingVerificationResult.antiSpoofingFaceImageConfidence >= thresholds.antiSpoofingFaceImageConfidence;
+
+            const addressValidation = result.externalVerificationResults?.find((v: any) => v.name === 'AddressValidation');
+            const dmvValidation = result.externalVerificationResults?.find((v: any) => v.name === 'DMVValidation');
+            const identiFraudValidation = result.externalVerificationResults?.find((v: any) => v.name === 'IdentiFraudValidation');
+
+            const addressValidationScore = addressValidation?.values?.[0]?.score >= thresholds.addressValidation;
+            const dmvValidationScore = dmvValidation?.values?.every((field: any) => field.score >= thresholds.dmvValidation);
+            const identiFraudValidationScore = identiFraudValidation?.values?.every((field: any) => field.score >= thresholds.identiFraudValidation);
 
             const isApproved =
-                documentConfidence >= thresholds.documentConfidence &&
-                faceMatchConfidence >= thresholds.faceMatchConfidence &&
-                antiSpoofingFaceImageConfidence >= thresholds.antiSpoofingFaceImageConfidence;
+                documentConfidence &&
+                faceMatchConfidence &&
+                antiSpoofingConfidence &&
+                addressValidationScore &&
+                dmvValidationScore &&
+                identiFraudValidationScore;
 
             if (!isApproved) {
                 setError('The provided documents did not meet the required confidence thresholds. Please try again with clearer images.');
