@@ -58,13 +58,13 @@ export function useIdVerification() {
             const faceMatchConfidence = faceMatchVerificationResult.faceMatchConfidence >= thresholds.faceMatchConfidence;
             const antiSpoofingConfidence = antiSpoofingVerificationResult.antiSpoofingFaceImageConfidence >= thresholds.antiSpoofingFaceImageConfidence;
 
-            const addressValidation = result.externalVerificationResults?.find((v: any) => v.name === 'AddressValidation');
-            const dmvValidation = result.externalVerificationResults?.find((v: any) => v.name === 'DMVValidation');
-            const identiFraudValidation = result.externalVerificationResults?.find((v: any) => v.name === 'IdentiFraudValidation');
+            const addressValidation = result.externalVerificationResults?.find((v: any) => v.name === 'AddressValidation') || false;
+            const dmvValidation = result.externalVerificationResults?.find((v: any) => v.name === 'DMVValidation') || false;
+            const identiFraudValidation = result.externalVerificationResults?.find((v: any) => v.name === 'IdentiFraudValidation') || false;
 
-            const addressValidationScore = addressValidation?.values?.[0]?.score >= thresholds.addressValidation;
-            const dmvValidationScore = dmvValidation?.values?.every((field: any) => field.score >= thresholds.dmvValidation);
-            const identiFraudValidationScore = identiFraudValidation?.values?.every((field: any) => field.score >= thresholds.identiFraudValidation);
+            const addressValidationScore = addressValidation?.values?.[0]?.score >= thresholds.addressValidation || false;
+            const dmvValidationScore = dmvValidation?.values?.every((field: any) => field.score >= thresholds.dmvValidation) || false;
+            const identiFraudValidationScore = identiFraudValidation?.values?.every((field: any) => field.score >= thresholds.identiFraudValidation) || false;
 
             const isApproved =
                 documentConfidence &&
