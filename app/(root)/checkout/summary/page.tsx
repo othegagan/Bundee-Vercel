@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { formatDateAndTime } from '@/lib/utils';
 import { format } from 'date-fns';
 import { MapPin } from 'lucide-react';
+import moment from 'moment-timezone';
 import Link from 'next/link';
 import { useCheckoutDetails } from '../useCheckoutDetails';
 
@@ -19,6 +20,9 @@ export default function SummaryPage() {
     if (loading) return <CheckoutDetailsSkeleton />;
 
     const { name, image, zipCode, startTime, endTime, airportDelivery, totalDays, hostDetails, plate, location } = data;
+
+    console.log('startTime', startTime);
+    console.log('endTime', endTime);
 
     return (
         <div className='flex flex-col gap-6'>
@@ -49,7 +53,9 @@ export default function SummaryPage() {
                             </span>
                         </div>
                         <div className='flex w-full justify-around gap-2 lg:justify-around lg:px-8'>
-                            <p className='text-center font-semibold text-14'>{splitFormattedDateAndTime(formatDateAndTime(startTime, zipCode))}</p>
+                            <p className='text-center font-semibold text-14'>
+                                {splitFormattedDateAndTime(moment.utc(startTime).format('ddd, MMM DD YYYY | h:mm A z'))}
+                            </p>
                             <div className='whitespace-nowrap rounded-full bg-primary/60 p-2 px-2.5 font-semibold text-white'>To</div>
                             <p className='text-center font-semibold text-14'>{splitFormattedDateAndTime(formatDateAndTime(endTime, zipCode))}</p>
                         </div>

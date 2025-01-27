@@ -11,8 +11,9 @@ import { phoneNumberVerifiedStatus } from '@/hooks/useDrivingProfile';
 import usePriceCalculation from '@/hooks/usePriceCalculation';
 import { validateBookingTime, validateBookingTimeWithDelivery } from '@/hooks/useVehicleDetails';
 import { getSession } from '@/lib/auth';
-import { convertToCarTimeZoneISO, getCurrentDatePlusHours, getCurrentTimeRounded, getFullAddress } from '@/lib/utils';
+import { getCurrentDatePlusHours, getCurrentTimeRounded, getFullAddress } from '@/lib/utils';
 import { addDays, format, isToday } from 'date-fns';
+import moment from 'moment-timezone';
 import { useQueryState } from 'next-usequerystate';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
@@ -155,8 +156,8 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 authorizationpercentage: priceCalculatedList.authPercentage,
                 authorizationamount: priceCalculatedList.authAmount,
                 perDayAmount: priceCalculatedList.pricePerDay,
-                startTime: convertToCarTimeZoneISO(`${startDate}T${startTime}`, vehicleDetails?.zipcode),
-                endTime: convertToCarTimeZoneISO(`${endDate}T${endTime}`, vehicleDetails?.zipcode),
+                startTime: moment(`${startDate} ${startTime}`, 'YYYY-MM-DD HH:mm:ss').toISOString(),
+                endTime: moment(`${endDate} ${endTime}`, 'YYYY-MM-DD HH:mm:ss').toISOString(),
                 totalDays: priceCalculatedList.numberOfDays,
                 taxAmount: priceCalculatedList.taxAmount,
                 tripTaxAmount: priceCalculatedList?.tripTaxAmount,
