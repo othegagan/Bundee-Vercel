@@ -14,8 +14,8 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FaPhone } from 'react-icons/fa6';
+import { ImSpinner2 } from 'react-icons/im';
 import { IoWarning } from 'react-icons/io5';
-import { LuLoader2 } from 'react-icons/lu';
 import { Button } from '../ui/button';
 import { Dialog, DialogBody } from '../ui/dialog';
 import { Input } from '../ui/input';
@@ -239,7 +239,7 @@ export default function LoginDialog() {
                         ) : null}
 
                         <Button disabled={loading} className='mt-4 w-full text-white' type='submit'>
-                            {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : <>Log In</>}
+                            {loading ? <ImSpinner2 className='h-5 w-5 animate-spin text-white' /> : <>Log In</>}
                         </Button>
                     </form>
 
