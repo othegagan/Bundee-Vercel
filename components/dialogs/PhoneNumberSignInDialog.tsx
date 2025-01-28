@@ -10,7 +10,7 @@ import { getUserByPhoneNumber } from '@/server/userOperations';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { LuLoader2 } from 'react-icons/lu';
+import { ImSpinner2 } from 'react-icons/im';
 import { toast } from 'sonner';
 import ClientOnly from '../ClientOnly';
 import { Button } from '../ui/button';
@@ -156,7 +156,7 @@ export default function PhoneNumberSignInDialog() {
                                         className='ml-auto w-full'
                                         onClick={handleSendVerificationCode}
                                         disabled={phoneNumber.length < 12 || loading}>
-                                        {loading ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : 'Send Verification Code'}
+                                        {loading ? <ImSpinner2 className='h-5 w-5 animate-spin text-white' /> : 'Send Verification Code'}
                                     </Button>
                                 </div>
                             ) : (
@@ -170,7 +170,7 @@ export default function PhoneNumberSignInDialog() {
                                         className='flex w-fit overflow-x-hidden lg:max-w-[200px]'
                                     />
                                     <Button type='button' className='w-full' disabled={verificationCode.length !== 6 || verifying} onClick={onOTPVerify}>
-                                        {verifying ? <LuLoader2 className='h-5 w-5 animate-spin text-white' /> : 'Verify Code'}
+                                        {verifying ? <ImSpinner2 className='h-5 w-5 animate-spin text-white' /> : 'Verify Code'}
                                     </Button>
                                 </div>
                             )}
