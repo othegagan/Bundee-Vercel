@@ -183,16 +183,12 @@ export async function changeCardForTrip(tripid: number, paymentMethodIDToken: st
 }
 
 export async function getDriverSpecificTripOnDashboard() {
-    try {
-        const session = await getSession();
-        const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/getDriverSpecificTrips`;
-        const payload = {
-            userId: session.userId
-        };
+    const session = await getSession();
+    const url = `${process.env.BOOKING_SERVICES_BASEURL}/v1/booking/getDriverSpecificTrips`;
+    const payload = {
+        userId: session.userId
+    };
 
-        const response = await http.post(url, payload);
-        return handleResponse(response.data);
-    } catch (error: any) {
-        throw new Error(error.message);
-    }
+    const response = await http.post(url, payload);
+    return handleResponse(response.data);
 }
