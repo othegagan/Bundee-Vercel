@@ -10,6 +10,7 @@ import { getUserByPhoneNumber } from '@/server/userOperations';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
 import { ImSpinner2 } from 'react-icons/im';
 import { toast } from 'sonner';
 import ClientOnly from '../ClientOnly';
