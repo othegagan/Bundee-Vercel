@@ -47,47 +47,28 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
 
                 if (status === 'succeeded') {
                     const payload = {
-                        ...data,
-                        stripePaymentToken: 'NA',
+                        userId: String(data.userId),
+                        vehicleid: data.vehicleid,
+                        startTime: data.startTime,
+                        endTime: data.endTime,
+                        pickupTime: data.pickupTime,
+                        dropTime: data.dropTime,
+                        comments: 'Request to book',
+                        address1: data.address1,
+                        address2: data.address2,
+                        cityName: data.cityName,
+                        country: data.country,
+                        state: data.state,
+                        zipCode: data.zipCode,
+                        latitude: '',
+                        longitude: '',
+                        delivery: data.delivery,
+                        airportDelivery: data.airportDelivery,
                         customerToken: customerId,
-                        stripePaymentTransactionDetail: '{ "key1" : "val1" }',
-                        stripePaymentID: 'NA',
                         paymentMethodIDToken: payment_method,
-                        setupIntentToken: 'NA',
-                        isCustomerTokenNew: 'NA',
-                        totalDays: String(data.numberOfDays),
-                        tripamount: String(data.tripAmount),
-                        userId: String(data.userId)
+                        isCustomerTokenNew: 'NA'
                     };
 
-                    const keysToRemove = [
-                        'image',
-                        'name',
-                        'type',
-                        'authAmount',
-                        'authPercentage',
-                        'hostPriceMap',
-                        'numberOfDays',
-                        'price',
-                        'pricePerDay',
-                        'totalAmount',
-                        'tripAmount',
-                        'upcharges',
-                        'stateSurchargeAmount',
-                        'stateSurchargeTax',
-                        'hostid',
-                        'plate',
-                        'hostDetails',
-                        'location'
-                    ];
-
-                    if (keysToRemove) {
-                        for (const key of keysToRemove) {
-                            if (Object.prototype.hasOwnProperty.call(payload, key)) {
-                                delete payload[key];
-                            }
-                        }
-                    }
                     // console.log('Reservation payload', payload);
                     const response = await createTripReservation(payload);
                     // console.log(response);

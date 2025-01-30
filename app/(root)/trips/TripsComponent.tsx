@@ -103,8 +103,12 @@ const MainComponent = ({ tabSelectedIndex, isTabletOrLarger }: { tabSelectedInde
                                 <div className='flex w-full items-center gap-2'>
                                     <CalendarDays className='size-4 ' />
                                     <div className='text-14 '>
-                                        {formatDateAndTime(trip?.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY')} -{' '}
-                                        {formatDateAndTime(trip?.endtime, trip?.vehzipcode, 'ddd, MMM DD YYYY')}
+                                        {trip?.starttime} - {trip?.endtime}
+                                        {/* {format(trip?.starttime, 'PPpp')} -{' '}
+                                        {format(trip?.endtime, 'PPpp')}
+
+                                        {formatDateAndTime(trip?.starttime, trip?.vehzipcode, 'ddd, MMM DD YYYY | h:mm A')} -{' '}
+                                        {formatDateAndTime(trip?.endtime, trip?.vehzipcode, 'ddd, MMM DD YYYY | h:mm A')} */}
                                     </div>
                                 </div>
 

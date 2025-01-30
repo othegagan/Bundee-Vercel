@@ -52,7 +52,6 @@ export function validateBookingTime(bookingDateTime: string) {
 }
 
 export function validateBookingTimeWithDelivery(bookingDateTime: string, isCustomDelivery: boolean, isAirportDelivery: boolean) {
-    console.log(bookingDateTime, isCustomDelivery, isAirportDelivery);
     // Ensure delivery conditions apply
     if (isCustomDelivery || isAirportDelivery) {
         const timeFormat = 'h:mm aa';

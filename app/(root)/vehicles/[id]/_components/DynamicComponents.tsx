@@ -144,6 +144,9 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 deliveryLocation = parseDeliveryLocation(airPortDeliveryAddress);
             }
 
+            console.log('startDate', startDate, startTime);
+            console.log('endDate', endDate, endTime);
+
             const checkoutDetails = {
                 userId: session.userId,
                 vehicleid: vehicleDetails.id,
@@ -156,8 +159,8 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 authorizationpercentage: priceCalculatedList.authPercentage,
                 authorizationamount: priceCalculatedList.authAmount,
                 perDayAmount: priceCalculatedList.pricePerDay,
-                startTime: moment(`${startDate} ${startTime}`, 'YYYY-MM-DD HH:mm:ss').toISOString(),
-                endTime: moment(`${endDate} ${endTime}`, 'YYYY-MM-DD HH:mm:ss').toISOString(),
+                startTime: moment.utc(`${startDate} ${startTime}`, 'YYYY-MM-DD HH:mm:ss').toISOString(),
+                endTime: moment.utc(`${endDate} ${endTime}`, 'YYYY-MM-DD HH:mm:ss').toISOString(),
                 totalDays: priceCalculatedList.numberOfDays,
                 taxAmount: priceCalculatedList.taxAmount,
                 tripTaxAmount: priceCalculatedList?.tripTaxAmount,
@@ -187,7 +190,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 location: delivery ? customDeliveryLocation : airportDelivery ? airPortDeliveryAddress : getFullAddress({ vehicleDetails: vehicleDetails })
             };
 
-            // console.log('checkoutDetails', checkoutDetails);
+            console.log('checkoutDetails', checkoutDetails);
 
             secureLocalStorage.setItem('checkOutInfo', JSON.stringify(checkoutDetails));
             window.location.href = '/checkout/driving-licence';
