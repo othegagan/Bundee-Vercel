@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type AxiosRequestHeaders } from 'axios';
-import { destroySession } from './auth';
+import { destroySession, getSession } from './auth';
 
 const authAxios = (): AxiosInstance => {
     const instance = axios.create({
@@ -8,11 +8,11 @@ const authAxios = (): AxiosInstance => {
 
     instance.interceptors.request.use(
         async (config) => {
-            // const session = await getSession();
+            const session = await getSession();
             config.headers = {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                bundee_auth_token: process.env.FALLBACK_BUNDEE_AUTH_TOKEN
+                bundee_auth_token: session.authToken || process.env.FALLBACK_BUNDEE_AUTH_TOKEN
             } as unknown as AxiosRequestHeaders;
             return config;
         },
