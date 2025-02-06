@@ -144,7 +144,7 @@ export function TripsCard({ className }: { className?: string }) {
 
 export function TripsCardsSkeleton() {
     return (
-        <div className='mx-auto mt-6 grid max-w-4xl grid-cols-1 gap-x-6 gap-y-6 xl:gap-x-8'>
+        <div className='mx-auto mt-6 grid w-full max-w-4xl grid-cols-1 gap-x-6 gap-y-6 xl:gap-x-8'>
             <TripsCard />
             <TripsCard />
             <TripsCard />
