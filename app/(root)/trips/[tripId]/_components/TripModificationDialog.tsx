@@ -290,6 +290,7 @@ export default function TripModificationDialog({ tripData }) {
                                                         originalTripTaxAmount={tripData?.tripPaymentTokens[0]?.tripTaxAmount}
                                                         isExtension={isExtension}
                                                         isAirportDeliveryChoosen={tripData.airportDelivery}
+                                                        isCustomDeliveryChoosen={tripData.delivery}
                                                     />
                                                 )}
                                             </div>
