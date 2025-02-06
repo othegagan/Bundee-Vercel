@@ -14,6 +14,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMediaQuery } from 'react-responsive';
 
+const tabs = [
+    { id: 0, tab: 'active', title: 'Trips' },
+    { id: 1, tab: 'past', title: 'Past Trips' }
+];
+
 export default function TripsComponent() {
     const [tabSelectedIndex, setTabSelectedIndex] = useQueryState('', { defaultValue: 'active', history: 'replace' });
     const isTabletOrLarger = useMediaQuery({ query: '(min-width: 768px)' });
@@ -24,10 +29,7 @@ export default function TripsComponent() {
                     aria-orientation='horizontal'
                     className='mx-auto mt-4 grid w-fit max-w-lg grid-cols-2 items-center justify-center gap-10 rounded-lg text-muted-foreground'
                     data-orientation='horizontal'>
-                    {[
-                        { id: 0, tab: 'active', title: 'Trips' },
-                        { id: 1, tab: 'past', title: 'Past Trips' }
-                    ].map(({ id, title, tab }) => (
+                    {tabs.map(({ id, title, tab }) => (
                         <button
                             key={id}
                             onClick={() => setTabSelectedIndex(tab)}
