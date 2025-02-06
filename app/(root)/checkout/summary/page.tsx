@@ -18,7 +18,7 @@ export default function SummaryPage() {
 
     if (loading) return <CheckoutDetailsSkeleton />;
 
-    const { name, image, zipCode, startTime, endTime, airportDelivery, totalDays, hostDetails, plate, location } = data;
+    const { name, image, zipCode, startTime, endTime, airportDelivery, totalDays, hostDetails, plate, location, delivery, deliveryCost } = data;
 
     return (
         <div className='flex flex-col gap-6'>
@@ -59,7 +59,12 @@ export default function SummaryPage() {
                         </div>
                     </div>
                     {/* Price Breakdown */}
-                    <PriceDisplayComponent pricelist={data} isAirportDeliveryChoosen={airportDelivery} />
+                    <PriceDisplayComponent
+                        pricelist={data}
+                        isAirportDeliveryChoosen={airportDelivery}
+                        isCustomerDeliveryChoosen={delivery}
+                        deliveryCost={deliveryCost}
+                    />
                 </div>
             </div>
             {/* Confirm Button */}

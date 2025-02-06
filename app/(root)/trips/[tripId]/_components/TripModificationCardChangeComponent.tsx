@@ -187,7 +187,6 @@ function TripModificationSubmitWithCardComponent({
                     newEndDate,
                     newStartTime,
                     newEndTime,
-                    priceCalculatedList,
                     paymentMethod: payment_method as string
                 });
             } else {
@@ -263,7 +262,6 @@ function TripModificationSubmitWithoutCardComponent({
             newEndDate,
             newStartTime,
             newEndTime,
-            priceCalculatedList,
             paymentMethod: null
         });
     }

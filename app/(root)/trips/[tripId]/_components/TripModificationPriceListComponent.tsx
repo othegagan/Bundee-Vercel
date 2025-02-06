@@ -15,6 +15,7 @@ interface TripModificationPriceListComponentProps {
     originalTripTaxAmount: number;
     isExtension: boolean;
     isAirportDeliveryChoosen: boolean;
+    isCustomDeliveryChoosen: boolean;
 }
 
 export default function TripModificationPriceListComponent({
@@ -26,7 +27,8 @@ export default function TripModificationPriceListComponent({
     newEndTime,
     originalTripTaxAmount,
     isExtension,
-    isAirportDeliveryChoosen
+    isAirportDeliveryChoosen,
+    isCustomDeliveryChoosen
 }: TripModificationPriceListComponentProps) {
     let differenceAmount = 0;
 
@@ -65,7 +67,7 @@ export default function TripModificationPriceListComponent({
                     </div>
                 )}
 
-                {pricelist?.delivery > 0 && (
+                {(isAirportDeliveryChoosen || isCustomDeliveryChoosen) && (
                     <div className='flex items-center justify-between gap-2 px-2'>
                         <div className='flex items-center gap-1 text-xs'>
                             <p className='text-14'>Additional services chosen</p>
@@ -79,12 +81,10 @@ export default function TripModificationPriceListComponent({
                                     <div className='grid select-none gap-4'>
                                         <p className='font-medium leading-none'> Additional services chosen</p>
                                         <div className='space-y-1'>
-                                            {pricelist?.delivery > 0 && (
-                                                <div className='flex items-center justify-between'>
-                                                    <div className='text-14'>{isAirportDeliveryChoosen ? 'Airport Delivery fee' : 'Custom Delivery fee'}</div>
-                                                    <div className='font-medium text-14'>${roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
-                                                </div>
-                                            )}
+                                            <div className='flex items-center justify-between'>
+                                                <div className='text-14'>{isAirportDeliveryChoosen ? 'Airport Delivery fee' : 'Custom Delivery fee'}</div>
+                                                <div className='font-medium text-14'>${roundToTwoDecimalPlaces(pricelist?.delivery)}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </PopoverContent>

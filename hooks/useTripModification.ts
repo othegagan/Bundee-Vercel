@@ -13,7 +13,6 @@ interface UseTripModificationProps {
     newEndDate: string;
     newStartTime: string;
     newEndTime: string;
-    priceCalculatedList: any;
     paymentMethod: string | null;
 }
 
@@ -32,56 +31,22 @@ export default function useTripModification() {
         newEndDate,
         newStartTime,
         newEndTime,
-        priceCalculatedList,
         paymentMethod
     }: UseTripModificationProps) {
         setSubmitting(true);
         try {
             const { userId } = await getSession();
+
             const payload = {
                 tripid,
-                userId: String(userId),
+                userId,
                 startTime: convertToCarTimeZoneISO(`${newStartDate}T${newStartTime}`, vehzipcode),
                 endTime: convertToCarTimeZoneISO(`${newEndDate}T${newEndTime}`, vehzipcode),
-                pickupTime: newStartTime,
-                dropTime: newEndTime,
-                totalDays: String(priceCalculatedList.numberOfDays),
-                taxAmount: priceCalculatedList.taxAmount,
-                tripTaxAmount: priceCalculatedList?.tripTaxAmount,
-                totalamount: priceCalculatedList.totalAmount,
-                tripamount: String(priceCalculatedList.tripAmount),
-                upCharges: priceCalculatedList.upcharges,
-                deliveryCost: priceCalculatedList.delivery,
-                perDayAmount: priceCalculatedList.pricePerDay,
-                extreaMilageCost: 0,
                 isPaymentChanged: true,
-                Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
-                Statesurchargetax: priceCalculatedList.stateSurchargeTax,
                 changedBy: 'USER',
-                ...priceCalculatedList,
-                paymentauthorizationconfigid: 1,
-                deductionfrequencyconfigid: 1,
-                authorizationpercentage: priceCalculatedList.authPercentage,
-                authorizationamount: priceCalculatedList.authAmount,
                 paymentMethodIDToken: paymentMethod || null,
                 comments: ''
             };
-
-            const fieldsToRemove = [
-                'authAmount',
-                'authPercentage',
-                'delivery',
-                'hostPriceMap',
-                'numberOfDays',
-                'pricePerDay',
-                'stateSurchargeAmount',
-                'stateSurchargeTax',
-                'totalAmount',
-                'tripAmount',
-                'upcharges'
-            ];
-
-            fieldsToRemove.forEach((field) => delete payload[field]);
 
             const response = type === 'reduction' ? await createTripReduction(payload) : await createTripExtension(payload);
 

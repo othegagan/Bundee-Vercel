@@ -150,10 +150,6 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 name: `${vehicleDetails?.make} ${vehicleDetails?.model} ${vehicleDetails?.year}`,
                 image: vehicleDetails?.imageresponse[0]?.imagename,
                 type: 'reservation',
-                deductionfrequencyconfigid: 1,
-                paymentauthorizationconfigid: deductionConfigData.authorizationConfigId,
-                authorizationpercentage: priceCalculatedList.authPercentage,
-                authorizationamount: priceCalculatedList.authAmount,
                 perDayAmount: priceCalculatedList.pricePerDay,
                 startTime: convertToCarTimeZoneISO(`${startDate}T${startTime}`, vehicleDetails?.zipcode),
                 endTime: convertToCarTimeZoneISO(`${endDate}T${endTime}`, vehicleDetails?.zipcode),
@@ -162,23 +158,17 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 tripTaxAmount: priceCalculatedList?.tripTaxAmount,
                 totalamount: priceCalculatedList.totalAmount,
                 tripamount: priceCalculatedList.tripAmount,
-                pickupTime: startTime,
-                dropTime: endTime,
-                comments: 'Request to book',
                 address1: deliveryLocation?.address1 || '',
                 address2: deliveryLocation?.address2 || '',
                 cityName: deliveryLocation?.cityName || '',
                 country: deliveryLocation?.country || '',
                 state: deliveryLocation?.state || '',
-                zipCode: deliveryLocation?.zipCode || vehicleDetails?.zipcode,
-                latitude: '',
-                longitude: '',
+                zipCode: deliveryLocation?.zipCode || '',
                 ...priceCalculatedList,
                 delivery: delivery,
                 airportDelivery: airportDelivery,
                 deliveryCost: priceCalculatedList.delivery,
                 upCharges: priceCalculatedList.upcharges,
-                extreaMilageCost: 0,
                 Statesurchargetax: priceCalculatedList.stateSurchargeTax,
                 Statesurchargeamount: priceCalculatedList.stateSurchargeAmount,
                 plate: vehicleDetails.number || '',
@@ -249,7 +239,11 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 {priceLoading ? (
                     <Skeleton className='h-8 w-full animate-pulse rounded-md bg-neutral-200' />
                 ) : isPriceError ? null : (
-                    <PriceDisplayComponent pricelist={priceCalculatedList} isAirportDeliveryChoosen={isAirportDeliveryChoosen} />
+                    <PriceDisplayComponent
+                        pricelist={priceCalculatedList}
+                        isAirportDeliveryChoosen={isAirportDeliveryChoosen}
+                        isCustomerDeliveryChoosen={isCustoumDeliveryChoosen}
+                    />
                 )}
             </div>
 

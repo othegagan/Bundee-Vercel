@@ -8,6 +8,7 @@ import { IoInformationCircleOutline } from 'react-icons/io5';
 interface PriceDisplayComponentProps {
     pricelist: any;
     isAirportDeliveryChoosen: boolean;
+    isCustomerDeliveryChoosen: boolean;
     invoiceUrl?: string;
     deliveryCost?: number;
     children?: React.ReactNode;
@@ -18,8 +19,9 @@ interface PriceDisplayComponentProps {
 export default function PriceDisplayComponent({
     pricelist,
     isAirportDeliveryChoosen,
+    isCustomerDeliveryChoosen,
     invoiceUrl,
-    deliveryCost = 0,
+    deliveryCost,
     paymentSechudule,
     children,
     zipCode
@@ -64,14 +66,24 @@ export default function PriceDisplayComponent({
                     </PriceItem>
                 )}
                 {/* Additional Services */}
-                {(pricelist?.deliveryCost > 0 || pricelist?.delivery > 0) && (
-                    <PriceItem label='Additional services chosen' value={pricelist?.deliveryCost || pricelist?.delivery}>
+
+                {(isCustomerDeliveryChoosen || isAirportDeliveryChoosen) && (
+                    <PriceItem
+                        label='Additional services chosen'
+                        value={typeof deliveryCost === 'number' && !Number.isNaN(deliveryCost) ? deliveryCost : pricelist?.deliveryCost || pricelist?.delivery}>
                         <InfoPopover
                             title='Additional services chosen'
                             content={
                                 <div className='flex items-center justify-between'>
-                                    <div className='text-sm'> {isAirportDeliveryChoosen ? 'Airport Delivery Fee' : 'Custom Delivery Fee'}</div>
-                                    <div className='font-medium text-sm'>${roundToTwoDecimalPlaces(pricelist?.deliveryCost || pricelist?.delivery)}</div>
+                                    <div className='text-sm'>{isAirportDeliveryChoosen ? 'Airport Delivery Fee' : 'Custom Delivery Fee'}</div>
+                                    <div className='font-medium text-sm'>
+                                        $
+                                        {roundToTwoDecimalPlaces(
+                                            typeof deliveryCost === 'number' && !Number.isNaN(deliveryCost)
+                                                ? deliveryCost
+                                                : pricelist?.deliveryCost || pricelist?.delivery
+                                        )}
+                                    </div>
                                 </div>
                             }
                         />
@@ -186,7 +198,7 @@ function PriceItem({ label, value, sign = '', children }: { label: string; value
                 {label}
                 {children}
             </div>
-            <div className={`font-medium ${label === 'Discount' && 'text-green-500'}`}>{value > 0 && `${sign} $${roundToTwoDecimalPlaces(value)}`}</div>
+            <div className={`font-medium ${label === 'Discount' && 'text-green-500'}`}>{`${sign} $${roundToTwoDecimalPlaces(value)}`}</div>
         </div>
     );
 }
