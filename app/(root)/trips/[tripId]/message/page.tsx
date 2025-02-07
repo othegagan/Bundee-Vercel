@@ -7,7 +7,6 @@ import { formatDateAndTime, getFullAddress, sortImagesByIsPrimary } from '@/lib/
 import { getTripChatHistory } from '@/server/tripOperations';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { format } from 'date-fns';
 import { Paperclip, Send, Trash } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -29,6 +28,7 @@ export default function MessagePage({ params }) {
 
     const { data: response } = useTripDetails(params.tripId);
     const tripData = response?.data?.activetripresponse[0];
+    const zipcode = tripData?.vehzipcode;
 
     const fetchChatHistory = async () => {
         if (tripId) {
@@ -208,7 +208,9 @@ function Message({ message, tripData }) {
 
                 {message?.message}
 
-                <p className='flex items-center justify-end text-[10px]'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                <p className='flex items-center justify-end text-[10px]'>
+                    {formatDateAndTime(message.deliveryDate, tripData?.vehzipcode, 'MMM DD YYYY | h:mm A')}
+                </p>
             </div>
         );
     }
@@ -225,7 +227,9 @@ function Message({ message, tripData }) {
 
                     {message.mediaUrl && <img src={message.mediaUrl} alt='media content' className='mt-2 h-auto rounded-lg' />}
 
-                    <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                    <p className='flex items-center justify-end text-[10px] text-black'>
+                        {formatDateAndTime(message.deliveryDate, tripData?.vehzipcode, 'MMM DD YYYY | h:mm A')}
+                    </p>
                 </div>
             </div>
         );
@@ -265,12 +269,16 @@ function Message({ message, tripData }) {
                         Pickup & Return :<span className='font-medium text-gray-800 capitalize'>{getFullAddress({ tripDetails: tripData })}</span>
                     </div>
 
-                    <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                    <p className='flex items-center justify-end text-[10px] text-black'>
+                        {formatDateAndTime(message.deliveryDate, tripData?.vehzipcode, 'MMM DD YYYY | h:mm A')}
+                    </p>
                 </div>
             ) : (
                 <div className='flex flex-col gap-2 rounded-lg rounded-tl-none bg-muted px-3 py-2 font-medium text-sm'>
                     {message.message}
-                    <p className='flex items-center justify-end text-[10px] text-black'>{format(new Date(message.deliveryDate), 'PP | hh:mm a')}</p>
+                    <p className='flex items-center justify-end text-[10px] text-black'>
+                        {formatDateAndTime(message.deliveryDate, tripData?.vehzipcode, 'MMM DD YYYY | h:mm A')}
+                    </p>
                 </div>
             )}
         </div>
