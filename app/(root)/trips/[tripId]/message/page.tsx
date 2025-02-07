@@ -28,7 +28,6 @@ export default function MessagePage({ params }) {
 
     const { data: response } = useTripDetails(params.tripId);
     const tripData = response?.data?.activetripresponse[0];
-    const zipcode = tripData?.vehzipcode;
 
     const fetchChatHistory = async () => {
         if (tripId) {
