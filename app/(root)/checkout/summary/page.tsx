@@ -19,7 +19,7 @@ export default function SummaryPage() {
 
     if (loading) return <CheckoutDetailsSkeleton />;
 
-    const { name, image, zipCode, startTime, endTime, airportDelivery, totalDays, hostDetails, plate, location } = data;
+    const { name, image, zipCode, startTime, endTime, airportDelivery, totalDays, hostDetails, plate, location, delivery, deliveryCost } = data;
 
     console.log('startTime', startTime);
     console.log('endTime', endTime);
@@ -65,7 +65,12 @@ export default function SummaryPage() {
                         </div>
                     </div>
                     {/* Price Breakdown */}
-                    <PriceDisplayComponent pricelist={data} isAirportDeliveryChoosen={airportDelivery} />
+                    <PriceDisplayComponent
+                        pricelist={data}
+                        isAirportDeliveryChoosen={airportDelivery}
+                        isCustomerDeliveryChoosen={delivery}
+                        deliveryCost={deliveryCost}
+                    />
                 </div>
             </div>
             {/* Confirm Button */}

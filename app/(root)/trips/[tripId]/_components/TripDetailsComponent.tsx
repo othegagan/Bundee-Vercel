@@ -127,6 +127,7 @@ export default function TripDetailsComponent({
             <PriceDisplayComponent
                 pricelist={trip?.tripPaymentTokens[0]}
                 isAirportDeliveryChoosen={trip.airportDelivery}
+                isCustomerDeliveryChoosen={trip.delivery}
                 invoiceUrl={trip.invoiceUrl}
                 paymentSechudule={paymentSchedule}
                 zipCode={trip.vehzipcode}>

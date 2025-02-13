@@ -47,12 +47,10 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
 
                 if (status === 'succeeded') {
                     const payload = {
-                        userId: String(data.userId),
+                        userId: data.userId,
                         vehicleid: data.vehicleid,
                         startTime: data.startTime,
                         endTime: data.endTime,
-                        pickupTime: data.pickupTime,
-                        dropTime: data.dropTime,
                         comments: 'Request to book',
                         address1: data.address1,
                         address2: data.address2,
@@ -68,7 +66,6 @@ export default function CheckoutForm({ customerId }: { customerId: string }) {
                         paymentMethodIDToken: payment_method,
                         isCustomerTokenNew: 'NA'
                     };
-
                     // console.log('Reservation payload', payload);
                     const response = await createTripReservation(payload);
                     // console.log(response);

@@ -20,9 +20,9 @@ export function toTitleCase(str: string) {
 
 export function roundToTwoDecimalPlaces(num: number) {
     try {
-        return Number.parseFloat(num.toString()).toFixed(2);
+        return Number.parseFloat(num.toString()).toFixed(2); // Always returns a string with 2 decimal places
     } catch (error) {
-        return 0;
+        return '0.00'; // Return a fallback value as a string
     }
 }
 
