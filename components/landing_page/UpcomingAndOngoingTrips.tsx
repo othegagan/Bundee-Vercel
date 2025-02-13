@@ -2,6 +2,7 @@ import { StatusBadge } from '@/app/(root)/trips/TripsComponent';
 import { getSession } from '@/lib/auth';
 import { formatDateAndTime, getFullAddress, toTitleCase } from '@/lib/utils';
 import { getDriverSpecificTripOnDashboard } from '@/server/tripOperations';
+import { format } from 'date-fns';
 import { CalendarDays, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import BoxContainer from '../BoxContainer';
@@ -64,7 +65,10 @@ function TripCard({ trip }: { trip: any }) {
                 <div className='flex w-full items-center gap-2'>
                     <CalendarDays className='size-5 text-muted-foreground' />
                     <div className='text-14 '>
-                        {formatDateAndTime(trip.startTime, trip?.zipCode, ' MMM DD YYYY')} - {formatDateAndTime(trip.endTime, trip?.zipCode, ' MMM DD YYYY')}
+                        {format(trip?.startTime, 'PP pp')} - {format(trip?.endTime, 'PP pp')}
+                        <br />
+                        {formatDateAndTime(trip.startTime, trip?.zipCode, ' MMM DD YYYY  h:mm A')} -{' '}
+                        {formatDateAndTime(trip.endTime, trip?.zipCode, ' MMM DD YYYY  h:mm A')}
                     </div>
                 </div>
 
