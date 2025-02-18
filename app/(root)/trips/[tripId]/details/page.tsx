@@ -59,7 +59,7 @@ export default function page({ params }: { params: { tripId: string } }) {
 
             {status === 'completed' && tripRating.length === 0 && <TripReviewDialogTrigger tripData={tripData} />}
 
-            {status === 'started' && <EndTripComponent tripId={Number(tripId)} />}
+            {status === 'started' && <EndTripComponent hostId={tripData.hostid} tripId={tripData.tripid} userId={tripData.userid} />}
 
             {tripData.isRentalAgreed && tripData.isLicenseVerified && tripData.isPhoneVarified && status === 'approved' && (
                 <StartTripComponent starttime={tripData.starttime} tripid={tripData.tripid} zipCode={tripData.vehzipcode} />
