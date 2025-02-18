@@ -34,7 +34,7 @@ export default function TripPaymentSchedule({ paymentSchedule, zipCode }: TripPa
                 <DialogBody>
                     <p>A breakdown of your rental payments, including amounts and due dates for a hassle-free rental experience.</p>
 
-                    <div>
+                    <div className='max-h-[350px] overflow-y-auto'>
                         <Table>
                             <TableHeader>
                                 <TableRow>

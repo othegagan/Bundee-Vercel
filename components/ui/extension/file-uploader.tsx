@@ -1,140 +1,283 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Trash, Upload } from 'lucide-react';
-import Image from 'next/image';
-import type React from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { buttonVariants } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { Trash2 as RemoveIcon } from 'lucide-react';
+import { type Dispatch, type SetStateAction, createContext, forwardRef, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { type DropzoneOptions, type DropzoneState, type FileRejection, useDropzone } from 'react-dropzone';
+import { toast } from 'sonner';
 
-interface FileUploaderProps {
-    setError: any;
-    onFileSelect: (files: File[]) => void;
-    maxFileSize?: number; // in bytes, default 4MB
-    maxFiles?: number; // max number of files allowed
-}
+type DirectionOptions = 'rtl' | 'ltr' | undefined;
 
-export default function FileUploader({ onFileSelect, setError, maxFileSize = 2 * 1024 * 1024, maxFiles = 10 }: FileUploaderProps) {
-    const [isDragging, setIsDragging] = useState(false);
-    const [files, setFiles] = useState<File[]>([]);
-    const [previews, setPreviews] = useState<string[]>([]);
+type FileUploaderContextType = {
+    dropzoneState: DropzoneState;
+    isLOF: boolean;
+    isFileTooBig: boolean;
+    removeFileFromSet: (index: number) => void;
+    activeIndex: number;
+    setActiveIndex: Dispatch<SetStateAction<number>>;
+    orientation: 'horizontal' | 'vertical';
+    direction: DirectionOptions;
+};
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
+const FileUploaderContext = createContext<FileUploaderContextType | null>(null);
 
-    const onDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(true);
-    }, []);
+export const useFileUpload = () => {
+    const context = useContext(FileUploaderContext);
+    if (!context) {
+        throw new Error('useFileUpload must be used within a FileUploaderProvider');
+    }
+    return context;
+};
 
-    const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(false);
-    }, []);
+type FileUploaderProps = {
+    value: File[] | null;
+    reSelect?: boolean;
+    onValueChange: (value: File[] | null) => void;
+    dropzoneOptions: DropzoneOptions;
+    orientation?: 'horizontal' | 'vertical';
+};
 
-    const onDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(false);
-        const droppedFiles = Array.from(e.dataTransfer.files);
-        handleFiles(droppedFiles);
-    }, []);
+export const FileUploader = forwardRef<HTMLDivElement, FileUploaderProps & React.HTMLAttributes<HTMLDivElement>>(
+    ({ className, dropzoneOptions, value, onValueChange, reSelect, orientation = 'vertical', children, dir, ...props }, ref) => {
+        const [isFileTooBig, setIsFileTooBig] = useState(false);
+        const [isLOF, setIsLOF] = useState(false);
+        const [activeIndex, setActiveIndex] = useState(-1);
+        const {
+            accept = {
+                'image/*': ['.jpg', '.jpeg', '.png', '.gif']
+            },
+            maxFiles = 1,
+            maxSize = 4 * 1024 * 1024,
+            multiple = true
+        } = dropzoneOptions;
 
-    const onFileDrop = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-        handleFiles(selectedFiles);
-    }, []);
+        const reSelectAll = maxFiles === 1 ? true : reSelect;
+        const direction: DirectionOptions = dir === 'rtl' ? 'rtl' : 'ltr';
 
-    const handleFiles = (selectedFiles: File[]) => {
-        setError(null);
-        const allowedFiles: File[] = [];
-        const exceededSizeFiles: File[] = [];
-        const duplicateFiles: string[] = [];
-        const existingFileNames = files.map((file) => file.name.toLowerCase());
+        const removeFileFromSet = useCallback(
+            (i: number) => {
+                if (!value) return;
+                const newFiles = value.filter((_, index) => index !== i);
+                onValueChange(newFiles);
+            },
+            [value, onValueChange]
+        );
 
-        selectedFiles.forEach((file) => {
-            const fileName = file.name.toLowerCase();
+        const handleKeyDown = useCallback(
+            (e: React.KeyboardEvent<HTMLDivElement>) => {
+                e.preventDefault();
+                e.stopPropagation();
 
-            if (existingFileNames.includes(fileName)) {
-                // If file is a duplicate
-                duplicateFiles.push(file.name);
-            } else if (file.size > maxFileSize) {
-                // If file exceeds size limit
-                exceededSizeFiles.push(file);
-            } else if (!file.type.includes('image/') && !file.type.includes('video/')) {
-                // If file is not an image or video
-                setError(`File ${file.name} is not supported. Only images and videos are allowed.`);
-            } else {
-                // If file is valid
-                allowedFiles.push(file);
-                existingFileNames.push(fileName);
+                if (!value) return;
+
+                const moveNext = () => {
+                    const nextIndex = activeIndex + 1;
+                    setActiveIndex(nextIndex > value.length - 1 ? 0 : nextIndex);
+                };
+
+                const movePrev = () => {
+                    const nextIndex = activeIndex - 1;
+                    setActiveIndex(nextIndex < 0 ? value.length - 1 : nextIndex);
+                };
+
+                const prevKey = orientation === 'horizontal' ? (direction === 'ltr' ? 'ArrowLeft' : 'ArrowRight') : 'ArrowUp';
+
+                const nextKey = orientation === 'horizontal' ? (direction === 'ltr' ? 'ArrowRight' : 'ArrowLeft') : 'ArrowDown';
+
+                if (e.key === nextKey) {
+                    moveNext();
+                } else if (e.key === prevKey) {
+                    movePrev();
+                } else if (e.key === 'Enter' || e.key === 'Space') {
+                    if (activeIndex === -1) {
+                        dropzoneState.inputRef.current?.click();
+                    }
+                } else if (e.key === 'Delete' || e.key === 'Backspace') {
+                    if (activeIndex !== -1) {
+                        removeFileFromSet(activeIndex);
+                        if (value.length - 1 === 0) {
+                            setActiveIndex(-1);
+                            return;
+                        }
+                        movePrev();
+                    }
+                } else if (e.key === 'Escape') {
+                    setActiveIndex(-1);
+                }
+            },
+            [value, activeIndex, removeFileFromSet]
+        );
+
+        const onDrop = useCallback(
+            (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+                const files = acceptedFiles;
+
+                if (!files) {
+                    toast.error('file error , probably too big');
+                    return;
+                }
+
+                const newValues: File[] = value ? [...value] : [];
+
+                if (reSelectAll) {
+                    newValues.splice(0, newValues.length);
+                }
+
+                files.forEach((file) => {
+                    if (newValues.length < maxFiles) {
+                        newValues.push(file);
+                    }
+                });
+
+                onValueChange(newValues);
+
+                if (rejectedFiles.length > 0) {
+                    for (let i = 0; i < rejectedFiles.length; i++) {
+                        if (rejectedFiles[i].errors[0]?.code === 'file-too-large') {
+                            toast.error(`File is too large. Max size is ${maxSize / 1024 / 1024}MB`);
+                            break;
+                        }
+                        if (rejectedFiles[i].errors[0]?.message) {
+                            toast.error(rejectedFiles[i].errors[0].message);
+                            break;
+                        }
+                    }
+                }
+            },
+            [reSelectAll, value]
+        );
+
+        useEffect(() => {
+            if (!value) return;
+            if (value.length === maxFiles) {
+                setIsLOF(true);
+                return;
             }
+            setIsLOF(false);
+        }, [value, maxFiles]);
+
+        const opts = dropzoneOptions ? dropzoneOptions : { accept, maxFiles, maxSize, multiple };
+
+        const dropzoneState = useDropzone({
+            ...opts,
+            onDrop,
+            onDropRejected: () => setIsFileTooBig(true),
+            onDropAccepted: () => setIsFileTooBig(false)
         });
 
-        if (files.length + allowedFiles.length > maxFiles) {
-            setError(`You can upload a maximum of ${maxFiles} files.`);
-            return;
-        }
+        return (
+            <FileUploaderContext.Provider
+                value={{
+                    dropzoneState,
+                    isLOF,
+                    isFileTooBig,
+                    removeFileFromSet,
+                    activeIndex,
+                    setActiveIndex,
+                    orientation,
+                    direction
+                }}>
+                <div
+                    ref={ref}
+                    // biome-ignore lint/a11y/noNoninteractiveTabindex: <explanation>
+                    tabIndex={0}
+                    onKeyDownCapture={handleKeyDown}
+                    className={cn('grid w-full overflow-hidden focus:outline-none', className, {
+                        'gap-2': value && value.length > 0
+                    })}
+                    dir={dir}
+                    {...props}>
+                    {children}
+                </div>
+            </FileUploaderContext.Provider>
+        );
+    }
+);
 
-        if (exceededSizeFiles.length > 0) {
-            setError(`Some files exceed the maximum size limit (${maxFileSize / (1024 * 1024)}MB) and won't be uploaded.`);
-        }
+FileUploader.displayName = 'FileUploader';
 
-        if (duplicateFiles.length > 0) {
-            setError(`Duplicate files detected: ${duplicateFiles.join(', ')} won't be uploaded.`);
-        }
-
-        setFiles((prevFiles) => [...prevFiles, ...allowedFiles]);
-
-        // Generate previews for the allowed files
-        allowedFiles.forEach((file) => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviews((prevPreviews) => [...prevPreviews, reader.result as string]);
-            };
-            reader.readAsDataURL(file);
-        });
-
-        // Pass the valid files to the parent component
-        onFileSelect(allowedFiles);
-    };
-
-    const removeFile = (index: number) => {
-        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-        setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
-    };
+export const FileUploaderContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ children, className, ...props }, ref) => {
+    const { orientation } = useFileUpload();
+    const containerRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div className={`grid w-full grid-cols-1 gap-4 md:gap-6 ${files.length > 0 ? 'md:grid-cols-2' : ''}`}>
-            <div
-                className={`relative flex h-full min-h-44 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-4 text-center transition duration-150 ease-in-out ${
-                    isDragging ? 'border-primary bg-primary/10' : 'border-2 border-neutral-200 bg-muted hover:border-primary hover:bg-primary/5'
-                }`}
-                onDragEnter={onDragEnter}
-                onDragLeave={onDragLeave}
-                onDrop={onDrop}
-                onClick={() => fileInputRef.current?.click()}>
-                <Upload className='h-10 w-10 text-muted-foreground' />
-                <p className='mt-2 text-muted-foreground text-sm'>Click to upload or drag and drop</p>
-                <p className='text-muted-foreground text-xs'>Max. File Size: {maxFileSize / (1024 * 1024)}MB</p>
-                <input ref={fileInputRef} type='file' accept='image/*, video/*' multiple onChange={onFileDrop} className='hidden' />
+        <div className={cn('w-full px-1')} ref={containerRef}>
+            <div {...props} ref={ref} className={cn('flex gap-1 rounded-xl', orientation === 'horizontal' ? 'flex-raw flex-wrap' : 'flex-col', className)}>
+                {children}
             </div>
-
-            {files.length > 0 && (
-                <div className='max-h-72 space-y-2 overflow-y-auto'>
-                    {files.map((file, index) => (
-                        <div key={index} className='flex items-center justify-between gap-2 text-sm'>
-                            <div className='flex items-center gap-2'>
-                                {previews[index] && <Image src={previews[index]} alt={file.name} width={100} height={80} className='rounded object-cover' />}
-                                <span className='max-w-[150px] truncate'>{file.name}</span>
-                            </div>
-                            <Button size='icon' variant='ghost' onClick={() => removeFile(index)}>
-                                <Trash className='h-4 w-4' />
-                            </Button>
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
     );
-}
+});
+
+FileUploaderContent.displayName = 'FileUploaderContent';
+
+export const FileUploaderItem = forwardRef<HTMLDivElement, { index: number } & React.HTMLAttributes<HTMLDivElement>>(
+    ({ className, index, children, ...props }, ref) => {
+        const { removeFileFromSet, activeIndex, direction } = useFileUpload();
+        const isSelected = index === activeIndex;
+        return (
+            <div
+                ref={ref}
+                className={cn(buttonVariants({ variant: 'ghost' }), 'relative h-6 justify-between p-1', className, isSelected ? 'bg-muted' : '')}
+                {...props}>
+                <div className='flex h-full w-full items-center gap-1.5 font-medium leading-none tracking-tight'>{children}</div>
+                <button
+                    type='button'
+                    className={cn('absolute rounded bg-white p-0.5', direction === 'rtl' ? 'bottom-1 left-1' : 'right-1 bottom-1')}
+                    onClick={() => removeFileFromSet(index)}>
+                    <span className='sr-only'>remove item {index}</span>
+                    <RemoveIcon className='size-5 duration-200 ease-in-out hover:stroke-destructive' />
+                </button>
+            </div>
+        );
+    }
+);
+
+FileUploaderItem.displayName = 'FileUploaderItem';
+
+export const FileInput = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, children, ...props }, ref) => {
+    const { dropzoneState, isLOF } = useFileUpload();
+    const rootProps = isLOF ? {} : dropzoneState.getRootProps();
+    const { isDragActive, isDragAccept } = dropzoneState;
+
+    return (
+        <div ref={ref} {...props} className={cn('relative w-full', isLOF ? 'cursor-not-allowed opacity-50' : 'cursor-pointer', className)}>
+            <div
+                className={cn(
+                    'flex h-full w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed bg-background transition-colors duration-100 ease-in-out hover:border-primary',
+                    isDragActive && 'border-primary bg-primary/20',
+                    isDragAccept && 'border-primary'
+                    // (isDragReject || isFileTooBig) && 'border-red-500'
+                )}
+                {...rootProps}>
+                {children}
+            </div>
+            <Input ref={dropzoneState.inputRef} disabled={isLOF} {...dropzoneState.getInputProps()} className={`${isLOF ? 'cursor-not-allowed' : ''}`} />
+        </div>
+    );
+});
+
+FileInput.displayName = 'FileInput';
+
+//  <FileUploaderContent className='flex items-center flex-row flex-wrap gap-2 w-full'>
+//     {files?.map((file, i) => (
+//         <FileUploaderItem
+//             key={i}
+//             index={i}
+//             className='size-20 md:size-28 p-0 rounded-md overflow-hidden'
+//             aria-roledescription={`file ${i + 1} containing ${file.name}`}>
+//             <img src={URL.createObjectURL(file)} alt={file.name} height={80} width={80} className='w-full h-full object-cover object-center p-0' />
+//         </FileUploaderItem>
+//     ))}
+
+//     {files &&
+//         files.length > 0 &&
+//         files.map((file, i) => (
+//             <FileUploaderItem key={i} index={i} className='w-full '>
+//                 <Paperclip className='h-4 w-4 stroke-current' />
+//                 <span>{file.name}</span>
+//             </FileUploaderItem>
+//         ))}
+// </FileUploaderContent>

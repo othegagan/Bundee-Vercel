@@ -2,35 +2,30 @@
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogBody, DialogFooter } from '@/components/ui/dialog';
-import FileUploader from '@/components/ui/extension/file-uploader';
+import { FileInput, FileUploader } from '@/components/ui/extension/file-uploader';
 import { getSession } from '@/lib/auth';
+import { FileUploadDropzoneIcon } from '@/public/icons';
 import axios from 'axios';
+import { Files } from 'lucide-react';
 import { useState } from 'react';
+import type { DropzoneOptions } from 'react-dropzone';
 import { toast } from 'sonner';
 
 interface TripImageVideoUploadComponentProps {
     tripid: number;
-    userId: string | number;
+    userId: number;
     hostId: string | number | any;
-    driverTripStartingBlobs: any[] | [];
+    belongsTo: 'starting' | 'ending';
 }
 
-export default function TripImageVideoUploadComponent({ tripid, userId, hostId, driverTripStartingBlobs }: TripImageVideoUploadComponentProps) {
-    const [showDialog, setShowDialog] = useState(false);
-    const [files, setFiles] = useState<File[] | null>([]);
+export default function TripImageVideoUploadComponent({ tripid, userId, hostId, belongsTo }: TripImageVideoUploadComponentProps) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [files, setFiles] = useState<File[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [error, setError] = useState('');
 
-    const openDialog = () => {
-        setFiles([]); // reset the files array when dialog opens
-        setShowDialog(true);
-    };
-
-    const closeDialog = () => {
-        setShowDialog(false);
-    };
-
-    const handleFileSelect = (selectedFiles: File[]) => {
+    function handleFileUpload(selectedFiles: File[] | null) {
+        if (!selectedFiles) return;
         setFiles((prevFiles) => {
             const fileNames = prevFiles.map((file) => file.name.toLowerCase());
             const newFiles = selectedFiles.filter(
@@ -38,10 +33,10 @@ export default function TripImageVideoUploadComponent({ tripid, userId, hostId, 
             );
             return [...prevFiles, ...newFiles];
         });
-    };
+    }
 
-    const uploadFiles = async () => {
-        if (!files || files.length === 0) return;
+    async function handleSubmit() {
+        if (files.length === 0) return;
 
         setIsUploading(true);
 
@@ -51,13 +46,13 @@ export default function TripImageVideoUploadComponent({ tripid, userId, hostId, 
             // Loop over files sequentially instead of running them all concurrently
             for (let index = 0; index < files.length; index++) {
                 const file = files[index];
-                const url = process.env.NEXT_PUBLIC_UPLOAD_IMAGE_VIDEO_URL;
+                const url = `${process.env.NEXT_PUBLIC_BOOKING_SERVICES_BASEURL}/v1/booking/uploadMediaFiles`;
 
                 const formData = new FormData();
                 const jsonData = {
                     tripId: tripid,
                     isUploadedByHost: false,
-                    isUploadedAtStarting: true,
+                    isUploadedAtStarting: belongsTo === 'starting',
                     url: '',
                     storageRef: '',
                     caption: '',
@@ -72,19 +67,41 @@ export default function TripImageVideoUploadComponent({ tripid, userId, hostId, 
                 await axios.post(url, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        bundee_auth_token: session.authToken
+                        bundee_auth_token: session?.authToken
                     }
                 });
             }
 
-            toast.success('All files uploaded successfully!');
-            window.location.reload();
+            toast.success('File(s) uploaded successfully!');
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         } catch (error) {
             console.error('Error uploading files', error);
             setIsUploading(false);
             setError('Error uploading files. Please try again later.');
         }
-    };
+    }
+
+    function openDialog() {
+        setIsOpen(true);
+    }
+
+    function closeDialog() {
+        setIsOpen(false);
+        setFiles([]);
+        setError('');
+        setIsUploading(false);
+    }
+
+    const dropzone = {
+        accept: {
+            'image/*': ['.jpg', '.jpeg', '.png']
+        },
+        multiple: true,
+        maxFiles: 10,
+        maxSize: 15 * 1024 * 1024
+    } as DropzoneOptions;
 
     return (
         <>
@@ -93,25 +110,47 @@ export default function TripImageVideoUploadComponent({ tripid, userId, hostId, 
             </Button>
 
             <Dialog
-                isOpen={showDialog}
+                isOpen={isOpen}
                 openDialog={openDialog}
                 closeDialog={closeDialog}
                 title='Upload vehicle Images'
                 description='Images are uploaded for the purposes of recording vehicle condition in the event of damage.'
                 className='w-full md:max-w-3xl lg:max-w-4xl'>
                 <DialogBody>
-                    <FileUploader onFileSelect={handleFileSelect} setError={setError} />
+                    <div className='flex flex-col gap-4 text-sm'>
+                        <div className='flex w-full flex-col gap-4 overflow-hidden'>
+                            <FileUploader value={files} onValueChange={handleFileUpload} dropzoneOptions={dropzone} className='relative h-40 rounded-lg '>
+                                <FileInput className='flex h-full flex-col items-center justify-center bg-muted'>
+                                    <FileUploadDropzoneIcon />
+                                    <p className='mb-1 text-muted-foreground text-sm'>
+                                        <span className='font-semibold'>Click to upload vehicle photos</span>
+                                        &nbsp; or drag and drop
+                                    </p>
+                                    <p className='text-muted-foreground text-xs'>SVG, PNG, JPG or GIF</p>
+                                </FileInput>
+                            </FileUploader>
+
+                            {error && <div className='mt-4 text-red-500 text-sm'>{error}</div>}
+                        </div>
+
+                        {files.length > 0 && (
+                            <div className='flex items-center gap-4 text-base'>
+                                <Files />
+                                {files.length} file{files.length !== 1 ? 's' : ''} selected
+                            </div>
+                        )}
+                    </div>
                 </DialogBody>
                 <DialogFooter className='flex flex-col md:flex-row md:justify-between'>
                     {error && <div className='text-red-400'>{error}</div>}
 
                     <Button
-                        onClick={uploadFiles}
+                        onClick={handleSubmit}
                         className='ml-auto bg-black text-white hover:bg-black/90'
                         disabled={isUploading || files.length === 0}
                         loading={isUploading}
                         loadingText='Uploading...'>
-                        {`Upload ${files.length > 1 ? `${files.length} Files` : 'File'}`}
+                        Upload
                     </Button>
                 </DialogFooter>
             </Dialog>

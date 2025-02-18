@@ -8,8 +8,8 @@ import { MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { StatusBadge } from '../../TripsComponent';
 import CardChangeDialog from './CardChangeDialog';
-import TripImageVideoCarousel from './TripImageVideoCarousel';
 import TripImageVideoUploadComponent from './TripImageVideoUploadComponent';
+import TripMediaDisplay from './TripMediaDisplay';
 import { splitFormattedDateAndTime } from './TripModificationDialog';
 import TripReadinessChecklistComponent from './TripReadinessChecklistComponent';
 
@@ -154,17 +154,26 @@ export default function TripDetailsComponent({
 
             {/* Trip Media */}
             <div className='flex flex-col gap-2'>
-                <div className='flex items-center justify-between'>
+                <div className='mb-5 flex items-center justify-between'>
                     <div className='font-bold text-md '>Trip Media</div>
                     <TripImageVideoUploadComponent
                         tripid={trip.tripid}
                         userId={trip.userid}
                         hostId={trip.hostid}
-                        driverTripStartingBlobs={trip?.driverTripStartingBlobs || []}
+                        belongsTo={['TRSTR', 'TRCOM'].includes(trip.statusCode) ? 'ending' : 'starting'}
                     />
                 </div>
-                <TripImageVideoCarousel images={trip?.driverTripStartingBlobs || []} uploadedBy='driver' />
-                <TripImageVideoCarousel images={trip?.hostTripStartingBlobs || []} uploadedBy='host' />
+
+                <TripMediaDisplay
+                    hostTripStartingBlobs={trip?.hostTripStartingBlobs}
+                    hostTripCompletingBlobs={trip?.hostTripCompletingBlobs}
+                    driverTripStartingBlobs={trip?.driverTripStartingBlobs}
+                    driverTripCompletingBlobs={trip?.driverTripCompletingBlobs}
+                    hostAvatar={trip?.hostImage || '/dummy_avatar.png'}
+                    hostName={`${trip?.hostFirstName} ${trip?.hostLastName}` || 'Host'}
+                    driverAvatar={trip?.userImage || '/dummy_avatar.png'}
+                    driverName={`${trip?.userFirstName} ${trip?.userlastName}` || 'Driver'}
+                />
             </div>
 
             {/* Policies */}

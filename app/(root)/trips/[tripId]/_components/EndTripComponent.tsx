@@ -18,7 +18,7 @@ export default function EndTripComponent({ tripId }: { tripId: number }) {
         setIsModalOpen(false);
     }
 
-    const cancelTrip = async () => {
+    async function endTrip() {
         try {
             setLoading(true);
             const response = await endReservation(tripId);
@@ -38,7 +38,7 @@ export default function EndTripComponent({ tripId }: { tripId: number }) {
         } finally {
             setLoading(false);
         }
-    };
+    }
 
     return (
         <>
@@ -53,7 +53,7 @@ export default function EndTripComponent({ tripId }: { tripId: number }) {
                 End trip
             </Button>
 
-            <Dialog isOpen={isModalOpen} openDialog={openModal} closeDialog={closeModal} title='Cancel Request'>
+            <Dialog isOpen={isModalOpen} openDialog={openModal} closeDialog={closeModal} title='End trip'>
                 <DialogBody>
                     <p>Are you sure, You would like to end the trip ?</p>
                 </DialogBody>
@@ -62,7 +62,7 @@ export default function EndTripComponent({ tripId }: { tripId: number }) {
                         Back to trip
                     </Button>
 
-                    <Button type='button' variant='black' className='w-full sm:w-auto ' loading={loading} onClick={cancelTrip}>
+                    <Button type='button' variant='black' className='w-full sm:w-auto ' loading={loading} onClick={endTrip}>
                         Yes, End trip
                     </Button>
                 </DialogFooter>
