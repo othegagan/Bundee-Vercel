@@ -2,6 +2,7 @@
 
 import { Eye } from 'lucide-react';
 import { useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from './avatar';
 import { Dialog, DialogBody } from './dialog';
 
 interface ImagePreviewProps {
@@ -32,7 +33,12 @@ export default function ImagePreview({ url: imageUrl, alt = 'Image preview', cla
     return (
         <>
             <button type='button' className='group relative h-full w-full cursor-pointer' onClick={openDialog}>
-                <img src={imageUrl} alt={alt} className='h-full w-full object-cover' style={{ objectFit: 'cover' }} />
+                <Avatar className='absolute inset-0 h-full w-full rounded-none'>
+                    <AvatarImage src={imageUrl} alt={alt} className='h-full w-full object-cover' />
+                    <AvatarFallback className='w-full rounded-none text-center text-xs'>
+                        <span className='max-w-36'>The image is corrupted and cannot be displayed</span>{' '}
+                    </AvatarFallback>
+                </Avatar>
                 <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100'>
                     <Eye className='h-6 w-6 text-white' />
                 </div>
@@ -40,8 +46,13 @@ export default function ImagePreview({ url: imageUrl, alt = 'Image preview', cla
 
             <Dialog isOpen={isOpen} closeDialog={closeDialog} openDialog={openDialog}>
                 <DialogBody>
-                    <div className='relative aspect-video'>
-                        <img src={imageUrl} alt={alt} className='h-full w-full' style={{ objectFit: 'contain' }} />
+                    <div className='relative h-full w-full'>
+                        <Avatar className='absolute inset-0 h-full w-full rounded-none'>
+                            <AvatarImage src={imageUrl} alt={alt} className='h-full w-full' style={{ objectFit: 'contain' }} />
+                            <AvatarFallback className='w-full rounded-none text-center text-xs'>
+                                <span className='max-w-36'>The image is corrupted and cannot be displayed</span>{' '}
+                            </AvatarFallback>
+                        </Avatar>
                     </div>
                 </DialogBody>
             </Dialog>

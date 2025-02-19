@@ -1,4 +1,5 @@
 'use client';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import ImagePreview from '@/components/ui/image-preview';
 import { deleteImageVideoUploaded } from '@/server/tripOperations';
@@ -137,9 +138,12 @@ function MediaDisplay({ id, createdDate, url, isUploadedAtStarting, isUploadedBy
                 )}
             </div>
             <div className='flex items-center gap-3 px-2 py-3'>
-                <img src={avatar || '/dummy_avatar.png'} alt={name} className='size-8 rounded-full' />
+                <Avatar>
+                    <AvatarImage src={avatar || '/dummy_avatar.png'} className='size-8 rounded-full' />
+                    <AvatarFallback className='uppercase'>{name?.charAt(0)}</AvatarFallback>
+                </Avatar>
                 <div>
-                    <div className='font-medium text-[14px]'>{name}</div>
+                    <div className='font-medium text-[14px] capitalize'>{name}</div>
                     <div className='text-muted-foreground text-xs'> {format(new Date(createdDate), 'PP, p')}</div>
                 </div>
             </div>
