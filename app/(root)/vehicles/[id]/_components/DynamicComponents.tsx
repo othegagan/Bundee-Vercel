@@ -163,7 +163,7 @@ export default function DynamicComponents({ vehicleDetails, vehicleId, hostDetai
                 cityName: deliveryLocation?.cityName || '',
                 country: deliveryLocation?.country || '',
                 state: deliveryLocation?.state || '',
-                zipCode: deliveryLocation?.zipCode || '',
+                zipCode: deliveryLocation?.zipCode || vehicleDetails?.zipcode,
                 ...priceCalculatedList,
                 delivery: delivery,
                 airportDelivery: airportDelivery,
