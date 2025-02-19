@@ -45,8 +45,8 @@ export default function ImagePreview({ url: imageUrl, alt = 'Image preview', cla
             </button>
 
             <Dialog isOpen={isOpen} closeDialog={closeDialog} openDialog={openDialog}>
-                <DialogBody>
-                    <div className='relative h-full w-full'>
+                <DialogBody className='max-w-3xl'>
+                    <div className='relative aspect-video'>
                         <Avatar className='absolute inset-0 h-full w-full rounded-none'>
                             <AvatarImage src={imageUrl} alt={alt} className='h-full w-full' style={{ objectFit: 'contain' }} />
                             <AvatarFallback className='w-full rounded-none text-center text-xs'>
