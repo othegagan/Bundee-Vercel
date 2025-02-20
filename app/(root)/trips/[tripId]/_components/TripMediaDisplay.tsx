@@ -137,15 +137,18 @@ function MediaDisplay({ id, createdDate, url, isUploadedAtStarting, isUploadedBy
                     </Button>
                 )}
             </div>
-            <div className='flex items-center gap-3 px-2 py-3'>
-                <Avatar>
-                    <AvatarImage src={avatar || '/dummy_avatar.png'} className='size-8 rounded-full' />
-                    <AvatarFallback className='uppercase'>{name?.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div>
-                    <div className='font-medium text-[14px] capitalize'>{name}</div>
-                    <div className='text-muted-foreground text-xs'> {format(new Date(createdDate), 'PP, p')}</div>
+            <div className='flex flex-col gap-2 px-2 py-3'>
+                <div className='flex items-center gap-2'>
+                    <Avatar className='size-8'>
+                        <AvatarImage src={avatar || '/dummy_avatar.png'} className='size-8 rounded-full' />
+                        <AvatarFallback className='uppercase'>{name?.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                        <div className='line-clamp-1 font-medium text-[14px] capitalize'>{name}</div>
+                        <div className='hidden text-muted-foreground text-xs md:block'> {format(new Date(createdDate), 'PP, p')}</div>
+                    </div>
                 </div>
+                <div className='ml-2 text-muted-foreground text-xs md:hidden'> {format(new Date(createdDate), 'PP, p')}</div>
             </div>
         </div>
     );
