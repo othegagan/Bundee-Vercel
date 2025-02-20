@@ -146,9 +146,9 @@ function TripCard({ trip }: { trip: TripData }) {
         );
 
     return (
-        <div className='flex w-full flex-col gap-1 text-nowrap border-b py-2.5 '>
+        <Link href={`/trips/${trip.tripid}/details`} className='flex w-full flex-col gap-1 text-nowrap border-b py-2.5 '>
             <div className='flex gap-3'>
-                <Link className='flex w-fit gap-3' href='/trip-details/2434'>
+                <div className='flex w-fit gap-3'>
                     <div className='relative'>
                         <div className='col-span-2 h-20 w-32 flex-center overflow-hidden rounded-md border'>
                             <img
@@ -168,7 +168,7 @@ function TripCard({ trip }: { trip: TripData }) {
                             {trip.swapDetails && trip.swapDetails.length > 0 && <StatusBadge status={trip.swapDetails[0].statuscode} type='swap' />}
                         </div>
                     </div>
-                </Link>
+                </div>
             </div>
             <div className='mt-2 flex w-full items-center gap-2 '>
                 <CalendarDays className='h-4 w-4 text-muted-foreground' />
@@ -192,7 +192,7 @@ function TripCard({ trip }: { trip: TripData }) {
                     Message Host
                 </Button>
             </div>
-        </div>
+        </Link>
     );
 }
 
